@@ -1,8 +1,8 @@
-"use client"
-import { useAppDispatch, useReduxFormData } from "@/app/hooks"
-import ReviewForm from "@/components/ReviewForm"
-import { setForm } from "@/redux/slices/formSlice"
-import { useEffect } from "react"
+'use client'
+import { useAppDispatch, useReduxFormData } from 'app/hooks'
+import ReviewForm from 'components/ReviewForm'
+import { setForm } from 'redux/slices/formSlice'
+import { useEffect } from 'react'
 
 type PageProps = {
   date: string
@@ -31,7 +31,7 @@ export default function ClientPage(props: PageProps) {
   return (
     <div className="flex flex-col items-center">
       <ReviewForm
-        error={error ?? ""} // Provide a default value for error
+        error={error ?? ''} // Provide a default value for error
         start={start}
         end={end}
       />
