@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { headers as nextHeaders } from 'next/headers'
 import { IncomingMessage } from 'http'
 
-import LRUCache from 'lru-cache'
+import { LRUCache } from 'lru-cache'
 
 import { OWNER_TIMEZONE } from 'config'
 import { formatLocalDate, formatLocalTime } from 'lib/availability/helpers'
@@ -23,7 +23,7 @@ const REQUESTS_PER_IP_PER_MINUTE_LIMIT = 5
 // Define the schema for the request body
 
 export async function POST(req: NextRequest & IncomingMessage): Promise<NextResponse> {
-  const headers = nextHeaders()
+  const headers = await nextHeaders()
   const jsonData = await req.json()
   if (req.method !== 'POST') {
     return NextResponse.json({ error: 'Method not allowed' }, { status: 405 })

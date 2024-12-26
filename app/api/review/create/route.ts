@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { headers as nextHeaders } from 'next/headers'
 import { IncomingMessage } from 'http'
 
-import LRUCache from 'lru-cache'
+import { LRUCache } from 'lru-cache'
 import { z } from 'zod'
 import sendMail from 'lib/email'
 import ReviewSubmissionEmail from 'lib/email/messages/ReviewSubmissionEmail'
@@ -49,7 +49,7 @@ const CreateReviewSchema = z.object({
 })
 
 export async function POST(req: NextRequest & IncomingMessage): Promise<NextResponse> {
-  const headers = nextHeaders()
+  const headers = await nextHeaders()
   const jsonData = await req.json()
   if (req.method !== 'POST') {
     return NextResponse.json({ error: 'Method not allowed' }, { status: 405 })
