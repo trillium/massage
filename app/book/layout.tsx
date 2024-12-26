@@ -5,7 +5,7 @@ import { Metadata } from 'next'
 
 import { ThemeProviders } from 'app/ThemeProviders'
 
-import 'styles/global.css'
+import 'css/tailwind.css'
 import ThemeSwitch from 'components/ThemeSwitch'
 
 import siteMetadata from 'data/siteMetadata'
