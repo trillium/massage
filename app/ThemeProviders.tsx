@@ -1,9 +1,9 @@
-"use client"
+'use client'
 
-import { CSPostHogProvider } from "@/context/AnalyticsContext"
-import { ThemeProvider } from "next-themes"
+import { CSPostHogProvider } from 'context/AnalyticsContext'
+import { ThemeProvider } from 'next-themes'
 
-const theme = "system"
+const theme = 'system'
 
 export function ThemeProviders({ children }: { children: React.ReactNode }) {
   return (
