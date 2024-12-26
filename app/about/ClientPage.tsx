@@ -1,7 +1,7 @@
-import AboutCard from "@/components/AboutCard"
-import BookSessionButton from "@/components/BookSessionButton"
+import AboutCard from 'components/AboutCard'
+import BookSessionButton from 'components/BookSessionButton'
 
-export default function About({}) {
+export default function About() {
   return (
     <div className="flex flex-col items-center">
       <AboutCard />
