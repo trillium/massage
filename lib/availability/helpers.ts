@@ -1,8 +1,8 @@
-import type Day from "../day"
-import type { StringInterval, DateTimeInterval } from "../types"
-import { LOCAL_DATE_OPTIONS, LOCAL_TIME_OPTIONS } from "@/config"
+import type Day from '../day'
+import type { StringInterval, DateTimeInterval } from '../types'
+import { LOCAL_DATE_OPTIONS, LOCAL_TIME_OPTIONS } from 'config'
 
-import { StringIntervalAndLocation, DateTimeIntervalAndLocation } from "../types"
+import { StringIntervalAndLocation, DateTimeIntervalAndLocation } from '../types'
 
 /**
  * Takes an array of {@link StringInterval} objects and converts them to
@@ -11,11 +11,13 @@ import { StringIntervalAndLocation, DateTimeIntervalAndLocation } from "../types
  * @param {StringInterval[]} slots - StringInterval[]
  * @returns An array of {@link DateTimeInterval} objects.
  */
-export function mapStringsToDates(slots: StringIntervalAndLocation[]): DateTimeIntervalAndLocation[] {
+export function mapStringsToDates(
+  slots: StringIntervalAndLocation[]
+): DateTimeIntervalAndLocation[] {
   return slots.map(({ start, end, location }) => ({
     start: new Date(start),
     end: new Date(end),
-    ...(location && { location })
+    ...(location && { location }),
   }))
 }
 
@@ -46,7 +48,7 @@ export function formatLocalDate(
   date: Date | string,
   extraOptions?: Intl.DateTimeFormatOptions
 ): string {
-  const dateObject = typeof date === "string" ? new Date(date) : date
+  const dateObject = typeof date === 'string' ? new Date(date) : date
   return dateObject.toLocaleDateString([], {
     ...LOCAL_DATE_OPTIONS,
     ...extraOptions,
@@ -66,7 +68,7 @@ export function formatLocalTime(
   date: Date | string,
   extraOptions?: Intl.DateTimeFormatOptions
 ): string {
-  const dateObject = typeof date === "string" ? new Date(date) : date
+  const dateObject = typeof date === 'string' ? new Date(date) : date
 
   return dateObject.toLocaleTimeString([], {
     ...LOCAL_TIME_OPTIONS,
