@@ -1,23 +1,16 @@
-import { z } from "zod"
+import { z } from 'zod'
 
 import {
   VALID_DURATIONS,
   DEFAULT_APPOINTMENT_INTERVAL,
   DEFAULT_DURATION,
   DEFAULT_PRICING,
-} from "@/config"
-import getBusyTimes from "@/lib/availability/getBusyTimes"
-import {
-  getDateRangeInterval,
-  mapDatesToStrings,
-} from "@/lib/availability/helpers"
-import Day from "@/lib/day"
+} from 'config'
+import getBusyTimes from 'lib/availability/getBusyTimes'
+import { getDateRangeInterval, mapDatesToStrings } from 'lib/availability/helpers'
+import Day from 'lib/day'
 
-export async function fetchData({
-  searchParams,
-}: {
-  searchParams: URLSearchParams
-}) {
+export async function fetchData({ searchParams }: { searchParams: URLSearchParams }) {
   const schema = z.object({
     duration: z
       .enum([
@@ -58,11 +51,11 @@ export async function fetchData({
       selectedDate = undefined
     }
   } catch (error) {
-    console.error("Failed to parse searchParams:", error)
+    console.error('Failed to parse searchParams:', error)
   }
 
   if (duration == undefined) {
-    // if validation faisl 
+    // if validation faisl
     duration = DEFAULT_DURATION
   }
 
