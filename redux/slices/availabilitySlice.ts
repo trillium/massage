@@ -1,9 +1,9 @@
-import { createSlice } from "@reduxjs/toolkit"
-import type { PayloadAction } from "@reduxjs/toolkit"
-import type { RootState } from "@/redux/store"
-import type { DateTimeInterval } from "@/lib/types"
+import { createSlice } from '@reduxjs/toolkit'
+import type { PayloadAction } from '@reduxjs/toolkit'
+import type { RootState } from 'redux/store'
+import type { DateTimeInterval } from 'lib/types'
 
-import Day from "@/lib/day"
+import Day from 'lib/day'
 
 type interval = {
   start: string
@@ -31,11 +31,11 @@ const initialState: AvailabilityState = {
   duration: null,
   start: Day.todayWithOffset(0).toString(),
   end: Day.todayWithOffset(14).toString(),
-  timeZone: "America/Los_Angeles",
+  timeZone: 'America/Los_Angeles',
 }
 
 export const availabilitySlice = createSlice({
-  name: "availability",
+  name: 'availability',
   initialState,
   reducers: {
     setDuration: (state, action: PayloadAction<number>) => {
