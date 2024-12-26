@@ -1,4 +1,4 @@
-import { zonedTimeToUtc } from "date-fns-tz"
+import { zonedTimeToUtc } from 'date-fns-tz'
 
 /**
  * Represents a day with year, month, and day components.
@@ -24,16 +24,12 @@ export default class Day {
    *
    * @throws {Error} If the year, month, or day is invalid.
    */
-  public static validateYearMonthDay(
-    year: number,
-    month: number,
-    day: number
-  ): void {
+  public static validateYearMonthDay(year: number, month: number, day: number): void {
     if (month === undefined) {
-      throw new Error("Missing month")
+      throw new Error('Missing month')
     }
     if (day === undefined) {
-      throw new Error("Missing day")
+      throw new Error('Missing day')
     }
 
     if (month < 1 || month > 12) {
@@ -73,7 +69,7 @@ export default class Day {
    * @throws {TypeError} If the input string is not in the expected format.
    */
   public static dayFromString(input: string): Day {
-    const [year, month, day] = input.split("-").map(Number)
+    const [year, month, day] = input.split('-').map(Number)
 
     if (Number.isNaN(year) || Number.isNaN(month) || Number.isNaN(day)) {
       throw new TypeError(`Invalid date string: ${input}`)
@@ -107,9 +103,9 @@ export default class Day {
    * @returns {string} The formatted date string.
    */
   public toString(): string {
-    const year = this.year.toString().padStart(4, "0")
-    const month = this.month.toString().padStart(2, "0")
-    const day = this.day.toString().padStart(2, "0")
+    const year = this.year.toString().padStart(4, '0')
+    const month = this.month.toString().padStart(2, '0')
+    const day = this.day.toString().padStart(2, '0')
 
     return `${year}-${month}-${day}`
   }
