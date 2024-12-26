@@ -27,7 +27,7 @@ export default function Confirmation() {
     dateString: dateString!,
     startString: startString!,
     endString: endString!,
-    state: 'Pending' as 'Pending',
+    state: 'Pending' as const,
     firstName: firstName!,
     lastName: lastName!,
     location: location!,
