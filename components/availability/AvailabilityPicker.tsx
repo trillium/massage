@@ -50,7 +50,7 @@ export default function AvailabilityPicker({
     {}
   )
 
-  const availability = selectedDate ? availabilityByDate[selectedDatetoString()] : []
+  const availability = selectedDate ? availabilityByDate[selectedDate.toString()] : []
 
   return (
     <div className="flex flex-col space-y-8">
