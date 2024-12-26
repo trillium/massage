@@ -1,4 +1,4 @@
-import { zonedTimeToUtc } from 'date-fns-tz'
+import { fromZonedTime } from 'date-fns-tz'
 
 /**
  * Represents a day with year, month, and day components.
@@ -124,8 +124,8 @@ export default class Day {
     const end = new Date(this.year, this.month - 1, this.day, 23, 59, 59, 999)
 
     return {
-      start: timeZone ? zonedTimeToUtc(start, timeZone) : new Date(start),
-      end: timeZone ? zonedTimeToUtc(end, timeZone) : new Date(end),
+      start: timeZone ? fromZonedTime(start, timeZone) : new Date(start),
+      end: timeZone ? fromZonedTime(end, timeZone) : new Date(end),
     }
   }
 
