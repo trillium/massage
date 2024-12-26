@@ -1,17 +1,17 @@
-import { NextRequest, NextResponse } from "next/server"
-import { headers as nextHeaders } from "next/headers"
-import { IncomingMessage } from "http"
+import { NextRequest, NextResponse } from 'next/server'
+import { headers as nextHeaders } from 'next/headers'
+import { IncomingMessage } from 'http'
 
-import LRUCache from "lru-cache"
+import LRUCache from 'lru-cache'
 
-import { OWNER_TIMEZONE } from "@/config"
-import { formatLocalDate, formatLocalTime } from "@/lib/availability/helpers"
-import sendMail from "@/lib/email"
-import OnSiteRequestEmail from "@/lib/email/messages/OnSiteRequestEmail"
-import ClientRequestEmail from "@/lib/email/messages/ClientRequestEmail"
-import { getHash } from "@/lib/hash"
-import type { DateTimeIntervalWithTimezone } from "@/lib/types"
-import { OnSiteRequestSchema } from "@/lib/schema"
+import { OWNER_TIMEZONE } from 'config'
+import { formatLocalDate, formatLocalTime } from 'lib/availability/helpers'
+import sendMail from 'lib/email'
+import OnSiteRequestEmail from 'lib/email/messages/OnSiteRequestEmail'
+import ClientRequestEmail from 'lib/email/messages/ClientRequestEmail'
+import { getHash } from 'lib/hash'
+import type { DateTimeIntervalWithTimezone } from 'lib/types'
+import { OnSiteRequestSchema } from 'lib/schema'
 
 // Define the rate limiter
 const rateLimitLRU = new LRUCache({
@@ -22,20 +22,18 @@ const REQUESTS_PER_IP_PER_MINUTE_LIMIT = 5
 
 // Define the schema for the request body
 
-export async function POST(
-  req: NextRequest & IncomingMessage
-): Promise<NextResponse> {
+export async function POST(req: NextRequest & IncomingMessage): Promise<NextResponse> {
   const headers = nextHeaders()
   const jsonData = await req.json()
-  if (req.method !== "POST") {
-    return NextResponse.json({ error: "Method not allowed" }, { status: 405 })
+  if (req.method !== 'POST') {
+    return NextResponse.json({ error: 'Method not allowed' }, { status: 405 })
   }
 
   // Apply rate limiting using the client's IP address
   const limitReached = checkRateLimit()
 
   if (limitReached) {
-    return NextResponse.json({ error: "Rate limit exceeded" }, { status: 429 })
+    return NextResponse.json({ error: 'Rate limit exceeded' }, { status: 429 })
   }
 
   // Validate and parse the request body using Zod
@@ -49,9 +47,7 @@ export async function POST(
   const start = new Date(data.start)
   const end = new Date(data.end)
 
-  const approveUrl = `${
-    headers.get("origin") ?? "?"
-  }/api/onsite/confirm/?data=${encodeURIComponent(
+  const approveUrl = `${headers.get('origin') ?? '?'}/api/onsite/confirm/?data=${encodeURIComponent(
     JSON.stringify(data)
   )}&key=${getHash(JSON.stringify(data))}`
 
@@ -66,7 +62,7 @@ export async function POST(
     }),
   })
   await sendMail({
-    to: process.env.OWNER_EMAIL ?? "",
+    to: process.env.OWNER_EMAIL ?? '',
     subject: approveEmail.subject,
     body: approveEmail.body,
   })
@@ -94,11 +90,11 @@ export async function POST(
    * @return {boolean} Whether the rate limit has been reached.
    */
   function checkRateLimit(): boolean {
-    const forwarded = headers.get("x-forwarded-for")
+    const forwarded = headers.get('x-forwarded-for')
     const ip =
       (Array.isArray(forwarded) ? forwarded[0] : forwarded) ??
       req.socket.remoteAddress ??
-      "127.0.0.1"
+      '127.0.0.1'
 
     const tokenCount = (rateLimitLRU.get(ip) as number[]) || [0]
     if (tokenCount[0] === 0) {
@@ -135,22 +131,18 @@ export async function POST(
  * @returns {string} A human-readable string representation
  * of the date-time interval.
  */
-function intervalToHumanString({
-  start,
-  end,
-  timeZone,
-}: DateTimeIntervalWithTimezone): string {
+function intervalToHumanString({ start, end, timeZone }: DateTimeIntervalWithTimezone): string {
   return `${formatLocalDate(start, {
-    month: "long",
-    day: "numeric",
-    hour: "numeric",
-    minute: "numeric",
-    weekday: "long",
+    month: 'long',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+    weekday: 'long',
     timeZone,
   })} – ${formatLocalTime(end, {
-    hour: "numeric",
-    minute: "numeric",
+    hour: 'numeric',
+    minute: 'numeric',
     timeZone,
-    timeZoneName: "longGeneric",
+    timeZoneName: 'longGeneric',
   })}`
 }
