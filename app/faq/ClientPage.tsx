@@ -1,8 +1,8 @@
-"use client"
-import FAQCard from "@/components/FAQCard"
-import BookSessionButton from "@/components/BookSessionButton"
+'use client'
+import FAQCard from 'components/FAQCard'
+import BookSessionButton from 'components/BookSessionButton'
 
-export default function About({}) {
+export default function About() {
   return (
     <div className="flex flex-col items-center">
       <FAQCard />
