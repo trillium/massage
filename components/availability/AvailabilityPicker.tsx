@@ -1,16 +1,15 @@
-import dynamic from "next/dynamic"
+import dynamic from 'next/dynamic'
 
-import DurationPicker, { durationProps } from "./controls/DurationPicker"
-import TimezonePicker from "./controls/TimezonePicker"
-import type { DateTimeIntervalAndLocation } from "@/lib/types"
-import format from "date-fns-tz/format"
-import { useSelector } from "react-redux"
-import type { RootState } from "@/redux/store"
+import DurationPicker, { durationProps } from './controls/DurationPicker'
+import type { DateTimeIntervalAndLocation } from 'lib/types'
+import { format } from 'date-fns-tz/format'
+import { useSelector } from 'react-redux'
+import type { RootState } from 'redux/store'
 
 // Load these dynamically, without SSR, to avoid hydration issues
-// that arise with timezone differences.
-const Calendar = dynamic(() => import("./date/Calendar"), { ssr: false })
-const TimeList = dynamic(() => import("./time/TimeList"), { ssr: false })
+// that arise with timezone differences
+const Calendar = dynamic(() => import('./date/Calendar'), { ssr: false })
+const TimeList = dynamic(() => import('./time/TimeList'), { ssr: false })
 
 export type PickerProps = {
   durationProps: durationProps
@@ -22,7 +21,7 @@ export type PickerProps = {
 export default function AvailabilityPicker({
   slots,
   pickerProps,
-  children
+  children,
 }: {
   slots: DateTimeIntervalAndLocation[]
   pickerProps: PickerProps
@@ -30,31 +29,28 @@ export default function AvailabilityPicker({
 }) {
   const { durationProps } = pickerProps
   const { showPicker } = pickerProps.tzPickerProps || { showPicker: true }
-  const { selectedDate, timeZone } = useSelector(
-    (state: RootState) => state.availability
-  )
+  const { selectedDate, timeZone } = useSelector((state: RootState) => state.availability)
 
   let maximumAvailability = 0
-  const availabilityByDate = slots.reduce<
-    Record<string, DateTimeIntervalAndLocation[]>
-  >((acc, slot) => {
-    // Gives us the same YYYY-MM-DD format as Day.toString()
-    const date = format(slot.start, "yyyy-MM-dd", { timeZone })
+  const availabilityByDate = slots.reduce<Record<string, DateTimeIntervalAndLocation[]>>(
+    (acc, slot) => {
+      // Gives us the same YYYY-MM-DD format as Day.toString()
+      const date = format(slot.start, 'yyyy-MM-dd', { timeZone })
 
-    if (!acc[date]) {
-      acc[date] = []
-    }
-    acc[date].push(slot)
+      if (!acc[date]) {
+        acc[date] = []
+      }
+      acc[date].push(slot)
 
-    if (acc[date].length > maximumAvailability) {
-      maximumAvailability = acc[date].length
-    }
-    return acc
-  }, {})
+      if (acc[date].length > maximumAvailability) {
+        maximumAvailability = acc[date].length
+      }
+      return acc
+    },
+    {}
+  )
 
-  const availability = selectedDate
-    ? availabilityByDate[selectedDate.toString()]
-    : []
+  const availability = selectedDate ? availabilityByDate[selectedDatetoString()] : []
 
   return (
     <div className="flex flex-col space-y-8">
@@ -63,10 +59,7 @@ export default function AvailabilityPicker({
         {showPicker && <TimezonePicker />}
       </div>
       {children}
-      <Calendar
-        offers={availabilityByDate}
-        maximumAvailability={maximumAvailability}
-      />
+      <Calendar offers={availabilityByDate} maximumAvailability={maximumAvailability} />
       <TimeList availability={availability} />
     </div>
   )
