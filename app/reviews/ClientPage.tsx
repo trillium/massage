@@ -1,8 +1,8 @@
-"use client"
-import ReviewCard from "@/components/ReviewCard"
-import BookSessionButton from "@/components/BookSessionButton"
+'use client'
+import ReviewCard from 'components/ReviewCard'
+import BookSessionButton from 'components/BookSessionButton'
 
-export default function About({}) {
+export default function About() {
   return (
     <div className="flex flex-col items-center">
       <ReviewCard />
