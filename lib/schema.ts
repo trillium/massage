@@ -58,3 +58,6 @@ export const OnSiteRequestSchema = z.object({
   paymentOptions: z.string(),
   leadTime: z.number(),
 })
+
+export type AppointmentRequestType = z.infer<typeof AppointmentRequestSchema>;
+export type OnSiteRequestType = z.infer<typeof OnSiteRequestSchema>;
