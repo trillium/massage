@@ -1,11 +1,11 @@
-import { addDays, eachDayOfInterval, endOfWeek, startOfWeek } from "date-fns"
+import { addDays, eachDayOfInterval, endOfWeek, startOfWeek } from 'date-fns'
 
-import DayButton from "./DayButton"
-import { getDateRangeInterval } from "@/lib/availability/helpers"
-import Day from "@/lib/day"
-import type { DateTimeInterval } from "@/lib/types"
-import { useSelector } from "react-redux"
-import type { RootState } from "@/redux/store"
+import DayButton from './DayButton'
+import { getDateRangeInterval } from 'lib/availability/helpers'
+import Day from 'lib/day'
+import type { DateTimeInterval } from 'lib/types'
+import { useSelector } from 'react-redux'
+import type { RootState } from 'redux/store'
 
 export default function Calendar({
   offers,
@@ -14,11 +14,9 @@ export default function Calendar({
   offers: Record<string, DateTimeInterval[]>
   maximumAvailability: number
 }) {
-  const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+  const weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 
-  const { start, end, timeZone } = useSelector(
-    (state: RootState) => state.availability
-  )
+  const { start, end, timeZone } = useSelector((state: RootState) => state.availability)
   const startDate = new Date(start)
   const endDate = new Date(end)
 
@@ -35,24 +33,23 @@ export default function Calendar({
   // Remove cases where the first week is empty.
   // (Usually timezone changing related)
   const firstWeek = days.at(6)
-  if (
-    firstWeek &&
-    firstWeek.toInterval(timeZone).start < now.toInterval(timeZone).start
-  ) {
+  if (firstWeek && firstWeek.toInterval(timeZone).start < now.toInterval(timeZone).start) {
     days.splice(0, 7)
   }
 
   return (
     <fieldset
-      className="isolate mt-6 grid grid-cols-7 text-xs leading-6 text-gray-500 dark:text-gray-400 active:ring-2 focus-within:ring-2 focus-within:ring-primary-500 active:ring-primary-500 rounded-md overflow-hidden"
+      className="isolate mt-6 grid grid-cols-7 overflow-hidden rounded-md text-xs leading-6 text-gray-500 focus-within:ring-2 focus-within:ring-primary-500 active:ring-2 active:ring-primary-500 dark:text-gray-400"
       role="grid"
-      aria-label="Calendar">
+      aria-label="Calendar"
+    >
       {weekdays.map((weekday) => (
         <div
           key={weekday}
-          className="justify-center text-slate-500 flex"
+          className="flex justify-center text-slate-500"
           role="columnheader"
-          aria-label={weekday}>
+          aria-label={weekday}
+        >
           {weekday}
         </div>
       ))}
@@ -84,8 +81,8 @@ function availabilityScore({
   return openSlots === 0
     ? 0
     : openSlots / maximumAvailability <= 1 / 3
-    ? 1
-    : openSlots / maximumAvailability <= 2 / 3
-    ? 2
-    : 3
+      ? 1
+      : openSlots / maximumAvailability <= 2 / 3
+        ? 2
+        : 3
 }
