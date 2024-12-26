@@ -1,12 +1,12 @@
-import { NextRequest, NextResponse } from "next/server"
-import { headers as nextHeaders } from "next/headers"
-import { IncomingMessage } from "http"
+import { NextRequest, NextResponse } from 'next/server'
+import { headers as nextHeaders } from 'next/headers'
+import { IncomingMessage } from 'http'
 
-import LRUCache from "lru-cache"
-import { z } from "zod"
-import sendMail from "@/lib/email"
-import ReviewSubmissionEmail from "@/lib/email/messages/ReviewSubmissionEmail"
-import { RatingTypeStrict } from "@/components/ReviewForm"
+import LRUCache from 'lru-cache'
+import { z } from 'zod'
+import sendMail from 'lib/email'
+import ReviewSubmissionEmail from 'lib/email/messages/ReviewSubmissionEmail'
+import { RatingTypeStrict } from 'components/ReviewForm'
 
 // Define the rate limiter
 const rateLimitLRU = new LRUCache({
@@ -21,12 +21,12 @@ const CreateReviewSchema = z.object({
   lastName: z.string(),
   text: z.string(),
   date: z.string().refine((value) => !Number.isNaN(Date.parse(value)), {
-    message: "Start must be a valid date.",
+    message: 'Start must be a valid date.',
   }),
   rating: z.union([z.number(), z.string()]).refine(
     (value) => {
       let parsedValue
-      if (typeof value === "string") {
+      if (typeof value === 'string') {
         parsedValue = Number.parseInt(value)
       } else {
         parsedValue = value
@@ -34,13 +34,13 @@ const CreateReviewSchema = z.object({
       return !Number.isNaN(parsedValue) && parsedValue >= 1 && parsedValue <= 5
     },
     {
-      message: "Rating must be a valid integer 1 - 5.",
+      message: 'Rating must be a valid integer 1 - 5.',
     }
   ),
   price: z
     .string()
     .refine((value) => !Number.isNaN(Number.parseInt(value)), {
-      message: "Rating must be a valid integer 1 - 5.",
+      message: 'Rating must be a valid integer 1 - 5.',
     })
     .optional(),
   source: z.string(),
@@ -48,20 +48,18 @@ const CreateReviewSchema = z.object({
   dateSummary: z.string().optional(),
 })
 
-export async function POST(
-  req: NextRequest & IncomingMessage
-): Promise<NextResponse> {
+export async function POST(req: NextRequest & IncomingMessage): Promise<NextResponse> {
   const headers = nextHeaders()
   const jsonData = await req.json()
-  if (req.method !== "POST") {
-    return NextResponse.json({ error: "Method not allowed" }, { status: 405 })
+  if (req.method !== 'POST') {
+    return NextResponse.json({ error: 'Method not allowed' }, { status: 405 })
   }
 
   // Apply rate limiting using the client's IP address
   const limitReached = checkRateLimit()
 
   if (limitReached) {
-    return NextResponse.json({ error: "Rate limit exceeded" }, { status: 429 })
+    return NextResponse.json({ error: 'Rate limit exceeded' }, { status: 429 })
   }
 
   // Validate and parse the request body using Zod
@@ -81,7 +79,7 @@ export async function POST(
     rating: data.rating as RatingTypeStrict,
   })
   await sendMail({
-    to: process.env.OWNER_EMAIL ?? "",
+    to: process.env.OWNER_EMAIL ?? '',
     subject: createReviewEmail.subject,
     body: createReviewEmail.body,
   })
@@ -94,11 +92,11 @@ export async function POST(
    * @return {boolean} Whether the rate limit has been reached.
    */
   function checkRateLimit(): boolean {
-    const forwarded = headers.get("x-forwarded-for")
+    const forwarded = headers.get('x-forwarded-for')
     const ip =
       (Array.isArray(forwarded) ? forwarded[0] : forwarded) ??
       req.socket.remoteAddress ??
-      "127.0.0.1"
+      '127.0.0.1'
 
     const tokenCount = (rateLimitLRU.get(ip) as number[]) || [0]
     if (tokenCount[0] === 0) {
