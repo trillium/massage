@@ -33,6 +33,7 @@
     "pliny": "0.4.0",
     "postcss": "^8.4.24",
     "posthog-js": "^1.203.1",
+    "posthog-node": "^4.3.2",
     "react": "rc",
     "react-dom": "rc",
     "react-redux": "^9.2.0",
