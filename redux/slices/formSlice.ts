@@ -1,46 +1,46 @@
-import { createSlice } from "@reduxjs/toolkit"
-import type { PayloadAction } from "@reduxjs/toolkit"
-import type { RootState } from "@/redux/store"
-import type { BookingFormData } from "@/components/booking/BookingForm"
-import type { ReviewFormData } from "@/components/ReviewForm"
-import { ReviewSnippetProps } from "@/components/ReviewCard"
+import { createSlice } from '@reduxjs/toolkit'
+import type { PayloadAction } from '@reduxjs/toolkit'
+import type { RootState } from '@/redux/store'
+import type { BookingFormData } from 'components/booking/BookingForm'
+import type { ReviewFormData } from 'components/ReviewForm'
+import { ReviewSnippetProps } from 'components/ReviewCard'
 
 export const initialBookingFormData: BookingFormData = {
   /** First name of the requester */
-  firstName: "",
+  firstName: '',
   /** Last name of the requester */
-  lastName: "",
+  lastName: '',
   /** Email address of the requester */
-  email: "",
+  email: '',
   /** Address of the requester */
-  location: "",
+  location: '',
   /** Phone number of the requester */
-  phone: "",
+  phone: '',
   /** Payment method of the requester */
-  paymentMethod: "cash",
+  paymentMethod: 'cash',
 }
 
 export const initialReviewFormState: ReviewFormData = {
   /** Name of the requester */
-  name: "",
+  name: '',
   /** Fast name of the requester */
-  firstName: "",
+  firstName: '',
   /** Last name of the requester */
-  lastName: "",
+  lastName: '',
   /** Short review description */
-  text: "",
+  text: '',
   /** Datetime start */
-  start: "",
+  start: '',
   /** Datetime end */
-  end: "",
+  end: '',
   /** Ratings */
-  rating: "",
+  rating: '',
 }
 
 export const initialReviewSnippetProps: ReviewSnippetProps = {
-  name: "",
-  text: "",
-  date: "",
+  name: '',
+  text: '',
+  date: '',
   rating: undefined,
 }
 
@@ -54,7 +54,7 @@ const initialState: FormStateType = {
 }
 
 export const formSlice = createSlice({
-  name: "form",
+  name: 'form',
   initialState,
   reducers: {
     setForm: (state, action: PayloadAction<Partial<FormStateType>>) => {

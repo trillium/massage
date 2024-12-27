@@ -5,10 +5,10 @@ import { format } from 'date-fns'
 import { formatLocalTime } from 'lib/availability/helpers'
 import type { DateTimeInterval } from 'lib/types'
 
-import { setSelectedTime } from 'redux/slices/availabilitySlice'
-import { setModal } from 'redux/slices/modalSlice'
+import { setSelectedTime } from '@/redux/slices/availabilitySlice'
+import { setModal } from '@/redux/slices/modalSlice'
 import { useAppDispatch, useReduxAvailability } from 'app/hooks'
-import { clearEventContainers, setEventContainers } from 'redux/slices/eventContainersSlice'
+import { clearEventContainers, setEventContainers } from '@/redux/slices/eventContainersSlice'
 
 type TimeProps = {
   time: DateTimeInterval

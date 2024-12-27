@@ -1,7 +1,7 @@
 import clsx from 'clsx'
 
 import { ALLOWED_DURATIONS as DEFAULT_ALLOWED_DURATIONS } from 'config'
-import { setDuration } from 'redux/slices/availabilitySlice'
+import { setDuration } from '@/redux/slices/availabilitySlice'
 import { useAppDispatch, useReduxAvailability } from 'app/hooks'
 
 export type durationProps = {

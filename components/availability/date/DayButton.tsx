@@ -4,7 +4,7 @@ import { twMerge } from 'tailwind-merge'
 
 import Day from 'lib/day'
 
-import { setSelectedDate } from 'redux/slices/availabilitySlice'
+import { setSelectedDate } from '@/redux/slices/availabilitySlice'
 import { useAppDispatch, useReduxAvailability } from 'app/hooks'
 
 type DayProps = {

@@ -1,7 +1,7 @@
 'use client'
 import { useAppDispatch, useReduxFormData } from 'app/hooks'
 import ReviewForm from 'components/ReviewForm'
-import { setForm } from 'redux/slices/formSlice'
+import { setForm } from '@/redux/slices/formSlice'
 import { useEffect } from 'react'
 
 type PageProps = {

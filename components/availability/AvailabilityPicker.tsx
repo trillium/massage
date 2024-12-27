@@ -4,7 +4,7 @@ import DurationPicker, { durationProps } from './controls/DurationPicker'
 import type { DateTimeIntervalAndLocation } from 'lib/types'
 import { format } from 'date-fns-tz/format'
 import { useSelector } from 'react-redux'
-import type { RootState } from 'redux/store'
+import type { RootState } from '@/redux/store'
 
 // Load these dynamically, without SSR, to avoid hydration issues
 // that arise with timezone differences

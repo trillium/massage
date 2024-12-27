@@ -19,10 +19,10 @@ import { mapStringsToDates } from 'lib/availability/helpers'
 import Day from 'lib/day'
 
 import PageProps from 'app/page'
-import { setDuration, setSelectedDate } from 'redux/slices/availabilitySlice'
+import { setDuration, setSelectedDate } from '@/redux/slices/availabilitySlice'
 import { useAppDispatch, useReduxAvailability } from 'app/hooks'
 import { DateTimeIntervalAndLocation } from 'lib/types'
-import { setEventContainers } from 'redux/slices/eventContainersSlice'
+import { setEventContainers } from '@/redux/slices/eventContainersSlice'
 
 type PricingWrapperProps = InferGetServerSidePropsType<typeof PageProps> & {
   containers: DateTimeIntervalAndLocation

@@ -5,7 +5,7 @@ import { getDateRangeInterval } from 'lib/availability/helpers'
 import Day from 'lib/day'
 import type { DateTimeInterval } from 'lib/types'
 import { useSelector } from 'react-redux'
-import type { RootState } from 'redux/store'
+import type { RootState } from '@/redux/store'
 
 export default function Calendar({
   offers,

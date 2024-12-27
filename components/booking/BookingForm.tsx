@@ -9,10 +9,10 @@ import Modal from 'components/Modal'
 import Spinner from 'components/Spinner'
 import { formatLocalDate, formatLocalTime } from 'lib/availability/helpers'
 
-import { setForm } from 'redux/slices/formSlice'
-import type { AppDispatch } from 'redux/store'
+import { setForm } from '@/redux/slices/formSlice'
+import type { AppDispatch } from '@/redux/store'
 import { DEFAULT_PRICING } from 'config'
-import { setModal } from 'redux/slices/modalSlice'
+import { setModal } from '@/redux/slices/modalSlice'
 import {
   useAppDispatch,
   useReduxAvailability,
