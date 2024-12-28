@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import type { ButtonHTMLAttributes, DetailedHTMLProps } from 'react'
+import type { DetailedHTMLProps, LabelHTMLAttributes } from 'react'
 import { twMerge } from 'tailwind-merge'
 
 import Day from 'lib/day'
@@ -11,7 +11,7 @@ type DayProps = {
   date: Day
   availabilityScore: number
   hasAvailability: boolean
-} & DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>
+} & DetailedHTMLProps<LabelHTMLAttributes<HTMLLabelElement>, HTMLLabelElement>
 
 export default function DayButton({
   date,
@@ -39,40 +39,30 @@ export default function DayButton({
 
   return (
     <div>
-      <input
-        onChange={handleChange}
-        id={`day-${date.getDay()}`}
-        name="day"
-        type="radio"
-        className="sr-only"
-        disabled={isDisabled}
-        checked={isSelected}
-      />
       <label
         htmlFor={`day-${date.getDay()}`}
-        // type="button"
         className={twMerge(
-          clsx(
-            'relative flex flex-col items-center outline-primary-600 transition-all',
-            props.className,
-            {
-              'hocus:border-primary-500 hocus:shadow-sm hocus:shadow-primary-100 hocus:z-10 border border-transparent bg-slate-300 font-semibold text-slate-800 dark:bg-slate-800 dark:text-slate-200':
-                !isDisabled,
-              'bg-white text-gray-500 dark:bg-slate-200 dark:text-gray-500': isDisabled,
-              // "bg-primary-500": isSelected && !isToday,
-              // "bg-primary-600 dark:bg-primary-600 hover:bg-primary-500": isSelected && isToday,
-              'bg-primary-500 text-white dark:bg-primary-600 dark:text-gray-100': isSelected,
-            }
-          )
+          clsx('relative flex flex-col items-center transition-all', props.className, {
+            'hocus:shadow-sm hocus:shadow-primary-100 hocus:z-10 cursor-pointer bg-slate-300 font-semibold text-slate-800 dark:bg-slate-800 dark:text-slate-200':
+              !isDisabled,
+            'bg-white text-gray-500 dark:bg-slate-200 dark:text-gray-500': isDisabled,
+            'bg-primary-500 text-white dark:bg-primary-600 dark:text-gray-100': isSelected,
+          })
         )}
-        disabled={isDisabled}
-        aria-pressed={isSelected}
-        aria-disabled={isDisabled}
         aria-label={`${isToday ? 'Today' : ''} ${
           isDisabled ? 'Unavailable' : 'Available'
         } date ${date.toString()} in calendar`}
         {...props}
       >
+        <input
+          onChange={handleChange}
+          id={`day-${date.getDay()}`}
+          name="day"
+          type="radio"
+          className="sr-only"
+          disabled={isDisabled}
+          checked={isSelected}
+        />
         <div className="m-4 flex flex-col items-center justify-between leading-none">
           <p
             className={clsx('leading-0 flex h-3 items-center text-[0.55rem] font-semibold', {
