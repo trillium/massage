@@ -10,7 +10,8 @@ export type PageProps = InferGetServerSidePropsType<typeof fetchData>
 export const dynamic = 'force-dynamic'
 
 export default async function Page({ searchParams }: { searchParams: URLSearchParams }) {
-  const { props } = await fetchData({ searchParams })
+  const resolvedParams = await searchParams
+  const { props } = await fetchData({ searchParams: resolvedParams })
   applyReferral({ searchParams })
   return (
     <main className="mx-4 max-w-2xl pb-24 sm:mx-auto">
