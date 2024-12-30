@@ -1,7 +1,7 @@
 import { combineSlices, configureStore } from '@reduxjs/toolkit'
-import { formSlice } from 'redux/slices/formSlice'
-import { availabilitySlice } from 'redux/slices/availabilitySlice'
-import { modalSlice } from 'redux/slices/modalSlice'
+import { formSlice } from './slices/formSlice'
+import { availabilitySlice } from './slices/availabilitySlice'
+import { modalSlice } from './slices/modalSlice'
 import { readySlice } from './slices/readySlice'
 import { eventContainersSlice } from './slices/eventContainersSlice'
 
