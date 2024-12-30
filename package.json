@@ -24,6 +24,7 @@
     "date-fns": "^4.1.0",
     "date-fns-tz": "^3.2.0",
     "esbuild": "0.20.2",
+    "formik": "^2.4.6",
     "github-slugger": "^2.0.0",
     "gray-matter": "^4.0.2",
     "hast-util-from-html-isomorphic": "^2.0.0",
@@ -53,7 +54,8 @@
     "remark-math": "^6.0.0",
     "tailwind-merge": "^2.6.0",
     "tailwindcss": "^3.4.14",
-    "unist-util-visit": "^5.0.0"
+    "unist-util-visit": "^5.0.0",
+    "yup": "^1.6.1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",
