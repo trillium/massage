@@ -1,17 +1,15 @@
-import { addDays, eachDayOfInterval, endOfWeek, startOfWeek } from "date-fns"
+import { addDays, eachDayOfInterval, endOfWeek, startOfWeek } from 'date-fns'
 
-import Day from "@/lib/day"
+import Day from '@/lib/day'
 
-import { useSelector } from "react-redux"
-import type { RootState } from "@/redux/store"
-import { DayButtonSkeleton } from "./DayButtonSkeleton"
+import { useSelector } from 'react-redux'
+import type { RootState } from '@/redux/store'
+import { DayButtonSkeleton } from './DayButtonSkeleton'
 
 export default function CalendarSkeleton({}: {}) {
-  const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+  const weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 
-  const { start, end, timeZone } = useSelector(
-    (state: RootState) => state.availability
-  )
+  const { start, end, timeZone } = useSelector((state: RootState) => state.availability)
   const startDate = new Date(start)
   const endDate = new Date(end)
 
@@ -25,10 +23,7 @@ export default function CalendarSkeleton({}: {}) {
     end: endOfWeek(addDays(endDate, 2)),
   }).map((day) => Day.dayFromDate(day))
   const firstWeek = days.at(6)
-  if (
-    firstWeek &&
-    firstWeek.toInterval(timeZone).start < now.toInterval(timeZone).start
-  ) {
+  if (firstWeek && firstWeek.toInterval(timeZone).start < now.toInterval(timeZone).start) {
     days.splice(0, 7)
   }
 
@@ -36,13 +31,15 @@ export default function CalendarSkeleton({}: {}) {
     <div
       className="isolate mt-6 grid grid-cols-7 text-xs leading-6 text-gray-500 dark:text-gray-400"
       role="grid"
-      aria-label="Calendar">
+      aria-label="Calendar"
+    >
       {weekdays.map((weekday) => (
         <div
           key={weekday}
-          className="justify-center text-slate-500 flex"
+          className="flex justify-center text-slate-500"
           role="columnheader"
-          aria-label={weekday}>
+          aria-label={weekday}
+        >
           {weekday}
         </div>
       ))}

@@ -1,31 +1,27 @@
-import clsx from "clsx"
-import { twMerge } from "tailwind-merge"
+import clsx from 'clsx'
+import { twMerge } from 'tailwind-merge'
 
 export const DayButtonSkeleton = (props: { classes?: string }) => {
   return (
     <div
       className={twMerge(
         clsx(
-          "p-4 transition-all flex flex-col items-center outline-primary-600 relative",
+          'relative flex flex-col items-center p-4 outline-primary-600 transition-all',
           props.classes,
-          "font-semibold bg-slate-300 dark:bg-gray-800 text-slate-800 dark:text-slate-200 border border-transparent"
+          'border border-transparent bg-slate-300 font-semibold text-slate-800 dark:bg-gray-800 dark:text-slate-200'
         )
       )}
       aria-label={`Available date ${new Date().toString()} in calendar`}
-      {...props}>
+      {...props}
+    >
       <div className="flex flex-col items-center justify-between leading-none">
-        <p className="font-semibold text-[0.55rem] leading-0 h-3 items-center flex text-primary-700 dark:text-primary-600">
-          {" "}
+        <p className="leading-0 flex h-3 items-center text-[0.55rem] font-semibold text-primary-700 dark:text-primary-600">
+          {' '}
         </p>
-        <time className="text-base text-slate-600 flex leading-0 items-center">#</time>
-        <figure
-          className="flex items-center space-x-0.5 h-3 justify-center"
-          aria-hidden="true">
+        <time className="leading-0 flex items-center text-base text-slate-600">#</time>
+        <figure className="flex h-3 items-center justify-center space-x-0.5" aria-hidden="true">
           {Array.from({ length: 3 }).map((_, index) => (
-            <div
-              key={`availability-bar-${index}`}
-              className="rounded-full w-1 h-1 bg-gray-600"
-            />
+            <div key={`availability-bar-${index}`} className="h-1 w-1 rounded-full bg-gray-600" />
           ))}
         </figure>
       </div>

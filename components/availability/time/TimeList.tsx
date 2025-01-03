@@ -1,5 +1,5 @@
-import TimeButton from "./TimeButton"
-import type { DateTimeIntervalAndLocation } from "@/lib/types"
+import TimeButton from './TimeButton'
+import type { DateTimeIntervalAndLocation } from '@/lib/types'
 
 type TimeListProps = {
   availability: DateTimeIntervalAndLocation[]

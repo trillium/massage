@@ -52,8 +52,9 @@ export function PricingWrapper({
 
   const pickerProps: PickerProps = {
     durationProps: {
-      title: `${durationRedux || duration || '##'} minute session${acceptingPayment ? ' - $' + pricing[durationRedux || duration] : ''
-        }`,
+      title: `${durationRedux || duration || '##'} minute session${
+        acceptingPayment ? ' - $' + pricing[durationRedux || duration] : ''
+      }`,
       allowedDurations: allowedDurations || ALLOWED_DURATIONS,
     },
     tzPickerProps: {
