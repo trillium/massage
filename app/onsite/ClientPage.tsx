@@ -1,6 +1,5 @@
 'use client'
 
-import type { InferGetServerSidePropsType } from 'next'
 import clsx from 'clsx'
 import 'wicg-inert'
 
