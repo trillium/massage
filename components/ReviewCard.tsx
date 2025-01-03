@@ -1,7 +1,7 @@
 import Template from 'components/Template'
 import review_data from 'data/ratings.json'
 import clsx from 'clsx'
-import { RatingType } from './ReviewForm'
+import {RatingType} from './ReviewForm'
 
 const sorted_reviews = (review_data as ReviewType[]).sort((a: ReviewType, b: ReviewType) =>
   b.date.localeCompare(a.date)
@@ -77,9 +77,9 @@ const numberOfReviewsSorted = sliced_sorted.reduce(
   }
 )
 
-const reviews: { [key: number]: number } = numberOfReviews
+const reviews: {[key: number]: number} = numberOfReviews
 
-const ratingPercent: { [key: number]: string } = {
+const ratingPercent: {[key: number]: string} = {
   1: ((numberOfReviews[1] / review_data.length) * 100).toFixed(0),
   2: ((numberOfReviews[2] / review_data.length) * 100).toFixed(0),
   3: ((numberOfReviews[3] / review_data.length) * 100).toFixed(0),
@@ -95,7 +95,7 @@ const ReviewCard = () => {
   )
 }
 
-const OtherCard = ({ enableSorting = false }) => (
+const OtherCard = ({enableSorting = false}) => (
   <>
     <div className="mx-auto w-full max-w-7xl px-4 md:px-0">
       <div>
@@ -110,7 +110,7 @@ const OtherCard = ({ enableSorting = false }) => (
                   <LittleStar />
                   <p className="ml-5 mr-3 h-2 w-full rounded-3xl bg-gray-200 sm:min-w-72">
                     <span
-                      style={{ width: `${ratingPercent[num]}%` }}
+                      style={{width: `${ratingPercent[num]}%`}}
                       className={`bg-secondary-500 flex h-full rounded-3xl`}
                     ></span>
                   </p>
@@ -156,7 +156,7 @@ const OtherCard = ({ enableSorting = false }) => (
           <p className="py-1 text-lg font-normal text-black dark:text-white">
             {review_data.length} reviews
           </p>
-          {enableSorting && <ReviewSorting />}
+          {/* {enableSorting && <ReviewSorting />} */}
         </div>
       </div>
     </div>
@@ -204,7 +204,7 @@ const MostHelpful = () => (
     {(review_data as ReviewType[])
       .filter((item) => item.helpful)
       .sort((a, b) => (b.helpful ?? 0) - (a.helpful ?? 0))
-      .map(({ comment, date, name }) => (
+      .map(({comment, date, name}) => (
         <ReviewSnippet key={`${date}_${name}`} text={comment ?? ''} name={name} />
       ))}
   </div>
@@ -216,7 +216,7 @@ export type ReviewSnippetProps = {
   lastName?: string
   text?: string
   date?: string
-  displayDate?: Boolean
+  displayDate?: boolean
   rating?: RatingType
 }
 
@@ -242,10 +242,10 @@ export const ReviewSnippet = ({
     <div className="pt-4">
       <div className="mb-4 flex flex-col justify-between sm:flex-row  sm:items-center">
         <div className="flex items-center gap-3 text-primary-400">
-          {Array.from({ length: rating || 0 }, (_, i) => (
+          {Array.from({length: rating || 0}, (_, i) => (
             <Star key={i} size={30} />
           ))}
-          {Array.from({ length: 5 - (rating || 0) }, (_, i) => (
+          {Array.from({length: 5 - (rating || 0)}, (_, i) => (
             <Star key={i} fillNone size={30} />
           ))}
         </div>
@@ -316,77 +316,77 @@ export const Star = ({
   )
 }
 
-const ReviewSorting = () => (
-  <form>
-    <div className="flex">
-      <div className="relative ">
-        <div className=" absolute -left-0 top-0 px-2 py-2">
-          <p className="text-lg font-normal leading-8 text-gray-500">Sort by:</p>
-        </div>
-        <input
-          type="text"
-          className="shadow-xs block h-11 w-60 cursor-pointer rounded-full bg-transparent py-2.5 pl-20 pr-4 text-lg font-medium leading-8 text-black placeholder-black focus:outline-gray-200 dark:text-white "
-          placeholder="Most Relevant"
-        />
-        <div
-          id="dropdown-button"
-          data-target="dropdown"
-          className="dropdown-toggle absolute right-0 top-2 z-10 inline-flex flex-shrink-0 cursor-pointer items-center bg-transparent px-4 py-2.5 pl-2 text-center text-base font-medium text-gray-900 "
-        >
-          <svg
-            className="ml-2"
-            width="12"
-            height="7"
-            viewBox="0 0 12 7"
-            fill="currentColor"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M1 1.5L4.58578 5.08578C5.25245 5.75245 5.58579 6.08579 6 6.08579C6.41421 6.08579 6.74755 5.75245 7.41421 5.08579L11 1.5"
-              stroke="#6B7280"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
-        </div>
-        <div
-          id="dropdown"
-          className="absolute right-0 top-9 z-10 hidden w-44 divide-y divide-gray-100 rounded-lg bg-white shadow dark:bg-gray-700"
-        >
-          <ul
-            className="py-2 text-sm text-gray-700 dark:text-gray-200"
-            aria-labelledby="dropdown-button"
-          >
-            <li>
-              <a
-                href="#"
-                className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-              >
-                Most Relevant
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-              >
-                last week
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-              >
-                oldest
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </form>
-)
+// const ReviewSorting = () => (
+//   <form>
+//     <div className="flex">
+//       <div className="relative ">
+//         <div className=" absolute -left-0 top-0 px-2 py-2">
+//           <p className="text-lg font-normal leading-8 text-gray-500">Sort by:</p>
+//         </div>
+//         <input
+//           type="text"
+//           className="shadow-xs block h-11 w-60 cursor-pointer rounded-full bg-transparent py-2.5 pl-20 pr-4 text-lg font-medium leading-8 text-black placeholder-black focus:outline-gray-200 dark:text-white "
+//           placeholder="Most Relevant"
+//         />
+//         <div
+//           id="dropdown-button"
+//           data-target="dropdown"
+//           className="dropdown-toggle absolute right-0 top-2 z-10 inline-flex flex-shrink-0 cursor-pointer items-center bg-transparent px-4 py-2.5 pl-2 text-center text-base font-medium text-gray-900 "
+//         >
+//           <svg
+//             className="ml-2"
+//             width="12"
+//             height="7"
+//             viewBox="0 0 12 7"
+//             fill="currentColor"
+//             xmlns="http://www.w3.org/2000/svg"
+//           >
+//             <path
+//               d="M1 1.5L4.58578 5.08578C5.25245 5.75245 5.58579 6.08579 6 6.08579C6.41421 6.08579 6.74755 5.75245 7.41421 5.08579L11 1.5"
+//               stroke="#6B7280"
+//               stroke-width="1.5"
+//               stroke-linecap="round"
+//               stroke-linejoin="round"
+//             />
+//           </svg>
+//         </div>
+//         <div
+//           id="dropdown"
+//           className="absolute right-0 top-9 z-10 hidden w-44 divide-y divide-gray-100 rounded-lg bg-white shadow dark:bg-gray-700"
+//         >
+//           <ul
+//             className="py-2 text-sm text-gray-700 dark:text-gray-200"
+//             aria-labelledby="dropdown-button"
+//           >
+//             <li>
+//               <a
+//                 href="#"
+//                 className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+//               >
+//                 Most Relevant
+//               </a>
+//             </li>
+//             <li>
+//               <a
+//                 href="#"
+//                 className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+//               >
+//                 last week
+//               </a>
+//             </li>
+//             <li>
+//               <a
+//                 href="#"
+//                 className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+//               >
+//                 oldest
+//               </a>
+//             </li>
+//           </ul>
+//         </div>
+//       </div>
+//     </div>
+//   </form>
+// )
 
 export default ReviewCard
