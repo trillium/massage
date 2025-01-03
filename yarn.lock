@@ -2163,6 +2163,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@faker-js/faker@npm:^9.3.0":
+  version: 9.3.0
+  resolution: "@faker-js/faker@npm:9.3.0"
+  checksum: 0ee845a9b7dc0d6bc5bd9b7d89fc0a86b31bf0b4a55128feab5dd24c0e8e0b5f80f9ab40f639bf259b3edf62370677c1ebfd420cd8e51d4ca69b94d2ff208ba9
+  languageName: node
+  linkType: hard
+
 "@fal-works/esbuild-plugin-global-externals@npm:^2.1.2":
   version: 2.1.2
   resolution: "@fal-works/esbuild-plugin-global-externals@npm:2.1.2"
@@ -12250,6 +12257,7 @@ react@rc:
   dependencies:
     "@eslint/eslintrc": ^3.2.0
     "@eslint/js": ^9.16.0
+    "@faker-js/faker": ^9.3.0
     "@headlessui/react": 2.2.0
     "@heroicons/react": ^2.2.0
     "@next/bundle-analyzer": 15.0.2
