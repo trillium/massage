@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import type { FormEvent } from 'react'
+import type { FormEvent, Dispatch, SetStateAction } from 'react'
 
 import Spinner from '@/components/Spinner'
 
@@ -252,7 +252,10 @@ export default function URIMaker({ events }: URIMakerProps) {
  * upon success (or showing a failure message).
  *
  */
-async function handleSubmit(event: FormEvent<HTMLFormElement>, setUri: any) {
+async function handleSubmit(
+  event: FormEvent<HTMLFormElement>,
+  setUri: Dispatch<SetStateAction<string>>
+) {
   event.preventDefault()
   const jsonData = Object.fromEntries(new FormData(event.currentTarget))
   const uriData = await encode(jsonData)
