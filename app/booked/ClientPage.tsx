@@ -1,11 +1,27 @@
 'use client'
 
+import { AppointmentRequestType } from '@/lib/schema'
 import { BookedCard } from 'components/BookedCard'
 import { formatLocalDate, formatLocalTime } from 'lib/availability/helpers'
 import { AttendeeType } from 'lib/types'
-import clsx from 'clsx'
 
-export default function Booked({ url, data }: { url: string; data: any }) {
+type dateTimeAndTimeZone = {
+  dateTime: string
+  timeZone: string
+}
+
+type ClientPageProps = {
+  url: string
+  data: AppointmentRequestType & {
+    attendees: Array<{ email: string; name?: string }>
+    timeZone: string
+    dateTime: string
+    start: dateTimeAndTimeZone
+    end: dateTimeAndTimeZone
+  }
+}
+
+export default function Booked({ url, data }: ClientPageProps) {
   console.log(url, data)
   const attendees = Array.isArray(data.attendees)
     ? data.attendees.map((p: AttendeeType) => p.email).join(', ')
