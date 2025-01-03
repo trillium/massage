@@ -26,8 +26,33 @@ describe('BookingForm', () => {
 
   beforeEach(() => {
     dispatchRedux = jest.fn()
-    router = { push: jest.fn() } as jest.Mocked<NextRouter>
-      ; (useRouter as jest.Mock).mockReturnValue(router)
+    router = {
+      push: jest.fn(),
+      route: '',
+      pathname: '',
+      query: {},
+      asPath: '',
+      basePath: '',
+      locale: undefined,
+      locales: undefined,
+      defaultLocale: undefined,
+      isFallback: false,
+      isReady: true,
+      isPreview: false,
+      back: jest.fn(),
+      beforePopState: jest.fn(),
+      prefetch: jest.fn(),
+      reload: jest.fn(),
+      replace: jest.fn(),
+      events: {
+        on: jest.fn(),
+        off: jest.fn(),
+        emit: jest.fn(),
+      },
+      isLocaleDomain: false,
+      forward: jest.fn(),
+    } as unknown as jest.Mocked<NextRouter>
+    ;(useRouter as jest.Mock).mockReturnValue(router)
   })
 
   it('should handle form submission correctly', async () => {

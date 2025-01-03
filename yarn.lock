@@ -4013,6 +4013,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@vvo/tzdb@npm:^6.157.0":
+  version: 6.157.0
+  resolution: "@vvo/tzdb@npm:6.157.0"
+  checksum: 43dd497c53ec670c10cd11318fe6cfa48314f1a561d8db00cdc2eeabc8b621378c11b05a3a2d7c34328da75d7388988853a4d18fa274a14bf54ae839bd68ff10
+  languageName: node
+  linkType: hard
+
 "abbrev@npm:^2.0.0":
   version: 2.0.0
   resolution: "abbrev@npm:2.0.0"
@@ -12256,6 +12263,7 @@ react@rc:
     "@types/react": ^18.2.73
     "@typescript-eslint/eslint-plugin": ^8.12.0
     "@typescript-eslint/parser": ^8.12.0
+    "@vvo/tzdb": ^6.157.0
     autoprefixer: ^10.4.13
     body-scroll-lock: ^4.0.0-beta.0
     contentlayer2: 0.5.3
