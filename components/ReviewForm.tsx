@@ -92,7 +92,7 @@ export default function ReviewForm({
                     aria-label="Name"
                     type="text"
                     autoCapitalize="words"
-                    autoComplete="firstName"
+                    autoComplete="given-name"
                     required
                     aria-required
                     name="firstName"
@@ -114,7 +114,7 @@ export default function ReviewForm({
                     aria-label="Name"
                     type="text"
                     autoCapitalize="words"
-                    autoComplete="lastName"
+                    autoComplete="family-name"
                     required
                     aria-required
                     name="lastName"
