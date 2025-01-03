@@ -1,4 +1,4 @@
-import { rawTimeZones } from "@vvo/tzdb"
+import { rawTimeZones } from '@vvo/tzdb'
 
 export type TimeZoneData = {
   /**
