@@ -50,7 +50,7 @@ export default function URIMaker({ events }: URIMakerProps) {
     event.preventDefault()
     navigator.clipboard
       .writeText(uriEncoded)
-      .then(() => { })
+      .then(() => {})
       .catch((err) => {
         console.error('Failed to copy: ', err)
       })
