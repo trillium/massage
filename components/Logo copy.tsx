@@ -1,6 +1,6 @@
-"use client"
-import { useEffect, useState } from "react"
-import { useTheme } from "next-themes"
+'use client'
+import { useEffect, useState } from 'react'
+import { useTheme } from 'next-themes'
 
 const Logo = ({ classes }: { classes: string }) => {
   const { theme, resolvedTheme } = useTheme()
@@ -12,10 +12,7 @@ const Logo = ({ classes }: { classes: string }) => {
 
   if (!mounted) {
     return (
-      <svg
-        className={classes}
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox=" 0 0 806 803">
+      <svg className={classes} xmlns="http://www.w3.org/2000/svg" viewBox=" 0 0 806 803">
         <g className="main" fill="currentColor">
           <g className="leafs">
             <path
@@ -55,11 +52,8 @@ const Logo = ({ classes }: { classes: string }) => {
   }
 
   return (
-    <svg
-      className={classes}
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox=" 0 0 806 803">
-      <g className="main" fill={resolvedTheme === "dark" ? "white" : "black "}>
+    <svg className={classes} xmlns="http://www.w3.org/2000/svg" viewBox=" 0 0 806 803">
+      <g className="main" fill={resolvedTheme === 'dark' ? 'white' : 'black '}>
         <g className="leafs">
           <path
             fill="currentColor"

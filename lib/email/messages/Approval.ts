@@ -1,4 +1,4 @@
-import { EmailProps } from "@/lib/types"
+import { EmailProps } from '@/lib/types'
 
 const LINE_PREFIX = `<div class="gmail_default" style="font-family:arial,sans-serif">`
 const LINE_SUFFIX = `</div>`
@@ -13,14 +13,14 @@ export default function ApprovalEmail({
   timeZone,
   price,
   phone,
-  duration
+  duration,
 }: EmailProps) {
   const SUBJECT = `REQUEST: ${firstName} ${lastName}, ${duration} minutes, $${price}`
 
   const declineUrl = `mailto:${encodeURI(email)}?subject=${encodeURIComponent(
     `Re: Massage appointment request`
   )}&body=${encodeURIComponent(
-    `Hi ${`${firstName}` || "there"},
+    `Hi ${`${firstName}` || 'there'},
 
 I just checked my calendar and it looks like ${dateSummary} won't work.
 
@@ -48,7 +48,7 @@ Would you be able to meet at a different time?`
     `<br>`,
   ]
     .map((line) => `${LINE_PREFIX}${line}${LINE_SUFFIX}`)
-    .join("")
+    .join('')
 
   body += `</div>`
 

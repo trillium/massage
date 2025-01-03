@@ -1,6 +1,6 @@
-import { createSlice } from "@reduxjs/toolkit"
-import type { PayloadAction } from "@reduxjs/toolkit"
-import type { RootState } from "@/redux/store"
+import { createSlice } from '@reduxjs/toolkit'
+import type { PayloadAction } from '@reduxjs/toolkit'
+import type { RootState } from '@/redux/store'
 
 type ObjReadyType = {
   [key: string]: boolean
@@ -9,7 +9,7 @@ type ObjReadyType = {
 const initialState: ObjReadyType = { Calendar: false, TimeList: false, hidden: true }
 
 export const readySlice = createSlice({
-  name: "ready",
+  name: 'ready',
   initialState,
   reducers: {
     setReady: (state, action: PayloadAction<ObjReadyType>) => {

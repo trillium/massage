@@ -1,4 +1,4 @@
-import { EmailProps } from "@/lib/types"
+import { EmailProps } from '@/lib/types'
 
 const LINE_PREFIX = `<div class="gmail_default" style="font-family:arial,sans-serif">`
 const LINE_SUFFIX = `</div>`
@@ -9,12 +9,12 @@ export default function ClientRequestEmail({
   firstName,
   dateSummary,
   location,
-}: Omit<EmailProps, "approveUrl">) {
+}: Omit<EmailProps, 'approveUrl'>) {
   const SUBJECT = `Massage Session Request $${price}, ${duration} minutes`
 
   let body = `<div dir="ltr">`
   body += [
-    `Hi ${firstName || "there"}`,
+    `Hi ${firstName || 'there'}`,
     `<br>`,
     `Just letting you know I received your appointment request!`,
     `<br>`,
@@ -30,7 +30,7 @@ export default function ClientRequestEmail({
     `Trillium Smith`,
   ]
     .map((line) => `${LINE_PREFIX}${line}${LINE_SUFFIX}`)
-    .join("")
+    .join('')
 
   body += `</div>`
 

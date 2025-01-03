@@ -7,9 +7,9 @@ import { format } from 'date-fns-tz'
  * @returns {string} The formatted date string.
  */
 export default function localeDayString(date: Date): string {
-  const dateOptions: Intl.DateTimeFormatOptions = { 
-    timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone 
-  };
-  const dateString: string = format( date, 'yyyy-MM-dd', { timeZone: dateOptions.timeZone } )
+  const dateOptions: Intl.DateTimeFormatOptions = {
+    timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+  }
+  const dateString: string = format(date, 'yyyy-MM-dd', { timeZone: dateOptions.timeZone })
   return dateString
 }

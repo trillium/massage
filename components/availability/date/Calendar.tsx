@@ -1,11 +1,11 @@
-import {addDays, eachDayOfInterval, endOfWeek, startOfWeek} from 'date-fns'
+import { addDays, eachDayOfInterval, endOfWeek, startOfWeek } from 'date-fns'
 
 import DayButton from './DayButton'
-import {getDateRangeInterval} from 'lib/availability/helpers'
+import { getDateRangeInterval } from 'lib/availability/helpers'
 import Day from 'lib/day'
-import type {DateTimeInterval} from 'lib/types'
-import {useSelector} from 'react-redux'
-import type {RootState} from '@/redux/store'
+import type { DateTimeInterval } from 'lib/types'
+import { useSelector } from 'react-redux'
+import type { RootState } from '@/redux/store'
 
 export default function Calendar({
   offers,
@@ -16,7 +16,7 @@ export default function Calendar({
 }) {
   const weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 
-  const {start, end, timeZone} = useSelector((state: RootState) => state.availability)
+  const { start, end, timeZone } = useSelector((state: RootState) => state.availability)
   const startDate = new Date(start)
   const endDate = new Date(end)
 

@@ -1,17 +1,17 @@
-import { createSlice } from "@reduxjs/toolkit"
-import type { PayloadAction } from "@reduxjs/toolkit"
-import type { RootState } from "@/redux/store"
+import { createSlice } from '@reduxjs/toolkit'
+import type { PayloadAction } from '@reduxjs/toolkit'
+import type { RootState } from '@/redux/store'
 
-type ModalStateType = { status: "open" | "busy" | "error" | "closed" }
+type ModalStateType = { status: 'open' | 'busy' | 'error' | 'closed' }
 
-const initialState: ModalStateType = { status: "closed" }
+const initialState: ModalStateType = { status: 'closed' }
 
 export const modalSlice = createSlice({
-  name: "modal",
+  name: 'modal',
   initialState,
   reducers: {
     setModal: (state, action: PayloadAction<ModalStateType>) => {
-      state.status = action.payload.status 
+      state.status = action.payload.status
     },
   },
 })

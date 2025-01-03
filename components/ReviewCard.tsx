@@ -1,7 +1,7 @@
 import Template from 'components/Template'
 import review_data from 'data/ratings.json'
 import clsx from 'clsx'
-import {RatingType} from './ReviewForm'
+import { RatingType } from './ReviewForm'
 
 const sorted_reviews = (review_data as ReviewType[]).sort((a: ReviewType, b: ReviewType) =>
   b.date.localeCompare(a.date)
@@ -77,9 +77,9 @@ const numberOfReviewsSorted = sliced_sorted.reduce(
   }
 )
 
-const reviews: {[key: number]: number} = numberOfReviews
+const reviews: { [key: number]: number } = numberOfReviews
 
-const ratingPercent: {[key: number]: string} = {
+const ratingPercent: { [key: number]: string } = {
   1: ((numberOfReviews[1] / review_data.length) * 100).toFixed(0),
   2: ((numberOfReviews[2] / review_data.length) * 100).toFixed(0),
   3: ((numberOfReviews[3] / review_data.length) * 100).toFixed(0),
@@ -95,7 +95,7 @@ const ReviewCard = () => {
   )
 }
 
-const OtherCard = ({enableSorting = false}) => (
+const OtherCard = ({ enableSorting = false }) => (
   <>
     <div className="mx-auto w-full max-w-7xl px-4 md:px-0">
       <div>
@@ -110,7 +110,7 @@ const OtherCard = ({enableSorting = false}) => (
                   <LittleStar />
                   <p className="ml-5 mr-3 h-2 w-full rounded-3xl bg-gray-200 sm:min-w-72">
                     <span
-                      style={{width: `${ratingPercent[num]}%`}}
+                      style={{ width: `${ratingPercent[num]}%` }}
                       className={`bg-secondary-500 flex h-full rounded-3xl`}
                     ></span>
                   </p>
@@ -204,7 +204,7 @@ const MostHelpful = () => (
     {(review_data as ReviewType[])
       .filter((item) => item.helpful)
       .sort((a, b) => (b.helpful ?? 0) - (a.helpful ?? 0))
-      .map(({comment, date, name}) => (
+      .map(({ comment, date, name }) => (
         <ReviewSnippet key={`${date}_${name}`} text={comment ?? ''} name={name} />
       ))}
   </div>
@@ -242,10 +242,10 @@ export const ReviewSnippet = ({
     <div className="pt-4">
       <div className="mb-4 flex flex-col justify-between sm:flex-row  sm:items-center">
         <div className="flex items-center gap-3 text-primary-400">
-          {Array.from({length: rating || 0}, (_, i) => (
+          {Array.from({ length: rating || 0 }, (_, i) => (
             <Star key={i} size={30} />
           ))}
-          {Array.from({length: 5 - (rating || 0)}, (_, i) => (
+          {Array.from({ length: 5 - (rating || 0) }, (_, i) => (
             <Star key={i} fillNone size={30} />
           ))}
         </div>

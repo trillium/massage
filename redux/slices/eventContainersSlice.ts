@@ -1,6 +1,6 @@
-import { createSlice } from "@reduxjs/toolkit"
-import type { PayloadAction } from "@reduxjs/toolkit"
-import type { RootState } from "@/redux/store"
+import { createSlice } from '@reduxjs/toolkit'
+import type { PayloadAction } from '@reduxjs/toolkit'
+import type { RootState } from '@/redux/store'
 
 export type EventContainerType = {
   location?: string
@@ -11,13 +11,13 @@ export type EventContainerType = {
 
 export const initialEventContainerState: EventContainerType = {
   /** Address of the container */
-  location: "",
+  location: '',
   /** Query string for finding all events/members */
-  eventBaseString: "",
+  eventBaseString: '',
   /** Query string for finding all members */
-  eventMemberString: "",
+  eventMemberString: '',
   /** Query string for finding all containers */
-  eventContainerString: "",
+  eventContainerString: '',
 }
 
 const initialState: EventContainerType = {
@@ -25,13 +25,10 @@ const initialState: EventContainerType = {
 }
 
 export const eventContainersSlice = createSlice({
-  name: "eventContainers",
+  name: 'eventContainers',
   initialState,
   reducers: {
-    setEventContainers: (
-      state,
-      action: PayloadAction<Partial<EventContainerType>>
-    ) => {
+    setEventContainers: (state, action: PayloadAction<Partial<EventContainerType>>) => {
       return {
         ...state,
         ...action.payload,

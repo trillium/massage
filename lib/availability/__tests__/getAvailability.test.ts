@@ -1,28 +1,22 @@
-import { add, areIntervalsOverlapping, sub } from "date-fns"
+import { add, areIntervalsOverlapping, sub } from 'date-fns'
 
-import type { DateTimeInterval } from "../../types"
-import getAvailability from "../getAvailability"
+import type { DateTimeInterval } from '../../types'
+import getAvailability from '../getAvailability'
 
-describe("getAvailability", () => {
-  it("returns empty array if potential or busy is undefined", () => {
+describe('getAvailability', () => {
+  it('returns empty array if potential or busy is undefined', () => {
     expect(getAvailability({})).toStrictEqual([])
-    expect(
-      getAvailability({ potential: undefined, busy: undefined })
-    ).toStrictEqual([])
-    expect(getAvailability({ potential: [], busy: undefined })).toStrictEqual(
-      []
-    )
-    expect(getAvailability({ potential: undefined, busy: [] })).toStrictEqual(
-      []
-    )
+    expect(getAvailability({ potential: undefined, busy: undefined })).toStrictEqual([])
+    expect(getAvailability({ potential: [], busy: undefined })).toStrictEqual([])
+    expect(getAvailability({ potential: undefined, busy: [] })).toStrictEqual([])
   })
 
   //getAvailability() uses now() to compare against potential slots
   //so we need to make sure that the potential slots are in the future
-  
+
   const nextYear = new Date().getFullYear() + 1
 
-  it("returns available slots correctly", () => {
+  it('returns available slots correctly', () => {
     const potential: DateTimeInterval[] = [
       {
         start: new Date(`${nextYear}-10-28T08:00:00.000Z`),
@@ -58,7 +52,7 @@ describe("getAvailability", () => {
     })
   })
 
-  it("respects padding when determining availability", () => {
+  it('respects padding when determining availability', () => {
     const potential: DateTimeInterval[] = [
       {
         start: new Date(`${nextYear}-10-28T08:00:00.000Z`),
@@ -90,13 +84,13 @@ describe("getAvailability", () => {
     expect(availableSlotsWithSomePadding).toHaveLength(0)
   })
 
-  it("respects lead time when determining availability", () => {
+  it('respects lead time when determining availability', () => {
     const now = new Date()
 
     const potential: DateTimeInterval[] = [
       {
         start: add(now, { minutes: 1 }),
-        end:   add(now, { hours: 1, minutes: 1 }),
+        end: add(now, { hours: 1, minutes: 1 }),
       },
     ]
 
@@ -105,7 +99,7 @@ describe("getAvailability", () => {
     const slotsWithLeadTimeConflict = getAvailability({
       potential,
       busy,
-      leadTime: 0
+      leadTime: 0,
     })
     expect(slotsWithLeadTimeConflict.length).toBe(1)
 

@@ -1,7 +1,7 @@
-import { add, areIntervalsOverlapping, sub } from "date-fns"
+import { add, areIntervalsOverlapping, sub } from 'date-fns'
 
-import type { DateTimeInterval, DateTimeIntervalAndLocation } from "../types"
-import { SLOT_PADDING, LEAD_TIME } from "../../config"
+import type { DateTimeInterval, DateTimeIntervalAndLocation } from '../types'
+import { SLOT_PADDING, LEAD_TIME } from '../../config'
 
 /**
  * Takes an array of potential slots and an array of busy slots and returns
@@ -68,9 +68,7 @@ export default function getAvailability({
       const busyStart = sub(busySlot.start, { minutes: padding })
       const busyEnd = add(busySlot.end, { minutes: padding })
 
-      if (
-        areIntervalsOverlapping(freeSlot, { start: busyStart, end: busyEnd })
-      ) {
+      if (areIntervalsOverlapping(freeSlot, { start: busyStart, end: busyEnd })) {
         isFree = false
         break
       }

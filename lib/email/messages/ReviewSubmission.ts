@@ -1,12 +1,9 @@
-import { EmailProps, ReviewType } from "@/lib/types"
+import { EmailProps, ReviewType } from '@/lib/types'
 
 const LINE_PREFIX = `<div class="gmail_default" style="font-family:arial,sans-serif">`
 const LINE_SUFFIX = `</div>`
 
-type ReviewSubmissionProps = Omit<
-  EmailProps,
-  "timeZone" | "email" | "location" | "approveUrl"
-> &
+type ReviewSubmissionProps = Omit<EmailProps, 'timeZone' | 'email' | 'location' | 'approveUrl'> &
   ReviewType
 
 export default function ReviewSubmission({
@@ -41,7 +38,7 @@ export default function ReviewSubmission({
     `<br>`,
   ]
     .map((line) => `${LINE_PREFIX}${line}${LINE_SUFFIX}`)
-    .join("")
+    .join('')
 
   body += `</div>`
 

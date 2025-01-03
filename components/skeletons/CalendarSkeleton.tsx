@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux'
 import type { RootState } from '@/redux/store'
 import { DayButtonSkeleton } from './DayButtonSkeleton'
 
-export default function CalendarSkeleton({}: {}) {
+export default function CalendarSkeleton() {
   const weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 
   const { start, end, timeZone } = useSelector((state: RootState) => state.availability)

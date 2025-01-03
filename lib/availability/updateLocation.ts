@@ -1,14 +1,10 @@
-import getAccessToken from "@/lib/availability/getAccessToken"
+import getAccessToken from '@/lib/availability/getAccessToken'
 
-export default async function updateLocation({
-  location,
-}: {
-  location: string
-}) {
-  const eventId = "01vd8vpsq30jo29j379mritaoo"
+export default async function updateLocation({ location }: { location: string }) {
+  const eventId = '01vd8vpsq30jo29j379mritaoo'
   const apiUrl = `https://www.googleapis.com/calendar/v3/calendars/primary/events/${eventId}`
 
-  const timeZone = "America/Los_Angeles"
+  const timeZone = 'America/Los_Angeles'
 
   const now = new Date()
   const start = new Date(now.getTime() - 15 * 60000)
@@ -30,9 +26,9 @@ export default async function updateLocation({
   }
 
   const response = await fetch(apiUrl, {
-    method: "PATCH",
+    method: 'PATCH',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
       Authorization: `Bearer ${await getAccessToken()}`,
     },
     body: JSON.stringify(body),

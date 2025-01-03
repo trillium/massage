@@ -1,13 +1,9 @@
-import { addMinutes, eachDayOfInterval, set } from "date-fns"
+import { addMinutes, eachDayOfInterval, set } from 'date-fns'
 
-import type Day from "../day"
-import type {
-  AvailabilitySlotsMap,
-  DateTimeInterval,
-  DateTimeIntervalAndLocation,
-} from "../types"
-import mergeOverlappingIntervals from "./mergeOverlappingIntervals"
-import { DEFAULT_APPOINTMENT_INTERVAL } from "../../config"
+import type Day from '../day'
+import type { AvailabilitySlotsMap, DateTimeInterval, DateTimeIntervalAndLocation } from '../types'
+import mergeOverlappingIntervals from './mergeOverlappingIntervals'
+import { DEFAULT_APPOINTMENT_INTERVAL } from '../../config'
 
 export default function getPotentialTimes({
   start,
@@ -30,15 +26,12 @@ export default function getPotentialTimes({
     return intervals
   }
 
-  const INTERVAL =
-    duration < defaultAppointmentInterval
-      ? duration
-      : defaultAppointmentInterval
+  const INTERVAL = duration < defaultAppointmentInterval ? duration : defaultAppointmentInterval
 
   // Sort the slots by start time
   const days = eachDayOfInterval({
-    start: start.toInterval("Etc/GMT").start,
-    end: end.toInterval("Etc/GMT").end,
+    start: start.toInterval('Etc/GMT').start,
+    end: end.toInterval('Etc/GMT').end,
   })
 
   if (containers) {

@@ -1,6 +1,6 @@
 // /lib/URIMaker.ts
 
-import { getHash } from "./hash" // Assuming getHash is defined in hash.ts
+import { getHash } from './hash' // Assuming getHash is defined in hash.ts
 
 interface URIResult {
   isClient: boolean
@@ -21,8 +21,8 @@ export function createURI(obj: Record<string, any>): URIResult {
 
   const params = new URLSearchParams(stringArray).toString()
 
-  if (typeof window !== "undefined") {
-    const uri = window.location.origin + "/reviews/rate/" + "?" + params
+  if (typeof window !== 'undefined') {
+    const uri = window.location.origin + '/reviews/rate/' + '?' + params
     return { isClient: true, uri: uri }
   }
   return { isClient: false, uri: params }

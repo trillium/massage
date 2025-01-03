@@ -1,7 +1,7 @@
 'use client'
 
 import clsx from 'clsx'
-import { useAppDispatch, useReduxAvailability, useReduxFormData } from '../hooks'
+import { useAppDispatch, useReduxAvailability, useReduxFormData } from '@/redux/hooks'
 import { formatLocalDate, formatLocalTime } from 'lib/availability/helpers'
 import BookSessionButton from 'components/BookSessionButton'
 import { BookedCard } from 'components/BookedCard'

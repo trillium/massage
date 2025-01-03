@@ -1,12 +1,12 @@
 'use client'
-import {useReduxFormData} from '@/redux/hooks'
+import { useReduxFormData } from '@/redux/hooks'
 
 import Template from 'components/Template'
-import {ReviewSnippet} from 'components/ReviewCard'
+import { ReviewSnippet } from 'components/ReviewCard'
 import BookSessionButton from 'components/BookSessionButton'
 
 export default function About() {
-  const {firstName, lastName, text, rating} = useReduxFormData()
+  const { firstName, lastName, text, rating } = useReduxFormData()
 
   return (
     <div className="flex h-full flex-col items-center justify-between">

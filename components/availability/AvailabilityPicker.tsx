@@ -2,9 +2,10 @@ import dynamic from 'next/dynamic'
 
 import DurationPicker, { durationProps } from './controls/DurationPicker'
 import type { DateTimeIntervalAndLocation } from 'lib/types'
-import { format } from 'date-fns-tz/format'
+import { format } from 'date-fns-tz'
 import { useSelector } from 'react-redux'
 import type { RootState } from '@/redux/store'
+import TimezonePicker from './controls/TimezonePicker'
 
 // Load these dynamically, without SSR, to avoid hydration issues
 // that arise with timezone differences

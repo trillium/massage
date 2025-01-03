@@ -1,5 +1,5 @@
-import type { SendMailOptions, Transporter } from "nodemailer"
-import { createTransport } from "nodemailer"
+import type { SendMailOptions, Transporter } from 'nodemailer'
+import { createTransport } from 'nodemailer'
 
 type SendMailParams = {
   to: string
@@ -13,11 +13,11 @@ type SendMailParams = {
  */
 function configureTransporter(): Transporter {
   return createTransport({
-    host: "smtp.gmail.com",
+    host: 'smtp.gmail.com',
     port: 465,
     secure: true,
     auth: {
-      type: "OAuth2",
+      type: 'OAuth2',
       clientId: process.env.GOOGLE_OAUTH_CLIENT_ID,
       clientSecret: process.env.GOOGLE_OAUTH_SECRET,
     },

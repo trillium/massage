@@ -1,6 +1,6 @@
-import { compareAsc, max, areIntervalsOverlapping } from "date-fns"
+import { compareAsc, max, areIntervalsOverlapping } from 'date-fns'
 
-import type { DateTimeInterval } from "../types"
+import type { DateTimeInterval } from '../types'
 
 /**
  * Sort the intervals by start time, then iterate through the intervals

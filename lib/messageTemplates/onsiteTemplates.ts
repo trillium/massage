@@ -1,5 +1,5 @@
-import { dumpData } from "../dataLoading"
-import { AppointmentProps, ChairAppointmentBlockCalendarProps } from "../types"
+import { dumpData } from '../dataLoading'
+import { AppointmentProps, ChairAppointmentBlockCalendarProps } from '../types'
 
 /**
  * Creates a title "summary" for a calendar event.
@@ -7,11 +7,7 @@ import { AppointmentProps, ChairAppointmentBlockCalendarProps } from "../types"
  * @function
  * @returns {string} Returns the summary string for an event.
  */
-function eventSummary({
-  eventContainerString,
-}: {
-  eventContainerString: string
-}) {
+function eventSummary({ eventContainerString }: { eventContainerString: string }) {
   return eventContainerString
 }
 

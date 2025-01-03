@@ -1,6 +1,6 @@
-"use server"
+'use server'
 
-import { getHash } from "./hash"
+import { getHash } from './hash'
 
 export type HashableObject = {
   [key: string]: any
@@ -35,7 +35,7 @@ export async function decode(obj: HashableObject): Promise<ValidationResult> {
   if (!obj.key) {
     return { validated: false, data: obj }
   }
-  
+
   const { key, data: dataWithoutHash } = obj
   const dataString = JSON.stringify(dataWithoutHash)
   const validHash = await getHash(dataString)
