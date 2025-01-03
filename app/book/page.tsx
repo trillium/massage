@@ -8,7 +8,7 @@ export type PageProps = InferGetServerSidePropsType<typeof fetchData>
 
 export const dynamic = 'force-dynamic'
 
-export default async function Page({searchParams}: {searchParams: URLSearchParams}) {
+export default async function Page({searchParams}: {searchParams: Promise<URLSearchParams>}) {
   const resolvedParams = await searchParams
   const {props} = await fetchData({searchParams: resolvedParams})
   return (
