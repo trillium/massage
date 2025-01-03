@@ -19,7 +19,7 @@ import {
   useReduxFormData,
   useReduxEventContainers,
   useReduxModal,
-} from 'app/hooks'
+} from '@/redux/hooks'
 import { ChairAppointmentBlockProps, PaymentMethodType } from 'lib/types'
 import { paymentMethod } from 'data/paymentMethods'
 import siteMetadata from 'data/siteMetadata'

@@ -1,4 +1,4 @@
-import { useAppDispatch, useReduxAvailability } from 'app/hooks'
+import { useAppDispatch, useReduxAvailability } from '@/redux/hooks'
 import getTimezoneData from 'lib/timezones'
 import { setTimeZone } from '@/redux/slices/availabilitySlice'
 

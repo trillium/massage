@@ -1,15 +1,14 @@
-import { useEffect } from "react"
+import { useEffect } from 'react'
 
-import type { DateTimeInterval } from "@/lib/types"
-import { useAppDispatch } from "@/app/hooks"
-import { setReady } from "@/redux/slices/readySlice"
-import { TimeSkeleton } from "./TimeSkeleton"
+import type { DateTimeInterval } from '@/lib/types'
+import { useAppDispatch } from '@/redux/hooks'
+import { setReady } from '@/redux/slices/readySlice'
+import { TimeSkeleton } from './TimeSkeleton'
 
 type TimeListProps = {
   availability: DateTimeInterval[]
 }
 export default function TimeList() {
-  
   const dispatchRedux = useAppDispatch()
   useEffect(() => {
     dispatchRedux(setReady({ TimeList: true }))

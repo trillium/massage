@@ -20,7 +20,7 @@ import Day from 'lib/day'
 
 import PageProps from 'app/page'
 import { setDuration, setSelectedDate } from '@/redux/slices/availabilitySlice'
-import { useAppDispatch, useReduxAvailability } from 'app/hooks'
+import { useAppDispatch, useReduxAvailability } from '@/redux/hooks'
 import { DateTimeIntervalAndLocation } from 'lib/types'
 import { setEventContainers } from '@/redux/slices/eventContainersSlice'
 
@@ -52,9 +52,8 @@ export function PricingWrapper({
 
   const pickerProps: PickerProps = {
     durationProps: {
-      title: `${durationRedux || duration || '##'} minute session${
-        acceptingPayment ? ' - $' + pricing[durationRedux || duration] : ''
-      }`,
+      title: `${durationRedux || duration || '##'} minute session${acceptingPayment ? ' - $' + pricing[durationRedux || duration] : ''
+        }`,
       allowedDurations: allowedDurations || ALLOWED_DURATIONS,
     },
     tzPickerProps: {

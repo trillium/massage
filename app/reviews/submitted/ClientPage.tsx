@@ -1,5 +1,5 @@
 'use client'
-import { useReduxFormData } from 'app/hooks'
+import { useReduxFormData } from '@/redux/hooks'
 
 import Template from 'components/Template'
 import { ReviewSnippet } from 'components/ReviewCard'

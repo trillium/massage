@@ -1,5 +1,5 @@
 'use client'
-import { useAppDispatch, useReduxFormData } from 'app/hooks'
+import { useAppDispatch, useReduxFormData } from '@/redux/hooks'
 import ReviewForm from 'components/ReviewForm'
 import { setForm } from '@/redux/slices/formSlice'
 import { useEffect } from 'react'

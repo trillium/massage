@@ -7,7 +7,7 @@ import type { DateTimeInterval } from 'lib/types'
 
 import { setSelectedTime } from '@/redux/slices/availabilitySlice'
 import { setModal } from '@/redux/slices/modalSlice'
-import { useAppDispatch, useReduxAvailability } from 'app/hooks'
+import { useAppDispatch, useReduxAvailability } from '@/redux/hooks'
 import { clearEventContainers, setEventContainers } from '@/redux/slices/eventContainersSlice'
 
 type TimeProps = {

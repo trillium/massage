@@ -5,7 +5,7 @@ import { twMerge } from 'tailwind-merge'
 import Day from 'lib/day'
 
 import { setSelectedDate } from '@/redux/slices/availabilitySlice'
-import { useAppDispatch, useReduxAvailability } from 'app/hooks'
+import { useAppDispatch, useReduxAvailability } from '@/redux/hooks'
 
 type DayProps = {
   date: Day
@@ -49,9 +49,8 @@ export default function DayButton({
             'bg-primary-500 text-white dark:bg-primary-600 dark:text-gray-100': isSelected,
           })
         )}
-        aria-label={`${isToday ? 'Today' : ''} ${
-          isDisabled ? 'Unavailable' : 'Available'
-        } date ${date.toString()} in calendar`}
+        aria-label={`${isToday ? 'Today' : ''} ${isDisabled ? 'Unavailable' : 'Available'
+          } date ${date.toString()} in calendar`}
         {...props}
       >
         <input
