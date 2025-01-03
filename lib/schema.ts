@@ -40,7 +40,7 @@ export const OnSiteRequestSchema = BaseRequestSchema.extend({
   pricing: z.record(z.number()).optional(),
   paymentOptions: z.string(),
   leadTime: z.number(),
-});
+})
 
 export type AppointmentRequestType = z.infer<typeof AppointmentRequestSchema>
 export type OnSiteRequestType = z.infer<typeof OnSiteRequestSchema>

@@ -1,7 +1,7 @@
-import type { AppointmentProps } from "../types"
-import getAccessToken from "@/lib/availability/getAccessToken"
+import type { AppointmentProps } from '../types'
+import getAccessToken from 'lib/availability/getAccessToken'
 
-import templates from "@/lib/messageTemplates/templates"
+import templates from 'lib/messageTemplates/templates'
 
 // Helper function to build the description
 function buildDescription(location: string) {
@@ -14,11 +14,7 @@ function buildDescription(location: string) {
   const meetDetails = `Details for Google Meet are attached; please let me know if that works or if you’d like to meet using a different provider.`
   const closing = `\n\nSee you then!`
 
-  return (
-    baseDescription +
-    (location === `phone` ? phoneDetails : meetDetails) +
-    closing
-  )
+  return baseDescription + (location === `phone` ? phoneDetails : meetDetails) + closing
 }
 
 // Helper function to build the event body
@@ -71,23 +67,19 @@ function buildEventBody({
   }
 }
 
-export default async function createCalendarAppointment(
-  props: AppointmentProps
-) {
+export default async function createCalendarAppointment(props: AppointmentProps) {
   const body = buildEventBody(props)
 
-  const apiUrl = new URL(
-    "https://www.googleapis.com/calendar/v3/calendars/primary/events"
-  )
+  const apiUrl = new URL('https://www.googleapis.com/calendar/v3/calendars/primary/events')
 
-  apiUrl.searchParams.set("sendNotifications", "true")
-  apiUrl.searchParams.set("conferenceDataVersion", "1")
+  apiUrl.searchParams.set('sendNotifications', 'true')
+  apiUrl.searchParams.set('conferenceDataVersion', '1')
 
   return fetch(apiUrl, {
-    cache: "no-cache",
-    method: "POST",
+    cache: 'no-cache',
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
       Authorization: `Bearer ${await getAccessToken()}`,
     },
     body: JSON.stringify(body),

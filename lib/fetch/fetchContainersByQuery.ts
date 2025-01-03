@@ -1,14 +1,14 @@
-import { z } from "zod"
+import { z } from 'zod'
 import {
   DEFAULT_APPOINTMENT_INTERVAL,
   DEFAULT_DURATION,
   DEFAULT_PRICING,
   VALID_DURATIONS,
-} from "@/config"
-import Day from "@/lib/day"
-import { getEventsBySearchQuery } from "../availability/getEventsBySearchQuery"
-import { GoogleCalendarV3Event } from "@/lib/types"
-import { loadData } from "@/lib/dataLoading"
+} from 'config'
+import Day from 'lib/day'
+import { getEventsBySearchQuery } from '../availability/getEventsBySearchQuery'
+import { GoogleCalendarV3Event } from 'lib/types'
+import { loadData } from 'lib/dataLoading'
 
 export async function fetchContainersByQuery({
   searchParams,
@@ -57,7 +57,7 @@ export async function fetchContainersByQuery({
       selectedDate = undefined
     }
   } catch (error) {
-    console.error("Failed to parse searchParams:", error)
+    console.error('Failed to parse searchParams:', error)
   }
 
   if (duration == undefined) {
@@ -72,9 +72,9 @@ export async function fetchContainersByQuery({
   const startDate = new Date(Day.todayWithOffset(0).toString())
   const endDate = new Date(Day.todayWithOffset(21).toString())
 
-  const searchQuery = query + "__EVENT__"
-  const eventMemberString = query + "__EVENT__MEMBER__"
-  const eventContainerString = query + "__EVENT__CONTAINER__"
+  const searchQuery = query + '__EVENT__'
+  const eventMemberString = query + '__EVENT__MEMBER__'
+  const eventContainerString = query + '__EVENT__CONTAINER__'
 
   const events = await getEventsBySearchQuery({
     start: startDate,
@@ -106,7 +106,7 @@ export async function fetchContainersByQuery({
         obj = loadData(e.description)
       }
     } catch (error) {
-      console.error("loadData error")
+      console.error('loadData error')
       console.error(error)
       console.error(e.description)
     }
