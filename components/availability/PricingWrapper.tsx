@@ -2,7 +2,7 @@
 
 import type { InferGetServerSidePropsType } from 'next'
 import { useCallback, useEffect } from 'react'
-import { format } from 'date-fns-tz/format'
+import { format } from 'date-fns-tz'
 
 import { PickerProps } from 'components/availability/AvailabilityPicker'
 import {
