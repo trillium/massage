@@ -50,7 +50,7 @@ export default function URIMaker({ events }: URIMakerProps) {
     event.preventDefault()
     navigator.clipboard
       .writeText(uriEncoded)
-      .then(() => {})
+      .then(() => { })
       .catch((err) => {
         console.error('Failed to copy: ', err)
       })
@@ -82,7 +82,7 @@ export default function URIMaker({ events }: URIMakerProps) {
                       aria-label="Name"
                       type="text"
                       autoCapitalize="words"
-                      autoComplete="firstName"
+                      autoComplete="family-name"
                       required
                       aria-required
                       name="firstName"
@@ -104,7 +104,7 @@ export default function URIMaker({ events }: URIMakerProps) {
                       aria-label="Name"
                       type="text"
                       autoCapitalize="words"
-                      autoComplete="lastName"
+                      autoComplete="given-name"
                       required
                       aria-required
                       name="lastName"
@@ -129,7 +129,7 @@ export default function URIMaker({ events }: URIMakerProps) {
                       aria-label="start"
                       type="text"
                       autoCapitalize="words"
-                      autoComplete="firstName"
+                      autoComplete="family-name"
                       required
                       aria-required
                       name="start"
