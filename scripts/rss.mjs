@@ -1,17 +1,11 @@
-import {writeFileSync, mkdirSync} from 'fs'
+import { writeFileSync, mkdirSync } from 'fs'
 import path from 'path'
-import {slug} from 'github-slugger'
-import {escape} from 'pliny/utils/htmlEscaper.js'
+import { slug } from 'github-slugger'
+import { escape } from 'pliny/utils/htmlEscaper.js'
 import siteMetadata from '../data/siteMetadata.js'
-<<<<<<< HEAD
-import tagData from '../app/tag-data.json' assert {type: 'json'}
-import {allBlogs} from '../.contentlayer/generated/index.mjs'
-import {sortPosts} from 'pliny/utils/contentlayer.js'
-=======
 import tagData from '../app/tag-data.json' with { type: 'json' }
 import { allBlogs } from '../.contentlayer/generated/index.mjs'
 import { sortPosts } from 'pliny/utils/contentlayer.js'
->>>>>>> acba54b (feat: Change from assert to with for node 22)
 
 const outputFolder = process.env.EXPORT ? 'out' : 'public'
 
@@ -56,7 +50,7 @@ async function generateRSS(config, allBlogs, page = 'feed.xml') {
       const filteredPosts = allBlogs.filter((post) => post.tags.map((t) => slug(t)).includes(tag))
       const rss = generateRss(config, filteredPosts, `tags/${tag}/${page}`)
       const rssPath = path.join(outputFolder, 'tags', tag)
-      mkdirSync(rssPath, {recursive: true})
+      mkdirSync(rssPath, { recursive: true })
       writeFileSync(path.join(rssPath, page), rss)
     }
   }
