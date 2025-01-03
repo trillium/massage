@@ -5,10 +5,12 @@ import ClientPage from './ClientPage'
 export default async function Page({
   searchParams,
 }: {
-  searchParams: { url: string; data: string }
+  searchParams: Promise<{url: string; data: string}>
 }) {
-  const { url } = searchParams
-  const data = JSON.parse(searchParams.data)
+  const params = await searchParams
+  const {url, data: dataRaw} = params
+
+  const data = JSON.parse(dataRaw)
 
   return <ClientPage url={url} data={data} />
 }
