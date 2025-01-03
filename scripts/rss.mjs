@@ -3,9 +3,15 @@ import path from 'path'
 import {slug} from 'github-slugger'
 import {escape} from 'pliny/utils/htmlEscaper.js'
 import siteMetadata from '../data/siteMetadata.js'
+<<<<<<< HEAD
 import tagData from '../app/tag-data.json' assert {type: 'json'}
 import {allBlogs} from '../.contentlayer/generated/index.mjs'
 import {sortPosts} from 'pliny/utils/contentlayer.js'
+=======
+import tagData from '../app/tag-data.json' with { type: 'json' }
+import { allBlogs } from '../.contentlayer/generated/index.mjs'
+import { sortPosts } from 'pliny/utils/contentlayer.js'
+>>>>>>> acba54b (feat: Change from assert to with for node 22)
 
 const outputFolder = process.env.EXPORT ? 'out' : 'public'
 
