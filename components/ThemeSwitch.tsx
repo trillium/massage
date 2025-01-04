@@ -2,7 +2,7 @@
 
 import { Fragment, useEffect, useState } from 'react'
 import { useTheme } from 'next-themes'
-import { Menu, RadioGroup, Transition } from '@headlessui/react'
+import { Menu, MenuButton, MenuItem, MenuItems, RadioGroup, Transition } from '@headlessui/react'
 
 const Sun = () => (
   <svg
@@ -57,9 +57,9 @@ const ThemeSwitch = () => {
     <div className="mr-5 flex items-center">
       <Menu as="div" className="relative inline-block text-left">
         <div className="flex items-center justify-center hover:text-primary-500 dark:hover:text-primary-400">
-          <Menu.Button aria-label="Theme switcher">
+          <MenuButton aria-label="Theme switcher">
             {mounted ? resolvedTheme === 'dark' ? <Moon /> : <Sun /> : <Blank />}
-          </Menu.Button>
+          </MenuButton>
         </div>
         <Transition
           as={Fragment}
@@ -70,11 +70,11 @@ const ThemeSwitch = () => {
           leaveFrom="transform opacity-100 scale-100"
           leaveTo="transform opacity-0 scale-95"
         >
-          <Menu.Items className="absolute right-0 z-50 mt-2 w-32 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-gray-800">
+          <MenuItems className="absolute right-0 z-50 mt-2 w-32 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-gray-800">
             <RadioGroup value={theme} onChange={setTheme}>
               <div className="p-1">
-                <RadioGroup.Option value="light">
-                  <Menu.Item>
+                <RadioGroup value="light">
+                  <MenuItem>
                     {({ active }) => (
                       <button
                         className={`${
@@ -87,10 +87,10 @@ const ThemeSwitch = () => {
                         Light
                       </button>
                     )}
-                  </Menu.Item>
-                </RadioGroup.Option>
-                <RadioGroup.Option value="dark">
-                  <Menu.Item>
+                  </MenuItem>
+                </RadioGroup>
+                <RadioGroup value="dark">
+                  <MenuItem>
                     {({ active }) => (
                       <button
                         className={`${
@@ -103,10 +103,10 @@ const ThemeSwitch = () => {
                         Dark
                       </button>
                     )}
-                  </Menu.Item>
-                </RadioGroup.Option>
-                <RadioGroup.Option value="system">
-                  <Menu.Item>
+                  </MenuItem>
+                </RadioGroup>
+                <RadioGroup value="system">
+                  <MenuItem>
                     {({ active }) => (
                       <button
                         className={`${
@@ -119,11 +119,11 @@ const ThemeSwitch = () => {
                         System
                       </button>
                     )}
-                  </Menu.Item>
-                </RadioGroup.Option>
+                  </MenuItem>
+                </RadioGroup>
               </div>
             </RadioGroup>
-          </Menu.Items>
+          </MenuItems>
         </Transition>
       </Menu>
     </div>
