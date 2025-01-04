@@ -1,6 +1,6 @@
 'use client'
 
-import { Dialog, Transition } from '@headlessui/react'
+import { Dialog, Transition, TransitionChild } from '@headlessui/react'
 import { disableBodyScroll, enableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock'
 import { Fragment, useState, useEffect, useRef } from 'react'
 import Link from './Link'
@@ -44,7 +44,7 @@ const MobileNav = () => {
       </button>
       <Transition appear show={navShow} as={Fragment} unmount={false}>
         <Dialog as="div" onClose={onToggleNav} unmount={false}>
-          <Transition.Child
+          <TransitionChild
             as={Fragment}
             enter="ease-out duration-300"
             enterFrom="opacity-0"
@@ -55,9 +55,9 @@ const MobileNav = () => {
             unmount={false}
           >
             <div className="fixed inset-0 z-60 bg-black/25" />
-          </Transition.Child>
+          </TransitionChild>
 
-          <Transition.Child
+          <TransitionChild
             as={Fragment}
             enter="transition ease-in-out duration-300 transform"
             enterFrom="translate-x-full opacity-0"
@@ -98,7 +98,7 @@ const MobileNav = () => {
                 </svg>
               </button>
             </Dialog.Panel>
-          </Transition.Child>
+          </TransitionChild>
         </Dialog>
       </Transition>
     </>
