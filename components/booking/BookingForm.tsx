@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { Dialog } from '@headlessui/react'
+import { DialogTitle } from '@headlessui/react'
 import { useRouter } from 'next/navigation'
 import type { FormEvent } from 'react'
 
@@ -100,12 +100,12 @@ export default function BookingForm({
           })
         }}
       >
-        <Dialog.Title
+        <DialogTitle
           as="h3"
           className="text-base font-semibold leading-6 text-gray-900 dark:text-gray-100"
         >
           Request appointment
-        </Dialog.Title>
+        </DialogTitle>
 
         <input type="hidden" readOnly name="start" value={selectedTime.start} />
         <input type="hidden" readOnly name="end" value={selectedTime.end} />
