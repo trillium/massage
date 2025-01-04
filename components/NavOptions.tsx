@@ -2,7 +2,7 @@
 
 import { Fragment } from 'react'
 import { usePathname } from 'next/navigation'
-import { Menu, Transition } from '@headlessui/react'
+import { Menu, MenuButton, MenuItems, Transition } from '@headlessui/react'
 import headerNavLinks from '@/data/headerNavLinks'
 import Link from 'next/link'
 import clsx from 'clsx'
@@ -64,13 +64,13 @@ const RenderNavLink = ({ navItem }: { navItem: NavItem }) => {
       <Menu as="div" className="relative inline-block text-left">
         <div>
           {navItem.title && (
-            <Menu.Button
+            <MenuButton
               className={
                 'hidden font-medium text-gray-900 hover:text-primary-500 dark:text-gray-100  dark:hover:text-primary-400 sm:block'
               }
             >
               {navItem.title}
-            </Menu.Button>
+            </MenuButton>
           )}
         </div>
         <Transition
@@ -82,7 +82,7 @@ const RenderNavLink = ({ navItem }: { navItem: NavItem }) => {
           leaveFrom="transform opacity-100 scale-100"
           leaveTo="transform opacity-0 scale-95"
         >
-          <Menu.Items className="absolute right-0 mt-2 w-32 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-gray-800">
+          <MenuItems className="absolute right-0 mt-2 w-32 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-gray-800">
             <div className="p-1">
               {navItem.children &&
                 navItem.children.map((link: NavItemChild) => (
@@ -100,7 +100,7 @@ const RenderNavLink = ({ navItem }: { navItem: NavItem }) => {
                   </Menu.Item>
                 ))}
             </div>
-          </Menu.Items>
+          </MenuItems>
         </Transition>
       </Menu>
     </div>
