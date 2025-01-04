@@ -87,11 +87,11 @@ const RenderNavLink = ({ navItem }: { navItem: NavItem }) => {
               {navItem.children &&
                 navItem.children.map((link: NavItemChild) => (
                   <Menu.Item key={link.title}>
-                    {({ active }) => (
+                    {({ focus }) => (
                       <Link
                         href={link.href}
                         className={`${
-                          active ? 'bg-primary-600 text-white' : ''
+                          focus ? 'bg-primary-600 text-white' : ''
                         } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                       >
                         {link.title}
