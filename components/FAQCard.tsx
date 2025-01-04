@@ -1,4 +1,4 @@
-import { Disclosure, Transition } from '@headlessui/react'
+import { Disclosure, Transition, DisclosurePanel } from '@headlessui/react'
 import { ChevronUpIcon } from '@heroicons/react/20/solid'
 import Template from '@/components/Template'
 
@@ -30,7 +30,7 @@ const FAQCard = () => {
                     leaveFrom="transform scale-100 opacity-100"
                     leaveTo="transform scale-95 opacity-0"
                   >
-                    <Disclosure.Panel className="px-4 pb-2 pt-4">{item.a}</Disclosure.Panel>
+                    <DisclosurePanel className="px-4 pb-2 pt-4">{item.a}</DisclosurePanel>
                   </Transition>
                 </>
               )
