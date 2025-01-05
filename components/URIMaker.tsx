@@ -25,8 +25,10 @@ export default function URIMaker({ events }: URIMakerProps) {
 
   let uriEncoded = ''
   if (hash !== '') {
-    const { uri } = createURI({ ...state, hash })
-    uriEncoded = uri
+    const result = createURI({ ...state, hash })
+    if (result) {
+      uriEncoded = result.uri
+    }
   }
 
   const handleSetStartEnd = ({ start, end }: { start: string; end: string }) => {
