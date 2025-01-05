@@ -2,7 +2,15 @@
 
 import { Fragment, useEffect, useState } from 'react'
 import { useTheme } from 'next-themes'
-import { Menu, MenuButton, MenuItem, MenuItems, RadioGroup, Transition } from '@headlessui/react'
+import {
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuItems,
+  Radio,
+  RadioGroup,
+  Transition,
+} from '@headlessui/react'
 
 const Sun = () => (
   <svg
@@ -73,7 +81,7 @@ const ThemeSwitch = () => {
           <MenuItems className="absolute right-0 z-50 mt-2 w-32 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-gray-800">
             <RadioGroup value={theme} onChange={setTheme}>
               <div className="p-1">
-                <RadioGroup value="light">
+                <Radio value="light">
                   <MenuItem>
                     {({ focus }) => (
                       <button
@@ -88,8 +96,8 @@ const ThemeSwitch = () => {
                       </button>
                     )}
                   </MenuItem>
-                </RadioGroup>
-                <RadioGroup value="dark">
+                </Radio>
+                <Radio value="dark">
                   <MenuItem>
                     {({ focus }) => (
                       <button
@@ -104,8 +112,8 @@ const ThemeSwitch = () => {
                       </button>
                     )}
                   </MenuItem>
-                </RadioGroup>
-                <RadioGroup value="system">
+                </Radio>
+                <Radio value="system">
                   <MenuItem>
                     {({ focus }) => (
                       <button
@@ -120,7 +128,7 @@ const ThemeSwitch = () => {
                       </button>
                     )}
                   </MenuItem>
-                </RadioGroup>
+                </Radio>
               </div>
             </RadioGroup>
           </MenuItems>
