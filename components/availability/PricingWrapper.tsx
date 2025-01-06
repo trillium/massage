@@ -41,7 +41,7 @@ export function PricingWrapper({
   allowedDurations,
   leadTime = LEAD_TIME,
   pricing = DEFAULT_PRICING,
-  acceptingPayment,
+  acceptingPayment = true,
 }: PricingWrapperProps) {
   const dispatchRedux = useAppDispatch()
   const {
