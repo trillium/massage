@@ -45,7 +45,7 @@ const AuthorCard = () => {
         </div>
       </div>
       <div className="flex max-w-full flex-col items-center justify-center">
-        <div className="prose dark:prose-invert max-w-full pb-8 pt-10 xl:text-xl">
+        <div className="prose max-w-full pb-8 pt-10 dark:prose-invert xl:text-xl">
           <p className="py-2 text-justify">
             Trillium is a seasoned massage therapist with over a decade of experience, based in Los
             Angeles. Specializing in combining relaxation and pain relief techniques, Trillium
