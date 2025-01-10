@@ -1,4 +1,4 @@
-import { Dialog, Transition, TransitionChild } from '@headlessui/react'
+import { Dialog, DialogPanel, Transition, TransitionChild } from '@headlessui/react'
 import type { PropsWithChildren } from 'react'
 import { Fragment } from 'react'
 
@@ -33,9 +33,9 @@ export default function Modal({ open, setOpen, children }: PropsWithChildren<Mod
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="relative flex-grow transform overflow-hidden rounded-lg bg-slate-100 px-4 pb-4 pt-5 text-left shadow-xl transition-all dark:bg-slate-800 sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
+              <DialogPanel className="relative flex-grow transform overflow-hidden rounded-lg border border-primary-600 bg-slate-100 px-4 pb-4 pt-5 text-left shadow-xl transition-all dark:border-primary-500 dark:bg-slate-800 sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
                 {children}
-              </Dialog.Panel>
+              </DialogPanel>
             </TransitionChild>
           </div>
         </div>
