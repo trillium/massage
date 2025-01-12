@@ -1,5 +1,5 @@
 import Template from 'components/Template'
-import review_data from 'data/ratings.json'
+import review_data from '@/data/ratings'
 import clsx from 'clsx'
 import { RatingType } from './ReviewForm'
 
