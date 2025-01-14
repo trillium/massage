@@ -74,12 +74,10 @@ describe('dataLoading tests', () => {
         paymentOptions: 'Individuals pays their own session',
         leadTime: 0,
       }
-      console.log(loadObj)
       expect(loadObj).toEqual(outObj)
     })
     it('should parse this yaml 2', () => {
       const testYaml = `firstName: Spiteless<br>lastName: A<br>email: <a href="mailto:spiteless%2Btest@gmail.com" target="_blank">spiteless+test@gmail.com</a><br>start: \'2024-10-06T12:30:00-07:00\'<br>end: \'2024-10-06T14:30:00-07:00\'<br>timeZone: America/Los_Angeles<br>location: fghijkl<br>duration: \'120\'<br>price: \'280\'<br>phone: bcde<br>paymentMethod: cash<br>eventBaseString: __EVENT__<br>eventContainerString: spiteless__EVENT__<br>allowedDurations:<br>__- 15<br>__- 30<br>__- 45<br>__- 60<br>eventName: spiteless<br>pricing:<br>__\'15\': 30<br>__\'30\': 60<br>__\'45\': 90<br>__\'60\': 120<br>paymentOptions: Individuals pays their own session<br>leadTime: 0<br>requestId: 5a0fa0073c6194e3a08110f9808ead23b8cc0dc9aad3f1ab72b359b9ae014c6d<br>summary: spiteless__EVENT__CONTAINER__`
-      console.log(testYaml)
       const loadObj = loadData(testYaml)
       const outObj = {
         firstName: 'Spiteless',
@@ -103,7 +101,6 @@ describe('dataLoading tests', () => {
         requestId: '5a0fa0073c6194e3a08110f9808ead23b8cc0dc9aad3f1ab72b359b9ae014c6d',
         summary: 'spiteless__EVENT__CONTAINER__',
       }
-      console.log(loadObj)
       expect(loadObj).toEqual(outObj)
     })
 
@@ -160,7 +157,6 @@ summary: spiteless__EVENT__CONTAINER__`
         requestId: '5a0fa0073c6194e3a08110f9808ead23b8cc0dc9aad3f1ab72b359b9ae014c6d',
         summary: 'spiteless__EVENT__CONTAINER__',
       }
-      console.log(loadObj)
       expect(loadObj).toEqual(outObj)
     })
   })
