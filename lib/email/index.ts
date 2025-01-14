@@ -1,5 +1,6 @@
 import type { SendMailOptions, Transporter } from 'nodemailer'
 import { createTransport } from 'nodemailer'
+import siteMetadata from '@/data/siteMetadata'
 
 type SendMailParams = {
   to: string
@@ -38,14 +39,14 @@ async function sendMail({ to, subject, body }: SendMailParams): Promise<void> {
 
   await transporter.sendMail({
     from: {
-      address: process.env.OWNER_EMAIL,
+      address: siteMetadata.email,
       name: process.env.OWNER_NAME,
     },
     to,
     subject,
     html: body,
     auth: {
-      user: process.env.OWNER_EMAIL,
+      user: siteMetadata.email,
       refreshToken: process.env.GOOGLE_OAUTH_REFRESH,
     },
   } as SendMailOptions & { auth: { user: string; refreshToken: string; accessToken?: string } })

@@ -7,6 +7,7 @@ import { z } from 'zod'
 import sendMail from 'lib/email'
 import ReviewSubmissionEmail from 'lib/email/messages/ReviewSubmissionEmail'
 import { RatingTypeStrict } from 'components/ReviewForm'
+import siteMetadata from '@/data/siteMetadata'
 
 // Define the rate limiter
 const rateLimitLRU = new LRUCache({
@@ -79,7 +80,7 @@ export async function POST(req: NextRequest & IncomingMessage): Promise<NextResp
     rating: data.rating as RatingTypeStrict,
   })
   await sendMail({
-    to: process.env.OWNER_EMAIL ?? '',
+    to: siteMetadata.email ?? '',
     subject: createReviewEmail.subject,
     body: createReviewEmail.body,
   })

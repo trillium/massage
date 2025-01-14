@@ -12,6 +12,7 @@ import ClientRequestEmail from 'lib/email/messages/ClientRequestEmail'
 import { getHash } from 'lib/hash'
 import type { DateTimeIntervalWithTimezone } from 'lib/types'
 import { OnSiteRequestSchema } from 'lib/schema'
+import siteMetadata from '@/data/siteMetadata'
 
 // Define the rate limiter
 const rateLimitLRU = new LRUCache({
@@ -62,7 +63,7 @@ export async function POST(req: NextRequest & IncomingMessage): Promise<NextResp
     }),
   })
   await sendMail({
-    to: process.env.OWNER_EMAIL ?? '',
+    to: siteMetadata.email ?? '',
     subject: approveEmail.subject,
     body: approveEmail.body,
   })
