@@ -137,6 +137,7 @@ export default function BookingForm({
           <p className="text-xs md:text-sm">
             {startString} - {endString}
           </p>
+          <p className="text-xs md:text-sm">${price}</p>
         </div>
 
         <div className="flex flex-col space-y-4">
