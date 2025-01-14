@@ -28,9 +28,3 @@ export function generateFakeOnSiteRequest() {
     leadTime: faker.number.int({ min: 1, max: 10 }),
   }
 }
-
-describe('this file', () => {
-  it('should have one test to stop Jest from complaining', () => {
-    expect(!!'this block').toBe(!!'ignored')
-  })
-})
