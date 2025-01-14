@@ -15,7 +15,7 @@ interface ListLayoutBaseProps {
   dateToSide?: boolean
   divideY?: boolean
   pagination?: PaginationProps
-  posts: Blog[]
+  posts: CoreContent<Blog>[]
 }
 
 export function ListLayoutBase({
