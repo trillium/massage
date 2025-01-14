@@ -14,7 +14,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<URL
     <>
       <Template title="Book a session with Trillium :)" />
       <ClientPage {...props} />
-      <Main posts={posts} />
+      {!!posts.length && <Main posts={posts} />}
     </>
   )
 }
