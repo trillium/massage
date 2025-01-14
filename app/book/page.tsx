@@ -12,7 +12,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<URL
   const resolvedParams = await searchParams
   const { props } = await fetchData({ searchParams: resolvedParams })
   return (
-    <main className="mx-4 max-w-2xl pb-24 sm:mx-auto">
+    <main>
       <Template title="Book a session with Trillium :)" />
       <ClientPage {...props} />
     </main>
