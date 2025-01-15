@@ -28,3 +28,9 @@ export function generateFakeOnSiteRequest() {
     leadTime: faker.number.int({ min: 1, max: 10 }),
   }
 }
+
+describe('loadData', () => {
+  it('should ignore this file', () => {
+    expect(0).toEqual(0)
+  })
+})
