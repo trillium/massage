@@ -19,7 +19,8 @@ const config: Config.InitialOptions = {
     '^@/lib/(.*)$': '<rootDir>/lib/$1',
     '^contentlayer/generated$': '<rootDir>/.contentlayer/generated',
   },
-  // Add more setup options before each test is run
+  testPathIgnorePatterns: ['<rootDir>/.*/__helpers__/.*'],
+  // Add more setup options before test is run
   // setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
 }
 
