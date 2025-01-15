@@ -1,3 +1,7 @@
+/**
+ * @jest-environment node
+ */
+
 import type { DateTimeInterval } from '../../types'
 import getAccessToken from '../getAccessToken'
 import getBusyTimes from '../getBusyTimes'
@@ -8,7 +12,7 @@ const originalFetch = global.fetch
 
 describe('getBusyTimes', () => {
   beforeEach(() => {
-    jest.spyOn(global, 'fetch').mockImplementation()
+    global.fetch = jest.fn()
   })
 
   afterEach(() => {

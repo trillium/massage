@@ -1,10 +1,14 @@
+/**
+ * @jest-environment node
+ */
+
 import getAccessToken from '../getAccessToken'
 
 const originalFetch = global.fetch
 
 describe('getAccessToken', () => {
   beforeEach(() => {
-    jest.spyOn(global, 'fetch').mockImplementation()
+    global.fetch = jest.fn()
   })
 
   afterEach(() => {
