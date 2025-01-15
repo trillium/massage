@@ -1,7 +1,7 @@
 import { createApprovalUrl } from './createApprovalUrl'
 import { getHash } from '../hash'
 import { OnSiteRequestType } from '../types'
-import { generateFakeOnSiteRequest } from '../__tests__/utils/generateFakeData'
+import { generateFakeOnSiteRequest } from '../__tests__/__helpers__/generateFakeData'
 
 jest.mock('../hash', () => ({
   getHash: jest.fn(() => 'mockedHash'),
