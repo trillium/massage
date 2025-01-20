@@ -1,7 +1,6 @@
 import siteMetadata from '@/data/siteMetadata'
 import ClientPage from './ClientPage'
 import { fetchContainersByQuery } from '@/lib/fetch/fetchContainersByQuery'
-// import { applyReferral } from "@/lib/posthog/applyReferral"
 
 export default async function Page({
   searchParams,
@@ -21,6 +20,5 @@ export default async function Page({
     eventMemberString: bookingSlug + siteMetadata.eventBaseString + 'MEMBER__',
     eventContainerString: bookingSlug + siteMetadata.eventBaseString + 'CONTAINER__',
   }
-  // applyReferral({ searchParams })
   return <ClientPage {...props} {...containerStrings} />
 }
