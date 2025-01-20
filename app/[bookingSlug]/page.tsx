@@ -6,12 +6,13 @@ export default async function Page({
   searchParams,
   params,
 }: {
-  searchParams: URLSearchParams
-  params: { bookingSlug: string }
+  searchParams: Promise<URLSearchParams>
+  params: Promise<{ bookingSlug: string }>
 }) {
-  const { bookingSlug } = params
+  const { bookingSlug } = await params
+  const resolvedParams = await searchParams
   const { props } = await fetchContainersByQuery({
-    searchParams,
+    searchParams: resolvedParams,
     query: bookingSlug,
   })
 
