@@ -28,10 +28,10 @@ export default function Masonry({}) {
   })
 
   return (
-    <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+    <div className="grid grid-cols-2 gap-2 md:grid-cols-4">
       {columns.map((column, columnIndex) => {
         return (
-          <div key={columnIndex} className="grid grid-flow-dense grid-cols-1  gap-4">
+          <div key={columnIndex} className="flex flex-col gap-2">
             {' '}
             {column.map((url, index, array) => {
               const first = index === 0 + (columnIndex % 2)
@@ -51,11 +51,7 @@ export default function Masonry({}) {
 function ImageCell({ src, short }) {
   return (
     <div
-      className={clsx(
-        'relative overflow-hidden rounded-lg',
-        { 'h-48 border-2 border-primary-600': !short },
-        { 'h-24 border-2 border-red-600': short }
-      )}
+      className={clsx('relative overflow-hidden rounded-lg', { 'h-48': !short }, { 'h-24': short })}
     >
       <img className="absolute h-full w-full rounded-lg object-cover" src={src} alt="" />
     </div>
