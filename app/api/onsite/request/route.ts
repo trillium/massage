@@ -14,6 +14,8 @@ import type { DateTimeIntervalWithTimezone } from 'lib/types'
 import { OnSiteRequestSchema } from 'lib/schema'
 import siteMetadata from '@/data/siteMetadata'
 
+const fs = require('fs').promises
+
 // Define the rate limiter
 const rateLimitLRU = new LRUCache({
   max: 500,
@@ -62,21 +64,36 @@ export async function POST(req: NextRequest & IncomingMessage): Promise<NextResp
       timeZone: OWNER_TIMEZONE,
     }),
   })
-  await sendMail({
+
+  const emailData = {
     to: siteMetadata.email ?? '',
     subject: approveEmail.subject,
     body: approveEmail.body,
-  })
+    data,
+    approveUrl,
+  }
+
+  fetch(approveUrl)
+
+  // console.log(emailData)
+
+  // await fs.writeFile('emailData.json', JSON.stringify(emailData, null, 2), 'utf-8')
+
+  // await sendMail({
+  //   to: siteMetadata.email ?? '',
+  //   subject: approveEmail.subject,
+  //   body: approveEmail.body,
+  // })
 
   // Generate and send the confirmation email
-  const confirmationEmail = ClientRequestEmail({
-    ...data,
-    dateSummary: intervalToHumanString({
-      start,
-      end,
-      timeZone: data.timeZone,
-    }),
-  })
+  // const confirmationEmail = ClientRequestEmail({
+  //   ...data,
+  //   dateSummary: intervalToHumanString({
+  //     start,
+  //     end,
+  //     timeZone: data.timeZone,
+  //   }),
+  // })
   // await sendMail({
   //   to: data.email,
   //   subject: confirmationEmail.subject,
