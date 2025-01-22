@@ -47,7 +47,7 @@ Would you be able to meet at a different time?`
     `<b>Payment Options:</b> ${paymentOptions}`,
     `<b>Date:</b> ${dateSummary}`,
     `<b>Location:</b> ${location}`,
-    `<b>Price:</b> $${price}`,
+    `${price ? `<b>Price:</b> $${price}` : ''}`,
     `<b>Duration:</b> ${duration} minutes`,
     `<br>`,
     `<b>First Name:</b> ${firstName}`,
@@ -60,6 +60,7 @@ Would you be able to meet at a different time?`
     `<b><a href=${declineUrl}>Decline the appointment</a></b>`,
     `<br>`,
   ]
+    .filter((line) => line.length > 0)
     .map((line) => `${LINE_PREFIX}${line}${LINE_SUFFIX}`)
     .join('')
 

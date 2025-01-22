@@ -18,9 +18,12 @@ const BaseRequestSchema = z.object({
   duration: z.string().refine((value) => !Number.isNaN(Number.parseInt(value)), {
     message: 'Duration must be a valid integer.',
   }),
-  price: z.string().refine((value) => !Number.isNaN(Number.parseInt(value)), {
-    message: 'Price must be a valid integer.',
-  }),
+  price: z
+    .string()
+    .refine((value) => !Number.isNaN(Number.parseInt(value)), {
+      message: 'Price must be a valid integer.',
+    })
+    .optional(),
   phone: z.string(),
   eventBaseString: z.string(),
   eventMemberString: z.string().optional(),

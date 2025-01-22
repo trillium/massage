@@ -20,7 +20,7 @@ export default function ClientRequestEmail({
     `<br>`,
     `<b>Date:</b> ${dateSummary}`,
     `<b>Location:</b> ${location}`,
-    `<b>Price:</b> $${price}`,
+    `${price ? `<b>Price:</b> $${price}` : ''}`,
     `<b>Duration:</b> ${duration} minutes`,
     `<br>`,
     `I'll review it as soon as I can and get back to you with a confirmation.`,
@@ -29,6 +29,7 @@ export default function ClientRequestEmail({
     `<br>`,
     `Trillium Smith`,
   ]
+    .filter((line) => line.length > 0)
     .map((line) => `${LINE_PREFIX}${line}${LINE_SUFFIX}`)
     .join('')
 

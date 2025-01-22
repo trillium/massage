@@ -110,7 +110,7 @@ export default function BookingForm({
         <input type="hidden" readOnly name="start" value={selectedTime.start} />
         <input type="hidden" readOnly name="end" value={selectedTime.end} />
         <input type="hidden" readOnly name="duration" value={duration || 0} />
-        <input type="hidden" readOnly name="price" value={price} />
+        {acceptingPayment && <input type="hidden" readOnly name="price" value={price} />}
         <input type="hidden" readOnly name="timeZone" value={timeZone} />
         <input type="hidden" readOnly name="eventBaseString" value={eventBaseString} />
         {eventContainers && eventContainers.eventBaseString && (
@@ -137,7 +137,7 @@ export default function BookingForm({
           <p className="text-xs md:text-sm">
             {startString} - {endString}
           </p>
-          <p className="text-xs md:text-sm">${price}</p>
+          {acceptingPayment && <p className="text-xs md:text-sm">${price}</p>}
         </div>
 
         <div className="flex flex-col space-y-4">

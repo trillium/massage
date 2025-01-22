@@ -109,7 +109,7 @@ export type EmailProps = {
   location: string
   approveUrl: string
   timeZone: string
-  price: string
+  price?: string
   phone: string
   duration: string
 }
