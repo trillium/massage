@@ -122,6 +122,8 @@ export type ChairAppointmentBlockProps = {
   pricing?: { [key: number]: number }
   paymentOptions: string
   leadTime: number
+  instantConfirm?: boolean
+  acceptingPayment?: boolean
 }
 
 export type ChairAppointmentBlockCalendarProps = ChairAppointmentBlockProps & AppointmentProps
