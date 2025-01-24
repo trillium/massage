@@ -28,9 +28,6 @@ const REQUESTS_PER_IP_PER_MINUTE_LIMIT = 5
 export async function POST(req: NextRequest & IncomingMessage): Promise<NextResponse> {
   const headers = await nextHeaders()
   const jsonData = await req.json()
-  if (req.method !== 'POST') {
-    return NextResponse.json({ error: 'Method not allowed' }, { status: 405 })
-  }
 
   // Apply rate limiting using the client's IP address
   const limitReached = checkRateLimit()
@@ -72,12 +69,6 @@ export async function POST(req: NextRequest & IncomingMessage): Promise<NextResp
     data,
     approveUrl,
   }
-
-  fetch(approveUrl)
-
-  // console.log(emailData)
-
-  // await fs.writeFile('emailData.json', JSON.stringify(emailData, null, 2), 'utf-8')
 
   // await sendMail({
   //   to: siteMetadata.email ?? '',
