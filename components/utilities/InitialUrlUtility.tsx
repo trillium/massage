@@ -14,8 +14,8 @@ import { SlugConfigurationType, StringDateTimeIntervalAndLocation } from '@/lib/
 type InitialUrlUtilityProps = {
   selectedDate?: string
   duration: number
-  eventMemberString: string
-  eventBaseString: string
+  eventMemberString?: string
+  eventBaseString?: string
   allowedDurations: number[]
   slots: StringDateTimeIntervalAndLocation[]
   configSliceData: SlugConfigurationType | null
