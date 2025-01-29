@@ -13,6 +13,7 @@ import { useReduxAvailability } from '@/redux/hooks'
 
 export default function Calendar({}) {
   const { slots: slotsRedux } = useReduxAvailability()
+  const { start, end, timeZone } = useSelector((state: RootState) => state.availability)
 
   const slots = slotsRedux || []
 
@@ -39,7 +40,6 @@ export default function Calendar({}) {
 
   const weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 
-  const { start, end, timeZone } = useSelector((state: RootState) => state.availability)
   const startDate = new Date(start)
   const endDate = new Date(end)
 
