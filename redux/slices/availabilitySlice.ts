@@ -1,8 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import type { RootState } from '@/redux/store'
-import type { DateTimeInterval } from 'lib/types'
-
+import type { IntervalType } from 'lib/types'
 import Day from 'lib/day'
 
 type interval = {
@@ -44,7 +43,7 @@ export const availabilitySlice = createSlice({
     setSelectedDate: (state, action: PayloadAction<string>) => {
       state.selectedDate = action.payload
     },
-    setSelectedTime: (state, action: PayloadAction<interval>) => {
+    setSelectedTime: (state, action: PayloadAction<IntervalType>) => {
       state.selectedTime = action.payload
     },
     setTimeZone: (state, action: PayloadAction<string>) => {
