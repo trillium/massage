@@ -7,6 +7,7 @@ import { setSlots } from '@/redux/slices/availabilitySlice'
 import { useDispatch } from 'react-redux'
 import { createSlots } from '@/lib/availability/createSlots'
 import { DEFAULT_DURATION, LEAD_TIME } from 'config'
+import { DayWithStartEnd, GoogleCalendarV3Event, StringInterval } from '@/lib/types'
 
 type UrlParams = {
   duration?: string
@@ -14,7 +15,14 @@ type UrlParams = {
   timeZone?: string
 }
 
-export function UpdateSlotsUtility({ busy, containers, start, end }) {
+type UpdateSlotsUtilityProps = {
+  busy: StringInterval[]
+  containers?: GoogleCalendarV3Event[]
+  start: DayWithStartEnd
+  end: DayWithStartEnd
+}
+
+export function UpdateSlotsUtility({ busy, containers, start, end }: UpdateSlotsUtilityProps) {
   const {
     duration: durationRedux,
     timeZone,
