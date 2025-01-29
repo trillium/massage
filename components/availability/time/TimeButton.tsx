@@ -1,18 +1,16 @@
 import clsx from 'clsx'
 import type { DetailedHTMLProps, HTMLAttributes } from 'react'
-import { format } from 'date-fns'
 
 import { formatLocalTime } from 'lib/availability/helpers'
-import type { DateTimeInterval } from 'lib/types'
+import type { StringDateTimeInterval } from 'lib/types'
 
 import { setSelectedTime } from '@/redux/slices/availabilitySlice'
 import { setModal } from '@/redux/slices/modalSlice'
 import { useAppDispatch, useReduxAvailability } from '@/redux/hooks'
 import { clearEventContainers, setEventContainers } from '@/redux/slices/eventContainersSlice'
-import { formatDatetimeToString } from '@/lib/helpers'
 
 type TimeProps = {
-  time: DateTimeInterval
+  time: StringDateTimeInterval
   active: boolean
 } & { location?: string } & DetailedHTMLProps<HTMLAttributes<HTMLButtonElement>, HTMLButtonElement>
 
@@ -41,8 +39,8 @@ export default function TimeButton({
       onClick={() => {
         dispatchRedux(
           setSelectedTime({
-            start: formatDatetimeToString(start),
-            end: formatDatetimeToString(end),
+            start: start,
+            end: end,
           })
         )
         if (location) {
