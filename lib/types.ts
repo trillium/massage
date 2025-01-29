@@ -167,3 +167,5 @@ export type GoogleCalendarV3Event = {
 export type AllowedDurationsType = number[]
 
 export type OnSiteRequestType = z.infer<typeof OnSiteRequestSchema>
+
+export type PricingType = { [key: number]: number }
