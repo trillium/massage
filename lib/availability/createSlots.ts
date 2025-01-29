@@ -16,7 +16,7 @@ type CreateSlotsType = {
   busy: StringInterval[]
   leadTime: number
   duration: number
-  containers: GoogleCalendarV3Event[]
+  containers?: GoogleCalendarV3Event[]
 }
 
 export function createSlots({
