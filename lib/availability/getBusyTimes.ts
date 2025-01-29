@@ -13,6 +13,7 @@ export default async function getBusyTimes({ start, end }: DateTimeInterval) {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${await getAccessToken()}`,
     },
+    next: { revalidate: 1 },
     body: JSON.stringify({
       timeMin: formatDatetimeToString(start),
       timeMax: formatDatetimeToString(end),

@@ -52,6 +52,7 @@ export async function getEventsBySearchQuery({
       Authorization: `Bearer ${accessToken}`,
       'Content-Type': 'application/json',
     },
+    next: { revalidate: 1 },
   })
 
   if (!response.ok) {
