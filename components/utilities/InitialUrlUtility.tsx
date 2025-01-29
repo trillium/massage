@@ -8,7 +8,11 @@ import { ALLOWED_DURATIONS } from 'config'
 import { setDuration, setSelectedDate, setSlots } from '@/redux/slices/availabilitySlice'
 import { useAppDispatch, useReduxAvailability } from '@/redux/hooks'
 import { setEventContainers } from '@/redux/slices/eventContainersSlice'
-import { setAllowedDurations, setBulkConfigSliceState } from '@/redux/slices/configSlice'
+import {
+  setAllowedDurations,
+  setBulkConfigSliceState,
+  setLeadTimeMinimum,
+} from '@/redux/slices/configSlice'
 import { SlugConfigurationType, StringDateTimeIntervalAndLocation } from '@/lib/types'
 
 type InitialUrlUtilityProps = {
@@ -43,6 +47,9 @@ export function InitialUrlUtility({
     }
     if (configSliceData?.allowedDurations !== undefined) {
       dispatchRedux(setAllowedDurations(configSliceData.allowedDurations))
+    }
+    if (configSliceData?.leadTimeMinimum !== undefined) {
+      dispatchRedux(setLeadTimeMinimum(configSliceData.leadTimeMinimum))
     }
 
     if (selectedDate && !selectedDateRedux) {

@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect } from 'react'
 
-import { useAppDispatch, useReduxAvailability } from '@/redux/hooks'
+import { useAppDispatch, useReduxAvailability, useReduxConfig } from '@/redux/hooks'
 import { setSlots } from '@/redux/slices/availabilitySlice'
 import { useDispatch } from 'react-redux'
 import { createSlots } from '@/lib/availability/createSlots'
@@ -41,10 +41,12 @@ export function UpdateSlotsUtility({ busy, containers, start, end }: UpdateSlots
     window.history.replaceState(null, '', `${window.location.pathname}?${newUrl.toString()}`)
   }, [durationRedux, selectedDateRedux, timeZone])
 
+  const { leadTimeMinimum: leadTime } = useReduxConfig()
+
   useEffect(() => {
     const newSlots = createSlots({
       duration: durationRedux || DEFAULT_DURATION,
-      leadTime: LEAD_TIME,
+      leadTime: leadTime ?? LEAD_TIME,
       start,
       end,
       busy,
