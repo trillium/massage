@@ -1,10 +1,14 @@
 import { addMinutes, eachDayOfInterval, set } from 'date-fns'
 
-import type Day from '../day'
-import type { AvailabilitySlotsMap, DateTimeInterval, DateTimeIntervalAndLocation } from '../types'
-import mergeOverlappingIntervals from './mergeOverlappingIntervals'
+import { dayToInterval } from '../dayAsObject'
 import { DEFAULT_APPOINTMENT_INTERVAL } from '../../config'
 import { formatDatetimeToString } from '../helpers'
+import type {
+  AvailabilitySlotsMap,
+  DayWithStartEnd,
+  GoogleCalendarV3Event,
+  StringDateTimeInterval,
+} from '../types'
 
 export default function getPotentialTimes({
   start,
@@ -14,31 +18,35 @@ export default function getPotentialTimes({
   defaultAppointmentInterval = DEFAULT_APPOINTMENT_INTERVAL,
   containers,
 }: {
-  start: Day
-  end: Day
+  start: DayWithStartEnd
+  end: DayWithStartEnd
   duration: number
   availabilitySlots: AvailabilitySlotsMap
   defaultAppointmentInterval?: number
-  containers?: DateTimeIntervalAndLocation[]
-}): DateTimeInterval[] {
-  const intervals: DateTimeInterval[] = []
+  containers?: GoogleCalendarV3Event[]
+}): StringDateTimeInterval[] {
+  const intervals: StringDateTimeInterval[] = []
 
-  if (start >= end || duration <= 0) {
+  if (start.start >= end.end || duration <= 0) {
     return intervals
   }
 
   const INTERVAL = duration < defaultAppointmentInterval ? duration : defaultAppointmentInterval
 
+  const startOfInterval = dayToInterval(start, 'Etc/GMT').start
+  const endOfInterval = dayToInterval(end, 'Etc/GMT').end
+
   // Sort the slots by start time
   const days = eachDayOfInterval({
-    start: start.toInterval('Etc/GMT').start,
-    end: end.toInterval('Etc/GMT').end,
+    start: startOfInterval,
+    end: endOfInterval,
   })
 
   if (containers) {
     containers.forEach((slot) => {
-      const slotStart = new Date(slot.start)
-      const slotEnd = new Date(slot.end)
+      const slotStart = new Date(slot.start.dateTime)
+      const slotEnd = new Date(slot.end.dateTime)
+
       let currentIntervalStart = slotStart
 
       while (
