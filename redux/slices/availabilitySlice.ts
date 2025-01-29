@@ -1,13 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import type { RootState } from '@/redux/store'
-import type { IntervalType } from 'lib/types'
+import type { IntervalType, StringDateTimeIntervalAndLocation } from 'lib/types'
 import Day from 'lib/day'
-
-type interval = {
-  start: string
-  end: string
-}
+import { ALLOWED_DURATIONS } from 'config'
 
 type AvailabilityState = {
   /** The earliest day we’ll offer appointments */
@@ -17,13 +13,14 @@ type AvailabilityState = {
   /** The day the user selected (if made) */
   selectedDate?: string
   /** The time slot the user selected (if made). */
-  selectedTime?: interval
+  selectedTime?: IntervalType
   /** The end user's timezone string */
   timeZone: string
   /** The number of minutes being requested,
    * must be one of the values in {@link ALLOWED_DURATIONS}
    */
   duration: number | null
+  slots: StringDateTimeIntervalAndLocation[]
 }
 
 const initialState: AvailabilityState = {
@@ -31,6 +28,7 @@ const initialState: AvailabilityState = {
   start: Day.todayWithOffset(0).toString(),
   end: Day.todayWithOffset(14).toString(),
   timeZone: 'America/Los_Angeles',
+  slots: [],
 }
 
 export const availabilitySlice = createSlice({
@@ -49,10 +47,13 @@ export const availabilitySlice = createSlice({
     setTimeZone: (state, action: PayloadAction<string>) => {
       state.timeZone = action.payload
     },
+    setSlots: (state, action: PayloadAction<StringDateTimeIntervalAndLocation[]>) => {
+      state.slots = action.payload
+    },
   },
 })
 
-export const { setDuration, setSelectedDate, setSelectedTime, setTimeZone } =
+export const { setDuration, setSelectedDate, setSelectedTime, setTimeZone, setSlots } =
   availabilitySlice.actions
 
 // Other code such as selectors can use the imported `RootState` type
