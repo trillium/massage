@@ -9,6 +9,7 @@ import { encode } from '@/lib/hashServer'
 import { createURI } from '@/lib/uri'
 import DurationPicker from './availability/controls/DurationPicker'
 import type { GoogleCalendarV3Event } from '@/lib/types'
+import { DEFAULT_PRICING } from 'config'
 
 type URIMakerProps = { events: GoogleCalendarV3Event[] }
 
@@ -61,7 +62,7 @@ export default function URIMaker({ events }: URIMakerProps) {
   return (
     <>
       <div className="mx-auto w-full max-w-7xl px-4 md:px-5 lg:px-0">
-        <DurationPicker title="Select a time" />
+        <DurationPicker title="Select a time" duration={90} price={DEFAULT_PRICING} />
         <div className="mb-11 grid grid-cols-12">
           <form
             id="URIMakerForm"
