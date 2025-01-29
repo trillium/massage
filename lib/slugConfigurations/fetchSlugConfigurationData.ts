@@ -11,26 +11,11 @@ Current role is to return an object that has configurations for [bookingSlug] th
     - eg credit Influencer for these sessions
 */
 
-import { AllowedDurationsType, PricingType } from '../types'
+import { SlugConfigurationType } from '../types'
 
 type DiscountType = {
   type: 'percent' | 'dollar'
   amount: string | number
-}
-
-type SlugConfigurationType = {
-  bookingSlug: string // this must be unique and cannot conflict with current app pages
-  title?: string
-  text?: string
-  location?: string
-  editLocation?: boolean
-  eventContainer?: string
-  price?: PricingType
-  discount?: DiscountType
-  leadTimeMinimum?: number // in minutes
-  instantConfirm?: boolean
-  acceptingPayment?: boolean
-  allowedDurations?: AllowedDurationsType
 }
 
 type SlugConfigurationObject = {
@@ -39,6 +24,7 @@ type SlugConfigurationObject = {
 
 const fooSlug: SlugConfigurationType = {
   bookingSlug: 'foo',
+  type: 'area-wide',
   title: 'Welcome to the Foo booking page!',
   text: 'Foo paragraph text rendered by <Template />',
   location: 'foo',
@@ -46,12 +32,29 @@ const fooSlug: SlugConfigurationType = {
 
 const the_kinn: SlugConfigurationType = {
   bookingSlug: 'the_kinn',
+  type: 'scheduled-site',
   title: 'Welcome to the the_kinn booking page!',
   text: 'the_kinn paragraph text rendered by <Template />',
   price: { 15: 30, 30: 60, 45: 90, 60: 120 },
   allowedDurations: [15, 30, 45, 60],
 }
 
+const fires: SlugConfigurationType = {
+  bookingSlug: 'fires',
+  type: 'area-wide',
+  title: 'Have you been effected by the LA fires? Please use this booking link 🙏',
+  text: 'My heart goes out to all those who are experiencing difficulty in this time. While I am unable to offer my massage work for free, I would like to reduce the cost for those of us who have been traumatized and are in need of care and support in this trying time.',
+  price: { 60: 100 * 1, 90: 100 * 1.5, 120: 100 * 2, 150: 100 * 2.5 },
+}
+
+const zip90045: SlugConfigurationType = {
+  bookingSlug: '90045',
+  type: 'area-wide',
+  title: 'Do you live ridiculously close to me??',
+  text: "that's so convenient! I can confidently say that IF I'M HOME and NOT BUSY I can scoot on over to you in an hour or less. See you soon!",
+  leadTimeMinimum: 60,
+}
+
 export async function fetchSlugConfigurationData(): Promise<SlugConfigurationObject> {
-  return { foo: fooSlug, the_kinn }
+  return { foo: fooSlug, the_kinn, fires, '90045': zip90045 }
 }
