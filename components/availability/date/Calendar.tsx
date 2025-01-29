@@ -1,19 +1,42 @@
+'use client'
+
 import { addDays, eachDayOfInterval, endOfWeek, startOfWeek } from 'date-fns'
 
 import DayButton from './DayButton'
-import { getDateRangeInterval } from 'lib/availability/helpers'
 import Day from 'lib/day'
-import type { DateTimeInterval } from 'lib/types'
 import { useSelector } from 'react-redux'
 import type { RootState } from '@/redux/store'
+import { format } from 'date-fns-tz'
 
-export default function Calendar({
-  offers,
-  maximumAvailability,
-}: {
-  offers: Record<string, DateTimeInterval[]>
-  maximumAvailability: number
-}) {
+import type { StringDateTimeIntervalAndLocation } from 'lib/types'
+import { useReduxAvailability } from '@/redux/hooks'
+
+export default function Calendar({}) {
+  const { slots: slotsRedux } = useReduxAvailability()
+
+  const slots = slotsRedux || []
+
+  let maximumAvailability = 0
+  const availabilityByDate = slots.reduce<Record<string, StringDateTimeIntervalAndLocation[]>>(
+    (acc, slot) => {
+      // Gives us the same YYYY-MM-DD format as Day.toString()
+      const date = format(slot.start, 'yyyy-MM-dd', { timeZone })
+
+      if (!acc[date]) {
+        acc[date] = []
+      }
+      acc[date].push(slot)
+
+      if (acc[date].length > maximumAvailability) {
+        maximumAvailability = acc[date].length
+      }
+      return acc
+    },
+    {}
+  )
+
+  const offers = availabilityByDate
+
   const weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 
   const { start, end, timeZone } = useSelector((state: RootState) => state.availability)
