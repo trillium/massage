@@ -52,6 +52,11 @@ export type DateTimeInterval = {
   end: Date
 }
 
+export type DateTimeAndTimeZone = {
+  dateTime: string
+  timeZone: string
+}
+
 /**
  * Represents an interval of time between start and end.
  */
