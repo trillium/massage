@@ -7,14 +7,14 @@ import {
 } from 'config'
 import Day from 'lib/day'
 import { getEventsBySearchQuery } from '../availability/getEventsBySearchQuery'
-import { GoogleCalendarV3Event } from 'lib/types'
+import { GoogleCalendarV3Event, SearchParamsType } from 'lib/types'
 import { loadData } from 'lib/dataLoading'
 
 export async function fetchContainersByQuery({
   searchParams,
   query,
 }: {
-  searchParams: URLSearchParams
+  searchParams: SearchParamsType
   query: string
 }) {
   const schema = z.object({

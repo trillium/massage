@@ -189,3 +189,5 @@ export type SlugConfigurationType = {
   acceptingPayment?: boolean
   allowedDurations?: AllowedDurationsType
 }
+
+export type SearchParamsType = { [key: string]: string | string[] | undefined }
