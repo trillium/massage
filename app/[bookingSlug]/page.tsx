@@ -13,6 +13,7 @@ import DurationPicker from '@/components/availability/controls/DurationPicker'
 import Calendar from '@/components/availability/date/Calendar'
 import TimeList from '@/components/availability/time/TimeList'
 import { SearchParamsType } from '@/lib/types'
+import { fetchData } from '@/lib/fetch/fetchData'
 
 export default async function Page({
   searchParams,
@@ -23,21 +24,31 @@ export default async function Page({
 }) {
   const { bookingSlug } = await params
   const resolvedParams = await searchParams
+  const slugData = await fetchSlugConfigurationData()
+
+  const configuration = slugData[bookingSlug] ?? null
+
   const duration =
     resolvedParams.duration !== undefined ? Number(resolvedParams.duration) : DEFAULT_DURATION
 
-  const { props } = await fetchContainersByQuery({
-    searchParams: resolvedParams,
-    query: bookingSlug,
-  })
+  let data
+  if (configuration.type === 'scheduled-site') {
+    data = await fetchContainersByQuery({
+      searchParams: resolvedParams,
+      query: bookingSlug,
+    })
+  } else if (configuration.type === 'fixed-location' || configuration.type === 'area-wide') {
+    data = await fetchData({ searchParams: resolvedParams })
+  }
+
+  const { props } = data
 
   const start = dayFromString(props.start)
   const end = dayFromString(props.end)
 
-  const slots = createSlots({ ...props, duration, leadTime: LEAD_TIME, start, end })
+  const leadTime = configuration?.leadTimeMinimum ?? LEAD_TIME
 
-  const slugData = await fetchSlugConfigurationData()
-  const configuration = slugData[bookingSlug] ?? null
+  const slots = createSlots({ ...data.props, duration, leadTime, start, end })
 
   const containerStrings = {
     eventBaseString: bookingSlug + siteMetadata.eventBaseString,
