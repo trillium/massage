@@ -7,6 +7,7 @@ import Main from './Main'
 import Hero from '@/components/hero/Hero'
 import siteMetadata from 'storage/siteMetadata'
 import Masonry from '@/components/masonry/Masonry'
+import { SearchParamsType } from '@/lib/types'
 
 const { avatar } = siteMetadata
 const mapData = '/static/images/foo/service-area.jpg'
@@ -15,7 +16,7 @@ const massageBio =
 const serviceAreaBlub =
   'Trillium is based out of Westchester, but happy to travel to the LA area in general. Very close locations include Playa Vista, Mar Vista, Santa Monica, Venice, El Segundo, and Torrance.'
 
-export default async function Page({ searchParams }: { searchParams: Promise<URLSearchParams> }) {
+export default async function Page({ searchParams }: { searchParams: Promise<SearchParamsType> }) {
   const sortedPosts = sortPosts(allBlogs)
   const posts = allCoreContent(sortedPosts)
   const resolvedParams = await searchParams
