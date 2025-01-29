@@ -174,3 +174,18 @@ export type DiscountType = {
   type: 'percent' | 'dollar'
   amount: string | number
 }
+
+export type SlugConfigurationType = {
+  bookingSlug: string | null // this must be unique and cannot conflict with current app pages
+  title?: string
+  text?: string
+  location?: string
+  editLocation?: boolean
+  eventContainer?: string
+  price?: PricingType
+  discount?: DiscountType
+  leadTimeMinimum?: number // in minutes
+  instantConfirm?: boolean
+  acceptingPayment?: boolean
+  allowedDurations?: AllowedDurationsType
+}
