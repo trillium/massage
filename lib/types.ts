@@ -169,3 +169,8 @@ export type AllowedDurationsType = number[]
 export type OnSiteRequestType = z.infer<typeof OnSiteRequestSchema>
 
 export type PricingType = { [key: number]: number }
+
+export type DiscountType = {
+  type: 'percent' | 'dollar'
+  amount: string | number
+}
