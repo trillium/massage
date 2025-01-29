@@ -5,6 +5,7 @@ import type { DiscountType, SlugConfigurationType } from 'lib/types'
 import { ALLOWED_DURATIONS, DEFAULT_PRICING, LEAD_TIME } from 'config'
 
 const initialState: SlugConfigurationType = {
+  type: null,
   bookingSlug: null,
   price: undefined,
   allowedDurations: undefined,
@@ -14,7 +15,7 @@ const initialState: SlugConfigurationType = {
   editLocation: true,
   eventContainer: undefined,
   discount: undefined,
-  leadTimeMinimum: LEAD_TIME, // in minutes,
+  leadTimeMinimum: undefined, // in minutes,
   instantConfirm: false,
   acceptingPayment: true,
 }
