@@ -53,10 +53,24 @@ export type DateTimeInterval = {
 }
 
 /**
+ * Represents an interval of time between start and end.
+ */
+export type StringDateTimeInterval = {
+  /** Starting date */
+  start: string
+  /** Ending date */
+  end: string
+}
+
+/**
  * Represents an interval of time between start and end
  * with an optional location.
  */
 export type DateTimeIntervalAndLocation = DateTimeInterval & {
+  location?: string
+}
+
+export type StringDateTimeIntervalAndLocation = StringDateTimeInterval & {
   location?: string
 }
 
@@ -122,6 +136,8 @@ export type ChairAppointmentBlockProps = {
   pricing?: { [key: number]: number }
   paymentOptions: string
   leadTime: number
+  instantConfirm?: boolean
+  acceptingPayment?: boolean
 }
 
 export type ChairAppointmentBlockCalendarProps = ChairAppointmentBlockProps & AppointmentProps
@@ -187,6 +203,17 @@ export type SlugConfigurationType = {
 export type SearchParamsType = { [key: string]: string | string[] | undefined }
 
 export type IntervalType = {
+  start: string
+  end: string
+}
+
+export type Day = {
+  year: number
+  month: number
+  day: number
+}
+
+export type DayWithStartEnd = Day & {
   start: string
   end: string
 }
