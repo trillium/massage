@@ -7,7 +7,6 @@ import { formatDatetimeToString } from '../helpers'
 
 export default async function getBusyTimes({ start, end }: DateTimeInterval) {
   const response = await fetch('https://www.googleapis.com/calendar/v3/freeBusy', {
-    cache: 'no-cache',
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
