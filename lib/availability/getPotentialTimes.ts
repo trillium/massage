@@ -42,6 +42,7 @@ export default function getPotentialTimes({
     end: endOfInterval,
   })
 
+  // TODO - refactor this if/else block, lot of repeated code
   if (containers) {
     containers.forEach((slot) => {
       const slotStart = new Date(slot.start.dateTime)
