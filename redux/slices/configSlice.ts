@@ -6,8 +6,8 @@ import { ALLOWED_DURATIONS, DEFAULT_PRICING, LEAD_TIME } from 'config'
 
 const initialState: SlugConfigurationType = {
   bookingSlug: null,
-  price: DEFAULT_PRICING,
-  allowedDurations: ALLOWED_DURATIONS,
+  price: undefined,
+  allowedDurations: undefined,
   title: undefined,
   text: undefined,
   location: undefined,
