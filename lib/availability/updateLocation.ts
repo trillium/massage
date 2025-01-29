@@ -1,4 +1,5 @@
 import getAccessToken from '@/lib/availability/getAccessToken'
+import { formatDatetimeToString } from '../helpers'
 
 export default async function updateLocation({ location }: { location: string }) {
   const eventId = '01vd8vpsq30jo29j379mritaoo'
@@ -10,8 +11,8 @@ export default async function updateLocation({ location }: { location: string })
   const start = new Date(now.getTime() - 15 * 60000)
   const end = new Date(now.getTime())
 
-  const startDateTime = start.toISOString()
-  const endDateTime = end.toISOString()
+  const startDateTime = formatDatetimeToString(start)
+  const endDateTime = formatDatetimeToString(end)
 
   const body = {
     start: {

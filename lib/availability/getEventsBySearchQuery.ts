@@ -1,3 +1,4 @@
+import { formatDatetimeToString } from '../helpers'
 import getAccessToken from './getAccessToken' // Reuse existing function to get access token
 
 export async function getEventsBySearchQuery({
@@ -21,9 +22,9 @@ export async function getEventsBySearchQuery({
     let timeMin: string
 
     if (typeof start === 'string') {
-      timeMin = new Date(start).toISOString()
+      timeMin = formatDatetimeToString(new Date(start))
     } else if (start instanceof Date) {
-      timeMin = start.toISOString()
+      timeMin = formatDatetimeToString(start)
     } else {
       throw new Error('Invalid type for start parameter')
     }
@@ -35,9 +36,9 @@ export async function getEventsBySearchQuery({
     let timeMax: string
 
     if (typeof end === 'string') {
-      timeMax = new Date(end).toISOString()
+      timeMax = formatDatetimeToString(new Date(end))
     } else if (end instanceof Date) {
-      timeMax = end.toISOString()
+      timeMax = formatDatetimeToString(end)
     } else {
       throw new Error('Invalid type for end parameter')
     }

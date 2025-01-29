@@ -3,6 +3,7 @@ import type { StringInterval, DateTimeInterval } from '../types'
 import { LOCAL_DATE_OPTIONS, LOCAL_TIME_OPTIONS } from 'config'
 
 import { StringIntervalAndLocation, DateTimeIntervalAndLocation } from '../types'
+import { formatDatetimeToString } from '../helpers'
 
 /**
  * Takes an array of {@link StringInterval} objects and converts them to
@@ -30,8 +31,8 @@ export function mapStringsToDates(
  */
 export function mapDatesToStrings(slots: DateTimeInterval[]): StringInterval[] {
   return slots.map(({ start, end }) => ({
-    start: start.toISOString(),
-    end: end.toISOString(),
+    start: formatDatetimeToString(start),
+    end: formatDatetimeToString(end),
   }))
 }
 

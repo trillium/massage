@@ -4,6 +4,7 @@ import type Day from '../day'
 import type { AvailabilitySlotsMap, DateTimeInterval, DateTimeIntervalAndLocation } from '../types'
 import mergeOverlappingIntervals from './mergeOverlappingIntervals'
 import { DEFAULT_APPOINTMENT_INTERVAL } from '../../config'
+import { formatDatetimeToString } from '../helpers'
 
 export default function getPotentialTimes({
   start,
@@ -51,8 +52,8 @@ export default function getPotentialTimes({
 
         // add the current interval to the list of intervals
         intervals.push({
-          start: currentIntervalStart,
-          end: currentIntervalEnd,
+          start: formatDatetimeToString(currentIntervalStart),
+          end: formatDatetimeToString(currentIntervalEnd),
           ...(slot.location && { location: slot.location }),
         })
 
@@ -83,8 +84,8 @@ export default function getPotentialTimes({
 
           // add the current interval to the list of intervals
           intervals.push({
-            start: currentIntervalStart,
-            end: currentIntervalEnd,
+            start: formatDatetimeToString(currentIntervalStart),
+            end: formatDatetimeToString(currentIntervalEnd),
           })
 
           // set the beginning of the next interval to the end of the current interval plus INTERVAL time
