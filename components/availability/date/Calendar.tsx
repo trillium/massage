@@ -62,7 +62,7 @@ export default function Calendar({}) {
 
   return (
     <div
-      className="isolate mt-6 grid grid-cols-7 overflow-hidden rounded-md text-xs leading-6 text-gray-500 focus-within:ring-2 focus-within:ring-primary-500 active:ring-2 active:ring-primary-500 dark:text-gray-400"
+      className="isolate mt-6 grid grid-cols-7 overflow-hidden rounded-md border-2 border-slate-300 text-xs leading-6 text-gray-500 focus-within:ring-2 focus-within:ring-primary-500 active:ring-2 active:ring-primary-500 dark:border-slate-700 dark:text-gray-400"
       role="grid"
       aria-label="Calendar"
     >
