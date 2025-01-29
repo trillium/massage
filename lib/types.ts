@@ -185,3 +185,8 @@ export type SlugConfigurationType = {
 }
 
 export type SearchParamsType = { [key: string]: string | string[] | undefined }
+
+export type IntervalType = {
+  start: string
+  end: string
+}
