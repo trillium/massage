@@ -72,9 +72,7 @@ function ClientPage({ start, end, busy, selectedDate, duration }: PageProps) {
       leadTime: 0,
     },
     validationSchema: OnsiteSchema,
-    onSubmit: (values) => {
-      console.log(values)
-    },
+    onSubmit: (values) => {},
   })
 
   const [pathString, setPathString] = useState('')

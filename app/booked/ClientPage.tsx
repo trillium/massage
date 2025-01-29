@@ -22,7 +22,6 @@ type ClientPageProps = {
 }
 
 export default function Booked({ url, data }: ClientPageProps) {
-  console.log(url, data)
   const attendees = Array.isArray(data.attendees)
     ? data.attendees.map((p: AttendeeType) => p.email).join(', ')
     : ''
