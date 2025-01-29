@@ -173,8 +173,8 @@ export type GoogleCalendarV3Event = {
   summary: string
   /* The calendar appointment text */
   description?: string
-  start: string
-  end: string
+  start: DateTimeAndTimeZone
+  end: DateTimeAndTimeZone
   location?: string
   attendees?: AttendeeType[]
 }
