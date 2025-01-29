@@ -7,12 +7,13 @@ import Main from '../Main'
 import Hero from '@/components/hero/Hero'
 import siteMetadata from 'storage/siteMetadata'
 import Masonry from '@/components/masonry/Masonry'
+import { SearchParamsType } from '@/lib/types'
 
 const { avatar } = siteMetadata
 const massageBio =
   'Trillium is a massage therapist with 10 years of experience. Working in the LA Metro Area, Trillium found success in specializing in In-Home mobile massage therapy, working solo and through platforms like Soothe and Zeel since 2016.'
 
-export default async function Page({ searchParams }: { searchParams: Promise<URLSearchParams> }) {
+export default async function Page({ searchParams }: { searchParams: Promise<SearchParamsType> }) {
   const sortedPosts = sortPosts(allBlogs)
   const posts = allCoreContent(sortedPosts)
   const resolvedParams = await searchParams
