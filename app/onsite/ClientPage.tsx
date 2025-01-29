@@ -3,9 +3,7 @@
 import clsx from 'clsx'
 import 'wicg-inert'
 
-import AvailabilityPicker from '@/components/availability/AvailabilityPicker'
-import { PricingWrapper } from '@/components/availability/PricingWrapper'
-import { DEFAULT_PRICING } from 'config'
+import { ALLOWED_DURATIONS, DEFAULT_PRICING } from 'config'
 
 import type { PageProps } from 'app/book/page'
 import { AllowedDurationsType } from '@/lib/types'
@@ -14,8 +12,9 @@ import { useFormik } from 'formik'
 import * as Yup from 'yup'
 
 import BookingForm from '@/components/booking/BookingForm'
-
-const pricing = DEFAULT_PRICING
+import Calendar from '@/components/availability/date/Calendar'
+import TimeList from '@/components/availability/time/TimeList'
+import DurationPicker from '@/components/availability/controls/DurationPicker'
 
 // Need to refactor fetchData so it's easier to extend to other pages
 const possibleDurations = [15, 30, 45, 60]
@@ -26,16 +25,6 @@ const paymentOptionsList = [
   'Individuals pay for their own sessions',
 ] // These need more explanation
 
-const allowedDurations: AllowedDurationsType = [
-  60 * 1,
-  60 * 1.5,
-  60 * 2,
-  60 * 2.5,
-  60 * 3,
-  60 * 3.5,
-  60 * 4,
-]
-
 const OnsiteSchema = Yup.object().shape({
   eventName: Yup.string().max(60, 'Too Long!').required('Required'),
   allowedDurations: Yup.array()
@@ -45,16 +34,8 @@ const OnsiteSchema = Yup.object().shape({
   paymentOptions: Yup.string().required('Required'),
 })
 
-function ClientPage({ start, end, busy, selectedDate, duration }: PageProps) {
-  const { slots, pickerProps } = PricingWrapper({
-    start,
-    end,
-    busy,
-    pricing,
-    selectedDate,
-    duration,
-    allowedDurations,
-  })
+function ClientPage({ duration }: PageProps) {
+  const pricing = DEFAULT_PRICING
 
   const formik = useFormik({
     initialValues: {
@@ -116,6 +97,17 @@ function ClientPage({ start, end, busy, selectedDate, duration }: PageProps) {
       setFieldValue('eventContainerString', sanitizedName + '__EVENT__CONTAINER__')
     }
   }, [eventName, setFieldValue])
+
+  const durationString = `${duration || '##'} minute session`
+  const paymentString = ' - $' + pricing[duration]
+  const combinedString = durationString + paymentString
+
+  const durationProps = {
+    title: combinedString,
+    price: pricing,
+    duration: duration,
+    allowedDurations: ALLOWED_DURATIONS,
+  }
 
   return (
     <>
@@ -217,9 +209,14 @@ function ClientPage({ start, end, busy, selectedDate, duration }: PageProps) {
         tabIndex={(!formik.isValid && -1) || undefined}
         ref={divRef}
       >
-        <AvailabilityPicker slots={slots} pickerProps={pickerProps}>
-          <BookingForm additionalData={formik.values} endPoint="api/onsite/request" />
-        </AvailabilityPicker>
+        <div className="flex flex-col space-y-8">
+          <div className="flex space-x-6">
+            <DurationPicker {...durationProps} />
+          </div>
+          <Calendar />
+          <TimeList />
+        </div>
+        <BookingForm additionalData={formik.values} endPoint="api/onsite/request" />
       </div>
     </>
   )
