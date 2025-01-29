@@ -9,8 +9,9 @@ import {
 import getBusyTimes from 'lib/availability/getBusyTimes'
 import { getDateRangeInterval, mapDatesToStrings } from 'lib/availability/helpers'
 import Day from 'lib/day'
+import { SearchParamsType } from '../types'
 
-export async function fetchData({ searchParams }: { searchParams: URLSearchParams }) {
+export async function fetchData({ searchParams }: { searchParams: SearchParamsType }) {
   const schema = z.object({
     duration: z
       .enum([
