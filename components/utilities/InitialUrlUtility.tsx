@@ -18,7 +18,7 @@ type InitialUrlUtilityProps = {
   eventBaseString: string
   allowedDurations: number[]
   slots: StringDateTimeIntervalAndLocation[]
-  configSliceData: SlugConfigurationType
+  configSliceData: SlugConfigurationType | null
 }
 
 export function InitialUrlUtility({
@@ -38,8 +38,10 @@ export function InitialUrlUtility({
     const newConfigSlcieState = {}
 
     dispatchRedux(setSlots(slots))
-    dispatchRedux(setBulkConfigSliceState(configSliceData))
-    if (configSliceData.allowedDurations !== undefined) {
+    if (configSliceData) {
+      dispatchRedux(setBulkConfigSliceState(configSliceData))
+    }
+    if (configSliceData?.allowedDurations !== undefined) {
       dispatchRedux(setAllowedDurations(configSliceData.allowedDurations))
     }
 
