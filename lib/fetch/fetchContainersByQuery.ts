@@ -90,7 +90,7 @@ export async function fetchContainersByQuery({
   })
 
   const busyQuery = members.map((e: GoogleCalendarV3Event) => {
-    return { start: e.start.dateTime, end: e.end.dateTime }
+    return { start: e.start, end: e.end }
   })
 
   const containers = events.filter((e: GoogleCalendarV3Event) => {
@@ -113,8 +113,8 @@ export async function fetchContainersByQuery({
 
     return {
       ...obj,
-      start: e.start.dateTime,
-      end: e.end.dateTime,
+      start: e.start,
+      end: e.end,
       location: e.location,
     }
   })
