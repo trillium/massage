@@ -8,7 +8,18 @@ import { ALLOWED_DURATIONS } from 'config'
 import { setDuration, setSelectedDate, setSlots } from '@/redux/slices/availabilitySlice'
 import { useAppDispatch, useReduxAvailability } from '@/redux/hooks'
 import { setEventContainers } from '@/redux/slices/eventContainersSlice'
-import { setBulkConfigSliceState } from '@/redux/slices/configSlice'
+import { setAllowedDurations, setBulkConfigSliceState } from '@/redux/slices/configSlice'
+import { SlugConfigurationType, StringDateTimeIntervalAndLocation } from '@/lib/types'
+
+type InitialUrlUtilityProps = {
+  selectedDate?: string
+  duration: number
+  eventMemberString: string
+  eventBaseString: string
+  allowedDurations: number[]
+  slots: StringDateTimeIntervalAndLocation[]
+  configSliceData: SlugConfigurationType
+}
 
 export function InitialUrlUtility({
   selectedDate,
@@ -18,7 +29,7 @@ export function InitialUrlUtility({
   allowedDurations,
   slots,
   configSliceData,
-}) {
+}: InitialUrlUtilityProps) {
   const dispatchRedux = useAppDispatch()
 
   const { timeZone, selectedDate: selectedDateRedux } = useReduxAvailability()
@@ -28,6 +39,9 @@ export function InitialUrlUtility({
 
     dispatchRedux(setSlots(slots))
     dispatchRedux(setBulkConfigSliceState(configSliceData))
+    if (configSliceData.allowedDurations !== undefined) {
+      dispatchRedux(setAllowedDurations(configSliceData.allowedDurations))
+    }
 
     if (selectedDate && !selectedDateRedux) {
       dispatchRedux(setSelectedDate(selectedDate))
@@ -37,7 +51,8 @@ export function InitialUrlUtility({
         dispatchRedux(setSelectedDate(firstAvail))
       }
     }
-    const newDuration = duration || allowedDurations
+    const newDuration: number =
+      duration || allowedDurations[Math.floor(allowedDurations.length / 2)]
     const ALLOWED = allowedDurations || ALLOWED_DURATIONS
     if (!ALLOWED.includes(newDuration)) {
       const middleIndex = Math.floor((ALLOWED.length - 1) / 2)
