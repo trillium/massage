@@ -12,12 +12,13 @@ import { UpdateSlotsUtility } from '@/components/utilities/UpdateSlotsUtility'
 import DurationPicker from '@/components/availability/controls/DurationPicker'
 import Calendar from '@/components/availability/date/Calendar'
 import TimeList from '@/components/availability/time/TimeList'
+import { SearchParamsType } from '@/lib/types'
 
 export default async function Page({
   searchParams,
   params,
 }: {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+  searchParams: Promise<SearchParamsType>
   params: Promise<{ bookingSlug: string }>
 }) {
   const { bookingSlug } = await params
