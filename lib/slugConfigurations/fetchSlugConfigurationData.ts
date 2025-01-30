@@ -47,7 +47,7 @@ const fires: SlugConfigurationType = {
   price: { 60: 100 * 1, 90: 100 * 1.5, 120: 100 * 2, 150: 100 * 2.5 },
 }
 
-const zip90045: SlugConfigurationType = {
+const closeToMe: SlugConfigurationType = {
   bookingSlug: '90045',
   type: 'area-wide',
   title: 'Do you live ridiculously close to me??',
@@ -56,5 +56,5 @@ const zip90045: SlugConfigurationType = {
 }
 
 export async function fetchSlugConfigurationData(): Promise<SlugConfigurationObject> {
-  return { foo: fooSlug, the_kinn, fires, '90045': zip90045 }
+  return { foo: fooSlug, the_kinn, fires, '90045': closeToMe }
 }
