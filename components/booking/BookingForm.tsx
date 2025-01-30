@@ -54,11 +54,7 @@ type BookingFormProps = {
   endPoint: string
 }
 
-export default function BookingForm({
-  additionalData = {},
-  endPoint,
-  acceptingPayment = true,
-}: BookingFormProps) {
+export default function BookingForm({ additionalData = {}, endPoint }: BookingFormProps) {
   const dispatchRedux = useAppDispatch()
   const formData = useReduxFormData()
   const configData = useReduxConfig()
@@ -66,6 +62,8 @@ export default function BookingForm({
   const { status: modal } = useReduxModal()
   const { selectedTime, timeZone, duration } = useReduxAvailability()
   const price = duration ? DEFAULT_PRICING[duration] : 'null'
+
+  const { acceptingPayment = true } = configData ?? {}
 
   const router = useRouter()
 
