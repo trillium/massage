@@ -37,6 +37,7 @@ const the_kinn: SlugConfigurationType = {
   text: 'the_kinn paragraph text rendered by <Template />',
   price: { 15: 30, 30: 60, 45: 90, 60: 120 },
   allowedDurations: [15, 30, 45, 60],
+  leadTimeMinimum: 2,
 }
 
 const fires: SlugConfigurationType = {
@@ -44,6 +45,17 @@ const fires: SlugConfigurationType = {
   type: 'area-wide',
   title: 'Have you been effected by the LA fires? Please use this booking link 🙏',
   text: 'My heart goes out to all those who are experiencing difficulty in this time. While I am unable to offer my massage work for free, I would like to reduce the cost for those of us who have been traumatized and are in need of care and support in this trying time.',
+  price: { 60: 100 * 1, 90: 100 * 1.5, 120: 100 * 2, 150: 100 * 2.5 },
+}
+
+const midnightRunners: SlugConfigurationType = {
+  bookingSlug: 'midnight-runners',
+  type: 'area-wide',
+  title: 'Running peeps, book a session!',
+  discount: {
+    type: 'dollar',
+    amount: 40,
+  },
   price: { 60: 100 * 1, 90: 100 * 1.5, 120: 100 * 2, 150: 100 * 2.5 },
 }
 
@@ -56,5 +68,14 @@ const closeToMe: SlugConfigurationType = {
 }
 
 export async function fetchSlugConfigurationData(): Promise<SlugConfigurationObject> {
-  return { foo: fooSlug, the_kinn, fires, '90045': closeToMe }
+  return {
+    foo: fooSlug,
+    the_kinn,
+    fires,
+    '90045': closeToMe,
+    westchester: closeToMe,
+    'playa-vista': closeToMe,
+    'culver-city': closeToMe,
+    'midnight-runners': midnightRunners,
+  }
 }
