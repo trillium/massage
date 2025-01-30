@@ -19,6 +19,7 @@ import {
   useReduxFormData,
   useReduxEventContainers,
   useReduxModal,
+  useReduxConfig,
 } from '@/redux/hooks'
 import { ChairAppointmentBlockProps, PaymentMethodType } from 'lib/types'
 import { paymentMethod } from 'data/paymentMethods'
@@ -38,6 +39,8 @@ export type BookingFormData = {
   email?: string
   /** Address of the requester */
   location?: string
+  /** Whether the locatin can be edited */
+  locationIsReadOnly?: boolean
   /** Phone number of the requester */
   phone?: string
   /** Payment method of the requester */
@@ -58,6 +61,7 @@ export default function BookingForm({
 }: BookingFormProps) {
   const dispatchRedux = useAppDispatch()
   const formData = useReduxFormData()
+  const configData = useReduxConfig()
   const eventContainers = useReduxEventContainers()
   const { status: modal } = useReduxModal()
   const { selectedTime, timeZone, duration } = useReduxAvailability()
@@ -223,9 +227,11 @@ export default function BookingForm({
                 name="location"
                 id="location"
                 value={
-                  (eventContainers && eventContainers.location) || (formData && formData.location)
+                  (eventContainers && eventContainers.location) ||
+                  configData?.location ||
+                  (formData && formData.location)
                 }
-                readOnly={eventContainers && !!eventContainers.location}
+                readOnly={configData.locationIsReadOnly ?? false}
                 className={clsx(
                   'mb-1 block w-full border-0 p-0 py-1 pl-2 text-gray-900 placeholder:text-gray-400 focus:ring-0 dark:text-gray-100 sm:text-sm sm:leading-6',
                   {
