@@ -28,6 +28,7 @@ const BaseRequestSchema = z.object({
   eventBaseString: z.string(),
   eventMemberString: z.string().optional(),
   eventContainerString: z.string().optional(),
+  instantConfirm: z.boolean().optional(),
 })
 
 export const AppointmentRequestSchema = BaseRequestSchema.extend({

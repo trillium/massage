@@ -52,9 +52,6 @@ const CreateReviewSchema = z.object({
 export async function POST(req: NextRequest & IncomingMessage): Promise<NextResponse> {
   const headers = await nextHeaders()
   const jsonData = await req.json()
-  if (req.method !== 'POST') {
-    return NextResponse.json({ error: 'Method not allowed' }, { status: 405 })
-  }
 
   // Apply rate limiting using the client's IP address
   const limitReached = checkRateLimit()

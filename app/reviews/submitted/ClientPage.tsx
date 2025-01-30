@@ -34,7 +34,7 @@ export default function About() {
       </div>
       {rating && rating > 3 && (
         <div className="pt-8">
-          <BookSessionButton title="Book a Session!" href="/" />
+          <BookSessionButton title="Book a Session!" href="/book" />
         </div>
       )}
     </div>

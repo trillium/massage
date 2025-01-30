@@ -9,10 +9,6 @@ import templates from 'lib/messageTemplates/onsiteTemplates'
 import { OnSiteRequestSchema } from 'lib/schema'
 
 export async function GET(req: NextRequest) {
-  if (req.method !== 'GET') {
-    return NextResponse.json({ error: 'Method not allowed' }, { status: 405 })
-  }
-
   const searchParams = req.nextUrl.searchParams
 
   const data = searchParams.get('data')
