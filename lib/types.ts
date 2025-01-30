@@ -198,6 +198,7 @@ export type SlugConfigurationType = {
   title?: string
   text?: string
   location?: string
+  locationIsReadOnly?: boolean
   editLocation?: boolean
   eventContainer?: string
   price?: PricingType

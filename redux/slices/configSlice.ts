@@ -12,7 +12,7 @@ const initialState: SlugConfigurationType = {
   title: undefined,
   text: undefined,
   location: undefined,
-  editLocation: true,
+  locationIsReadOnly: undefined,
   eventContainer: undefined,
   discount: undefined,
   leadTimeMinimum: undefined, // in minutes,
@@ -35,6 +35,9 @@ export const configSlice = createSlice({
     },
     setLocation: (state, action: PayloadAction<string>) => {
       state.location = action.payload
+    },
+    setLocationReadOnly: (state, action: PayloadAction<boolean>) => {
+      state.locationIsReadOnly = action.payload
     },
     setEditLocation: (state, action: PayloadAction<boolean>) => {
       state.editLocation = action.payload
@@ -72,6 +75,7 @@ export const {
   setInstantConfirm,
   setAcceptingPayment,
   setBulkConfigSliceState,
+  setLocationReadOnly,
 } = configSlice.actions
 
 // Other code such as selectors can use the imported `RootState` type
