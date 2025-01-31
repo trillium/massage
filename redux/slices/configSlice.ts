@@ -60,6 +60,9 @@ export const configSlice = createSlice({
     setBulkConfigSliceState: (state, action: PayloadAction<Partial<SlugConfigurationType>>) => {
       state = { ...state, ...action.payload }
     },
+    configSliceReset: (state) => {
+      state = { ...initialState }
+    },
   },
 })
 
@@ -76,6 +79,7 @@ export const {
   setAcceptingPayment,
   setBulkConfigSliceState,
   setLocationReadOnly,
+  configSliceReset,
 } = configSlice.actions
 
 // Other code such as selectors can use the imported `RootState` type
