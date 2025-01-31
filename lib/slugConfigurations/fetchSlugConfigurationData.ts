@@ -63,7 +63,7 @@ const closeToMe: SlugConfigurationType = {
   bookingSlug: '90045',
   type: 'area-wide',
   title: 'Do you live ridiculously close to me??',
-  text: "That's so convenient! I can confidently say that IF I'M HOME and NOT BUSY I can scoot on over to you in an hour or less. See you soon!",
+  text: "That's so convenient! I can confidently say that if I'm home and not busy I can scoot on over to you in an hour or less. See you soon!",
   leadTimeMinimum: 60,
 }
 
