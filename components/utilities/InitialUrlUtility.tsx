@@ -39,8 +39,6 @@ export function InitialUrlUtility({
   const { timeZone, selectedDate: selectedDateRedux } = useReduxAvailability()
 
   const initialURLParamsData = useCallback(() => {
-    const newConfigSlcieState = {}
-
     dispatchRedux(setSlots(slots))
     if (configSliceData) {
       dispatchRedux(setBulkConfigSliceState(configSliceData))
@@ -51,7 +49,6 @@ export function InitialUrlUtility({
     if (configSliceData?.leadTimeMinimum !== undefined) {
       dispatchRedux(setLeadTimeMinimum(configSliceData.leadTimeMinimum))
     }
-
     if (selectedDate && !selectedDateRedux) {
       dispatchRedux(setSelectedDate(selectedDate))
     } else {
