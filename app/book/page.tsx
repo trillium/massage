@@ -13,6 +13,7 @@ import { dayFromString } from '@/lib/dayAsObject'
 import { InitialUrlUtility } from '@/components/utilities/InitialUrlUtility'
 import { UrlUpdateUtility } from '@/components/utilities/UrlUpdateUtility'
 import { UpdateSlotsUtility } from '@/components/utilities/UpdateSlotsUtility'
+import { initialState } from '@/redux/slices/configSlice'
 
 export type PageProps = InferGetServerSidePropsType<typeof fetchData>
 
@@ -30,7 +31,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<Sea
 
   const slots = createSlots({ ...props, duration, leadTime: LEAD_TIME, start, end })
 
-  const configuration = null
+  const configuration = initialState
 
   const pricing = DEFAULT_PRICING
   const durationString = `${duration || '##'} minute session`
@@ -64,7 +65,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<Sea
         slots={slots}
       />
       <UrlUpdateUtility />
-      <UpdateSlotsUtility busy={props.busy} start={start} end={end} />
+      <UpdateSlotsUtility busy={props.busy} start={start} end={end} configObject={configuration} />
     </>
   )
 }
