@@ -12,8 +12,9 @@ import { UpdateSlotsUtility } from '@/components/utilities/UpdateSlotsUtility'
 import DurationPicker from '@/components/availability/controls/DurationPicker'
 import Calendar from '@/components/availability/date/Calendar'
 import TimeList from '@/components/availability/time/TimeList'
-import { SearchParamsType } from '@/lib/types'
+import { SearchParamsType, SlugConfigurationType } from '@/lib/types'
 import { fetchData } from '@/lib/fetch/fetchData'
+import NotFound from 'app/not-found'
 
 export default async function Page({
   searchParams,
@@ -26,12 +27,17 @@ export default async function Page({
   const resolvedParams = await searchParams
   const slugData = await fetchSlugConfigurationData()
 
-  const configuration = slugData[bookingSlug] ?? null
+  const configuration: SlugConfigurationType = slugData[bookingSlug] ?? null
 
   const duration =
     resolvedParams.duration !== undefined ? Number(resolvedParams.duration) : DEFAULT_DURATION
 
   let data
+
+  if (configuration === null || configuration === undefined) {
+    return <NotFound></NotFound>
+  }
+
   if (configuration.type === 'scheduled-site') {
     data = await fetchContainersByQuery({
       searchParams: resolvedParams,
@@ -74,7 +80,7 @@ export default async function Page({
     <>
       <Template
         title={configuration.title || 'Book a massage with Trillium :)'}
-        text={configuration.text}
+        text={configuration.text ?? undefined}
       />
       <BookingForm
         endPoint="api/request"
@@ -97,7 +103,13 @@ export default async function Page({
         slots={slots}
       />
       <UrlUpdateUtility />
-      <UpdateSlotsUtility busy={props.busy} containers={props.containers} start={start} end={end} />
+      <UpdateSlotsUtility
+        busy={props.busy}
+        containers={props.containers}
+        start={start}
+        end={end}
+        configObject={configuration}
+      />
     </>
   )
 }
