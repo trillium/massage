@@ -6,15 +6,15 @@ import type { DiscountType, SlugConfigurationType } from 'lib/types'
 export const initialState: SlugConfigurationType = {
   type: null,
   bookingSlug: null,
-  price: undefined,
-  allowedDurations: undefined,
-  title: undefined,
-  text: undefined,
-  location: undefined,
-  locationIsReadOnly: undefined,
-  eventContainer: undefined,
-  discount: undefined,
-  leadTimeMinimum: undefined, // in minutes,
+  price: null,
+  allowedDurations: null,
+  title: null,
+  text: null,
+  location: null,
+  locationIsReadOnly: false,
+  eventContainer: null,
+  discount: null,
+  leadTimeMinimum: null, // in minutes,
   instantConfirm: false,
   acceptingPayment: true,
 }
@@ -38,9 +38,6 @@ export const configSlice = createSlice({
     setLocationReadOnly: (state, action: PayloadAction<boolean>) => {
       state.locationIsReadOnly = action.payload
     },
-    setEditLocation: (state, action: PayloadAction<boolean>) => {
-      state.editLocation = action.payload
-    },
     setEventContainer: (state, action: PayloadAction<string>) => {
       state.eventContainer = action.payload
     },
@@ -57,7 +54,7 @@ export const configSlice = createSlice({
       state.acceptingPayment = action.payload
     },
     setBulkConfigSliceState: (state, action: PayloadAction<Partial<SlugConfigurationType>>) => {
-      state = { ...state, ...action.payload }
+      Object.assign(state, action.payload)
     },
     configSliceReset: (state) => {
       state = { ...initialState }
@@ -70,7 +67,6 @@ export const {
   setPrice,
   setAllowedDurations,
   setLocation,
-  setEditLocation,
   setEventContainer,
   setDiscount,
   setLeadTimeMinimum,

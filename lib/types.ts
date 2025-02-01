@@ -195,18 +195,17 @@ export type SlugType = 'area-wide' | 'fixed-location' | 'scheduled-site' | null
 export type SlugConfigurationType = {
   bookingSlug: string | null // this must be unique and cannot conflict with current app pages
   type: SlugType
-  title?: string
-  text?: string
-  location?: string
+  title?: string | null
+  text?: string | null
+  location?: string | null
   locationIsReadOnly?: boolean
-  editLocation?: boolean
-  eventContainer?: string
-  price?: PricingType
-  discount?: DiscountType
-  leadTimeMinimum?: number // in minutes
+  eventContainer?: string | null
+  price?: PricingType | null
+  discount?: DiscountType | null
+  leadTimeMinimum?: number | null // in minutes
   instantConfirm?: boolean
   acceptingPayment?: boolean
-  allowedDurations?: AllowedDurationsType
+  allowedDurations?: AllowedDurationsType | null
 }
 
 export type SearchParamsType = { [key: string]: string | string[] | undefined }
