@@ -7,7 +7,17 @@ import { setSlots } from '@/redux/slices/availabilitySlice'
 import { useDispatch } from 'react-redux'
 import { createSlots } from '@/lib/availability/createSlots'
 import { DEFAULT_DURATION, LEAD_TIME } from 'config'
-import { DayWithStartEnd, GoogleCalendarV3Event, StringInterval } from '@/lib/types'
+import {
+  DayWithStartEnd,
+  GoogleCalendarV3Event,
+  SlugConfigurationType,
+  StringInterval,
+} from '@/lib/types'
+import {
+  setBulkConfigSliceState,
+  setLocation,
+  setLocationReadOnly,
+} from '@/redux/slices/configSlice'
 
 type UrlParams = {
   duration?: string
@@ -20,9 +30,16 @@ type UpdateSlotsUtilityProps = {
   containers?: GoogleCalendarV3Event[]
   start: DayWithStartEnd
   end: DayWithStartEnd
+  configObject: SlugConfigurationType
 }
 
-export function UpdateSlotsUtility({ busy, containers, start, end }: UpdateSlotsUtilityProps) {
+export function UpdateSlotsUtility({
+  busy,
+  containers,
+  start,
+  end,
+  configObject,
+}: UpdateSlotsUtilityProps) {
   const {
     duration: durationRedux,
     timeZone,
@@ -55,6 +72,14 @@ export function UpdateSlotsUtility({ busy, containers, start, end }: UpdateSlots
     dispatchRedux(setSlots(newSlots))
     createNewUrlParams()
   }, [createNewUrlParams])
+
+  useEffect(() => {
+    dispatchRedux(setBulkConfigSliceState(configObject))
+    if (!!configObject && !!configObject.location) {
+      dispatchRedux(setLocation(configObject.location))
+    }
+    dispatchRedux(setLocationReadOnly(configObject?.locationIsReadOnly ?? false))
+  }, [configObject])
 
   return <></>
 }
