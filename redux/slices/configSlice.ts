@@ -4,7 +4,7 @@ import type { RootState } from '@/redux/store'
 import type { DiscountType, SlugConfigurationType } from 'lib/types'
 import { ALLOWED_DURATIONS, DEFAULT_PRICING, LEAD_TIME } from 'config'
 
-const initialState: SlugConfigurationType = {
+export const initialState: SlugConfigurationType = {
   type: null,
   bookingSlug: null,
   price: undefined,
