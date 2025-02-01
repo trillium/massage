@@ -67,6 +67,16 @@ const closeToMe: SlugConfigurationType = {
   leadTimeMinimum: 60,
 }
 
+const hotelJune: SlugConfigurationType = {
+  bookingSlug: 'hotelJune',
+  type: 'fixed-location',
+  title: 'Book an in-room massage at Hotel June!',
+  text: 'Please provide your room number.',
+  location: 'Hotel June West LA, 8639 Lincoln Blvd, Los Angeles, CA 90045',
+  locationIsReadOnly: true,
+  leadTimeMinimum: 60,
+}
+
 export async function fetchSlugConfigurationData(): Promise<SlugConfigurationObject> {
   return {
     foo: fooSlug,
@@ -77,5 +87,6 @@ export async function fetchSlugConfigurationData(): Promise<SlugConfigurationObj
     'playa-vista': closeToMe,
     'culver-city': closeToMe,
     'midnight-runners': midnightRunners,
+    'hotel-june': hotelJune,
   }
 }
