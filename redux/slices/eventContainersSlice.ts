@@ -4,20 +4,20 @@ import type { RootState } from '@/redux/store'
 
 export type EventContainerType = {
   location?: string
-  eventBaseString: string
-  eventMemberString: string
-  eventContainerString: string
+  eventBaseString?: string
+  eventMemberString?: string
+  eventContainerString?: string
 }
 
 export const initialEventContainerState: EventContainerType = {
   /** Address of the container */
-  location: '',
+  location: undefined,
   /** Query string for finding all events/members */
-  eventBaseString: '',
+  eventBaseString: undefined,
   /** Query string for finding all members */
-  eventMemberString: '',
+  eventMemberString: undefined,
   /** Query string for finding all containers */
-  eventContainerString: '',
+  eventContainerString: undefined,
 }
 
 const initialState: EventContainerType = {
