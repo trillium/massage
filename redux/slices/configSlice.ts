@@ -2,7 +2,6 @@ import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import type { RootState } from '@/redux/store'
 import type { DiscountType, SlugConfigurationType } from 'lib/types'
-import { ALLOWED_DURATIONS, DEFAULT_PRICING, LEAD_TIME } from 'config'
 
 export const initialState: SlugConfigurationType = {
   type: null,
