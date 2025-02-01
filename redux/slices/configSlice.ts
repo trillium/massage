@@ -29,7 +29,7 @@ export const configSlice = createSlice({
     setPrice: (state, action: PayloadAction<{ [key: number]: number }>) => {
       state.price = action.payload
     },
-    setAllowedDurations: (state, action: PayloadAction<number[]>) => {
+    setAllowedDurations: (state, action: PayloadAction<number[] | null>) => {
       state.allowedDurations = action.payload
     },
     setLocation: (state, action: PayloadAction<string>) => {
@@ -44,7 +44,7 @@ export const configSlice = createSlice({
     setDiscount: (state, action: PayloadAction<DiscountType>) => {
       state.discount = action.payload
     },
-    setLeadTimeMinimum: (state, action: PayloadAction<number>) => {
+    setLeadTimeMinimum: (state, action: PayloadAction<number | null>) => {
       state.leadTimeMinimum = action.payload
     },
     setInstantConfirm: (state, action: PayloadAction<boolean>) => {
