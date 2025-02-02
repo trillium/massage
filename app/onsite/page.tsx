@@ -32,7 +32,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<Sea
   return (
     <>
       <Template title="Book a session with Trillium :)" />
-      {/* <ClientPage {...data} /> */}
+      <ClientPage duration={duration} />
 
       <InitialUrlUtility
         configSliceData={configuration}
