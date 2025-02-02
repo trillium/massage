@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import type { RootState } from '@/redux/store'
-import type { BookingFormData } from 'components/booking/BookingForm'
+import { BookingFormData } from '@/lib/types'
 import type { ReviewFormData } from 'components/ReviewForm'
 import { ReviewSnippetProps } from 'components/ReviewCard'
 

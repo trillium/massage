@@ -251,3 +251,23 @@ export type DayWithStartEnd = Day & {
   start: string
   end: string
 }
+
+/**
+ * Represents form data from the booking form
+ */
+export type BookingFormData = {
+  /** firstName of the requester */
+  firstName?: string
+  /** lastName of the requester */
+  lastName?: string
+  /** Email address of the requester */
+  email?: string
+  /** Address of the requester */
+  location?: string
+  /** Whether the locatin can be edited */
+  locationIsReadOnly?: boolean
+  /** Phone number of the requester */
+  phone?: string
+  /** Payment method of the requester */
+  paymentMethod?: PaymentMethodType
+}

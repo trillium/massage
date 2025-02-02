@@ -27,26 +27,6 @@ import siteMetadata from 'data/siteMetadata'
 import clsx from 'clsx'
 const { eventBaseString } = siteMetadata
 
-/**
- * Represents form data from the booking form
- */
-export type BookingFormData = {
-  /** firstName of the requester */
-  firstName?: string
-  /** lastName of the requester */
-  lastName?: string
-  /** Email address of the requester */
-  email?: string
-  /** Address of the requester */
-  location?: string
-  /** Whether the locatin can be edited */
-  locationIsReadOnly?: boolean
-  /** Phone number of the requester */
-  phone?: string
-  /** Payment method of the requester */
-  paymentMethod?: PaymentMethodType
-}
-
 // Define the props interface
 type BookingFormProps = {
   additionalData?: Partial<ChairAppointmentBlockProps>
