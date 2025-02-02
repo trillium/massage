@@ -230,7 +230,7 @@ export default function BookingForm({ additionalData = {}, endPoint }: BookingFo
                   'mb-1 block w-full border-0 p-0 py-1 pl-2 text-gray-900 placeholder:text-gray-400 focus:ring-0 dark:text-gray-100 sm:text-sm sm:leading-6',
                   {
                     'select-none bg-gray-400 dark:bg-gray-700':
-                      !!configData.locationIsReadOnly || false,
+                      !!configData.locationIsReadOnly || !!eventContainers?.location || false,
                   }
                 )}
                 placeholder="123 Address Road, Beverly Hills, CA 90210"
