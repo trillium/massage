@@ -18,6 +18,7 @@ import { InitialUrlUtility } from '@/components/utilities/InitialUrlUtility'
 import { UrlUpdateUtility } from '@/components/utilities/UrlUpdateUtility'
 import { UpdateSlotsUtility } from '@/components/utilities/UpdateSlotsUtility'
 import { initialState } from '@/redux/slices/configSlice'
+import { validateSearchParams } from '@/lib/searchParams/validateSearchParams'
 
 const { avatar } = siteMetadata
 const mapData = '/static/images/foo/service-area.jpg'
@@ -30,15 +31,14 @@ export default async function Page({ searchParams }: { searchParams: Promise<Sea
   const sortedPosts = sortPosts(allBlogs)
   const posts = allCoreContent(sortedPosts)
   const resolvedParams = await searchParams
-  const duration =
-    resolvedParams.duration !== undefined ? Number(resolvedParams.duration) : DEFAULT_DURATION
 
-  const { props } = await fetchData({ searchParams: resolvedParams })
+  const data = await fetchData({ searchParams: resolvedParams })
+  const { duration, selectedDate } = validateSearchParams({ searchParams: resolvedParams })
 
-  const start = dayFromString(props.start)
-  const end = dayFromString(props.end)
+  const start = dayFromString(data.start)
+  const end = dayFromString(data.end)
 
-  const slots = createSlots({ ...props, duration, leadTime: LEAD_TIME, start, end })
+  const slots = createSlots({ ...data, duration, leadTime: LEAD_TIME, start, end })
 
   const configuration = initialState
 
@@ -53,8 +53,6 @@ export default async function Page({ searchParams }: { searchParams: Promise<Sea
     duration: duration,
     allowedDurations: ALLOWED_DURATIONS,
   }
-
-  const { selectedDate } = props
 
   return (
     <>
@@ -87,7 +85,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<Sea
         slots={slots}
       />
       <UrlUpdateUtility />
-      <UpdateSlotsUtility busy={props.busy} start={start} end={end} configObject={configuration} />
+      <UpdateSlotsUtility busy={data.busy} start={start} end={end} configObject={configuration} />
 
       {!!posts.length && <Main posts={posts} />}
     </>
