@@ -1,4 +1,5 @@
 import { formatDatetimeToString } from '../helpers'
+import { GoogleCalendarFetchDataReturnType } from '../types'
 import getAccessToken from './getAccessToken' // Reuse existing function to get access token
 
 export async function getEventsBySearchQuery({
@@ -59,7 +60,7 @@ export async function getEventsBySearchQuery({
     throw new Error(`Error fetching events: ${response.statusText}`)
   }
 
-  const data = await response.json()
+  const data: GoogleCalendarFetchDataReturnType = await response.json()
   return data.items
 }
 
