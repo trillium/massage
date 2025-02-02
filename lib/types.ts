@@ -166,6 +166,18 @@ export type AttendeeType = {
   responseStatus: string
 }
 
+export type GoogleCalendarFetchDataReturnType = {
+  kind: string
+  etag: string
+  summary: string
+  description: string
+  updated: string
+  timeZone: string
+  accessRole: string
+  defaultReminders: { method: string; minutes: number }[]
+  items: GoogleCalendarV3Event[]
+}
+
 export type GoogleCalendarV3Event = {
   // Define the properties of the event according to Google Calendar API V3
   id: string
@@ -177,6 +189,20 @@ export type GoogleCalendarV3Event = {
   end: DateTimeAndTimeZone
   location?: string
   attendees?: AttendeeType[]
+  kind: string
+  etag: string
+  status: string
+  htmlLink: string
+  created: string
+  updated: string
+  creator: object
+  organizer: object
+  recurringEventId: string
+  originalStartTime: object
+  iCalUID: string
+  sequence: number
+  reminders: object
+  eventType: string
 }
 
 export type AllowedDurationsType = number[]
