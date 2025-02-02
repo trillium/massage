@@ -11,6 +11,7 @@ import { InitialUrlUtility } from '@/components/utilities/InitialUrlUtility'
 import { UrlUpdateUtility } from '@/components/utilities/UrlUpdateUtility'
 import { UpdateSlotsUtility } from '@/components/utilities/UpdateSlotsUtility'
 import { initialState } from '@/redux/slices/configSlice'
+import { validateSearchParams } from '@/lib/searchParams/validateSearchParams'
 
 export type PageProps = InferGetServerSidePropsType<typeof fetchData>
 
@@ -18,24 +19,20 @@ export const dynamic = 'force-dynamic'
 
 export default async function Page({ searchParams }: { searchParams: Promise<SearchParamsType> }) {
   const resolvedParams = await searchParams
-  const { props } = await fetchData({ searchParams: resolvedParams })
+  const data = await fetchData({ searchParams: resolvedParams })
+  const { duration, selectedDate } = validateSearchParams({ searchParams: resolvedParams })
 
-  const duration =
-    resolvedParams.duration !== undefined ? Number(resolvedParams.duration) : DEFAULT_DURATION
+  const start = dayFromString(data.start)
+  const end = dayFromString(data.end)
 
-  const start = dayFromString(props.start)
-  const end = dayFromString(props.end)
-
-  const slots = createSlots({ ...props, duration, leadTime: LEAD_TIME, start, end })
+  const slots = createSlots({ ...data, duration, leadTime: LEAD_TIME, start, end })
 
   const configuration = initialState
-
-  const { selectedDate } = props
 
   return (
     <>
       <Template title="Book a session with Trillium :)" />
-      <ClientPage {...props} />
+      {/* <ClientPage {...data} /> */}
 
       <InitialUrlUtility
         configSliceData={configuration}
@@ -45,7 +42,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<Sea
         slots={slots}
       />
       <UrlUpdateUtility />
-      <UpdateSlotsUtility busy={props.busy} start={start} end={end} configObject={configuration} />
+      <UpdateSlotsUtility busy={data.busy} start={start} end={end} configObject={configuration} />
     </>
   )
 }
