@@ -34,7 +34,7 @@ const OnsiteSchema = Yup.object().shape({
   paymentOptions: Yup.string().required('Required'),
 })
 
-function ClientPage({ duration }: PageProps) {
+function ClientPage({ duration }: { duration: number }) {
   const pricing = DEFAULT_PRICING
 
   const formik = useFormik({
