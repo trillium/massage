@@ -28,6 +28,11 @@ const fooSlug: SlugConfigurationType = {
   title: 'Welcome to the Foo booking page!',
   text: 'Foo paragraph text rendered by <Template />',
   location: 'foo',
+  leadTimeMinimum: null,
+  eventContainer: null,
+  discount: null,
+  allowedDurations: null,
+  price: null,
 }
 
 const the_kinn: SlugConfigurationType = {
@@ -38,6 +43,9 @@ const the_kinn: SlugConfigurationType = {
   price: { 15: 30, 30: 60, 45: 90, 60: 120 },
   allowedDurations: [15, 30, 45, 60],
   leadTimeMinimum: 2,
+  eventContainer: null,
+  discount: null,
+  location: null,
 }
 
 const fires: SlugConfigurationType = {
@@ -46,17 +54,27 @@ const fires: SlugConfigurationType = {
   title: 'Have you been effected by the LA fires? Please use this booking link 🙏',
   text: 'My heart goes out to all those who are experiencing difficulty in this time. While I am unable to offer my massage work for free, I would like to reduce the cost for those of us who have been traumatized and are in need of care and support in this trying time.',
   price: { 60: 100 * 1, 90: 100 * 1.5, 120: 100 * 2, 150: 100 * 2.5 },
+  leadTimeMinimum: null,
+  eventContainer: null,
+  discount: null,
+  location: null,
+  allowedDurations: null,
 }
 
 const midnightRunners: SlugConfigurationType = {
   bookingSlug: 'midnight-runners',
   type: 'area-wide',
   title: 'Running peeps, book a session!',
+  text: null,
+  leadTimeMinimum: null,
   discount: {
     type: 'dollar',
     amount: 40,
   },
   price: { 60: 100 * 1, 90: 100 * 1.5, 120: 100 * 2, 150: 100 * 2.5 },
+  eventContainer: null,
+  location: null,
+  allowedDurations: null,
 }
 
 const closeToMe: SlugConfigurationType = {
@@ -65,6 +83,11 @@ const closeToMe: SlugConfigurationType = {
   title: 'Do you live ridiculously close to me??',
   text: "That's so convenient! I can confidently say that if I'm home and not busy I can scoot on over to you in an hour or less. See you soon!",
   leadTimeMinimum: 60,
+  eventContainer: null,
+  price: null,
+  discount: null,
+  location: null,
+  allowedDurations: null,
 }
 
 const hotelJune: SlugConfigurationType = {
@@ -75,6 +98,10 @@ const hotelJune: SlugConfigurationType = {
   location: 'Hotel June West LA, 8639 Lincoln Blvd, Los Angeles, CA 90045',
   locationIsReadOnly: true,
   leadTimeMinimum: 60,
+  allowedDurations: null,
+  eventContainer: null,
+  price: null,
+  discount: null,
 }
 
 export async function fetchSlugConfigurationData(): Promise<SlugConfigurationObject> {
