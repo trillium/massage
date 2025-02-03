@@ -2,11 +2,12 @@ import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import type { RootState } from '@/redux/store'
 import type { DiscountType, SlugConfigurationType } from 'lib/types'
+import { DEFAULT_PRICING } from 'config'
 
 export const initialState: SlugConfigurationType = {
   type: null,
   bookingSlug: null,
-  price: null,
+  price: DEFAULT_PRICING,
   allowedDurations: null,
   title: null,
   text: null,
