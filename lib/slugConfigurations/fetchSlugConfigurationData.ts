@@ -64,7 +64,7 @@ const midnightRunners: SlugConfigurationType = {
   title: 'Running peeps, book a session!',
   discount: {
     type: 'dollar',
-    amount: 40,
+    amountDollars: 40,
   },
   price: { 60: 100 * 1, 90: 100 * 1.5, 120: 100 * 2, 150: 100 * 2.5 },
 }
