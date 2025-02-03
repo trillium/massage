@@ -213,7 +213,8 @@ export type PricingType = { [key: number]: number }
 
 export type DiscountType = {
   type: 'percent' | 'dollar'
-  amount: string | number
+  amountDollars?: number
+  amountPercent?: number
 }
 
 export type SlugType = 'area-wide' | 'fixed-location' | 'scheduled-site' | null
