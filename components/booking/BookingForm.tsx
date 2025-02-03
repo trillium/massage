@@ -11,7 +11,7 @@ import { formatLocalDate, formatLocalTime } from 'lib/availability/helpers'
 
 import { setForm } from '@/redux/slices/formSlice'
 import type { AppDispatch } from '@/redux/store'
-import { DEFAULT_PRICING } from 'config'
+import { DEFAULT_DURATION, DEFAULT_PRICING } from 'config'
 import { setModal } from '@/redux/slices/modalSlice'
 import {
   useAppDispatch,
@@ -21,10 +21,11 @@ import {
   useReduxModal,
   useReduxConfig,
 } from '@/redux/hooks'
-import { ChairAppointmentBlockProps, PaymentMethodType } from 'lib/types'
+import { ChairAppointmentBlockProps } from 'lib/types'
 import { paymentMethod } from 'data/paymentMethods'
 import siteMetadata from 'data/siteMetadata'
 import clsx from 'clsx'
+import { GeneratePrice } from '@/components/utilities/GeneratePriceAtom'
 const { eventBaseString } = siteMetadata
 
 // Define the props interface
@@ -40,8 +41,9 @@ export default function BookingForm({ additionalData = {}, endPoint }: BookingFo
   const configData = useReduxConfig()
   const eventContainers = useReduxEventContainers()
   const { status: modal } = useReduxModal()
-  const { selectedTime, timeZone, duration } = useReduxAvailability()
-  const price = duration ? DEFAULT_PRICING[duration] : 'null'
+  const { selectedTime, timeZone, duration: durationRedux } = useReduxAvailability()
+  const duration = durationRedux ?? DEFAULT_DURATION
+  const price = DEFAULT_PRICING[duration]
 
   const { acceptingPayment = true } = configData ?? {}
 
@@ -119,7 +121,11 @@ export default function BookingForm({ additionalData = {}, endPoint }: BookingFo
           <p className="text-xs md:text-sm">
             {startString} - {endString}
           </p>
-          {acceptingPayment && <p className="text-xs md:text-sm">${price}</p>}
+          {acceptingPayment && (
+            <p className="text-xs md:text-sm">
+              <GeneratePrice price={price} discount={configData.discount} />
+            </p>
+          )}
         </div>
 
         <div className="flex flex-col space-y-4">
