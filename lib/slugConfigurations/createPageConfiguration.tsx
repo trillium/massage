@@ -75,6 +75,7 @@ export async function createPageConfiguration({
     price: pricing,
     duration: duration,
     allowedDurations,
+    configuration,
   }
 
   return {
