@@ -12,11 +12,13 @@ import { initialState } from '@/redux/slices/configSlice'
 type createPageConfigurationProps = {
   bookingSlug?: string
   resolvedParams: SearchParamsType
+  overrides?: Partial<SlugConfigurationType>
 }
 
 export async function createPageConfiguration({
   bookingSlug,
   resolvedParams,
+  overrides,
 }: createPageConfigurationProps) {
   const slugData = await fetchSlugConfigurationData()
   let configuration: SlugConfigurationType
@@ -25,6 +27,8 @@ export async function createPageConfiguration({
   } else {
     configuration = initialState
   }
+
+  Object.assign(configuration, overrides)
 
   let data
 
