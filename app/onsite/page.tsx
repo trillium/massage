@@ -31,11 +31,12 @@ export default async function Page({ searchParams }: { searchParams: Promise<Sea
     selectedDate,
     slots,
     containerStrings,
+    allowedDurations,
     duration,
     data,
     start,
     end,
-  } = await createPageConfiguration({ resolvedParams, overrides: { allowedDurations } })
+  } = await createPageConfiguration({ resolvedParams, overrides })
 
   return (
     <>
@@ -63,12 +64,6 @@ export default async function Page({ searchParams }: { searchParams: Promise<Sea
   )
 }
 
-const allowedDurations: AllowedDurationsType = [
-  60 * 1,
-  60 * 1.5,
-  60 * 2,
-  60 * 2.5,
-  60 * 3,
-  60 * 3.5,
-  60 * 4,
-]
+const overrides = {
+  allowedDurations: [60 * 1, 60 * 1.5, 60 * 2, 60 * 2.5, 60 * 3, 60 * 3.5, 60 * 4],
+}
