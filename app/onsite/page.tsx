@@ -12,6 +12,7 @@ import { UrlUpdateUtility } from '@/components/utilities/UrlUpdateUtility'
 import { UpdateSlotsUtility } from '@/components/utilities/UpdateSlotsUtility'
 import { initialState } from '@/redux/slices/configSlice'
 import { validateSearchParams } from '@/lib/searchParams/validateSearchParams'
+import { createPageConfiguration } from '@/lib/slugConfigurations/createPageConfiguration'
 
 export type PageProps = InferGetServerSidePropsType<typeof fetchData>
 
@@ -19,15 +20,18 @@ export const dynamic = 'force-dynamic'
 
 export default async function Page({ searchParams }: { searchParams: Promise<SearchParamsType> }) {
   const resolvedParams = await searchParams
-  const data = await fetchData({ searchParams: resolvedParams })
-  const { duration, selectedDate } = validateSearchParams({ searchParams: resolvedParams })
 
-  const start = dayFromString(data.start)
-  const end = dayFromString(data.end)
-
-  const slots = createSlots({ ...data, duration, leadTime: LEAD_TIME, start, end })
-
-  const configuration = initialState
+  const {
+    durationProps,
+    configuration,
+    selectedDate,
+    slots,
+    containerStrings,
+    duration,
+    data,
+    start,
+    end,
+  } = await createPageConfiguration({ resolvedParams })
 
   return (
     <>
