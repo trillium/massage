@@ -1,4 +1,5 @@
 import type { InferGetServerSidePropsType } from 'next'
+import clsx from 'clsx'
 
 import ClientPage from './ClientPage'
 import Template from 'components/Template'
@@ -13,6 +14,9 @@ import { UpdateSlotsUtility } from '@/components/utilities/UpdateSlotsUtility'
 import { initialState } from '@/redux/slices/configSlice'
 import { validateSearchParams } from '@/lib/searchParams/validateSearchParams'
 import { createPageConfiguration } from '@/lib/slugConfigurations/createPageConfiguration'
+import DurationPicker from '@/components/availability/controls/DurationPicker'
+import Calendar from '@/components/availability/date/Calendar'
+import TimeList from '@/components/availability/time/TimeList'
 
 export type PageProps = InferGetServerSidePropsType<typeof fetchData>
 
@@ -31,12 +35,20 @@ export default async function Page({ searchParams }: { searchParams: Promise<Sea
     data,
     start,
     end,
-  } = await createPageConfiguration({ resolvedParams })
+  } = await createPageConfiguration({ resolvedParams, overrides: { allowedDurations } })
 
   return (
     <>
       <Template title="Book a session with Trillium :)" />
-      <ClientPage duration={duration} />
+      <ClientPage duration={duration}>
+        <div className="flex flex-col space-y-8">
+          <div className="flex space-x-6">
+            <DurationPicker {...durationProps} />
+          </div>
+          <Calendar />
+          <TimeList />
+        </div>
+      </ClientPage>
 
       <InitialUrlUtility
         configSliceData={configuration}

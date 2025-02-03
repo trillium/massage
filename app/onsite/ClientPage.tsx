@@ -34,7 +34,7 @@ const OnsiteSchema = Yup.object().shape({
   paymentOptions: Yup.string().required('Required'),
 })
 
-function ClientPage({ duration }: { duration: number }) {
+function ClientPage({ duration, children }: { duration: number; children?: React.ReactNode }) {
   const pricing = DEFAULT_PRICING
 
   const formik = useFormik({
@@ -201,23 +201,8 @@ function ClientPage({ duration }: { duration: number }) {
           </div>
         </ol>
       </form>
-      <div
-        className={clsx({
-          'pointer-events-none opacity-50': !formik.isValid,
-        })}
-        aria-disabled={!formik.isValid}
-        tabIndex={(!formik.isValid && -1) || undefined}
-        ref={divRef}
-      >
-        <div className="flex flex-col space-y-8">
-          <div className="flex space-x-6">
-            <DurationPicker {...durationProps} />
-          </div>
-          <Calendar />
-          <TimeList />
-        </div>
-        <BookingForm additionalData={formik.values} endPoint="api/onsite/request" />
-      </div>
+      {children}
+      <BookingForm additionalData={formik.values} endPoint="api/onsite/request" />
     </>
   )
 }
