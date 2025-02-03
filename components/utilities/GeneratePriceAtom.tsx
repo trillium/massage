@@ -10,7 +10,7 @@ export function GeneratePrice({ price, discount }: GeneratePriceType) {
     if (discount?.type === 'dollar' && amountDollars !== undefined) {
       discountPrice = price - amountDollars
     } else if (discount?.type === 'percent' && amountPercent !== undefined) {
-      discountPrice = price * (1 - amountPercent)
+      discountPrice = Math.floor(price * (1 - amountPercent))
     }
   }
   return (
