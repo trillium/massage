@@ -15,6 +15,7 @@ import TimeList from '@/components/availability/time/TimeList'
 import { SearchParamsType, SlugConfigurationType } from '@/lib/types'
 import { fetchData } from '@/lib/fetch/fetchData'
 import NotFound from 'app/not-found'
+import { validateSearchParams } from '@/lib/searchParams/validateSearchParams'
 
 export default async function Page({
   searchParams,
@@ -28,9 +29,6 @@ export default async function Page({
   const slugData = await fetchSlugConfigurationData()
 
   const configuration: SlugConfigurationType = slugData[bookingSlug] ?? null
-
-  const duration =
-    resolvedParams.duration !== undefined ? Number(resolvedParams.duration) : DEFAULT_DURATION
 
   let data
 
@@ -47,14 +45,21 @@ export default async function Page({
     data = await fetchData({ searchParams: resolvedParams })
   }
 
-  const { props } = data
+  const { duration, selectedDate } = validateSearchParams({ searchParams: resolvedParams })
 
-  const start = dayFromString(props.start)
-  const end = dayFromString(props.end)
+  const start = dayFromString(data.start)
+  const end = dayFromString(data.end)
 
   const leadTime = configuration?.leadTimeMinimum ?? LEAD_TIME
 
-  const slots = createSlots({ ...data.props, duration, leadTime, start, end })
+  const slots = createSlots({
+    start,
+    end,
+    busy: data.busy,
+    ...data.data,
+    duration,
+    leadTime,
+  })
 
   const containerStrings = {
     eventBaseString: bookingSlug + siteMetadata.eventBaseString,
@@ -73,8 +78,6 @@ export default async function Page({
     duration: duration,
     allowedDurations: configuration?.allowedDurations ?? ALLOWED_DURATIONS,
   }
-
-  const { selectedDate } = props
 
   return (
     <>
@@ -104,8 +107,8 @@ export default async function Page({
       />
       <UrlUpdateUtility />
       <UpdateSlotsUtility
-        busy={props.busy}
-        containers={props.containers}
+        busy={data.busy}
+        containers={data.containers}
         start={start}
         end={end}
         configObject={configuration}
