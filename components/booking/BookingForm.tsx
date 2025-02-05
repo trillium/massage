@@ -25,7 +25,7 @@ import { ChairAppointmentBlockProps } from 'lib/types'
 import { paymentMethod } from 'data/paymentMethods'
 import siteMetadata from 'data/siteMetadata'
 import clsx from 'clsx'
-import { GeneratePrice } from '@/components/utilities/GeneratePriceAtom'
+import { discountMaths, GeneratePrice } from '@/components/utilities/GeneratePriceAtom'
 const { eventBaseString } = siteMetadata
 
 // Define the props interface
@@ -94,7 +94,14 @@ export default function BookingForm({ additionalData = {}, endPoint }: BookingFo
         <input type="hidden" readOnly name="start" value={selectedTime.start} />
         <input type="hidden" readOnly name="end" value={selectedTime.end} />
         <input type="hidden" readOnly name="duration" value={duration || 0} />
-        {acceptingPayment && <input type="hidden" readOnly name="price" value={price} />}
+        {acceptingPayment && (
+          <input
+            type="hidden"
+            readOnly
+            name="price"
+            value={discountMaths({ price, discount: configData.discount })}
+          />
+        )}
         <input type="hidden" readOnly name="timeZone" value={timeZone} />
         <input type="hidden" readOnly name="eventBaseString" value={eventBaseString} />
         {eventContainers && eventContainers.eventBaseString && (
