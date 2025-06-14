@@ -1,10 +1,11 @@
+import { describe, it, expect, vi, type Mock, type Mocked } from 'vitest'
 import { getHash } from '@/lib/hash'
 import { createHash } from 'crypto'
 
-jest.mock('crypto', () => ({
-  createHash: jest.fn().mockReturnValue({
-    update: jest.fn().mockReturnThis(),
-    digest: jest.fn().mockReturnValue('mocked_hash'),
+vi.mock('crypto', () => ({
+  createHash: vi.fn().mockReturnValue({
+    update: vi.fn().mockReturnThis(),
+    digest: vi.fn().mockReturnValue('mocked_hash'),
   }),
 }))
 

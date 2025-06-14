@@ -1,3 +1,4 @@
+import { describe, it, expect, type Mock, type Mocked } from 'vitest'
 import { AppointmentRequestSchema } from '@/lib/schema'
 
 describe('AppointmentRequestSchema', () => {

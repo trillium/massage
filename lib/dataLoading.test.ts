@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest'
 import { dumpData, loadData, replaceLeadingUnderscoresWithSpaces } from './dataLoading'
 import yaml from 'js-yaml'
 

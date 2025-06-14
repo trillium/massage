@@ -1,3 +1,4 @@
+import { describe, it, expect, type Mock, type Mocked } from 'vitest'
 import { decode, encode } from '@/lib/hashServer'
 import type { HashableObject } from '@/lib/hashServer'
 

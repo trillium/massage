@@ -1,14 +1,11 @@
-/**
- * @jest-environment node
- */
-
+import { describe, it, expect, vi, beforeEach, afterEach, type Mock, type Mocked } from 'vitest'
 import getAccessToken from '../getAccessToken'
 
 const originalFetch = global.fetch
 
 describe('getAccessToken', () => {
   beforeEach(() => {
-    global.fetch = jest.fn()
+    global.fetch = vi.fn()
   })
 
   afterEach(() => {
@@ -47,7 +44,7 @@ describe('getAccessToken', () => {
       headers: { 'Content-Type': 'application/json' },
     })
 
-    ;(fetch as jest.MockedFunction<typeof fetch>).mockResolvedValueOnce(mockResponse)
+    ;(fetch as Mock).mockResolvedValueOnce(mockResponse)
 
     const result = await getAccessToken()
 
@@ -65,7 +62,7 @@ describe('getAccessToken', () => {
       headers: { 'Content-Type': 'application/json' },
     })
 
-    ;(fetch as jest.MockedFunction<typeof fetch>).mockResolvedValueOnce(mockResponse)
+    ;(fetch as Mock).mockResolvedValueOnce(mockResponse)
 
     await expect(getAccessToken()).rejects.toMatchObject({
       message: expect.stringMatching(/Couldn't get access token/),

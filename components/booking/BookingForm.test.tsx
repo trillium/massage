@@ -1,7 +1,4 @@
-/**
- * @jest-environment jsdom
- */
-
+import { describe, it, expect, vi, beforeEach, type Mock, type Mocked } from 'vitest'
 import React from 'react'
 import { render, fireEvent, waitFor } from '@testing-library/react'
 import BookingForm from './BookingForm'
@@ -13,21 +10,21 @@ import { ChairAppointmentBlockProps } from '@/lib/types'
 import StoreProvider from 'app/StoreProvider'
 
 // Mock dependencies
-jest.mock('next/router', () => ({
-  useRouter: jest.fn(),
+vi.mock('next/router', () => ({
+  useRouter: vi.fn(),
 }))
-jest.mock('@/redux/slices/modalSlice', () => ({
-  setModal: jest.fn(),
+vi.mock('@/redux/slices/modalSlice', () => ({
+  setModal: vi.fn(),
 }))
 
 describe('BookingForm', () => {
-  let dispatchRedux: jest.MockedFunction<AppDispatch>
+  let dispatchRedux: Mock
   let router: ReturnType<typeof useRouter>
 
   beforeEach(() => {
-    dispatchRedux = jest.fn()
+    dispatchRedux = vi.fn()
     router = {
-      push: jest.fn(),
+      push: vi.fn(),
       route: '',
       pathname: '',
       query: {},
@@ -39,20 +36,20 @@ describe('BookingForm', () => {
       isFallback: false,
       isReady: true,
       isPreview: false,
-      back: jest.fn(),
-      beforePopState: jest.fn(),
-      prefetch: jest.fn(),
-      reload: jest.fn(),
-      replace: jest.fn(),
+      back: vi.fn(),
+      beforePopState: vi.fn(),
+      prefetch: vi.fn(),
+      reload: vi.fn(),
+      replace: vi.fn(),
       events: {
-        on: jest.fn(),
-        off: jest.fn(),
-        emit: jest.fn(),
+        on: vi.fn(),
+        off: vi.fn(),
+        emit: vi.fn(),
       },
       isLocaleDomain: false,
-      forward: jest.fn(),
-    } as unknown as jest.Mocked<NextRouter>
-    ;(useRouter as jest.Mock).mockReturnValue(router)
+      forward: vi.fn(),
+    } as unknown as Mocked<NextRouter>
+    ;(useRouter as Mock).mockReturnValue(router)
   })
 
   it('should handle form submission correctly', async () => {

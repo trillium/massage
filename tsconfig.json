@@ -16,7 +16,7 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "baseUrl": ".",
-    "types": ["jest", "node"],
+    "types": ["vitest", "node"],
     "paths": {
       "@/components/*": ["components/*"],
       "@/data/*": ["data/*"],
