@@ -22,7 +22,7 @@ type ValidationResult = {
 export async function encode(obj: HashableObject): Promise<HashableObject> {
   const dataString = JSON.stringify(obj)
   const hash = getHash(dataString)
-  return { key: hash, data: obj }
+  return { ...obj, key: hash }
 }
 
 /**
