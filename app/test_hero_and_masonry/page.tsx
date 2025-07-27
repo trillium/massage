@@ -1,6 +1,6 @@
 import Template from '@/components/Template'
 import Hero from '@/components/hero/Hero'
-import siteMetadata from 'storage/siteMetadata'
+import siteMetadata from '@/data/siteMetadata'
 import Masonry from '@/components/masonry/Masonry'
 import { SearchParamsType } from '@/lib/types'
 import BookingForm from '@/components/booking/BookingForm'
