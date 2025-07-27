@@ -46,7 +46,7 @@ export default function TimeButton({
         if (location) {
           dispatchRedux(setEventContainers({ location: location || '' }))
         } else {
-          dispatchRedux(clearEventContainers())
+          dispatchRedux(clearEventContainers({}))
         }
         dispatchRedux(setModal({ status: 'open' }))
       }}
