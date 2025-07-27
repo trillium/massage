@@ -3,7 +3,7 @@
 import { getHash } from './hash'
 
 export type HashableObject = {
-  [key: string]: any
+  [key: string]: unknown
   hash?: string
 }
 
@@ -36,12 +36,12 @@ export async function decode(obj: HashableObject): Promise<ValidationResult> {
     return { validated: false, data: obj }
   }
 
-  const { key, data: dataWithoutHash } = obj
+  const { key, ...dataWithoutHash } = obj
   const dataString = JSON.stringify(dataWithoutHash)
   const validHash = await getHash(dataString)
   return {
     validated: key === validHash,
-    data: dataWithoutHash,
+    data: dataWithoutHash as HashableObject,
     key: validHash,
   }
 }

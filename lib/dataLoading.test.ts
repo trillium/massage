@@ -165,7 +165,7 @@ summary: spiteless__EVENT__CONTAINER__`
   describe('edge cases and error handling', () => {
     it('dumpData should handle empty object and array', () => {
       expect(dumpData({})).toBe('{}\n')
-      expect(dumpData([] as any)).toBe('[]\n')
+      expect(dumpData([])).toBe('[]\n')
     })
 
     it('loadData should handle empty string', () => {
@@ -174,7 +174,7 @@ summary: spiteless__EVENT__CONTAINER__`
 
     it('dumpData and loadData should handle empty object and array roundtrip', () => {
       expect(loadData(dumpData({}))).toEqual({})
-      expect(loadData(dumpData([] as any))).toEqual([])
+      expect(loadData(dumpData([]))).toEqual([])
     })
 
     it('loadData should handle malformed YAML gracefully', () => {

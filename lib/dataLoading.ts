@@ -8,7 +8,7 @@ export function replaceLeadingUnderscoresWithSpaces(str: string) {
   return str.replace(/^(_+)/gm, (match) => ' '.repeat(match.length))
 }
 
-export function dumpData(obj: Record<string, any>): string {
+export function dumpData(obj: Record<string, unknown> | unknown[]): string {
   const yamlStr = yaml.dump(obj, {})
   const outStr = replaceLeadingSpacesWithUnderscores(yamlStr)
   return outStr

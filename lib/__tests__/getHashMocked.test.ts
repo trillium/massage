@@ -2,8 +2,9 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { getHash } from '@/lib/hash'
 import { createHash } from 'crypto'
 
-// Use var for hoisting compatibility with vi.mock
-var updateMock: any, digestMock: any, createHashMock: any
+let updateMock: ReturnType<typeof vi.fn>
+let digestMock: ReturnType<typeof vi.fn>
+let createHashMock: ReturnType<typeof vi.fn>
 
 vi.mock('crypto', () => {
   updateMock = vi.fn().mockReturnThis()

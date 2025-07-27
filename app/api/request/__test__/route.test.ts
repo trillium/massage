@@ -1,6 +1,8 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { handleAppointmentRequest } from '../route'
 import { AppointmentRequestSchema } from 'lib/schema'
+import type { NextRequest } from 'next/server'
+import type { IncomingMessage } from 'http'
 
 // Mocks
 const sendMailMock = vi.fn(() => Promise.resolve())
@@ -25,11 +27,11 @@ const validPayload = {
   paymentMethod: 'cash',
 }
 
-function makeRequest(body: any, headers: Record<string, string> = {}) {
+function makeRequest(body: Record<string, unknown>, headers: Record<string, string> = {}) {
   return {
     json: async () => body,
     socket: { remoteAddress: '1.2.3.4' },
-  } as any
+  } as unknown as NextRequest & IncomingMessage
 }
 
 function makeHeaders(headers: Record<string, string> = {}) {
