@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import type { PayloadAction } from '@reduxjs/toolkit'
+import type { PayloadAction, Slice } from '@reduxjs/toolkit'
 import type { RootState } from '@/redux/store'
 import type { DiscountType, SlugConfigurationType } from 'lib/types'
 import { DEFAULT_PRICING } from 'config'
@@ -20,7 +20,7 @@ export const initialState: SlugConfigurationType = {
   acceptingPayment: true,
 }
 
-export const configSlice = createSlice({
+export const configSlice: Slice<SlugConfigurationType> = createSlice({
   name: 'config',
   initialState,
   reducers: {

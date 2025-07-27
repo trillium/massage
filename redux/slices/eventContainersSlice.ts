@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import type { PayloadAction } from '@reduxjs/toolkit'
+import type { PayloadAction, Slice } from '@reduxjs/toolkit'
 import type { RootState } from '@/redux/store'
 
 export type EventContainerType = {
@@ -24,7 +24,7 @@ const initialState: EventContainerType = {
   ...initialEventContainerState,
 }
 
-export const eventContainersSlice = createSlice({
+export const eventContainersSlice: Slice<EventContainerType> = createSlice({
   name: 'eventContainers',
   initialState,
   reducers: {

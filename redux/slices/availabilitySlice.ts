@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import type { PayloadAction } from '@reduxjs/toolkit'
+import type { PayloadAction, Slice } from '@reduxjs/toolkit'
 import type { RootState } from '@/redux/store'
 import type { IntervalType, StringDateTimeIntervalAndLocation } from 'lib/types'
 import Day from 'lib/day'
@@ -31,7 +31,7 @@ const initialState: AvailabilityState = {
   slots: [],
 }
 
-export const availabilitySlice = createSlice({
+export const availabilitySlice: Slice<AvailabilityState> = createSlice({
   name: 'availability',
   initialState,
   reducers: {

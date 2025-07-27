@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import type { PayloadAction } from '@reduxjs/toolkit'
+import type { PayloadAction, Slice } from '@reduxjs/toolkit'
 import type { RootState } from '@/redux/store'
 
 type ObjReadyType = {
@@ -8,7 +8,7 @@ type ObjReadyType = {
 
 const initialState: ObjReadyType = { Calendar: false, TimeList: false, hidden: true }
 
-export const readySlice = createSlice({
+export const readySlice: Slice<ObjReadyType> = createSlice({
   name: 'ready',
   initialState,
   reducers: {

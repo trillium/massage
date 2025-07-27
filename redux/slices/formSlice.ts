@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import type { PayloadAction } from '@reduxjs/toolkit'
+import type { PayloadAction, Slice } from '@reduxjs/toolkit'
 import type { RootState } from '@/redux/store'
 import type { BookingFormData } from 'components/booking/types'
 import type { ReviewFormData } from 'components/ReviewForm'
@@ -57,7 +57,7 @@ const initialState: FormStateType = {
   ...initialReviewFormState,
 }
 
-export const formSlice = createSlice({
+export const formSlice: Slice<FormStateType> = createSlice({
   name: 'form',
   initialState,
   reducers: {
