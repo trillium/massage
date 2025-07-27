@@ -1,12 +1,12 @@
 export type Pricing = {
-  [key: number]: number;
-};
+  [key: number]: number
+}
 
 export type Slugs = {
   [category: string]: {
-    pricing: Pricing;
-  };
-};
+    pricing: Pricing
+  }
+}
 
 const slugs = {
   app: {
