@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import type { RootState } from '@/redux/store'
-import type { BookingFormData } from 'components/booking/BookingForm'
+import type { BookingFormData } from 'components/booking/types'
 import type { ReviewFormData } from 'components/ReviewForm'
 import { ReviewSnippetProps } from 'components/ReviewCard'
 
@@ -14,6 +14,10 @@ export const initialBookingFormData: BookingFormData = {
   email: '',
   /** Address of the requester */
   location: '',
+  /** City of the requester */
+  city: '',
+  /** Zip code of the requester */
+  zipCode: '',
   /** Phone number of the requester */
   phone: '',
   /** Payment method of the requester */

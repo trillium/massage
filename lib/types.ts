@@ -40,6 +40,8 @@ export type StringInterval = {
  */
 export type StringIntervalAndLocation = StringInterval & {
   location?: string
+  city?: string
+  zipCode?: string
 }
 
 /**
@@ -52,11 +54,32 @@ export type DateTimeInterval = {
   end: Date
 }
 
+export type DateTimeAndTimeZone = {
+  dateTime: string
+  timeZone: string
+}
+
+/**
+ * Represents an interval of time between start and end.
+ */
+export type StringDateTimeInterval = {
+  /** Starting date */
+  start: string
+  /** Ending date */
+  end: string
+}
+
 /**
  * Represents an interval of time between start and end
  * with an optional location.
  */
 export type DateTimeIntervalAndLocation = DateTimeInterval & {
+  location?: string
+  city?: string
+  zipCode?: string
+}
+
+export type StringDateTimeIntervalAndLocation = StringDateTimeInterval & {
   location?: string
 }
 
@@ -85,6 +108,8 @@ export type AppointmentProps = {
   phone: string
   /** Location of the appointment. */
   location: string
+  city?: string
+  zipCode?: string
   /** Timezone of the requester. */
   timeZone: string
   /** A unique ID for generating Google Meet details */
@@ -147,6 +172,18 @@ export type AttendeeType = {
   responseStatus: string
 }
 
+export type GoogleCalendarFetchDataReturnType = {
+  kind: string
+  etag: string
+  summary: string
+  description: string
+  updated: string
+  timeZone: string
+  accessRole: string
+  defaultReminders: { method: string; minutes: number }[]
+  items: GoogleCalendarV3Event[]
+}
+
 export type GoogleCalendarV3Event = {
   // Define the properties of the event according to Google Calendar API V3
   id: string
@@ -154,18 +191,90 @@ export type GoogleCalendarV3Event = {
   summary: string
   /* The calendar appointment text */
   description?: string
-  start: {
-    dateTime: string
-    timeZone?: string
-  }
-  end: {
-    dateTime: string
-    timeZone?: string
-  }
+  start: DateTimeAndTimeZone
+  end: DateTimeAndTimeZone
   location?: string
   attendees?: AttendeeType[]
+  kind: string
+  etag: string
+  status: string
+  htmlLink: string
+  created: string
+  updated: string
+  creator: object
+  organizer: object
+  recurringEventId: string
+  originalStartTime: object
+  iCalUID: string
+  sequence: number
+  reminders: object
+  eventType: string
 }
 
 export type AllowedDurationsType = number[]
 
 export type OnSiteRequestType = z.infer<typeof OnSiteRequestSchema>
+
+export type PricingType = { [key: number]: number }
+
+export type DiscountType = {
+  type: 'percent' | 'dollar'
+  amountDollars?: number
+  amountPercent?: number
+}
+
+export type SlugType = 'area-wide' | 'fixed-location' | 'scheduled-site' | null
+
+export type SlugConfigurationType = {
+  bookingSlug: string | null // this must be unique and cannot conflict with current app pages
+  type: SlugType
+  title: string | null
+  text: string | null
+  location: string | null
+  locationIsReadOnly?: boolean
+  eventContainer: string | null
+  price: PricingType | null
+  discount: DiscountType | null
+  leadTimeMinimum: number | null // in minutes
+  instantConfirm?: boolean
+  acceptingPayment?: boolean
+  allowedDurations: AllowedDurationsType | null
+}
+
+export type SearchParamsType = { [key: string]: string | string[] | undefined }
+
+export type IntervalType = {
+  start: string
+  end: string
+}
+
+export type Day = {
+  year: number
+  month: number
+  day: number
+}
+
+export type DayWithStartEnd = Day & {
+  start: string
+  end: string
+}
+
+/**
+ * Represents form data from the booking form
+ */
+export type BookingFormData = {
+  /** firstName of the requester */
+  firstName?: string
+  /** lastName of the requester */
+  lastName?: string
+  /** Email address of the requester */
+  email?: string
+  /** Address of the requester */
+  location?: string
+  /** Whether the locatin can be edited */
+  locationIsReadOnly?: boolean
+  /** Phone number of the requester */
+  phone?: string
+  /** Payment method of the requester */
+  paymentMethod?: PaymentMethodType
+}

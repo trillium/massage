@@ -1,6 +1,6 @@
-import { defineConfig } from 'vitest/config';
-import tsconfigPaths from 'vite-tsconfig-paths';
-import { resolve } from 'path';
+import { defineConfig } from 'vitest/config'
+import tsconfigPaths from 'vite-tsconfig-paths'
+import { resolve } from 'path'
 
 export default defineConfig({
   plugins: [tsconfigPaths()],
@@ -11,11 +11,11 @@ export default defineConfig({
   },
   test: {
     globals: true,
-    environment: 'node',
+    environment: 'jsdom', // Use jsdom for React component tests
     coverage: {
       provider: 'v8',
       reporter: ['text', 'html'],
     },
-    include: ['lib/**/*.test.{ts,tsx,js,jsx}'],
+    include: ['**/?(*.)+(test|spec).{ts,tsx,js,jsx}'],
   },
-});
+})

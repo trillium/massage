@@ -13,6 +13,7 @@ import { getHash } from 'lib/hash'
 import type { DateTimeIntervalWithTimezone } from 'lib/types'
 import { OnSiteRequestSchema } from 'lib/schema'
 import siteMetadata from '@/data/siteMetadata'
+import { intervalToHumanString } from 'lib/intervalToHumanString'
 
 const fs = require('fs').promises
 
@@ -113,45 +114,4 @@ export async function POST(req: NextRequest & IncomingMessage): Promise<NextResp
     const currentUsage = tokenCount[0]
     return currentUsage >= REQUESTS_PER_IP_PER_MINUTE_LIMIT
   }
-}
-
-/**
- * Converts a date-time interval to a human-readable string.
- *
- * This function takes a date-time interval with start and end times,
- * and a time zone.
- *
- * It returns a formatted string representing the interval, including
- * the start and end times, and the time zone.
- *
- * @function
- * @param {Object} DateTimeIntervalWithTimezone An object containing the
- * start, end, and time zone of the interval.
- *
- * @param {string} interval.start The start time of the interval
- * as a string or Date object.
- *
- * @param {string} interval.end The end time of the interval as
- * a string or Date object.
- *
- * @param {string} interval.timeZone The time zone used to format
- * the date and time.
- *
- * @returns {string} A human-readable string representation
- * of the date-time interval.
- */
-function intervalToHumanString({ start, end, timeZone }: DateTimeIntervalWithTimezone): string {
-  return `${formatLocalDate(start, {
-    month: 'long',
-    day: 'numeric',
-    hour: 'numeric',
-    minute: 'numeric',
-    weekday: 'long',
-    timeZone,
-  })} – ${formatLocalTime(end, {
-    hour: 'numeric',
-    minute: 'numeric',
-    timeZone,
-    timeZoneName: 'longGeneric',
-  })}`
 }

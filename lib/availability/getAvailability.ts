@@ -1,7 +1,8 @@
 import { add, areIntervalsOverlapping, sub } from 'date-fns'
 
-import type { DateTimeInterval, DateTimeIntervalAndLocation } from '../types'
+import type { DateTimeInterval, StringDateTimeIntervalAndLocation } from '../types'
 import { SLOT_PADDING, LEAD_TIME } from '../../config'
+import { formatDatetimeToString } from '../helpers'
 
 /**
  * Takes an array of potential slots and an array of busy slots and returns
@@ -22,13 +23,13 @@ export default function getAvailability({
   padding = SLOT_PADDING,
   leadTime = LEAD_TIME,
 }: {
-  potential?: DateTimeIntervalAndLocation[]
+  potential?: StringDateTimeIntervalAndLocation[]
   busy?: DateTimeInterval[]
   padding?: number
   leadTime?: number
-}): DateTimeIntervalAndLocation[] {
+}): StringDateTimeIntervalAndLocation[] {
   // Our final array of available slots
-  const openSlots: DateTimeIntervalAndLocation[] = []
+  const openSlots: StringDateTimeIntervalAndLocation[] = []
 
   if (potentialParam === undefined || busy === undefined) {
     return []
@@ -48,7 +49,8 @@ export default function getAvailability({
   }
 
   const potential = potentialParam.filter((slot) => {
-    return slot.start > now
+    const slotStartDate = new Date(slot.start)
+    return slotStartDate > now
   }) // filter out slots that are in the past
 
   // Make a deep copy of the potential array
@@ -68,7 +70,13 @@ export default function getAvailability({
       const busyStart = sub(busySlot.start, { minutes: padding })
       const busyEnd = add(busySlot.end, { minutes: padding })
 
-      if (areIntervalsOverlapping(freeSlot, { start: busyStart, end: busyEnd })) {
+      // Convert string dates to Date objects for comparison
+      const freeSlotInterval = {
+        start: new Date(freeSlot.start),
+        end: new Date(freeSlot.end)
+      }
+
+      if (areIntervalsOverlapping(freeSlotInterval, { start: busyStart, end: busyEnd })) {
         isFree = false
         break
       }

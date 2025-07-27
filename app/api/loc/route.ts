@@ -19,10 +19,12 @@ export async function GET(req: NextRequest) {
   // Convert searchParams to a plain object
   const paramsObj = Object.fromEntries(searchParams)
   const location = searchParams.get('location')
+  const city = searchParams.get('city')
+  const zipCode = searchParams.get('zipCode')
 
   let res
   if (location) {
-    res = await updateLocation({ location })
+    res = await updateLocation({ location, city: city || undefined, zipCode: zipCode || undefined })
   } else {
     res = { error: 'No location found on response' }
   }

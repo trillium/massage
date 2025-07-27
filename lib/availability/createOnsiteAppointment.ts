@@ -25,6 +25,8 @@ function buildEventBody(props: ChairAppointmentBlockCalendarProps) {
     summary,
     email,
     location,
+    city,
+    zipCode,
     phone,
     requestId,
     firstName,
@@ -51,7 +53,7 @@ function buildEventBody(props: ChairAppointmentBlockCalendarProps) {
         displayName: firstName,
       },
     ],
-    ...{ location },
+    ...{ location, city, zipCode },
   }
 }
 

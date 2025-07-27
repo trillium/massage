@@ -1,26 +1,39 @@
-import { describe, it, expect, vi, type Mock, type Mocked } from 'vitest'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { getHash } from '@/lib/hash'
 import { createHash } from 'crypto'
 
-vi.mock('crypto', () => ({
-  createHash: vi.fn().mockReturnValue({
-    update: vi.fn().mockReturnThis(),
-    digest: vi.fn().mockReturnValue('mocked_hash'),
-  }),
-}))
+// Use var for hoisting compatibility with vi.mock
+var updateMock: any, digestMock: any, createHashMock: any
+
+vi.mock('crypto', () => {
+  updateMock = vi.fn().mockReturnThis()
+  digestMock = vi.fn().mockReturnValue('mocked_hash')
+  createHashMock = vi.fn().mockReturnValue({ update: updateMock, digest: digestMock })
+  return {
+    createHash: createHashMock,
+    default: { createHash: createHashMock },
+  }
+})
 
 describe('getHash', () => {
+  // Use global beforeEach from vitest
+  beforeEach(() => {
+    updateMock.mockClear()
+    digestMock.mockClear()
+    createHashMock.mockClear()
+  })
+
   it('should return the correct hash when GOOGLE_OAUTH_SECRET is set', () => {
     process.env.GOOGLE_OAUTH_SECRET = 'secret'
     const result = getHash('data')
     expect(result).toBe('mocked_hash')
-    expect(createHash('sha256').update).toHaveBeenCalledWith('datasecret')
+    expect(updateMock).toHaveBeenCalledWith('datasecret')
   })
 
   it('should return the correct hash when GOOGLE_OAUTH_SECRET is not set', () => {
     delete process.env.GOOGLE_OAUTH_SECRET
     const result = getHash('data')
     expect(result).toBe('mocked_hash')
-    expect(createHash('sha256').update).toHaveBeenCalledWith('data')
+    expect(updateMock).toHaveBeenCalledWith('data')
   })
 })

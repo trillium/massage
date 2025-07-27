@@ -1,6 +1,15 @@
 import getAccessToken from '@/lib/availability/getAccessToken'
+import { formatDatetimeToString } from '../helpers'
 
-export default async function updateLocation({ location }: { location: string }) {
+export default async function updateLocation({
+  location,
+  city,
+  zipCode,
+}: {
+  location: string
+  city?: string
+  zipCode?: string
+}) {
   const eventId = '01vd8vpsq30jo29j379mritaoo'
   const apiUrl = `https://www.googleapis.com/calendar/v3/calendars/primary/events/${eventId}`
 
@@ -10,8 +19,8 @@ export default async function updateLocation({ location }: { location: string })
   const start = new Date(now.getTime() - 15 * 60000)
   const end = new Date(now.getTime())
 
-  const startDateTime = start.toISOString()
-  const endDateTime = end.toISOString()
+  const startDateTime = formatDatetimeToString(start)
+  const endDateTime = formatDatetimeToString(end)
 
   const body = {
     start: {
@@ -23,6 +32,8 @@ export default async function updateLocation({ location }: { location: string })
       timeZone,
     },
     location: location,
+    ...(city ? { city } : {}),
+    ...(zipCode ? { zipCode } : {}),
   }
 
   const response = await fetch(apiUrl, {

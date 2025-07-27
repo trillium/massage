@@ -4,6 +4,7 @@ import { selectAvailability } from '@/redux/slices/availabilitySlice'
 import { selectModal } from '@/redux/slices/modalSlice'
 import { selectFormData } from '@/redux/slices/formSlice'
 import { selectEventContainers } from '@/redux/slices/eventContainersSlice'
+import { selectConfig } from '@/redux/slices/configSlice'
 
 // Use throughout your app instead of plain `useDispatch` and `useSelector`
 export const useAppDispatch = useDispatch.withTypes<AppDispatch>()
@@ -22,4 +23,7 @@ export const useReduxFormData = () => {
 }
 export const useReduxEventContainers = () => {
   return useAppSelector(selectEventContainers)
+}
+export const useReduxConfig = () => {
+  return useAppSelector(selectConfig)
 }

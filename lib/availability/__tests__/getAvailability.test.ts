@@ -1,7 +1,19 @@
 import { add, areIntervalsOverlapping, sub } from 'date-fns'
+import { describe, it, expect } from 'vitest'
 
-import type { DateTimeInterval } from '../../types'
+import type { DateTimeInterval, StringDateTimeIntervalAndLocation } from '../../types'
 import getAvailability from '../getAvailability'
+import { formatDatetimeToString } from '../../helpers'
+
+// Helper function to convert DateTimeInterval to StringDateTimeIntervalAndLocation
+function convertToStringIntervals(
+  intervals: DateTimeInterval[]
+): StringDateTimeIntervalAndLocation[] {
+  return intervals.map((interval) => ({
+    start: formatDatetimeToString(interval.start),
+    end: formatDatetimeToString(interval.end),
+  }))
+}
 
 describe('getAvailability', () => {
   it('returns empty array if potential or busy is undefined', () => {
@@ -43,12 +55,12 @@ describe('getAvailability', () => {
       },
     ]
 
-    const availableSlots = getAvailability({ potential, busy })
+    const availableSlots = getAvailability({ potential: convertToStringIntervals(potential), busy })
 
     expect(availableSlots).toHaveLength(1)
     expect(availableSlots[0]).toStrictEqual({
-      start: new Date(`${nextYear}-10-28T10:00:00.000Z`),
-      end: new Date(`${nextYear}-10-28T11:00:00.000Z`),
+      start: formatDatetimeToString(new Date(`${nextYear}-10-28T10:00:00.000Z`)),
+      end: formatDatetimeToString(new Date(`${nextYear}-10-28T11:00:00.000Z`)),
     })
   })
 
@@ -68,7 +80,7 @@ describe('getAvailability', () => {
     ]
 
     const availableSlotsWithNoPadding = getAvailability({
-      potential,
+      potential: convertToStringIntervals(potential),
       busy,
       padding: 0,
     })
@@ -76,7 +88,7 @@ describe('getAvailability', () => {
     expect(availableSlotsWithNoPadding).toHaveLength(1)
 
     const availableSlotsWithSomePadding = getAvailability({
-      potential,
+      potential: convertToStringIntervals(potential),
       busy,
       padding: 30,
     })
@@ -97,14 +109,14 @@ describe('getAvailability', () => {
     const busy: DateTimeInterval[] = []
 
     const slotsWithLeadTimeConflict = getAvailability({
-      potential,
+      potential: convertToStringIntervals(potential),
       busy,
       leadTime: 0,
     })
     expect(slotsWithLeadTimeConflict.length).toBe(1)
 
     const availableSlotsWithSomePadding = getAvailability({
-      potential,
+      potential: convertToStringIntervals(potential),
       busy,
       leadTime: 15,
     })

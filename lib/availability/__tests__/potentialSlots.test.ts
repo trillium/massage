@@ -1,8 +1,10 @@
 // availability.test.ts
 
+import { describe, test, expect } from 'vitest'
 import Day from '../../day'
 import getPotentialTimes from '../getPotentialTimes'
 import type { AvailabilitySlotsMap } from '../../types'
+import { formatDatetimeToString } from '../../helpers'
 
 describe('getPotentialTimes', () => {
   const start = Day.dayFromString('2023-03-13') // 2023-03-13 is Monday
@@ -42,10 +44,10 @@ describe('getPotentialTimes', () => {
 
     expect(result).toHaveLength(16)
 
-    expect(result[0].start).toStrictEqual(new Date('2023-03-13T09:00:00'))
-    expect(result[0].end).toStrictEqual(new Date('2023-03-13T10:00:00'))
-    expect(result[15].start).toStrictEqual(new Date('2023-03-17T17:00:00'))
-    expect(result[15].end).toStrictEqual(new Date('2023-03-17T18:00:00'))
+    expect(result[0].start).toStrictEqual(formatDatetimeToString(new Date('2023-03-13T09:00:00')))
+    expect(result[0].end).toStrictEqual(formatDatetimeToString(new Date('2023-03-13T10:00:00')))
+    expect(result[15].start).toStrictEqual(formatDatetimeToString(new Date('2023-03-17T17:00:00')))
+    expect(result[15].end).toStrictEqual(formatDatetimeToString(new Date('2023-03-17T18:00:00')))
   })
 
   test('should return correct durations for given availability slots at 30m appointment interval', () => {
@@ -61,10 +63,10 @@ describe('getPotentialTimes', () => {
 
     expect(result).toHaveLength(28)
 
-    expect(result[0].start).toStrictEqual(new Date('2023-03-13T09:00:00'))
-    expect(result[0].end).toStrictEqual(new Date('2023-03-13T10:00:00'))
-    expect(result[27].start).toStrictEqual(new Date('2023-03-17T17:00:00'))
-    expect(result[27].end).toStrictEqual(new Date('2023-03-17T18:00:00'))
+    expect(result[0].start).toStrictEqual(formatDatetimeToString(new Date('2023-03-13T09:00:00')))
+    expect(result[0].end).toStrictEqual(formatDatetimeToString(new Date('2023-03-13T10:00:00')))
+    expect(result[27].start).toStrictEqual(formatDatetimeToString(new Date('2023-03-17T17:00:00')))
+    expect(result[27].end).toStrictEqual(formatDatetimeToString(new Date('2023-03-17T18:00:00')))
   })
 
   test('should return an empty array if no availability slots are provided', () => {
@@ -134,10 +136,10 @@ describe('getPotentialTimes', () => {
     })
 
     expect(result).toHaveLength(3)
-    expect(result[0].start).toStrictEqual(new Date('2023-03-13T09:00:00'))
-    expect(result[0].end).toStrictEqual(new Date('2023-03-13T10:00:00'))
-    expect(result[2].start).toStrictEqual(new Date('2023-03-15T15:00:00'))
-    expect(result[2].end).toStrictEqual(new Date('2023-03-15T16:00:00'))
+    expect(result[0].start).toStrictEqual(formatDatetimeToString(new Date('2023-03-13T09:00:00')))
+    expect(result[0].end).toStrictEqual(formatDatetimeToString(new Date('2023-03-13T10:00:00')))
+    expect(result[2].start).toStrictEqual(formatDatetimeToString(new Date('2023-03-15T15:00:00')))
+    expect(result[2].end).toStrictEqual(formatDatetimeToString(new Date('2023-03-15T16:00:00')))
   })
 
   test('should account for defaultAppointmentInterval less than the chosen duration', () => {
@@ -158,10 +160,10 @@ describe('getPotentialTimes', () => {
       defaultAppointmentInterval,
     })
 
-    expect(result[0].start).toStrictEqual(new Date(`${start}T01:00:00`)) // "2023-03-13T01:00:00"
-    expect(result[0].end).toStrictEqual(new Date(`${start}T02:00:00`)) // "2023-03-13T01:00:00"
-    expect(result[1].start).toStrictEqual(new Date(`${start}T01:30:00`)) // "2023-03-13T01:00:00"
-    expect(result[1].end).toStrictEqual(new Date(`${start}T02:30:00`)) // "2023-03-13T01:00:00"
+    expect(result[0].start).toStrictEqual(formatDatetimeToString(new Date(`${start}T01:00:00`))) // "2023-03-13T01:00:00"
+    expect(result[0].end).toStrictEqual(formatDatetimeToString(new Date(`${start}T02:00:00`))) // "2023-03-13T01:00:00"
+    expect(result[1].start).toStrictEqual(formatDatetimeToString(new Date(`${start}T01:30:00`))) // "2023-03-13T01:00:00"
+    expect(result[1].end).toStrictEqual(formatDatetimeToString(new Date(`${start}T02:30:00`))) // "2023-03-13T01:00:00"
     expect(result).toHaveLength(2)
   })
 })

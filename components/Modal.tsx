@@ -1,3 +1,4 @@
+import React from 'react'
 import { Dialog, DialogPanel, Transition, TransitionChild } from '@headlessui/react'
 import type { PropsWithChildren } from 'react'
 import { Fragment } from 'react'

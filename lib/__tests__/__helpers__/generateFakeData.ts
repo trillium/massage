@@ -1,16 +1,20 @@
 import { OnSiteRequestType } from '@/lib/types'
 import { faker } from '@faker-js/faker'
 import { paymentMethod } from '@/data/paymentMethods'
+import { formatDatetimeToString } from '@/lib/helpers'
+import { describe, it, expect } from 'vitest'
 
 export function generateFakeOnSiteRequest() {
   return {
     firstName: faker.person.firstName(),
     lastName: faker.person.lastName(),
     email: faker.internet.email(),
-    start: faker.date.future().toISOString(),
-    end: faker.date.future().toISOString(),
+    start: formatDatetimeToString(faker.date.future()),
+    end: formatDatetimeToString(faker.date.future()),
     timeZone: faker.location.timeZone(),
     location: faker.location.city(),
+    city: faker.location.city(),
+    zipCode: faker.location.zipCode(),
     duration: faker.number.int(2).toString(),
     price: faker.number.int(3).toString(),
     phone: faker.phone.number(),
