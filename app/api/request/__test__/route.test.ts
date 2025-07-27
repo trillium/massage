@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { handleAppointmentRequest } from '../route'
+import { handleAppointmentRequest } from 'lib/handleAppointmentRequest'
 import { AppointmentRequestSchema } from 'lib/schema'
 import type { NextRequest } from 'next/server'
 import type { IncomingMessage } from 'http'
@@ -58,7 +58,7 @@ describe('handleAppointmentRequest', () => {
       clientRequestEmailFn: clientRequestEmailMock,
       getHashFn: getHashMock,
       rateLimiter: () => false,
-      appointmentRequestSchema: AppointmentRequestSchema,
+      schema: AppointmentRequestSchema,
     })
     const json = await res.json()
     expect(res.status).toBe(200)
@@ -78,7 +78,7 @@ describe('handleAppointmentRequest', () => {
       clientRequestEmailFn: clientRequestEmailMock,
       getHashFn: getHashMock,
       rateLimiter: () => false,
-      appointmentRequestSchema: AppointmentRequestSchema,
+      schema: AppointmentRequestSchema,
     })
     expect(res.status).toBe(400)
   })
@@ -102,7 +102,7 @@ describe('handleAppointmentRequest', () => {
         clientRequestEmailFn: clientRequestEmailMock,
         getHashFn: getHashMock,
         rateLimiter,
-        appointmentRequestSchema: AppointmentRequestSchema,
+        schema: AppointmentRequestSchema,
       })
     }
     const res = await handleAppointmentRequest({
@@ -115,7 +115,7 @@ describe('handleAppointmentRequest', () => {
       clientRequestEmailFn: clientRequestEmailMock,
       getHashFn: getHashMock,
       rateLimiter,
-      appointmentRequestSchema: AppointmentRequestSchema,
+      schema: AppointmentRequestSchema,
     })
     expect(res.status).toBe(429)
   })
@@ -133,7 +133,7 @@ describe('handleAppointmentRequest', () => {
       clientRequestEmailFn: clientRequestEmailMock,
       getHashFn: getHashMock,
       rateLimiter: () => false,
-      appointmentRequestSchema: AppointmentRequestSchema,
+      schema: AppointmentRequestSchema,
     })
     expect(sendMailMock).toHaveBeenCalledTimes(2)
   })

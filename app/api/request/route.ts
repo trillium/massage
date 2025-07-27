@@ -38,6 +38,6 @@ export async function POST(req: NextRequest & IncomingMessage): Promise<NextResp
     clientRequestEmailFn: ClientRequestEmail,
     getHashFn: getHash,
     rateLimiter: checkRateLimitFactory(rateLimitLRU, REQUESTS_PER_IP_PER_MINUTE_LIMIT),
-    appointmentRequestSchema: AppointmentRequestSchema,
+    schema: AppointmentRequestSchema,
   })
 }

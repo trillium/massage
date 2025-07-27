@@ -17,7 +17,7 @@ export async function handleAppointmentRequest({
   clientRequestEmailFn,
   getHashFn,
   rateLimiter,
-  appointmentRequestSchema,
+  schema,
 }: {
   req: NextRequest & IncomingMessage
   headers: Headers
@@ -28,13 +28,13 @@ export async function handleAppointmentRequest({
   clientRequestEmailFn: typeof ClientRequestEmail
   getHashFn: typeof getHash
   rateLimiter: (req: NextRequest & IncomingMessage, headers: Headers) => boolean
-  appointmentRequestSchema: typeof AppointmentRequestSchema
+  schema: typeof AppointmentRequestSchema
 }) {
   const jsonData = await req.json()
   if (rateLimiter(req, headers)) {
     return NextResponse.json({ error: 'Rate limit exceeded' }, { status: 429 })
   }
-  const validationResult = appointmentRequestSchema.safeParse(jsonData)
+  const validationResult = schema.safeParse(jsonData)
   if (!validationResult.success) {
     return NextResponse.json(validationResult.error.message, { status: 400 })
   }
