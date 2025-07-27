@@ -1,10 +1,8 @@
 'use client'
 
 import { useCallback, useEffect } from 'react'
-
 import { useAppDispatch, useReduxAvailability, useReduxConfig } from '@/redux/hooks'
 import { setSlots } from '@/redux/slices/availabilitySlice'
-import { useDispatch } from 'react-redux'
 import { createSlots } from '@/lib/availability/createSlots'
 import { DEFAULT_DURATION, LEAD_TIME } from 'config'
 import {
@@ -71,7 +69,7 @@ export function UpdateSlotsUtility({
     })
     dispatchRedux(setSlots(newSlots))
     createNewUrlParams()
-  }, [createNewUrlParams])
+  }, [createNewUrlParams, durationRedux, leadTime, start, end, busy, containers, dispatchRedux])
 
   useEffect(() => {
     dispatchRedux(setBulkConfigSliceState(configObject))
@@ -79,7 +77,7 @@ export function UpdateSlotsUtility({
       dispatchRedux(setLocation(configObject.location))
     }
     dispatchRedux(setLocationReadOnly(configObject?.locationIsReadOnly ?? false))
-  }, [configObject])
+  }, [configObject, dispatchRedux])
 
   return <></>
 }
