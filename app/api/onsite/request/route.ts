@@ -15,8 +15,6 @@ import { OnSiteRequestSchema } from 'lib/schema'
 import siteMetadata from '@/data/siteMetadata'
 import { intervalToHumanString } from 'lib/intervalToHumanString'
 
-const fs = require('fs').promises
-
 // Define the rate limiter
 const rateLimitLRU = new LRUCache({
   max: 500,
