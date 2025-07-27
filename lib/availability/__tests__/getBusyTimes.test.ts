@@ -1,18 +1,15 @@
-/**
- * @jest-environment node
- */
-
+import { describe, it, expect, vi, beforeEach, afterEach, type Mock } from 'vitest'
 import type { DateTimeInterval } from '../../types'
 import getAccessToken from '../getAccessToken'
 import getBusyTimes from '../getBusyTimes'
 
-jest.mock('../getAccessToken')
+vi.mock('../getAccessToken')
 
 const originalFetch = global.fetch
 
 describe('getBusyTimes', () => {
   beforeEach(() => {
-    global.fetch = jest.fn()
+    global.fetch = vi.fn()
   })
 
   afterEach(() => {
@@ -29,9 +26,7 @@ describe('getBusyTimes', () => {
     }
 
     const accessToken = 'test_access_token'
-    ;(getAccessToken as jest.MockedFunction<typeof getAccessToken>).mockResolvedValueOnce(
-      accessToken
-    )
+    ;(getAccessToken as Mock).mockResolvedValueOnce(accessToken)
 
     const mockBusyData = {
       calendars: {
@@ -59,7 +54,7 @@ describe('getBusyTimes', () => {
       headers: { 'Content-Type': 'application/json' },
     })
 
-    ;(fetch as jest.MockedFunction<typeof fetch>).mockResolvedValueOnce(mockResponse)
+    ;(fetch as Mock).mockResolvedValueOnce(mockResponse)
 
     const busyTimes = await getBusyTimes(dateTimeInterval)
 

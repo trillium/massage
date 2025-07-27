@@ -1,3 +1,4 @@
+import { describe, test, expect } from 'vitest'
 import mergeOverlappingIntervals from '../mergeOverlappingIntervals'
 import type { DateTimeInterval } from '../../types'
 

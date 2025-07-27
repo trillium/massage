@@ -1,11 +1,12 @@
 import { getHash } from '@/lib/hash'
+import { describe, it, expect, vi, beforeEach, type Mock, type Mocked } from 'vitest'
 
 describe('getHash unmocked', () => {
   const originalEnv = process.env
 
   beforeEach(() => {
-    jest.resetModules()
-    jest.unmock('crypto')
+    vi.resetModules()
+    vi.unmock('crypto')
     process.env = { ...originalEnv }
   })
 

@@ -1,4 +1,5 @@
 import clsx from 'clsx'
+import React from 'react'
 import type { SVGProps } from 'react'
 import { twMerge } from 'tailwind-merge'
 

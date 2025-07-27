@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest'
 import { dumpData, loadData, replaceLeadingUnderscoresWithSpaces } from './dataLoading'
 import yaml from 'js-yaml'
 
@@ -158,6 +159,38 @@ summary: spiteless__EVENT__CONTAINER__`
         summary: 'spiteless__EVENT__CONTAINER__',
       }
       expect(loadObj).toEqual(outObj)
+    })
+  })
+
+  describe('edge cases and error handling', () => {
+    it('dumpData should handle empty object and array', () => {
+      expect(dumpData({})).toBe('{}\n')
+      expect(dumpData([] as any)).toBe('[]\n')
+    })
+
+    it('loadData should handle empty string', () => {
+      expect(loadData('')).toBeUndefined()
+    })
+
+    it('dumpData and loadData should handle empty object and array roundtrip', () => {
+      expect(loadData(dumpData({}))).toEqual({})
+      expect(loadData(dumpData([] as any))).toEqual([])
+    })
+
+    it('loadData should handle malformed YAML gracefully', () => {
+      const badYaml = 'key: value\n  - badIndent'
+      expect(() => loadData(badYaml)).not.toThrow()
+    })
+
+    it('replaceLeadingUnderscoresWithSpaces should handle edge cases', () => {
+      expect(replaceLeadingUnderscoresWithSpaces('___foo')).toBe('   foo')
+      expect(replaceLeadingUnderscoresWithSpaces('no_underscores')).toBe('no_underscores')
+      expect(replaceLeadingUnderscoresWithSpaces('')).toBe('')
+    })
+
+    it('loadData should handle non-string input and trigger catch block', () => {
+      expect(() => loadData({} as unknown as string)).not.toThrow()
+      // Should return undefined or null depending on yaml.load behavior
     })
   })
 })

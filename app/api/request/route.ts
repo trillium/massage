@@ -14,6 +14,7 @@ import { getHash } from 'lib/hash'
 import type { DateTimeIntervalWithTimezone } from 'lib/types'
 import { AppointmentRequestSchema } from 'lib/schema'
 import siteMetadata from '@/data/siteMetadata'
+import { intervalToHumanString } from 'lib/intervalToHumanString'
 
 // Define the rate limiter
 const rateLimitLRU = new LRUCache({
@@ -24,52 +25,57 @@ const REQUESTS_PER_IP_PER_MINUTE_LIMIT = 5
 
 // Define the schema for the request body
 
-export async function POST(req: NextRequest & IncomingMessage): Promise<NextResponse> {
-  const headers = await nextHeaders()
+// Extracted pure logic for testability
+export async function handleAppointmentRequest({
+  req,
+  headers,
+  sendMailFn,
+  siteMetadata,
+  ownerTimeZone,
+  approvalEmailFn,
+  clientRequestEmailFn,
+  getHashFn,
+  rateLimiter,
+  appointmentRequestSchema,
+}: {
+  req: NextRequest & IncomingMessage
+  headers: Headers
+  sendMailFn: typeof sendMail
+  siteMetadata: { email?: string }
+  ownerTimeZone: string
+  approvalEmailFn: typeof ApprovalEmail
+  clientRequestEmailFn: typeof ClientRequestEmail
+  getHashFn: typeof getHash
+  rateLimiter: (req: NextRequest & IncomingMessage, headers: Headers) => boolean
+  appointmentRequestSchema: typeof AppointmentRequestSchema
+}) {
   const jsonData = await req.json()
-
-  // Apply rate limiting using the client's IP address
-  const limitReached = checkRateLimit()
-
-  if (limitReached) {
+  if (rateLimiter(req, headers)) {
     return NextResponse.json({ error: 'Rate limit exceeded' }, { status: 429 })
   }
-
-  // Validate and parse the request body using Zod
-  const validationResult = AppointmentRequestSchema.safeParse(jsonData)
-
+  const validationResult = appointmentRequestSchema.safeParse(jsonData)
   if (!validationResult.success) {
     return NextResponse.json(validationResult.error.message, { status: 400 })
   }
   const { data } = validationResult
-
   const start = new Date(data.start)
   const end = new Date(data.end)
-
-  const approveUrl = `${
-    headers.get('origin') ?? '?'
-  }/api/confirm/?data=${encodeURIComponent(JSON.stringify(data))}&key=${getHash(
-    JSON.stringify(data)
-  )}`
-
-  // Generate and send the approval email
-  const approveEmail = ApprovalEmail({
+  const approveUrl = `${headers.get('origin') ?? '?'}\/api/confirm/?data=${encodeURIComponent(JSON.stringify(data))}&key=${getHashFn(JSON.stringify(data))}`
+  const approveEmail = approvalEmailFn({
     ...data,
     approveUrl,
     dateSummary: intervalToHumanString({
       start,
       end,
-      timeZone: OWNER_TIMEZONE,
+      timeZone: ownerTimeZone,
     }),
   })
-  await sendMail({
+  await sendMailFn({
     to: siteMetadata.email ?? '',
     subject: approveEmail.subject,
     body: approveEmail.body,
   })
-
-  // Generate and send the confirmation email
-  const confirmationEmail = ClientRequestEmail({
+  const confirmationEmail = clientRequestEmailFn({
     ...data,
     dateSummary: intervalToHumanString({
       start,
@@ -77,73 +83,45 @@ export async function POST(req: NextRequest & IncomingMessage): Promise<NextResp
       timeZone: data.timeZone,
     }),
   })
-  await sendMail({
+  await sendMailFn({
     to: data.email,
     subject: confirmationEmail.subject,
     body: confirmationEmail.body,
   })
-
   return NextResponse.json({ success: true }, { status: 200 })
+}
 
-  /**
-   * Checks the rate limit for the current IP address.
-   *
-   * @return {boolean} Whether the rate limit has been reached.
-   */
-  function checkRateLimit(): boolean {
+// Pure rate limiter for injection
+export function checkRateLimitFactory(lru: typeof rateLimitLRU, limit: number) {
+  return (req: NextRequest & IncomingMessage, headers: Headers) => {
     const forwarded = headers.get('x-forwarded-for')
     const ip =
       (Array.isArray(forwarded) ? forwarded[0] : forwarded) ??
       req.socket.remoteAddress ??
       '127.0.0.1'
-
-    const tokenCount = (rateLimitLRU.get(ip) as number[]) || [0]
+    const tokenCount = (lru.get(ip) as number[]) || [0]
     if (tokenCount[0] === 0) {
-      rateLimitLRU.set(ip, tokenCount)
+      lru.set(ip, tokenCount)
     }
     tokenCount[0] += 1
     const currentUsage = tokenCount[0]
-    return currentUsage >= REQUESTS_PER_IP_PER_MINUTE_LIMIT
+    return currentUsage >= limit
   }
 }
 
-/**
- * Converts a date-time interval to a human-readable string.
- *
- * This function takes a date-time interval with start and end times,
- * and a time zone.
- *
- * It returns a formatted string representing the interval, including
- * the start and end times, and the time zone.
- *
- * @function
- * @param {Object} DateTimeIntervalWithTimezone An object containing the
- * start, end, and time zone of the interval.
- *
- * @param {string} interval.start The start time of the interval
- * as a string or Date object.
- *
- * @param {string} interval.end The end time of the interval as
- * a string or Date object.
- *
- * @param {string} interval.timeZone The time zone used to format
- * the date and time.
- *
- * @returns {string} A human-readable string representation
- * of the date-time interval.
- */
-function intervalToHumanString({ start, end, timeZone }: DateTimeIntervalWithTimezone): string {
-  return `${formatLocalDate(start, {
-    month: 'long',
-    day: 'numeric',
-    hour: 'numeric',
-    minute: 'numeric',
-    weekday: 'long',
-    timeZone,
-  })} – ${formatLocalTime(end, {
-    hour: 'numeric',
-    minute: 'numeric',
-    timeZone,
-    timeZoneName: 'longGeneric',
-  })}`
+// The actual route handler, now just wiring dependencies
+export async function POST(req: NextRequest & IncomingMessage): Promise<NextResponse> {
+  const headers = await nextHeaders()
+  return handleAppointmentRequest({
+    req,
+    headers,
+    sendMailFn: sendMail,
+    siteMetadata,
+    ownerTimeZone: OWNER_TIMEZONE,
+    approvalEmailFn: ApprovalEmail,
+    clientRequestEmailFn: ClientRequestEmail,
+    getHashFn: getHash,
+    rateLimiter: checkRateLimitFactory(rateLimitLRU, REQUESTS_PER_IP_PER_MINUTE_LIMIT),
+    appointmentRequestSchema: AppointmentRequestSchema,
+  })
 }

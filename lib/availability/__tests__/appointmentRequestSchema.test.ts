@@ -1,3 +1,4 @@
+import { describe, it, expect, type Mock, type Mocked } from 'vitest'
 import { AppointmentRequestSchema } from '@/lib/schema'
 
 describe('AppointmentRequestSchema', () => {
@@ -6,7 +7,9 @@ describe('AppointmentRequestSchema', () => {
       firstName: 'Testy',
       lastName: 'Tester',
       email: 'testy@example.com',
-      location: '123 Address Road, City, 00040',
+      location: '123 Address Road',
+      city: 'Testville',
+      zipCode: '00040',
       phone: '555-444-3333',
       paymentMethod: 'cash',
       start: '2024-09-01T10:00:00-07:00',

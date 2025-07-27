@@ -40,6 +40,8 @@ export type StringInterval = {
  */
 export type StringIntervalAndLocation = StringInterval & {
   location?: string
+  city?: string
+  zipCode?: string
 }
 
 /**
@@ -73,6 +75,8 @@ export type StringDateTimeInterval = {
  */
 export type DateTimeIntervalAndLocation = DateTimeInterval & {
   location?: string
+  city?: string
+  zipCode?: string
 }
 
 export type StringDateTimeIntervalAndLocation = StringDateTimeInterval & {
@@ -104,6 +108,8 @@ export type AppointmentProps = {
   phone: string
   /** Location of the appointment. */
   location: string
+  city?: string
+  zipCode?: string
   /** Timezone of the requester. */
   timeZone: string
   /** A unique ID for generating Google Meet details */

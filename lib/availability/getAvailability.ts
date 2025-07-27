@@ -49,7 +49,8 @@ export default function getAvailability({
   }
 
   const potential = potentialParam.filter((slot) => {
-    return slot.start > formatDatetimeToString(now)
+    const slotStartDate = new Date(slot.start)
+    return slotStartDate > now
   }) // filter out slots that are in the past
 
   // Make a deep copy of the potential array
@@ -69,7 +70,13 @@ export default function getAvailability({
       const busyStart = sub(busySlot.start, { minutes: padding })
       const busyEnd = add(busySlot.end, { minutes: padding })
 
-      if (areIntervalsOverlapping(freeSlot, { start: busyStart, end: busyEnd })) {
+      // Convert string dates to Date objects for comparison
+      const freeSlotInterval = {
+        start: new Date(freeSlot.start),
+        end: new Date(freeSlot.end)
+      }
+
+      if (areIntervalsOverlapping(freeSlotInterval, { start: busyStart, end: busyEnd })) {
         isFree = false
         break
       }

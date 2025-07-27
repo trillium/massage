@@ -1,4 +1,5 @@
 import { add, areIntervalsOverlapping, sub } from 'date-fns'
+import { describe, it, expect } from 'vitest'
 
 import type { DateTimeInterval } from '../../types'
 import getAvailability from '../getAvailability'
