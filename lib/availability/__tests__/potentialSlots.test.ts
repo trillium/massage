@@ -1,14 +1,14 @@
 // availability.test.ts
 
 import { describe, test, expect } from 'vitest'
-import Day from '../../day'
+import { dayFromString } from '../../dayAsObject'
 import getPotentialTimes from '../getPotentialTimes'
 import type { AvailabilitySlotsMap } from '../../types'
 import { formatDatetimeToString } from '../../helpers'
 
 describe('getPotentialTimes', () => {
-  const start = Day.dayFromString('2023-03-13') // 2023-03-13 is Monday
-  const end = Day.dayFromString('2023-03-17') // 2023-03-17 is Friday
+  const start = dayFromString('2023-03-13') // 2023-03-13 is Monday
+  const end = dayFromString('2023-03-17') // 2023-03-17 is Friday
 
   const availabilitySlots: AvailabilitySlotsMap = {
     1: [
@@ -83,7 +83,7 @@ describe('getPotentialTimes', () => {
 
   test('should return an empty array if the date range is invalid', () => {
     const duration = 60
-    const invalidEnd = Day.dayFromString('2023-03-10')
+    const invalidEnd = dayFromString('2023-03-10')
     const result = getPotentialTimes({
       start,
       end: invalidEnd,
@@ -160,10 +160,11 @@ describe('getPotentialTimes', () => {
       defaultAppointmentInterval,
     })
 
-    expect(result[0].start).toStrictEqual(formatDatetimeToString(new Date(`${start}T01:00:00`))) // "2023-03-13T01:00:00"
-    expect(result[0].end).toStrictEqual(formatDatetimeToString(new Date(`${start}T02:00:00`))) // "2023-03-13T01:00:00"
-    expect(result[1].start).toStrictEqual(formatDatetimeToString(new Date(`${start}T01:30:00`))) // "2023-03-13T01:00:00"
-    expect(result[1].end).toStrictEqual(formatDatetimeToString(new Date(`${start}T02:30:00`))) // "2023-03-13T01:00:00"
+    const startDate = start.start.split('T')[0] // Get just the date part (YYYY-MM-DD)
+    expect(result[0].start).toStrictEqual(formatDatetimeToString(new Date(`${startDate}T01:00:00`))) // "2023-03-13T01:00:00"
+    expect(result[0].end).toStrictEqual(formatDatetimeToString(new Date(`${startDate}T02:00:00`))) // "2023-03-13T02:00:00"
+    expect(result[1].start).toStrictEqual(formatDatetimeToString(new Date(`${startDate}T01:30:00`))) // "2023-03-13T01:30:00"
+    expect(result[1].end).toStrictEqual(formatDatetimeToString(new Date(`${startDate}T02:30:00`))) // "2023-03-13T02:30:00"
     expect(result).toHaveLength(2)
   })
 })
