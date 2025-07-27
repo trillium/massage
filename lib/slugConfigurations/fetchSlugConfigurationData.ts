@@ -53,6 +53,7 @@ const midnightRunners: SlugConfigurationType = {
     type: 'percent',
     amountPercent: 0.25,
   },
+  promoEndDate: '2025-12-31', // Example promo end date
 }
 
 const closeToMe: SlugConfigurationType = {
@@ -62,6 +63,21 @@ const closeToMe: SlugConfigurationType = {
   title: 'Do you live ridiculously close to me??',
   text: "That's so convenient! I can confidently say that if I'm home and not busy I can scoot on over to you in an hour or less. See you soon!",
   leadTimeMinimum: 60,
+  promoEndDate: '2025-11-30', // Example promo end date
+}
+
+const nextdoorWestchester: SlugConfigurationType = {
+  ...initialState,
+  bookingSlug: 'nextdoor-westchester',
+  type: 'area-wide',
+  title: 'Nextdoor Westchester Promo!',
+  text: 'Special pricing for Westchester neighbors booking through Nextdoor. Enjoy 20% off your session!',
+  discount: {
+    type: 'percent',
+    amountPercent: 0.2,
+  },
+  location: 'Westchester, Los Angeles',
+  promoEndDate: '2025-10-31', // Example promo end date
 }
 
 const hotelJune: SlugConfigurationType = {
@@ -85,5 +101,6 @@ export async function fetchSlugConfigurationData(): Promise<SlugConfigurationObj
     'culver-city': closeToMe,
     'midnight-runners': midnightRunners,
     'hotel-june': hotelJune,
+    'nextdoor-westchester': nextdoorWestchester,
   }
 }

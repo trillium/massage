@@ -18,6 +18,7 @@ export const initialState: SlugConfigurationType = {
   leadTimeMinimum: null, // in minutes,
   instantConfirm: false,
   acceptingPayment: true,
+  promoEndDate: null,
 }
 
 export const configSlice: Slice<SlugConfigurationType> = createSlice({
