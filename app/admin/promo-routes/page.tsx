@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { fetchSlugConfigurationData } from '@/lib/slugConfigurations/fetchSlugConfigurationData'
 import Template from '@/components/Template'
+import { isPromoExpired } from '@/lib/utilities/promoValidation'
 
 export default async function PromoRoutesPage() {
   const slugConfigurations = await fetchSlugConfigurationData()
@@ -48,15 +49,26 @@ export default async function PromoRoutesPage() {
                       <p className="text-sm text-gray-600 dark:text-gray-300">{config.title}</p>
                       {config.discount && (
                         <p className="text-sm font-medium text-green-600 dark:text-green-400">
-                          💰{' '}
+                          <span className="emoji">💰</span>{' '}
                           {config.discount.type === 'percent'
                             ? `${config.discount.amountPercent! * 100}% off`
                             : `$${config.discount.amountDollars} off`}
                         </p>
                       )}
                       {config.promoEndDate && (
-                        <p className="text-sm font-medium text-orange-600 dark:text-orange-400">
-                          ⏰ Expires: {config.promoEndDate}
+                        <p
+                          className={`text-sm font-medium ${
+                            isPromoExpired(config.promoEndDate)
+                              ? 'text-red-600 dark:text-red-400'
+                              : 'text-orange-600 dark:text-orange-400'
+                          }`}
+                        >
+                          <span className="emoji">
+                            {isPromoExpired(config.promoEndDate)
+                              ? '❌ Expired:'
+                              : '⏰ Expires:'}{' '}
+                          </span>
+                          {config.promoEndDate}
                         </p>
                       )}
                       {config.text && (
