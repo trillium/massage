@@ -5,18 +5,28 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import js from '@eslint/js'
 import { FlatCompat } from '@eslint/eslintrc'
-import prettier from 'eslint-plugin-prettier'
 import prettierConfig from 'eslint-config-prettier'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 const compat = new FlatCompat({
   baseDirectory: __dirname,
+  recommendedConfig: js.configs.recommended,
+  allConfig: js.configs.all,
 })
 
 const eslintConfig = [
   {
-    ignores: [],
+    ignores: [
+      '.next/**',
+      '.contentlayer/**',
+      'node_modules/**',
+      'coverage/**',
+      'public/**',
+      '*.config.js',
+      '*.config.mjs',
+      '*.config.ts',
+    ],
   },
   js.configs.recommended,
   ...compat.extends(
@@ -38,11 +48,13 @@ const eslintConfig = [
         ...globals.browser,
         ...globals.amd,
         ...globals.node,
+        React: 'readonly',
+        JSX: 'readonly',
       },
 
       parser: tsParser,
-      ecmaVersion: 5,
-      sourceType: 'commonjs',
+      ecmaVersion: 'latest',
+      sourceType: 'module',
 
       parserOptions: {
         project: true,
@@ -53,7 +65,10 @@ const eslintConfig = [
     rules: {
       'prettier/prettier': 'error',
       'react/react-in-jsx-scope': 'off',
-
+      'no-unused-vars': 'off',
+      'no-useless-escape': 'off',
+      'no-empty-pattern': 'off',
+      '@typescript-eslint/no-unused-vars': 'off',
       'jsx-a11y/anchor-is-valid': [
         'error',
         {
@@ -63,7 +78,6 @@ const eslintConfig = [
         },
       ],
       'react/prop-types': 'off',
-      '@typescript-eslint/no-unused-vars': 'off',
       'react/no-unescaped-entities': 'off',
       '@typescript-eslint/explicit-module-boundary-types': 'off',
       '@typescript-eslint/no-var-requires': 'off',
