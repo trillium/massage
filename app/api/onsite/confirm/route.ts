@@ -40,9 +40,16 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: 'Malformed request in date parsing' }, { status: 400 })
   }
 
+  const transformedPricing = validObject.pricing
+    ? Object.fromEntries(
+        Object.entries(validObject.pricing).map(([key, value]) => [Number(key), Number(value)])
+      )
+    : undefined
+
   // Create the confirmed appointment
   const response = await createOnsiteAppointment({
     ...validObject,
+    pricing: transformedPricing, // Ensure pricing matches the expected type
     requestId: hash,
     summary: templates.eventSummary(validObject) || 'Error in createEventSummary()',
   })

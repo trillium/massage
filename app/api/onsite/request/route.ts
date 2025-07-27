@@ -50,9 +50,17 @@ export async function POST(req: NextRequest & IncomingMessage): Promise<NextResp
     JSON.stringify(data)
   )}&key=${getHash(JSON.stringify(data))}`
 
+  // Transform pricing to match expected type
+  const transformedPricing = data.pricing
+    ? Object.fromEntries(
+        Object.entries(data.pricing).map(([key, value]) => [Number(key), Number(value)])
+      )
+    : undefined
+
   // Generate and send the approval email
   const approveEmail = OnSiteRequestEmail({
     ...data,
+    pricing: transformedPricing,
     approveUrl,
     dateSummary: intervalToHumanString({
       start,
