@@ -45,7 +45,7 @@ export const OnSiteRequestSchema = BaseRequestSchema.extend({
   allowedDurations: z.array(z.number()),
   eventName: z.string(),
   sessionDuration: z.string().optional(),
-  pricing: z.record(z.number()).optional(),
+  pricing: z.record(z.string(), z.number()).optional(),
   paymentOptions: z.string(),
   leadTime: z.number(),
 })
