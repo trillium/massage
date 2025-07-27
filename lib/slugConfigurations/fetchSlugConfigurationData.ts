@@ -44,22 +44,6 @@ const the_kinn: SlugConfigurationType = {
   leadTimeMinimum: 2,
 }
 
-const fires: SlugConfigurationType = {
-  ...initialState,
-  bookingSlug: 'fires',
-  type: 'area-wide',
-  title: 'Have you been effected by the LA fires? Please use this booking link 🙏',
-  text: 'My heart goes out to all those who are experiencing difficulty in this time. While I am unable to offer my massage work for free, I would like to reduce the cost for those of us who have been traumatized and are in need of care and support in this trying time.',
-  leadTimeMinimum: null,
-  eventContainer: null,
-  discount: {
-    type: 'percent',
-    amountPercent: 0.3,
-  },
-  location: null,
-  allowedDurations: [90, 120, 150],
-}
-
 const midnightRunners: SlugConfigurationType = {
   ...initialState,
   bookingSlug: 'midnight-runners',
@@ -95,7 +79,6 @@ export async function fetchSlugConfigurationData(): Promise<SlugConfigurationObj
   return {
     foo: fooSlug,
     the_kinn,
-    fires,
     '90045': closeToMe,
     westchester: closeToMe,
     'playa-vista': closeToMe,
