@@ -81,7 +81,9 @@ export function ListLayoutBase({
                       </div>
                     </Link>
                     <div className="flex flex-row flex-wrap gap-1">
-                      {tags?.map((tag) => <Tag key={tag} text={tag} />)}
+                      {tags?.map((tag) => (
+                        <Tag key={tag} text={tag} />
+                      ))}
                     </div>
                   </div>
                 </div>

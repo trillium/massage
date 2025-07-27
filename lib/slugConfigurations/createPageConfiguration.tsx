@@ -22,7 +22,7 @@ export async function createPageConfiguration({
 }: createPageConfigurationProps) {
   const slugData = await fetchSlugConfigurationData()
   let configuration: SlugConfigurationType
-  if (!!bookingSlug) {
+  if (bookingSlug) {
     configuration = slugData[bookingSlug] ?? null
   } else {
     configuration = initialState

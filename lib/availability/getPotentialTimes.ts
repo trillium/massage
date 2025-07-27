@@ -30,7 +30,7 @@ export default function getPotentialTimes({
   // Convert Day objects to intervals for validation
   const startInterval = dayToInterval(start, 'Etc/GMT')
   const endInterval = dayToInterval(end, 'Etc/GMT')
-  
+
   if (startInterval.start >= endInterval.end || duration <= 0) {
     return intervals
   }

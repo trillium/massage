@@ -73,7 +73,7 @@ export default function getAvailability({
       // Convert string dates to Date objects for comparison
       const freeSlotInterval = {
         start: new Date(freeSlot.start),
-        end: new Date(freeSlot.end)
+        end: new Date(freeSlot.end),
       }
 
       if (areIntervalsOverlapping(freeSlotInterval, { start: busyStart, end: busyEnd })) {

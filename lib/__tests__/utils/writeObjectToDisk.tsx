@@ -1,7 +1,7 @@
 import fs from 'fs/promises'
 
 type WriteObjectToDiskProps = {
-  data: Object
+  data: object
   filename: string
 }
 

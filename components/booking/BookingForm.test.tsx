@@ -88,7 +88,7 @@ describe('BookingForm', () => {
         <BookingForm endPoint={endPoint} />
       </StoreProvider>
     )
-    
+
     // Check if form elements are rendered
     expect(getByText('Request appointment')).toBeTruthy()
     expect(getByLabelText('First Name')).toBeTruthy()

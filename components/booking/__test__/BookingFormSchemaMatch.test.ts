@@ -38,7 +38,7 @@ describe('BookingForm submission matches AppointmentRequestSchema', () => {
     const result = AppointmentRequestSchema.safeParse(payload)
     if (!result.success) {
       // Print detailed error for debugging
-      // eslint-disable-next-line no-console
+
       console.error(result.error)
     }
     expect(result.success).toBe(true)

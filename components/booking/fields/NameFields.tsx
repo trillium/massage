@@ -10,7 +10,10 @@ export default function NameFields({ firstName, lastName, onChange }: NameFields
   return (
     <div className="row relative flex px-3 pb-1.5 pt-2.5 ring-1 ring-inset ring-gray-300 first:rounded-md first:rounded-b-none last:rounded-md last:rounded-t-none focus-within:z-10 focus-within:ring-2 focus-within:ring-primary-400">
       <div className="mx-1 w-full">
-        <label htmlFor="firstName" className="block text-sm font-medium text-gray-900 dark:text-gray-100">
+        <label
+          htmlFor="firstName"
+          className="block text-sm font-medium text-gray-900 dark:text-gray-100"
+        >
           First Name
         </label>
         <input
@@ -29,7 +32,10 @@ export default function NameFields({ firstName, lastName, onChange }: NameFields
         />
       </div>
       <div className="mx-1 w-full">
-        <label htmlFor="lastName" className="block text-sm font-medium text-gray-900 dark:text-gray-100">
+        <label
+          htmlFor="lastName"
+          className="block text-sm font-medium text-gray-900 dark:text-gray-100"
+        >
           Last Name
         </label>
         <input
