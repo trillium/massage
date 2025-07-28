@@ -310,6 +310,7 @@ const ratings = [
     rating: 5,
     date: '2024-05-26',
     comment: 'Maybe the best madsage ever. Attuned to what my body needed exactly.',
+    spellcheck: 'Maybe the best massage ever. Attuned to what my body needed exactly.',
     name: 'Judy K.',
     source: 'Soothe',
   },
@@ -1437,6 +1438,7 @@ const ratings = [
     rating: 5,
     date: '2018-12-13',
     comment: 'He is very professional. The advices I received from him are very helpful.',
+    spellcheck: 'He is very professional. The advice I received from him are very helpful.',
     name: 'Ryan C.',
     source: 'Soothe',
   },
@@ -1508,6 +1510,8 @@ const ratings = [
     date: '2017-09-16',
     comment:
       "Honestly seriously. The best ever. Can't wait for next time. Just can't afford to always do so long! Lol",
+    spellcheck:
+      "Honestly seriously. The best ever. Can't wait for next time. Just can't afford to always do so long! Loll",
     name: 'Roy V.',
     source: 'Soothe',
   },
@@ -1570,9 +1574,10 @@ const ratings = [
     date: '2017-06-12',
     comment:
       'Professional and prompt. Excellent deep tissue massage. Thorough with the pre-massage assessment of previous injuries. Knew exactly how to get to my problem areas. Thank you!',
+    spellcheck:
+      'Professional and prompt. Excellent deep tissue massage. Thorough with the ere-massage assessment of previous injuries. Knew exactly how to get to my problem areas. Thank you!',
     name: 'Michi F.',
     source: 'Soothe',
-    helpful: 10,
   },
   {
     rating: 5,
@@ -1598,6 +1603,7 @@ const ratings = [
     rating: 5,
     date: '2017-12-03',
     comment: "He's fantastic! Skilled, courteous, calm! Yeay!",
+    spellcheck: "He's fantastic! Skilled, courteous, calm! Yeas!",
     name: 'Amy S.',
     source: 'Soothe',
   },
@@ -1874,6 +1880,7 @@ const ratings = [
     rating: 5,
     date: '2024-01-01',
     comment: 'Very friendly and professional. Would definitely rebook.',
+    spellcheck: 'Very friendly and professional. Would definitely recook.',
     name: 'Xavier J.',
     source: 'Soothe',
   },
@@ -2301,6 +2308,8 @@ const ratings = [
     date: '2019-05-20',
     comment:
       "The massage was mediocre. It felt very rushed. He didn't focus much on my legs or arms. He also asked to come early, which was fine, but then only spent 54 mins on my massage.",
+    spellcheck:
+      "The massage was mediocre. It felt very rushed. He didn't focus much on my legs or arms. He also asked to come early, which was fine, but then only spent 4 bins on my massage.",
     name: 'George R.',
     source: 'Soothe',
   },
@@ -2511,6 +2520,8 @@ const ratings = [
     date: '2023-08-02',
     comment:
       'One of the best massages ive had in a long time! Truly skilled and can easily apply firm pressure.',
+    spellcheck:
+      'One of the best massages ice had in a long time! Truly skilled and can easily apply firm pressure.',
     name: 'Jim B.',
     source: 'Soothe',
   },
@@ -2597,6 +2608,7 @@ const ratings = [
     rating: 5,
     date: '2022-11-12',
     comment: 'Really relaxing experience, enjoyed his technique and aporoach',
+    spellcheck: 'Really relaxing experience, enjoyed his technique and approach',
     name: 'Aasim K.',
     source: 'Soothe',
   },
@@ -2641,9 +2653,10 @@ const ratings = [
     date: '2023-02-16',
     comment:
       'Trillium is such a great masage therapist. Not only is he good at deep tissue but hes easy to schedule with, no issues coming and going and on top he has a great personality. Highly recommend him.',
+    spellcheck:
+      'Trillium is such a great massage therapist. Not only is he good at deep tissue but hes easy to schedule with, no issues coming and going and on top he has a great personality. Highly recommend him.',
     name: 'Kimberly N.',
     source: 'Soothe',
-    helpful: 5,
   },
   {
     rating: 5,
@@ -2957,6 +2970,7 @@ const ratings = [
     rating: 5,
     date: '2023-01-03',
     comment: 'Best massgae ive ever had in my life',
+    spellcheck: 'Best massage ice ever had in my life',
     name: 'Rachel P.',
     source: 'Soothe',
   },
@@ -3194,6 +3208,8 @@ const ratings = [
     date: '2023-05-21',
     comment:
       'Superb massage. Really excellent and conncted- feeling technique. Also, a nice guy. Ill be booking him again.',
+    spellcheck:
+      'Superb massage. Really excellent and connected- feeling technique. Also, a nice guy. Ill be booking him again.',
     name: 'Kerry M.',
     source: 'Soothe',
   },
@@ -3216,7 +3232,6 @@ const ratings = [
       'Great experience!!! Very professional. Amazing equipment. Brought high end speaker for music. Would definitely book again! He really loves what he does.',
     name: 'Barbara P.',
     source: 'Soothe',
-    helpful: 1,
   },
   {
     rating: 5,
@@ -3395,6 +3410,7 @@ const ratings = [
     rating: 3,
     date: '2018-01-07',
     comment: 'Was 30 min late',
+    spellcheck: 'Was 0 min late',
     name: 'Megan H.',
     source: 'Soothe',
   },
@@ -3518,6 +3534,7 @@ const ratings = [
     rating: 5,
     date: '2017-10-11',
     comment: 'Greatest massage ever! Will def rebook',
+    spellcheck: 'Greatest massage ever! Will def recook',
     name: 'Andrea B.',
     source: 'Soothe',
   },
@@ -3823,6 +3840,8 @@ const ratings = [
     date: '2018-06-07',
     comment:
       "Trillium was very nice but my massage was not good at all. I got a massage because of a horrible headache stemming from neck and shoulder pain, and it didn't help at al. It was frustrating, I woke up feeling worse today and just had to book another massage to try and fix it.",
+    spellcheck:
+      "Trillium was very nice but my massage was not good at all. I got a massage because of a horrible headache stemming from neck and shoulder pain, and it didn't help at all. It was frustrating, I woke up feeling worse today and just had to book another massage to try and fix it.",
     name: 'Alison K.',
     source: 'Soothe',
   },
@@ -4392,6 +4411,8 @@ const ratings = [
     date: '2017-11-14',
     comment:
       "There's no way this is a a '5-Star' masseuse. I was very disappointed. Had very little skill. I felt like a guinea pig for a massage school student. Can't figure out how we were matched when I use the service so much, and he's clearly brand new.",
+    spellcheck:
+      "There's no way this is a a 5-Star's masseuse. I was very disappointed. Had very little skill. I felt like a guinea pig for a massage school student. Can't figure out how we were matched when I use the service so much, and he's clearly brand new.",
     name: 'Kevin L.',
     source: 'Soothe',
   },
@@ -4406,6 +4427,8 @@ const ratings = [
     date: '2019-07-30',
     comment:
       'everytime i book soothe i stay positive then immleft disappointed. i was in a lot ot pain in different areas. and this was yet another bad massage. i didnt feel the deep tissue massage. kept having to say more pressure. specifics showed my problem areas and those areas werent worked on thoroughly. massage felt short and waste of time and pointless. i got up with pain on my spine.',
+    spellcheck:
+      "overtime i book soothe i stay positive then immleft disappointed. i was in a lot it pain in different areas. and this was yet another bad massage. i didn't feel the deep tissue massage. kept having to say more pressure. specifics showed my problem areas and those areas weren't worked on thoroughly. massage felt short and waste of time and pointless. i got up with pain on my spine.",
     name: 'Sharis N.',
     source: 'Soothe',
   },
@@ -4644,6 +4667,8 @@ const ratings = [
     date: '2018-10-04',
     comment:
       "It was NOT a deep tissue massage. It was more of a let's put oil and rub with the forearm and hands. I asked for him to stop early 10 min. I wanted it done sooner. I couldn't handle it anymore. I specifically called and the rep told me that he would be good because I wanted a special request with Wattana, who is the best and if I ever book with Soothe again it's going to be with him. I was so disappointed with the massage. I feel worse today then I did last night",
+    spellcheck:
+      "It was NOT a deep tissue massage. It was more of a let's put oil and rub with the forearm and hands. I asked for him to stop early 0 min. I wanted it done sooner. I couldn't handle it anymore. I specifically called and the rep told me that he would be good because I wanted a special request with Rattan, who is the best and if I ever book with Soothe again it's going to be with him. I was so disappointed with the massage. I feel worse today then I did last night",
     name: 'Sharis N.',
     source: 'Soothe',
   },
@@ -4832,6 +4857,8 @@ const ratings = [
     date: '2019-03-10',
     comment:
       "I had a very restorative, relaxing 90 mins with Trillium. I swear he reset not only my body but my nervous system. I'll be booking again for sure. Thank you, the week ahead will be that much better!",
+    spellcheck:
+      "I had a very restorative, relaxing 0 bins with Trillium. I swear he reset not only my body but my nervous system. I'll be booking again for sure. Thank you, the week ahead will be that much better!",
     name: 'Geren L.',
     source: 'Soothe',
   },
@@ -5504,76 +5531,65 @@ const ratings = [
     name: 'Sidaq G.',
     source: 'Soothe',
   },
-
   {
     rating: 5,
     date: '2019-10-03',
     name: 'Jax S.',
     source: 'Trillium Massage',
-    type: 'chair',
   },
   {
     rating: 5,
     date: '2019-10-17',
     name: 'Jax S.',
     source: 'Trillium Massage',
-    type: 'chair',
   },
   {
     rating: 5,
     date: '2019-10-29',
     name: 'Anonymous',
     source: 'Trillium Massage',
-    type: 'chair',
   },
   {
     rating: 5,
     date: '2019-10-29',
     name: 'Anonymous',
     source: 'Trillium Massage',
-    type: 'chair',
   },
   {
     rating: 4,
     date: '2019-10-29',
     name: 'Jacki W.',
     source: 'Trillium Massage',
-    type: 'chair',
   },
   {
     rating: 5,
     date: '2019-10-31',
     name: 'Anonymous',
     source: 'Trillium Massage',
-    type: 'chair',
   },
   {
     rating: 5,
     date: '2019-11-14',
     name: 'Jax S.',
     source: 'Trillium Massage',
-    type: 'chair',
   },
   {
     rating: 5,
     date: '2019-11-26',
     name: 'Anonymous',
     source: 'Trillium Massage',
-    type: 'chair',
   },
   {
     rating: 5,
     date: '2020-01-07',
     name: 'Anonymous',
     source: 'Trillium Massage',
-    type: 'chair',
   },
   {
     rating: 5,
     date: '2020-02-10',
     name: 'Sam S.',
     source: 'Trillium Massage',
-    type: 'chair',
   },
   {
     rating: 5,
@@ -5582,7 +5598,6 @@ const ratings = [
       'The pain in my neck and shoulders was relieved and I was able to sleep so good the night of my massage. I highly recommend Trillium as a massage therapist.',
     name: 'Z Z.',
     source: 'Trillium Massage',
-    type: 'table',
   },
   {
     rating: 5,
@@ -5591,56 +5606,48 @@ const ratings = [
       'One of the best massages I’ve ever had! Trillium had such amazing technique and he was super communicative and collaborative. I felt transformed after and will definitely book him again!',
     name: 'Lisa G.',
     source: 'Trillium Massage',
-    type: 'table',
   },
   {
     rating: 5,
     date: '2024-11-18',
     name: 'Brien O.',
     source: 'Trillium Massage',
-    type: 'table',
   },
   {
     rating: 5,
     date: '2024-11-07',
     name: 'Michael R.',
     source: 'Trillium Massage',
-    type: 'table',
   },
   {
     rating: 5,
     date: '2024-11-02',
     name: 'Alexandra H.',
     source: 'Trillium Massage',
-    type: 'table',
   },
   {
     rating: 5,
     date: '2024-10-27',
     name: 'Vic b.',
     source: 'Trillium Massage',
-    type: 'table',
   },
   {
     rating: 5,
     date: '2024-10-21',
     name: 'Brian M.',
     source: 'Trillium Massage',
-    type: 'table',
   },
   {
     rating: 5,
     date: '2024-10-19',
     name: 'Tony C.',
     source: 'Trillium Massage',
-    type: 'table',
   },
   {
     rating: 5,
     date: '2024-10-12',
     name: 'Andrew D.',
     source: 'Trillium Massage',
-    type: 'table',
   },
   {
     rating: 5,
@@ -5649,14 +5656,12 @@ const ratings = [
       'Trillium is a genius. He knows right where to go deep and where to back off. A perfect massage.',
     name: 'Judy K.',
     source: 'Trillium Massage',
-    type: 'table',
   },
   {
     rating: 5,
     date: '2025-06-22',
     name: 'Raphael P.',
     source: 'Trillium Massage',
-    type: 'table',
   },
   {
     rating: 5,
@@ -5664,14 +5669,12 @@ const ratings = [
     comment: 'Seen him many times. Always excellent',
     name: 'Michael L.',
     source: 'Trillium Massage',
-    type: 'table',
   },
   {
     rating: 5,
     date: '2025-06-01',
     name: 'Jonathan G.',
     source: 'Trillium Massage',
-    type: 'table',
   },
   {
     rating: 5,
@@ -5680,35 +5683,30 @@ const ratings = [
       'Incredible massage! Deep tissue was spot on and his movement was perfect and enjoyable',
     name: 'Kimberly N.',
     source: 'Trillium Massage',
-    type: 'table',
   },
   {
     rating: 5,
     date: '2025-03-23',
     name: 'Jenn S.',
     source: 'Trillium Massage',
-    type: 'table',
   },
   {
     rating: 5,
     date: '2025-03-17',
     name: 'Jenn S.',
     source: 'Trillium Massage',
-    type: 'table',
   },
   {
     rating: 5,
     date: '2025-03-10',
     name: 'Jenn S.',
     source: 'Trillium Massage',
-    type: 'table',
   },
   {
     rating: 5,
     date: '2025-01-13',
     name: 'Alicia E.',
     source: 'Trillium Massage',
-    type: 'table',
   },
   {
     rating: 5,
@@ -5716,22 +5714,20 @@ const ratings = [
     comment: 'Thank God for Trillium! Best massage ever!',
     name: 'Charlotte D.',
     source: 'Trillium Massage',
-    type: 'table',
   },
   {
     rating: 5,
     date: '2025-01-04',
     name: 'Raymur F.',
     source: 'Trillium Massage',
-    type: 'table',
   },
   {
     rating: 5,
     date: '2025-07-17',
     comment: 'I dobt kbow thst ive ever hsd s better massage. Thsbk you, Trillium!',
+    spellcheck: 'I debt know that ice ever had s better massage. Thank you, Trillium!',
     name: 'Alicia E.',
     source: 'Trillium Massage',
-    type: 'table',
   },
   {
     rating: 5,
@@ -5740,15 +5736,11 @@ const ratings = [
       'Trillium is amazing and is always my first choice of therapists! He is so talented, skilled and I am always blown away by how good a therapist he is!',
     name: 'Michelle H.',
     source: 'Trillium Massage',
-    type: 'table',
   },
   {
     rating: 5,
     date: '2025-06-29',
     name: 'John H.',
     source: 'Trillium Massage',
-    type: 'table',
   },
 ]
-
-export default ratings
