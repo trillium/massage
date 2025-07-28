@@ -107,18 +107,23 @@ function generateRatingsCopy() {
         spellchecked = spellcheckedComment
       }
     }
-    const { rating, date, comment, name, source } = item
+    const { rating, date, comment, name, source, helpful } = item
 
     // trying to preserve item order in json doc
     const outItem = {}
     outItem.rating = rating
     outItem.date = date
-    outItem.comment = comment
+    if (comment) {
+      outItem.comment = comment
+    }
     if (spellchecked) {
       outItem.spellcheck = spellchecked
     }
     outItem.name = name
     outItem.source = source
+    if (helpful) {
+      outItem.helpful = helpful
+    }
     return outItem
   })
 
@@ -137,4 +142,4 @@ function generateRatingsCopy() {
 
 generateRatingsCopy()
 
-console.log(JSON.stringify(newDictionary, null, 2))
+console.log('New unknown words seen', JSON.stringify(newDictionary, null, 2))

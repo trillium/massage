@@ -1575,6 +1575,7 @@ const ratings = [
       'Professional and prompt. Excellent deep tissue massage. Thorough with the pre-massage assessment of previous injuries. Knew exactly how to get to my problem areas. Thank you!',
     name: 'Michi F.',
     source: 'Soothe',
+    helpful: 10,
   },
   {
     rating: 5,
@@ -2650,6 +2651,7 @@ const ratings = [
       'Trillium is such a great massage therapist. Not only is he good at deep tissue but hes easy to schedule with, no issues coming and going and on top he has a great personality. Highly recommend him.',
     name: 'Kimberly N.',
     source: 'Soothe',
+    helpful: 5,
   },
   {
     rating: 5,
@@ -3225,6 +3227,7 @@ const ratings = [
       'Great experience!!! Very professional. Amazing equipment. Brought high end speaker for music. Would definitely book again! He really loves what he does.',
     name: 'Barbara P.',
     source: 'Soothe',
+    helpful: 1,
   },
   {
     rating: 5,
