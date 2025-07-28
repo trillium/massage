@@ -14,7 +14,7 @@
     "test": "vitest run",
     "test:watch": "vitest --watch",
     "test:coverage": "vitest run --coverage",
-    "ratings:spellcheck": "node scripts/ratingsCorrectionScript.mjs"
+    "ratings:spellcheck": "ts-node scripts/ratingsCorrectionScript.ts"
   },
   "dependencies": {
     "@headlessui/react": "2.2.0",
