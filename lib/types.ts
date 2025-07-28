@@ -159,11 +159,12 @@ export type ChairAppointmentBlockCalendarProps = ChairAppointmentBlockProps & Ap
 export type ReviewType = {
   rating: 1 | 2 | 3 | 4 | 5
   date: string
-  comment: string | null
+  comment?: string
   name: string
   source: string
   type?: string
   helpful?: number
+  spellcheck?: string
 }
 
 export type PaymentMethodType = (typeof paymentMethod)[number]['value'] | null
