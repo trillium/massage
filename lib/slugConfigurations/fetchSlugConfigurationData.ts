@@ -9,6 +9,7 @@ Current role is to return an object that has configurations for [bookingSlug] th
   - A referral or discount block
     - eg Fire Relief Service
     - eg credit Influencer for these sessions
+  - Can limit availability by promoEnd
 */
 
 import { initialState } from '@/redux/slices/configSlice'
@@ -20,87 +21,82 @@ type DiscountType = {
   amount: string | number
 }
 
-type SlugConfigurationObject = {
+const slugConfigurations: SlugConfigurationType[] = [
+  {
+    ...initialState,
+    bookingSlug: ['foo'],
+    type: 'area-wide',
+    title: 'Welcome to the Foo booking page!',
+    text: 'Foo paragraph text rendered by <Template />',
+    location: 'foo',
+  },
+  {
+    ...initialState,
+    bookingSlug: ['expired'],
+    promoEndDate: '2025-1-1', // Example promo end date
+  },
+  {
+    ...initialState,
+    bookingSlug: ['the_kinn'],
+    type: 'scheduled-site',
+    title: 'Welcome to the the_kinn booking page!',
+    text: 'the_kinn paragraph text rendered by <Template />',
+    price: { 15: 30, 30: 60, 45: 90, 60: 120 },
+    allowedDurations: [15, 30, 45, 60],
+    leadTimeMinimum: 2,
+  },
+  {
+    ...initialState,
+    bookingSlug: ['midnight-runners'],
+    type: 'area-wide',
+    title: 'Running peeps, book a session!',
+    discount: {
+      type: 'percent',
+      amountPercent: 0.25,
+    },
+  },
+  {
+    ...initialState,
+    bookingSlug: ['90045', 'westchester', 'playa', 'playa-vista', 'kentwood'],
+    type: 'area-wide',
+    title: 'Do you live ridiculously close to me??',
+    text: "That's so convenient! I can confidently say that if I'm home and not busy I can scoot on over to you in an hour or less. See you soon!",
+    leadTimeMinimum: 60,
+  },
+  {
+    ...initialState,
+    bookingSlug: ['nextdoor-westchester'],
+    type: 'area-wide',
+    title: 'Nextdoor Westchester Promo!',
+    text: 'Special pricing for Westchester neighbors booking through Nextdoor. Enjoy 20% off your session!',
+    discount: {
+      type: 'percent',
+      amountPercent: 0.2,
+    },
+    promoEndDate: '2025-7-30', // Example promo end date
+  },
+  {
+    ...initialState,
+    bookingSlug: ['hotel-june'],
+    type: 'fixed-location',
+    title: 'Book an in-room massage at Hotel June!',
+    text: 'Please provide your room number.',
+    location: 'Hotel June West LA, 8639 Lincoln Blvd, Los Angeles, CA 90045',
+    locationIsReadOnly: true,
+    leadTimeMinimum: 60,
+  },
+]
+
+export async function fetchSlugConfigurationData(): Promise<{
   [key: string]: SlugConfigurationType
-}
-
-const fooSlug: SlugConfigurationType = {
-  ...initialState,
-  bookingSlug: 'foo',
-  type: 'area-wide',
-  title: 'Welcome to the Foo booking page!',
-  text: 'Foo paragraph text rendered by <Template />',
-  location: 'foo',
-}
-
-const the_kinn: SlugConfigurationType = {
-  ...initialState,
-  bookingSlug: 'the_kinn',
-  type: 'scheduled-site',
-  title: 'Welcome to the the_kinn booking page!',
-  text: 'the_kinn paragraph text rendered by <Template />',
-  price: { 15: 30, 30: 60, 45: 90, 60: 120 },
-  allowedDurations: [15, 30, 45, 60],
-  leadTimeMinimum: 2,
-}
-
-const midnightRunners: SlugConfigurationType = {
-  ...initialState,
-  bookingSlug: 'midnight-runners',
-  type: 'area-wide',
-  title: 'Running peeps, book a session!',
-  discount: {
-    type: 'percent',
-    amountPercent: 0.25,
-  },
-  promoEndDate: '2025-12-31', // Example promo end date
-}
-
-const closeToMe: SlugConfigurationType = {
-  ...initialState,
-  bookingSlug: '90045',
-  type: 'area-wide',
-  title: 'Do you live ridiculously close to me??',
-  text: "That's so convenient! I can confidently say that if I'm home and not busy I can scoot on over to you in an hour or less. See you soon!",
-  leadTimeMinimum: 60,
-  promoEndDate: '2025-11-30', // Example promo end date
-}
-
-const nextdoorWestchester: SlugConfigurationType = {
-  ...initialState,
-  bookingSlug: 'nextdoor-westchester',
-  type: 'area-wide',
-  title: 'Nextdoor Westchester Promo!',
-  text: 'Special pricing for Westchester neighbors booking through Nextdoor. Enjoy 20% off your session!',
-  discount: {
-    type: 'percent',
-    amountPercent: 0.2,
-  },
-  location: 'Westchester, Los Angeles',
-  promoEndDate: '2025-10-31', // Example promo end date
-}
-
-const hotelJune: SlugConfigurationType = {
-  ...initialState,
-  bookingSlug: 'hotelJune',
-  type: 'fixed-location',
-  title: 'Book an in-room massage at Hotel June!',
-  text: 'Please provide your room number.',
-  location: 'Hotel June West LA, 8639 Lincoln Blvd, Los Angeles, CA 90045',
-  locationIsReadOnly: true,
-  leadTimeMinimum: 60,
-}
-
-export async function fetchSlugConfigurationData(): Promise<SlugConfigurationObject> {
-  return {
-    foo: fooSlug,
-    the_kinn,
-    '90045': closeToMe,
-    westchester: closeToMe,
-    'playa-vista': closeToMe,
-    'culver-city': closeToMe,
-    'midnight-runners': midnightRunners,
-    'hotel-june': hotelJune,
-    'nextdoor-westchester': nextdoorWestchester,
-  }
+}> {
+  // returns a map of key: bookingSlug -> value (the object)
+  return slugConfigurations.reduce<{ [key: string]: SlugConfigurationType }>((map, config) => {
+    if (Array.isArray(config.bookingSlug)) {
+      for (const slug of config.bookingSlug) {
+        map[slug] = config
+      }
+    }
+    return map
+  }, {})
 }
