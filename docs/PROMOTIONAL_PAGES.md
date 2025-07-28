@@ -90,6 +90,22 @@ Set an expiration date for promotional offers:
 promoEndDate: '2025-12-31', // Format: YYYY-MM-DD
 ```
 
+### How Expiration Works
+
+- **Date Format**: Use `YYYY-MM-DD` format (e.g., '2025-12-31')
+- **End of Day**: Promotions expire at 11:59:59 PM on the specified date
+- **Automatic Blocking**: Expired promotions automatically show an expiration page instead of the booking form
+- **Admin View**: The `/admin/promo-routes` page shows expired promotions with red "❌ Expired" indicators
+
+### User Experience for Expired Promotions
+
+When users visit an expired promotional URL, they will see:
+
+- A friendly expiration message with the original offer details
+- Links to book at regular rates
+- Clear indication of when the promotion expired
+- No access to the booking form with expired pricing
+
 The end date will be displayed on the promotional routes page and can be used for automated cleanup or validation.
 
 ## Configuration Types
