@@ -46,6 +46,9 @@ const newDictionary = {}
 function spellcheck(comment) {
   const spell = nspell(dictionary)
   spell.remove('trillium')
+  spell.remove('Trillium')
+  spell.remove('Trillion')
+  spell.remove('trillion')
   const words = comment.split(' ')
   const correctedWords = words.map((word) =>
     spell.correct(word) ? word : spell.suggest(word)[0] || word
@@ -62,6 +65,7 @@ function generateRatingsCopy() {
     // preserve punctuation
     let spellcheckedComment
     let spellchecked
+
     if (item.comment) {
       // split comment on any punctuation
       const punctuationRegex = /([.,!?;:@#$%^&*()\-=_+])/g
@@ -93,7 +97,8 @@ function generateRatingsCopy() {
               }
             }
           }
-          return checked
+          const newChecked = parts_changed_.join(' ')
+          return newChecked
         }
       })
       // rejoin with the original punctuation as before

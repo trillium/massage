@@ -1489,6 +1489,7 @@ const ratings = [
     rating: 5,
     date: '2017-09-20',
     comment: 'trillium is the best there is!',
+    spellcheck: 'Trillium is the best there is!',
     name: 'Roy V.',
     source: 'Soothe',
   },
@@ -1510,8 +1511,6 @@ const ratings = [
     date: '2017-09-16',
     comment:
       "Honestly seriously. The best ever. Can't wait for next time. Just can't afford to always do so long! Lol",
-    spellcheck:
-      "Honestly seriously. The best ever. Can't wait for next time. Just can't afford to always do so long! Loll",
     name: 'Roy V.',
     source: 'Soothe',
   },
@@ -1574,8 +1573,6 @@ const ratings = [
     date: '2017-06-12',
     comment:
       'Professional and prompt. Excellent deep tissue massage. Thorough with the pre-massage assessment of previous injuries. Knew exactly how to get to my problem areas. Thank you!',
-    spellcheck:
-      'Professional and prompt. Excellent deep tissue massage. Thorough with the ere-massage assessment of previous injuries. Knew exactly how to get to my problem areas. Thank you!',
     name: 'Michi F.',
     source: 'Soothe',
   },
@@ -1603,7 +1600,6 @@ const ratings = [
     rating: 5,
     date: '2017-12-03',
     comment: "He's fantastic! Skilled, courteous, calm! Yeay!",
-    spellcheck: "He's fantastic! Skilled, courteous, calm! Yeas!",
     name: 'Amy S.',
     source: 'Soothe',
   },
@@ -1880,7 +1876,6 @@ const ratings = [
     rating: 5,
     date: '2024-01-01',
     comment: 'Very friendly and professional. Would definitely rebook.',
-    spellcheck: 'Very friendly and professional. Would definitely recook.',
     name: 'Xavier J.',
     source: 'Soothe',
   },
@@ -2308,8 +2303,6 @@ const ratings = [
     date: '2019-05-20',
     comment:
       "The massage was mediocre. It felt very rushed. He didn't focus much on my legs or arms. He also asked to come early, which was fine, but then only spent 54 mins on my massage.",
-    spellcheck:
-      "The massage was mediocre. It felt very rushed. He didn't focus much on my legs or arms. He also asked to come early, which was fine, but then only spent 4 bins on my massage.",
     name: 'George R.',
     source: 'Soothe',
   },
@@ -2521,7 +2514,7 @@ const ratings = [
     comment:
       'One of the best massages ive had in a long time! Truly skilled and can easily apply firm pressure.',
     spellcheck:
-      'One of the best massages ice had in a long time! Truly skilled and can easily apply firm pressure.',
+      "One of the best massages I've had in a long time! Truly skilled and can easily apply firm pressure.",
     name: 'Jim B.',
     source: 'Soothe',
   },
@@ -2970,7 +2963,7 @@ const ratings = [
     rating: 5,
     date: '2023-01-03',
     comment: 'Best massgae ive ever had in my life',
-    spellcheck: 'Best massage ice ever had in my life',
+    spellcheck: "Best massage I've ever had in my life",
     name: 'Rachel P.',
     source: 'Soothe',
   },
@@ -3410,7 +3403,6 @@ const ratings = [
     rating: 3,
     date: '2018-01-07',
     comment: 'Was 30 min late',
-    spellcheck: 'Was 0 min late',
     name: 'Megan H.',
     source: 'Soothe',
   },
@@ -3534,7 +3526,6 @@ const ratings = [
     rating: 5,
     date: '2017-10-11',
     comment: 'Greatest massage ever! Will def rebook',
-    spellcheck: 'Greatest massage ever! Will def recook',
     name: 'Andrea B.',
     source: 'Soothe',
   },
@@ -4411,8 +4402,6 @@ const ratings = [
     date: '2017-11-14',
     comment:
       "There's no way this is a a '5-Star' masseuse. I was very disappointed. Had very little skill. I felt like a guinea pig for a massage school student. Can't figure out how we were matched when I use the service so much, and he's clearly brand new.",
-    spellcheck:
-      "There's no way this is a a 5-Star's masseuse. I was very disappointed. Had very little skill. I felt like a guinea pig for a massage school student. Can't figure out how we were matched when I use the service so much, and he's clearly brand new.",
     name: 'Kevin L.',
     source: 'Soothe',
   },
@@ -4428,7 +4417,7 @@ const ratings = [
     comment:
       'everytime i book soothe i stay positive then immleft disappointed. i was in a lot ot pain in different areas. and this was yet another bad massage. i didnt feel the deep tissue massage. kept having to say more pressure. specifics showed my problem areas and those areas werent worked on thoroughly. massage felt short and waste of time and pointless. i got up with pain on my spine.',
     spellcheck:
-      "overtime i book soothe i stay positive then immleft disappointed. i was in a lot it pain in different areas. and this was yet another bad massage. i didn't feel the deep tissue massage. kept having to say more pressure. specifics showed my problem areas and those areas weren't worked on thoroughly. massage felt short and waste of time and pointless. i got up with pain on my spine.",
+      "every time i book soothe i stay positive then immleft disappointed. i was in a lot of pain in different areas. and this was yet another bad massage. i didn't feel the deep tissue massage. kept having to say more pressure. specifics showed my problem areas and those areas weren't worked on thoroughly. massage felt short and waste of time and pointless. i got up with pain on my spine.",
     name: 'Sharis N.',
     source: 'Soothe',
   },
@@ -4667,8 +4656,6 @@ const ratings = [
     date: '2018-10-04',
     comment:
       "It was NOT a deep tissue massage. It was more of a let's put oil and rub with the forearm and hands. I asked for him to stop early 10 min. I wanted it done sooner. I couldn't handle it anymore. I specifically called and the rep told me that he would be good because I wanted a special request with Wattana, who is the best and if I ever book with Soothe again it's going to be with him. I was so disappointed with the massage. I feel worse today then I did last night",
-    spellcheck:
-      "It was NOT a deep tissue massage. It was more of a let's put oil and rub with the forearm and hands. I asked for him to stop early 0 min. I wanted it done sooner. I couldn't handle it anymore. I specifically called and the rep told me that he would be good because I wanted a special request with Rattan, who is the best and if I ever book with Soothe again it's going to be with him. I was so disappointed with the massage. I feel worse today then I did last night",
     name: 'Sharis N.',
     source: 'Soothe',
   },
@@ -4857,8 +4844,6 @@ const ratings = [
     date: '2019-03-10',
     comment:
       "I had a very restorative, relaxing 90 mins with Trillium. I swear he reset not only my body but my nervous system. I'll be booking again for sure. Thank you, the week ahead will be that much better!",
-    spellcheck:
-      "I had a very restorative, relaxing 0 bins with Trillium. I swear he reset not only my body but my nervous system. I'll be booking again for sure. Thank you, the week ahead will be that much better!",
     name: 'Geren L.',
     source: 'Soothe',
   },
@@ -5725,7 +5710,7 @@ const ratings = [
     rating: 5,
     date: '2025-07-17',
     comment: 'I dobt kbow thst ive ever hsd s better massage. Thsbk you, Trillium!',
-    spellcheck: 'I debt know that ice ever had s better massage. Thank you, Trillium!',
+    spellcheck: "I doubt know that I've ever had s better massage. Thank you, Trillium!",
     name: 'Alicia E.',
     source: 'Trillium Massage',
   },
