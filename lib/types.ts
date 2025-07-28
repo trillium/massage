@@ -167,6 +167,9 @@ export type ReviewType = {
   spellcheck?: string
 }
 
+export type RatingType = 1 | 2 | 3 | 4 | 5 | undefined | ''
+export type RatingTypeStrict = 1 | 2 | 3 | 4 | 5
+
 export type PaymentMethodType = (typeof paymentMethod)[number]['value'] | null
 
 export type AttendeeType = {

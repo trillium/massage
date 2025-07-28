@@ -15,6 +15,7 @@ import {
   useReduxModal,
 } from '@/redux/hooks'
 import { ReviewSnippet, Star } from './ReviewCard'
+import type { RatingType, RatingTypeStrict } from '@/lib/types'
 
 export type ReviewFormData = {
   name: string
@@ -27,9 +28,6 @@ export type ReviewFormData = {
   text?: string
   rating?: RatingType
 }
-
-export type RatingType = 1 | 2 | 3 | 4 | 5 | undefined | ''
-export type RatingTypeStrict = 1 | 2 | 3 | 4 | 5
 
 export default function ReviewForm({
   error,
