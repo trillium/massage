@@ -2,7 +2,6 @@
   "name": "trillium-massage",
   "version": "0.2.0",
   "private": true,
-  "type": "module",
   "scripts": {
     "start": "next dev",
     "dev": "cross-env INIT_CWD=$PWD next dev",
