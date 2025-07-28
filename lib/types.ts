@@ -226,7 +226,7 @@ export type DiscountType = {
 export type SlugType = 'area-wide' | 'fixed-location' | 'scheduled-site' | null
 
 export type SlugConfigurationType = {
-  bookingSlug: string | null // this must be unique and cannot conflict with current app pages
+  bookingSlug: string | string[] | null // this must be unique and cannot conflict with current app pages
   type: SlugType
   title: string | null
   text: string | null
