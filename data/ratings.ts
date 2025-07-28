@@ -1,4 +1,6 @@
-const ratings = [
+import type { ReviewType } from '@/lib/types'
+
+const ratings: ReviewType[] = [
   {
     rating: 5,
     date: '2018-07-17',
