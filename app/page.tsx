@@ -43,7 +43,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<Sea
   return (
     <>
       <Hero
-        title="Meet Trillium - Certified Massge Therapist"
+        title="Meet Trillium - Certified Massage Therapist"
         img={avatar}
         text={massageBio}
         imageRight

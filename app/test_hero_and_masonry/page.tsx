@@ -45,7 +45,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<Sea
           </a>
         </div>
       </div>
-      <Hero title="Meet Trillium - Certified Massge Therapist" img={avatar} text={massageBio} />
+      <Hero title="Meet Trillium - Certified Massage Therapist" img={avatar} text={massageBio} />
       <Masonry />
       <Template title="Book a massage with Trillium :)" />
       <BookingForm endPoint="api/request" />
