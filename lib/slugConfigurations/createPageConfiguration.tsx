@@ -1,3 +1,4 @@
+import { normalizeYYYYMMDD } from '../helpers'
 import siteMetadata from '@/data/siteMetadata'
 import { fetchContainersByQuery } from '@/lib/fetch/fetchContainersByQuery'
 import { fetchSlugConfigurationData } from '@/lib/slugConfigurations/fetchSlugConfigurationData'
@@ -8,6 +9,7 @@ import { SearchParamsType, SlugConfigurationType } from '@/lib/types'
 import { fetchData } from '@/lib/fetch/fetchData'
 import { validateSearchParams } from '@/lib/searchParams/validateSearchParams'
 import { initialState } from '@/redux/slices/configSlice'
+import { isPromoExpired } from '../utilities/promoValidation'
 
 type createPageConfigurationProps = {
   bookingSlug?: string
@@ -44,7 +46,15 @@ export async function createPageConfiguration({
   const { duration, selectedDate } = validateSearchParams({ searchParams: resolvedParams })
 
   const start = dayFromString(data.start)
-  const end = dayFromString(data.end)
+
+  let end = dayFromString(data.end)
+  // Limit end to the earlier of data.end and promoEndDate (inclusive) if present
+  if (configuration?.promoEndDate) {
+    const normalizedPromoEnd = normalizeYYYYMMDD(configuration.promoEndDate)
+    if (normalizedPromoEnd < data.end) {
+      end = dayFromString(normalizedPromoEnd)
+    }
+  }
 
   const leadTime = configuration?.leadTimeMinimum ?? LEAD_TIME
 
@@ -78,7 +88,8 @@ export async function createPageConfiguration({
     configuration,
   }
 
-  return {
+  const returnObj = {
+    isExpired: false,
     durationProps,
     configuration,
     selectedDate,
@@ -90,4 +101,10 @@ export async function createPageConfiguration({
     start,
     end,
   }
+
+  if (configuration && configuration.promoEndDate && isPromoExpired(configuration.promoEndDate)) {
+    returnObj.isExpired = true
+  }
+
+  return returnObj
 }
