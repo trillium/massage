@@ -30,7 +30,9 @@ export async function createPageConfiguration({
     configuration = initialState
   }
 
-  Object.assign(configuration, overrides)
+  if (configuration && overrides) {
+    Object.assign(configuration, overrides)
+  }
 
   let data
 
