@@ -2,6 +2,7 @@ import Template from 'components/Template'
 import review_data from '@/data/ratings'
 import clsx from 'clsx'
 import { RatingType } from './ReviewForm'
+import type { ReviewType } from '@/lib/types'
 
 const sorted_reviews = (review_data as ReviewType[]).sort((a: ReviewType, b: ReviewType) =>
   b.date.localeCompare(a.date)
@@ -9,16 +10,6 @@ const sorted_reviews = (review_data as ReviewType[]).sort((a: ReviewType, b: Rev
 
 const slice_size = 50
 const sliced_sorted = sorted_reviews.slice(0, slice_size)
-
-export type ReviewType = {
-  rating: 1 | 2 | 3 | 4 | 5
-  date: string
-  comment: string | null
-  name: string
-  source: string
-  type?: string
-  helpful?: number
-}
 
 // Define a type for the accumulator object
 type RatingCount = {
@@ -204,8 +195,8 @@ const MostHelpful = () => (
     {(review_data as ReviewType[])
       .filter((item) => item.helpful)
       .sort((a, b) => (b.helpful ?? 0) - (a.helpful ?? 0))
-      .map(({ comment, date, name }) => (
-        <ReviewSnippet key={`${date}_${name}`} text={comment ?? ''} name={name} />
+      .map(({ comment, date, name, spellcheck }) => (
+        <ReviewSnippet key={`${date}_${name}`} text={spellcheck ?? comment ?? ''} name={name} />
       ))}
   </div>
 )
