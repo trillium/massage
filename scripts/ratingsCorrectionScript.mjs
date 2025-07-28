@@ -37,12 +37,15 @@ const quickDictionary = {
   Thsbk: 'Thank',
   Lol: 'Lol',
   Yeay: 'Yeay',
+  trillium: 'Trillium',
+  Trillium: 'Trillium',
 }
 
 const newDictionary = {}
 
 function spellcheck(comment) {
   const spell = nspell(dictionary)
+  spell.remove('trillium')
   const words = comment.split(' ')
   const correctedWords = words.map((word) =>
     spell.correct(word) ? word : spell.suggest(word)[0] || word
