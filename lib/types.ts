@@ -170,6 +170,18 @@ export type ReviewType = {
 export type RatingType = 1 | 2 | 3 | 4 | 5 | undefined | ''
 export type RatingTypeStrict = 1 | 2 | 3 | 4 | 5
 
+export type RatingCount = {
+  1: number
+  2: number
+  3: number
+  4: number
+  5: number
+  sum: number
+  average: number
+  averageStr: string
+  length: number
+}
+
 export type PaymentMethodType = (typeof paymentMethod)[number]['value'] | null
 
 export type AttendeeType = {

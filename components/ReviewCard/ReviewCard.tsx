@@ -2,6 +2,8 @@ import Template from 'components/Template'
 import review_data from '@/data/ratings'
 import clsx from 'clsx'
 import type { ReviewType, RatingType } from '@/lib/types'
+import { getNumberOfReviews } from './getNumberOfReviews'
+import { getNumberOfReviewsSorted } from './getNumberOfReviewsSorted'
 
 const sorted_reviews = (review_data as ReviewType[]).sort((a: ReviewType, b: ReviewType) =>
   b.date.localeCompare(a.date)
@@ -23,49 +25,9 @@ type RatingCount = {
   length: number
 }
 
-const numberOfReviews = sorted_reviews.reduce(
-  (acc: RatingCount, curr: ReviewType, index: number): RatingCount => {
-    acc[curr.rating] += 1
-    acc.sum += curr.rating
-    acc.average = acc.sum / (index + 1)
-    acc.averageStr = (acc.sum / (index + 1)).toFixed(1)
-    acc.length = index + 1
-    return acc
-  },
-  {
-    1: 0,
-    2: 0,
-    3: 0,
-    4: 0,
-    5: 0,
-    sum: 0,
-    average: 0,
-    averageStr: '',
-    length: 0,
-  }
-)
+const numberOfReviews = getNumberOfReviews(sorted_reviews)
 
-const numberOfReviewsSorted = sliced_sorted.reduce(
-  (acc: RatingCount, curr: ReviewType, index: number): RatingCount => {
-    acc[curr.rating] += 1
-    acc.sum += curr.rating
-    acc.average = acc.sum / (index + 1)
-    acc.averageStr = (acc.sum / (index + 1)).toFixed(1)
-    acc.length = index + 1
-    return acc
-  },
-  {
-    1: 0,
-    2: 0,
-    3: 0,
-    4: 0,
-    5: 0,
-    sum: 0,
-    average: 0,
-    averageStr: '',
-    length: 0,
-  }
-)
+const numberOfReviewsSorted = getNumberOfReviewsSorted(sliced_sorted)
 
 const reviews: { [key: number]: number } = numberOfReviews
 
