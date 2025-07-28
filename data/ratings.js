@@ -5744,3 +5744,5 @@ const ratings = [
     source: 'Trillium Massage',
   },
 ]
+
+export default ratings

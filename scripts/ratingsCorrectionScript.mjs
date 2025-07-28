@@ -117,7 +117,9 @@ function generateRatingsCopy() {
   progressBar.stop()
 
   // do not wrap key names in any quotationmarks
-  const fileContent = `const ratings = ${JSON.stringify(ratingsCopy, null, 2)}`
+  const fileContent = `const ratings = ${JSON.stringify(ratingsCopy, null, 2)}
+  
+  export default ratings`
 
   writeFileSync(filename, fileContent)
 
