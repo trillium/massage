@@ -1,8 +1,7 @@
 import Template from 'components/Template'
 import review_data from '@/data/ratings'
 import clsx from 'clsx'
-import { RatingType } from './ReviewForm'
-import type { ReviewType } from '@/lib/types'
+import type { ReviewType, RatingType } from '@/lib/types'
 
 const sorted_reviews = (review_data as ReviewType[]).sort((a: ReviewType, b: ReviewType) =>
   b.date.localeCompare(a.date)
