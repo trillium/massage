@@ -22,6 +22,12 @@ export const initialBookingFormData: BookingFormData = {
   phone: '',
   /** Payment method of the requester */
   paymentMethod: 'cash',
+  /** Hotel room number */
+  hotelRoomNumber: '',
+  /** Parking instructions */
+  parkingInstructions: '',
+  /** Additional notes */
+  additionalNotes: '',
 }
 
 export const initialReviewFormState: ReviewFormData = {

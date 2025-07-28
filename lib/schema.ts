@@ -32,6 +32,9 @@ const BaseRequestSchema = z
     eventMemberString: z.string().optional(),
     eventContainerString: z.string().optional(),
     instantConfirm: z.boolean().optional(),
+    hotelRoomNumber: z.string().optional(),
+    parkingInstructions: z.string().optional(),
+    additionalNotes: z.string().optional(),
   })
   .strict() // Disallow unknown keys
 

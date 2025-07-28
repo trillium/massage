@@ -149,6 +149,9 @@ export type ChairAppointmentBlockProps = {
   leadTime: number
   instantConfirm?: boolean
   acceptingPayment?: boolean
+  showHotelField?: boolean
+  showParkingField?: boolean
+  showNotesField?: boolean
 }
 
 export type ChairAppointmentBlockCalendarProps = ChairAppointmentBlockProps & AppointmentProps
@@ -278,4 +281,14 @@ export type BookingFormData = {
   phone?: string
   /** Payment method of the requester */
   paymentMethod?: PaymentMethodType
+  /** City of the requester */
+  city?: string
+  /** Zip code of the requester */
+  zipCode?: string
+  /** Hotel room number */
+  hotelRoomNumber?: string
+  /** Parking instructions */
+  parkingInstructions?: string
+  /** Additional notes */
+  additionalNotes?: string
 }

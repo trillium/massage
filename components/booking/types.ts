@@ -20,4 +20,10 @@ export type BookingFormData = {
   phone?: string
   /** Payment method of the requester */
   paymentMethod?: PaymentMethodType
+  /** Hotel room number */
+  hotelRoomNumber?: string
+  /** Parking instructions */
+  parkingInstructions?: string
+  /** Additional notes */
+  additionalNotes?: string
 }
