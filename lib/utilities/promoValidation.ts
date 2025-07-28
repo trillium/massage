@@ -1,8 +1,6 @@
 /**
  * Utility functions for handling promotional configurations and date validation
  */
-
-import { SlugConfigurationType } from '@/lib/types'
 import { normalizeYYYYMMDD } from '../helpers'
 
 /**
