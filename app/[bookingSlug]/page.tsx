@@ -28,8 +28,6 @@ export default async function Page({
     return <NotFound></NotFound>
   }
 
-  console.log('[result]', result.isExpired)
-
   // Check if this is an expired promotion
   if (result.isExpired && result.configuration.promoEndDate) {
     return (
