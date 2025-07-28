@@ -11,6 +11,9 @@ import PhoneField from './fields/PhoneField'
 import LocationField from './fields/LocationField'
 import EmailField from './fields/EmailField'
 import PaymentMethodField from './fields/PaymentMethodField'
+import HotelField from './fields/HotelField'
+import ParkingField from './fields/ParkingField'
+import NotesField from './fields/NotesField'
 import { handleSubmit } from './handleSubmit'
 
 import { DEFAULT_PRICING } from 'config'
@@ -34,12 +37,14 @@ type BookingFormProps = {
   additionalData?: Partial<ChairAppointmentBlockProps>
   acceptingPayment?: boolean
   endPoint: string
+  onSubmit?: (event: React.FormEvent<HTMLFormElement>) => void
 }
 
 export default function BookingForm({
   additionalData = {},
   endPoint,
   acceptingPayment = true,
+  onSubmit,
 }: BookingFormProps) {
   const dispatchRedux = useAppDispatch()
   const formData = useReduxFormData()
@@ -49,6 +54,24 @@ export default function BookingForm({
   const price = duration ? DEFAULT_PRICING[duration] : 'null'
   const router = useRouter()
   const formOnChange = useBookingFormChange()
+
+  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    formOnChange({
+      target: {
+        name: e.target.name,
+        value: e.target.value,
+      },
+    } as React.ChangeEvent<HTMLInputElement>)
+  }
+
+  const handleTextAreaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    formOnChange({
+      target: {
+        name: e.target.name,
+        value: e.target.value,
+      },
+    } as React.ChangeEvent<HTMLInputElement>)
+  }
 
   const dateString =
     selectedTime && timeZone ? formatLocalDate(selectedTime.start, { timeZone }) : ''
@@ -75,13 +98,17 @@ export default function BookingForm({
         <form
           className="mt-3 sm:ml-4 sm:mt-0"
           onSubmit={(event) => {
-            handleSubmit({
-              event,
-              dispatchRedux,
-              router,
-              additionalData,
-              endPoint,
-            })
+            if (onSubmit) {
+              onSubmit(event)
+            } else {
+              handleSubmit({
+                event,
+                dispatchRedux,
+                router,
+                additionalData,
+                endPoint,
+              })
+            }
           }}
         >
           <DialogTitle
@@ -141,6 +168,32 @@ export default function BookingForm({
                 onChange={formOnChange}
               />
               <EmailField email={formData.email || ''} onChange={formOnChange} />
+              {additionalData?.showHotelField && (
+                <HotelField
+                  hotelRoomNumber={
+                    typeof formData.hotelRoomNumber === 'string' ? formData.hotelRoomNumber : ''
+                  }
+                  onChange={formOnChange}
+                />
+              )}
+              {additionalData?.showParkingField && (
+                <ParkingField
+                  parkingInstructions={
+                    typeof formData.parkingInstructions === 'string'
+                      ? formData.parkingInstructions
+                      : ''
+                  }
+                  onChange={handleSelectChange}
+                />
+              )}
+              {additionalData?.showNotesField && (
+                <NotesField
+                  additionalNotes={
+                    typeof formData.additionalNotes === 'string' ? formData.additionalNotes : ''
+                  }
+                  onChange={handleTextAreaChange}
+                />
+              )}
             </div>
             {acceptingPayment && (
               <PaymentMethodField selected={formData.paymentMethod} onChange={formOnChange} />
