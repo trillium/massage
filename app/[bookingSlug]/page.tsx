@@ -10,6 +10,7 @@ import TimeList from '@/components/availability/time/TimeList'
 import { SearchParamsType } from '@/lib/types'
 import NotFound from 'app/not-found'
 import { createPageConfiguration } from '@/lib/slugConfigurations/createPageConfiguration'
+import ExpiredPromoPage from '@/components/ExpiredPromoPage'
 
 export default async function Page({
   searchParams,
@@ -20,6 +21,25 @@ export default async function Page({
 }) {
   const { bookingSlug } = await params
   const resolvedParams = await searchParams
+
+  const result = await createPageConfiguration({ bookingSlug, resolvedParams })
+
+  if (result.configuration === null || result.configuration === undefined) {
+    return <NotFound></NotFound>
+  }
+
+  console.log('[result]', result.isExpired)
+
+  // Check if this is an expired promotion
+  if (result.isExpired && result.configuration.promoEndDate) {
+    return (
+      <ExpiredPromoPage
+        title={result.configuration.title || 'Promotion Expired'}
+        promoEndDate={result.configuration.promoEndDate}
+        originalText={result.configuration.text}
+      />
+    )
+  }
 
   const {
     durationProps,
@@ -32,11 +52,7 @@ export default async function Page({
     data,
     start,
     end,
-  } = await createPageConfiguration({ bookingSlug, resolvedParams })
-
-  if (configuration === null || configuration === undefined) {
-    return <NotFound></NotFound>
-  }
+  } = result
 
   return (
     <>
