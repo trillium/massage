@@ -19,7 +19,7 @@ const { avatar } = siteMetadata
 const mapData = '/static/images/foo/service-area.jpg'
 const massageBio =
   'Trillium is a massage therapist with 10 years of experience. Working in the LA Metro Area, Trillium found success in specializing in In-Home mobile massage therapy, working solo and through platforms like Soothe and Zeel since 2016.'
-const serviceAreaBlub =
+const serviceAreaBlurb =
   'Trillium is based out of Westchester, but happy to travel to the LA area in general. Very close locations include Playa Vista, Mar Vista, Santa Monica, Venice, El Segundo, and Torrance.'
 
 export default async function Page({ searchParams }: { searchParams: Promise<SearchParamsType> }) {
@@ -51,7 +51,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<Sea
       <Hero
         title="What's the service area for mobile massage therapy?"
         img={mapData}
-        text={serviceAreaBlub}
+        text={serviceAreaBlurb}
         buttons={false}
         imageLeft
       />
