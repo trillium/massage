@@ -53,7 +53,7 @@ export function validateSearchParams({ searchParams }: { searchParams: SearchPar
   }
 
   if (duration == undefined) {
-    // if validation faisl
+    // if validation fails
     duration = DEFAULT_DURATION
   }
 
