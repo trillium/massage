@@ -1,5 +1,5 @@
 /* 
-This function will be replaced by a platformized API version eventaully.
+This function will be replaced by a platformized API version eventually.
 
 Current role is to return an object that has configurations for [bookingSlug] that fit
   - A single location site
