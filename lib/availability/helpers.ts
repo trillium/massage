@@ -37,7 +37,7 @@ export function mapDatesToStrings(slots: DateTimeInterval[]): StringInterval[] {
 }
 
 /**
- * Convinience function to apply common formatting to a date.
+ * Convenience function to apply common formatting to a date.
  * 
  * @param {Date | string} date - The date to format.
  * @param {DateTimeFormatOptions} [extraOptions] - Optional extra 
@@ -57,7 +57,7 @@ export function formatLocalDate(
 }
 
 /**
- * Convinience function to apply common formatting to a time.
+ * Convenience function to apply common formatting to a time.
  * 
  * @param {Date | string} date - The date to format.
  * @param {DateTimeFormatOptions} [extraOptions] - Optional extra 
