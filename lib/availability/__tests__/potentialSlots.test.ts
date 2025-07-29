@@ -145,7 +145,7 @@ describe('getPotentialTimes', () => {
   test('should account for defaultAppointmentInterval less than the chosen duration', () => {
     const defaultAppointmentInterval = 30 // 30 minutes
     const duration = 60 // 60 minutes
-    const nintyMinuteSingleDaySlot: AvailabilitySlotsMap = {
+    const ninetyMinuteSingleDaySlot: AvailabilitySlotsMap = {
       1: [
         // 90 minutes
         { start: { hour: 1, minute: 0 }, end: { hour: 2, minute: 30 } },
@@ -156,7 +156,7 @@ describe('getPotentialTimes', () => {
       start,
       end,
       duration,
-      availabilitySlots: nintyMinuteSingleDaySlot,
+      availabilitySlots: ninetyMinuteSingleDaySlot,
       defaultAppointmentInterval,
     })
 
