@@ -48,7 +48,7 @@ const RenderNavLink = ({ navItem }: { navItem: NavItem }) => {
         key={navItem.title}
         href={navItem.href}
         className={clsx(
-          'font-mediu text-sm hover:text-primary-500 dark:hover:text-primary-400 xs:text-base sm:block',
+          'text-sm font-medium hover:text-primary-500 dark:hover:text-primary-400 xs:text-base sm:block',
           {
             'scale-105 font-bold text-primary-400 underline underline-offset-2': isActive,
             'text-gray-900 dark:text-gray-100': !isActive,
