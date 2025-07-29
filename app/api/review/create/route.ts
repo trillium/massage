@@ -6,8 +6,8 @@ import { LRUCache } from 'lru-cache'
 import { z } from 'zod'
 import sendMail from 'lib/email'
 import ReviewSubmissionEmail from 'lib/email/messages/ReviewSubmissionEmail'
-import { RatingTypeStrict } from 'components/ReviewForm'
 import siteMetadata from '@/data/siteMetadata'
+import { RatingTypeStrict } from '@/lib/types'
 
 // Define the rate limiter
 const rateLimitLRU = new LRUCache({

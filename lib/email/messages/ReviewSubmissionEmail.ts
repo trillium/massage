@@ -1,8 +1,6 @@
-import type { EmailProps } from '@/lib/types'
+import type { EmailProps, RatingTypeStrict } from '@/lib/types'
 import type { ReviewSnippetProps } from '@/components/ReviewCard'
-import type { ReviewType } from '@/components/ReviewCard'
 import localeDayString from '@/lib/locale'
-import { RatingTypeStrict } from '@/components/ReviewForm'
 
 const LINE_PREFIX = `<div class="gmail_default" style="font-family:arial,sans-serif">`
 const LINE_SUFFIX = `</div>`
