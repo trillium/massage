@@ -5,7 +5,7 @@ import { z } from 'zod'
 
 /**
  * Used to represent a period of time in a day that
- * is available for a meeting (procided it's not booked).
+ * is available for a meeting (provided it's not booked).
  */
 export type AvailabilitySlot = {
   /** Starting hour and minute (in the owner’s timezone) */
@@ -291,7 +291,7 @@ export type BookingFormData = {
   email?: string
   /** Address of the requester */
   location?: string
-  /** Whether the locatin can be edited */
+  /** Whether the location can be edited */
   locationIsReadOnly?: boolean
   /** Phone number of the requester */
   phone?: string
