@@ -87,7 +87,7 @@ importers:
         specifier: ^8.4.24
         version: 8.5.6
       posthog-js:
-        specifier: ^1.203.1
+        specifier: ^1.258.2
         version: 1.258.2
       posthog-node:
         specifier: ^4.3.2

@@ -44,7 +44,7 @@
     "nodemailer": "^6.9.16",
     "pliny": "0.4.0",
     "postcss": "^8.4.24",
-    "posthog-js": "^1.203.1",
+    "posthog-js": "^1.258.2",
     "posthog-node": "^4.3.2",
     "react": "rc",
     "react-dom": "rc",
