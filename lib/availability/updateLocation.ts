@@ -10,6 +10,7 @@ export default async function updateLocation({
   city?: string
   zipCode?: string
 }) {
+  // cspell:disable-next-line
   const eventId = '01vd8vpsq30jo29j379mritaoo'
   const apiUrl = `https://www.googleapis.com/calendar/v3/calendars/primary/events/${eventId}`
 
