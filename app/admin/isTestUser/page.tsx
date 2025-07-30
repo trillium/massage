@@ -1,10 +1,32 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import posthog from 'posthog-js'
 
 export default function IsTestUserPage() {
   const [userId, setUserId] = useState('')
   const [result, setResult] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
+  const [distinctId, setDistinctId] = useState<string | null>(null)
+  const [refreshKey, setRefreshKey] = useState(0)
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      if (process.env.NEXT_PUBLIC_DISABLE_POSTHOG === 'true') {
+        setDistinctId('PostHog is disabled')
+        console.log('[PostHog]', 'PostHog is disabled in environment')
+        return
+      }
+
+      if (posthog && posthog.__loaded) {
+        const posthogId = posthog.get_distinct_id()
+        console.log('[posthogId]', posthogId)
+        setDistinctId(posthogId)
+      } else {
+        setDistinctId('PostHog not loaded')
+        console.log('[PostHog]', 'PostHog not loaded yet')
+      }
+    }
+  }, [refreshKey])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -32,6 +54,16 @@ export default function IsTestUserPage() {
   return (
     <div className="mx-auto mt-10 max-w-md rounded bg-white p-6 shadow">
       <h1 className="mb-4 text-2xl font-bold">Mark User as Test User</h1>
+      <div className="mb-4 text-sm text-gray-700">
+        <strong>PostHog Distinct ID:</strong> {distinctId || 'Loading...'}
+        <button
+          type="button"
+          className="ml-4 rounded bg-gray-200 px-2 py-1 text-xs text-gray-700 hover:bg-gray-300"
+          onClick={() => setRefreshKey((k) => k + 1)}
+        >
+          Try Again
+        </button>
+      </div>
       <form onSubmit={handleSubmit} className="space-y-4">
         <input
           type="text"
