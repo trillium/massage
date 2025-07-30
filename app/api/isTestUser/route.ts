@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
-import posthog from 'posthog-node'
+import { PostHog } from 'posthog-node'
 
-const posthogClient = new posthog.PostHog(process.env.NEXT_PUBLIC_POSTHOG_KEY || '', {
+const posthogClient = new PostHog(process.env.NEXT_PUBLIC_POSTHOG_KEY || '', {
   host: process.env.NEXT_PUBLIC_POSTHOG_HOST || 'https://us.posthog.com',
 })
 
