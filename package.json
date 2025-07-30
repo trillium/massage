@@ -13,7 +13,9 @@
     "test": "vitest run",
     "test:watch": "vitest --watch",
     "test:coverage": "vitest run --coverage",
-    "ratings:spellcheck": "ts-node scripts/ratingsCorrectionScript.ts"
+    "ratings:spellcheck": "ts-node scripts/ratingsCorrectionScript.ts",
+    "spellcheck": "cspell '**/*.{ts,tsx,js,jsx,md,mdx}' --no-progress",
+    "spellcheck:fix": "cspell '**/*.{ts,tsx,js,jsx,md,mdx}' --no-progress --show-suggestions"
   },
   "dependencies": {
     "@headlessui/react": "2.2.0",
@@ -81,15 +83,16 @@
     "@vitest/ui": "^3.2.3",
     "cli-progress": "^3.12.0",
     "cross-env": "^7.0.3",
+    "cspell": "^9.2.0",
     "dictionary-en": "^4.0.0",
     "eslint": "^9.17.0",
     "eslint-config-next": "15.0.2",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
     "globals": "^15.12.0",
-    "husky": "^9.0.0",
+    "husky": "^9.1.7",
     "jest-environment-jsdom": "^29.7.0",
-    "lint-staged": "^13.0.0",
+    "lint-staged": "^13.3.0",
     "msw": "^2.10.4",
     "nspell": "^2.1.5",
     "prettier": "^3.4.2",
@@ -101,10 +104,14 @@
   },
   "lint-staged": {
     "*.+(js|jsx|ts|tsx)": [
-      "eslint --fix"
+      "eslint --fix",
+      "cspell --no-progress"
     ],
     "*.+(js|jsx|ts|tsx|json|css|md|mdx)": [
       "prettier --write"
+    ],
+    "*.{md,mdx}": [
+      "cspell --no-progress"
     ]
   },
   "packageManager": "pnpm@9.15.0"
