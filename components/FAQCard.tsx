@@ -1,4 +1,4 @@
-import { Disclosure, Transition, DisclosurePanel } from '@headlessui/react'
+import { Disclosure, DisclosureButton, DisclosurePanel, Transition } from '@headlessui/react'
 import { ChevronUpIcon } from '@heroicons/react/20/solid'
 import Template from '@/components/Template'
 
@@ -13,7 +13,7 @@ const FAQCard = () => {
               const { open } = props
               return (
                 <>
-                  <Disclosure.Button
+                  <DisclosureButton
                     id={item.id}
                     className="flex w-full justify-between rounded-lg border bg-none px-4 py-2 text-left font-medium text-gray-900 hover:bg-primary-200 focus:outline-none focus-visible:ring focus-visible:ring-primary-500/75 dark:border-primary-400 dark:text-white hover:dark:text-gray-900"
                   >
@@ -21,7 +21,7 @@ const FAQCard = () => {
                     <ChevronUpIcon
                       className={`${open ? 'rotate-180 transform' : ''} h-5 w-5 text-primary-500`}
                     />
-                  </Disclosure.Button>
+                  </DisclosureButton>
                   <Transition
                     enter="transition duration-100 ease-out"
                     enterFrom="transform scale-95 opacity-0"
@@ -93,7 +93,7 @@ const questions = [
   {
     id: 'cancellation_policy',
     q: 'What is your cancellation and rescheduling policy?',
-    a: "Please do your best to provide at least 24 hours' notice for cancellations or rescheduling. A fee may apply for late cancellations, or I may require future sessions to be prepaid before accepting.",
+    a: "Please do your best to provide at least 24 hours' notice for cancellations or rescheduling. A fee may apply for late cancellations, and I may require prepayment for future sessions if cancellations occur late.",
   },
   {
     id: 'health_conditions',
