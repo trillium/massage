@@ -1,6 +1,5 @@
 import React from 'react'
 import ratings from '@/data/ratings'
-import fs from 'fs'
 
 type Review = {
   rating: number
