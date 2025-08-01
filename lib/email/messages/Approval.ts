@@ -1,52 +1,43 @@
 import { EmailProps } from '@/lib/types'
+import { parts as signatureParts } from './emailSegments/signature'
 
 const LINE_PREFIX = `<div class="gmail_default" style="font-family:arial,sans-serif">`
 const LINE_SUFFIX = `</div>`
 
-export default function ApprovalEmail({
-  email,
-  firstName,
-  lastName,
-  location,
-  dateSummary,
-  approveUrl,
-  timeZone,
-  price,
-  phone,
+export default function ClientConfirmationEmail({
   duration,
-}: EmailProps) {
-  const SUBJECT = `REQUEST: ${firstName} ${lastName}, ${duration} minutes, $${price}`
-
-  const declineUrl = `mailto:${encodeURI(email)}?subject=${encodeURIComponent(
-    `Re: Massage appointment request`
-  )}&body=${encodeURIComponent(
-    `Hi ${`${firstName}` || 'there'},
-
-I just checked my calendar and it looks like ${dateSummary} won't work.
-
-Would you be able to meet at a different time?`
-  )}`
+  price,
+  firstName,
+  dateSummary,
+  location,
+  confirmUrl,
+}: Omit<EmailProps, 'approveUrl'> & { confirmUrl: string }) {
+  const SUBJECT = `Please confirm your massage appointment - ${duration} minutes`
 
   let body = `<div dir="ltr">`
   body += [
-    `<b>${firstName} ${lastName}</b> has requested a meeting:`,
+    `Hi ${firstName || 'there'},`,
     `<br>`,
-    `Their local timezone is ${timeZone}`,
+    `Thank you for your appointment request! Please confirm your booking by clicking the link below:`,
     `<br>`,
-    `<b>First Name:</b> ${firstName}`,
-    `<b>Last Name:</b> ${lastName}`,
+    `<a href="${confirmUrl}" style="display: inline-block; padding: 12px 24px; background-color: #0066cc; color: white; text-decoration: none; border-radius: 4px; margin: 10px 0;">Confirm My Appointment</a>`,
+    `<br>`,
+    `<b>Appointment Details:</b>`,
     `<b>Date:</b> ${dateSummary}`,
     `<b>Location:</b> ${location}`,
-    `<b>Price:</b> $${price}`,
+    `${price ? `<b>Price:</b> $${price}` : ''}`,
     `<b>Duration:</b> ${duration} minutes`,
-    `<b>Phone Number:</b> ${phone}`,
     `<br>`,
+    `If you cannot click the link above, copy and paste this URL into your browser:`,
+    `${confirmUrl}`,
     `<br>`,
-    `<b><a href=${approveUrl}>Accept the appointment</a></b>`,
+    `This confirmation link will expire in 24 hours.`,
     `<br>`,
-    `<b><a href=${declineUrl}>Decline the appointment</a></b>`,
+    `Thanks!`,
     `<br>`,
+    ...signatureParts,
   ]
+    .filter((line) => line.length > 0)
     .map((line) => `${LINE_PREFIX}${line}${LINE_SUFFIX}`)
     .join('')
 

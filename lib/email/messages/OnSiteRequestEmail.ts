@@ -1,4 +1,5 @@
 import type { EmailProps, ChairAppointmentBlockProps } from '@/lib/types'
+import { parts as signatureParts } from './emailSegments/signature'
 
 const LINE_PREFIX = `<div class="gmail_default" style="font-family:arial,sans-serif">`
 const LINE_SUFFIX = `</div>`
@@ -59,6 +60,7 @@ Would you be able to meet at a different time?`
     `<br>`,
     `<b><a href=${declineUrl}>Decline the appointment</a></b>`,
     `<br>`,
+    ...signatureParts,
   ]
     .filter((line) => line.length > 0)
     .map((line) => `${LINE_PREFIX}${line}${LINE_SUFFIX}`)

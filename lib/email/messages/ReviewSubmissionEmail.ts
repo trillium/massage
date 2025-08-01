@@ -1,5 +1,6 @@
 import type { EmailProps, RatingTypeStrict } from '@/lib/types'
 import type { ReviewSnippetProps } from '@/components/ReviewCard'
+import { parts as signatureParts } from './emailSegments/signature'
 import localeDayString from '@/lib/locale'
 
 const LINE_PREFIX = `<div class="gmail_default" style="font-family:arial,sans-serif">`
@@ -42,6 +43,7 @@ export default function ReviewSubmissionEmail({
     `<b>type: ${type},`,
     `<b>}`,
     `<br>`,
+    ...signatureParts,
   ]
     .map((line) => `${LINE_PREFIX}${line}${LINE_SUFFIX}`)
     .join('')
