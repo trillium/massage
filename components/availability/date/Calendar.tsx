@@ -11,11 +11,30 @@ import { format } from 'date-fns-tz'
 import type { StringDateTimeIntervalAndLocation } from 'lib/types'
 import { useReduxAvailability } from '@/redux/hooks'
 
-export default function Calendar({}) {
-  const { slots: slotsRedux } = useReduxAvailability()
-  const { start, end, timeZone } = useSelector((state: RootState) => state.availability)
+interface CalendarProps {
+  slots?: StringDateTimeIntervalAndLocation[]
+  start?: string
+  end?: string
+  timeZone?: string
+}
 
-  const slots = slotsRedux || []
+export default function Calendar({
+  slots: slotsProp,
+  start: startProp,
+  end: endProp,
+  timeZone: timeZoneProp,
+}: CalendarProps) {
+  const { slots: slotsRedux } = useReduxAvailability()
+  const {
+    start: startRedux,
+    end: endRedux,
+    timeZone: timeZoneRedux,
+  } = useSelector((state: RootState) => state.availability)
+
+  const slots = slotsProp || slotsRedux || []
+  const start = startProp || startRedux
+  const end = endProp || endRedux
+  const timeZone = timeZoneProp || timeZoneRedux
 
   let maximumAvailability = 0
   const availabilityByDate = slots.reduce<Record<string, StringDateTimeIntervalAndLocation[]>>(
