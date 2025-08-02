@@ -11,8 +11,7 @@ const BookSessionButton: React.FC<BookSessionButtonProps> = ({ href, title }) =>
     href={href}
     className="group relative mb-4 inline-flex h-[calc(48px+8px)] items-center justify-center rounded-full border-4 border-primary-500 pl-6 pr-14 font-medium dark:border-primary-400"
   >
-    <span className="text-black-500 z-10 pr-2 text-xl font-bold dark:text-white">{title}</span>
-    <div className="absolute right-0 inline-flex h-12 w-12 items-center justify-end rounded-full bg-primary-500 transition-[width] group-hover:w-[calc(100%)] group-hover:bg-gradient-to-r group-hover:from-primary-400 group-hover:via-primary-500 group-hover:to-primary-500">
+    <div className="absolute right-0 -z-0 inline-flex h-12 w-12 items-center justify-end rounded-full bg-primary-500 transition-[width] group-hover:w-[calc(100%)] group-hover:bg-gradient-to-r group-hover:from-primary-400 group-hover:via-primary-500 group-hover:to-primary-500">
       <div className="mr-3.5 flex items-center justify-center">
         <svg
           width="15"
@@ -31,6 +30,7 @@ const BookSessionButton: React.FC<BookSessionButtonProps> = ({ href, title }) =>
         </svg>
       </div>
     </div>
+    <span className="text-black-500 z-0 pr-2 text-xl font-bold dark:text-white">{title}</span>
   </Link>
 )
 
