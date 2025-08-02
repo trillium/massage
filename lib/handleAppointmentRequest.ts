@@ -8,6 +8,7 @@ import { getHash } from './hash'
 import { AppointmentRequestSchema } from './schema'
 import { z } from 'zod'
 // Manual type for the result of schema.safeParse(jsonData) (for Zod v4)
+import { pushoverSendMesage } from './pushover'
 import { createTitle } from './pushover/createTitle'
 
 export type AppointmentRequestValidationResult =
@@ -58,6 +59,13 @@ export async function handleAppointmentRequest({
       timeZone: ownerTimeZone,
     }),
   })
+
+  pushoverSendMesage({
+    message: JSON.stringify(data, null, 2),
+    title: createTitle(data),
+    priority: 0,
+  })
+
   await sendMailFn({
     to: siteMetadata.email ?? '',
     subject: approveEmail.subject,
