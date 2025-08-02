@@ -1,5 +1,5 @@
 'use client'
-import FAQCard from 'components/FAQCard'
+import { FAQCard } from 'components/FAQ'
 import BookSessionButton from 'components/BookSessionButton'
 
 export default function About() {
