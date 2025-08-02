@@ -140,7 +140,8 @@
     "platformized",
     "kinn",
     "tzdb",
-    "Testville"
+    "Testville",
+    "appt"
   ],
   "dictionaries": ["typescript", "node", "npm", "html", "css", "bash"],
   "languageSettings": [
