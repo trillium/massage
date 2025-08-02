@@ -54,9 +54,7 @@ export const initialReviewSnippetProps: ReviewSnippetProps = {
   rating: undefined,
 }
 
-type FormStateType = BookingFormData & ReviewFormData & ReviewSnippetProps
-
-type FormState = FormStateType
+export type FormStateType = BookingFormData & ReviewFormData & ReviewSnippetProps
 
 const initialState: FormStateType = {
   ...initialBookingFormData,
