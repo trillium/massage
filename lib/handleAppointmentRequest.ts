@@ -2,10 +2,17 @@ import { NextRequest, NextResponse } from 'next/server'
 import { IncomingMessage } from 'http'
 import { intervalToHumanString } from './intervalToHumanString'
 import sendMail from './email'
-import ApprovalEmail from './email/messages/Approval'
+import { ApprovalEmail } from './email/messages/Approval'
 import ClientRequestEmail from './email/messages/ClientRequestEmail'
 import { getHash } from './hash'
 import { AppointmentRequestSchema } from './schema'
+import { z } from 'zod'
+// Manual type for the result of schema.safeParse(jsonData) (for Zod v4)
+import { createTitle } from './pushover/createTitle'
+
+export type AppointmentRequestValidationResult =
+  | { success: true; data: z.output<typeof AppointmentRequestSchema> }
+  | { success: false; error: z.ZodError<z.input<typeof AppointmentRequestSchema>> }
 
 export async function handleAppointmentRequest({
   req,
@@ -34,7 +41,7 @@ export async function handleAppointmentRequest({
   if (rateLimiter(req, headers)) {
     return NextResponse.json({ error: 'Rate limit exceeded' }, { status: 429 })
   }
-  const validationResult = schema.safeParse(jsonData)
+  const validationResult: AppointmentRequestValidationResult = schema.safeParse(jsonData)
   if (!validationResult.success) {
     return NextResponse.json(validationResult.error.message, { status: 400 })
   }
