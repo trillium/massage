@@ -8,7 +8,7 @@ const validPayload = {
   email: 'alice@example.com',
   start: new Date().toISOString(),
   end: new Date(Date.now() + 3600000).toISOString(),
-  timeZone: 'America/New_York',
+  timeZone: 'America/Los_Angeles',
   location: '123 Main St',
   city: 'New York', // <-- Added city for schema compliance
   zipCode: '10001', // <-- Added zipCode for schema compliance
