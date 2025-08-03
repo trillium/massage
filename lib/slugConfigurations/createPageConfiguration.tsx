@@ -15,12 +15,20 @@ type createPageConfigurationProps = {
   bookingSlug?: string
   resolvedParams: SearchParamsType
   overrides?: Partial<SlugConfigurationType>
+  mocked?: {
+    start: string
+    end: string
+    busy: Array<{ start: Date; end: Date }>
+    timeZone?: string
+    data?: Record<string, unknown>
+  } | null
 }
 
 export async function createPageConfiguration({
   bookingSlug,
   resolvedParams,
   overrides,
+  mocked,
 }: createPageConfigurationProps) {
   const slugData = await fetchSlugConfigurationData()
   let configuration: SlugConfigurationType
@@ -36,7 +44,19 @@ export async function createPageConfiguration({
 
   let data
 
-  if (configuration?.type === 'scheduled-site' && !!bookingSlug) {
+  if (mocked) {
+    // Use mocked data instead of fetching
+    data = {
+      start: mocked.start,
+      end: mocked.end,
+      busy: mocked.busy.map((busyItem) => ({
+        start: busyItem.start.toISOString(),
+        end: busyItem.end.toISOString(),
+      })),
+      timeZone: mocked.timeZone,
+      data: mocked.data || {},
+    }
+  } else if (configuration?.type === 'scheduled-site' && !!bookingSlug) {
     data = await fetchContainersByQuery({
       searchParams: resolvedParams,
       query: bookingSlug,
