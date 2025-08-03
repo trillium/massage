@@ -1,5 +1,3 @@
-'use client'
-
 import { AppointmentRequestType } from '@/lib/schema'
 import { BookedCard } from 'components/BookedCard'
 import { formatLocalDate, formatLocalTime } from 'lib/availability/helpers'
