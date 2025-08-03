@@ -1,7 +1,6 @@
 import type { FormEvent } from 'react'
 import type { AppDispatch } from '@/redux/store'
 import { setModal } from '@/redux/slices/modalSlice'
-import { setForm } from '@/redux/slices/formSlice'
 import type { ChairAppointmentBlockProps } from 'lib/types'
 
 /**
@@ -18,8 +17,9 @@ export function buildBookingPayload(formData: FormData, additionalData: object =
 
 /**
  * Handles form submissions by intercepting the native event,
- * passing params to the `/book` endpoint, and redirecting
+ * passing params to the specified endpoint, and redirecting
  * upon success (or showing a failure message).
+ * Can also handle mock scenarios with custom processing.
  */
 export function handleSubmit({
   event,
@@ -27,16 +27,39 @@ export function handleSubmit({
   router,
   additionalData,
   endPoint,
+  mockHandleSubmit,
 }: {
   event: FormEvent<HTMLFormElement>
   dispatchRedux: AppDispatch
   router: ReturnType<typeof import('next/navigation').useRouter>
   additionalData: Partial<ChairAppointmentBlockProps>
   endPoint: string
+  mockHandleSubmit?: (formData: FormData) => void
 }) {
   event.preventDefault()
+
+  // Extract FormData immediately while event is still valid
+  const formData = new FormData(event.currentTarget)
+
   dispatchRedux(setModal({ status: 'busy' }))
-  const payload = buildBookingPayload(new FormData(event.currentTarget), additionalData)
+
+  // Handle mock scenario
+  if (mockHandleSubmit) {
+    setTimeout(() => {
+      try {
+        mockHandleSubmit(formData)
+        dispatchRedux(setModal({ status: 'closed' }))
+      } catch (error) {
+        console.error('Mock submission error:', error)
+        dispatchRedux(setModal({ status: 'error' }))
+      }
+    }, 500)
+
+    return
+  }
+
+  // Handle production scenario
+  const payload = buildBookingPayload(formData, additionalData)
   fetch(endPoint, {
     method: 'POST',
     headers: {

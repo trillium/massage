@@ -188,9 +188,7 @@ export function useMockedUserFlow() {
       router,
       additionalData: {},
       endPoint: '/admin/mocked_user_flow/mock-submit',
-      onSubmit: processFormData,
-      isMock: true,
-      mockDelay: 500,
+      mockHandleSubmit: processFormData,
     })
   }
 
