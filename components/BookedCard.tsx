@@ -10,6 +10,7 @@ export function BookedCard({
   phone,
   email,
   state,
+  price,
 }: {
   dateString: string
   startString: string
@@ -20,6 +21,7 @@ export function BookedCard({
   phone: string
   email: string
   state?: 'Pending' | 'Confirmed' | 'Declined'
+  price?: number | string
 }) {
   return (
     <div
@@ -38,21 +40,36 @@ export function BookedCard({
               <p className="text-sm md:text-base">
                 {startString} - {endString}
               </p>
+              {price !== undefined && price !== null && <p className="text-base ">${price}</p>}
             </div>
             <p className="text-base font-bold md:text-xl">{state}</p>
           </div>
         </div>
-        <p className="bg-none pl-4 text-lg font-bold text-gray-700 dark:text-gray-100">
-          {firstName} {lastName}
+        <p className="flex flex-row items-baseline bg-none pl-4 text-lg font-bold text-gray-700 dark:text-gray-100">
+          <span className="inline-block min-w-20 text-xs font-semibold uppercase tracking-wide text-primary-500 dark:text-primary-400">
+            Name:
+          </span>
+          <span>
+            {firstName} {lastName}
+          </span>
         </p>
-        <p className="bg-none pl-6 text-base font-bold  text-gray-500 dark:text-gray-300">
-          {location}
+        <p className="flex flex-row items-baseline bg-none pl-4 text-base font-bold text-gray-500 dark:text-gray-300">
+          <span className="inline-block min-w-20 text-xs font-semibold uppercase tracking-wide text-primary-500 dark:text-primary-400">
+            Location:
+          </span>
+          <span>{location}</span>
         </p>
-        <p className="bg-none pl-6 text-base font-bold  text-gray-500 dark:text-gray-300">
-          {phone}
+        <p className="flex flex-row items-baseline bg-none pl-4 text-base font-bold text-gray-500 dark:text-gray-300">
+          <span className="inline-block min-w-20 text-xs font-semibold uppercase tracking-wide text-primary-500 dark:text-primary-400">
+            Phone:
+          </span>
+          <span>{phone}</span>
         </p>
-        <p className="bg-none pl-6 text-base font-bold  text-gray-500 dark:text-gray-300">
-          {email}
+        <p className="flex flex-row items-baseline bg-none pl-4 text-base font-bold text-gray-500 dark:text-gray-300">
+          <span className="inline-block min-w-20 text-xs font-semibold uppercase tracking-wide text-primary-500 dark:text-primary-400">
+            Email:
+          </span>
+          <span>{email}</span>
         </p>
       </div>
     </div>
