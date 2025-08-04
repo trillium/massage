@@ -24,6 +24,7 @@
       "@/css/*": ["css/*"],
       "@/redux/*": ["redux/*"],
       "@/lib/*": ["lib/*"],
+      "@/features/*": ["features/*"],
       "contentlayer/generated": ["./.contentlayer/generated"]
     },
     "plugins": [

@@ -1,7 +1,7 @@
 import React from 'react'
 
-import ClientPage from './ClientPage'
+import ClientConfirmationFeature from '@/features/ClientConfirmationFeature'
 
 export default async function Page() {
-  return <ClientPage />
+  return <ClientConfirmationFeature />
 }
