@@ -1,15 +1,14 @@
-import { normalizeYYYYMMDD } from '../helpers'
-import siteMetadata from '@/data/siteMetadata'
-import { fetchContainersByQuery } from '@/lib/fetch/fetchContainersByQuery'
-import { fetchSlugConfigurationData } from '@/lib/slugConfigurations/fetchSlugConfigurationData'
 import { createSlots } from '@/lib/availability/createSlots'
-import { ALLOWED_DURATIONS, DEFAULT_DURATION, DEFAULT_PRICING, LEAD_TIME } from 'config'
+import { ALLOWED_DURATIONS, LEAD_TIME } from 'config'
 import { dayFromString } from '@/lib/dayAsObject'
 import { SearchParamsType, SlugConfigurationType } from '@/lib/types'
-import { fetchData } from '@/lib/fetch/fetchData'
 import { validateSearchParams } from '@/lib/searchParams/validateSearchParams'
-import { initialState } from '@/redux/slices/configSlice'
 import { isPromoExpired } from '../utilities/promoValidation'
+import { resolveConfiguration } from './helpers/resolveConfiguration'
+import { fetchPageData } from './helpers/fetchPageData'
+import { calculateEndDate } from './helpers/calculateEndDate'
+import { generateContainerStrings } from './helpers/generateContainerStrings'
+import { buildDurationProps } from './helpers/buildDurationProps'
 
 type createPageConfigurationProps = {
   bookingSlug?: string
@@ -30,86 +29,41 @@ export async function createPageConfiguration({
   overrides,
   mocked,
 }: createPageConfigurationProps) {
-  const slugData = await fetchSlugConfigurationData()
-  let configuration: SlugConfigurationType
-  if (bookingSlug) {
-    configuration = slugData[bookingSlug] ?? null
-  } else {
-    configuration = initialState
-  }
+  // 1. Resolve configuration
+  const configuration = await resolveConfiguration(bookingSlug, overrides)
 
-  if (configuration && overrides) {
-    Object.assign(configuration, overrides)
-  }
+  console.log(configuration)
 
-  let data
+  // 2. Fetch data based on configuration and mocking requirements
+  const data = await fetchPageData(configuration, resolvedParams, bookingSlug, mocked)
 
-  if (mocked) {
-    // Use mocked data instead of fetching
-    data = {
-      start: mocked.start,
-      end: mocked.end,
-      busy: mocked.busy.map((busyItem) => ({
-        start: busyItem.start.toISOString(),
-        end: busyItem.end.toISOString(),
-      })),
-      timeZone: mocked.timeZone,
-      data: mocked.data || {},
-    }
-  } else if (configuration?.type === 'scheduled-site' && !!bookingSlug) {
-    data = await fetchContainersByQuery({
-      searchParams: resolvedParams,
-      query: bookingSlug,
-    })
-  } else {
-    data = await fetchData({ searchParams: resolvedParams })
-  }
-
+  // 3. Validate search parameters
   const { duration, selectedDate } = validateSearchParams({ searchParams: resolvedParams })
 
+  // 4. Calculate date boundaries
   const start = dayFromString(data.start)
+  const end = calculateEndDate(data.end, configuration)
 
-  let end = dayFromString(data.end)
-  // Limit end to the earlier of data.end and promoEndDate (inclusive) if present
-  if (configuration?.promoEndDate) {
-    const normalizedPromoEnd = normalizeYYYYMMDD(configuration.promoEndDate)
-    if (normalizedPromoEnd < data.end) {
-      end = dayFromString(normalizedPromoEnd)
-    }
-  }
-
+  // 5. Calculate lead time and create slots
   const leadTime = configuration?.leadTimeMinimum ?? LEAD_TIME
-
+  const additionalData = 'data' in data ? data.data : {}
   const slots = createSlots({
     start,
     end,
     busy: data.busy,
-    ...data.data,
+    ...additionalData,
     duration,
     leadTime,
   })
 
-  const containerStrings = {
-    eventBaseString: bookingSlug + siteMetadata.eventBaseString,
-    eventMemberString: bookingSlug + siteMetadata.eventBaseString + 'MEMBER__',
-    eventContainerString: bookingSlug + siteMetadata.eventBaseString + 'CONTAINER__',
-  }
+  // 6. Generate container strings
+  const containerStrings = generateContainerStrings(bookingSlug)
 
-  const pricing = configuration?.price || DEFAULT_PRICING
-  const durationString = `${duration || '##'} minute session`
-  const paymentString = configuration?.acceptingPayment ?? ' - $' + pricing[duration]
-  const combinedString = durationString + paymentString
-
+  // 7. Build duration and pricing properties
   const allowedDurations = configuration?.allowedDurations ?? ALLOWED_DURATIONS
+  const durationProps = buildDurationProps(duration, configuration)
 
-  const durationProps = {
-    title: combinedString,
-    price: pricing,
-    duration: duration,
-    allowedDurations,
-    configuration,
-  }
-
+  // 8. Assemble final return object
   const returnObj = {
     isExpired: false,
     durationProps,
@@ -124,6 +78,7 @@ export async function createPageConfiguration({
     end,
   }
 
+  // 9. Check if promo is expired
   if (configuration && configuration.promoEndDate && isPromoExpired(configuration.promoEndDate)) {
     returnObj.isExpired = true
   }

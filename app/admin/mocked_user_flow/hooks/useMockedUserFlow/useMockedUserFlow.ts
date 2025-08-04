@@ -15,6 +15,10 @@ import type { AppointmentRequestValidationResult } from '@/lib/handleAppointment
 import { AppointmentRequestSchema as schema } from '@/lib/schema'
 import { AppointmentRequestType } from '@/lib/schema'
 import { createPageConfiguration } from '@/lib/slugConfigurations/createPageConfiguration'
+import {
+  buildDurationProps,
+  durationProps,
+} from '@/lib/slugConfigurations/helpers/buildDurationProps'
 import { handleSubmit } from 'components/booking/handleSubmit'
 import { testUser } from '../../testUser'
 import { generateMockEmails } from './generateMockEmails'
@@ -116,12 +120,9 @@ export function useMockedUserFlow() {
   }, [dispatch])
 
   // Use durationProps from pageConfig if available, otherwise fallback
-  const durationProps = pageConfig?.durationProps || {
-    title: `${duration || 90} minute session - $${DEFAULT_PRICING[duration || 90]}`,
-    price: DEFAULT_PRICING,
-    duration: duration || 90,
-    allowedDurations: ALLOWED_DURATIONS,
-    configuration: {
+  const baseDurationProps =
+    pageConfig?.durationProps ||
+    buildDurationProps(duration || DEFAULT_DURATION, {
       bookingSlug: 'mock',
       type: 'area-wide' as const,
       title: 'Mock Booking Flow',
@@ -134,7 +135,12 @@ export function useMockedUserFlow() {
       instantConfirm: false,
       acceptingPayment: true,
       allowedDurations: ALLOWED_DURATIONS,
-    },
+    })
+
+  // Ensure allowedDurations is always defined
+  const durationProps: durationProps = {
+    ...baseDurationProps,
+    allowedDurations: baseDurationProps.allowedDurations ?? ALLOWED_DURATIONS,
   }
 
   const processFormData = (formData: FormData) => {
