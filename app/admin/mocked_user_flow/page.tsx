@@ -37,7 +37,7 @@ export default function MockedUserFlowPage() {
           </div>
           <button
             onClick={handleReset}
-            className="rounded bg-gray-600 px-4 py-2 text-sm font-medium text-white hover:bg-gray-700 dark:bg-gray-700 dark:hover:bg-gray-600"
+            className="whitespace-nowrap rounded bg-gray-600 px-4 py-2 text-sm font-medium text-white hover:bg-gray-700 dark:bg-gray-700 dark:hover:bg-gray-600"
           >
             Reset Flow
           </button>

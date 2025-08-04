@@ -15,6 +15,7 @@ interface MockedConfirmationPageProps {
     start: string
     end: string
     timeZone?: string
+    price?: string
   } | null
 }
 
@@ -44,6 +45,7 @@ export default function MockedConfirmationPage({ data }: MockedConfirmationPageP
     location: data.location || '',
     phone: data.phone || '',
     email: data.email || '',
+    price: data.price || '',
   }
 
   return (
