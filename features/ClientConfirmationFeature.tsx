@@ -10,6 +10,7 @@ import {
 import { formatLocalDate, formatLocalTime } from 'lib/availability/helpers'
 import BookSessionButton from 'components/BookSessionButton'
 import { BookedCard } from 'components/BookedCard'
+import { DEFAULT_PRICING } from 'config'
 
 export default function Confirmation() {
   const { selectedTime, timeZone } = useReduxAvailability()
@@ -27,8 +28,11 @@ export default function Confirmation() {
     })
   }
   const { firstName, lastName, location, phone, email } = useReduxFormData()
-  const { price } = useReduxConfig()
+  const { price: pricingRedux } = useReduxConfig()
   const { duration } = useReduxAvailability()
+
+  const pricing = pricingRedux || DEFAULT_PRICING
+  const price = duration ? pricing[duration] : 'null'
 
   const BookedData = {
     dateString: dateString!,
@@ -40,10 +44,8 @@ export default function Confirmation() {
     location: location!,
     phone: phone!,
     email: email!,
-    price: price[duration] || '',
+    price: price,
   }
-
-  console.log('price', price)
 
   return (
     <>
