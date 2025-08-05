@@ -242,6 +242,13 @@ export type DiscountType = {
   amountPercent?: number
 }
 
+/**
+ * Defines the type of booking configuration for different slug behaviors:
+ * - 'area-wide': General availability across a service area, not tied to specific locations or resources
+ * - 'fixed-location': Bookings at a predetermined, fixed location (e.g., spa, clinic)
+ * - 'scheduled-site': Bookings tied to specific containers/resources with their own schedules (e.g., specific therapists)
+ * - null: Default/fallback configuration
+ */
 export type SlugType = 'area-wide' | 'fixed-location' | 'scheduled-site' | null
 
 export type SlugConfigurationType = {
