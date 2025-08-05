@@ -4,6 +4,11 @@ import { AppointmentRequestSchema } from 'lib/schema'
 import type { NextRequest } from 'next/server'
 import type { IncomingMessage } from 'http'
 
+// Mock Pushover to prevent environment variable errors
+vi.mock('lib/pushover/pushover', () => ({
+  pushoverSendMesage: vi.fn(() => Promise.resolve()),
+}))
+
 // Mocks
 const sendMailMock = vi.fn(() => Promise.resolve())
 const approvalEmailMock = vi.fn(() => ({ subject: 'Approval', body: 'Approval body' }))
