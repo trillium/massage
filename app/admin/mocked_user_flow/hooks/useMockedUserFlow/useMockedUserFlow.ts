@@ -77,9 +77,9 @@ export function useMockedUserFlow() {
         // Initialize duration
         dispatch(setDuration(result.duration || DEFAULT_DURATION))
 
-        // Initialize timezone (get from data or default)
-        const timeZone = result.data?.timeZone || 'America/Los_Angeles'
-        dispatch(setTimeZone(timeZone))
+        // Initialize timezone (fallback to default since timeZone may not exist on all data types)
+        const timeZone = 'timeZone' in result.data ? result.data.timeZone : 'America/Los_Angeles'
+        dispatch(setTimeZone(timeZone || 'America/Los_Angeles'))
 
         // Initialize mock selected time using actual slots if available
         if (result.slots && result.slots.length > 0) {
@@ -120,22 +120,20 @@ export function useMockedUserFlow() {
   }, [dispatch])
 
   // Use durationProps from pageConfig if available, otherwise fallback
-  const baseDurationProps =
-    pageConfig?.durationProps ||
-    buildDurationProps(duration || DEFAULT_DURATION, {
-      bookingSlug: 'mock',
-      type: 'area-wide' as const,
-      title: 'Mock Booking Flow',
-      text: 'Testing the complete booking flow with mock data',
-      location: null,
-      eventContainer: null,
-      price: DEFAULT_PRICING,
-      discount: null,
-      leadTimeMinimum: 180,
-      instantConfirm: false,
-      acceptingPayment: true,
-      allowedDurations: ALLOWED_DURATIONS,
-    })
+  const baseDurationProps = buildDurationProps(duration || DEFAULT_DURATION, {
+    bookingSlug: 'mock',
+    type: 'area-wide' as const,
+    title: 'Mock Booking Flow',
+    text: 'Testing the complete booking flow with mock data',
+    location: null,
+    eventContainer: null,
+    pricing: DEFAULT_PRICING,
+    discount: null,
+    leadTimeMinimum: 180,
+    instantConfirm: false,
+    acceptingPayment: true,
+    allowedDurations: ALLOWED_DURATIONS,
+  })
 
   // Ensure allowedDurations is always defined
   const durationProps: durationProps = {
