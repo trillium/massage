@@ -4,7 +4,7 @@ import Template from '@/components/Template'
 import Main from './Main'
 import Hero from '@/components/hero/Hero'
 import siteMetadata from '@/data/siteMetadata'
-import { SearchParamsType } from '@/lib/types'
+import { SearchParamsType, SlugConfigurationType } from '@/lib/types'
 import { ALLOWED_DURATIONS } from 'config'
 import BookingForm from '@/components/booking/BookingForm'
 import DurationPicker from '@/components/availability/controls/DurationPicker'
@@ -27,6 +27,8 @@ export default async function Page({ searchParams }: { searchParams: Promise<Sea
   const posts = allCoreContent(sortedPosts)
   const resolvedParams = await searchParams
 
+  const overrides: Partial<SlugConfigurationType> = { type: 'area-wide' }
+
   const {
     durationProps,
     configuration,
@@ -38,7 +40,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<Sea
     data,
     start,
     end,
-  } = await createPageConfiguration({ resolvedParams })
+  } = await createPageConfiguration({ resolvedParams, overrides })
 
   return (
     <>
