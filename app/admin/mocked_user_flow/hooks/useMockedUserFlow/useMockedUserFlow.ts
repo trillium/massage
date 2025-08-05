@@ -15,10 +15,7 @@ import type { AppointmentRequestValidationResult } from '@/lib/handleAppointment
 import { AppointmentRequestSchema as schema } from '@/lib/schema'
 import { AppointmentRequestType } from '@/lib/schema'
 import { createPageConfiguration } from '@/lib/slugConfigurations/createPageConfiguration'
-import {
-  buildDurationProps,
-  durationProps,
-} from '@/lib/slugConfigurations/helpers/buildDurationProps'
+import { buildDurationProps } from '@/lib/slugConfigurations/helpers/buildDurationProps'
 import { handleSubmit } from 'components/booking/handleSubmit'
 import { testUser } from '../../testUser'
 import { generateMockEmails } from './generateMockEmails'

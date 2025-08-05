@@ -6,12 +6,12 @@ import TimeButton from 'components/availability/time/TimeButton'
 import DurationPicker from 'components/availability/controls/DurationPicker'
 import Calendar from 'components/availability/date/Calendar'
 import { DEFAULT_PRICING, ALLOWED_DURATIONS } from 'config'
-import { durationProps } from '@/lib/slugConfigurations/helpers/buildDurationProps'
+import { durationPropsType } from '@/lib/slugConfigurations/helpers/buildDurationProps'
 
 interface Step1BookingSelectionProps {
   selectedDuration: number
   onSubmit: (event: React.FormEvent<HTMLFormElement>) => void
-  durationProps: durationProps
+  durationProps: durationPropsType
 }
 
 export default function Step1BookingSelection({

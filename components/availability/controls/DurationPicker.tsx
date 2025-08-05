@@ -5,23 +5,15 @@ import clsx from 'clsx'
 import { ALLOWED_DURATIONS, DEFAULT_DURATION, DEFAULT_PRICING } from 'config'
 import { setDuration } from '@/redux/slices/availabilitySlice'
 import { useAppDispatch, useReduxAvailability, useReduxConfig } from '@/redux/hooks'
-import { PricingType, SlugConfigurationType } from '@/lib/types'
 import { GeneratePrice } from '@/components/utilities/GeneratePriceAtom'
-
-export type durationProps = {
-  title: string
-  duration: number
-  price: PricingType
-  allowedDurations?: number[]
-  configuration: SlugConfigurationType
-}
+import { durationPropsType } from '@/lib/slugConfigurations/helpers/buildDurationProps'
 
 export default function DurationPicker({
   allowedDurations: allowedDurationsProps,
   price: priceProps,
   duration: durationProps,
   configuration,
-}: durationProps) {
+}: durationPropsType) {
   const { price: priceRedux, allowedDurations: allowedDurationsRedux } = useReduxConfig()
   const { duration: durationRedux } = useReduxAvailability()
   const dispatchRedux = useAppDispatch()

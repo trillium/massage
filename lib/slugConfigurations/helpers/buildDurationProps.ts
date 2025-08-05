@@ -1,7 +1,7 @@
 import { DEFAULT_PRICING, ALLOWED_DURATIONS } from 'config'
 import { PricingType, SlugConfigurationType } from '@/lib/types'
 
-export type durationProps = {
+export type durationPropsType = {
   title: string
   duration: number
   price: PricingType
@@ -15,7 +15,7 @@ export type durationProps = {
 export function buildDurationProps(
   duration: number,
   configuration: SlugConfigurationType | null
-): durationProps {
+): durationPropsType {
   const pricing = configuration?.pricing || DEFAULT_PRICING
   const allowedDurations = configuration?.allowedDurations ?? ALLOWED_DURATIONS
 
