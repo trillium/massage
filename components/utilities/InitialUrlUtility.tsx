@@ -16,7 +16,7 @@ import {
 import { SlugConfigurationType, StringDateTimeIntervalAndLocation } from '@/lib/types'
 
 type InitialUrlUtilityProps = {
-  selectedDate?: string
+  selectedDate?: string | null
   duration: number
   eventMemberString?: string
   eventBaseString?: string
