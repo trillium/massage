@@ -58,6 +58,11 @@ vi.mock('@/redux/hooks', () => ({
     timeZone: 'America/Los_Angeles',
     duration: 60,
   })),
+  useReduxConfig: vi.fn(() => ({
+    location: undefined,
+    pricing: {},
+    allowedDurations: [60, 90, 120],
+  })),
 }))
 
 // Mock global fetch
