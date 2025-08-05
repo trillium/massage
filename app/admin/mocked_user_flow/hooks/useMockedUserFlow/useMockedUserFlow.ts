@@ -120,7 +120,7 @@ export function useMockedUserFlow() {
   }, [dispatch])
 
   // Use durationProps from pageConfig if available, otherwise fallback
-  const baseDurationProps = buildDurationProps(duration || DEFAULT_DURATION, {
+  const durationProps = buildDurationProps(duration || DEFAULT_DURATION, {
     bookingSlug: 'mock',
     type: 'area-wide' as const,
     title: 'Mock Booking Flow',
@@ -134,12 +134,6 @@ export function useMockedUserFlow() {
     acceptingPayment: true,
     allowedDurations: ALLOWED_DURATIONS,
   })
-
-  // Ensure allowedDurations is always defined
-  const durationProps: durationProps = {
-    ...baseDurationProps,
-    allowedDurations: baseDurationProps.allowedDurations ?? ALLOWED_DURATIONS,
-  }
 
   const processFormData = (formData: FormData) => {
     const jsonData = Object.fromEntries(formData)
