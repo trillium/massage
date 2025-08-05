@@ -7,7 +7,7 @@ import { DEFAULT_PRICING } from 'config'
 export const initialState: SlugConfigurationType = {
   type: null,
   bookingSlug: null,
-  price: DEFAULT_PRICING,
+  pricing: DEFAULT_PRICING,
   allowedDurations: null,
   title: null,
   text: null,
@@ -29,7 +29,7 @@ export const configSlice: Slice<SlugConfigurationType> = createSlice({
       state.bookingSlug = action.payload
     },
     setPrice: (state, action: PayloadAction<{ [key: number]: number }>) => {
-      state.price = action.payload
+      state.pricing = action.payload
     },
     setAllowedDurations: (state, action: PayloadAction<number[] | null>) => {
       state.allowedDurations = action.payload
@@ -41,6 +41,7 @@ export const configSlice: Slice<SlugConfigurationType> = createSlice({
       state.locationIsReadOnly = action.payload
     },
     setEventContainer: (state, action: PayloadAction<string>) => {
+      // console.log('[configSlice]', action)
       state.eventContainer = action.payload
     },
     setDiscount: (state, action: PayloadAction<DiscountType>) => {
@@ -56,6 +57,7 @@ export const configSlice: Slice<SlugConfigurationType> = createSlice({
       state.acceptingPayment = action.payload
     },
     setBulkConfigSliceState: (state, action: PayloadAction<Partial<SlugConfigurationType>>) => {
+      // console.log('[configSlice]', action.payload)
       Object.assign(state, action.payload)
     },
     configSliceReset: (state) => {

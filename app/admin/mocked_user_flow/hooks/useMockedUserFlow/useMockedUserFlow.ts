@@ -174,7 +174,7 @@ export function useMockedUserFlow() {
       end,
       confirmUrl,
       duration,
-      price: pageConfig?.configuration?.price || DEFAULT_PRICING,
+      price: pageConfig?.configuration?.pricing || DEFAULT_PRICING,
     })
 
     setTherapistEmail(therapistEmailData)

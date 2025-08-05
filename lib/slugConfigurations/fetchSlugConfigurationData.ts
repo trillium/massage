@@ -41,7 +41,7 @@ const slugConfigurations: SlugConfigurationType[] = [
     type: 'scheduled-site',
     title: 'Welcome to the the_kinn booking page!',
     text: 'the_kinn paragraph text rendered by <Template />',
-    price: { 15: 30, 30: 60, 45: 90, 60: 120 },
+    pricing: { 15: 30, 30: 60, 45: 90, 60: 120 },
     allowedDurations: [15, 30, 45, 60],
     leadTimeMinimum: 2,
   },

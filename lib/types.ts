@@ -253,7 +253,7 @@ export type SlugConfigurationType = {
   locationIsReadOnly?: boolean
   eventContainer: string | null
   promoEndDate?: string | null // Format: YYYY-MM-DD
-  price: PricingType | null
+  pricing: PricingType | null
   discount: DiscountType | null
   leadTimeMinimum: number | null // in minutes
   instantConfirm?: boolean

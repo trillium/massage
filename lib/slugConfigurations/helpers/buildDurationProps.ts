@@ -6,7 +6,7 @@ export type durationProps = {
   duration: number
   price: PricingType
   allowedDurations: number[]
-  configuration: SlugConfigurationType
+  configuration: SlugConfigurationType | null
 }
 
 /**
@@ -14,13 +14,13 @@ export type durationProps = {
  */
 export function buildDurationProps(
   duration: number,
-  configuration: SlugConfigurationType
+  configuration: SlugConfigurationType | null
 ): durationProps {
-  const pricing = configuration.price || DEFAULT_PRICING
-  const allowedDurations = configuration.allowedDurations ?? ALLOWED_DURATIONS
+  const pricing = configuration?.pricing || DEFAULT_PRICING
+  const allowedDurations = configuration?.allowedDurations ?? ALLOWED_DURATIONS
 
   const durationString = `${duration || '##'} minute session`
-  const paymentString = configuration.acceptingPayment ?? ' - $' + pricing[duration]
+  const paymentString = configuration?.acceptingPayment ?? ' - $' + pricing[duration]
   const combinedString = durationString + paymentString
 
   return {
