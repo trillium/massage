@@ -5,6 +5,11 @@ import { handleAppointmentRequest } from '../handleAppointmentRequest'
 import { AppointmentRequestSchema } from '../schema'
 import { z } from 'zod'
 
+// Mock Pushover to prevent environment variable errors
+vi.mock('../pushover/pushover', () => ({
+  pushoverSendMesage: vi.fn(() => Promise.resolve()),
+}))
+
 // Mock dependencies
 const mockSendMail = vi.fn()
 const mockApprovalEmail = vi.fn()
