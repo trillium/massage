@@ -40,7 +40,7 @@ export default function DurationPicker({
       <legend className="leading-0 block text-sm font-medium text-gray-900 dark:text-gray-100">
         {/* {`${duration || 90} minute session - $${sessionCost}`} */}
         <span>{`${duration || 90} minute session`} </span>
-        <GeneratePrice price={sessionCost} discount={configuration.discount} />
+        <GeneratePrice price={sessionCost} discount={configuration?.discount} />
       </legend>
       <div className="isolate mt-1 inline-flex h-9 rounded-md shadow-sm focus-within:ring-2 focus-within:ring-primary-500 active:ring-2 active:ring-primary-500">
         {allowedDurations.map((theDuration, i) => (
