@@ -13,6 +13,7 @@ Current role is to return an object that has configurations for [bookingSlug] th
 */
 
 import { initialState } from '@/redux/slices/configSlice'
+const { ...initialStateWithoutType } = initialState
 
 import { SlugConfigurationType } from '../types'
 
@@ -23,7 +24,7 @@ type DiscountType = {
 
 const slugConfigurations: SlugConfigurationType[] = [
   {
-    ...initialState,
+    ...initialStateWithoutType,
     bookingSlug: ['foo'],
     type: 'area-wide',
     title: 'Welcome to the Foo booking page!',
@@ -31,12 +32,13 @@ const slugConfigurations: SlugConfigurationType[] = [
     location: 'foo',
   },
   {
-    ...initialState,
+    ...initialStateWithoutType,
+    type: 'area-wide',
     bookingSlug: ['expired'],
     promoEndDate: '2025-1-1', // Example promo end date
   },
   {
-    ...initialState,
+    ...initialStateWithoutType,
     bookingSlug: ['the_kinn'],
     type: 'scheduled-site',
     title: 'Welcome to the the_kinn booking page!',
@@ -46,7 +48,7 @@ const slugConfigurations: SlugConfigurationType[] = [
     leadTimeMinimum: 2,
   },
   {
-    ...initialState,
+    ...initialStateWithoutType,
     bookingSlug: ['midnight-runners'],
     type: 'area-wide',
     title: 'Running peeps, book a session!',
@@ -56,7 +58,7 @@ const slugConfigurations: SlugConfigurationType[] = [
     },
   },
   {
-    ...initialState,
+    ...initialStateWithoutType,
     bookingSlug: ['90045', 'westchester', 'playa', 'playa-vista', 'kentwood'],
     type: 'area-wide',
     title: 'Do you live ridiculously close to me??',
@@ -64,7 +66,7 @@ const slugConfigurations: SlugConfigurationType[] = [
     leadTimeMinimum: 60,
   },
   {
-    ...initialState,
+    ...initialStateWithoutType,
     bookingSlug: ['nextdoor-westchester'],
     type: 'area-wide',
     title: 'Nextdoor Westchester Promo!',
@@ -76,7 +78,7 @@ const slugConfigurations: SlugConfigurationType[] = [
     promoEndDate: '2025-7-30', // Example promo end date
   },
   {
-    ...initialState,
+    ...initialStateWithoutType,
     bookingSlug: ['hotel-june'],
     type: 'fixed-location',
     title: 'Book an in-room massage at Hotel June!',
