@@ -1,4 +1,5 @@
 import { AppointmentProps, LocationObject } from '../types'
+import { flattenLocation } from '@/lib/helpers/locationHelpers'
 
 /**
  * Creates a title "summary" for a calendar event.
@@ -44,9 +45,7 @@ function eventDescription({
   if (typeof location === 'string') {
     locationString = location
   } else if (location && typeof location === 'object') {
-    locationString = `${location.street}, ${location.city}, ${location.zip}`
-      .replace(/^,\s*/, '')
-      .replace(/,\s*$/, '')
+    locationString = flattenLocation(location)
   }
   output += `<b>Location</b>: ${locationString}\n`
 

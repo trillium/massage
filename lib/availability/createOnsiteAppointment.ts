@@ -1,5 +1,6 @@
 import type { AppointmentProps, ChairAppointmentBlockCalendarProps } from '../types'
 import getAccessToken from '@/lib/availability/getAccessToken'
+import { flattenLocation } from '@/lib/helpers/locationHelpers'
 
 import templates from '@/lib/messageTemplates/onsiteTemplates'
 
@@ -25,8 +26,6 @@ function buildEventBody(props: ChairAppointmentBlockCalendarProps) {
     summary,
     email,
     location,
-    city,
-    zipCode,
     phone,
     requestId,
     firstName,
@@ -53,7 +52,11 @@ function buildEventBody(props: ChairAppointmentBlockCalendarProps) {
         displayName: firstName,
       },
     ],
-    ...{ location, city, zipCode },
+    ...{
+      location: flattenLocation(location),
+      city: location.city,
+      zipCode: location.zip,
+    },
   }
 }
 

@@ -1,5 +1,6 @@
 import { EmailProps } from '@/lib/types'
 import { parts as signatureParts } from './emailSegments/signature'
+import { flattenLocation } from '@/lib/helpers/locationHelpers'
 
 const LINE_PREFIX = `<div class="gmail_default" style="font-family:arial,sans-serif">`
 const LINE_SUFFIX = `</div>`
@@ -20,7 +21,7 @@ export default function ClientRequestEmail({
     `Just letting you know I received your appointment request!`,
     `<br>`,
     `<b>Date:</b> ${dateSummary}`,
-    `<b>Location:</b> ${location}`,
+    `<b>Location:</b> ${flattenLocation(location)}`,
     `${price ? `<b>Price:</b> $${price}` : ''}`,
     `<b>Duration:</b> ${duration} minutes`,
     `<br>`,

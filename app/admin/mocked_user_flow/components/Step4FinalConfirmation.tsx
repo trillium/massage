@@ -3,6 +3,7 @@
 import React from 'react'
 import MockedConfirmationPage from '../MockedConfirmationPage'
 import { AppointmentRequestType } from '@/lib/schema'
+import { flattenLocation } from '@/lib/helpers/locationHelpers'
 
 interface Step4FinalConfirmationProps {
   isConfirmed: boolean
@@ -17,6 +18,14 @@ export default function Step4FinalConfirmation({
     return null
   }
 
+  // Transform the data to match MockedConfirmationPage expectations
+  const transformedData = submittedData
+    ? {
+        ...submittedData,
+        location: flattenLocation(submittedData.location),
+      }
+    : null
+
   return (
     <div id="confirmation-section" className="rounded-lg bg-white p-6 shadow dark:bg-gray-800">
       <h2 className="mb-4 text-xl font-semibold text-gray-800 dark:text-gray-200">
@@ -25,7 +34,7 @@ export default function Step4FinalConfirmation({
       <p className="mb-4 text-gray-600 dark:text-gray-400">
         After approval, the user would see a confirmation page like this:
       </p>
-      <MockedConfirmationPage data={submittedData} />
+      <MockedConfirmationPage data={transformedData} />
     </div>
   )
 }

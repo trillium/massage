@@ -15,6 +15,12 @@ export function createLocationObject(street: string, city: string, zip: string):
  * Parse URL search parameters to extract location information
  */
 export function parseLocationFromParams(searchParams: URLSearchParams): LocationObject {
+  console.log('[parseLocationFromParams', searchParams)
+  console.log('[parseLocationFromParams', {
+    street: searchParams.get('street') || '',
+    city: searchParams.get('city') || '',
+    zip: searchParams.get('zip') || '',
+  })
   return {
     street: searchParams.get('street') || '',
     city: searchParams.get('city') || '',

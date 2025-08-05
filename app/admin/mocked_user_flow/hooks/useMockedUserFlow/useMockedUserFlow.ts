@@ -16,7 +16,7 @@ import { AppointmentRequestSchema as schema } from '@/lib/schema'
 import { AppointmentRequestType } from '@/lib/schema'
 import { createPageConfiguration } from '@/lib/slugConfigurations/createPageConfiguration'
 import { buildDurationProps } from '@/lib/slugConfigurations/helpers/buildDurationProps'
-import { handleSubmit } from 'components/booking/handleSubmit'
+import { handleSubmit, buildBookingPayload } from 'components/booking/handleSubmit'
 import { testUser } from '../../testUser'
 import { generateMockEmails } from './generateMockEmails'
 
@@ -133,13 +133,16 @@ export function useMockedUserFlow() {
   })
 
   const processFormData = (formData: FormData) => {
-    const jsonData = Object.fromEntries(formData)
+    // Use buildBookingPayload to properly transform location fields
+    const jsonData = buildBookingPayload(formData)
 
-    console.log(jsonData)
+    console.log('[processFormData] Transformed data:', jsonData)
 
     const validationResult: AppointmentRequestValidationResult = schema.safeParse(jsonData)
     if (!validationResult.success) {
       console.error('[processFormData] zod validation failed')
+      console.error('[processFormData] Validation errors:', validationResult.error.issues)
+      console.error('[processFormData] Failed data:', jsonData)
       dispatch(setModal({ status: 'error' }))
       return
     }

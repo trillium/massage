@@ -9,6 +9,7 @@ import {
 } from '@/redux/hooks'
 import { formatLocalDate, formatLocalTime } from 'lib/availability/helpers'
 import BookSessionButton from 'components/BookSessionButton'
+import { flattenLocation } from '@/lib/helpers/locationHelpers'
 import { BookedCard } from 'components/BookedCard'
 import { DEFAULT_PRICING } from 'config'
 
@@ -41,7 +42,7 @@ export default function Confirmation() {
     state: 'Pending' as const,
     firstName: firstName!,
     lastName: lastName!,
-    location: location!,
+    location: flattenLocation(location),
     phone: phone!,
     email: email!,
     price: price,

@@ -5,6 +5,7 @@ import { useAppDispatch, useReduxAvailability, useReduxFormData } from '@/redux/
 import { formatLocalDate, formatLocalTime } from 'lib/availability/helpers'
 import BookSessionButton from 'components/BookSessionButton'
 import { BookedCard } from 'components/BookedCard'
+import { flattenLocation } from '@/lib/helpers/locationHelpers'
 
 export default function Confirmation() {
   const { selectedTime, timeZone } = useReduxAvailability()
@@ -23,14 +24,14 @@ export default function Confirmation() {
   }
   const { firstName, lastName, location, phone, email } = useReduxFormData()
 
-  const BookedData = {
+  const bookedData = {
     dateString: dateString!,
     startString: startString!,
     endString: endString!,
     state: 'Confirmed' as const,
     firstName: firstName!,
     lastName: lastName!,
-    location: location!,
+    location: flattenLocation(location),
     phone: phone!,
     email: email!,
   }
@@ -45,7 +46,7 @@ export default function Confirmation() {
           Your appoint has been booked!
         </p>
       </div>
-      <BookedCard {...BookedData} />
+      <BookedCard {...bookedData} />
 
       <div className="flex flex-grow items-center justify-center pt-12">
         <BookSessionButton title="Book Another Session!" href="/" />

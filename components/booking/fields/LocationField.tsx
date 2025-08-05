@@ -15,7 +15,7 @@ export default function LocationField({ location, readOnly, onChange }: Location
         htmlFor="location"
         className="block text-xs font-medium text-gray-900 dark:text-gray-100"
       >
-        Location
+        Street
       </label>
       <input
         aria-label="street address"

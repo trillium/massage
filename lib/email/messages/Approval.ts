@@ -1,5 +1,6 @@
 import { EmailProps } from '@/lib/types'
 import { parts as signatureParts } from './emailSegments/signature'
+import { flattenLocation } from '@/lib/helpers/locationHelpers'
 
 const LINE_PREFIX = `<div class="gmail_default" style="font-family:arial,sans-serif">`
 const LINE_SUFFIX = `</div>`
@@ -37,7 +38,7 @@ Would you be able to meet at a different time?`
     `<b>First Name:</b> ${firstName}`,
     `<b>Last Name:</b> ${lastName}`,
     `<b>Date:</b> ${dateSummary}`,
-    `<b>Location:</b> ${location}`,
+    `<b>Location:</b> ${flattenLocation(location)}`,
     `${price ? `<b>Price:</b> $${price}` : ''}`,
     `<b>Duration:</b> ${duration} minutes`,
     `<b>Phone Number:</b> ${phone}`,

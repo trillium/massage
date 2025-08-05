@@ -1,5 +1,6 @@
 import type { AppointmentProps } from '../types'
 import getAccessToken from 'lib/availability/getAccessToken'
+import { flattenLocation } from '@/lib/helpers/locationHelpers'
 
 import templates from 'lib/messageTemplates/templates'
 
@@ -63,9 +64,7 @@ function buildEventBody({
         displayName: firstName,
       },
     ],
-    location: `${location.street}, ${location.city}, ${location.zip}`
-      .replace(/^,\s*/, '')
-      .replace(/,\s*$/, ''),
+    location: flattenLocation(location),
   }
 }
 

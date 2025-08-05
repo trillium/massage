@@ -222,20 +222,21 @@ _Compiled from various chats. Status and priority to be determined._
 # Active work today:
 
 1. **Slug and Location Configuration:**
-   - Configuring a slug object to pass the city and zip code to the location object in Redux.
-   - Updating the URL Parameters consumption function to handle city, zip code, and location.
+   - ✅ Configuring a slug object to pass the city and zip code to the location object in Redux.
+   - ✅ Updating the URL Parameters consumption function to handle city, zip code, and location.
+   - ✅ Created comprehensive tests for URL parameter parsing and Redux integration.
 
 2. **Appointment and Session Management:**
-   - Allowing clients to view their appointments directly on the website.
-   - Adding an extend button for clients to extend their sessions within the limits of their current discount situation.
+   - [ ] Allowing clients to view their appointments directly on the website.
+   - [ ] Adding an extend button for clients to extend their sessions within the limits of their current discount situation.
 
 3. **Warning State and Area Validation:**
-   - Creating a warning state in the form to inform users about potential data submission issues.
-   - Using the warning state to indicate that appointments outside designated areas might be rejected.
+   - [ ] Creating a warning state in the form to inform users about potential data submission issues.
+   - [ ] Using the warning state to indicate that appointments outside designated areas might be rejected.
 
 4. **Site and Page Configuration:**
-   - Creating slug pages for Playa Vista, Westchester, Kentwood, Playa del Rey.
-   - Creating slug pages for San Diego.
+   - [ ] Creating slug pages for Playa Vista, Westchester, Kentwood, Playa del Rey.
+   - [ ] Creating slug pages for San Diego.
 
 5. **Calendar Event Management:**
-   - Creating an endpoint to edit specific calendar events.
+   - [ ] Creating an endpoint to edit specific calendar events.

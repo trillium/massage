@@ -57,9 +57,17 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: 'Malformed request in date parsing' }, { status: 400 })
   }
 
+  // Convert string location to LocationObject for the appointment function
+  const locationObject = {
+    street: '', // We don't have street info from the string, so default to empty
+    city: validObject.location, // Use the location string as the city
+    zip: '', // We don't have zip info from the string, so default to empty
+  }
+
   // Create the confirmed appointment
   const response = await createCalendarAppointment({
     ...validObject,
+    location: locationObject,
     requestId: hash,
     summary:
       templates.eventSummary({

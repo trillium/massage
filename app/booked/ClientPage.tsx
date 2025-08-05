@@ -2,6 +2,7 @@ import { AppointmentRequestType } from '@/lib/schema'
 import { BookedCard } from 'components/BookedCard'
 import { formatLocalDate, formatLocalTime } from 'lib/availability/helpers'
 import { AttendeeType } from 'lib/types'
+import { flattenLocation } from '@/lib/helpers/locationHelpers'
 
 type dateTimeAndTimeZone = {
   dateTime: string
@@ -81,6 +82,7 @@ export default function Booked({ url, data }: ClientPageProps) {
         dateString={dateString}
         startString={startString}
         endString={endString}
+        location={flattenLocation(data.location)}
       />
     </>
   )
