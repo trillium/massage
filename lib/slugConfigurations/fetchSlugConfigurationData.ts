@@ -87,6 +87,20 @@ const slugConfigurations: SlugConfigurationType[] = [
     locationIsReadOnly: true,
     leadTimeMinimum: 60,
   },
+  {
+    ...initialStateWithoutType,
+    type: 'area-wide',
+    bookingSlug: ['playa-free-30', 'free-30', 'free-thirty'],
+    title: 'On the fence? Try out 30 minutes free!',
+    leadTimeMinimum: 18,
+    allowedDurations: [30, 60, 90, 120],
+    pricing: { 30: 70, 60: 140, 90: 210, 120: 280 },
+    discount: {
+      type: 'dollar',
+      amountDollars: 70,
+    },
+    eventContainer: 'free-30',
+  },
 ]
 
 export async function fetchSlugConfigurationData(): Promise<{
