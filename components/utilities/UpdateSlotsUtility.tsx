@@ -28,7 +28,7 @@ type UpdateSlotsUtilityProps = {
   containers?: GoogleCalendarV3Event[]
   start: DayWithStartEnd
   end: DayWithStartEnd
-  configObject: SlugConfigurationType
+  configObject: SlugConfigurationType | null
 }
 
 export function UpdateSlotsUtility({
