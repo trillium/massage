@@ -43,30 +43,11 @@ export async function fetchContainersByQuery({
       (e.description && e.description.includes(eventContainerString))
     )
   })
-  const containersMapped = containers.map((e: GoogleCalendarV3Event) => {
-    let obj = {}
-    try {
-      if (e.description) {
-        obj = loadData(e.description)
-      }
-    } catch (error) {
-      console.error('loadData error')
-      console.error(error)
-      console.error(e.description)
-    }
-
-    return {
-      ...obj,
-      start: e.start,
-      end: e.end,
-      location: e.location,
-    }
-  })
 
   return {
     start: start.toString(),
     end: end.toString(),
     busy: busyQuery,
-    containers: containersMapped,
+    containers: containers,
   }
 }
