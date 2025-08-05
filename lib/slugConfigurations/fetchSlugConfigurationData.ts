@@ -15,7 +15,8 @@ Current role is to return an object that has configurations for [bookingSlug] th
 import { initialState } from '@/redux/slices/configSlice'
 const { ...initialStateWithoutType } = initialState
 
-import { SlugConfigurationType } from '../types'
+import { SlugConfigurationType, LocationObject } from '../types'
+import { createLocationObject } from './helpers/parseLocationFromSlug'
 
 type DiscountType = {
   type: 'percent' | 'dollar'
@@ -29,7 +30,7 @@ const slugConfigurations: SlugConfigurationType[] = [
     type: 'area-wide',
     title: 'Welcome to the Foo booking page!',
     text: 'Foo paragraph text rendered by <Template />',
-    location: 'foo',
+    location: createLocationObject('', 'Los Angeles', '90210'),
   },
   {
     ...initialStateWithoutType,
@@ -83,7 +84,7 @@ const slugConfigurations: SlugConfigurationType[] = [
     type: 'fixed-location',
     title: 'Book an in-room massage at Hotel June!',
     text: 'Please provide your room number.',
-    location: 'Hotel June West LA, 8639 Lincoln Blvd, Los Angeles, CA 90045',
+    location: createLocationObject('Hotel June West LA, 8639 Lincoln Blvd', 'Los Angeles', '90045'),
     locationIsReadOnly: true,
     leadTimeMinimum: 60,
   },

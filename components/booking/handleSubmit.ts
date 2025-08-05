@@ -1,7 +1,7 @@
 import type { FormEvent } from 'react'
 import type { AppDispatch } from '@/redux/store'
 import { setModal } from '@/redux/slices/modalSlice'
-import type { ChairAppointmentBlockProps } from 'lib/types'
+import type { ChairAppointmentBlockProps, LocationObject } from 'lib/types'
 
 /**
  * Builds the payload for booking form submission.
@@ -9,8 +9,32 @@ import type { ChairAppointmentBlockProps } from 'lib/types'
  * @param additionalData Any additional data to merge
  */
 export function buildBookingPayload(formData: FormData, additionalData: object = {}) {
+  const entries = Object.fromEntries(formData)
+
+  // Check if we have location-related fields
+  const hasLocationFields = entries.location || entries.city || entries.zipCode
+
+  if (hasLocationFields) {
+    // Transform individual location fields into location object
+    const location: LocationObject = {
+      street: (entries.location as string) || '',
+      city: (entries.city as string) || '',
+      zip: (entries.zipCode as string) || '',
+    }
+
+    // Remove individual location fields and add location object
+    const { location: _, city, zipCode, ...restEntries } = entries as Record<string, unknown>
+
+    return {
+      ...restEntries,
+      location,
+      ...additionalData,
+    }
+  }
+
+  // If no location fields, return as before
   return {
-    ...Object.fromEntries(formData),
+    ...entries,
     ...additionalData,
   }
 }

@@ -13,6 +13,7 @@ import {
   setBulkConfigSliceState,
   setLeadTimeMinimum,
 } from '@/redux/slices/configSlice'
+import { setForm } from '@/redux/slices/formSlice'
 import { SlugConfigurationType, StringDateTimeIntervalAndLocation } from '@/lib/types'
 
 type InitialUrlUtilityProps = {
@@ -42,6 +43,11 @@ export function InitialUrlUtility({
     dispatchRedux(setSlots(slots))
     if (configSliceData) {
       dispatchRedux(setBulkConfigSliceState(configSliceData))
+
+      // If config has location data, populate the form with it
+      if (configSliceData.location) {
+        dispatchRedux(setForm({ location: configSliceData.location }))
+      }
     }
     if (configSliceData?.allowedDurations !== undefined) {
       dispatchRedux(setAllowedDurations(configSliceData.allowedDurations))

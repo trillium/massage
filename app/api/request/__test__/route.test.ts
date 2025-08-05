@@ -22,9 +22,11 @@ const validPayload = {
   start: new Date().toISOString(),
   end: new Date(Date.now() + 3600000).toISOString(),
   timeZone: 'America/Los_Angeles',
-  location: '123 Main St',
-  city: 'New York', // <-- Added city for schema compliance
-  zipCode: '10001', // <-- Added zipCode for schema compliance
+  location: {
+    street: '123 Main St',
+    city: 'New York',
+    zip: '10001',
+  },
   duration: '60',
   price: '100',
   phone: '555-1234',

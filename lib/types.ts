@@ -39,9 +39,7 @@ export type StringInterval = {
  * with an optional location.
  */
 export type StringIntervalAndLocation = StringInterval & {
-  location?: string
-  city?: string
-  zipCode?: string
+  location?: LocationObject
 }
 
 /**
@@ -74,13 +72,11 @@ export type StringDateTimeInterval = {
  * with an optional location.
  */
 export type DateTimeIntervalAndLocation = DateTimeInterval & {
-  location?: string
-  city?: string
-  zipCode?: string
+  location?: LocationObject
 }
 
 export type StringDateTimeIntervalAndLocation = StringDateTimeInterval & {
-  location?: string
+  location?: LocationObject
 }
 
 /**
@@ -106,10 +102,8 @@ export type AppointmentProps = {
   email: string
   /** Phone number of the requester. */
   phone: string
-  /** Location of the appointment. */
-  location: string
-  city?: string
-  zipCode?: string
+  /** Location object with street, city, and zip */
+  location: LocationObject
   /** Timezone of the requester. */
   timeZone: string
   /** A unique ID for generating Google Meet details */
@@ -131,7 +125,7 @@ export type EmailProps = {
   email: string
   firstName: string
   lastName: string
-  location: string
+  location: LocationObject
   approveUrl: string
   timeZone: string
   price?: string
@@ -183,6 +177,12 @@ export type RatingCount = {
 }
 
 export type PaymentMethodType = (typeof paymentMethod)[number]['value'] | null
+
+export type LocationObject = {
+  street: string
+  city: string
+  zip: string
+}
 
 export type AttendeeType = {
   email: string
@@ -256,7 +256,7 @@ export type SlugConfigurationType = {
   type: SlugType
   title: string | null
   text: string | null
-  location: string | null
+  location: LocationObject | null
   locationIsReadOnly?: boolean
   eventContainer: string | null
   promoEndDate?: string | null // Format: YYYY-MM-DD
@@ -296,8 +296,8 @@ export type BookingFormData = {
   lastName?: string
   /** Email address of the requester */
   email?: string
-  /** Address of the requester */
-  location?: string
+  /** Location object with street, city, and zip */
+  location?: LocationObject
   /** Whether the location can be edited */
   locationIsReadOnly?: boolean
   /** Phone number of the requester */

@@ -1,4 +1,4 @@
-import { PaymentMethodType } from 'lib/types'
+import { PaymentMethodType, LocationObject } from 'lib/types'
 
 /**
  * Represents form data from the booking form
@@ -10,8 +10,8 @@ export type BookingFormData = {
   lastName?: string
   /** Email address of the requester */
   email?: string
-  /** Address of the requester */
-  location?: string
+  /** Location object with street, city, and zip */
+  location?: LocationObject
   /** City of the requester */
   city?: string
   /** Zip code of the requester */

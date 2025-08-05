@@ -24,6 +24,7 @@ import {
   useReduxFormData,
   useReduxEventContainers,
   useReduxModal,
+  useReduxConfig,
 } from '@/redux/hooks'
 import { ChairAppointmentBlockProps, PaymentMethodType } from 'lib/types'
 import siteMetadata from 'data/siteMetadata'
@@ -49,6 +50,7 @@ export default function BookingForm({
   const dispatchRedux = useAppDispatch()
   const formData = useReduxFormData()
   const eventContainers = useReduxEventContainers()
+  const config = useReduxConfig()
   const { status: modal } = useReduxModal()
   const { selectedTime, timeZone, duration } = useReduxAvailability()
   const price = duration ? DEFAULT_PRICING[duration] : 'null'
@@ -159,12 +161,12 @@ export default function BookingForm({
               <LocationField
                 location={
                   (eventContainers && eventContainers.location) ||
-                  (formData && formData.location) ||
-                  ''
+                  (config && config.location) ||
+                  (formData && formData.location) || { street: '', city: '', zip: '' }
                 }
-                city={(formData && formData.city) || ''}
-                zipCode={(formData && formData.zipCode) || ''}
-                readOnly={!!(eventContainers && eventContainers.location)}
+                readOnly={
+                  !!(eventContainers && eventContainers.location) || config.locationIsReadOnly
+                }
                 onChange={formOnChange}
               />
               <EmailField email={formData.email || ''} onChange={formOnChange} />

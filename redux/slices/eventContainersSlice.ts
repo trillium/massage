@@ -1,9 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction, Slice } from '@reduxjs/toolkit'
 import type { RootState } from '@/redux/store'
+import type { LocationObject } from 'lib/types'
 
 export type EventContainerType = {
-  location?: string
+  location?: LocationObject
   eventBaseString?: string
   eventMemberString?: string
   eventContainerString?: string

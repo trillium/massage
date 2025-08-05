@@ -7,6 +7,7 @@ import DurationPicker from 'components/availability/controls/DurationPicker'
 import Calendar from 'components/availability/date/Calendar'
 import { DEFAULT_PRICING, ALLOWED_DURATIONS } from 'config'
 import { durationPropsType } from '@/lib/slugConfigurations/helpers/buildDurationProps'
+import { LocationObject } from 'lib/types'
 
 interface Step1BookingSelectionProps {
   selectedDuration: number
@@ -19,6 +20,12 @@ export default function Step1BookingSelection({
   onSubmit,
   durationProps,
 }: Step1BookingSelectionProps) {
+  const mockLocation: LocationObject = {
+    street: '123 Mock Street',
+    city: 'Los Angeles',
+    zip: '90210',
+  }
+
   return (
     <div className="mb-12 rounded-lg bg-white p-6 shadow dark:bg-gray-800">
       <h2 className="mb-4 text-xl font-semibold text-gray-800 dark:text-gray-200">
@@ -45,21 +52,21 @@ export default function Step1BookingSelection({
                 {
                   start: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
                   end: new Date(Date.now() + 24 * 60 * 60 * 1000 + 90 * 60 * 1000).toISOString(),
-                  location: 'Mock Location',
+                  location: mockLocation,
                 },
                 {
                   start: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString(),
                   end: new Date(
                     Date.now() + 2 * 24 * 60 * 60 * 1000 + 90 * 60 * 1000
                   ).toISOString(),
-                  location: 'Mock Location',
+                  location: mockLocation,
                 },
                 {
                   start: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString(),
                   end: new Date(
                     Date.now() + 3 * 24 * 60 * 60 * 1000 + 90 * 60 * 1000
                   ).toISOString(),
-                  location: 'Mock Location',
+                  location: mockLocation,
                 },
               ]}
               start={new Date().toISOString()}

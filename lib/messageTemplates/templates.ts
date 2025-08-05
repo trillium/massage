@@ -1,4 +1,4 @@
-import { AppointmentProps } from '../types'
+import { AppointmentProps, LocationObject } from '../types'
 
 /**
  * Creates a title "summary" for a calendar event.
@@ -38,7 +38,18 @@ function eventDescription({
   output += `<b>Duration</b>: ${duration}\n`
   output += `<b>Email</b>: ${email}\n`
   output += `<b>Phone</b>: ${phone}\n`
-  output += `<b>Location</b>: ${location}\n`
+
+  // Handle both string and LocationObject
+  let locationString = ''
+  if (typeof location === 'string') {
+    locationString = location
+  } else if (location && typeof location === 'object') {
+    locationString = `${location.street}, ${location.city}, ${location.zip}`
+      .replace(/^,\s*/, '')
+      .replace(/,\s*$/, '')
+  }
+  output += `<b>Location</b>: ${locationString}\n`
+
   output += '\n\n'
   output += 'Trillium Smith, LMT'
   output += '\n'

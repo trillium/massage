@@ -13,7 +13,10 @@ export async function resolveConfiguration(
   let configuration: SlugConfigurationType
 
   if (bookingSlug) {
-    configuration = slugData[bookingSlug] ?? initialState
+    const baseConfig = slugData[bookingSlug] ?? initialState
+
+    // Create a deep copy to avoid mutating the shared configuration object
+    configuration = { ...baseConfig }
   } else {
     configuration = initialState
   }

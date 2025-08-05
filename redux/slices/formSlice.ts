@@ -4,6 +4,7 @@ import type { RootState } from '@/redux/store'
 import type { BookingFormData } from 'components/booking/types'
 import type { ReviewFormData } from 'components/ReviewForm'
 import { ReviewSnippetProps } from 'components/ReviewCard'
+import type { LocationObject } from 'lib/types'
 
 export const initialBookingFormData: BookingFormData = {
   /** First name of the requester */
@@ -12,8 +13,6 @@ export const initialBookingFormData: BookingFormData = {
   lastName: '',
   /** Email address of the requester */
   email: '',
-  /** Address of the requester */
-  location: '',
   /** City of the requester */
   city: '',
   /** Zip code of the requester */

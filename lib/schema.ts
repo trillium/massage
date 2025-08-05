@@ -3,6 +3,12 @@ import { z } from 'zod'
 
 const paymentMethodValues = paymentMethod.map((method) => method.value) as [string, ...string[]]
 
+const LocationSchema = z.object({
+  street: z.string(),
+  city: z.string(),
+  zip: z.string().regex(/^\d{5}(-\d{4})?$/, { message: 'Invalid US zip code.' }),
+})
+
 const BaseRequestSchema = z
   .object({
     firstName: z.string(),
@@ -15,9 +21,7 @@ const BaseRequestSchema = z
       message: 'End must be a valid date.',
     }),
     timeZone: z.string(),
-    location: z.string(),
-    city: z.string(),
-    zipCode: z.string().regex(/^\d{5}(-\d{4})?$/, { message: 'Invalid US zip code.' }),
+    location: LocationSchema,
     duration: z.string().refine((value) => !Number.isNaN(Number.parseInt(value)), {
       message: 'Duration must be a valid integer.',
     }),

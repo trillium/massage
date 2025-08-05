@@ -2,7 +2,7 @@ import clsx from 'clsx'
 import type { DetailedHTMLProps, HTMLAttributes } from 'react'
 
 import { formatLocalTime } from 'lib/availability/helpers'
-import type { StringDateTimeInterval } from 'lib/types'
+import type { StringDateTimeInterval, LocationObject } from 'lib/types'
 
 import { setSelectedTime } from '@/redux/slices/availabilitySlice'
 import { setModal } from '@/redux/slices/modalSlice'
@@ -12,7 +12,10 @@ import { clearEventContainers, setEventContainers } from '@/redux/slices/eventCo
 type TimeProps = {
   time: StringDateTimeInterval
   active: boolean
-} & { location?: string } & DetailedHTMLProps<HTMLAttributes<HTMLButtonElement>, HTMLButtonElement>
+} & { location?: LocationObject } & DetailedHTMLProps<
+    HTMLAttributes<HTMLButtonElement>,
+    HTMLButtonElement
+  >
 
 export default function TimeButton({
   time: { start, end },

@@ -24,8 +24,6 @@ function buildEventBody({
   summary,
   email,
   location,
-  city,
-  zipCode,
   phone,
   requestId,
   firstName,
@@ -43,8 +41,6 @@ function buildEventBody({
     phone,
     duration,
     location,
-    city,
-    zipCode,
     firstName,
     lastName,
     eventBaseString,
@@ -67,7 +63,9 @@ function buildEventBody({
         displayName: firstName,
       },
     ],
-    ...{ location, city, zipCode },
+    location: `${location.street}, ${location.city}, ${location.zip}`
+      .replace(/^,\s*/, '')
+      .replace(/,\s*$/, ''),
   }
 }
 

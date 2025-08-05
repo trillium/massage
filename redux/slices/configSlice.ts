@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction, Slice } from '@reduxjs/toolkit'
 import type { RootState } from '@/redux/store'
-import type { DiscountType, SlugConfigurationType } from 'lib/types'
+import type { DiscountType, SlugConfigurationType, LocationObject } from 'lib/types'
 import { DEFAULT_PRICING } from 'config'
 
 export const initialState: SlugConfigurationType = {
@@ -34,11 +34,26 @@ export const configSlice: Slice<SlugConfigurationType> = createSlice({
     setAllowedDurations: (state, action: PayloadAction<number[] | null>) => {
       state.allowedDurations = action.payload
     },
-    setLocation: (state, action: PayloadAction<string>) => {
+    setLocation: (state, action: PayloadAction<LocationObject | null>) => {
       state.location = action.payload
     },
     setLocationReadOnly: (state, action: PayloadAction<boolean>) => {
       state.locationIsReadOnly = action.payload
+    },
+    updateLocationField: (
+      state,
+      action: PayloadAction<{ field: keyof LocationObject; value: string }>
+    ) => {
+      if (state.location) {
+        state.location[action.payload.field] = action.payload.value
+      } else {
+        state.location = {
+          street: '',
+          city: '',
+          zip: '',
+        }
+        state.location[action.payload.field] = action.payload.value
+      }
     },
     setEventContainer: (state, action: PayloadAction<string>) => {
       // console.log('[configSlice]', action)
@@ -78,6 +93,7 @@ export const {
   setAcceptingPayment,
   setBulkConfigSliceState,
   setLocationReadOnly,
+  updateLocationField,
   configSliceReset,
 } = configSlice.actions
 
