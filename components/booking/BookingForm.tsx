@@ -170,7 +170,7 @@ export default function BookingForm({
                 onChange={formOnChange}
               />
               <EmailField email={formData.email || ''} onChange={formOnChange} />
-              {additionalData?.showHotelField && (
+              {(additionalData?.showHotelField || config?.customFields?.showHotelField) && (
                 <HotelField
                   hotelRoomNumber={
                     typeof formData.hotelRoomNumber === 'string' ? formData.hotelRoomNumber : ''
@@ -178,7 +178,7 @@ export default function BookingForm({
                   onChange={formOnChange}
                 />
               )}
-              {additionalData?.showParkingField && (
+              {(additionalData?.showParkingField || config?.customFields?.showParkingField) && (
                 <ParkingField
                   parkingInstructions={
                     typeof formData.parkingInstructions === 'string'
@@ -188,7 +188,7 @@ export default function BookingForm({
                   onChange={handleSelectChange}
                 />
               )}
-              {additionalData?.showNotesField && (
+              {(additionalData?.showNotesField || config?.customFields?.showNotesField) && (
                 <NotesField
                   additionalNotes={
                     typeof formData.additionalNotes === 'string' ? formData.additionalNotes : ''

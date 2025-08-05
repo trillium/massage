@@ -251,6 +251,12 @@ export type DiscountType = {
  */
 export type SlugType = 'area-wide' | 'fixed-location' | 'scheduled-site' | null
 
+export type CustomFieldsType = {
+  showHotelField?: boolean
+  showParkingField?: boolean
+  showNotesField?: boolean
+}
+
 export type SlugConfigurationType = {
   bookingSlug: string | string[] | null // this must be unique and cannot conflict with current app pages
   type: SlugType
@@ -266,6 +272,7 @@ export type SlugConfigurationType = {
   instantConfirm?: boolean
   acceptingPayment?: boolean
   allowedDurations: AllowedDurationsType | null
+  customFields?: CustomFieldsType
 }
 
 export type SearchParamsType = { [key: string]: string | string[] | undefined }

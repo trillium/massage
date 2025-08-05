@@ -19,6 +19,7 @@ export const initialState: SlugConfigurationType = {
   instantConfirm: false,
   acceptingPayment: true,
   promoEndDate: null,
+  customFields: undefined,
 }
 
 export const configSlice: Slice<SlugConfigurationType> = createSlice({

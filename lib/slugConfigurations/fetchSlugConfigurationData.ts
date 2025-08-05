@@ -87,6 +87,10 @@ const slugConfigurations: SlugConfigurationType[] = [
     location: createLocationObject('Hotel June West LA, 8639 Lincoln Blvd', 'Los Angeles', '90045'),
     locationIsReadOnly: true,
     leadTimeMinimum: 60,
+    customFields: {
+      showHotelField: true,
+      showNotesField: true,
+    },
   },
   {
     ...initialStateWithoutType,
