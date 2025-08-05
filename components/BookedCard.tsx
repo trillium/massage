@@ -23,6 +23,12 @@ export function BookedCard({
   state?: 'Pending' | 'Confirmed' | 'Declined'
   price?: number | string
 }) {
+  const cards = [
+    { title: 'Name', text: `${firstName} ${lastName}`, emphasize: true },
+    { title: 'Location', text: location, emphasize: false },
+    { title: 'Phone', text: phone, emphasize: false },
+    { title: 'Email', text: email, emphasize: false },
+  ]
   return (
     <div
       className={clsx(
@@ -40,38 +46,32 @@ export function BookedCard({
               <p className="text-sm md:text-base">
                 {startString} - {endString}
               </p>
-              {price !== undefined && price !== null && <p className="text-base ">${price}</p>}
+              {price && <p className="text-base ">${price}</p>}
             </div>
             <p className="text-base font-bold md:text-xl">{state}</p>
           </div>
         </div>
-        <p className="flex flex-row items-baseline bg-none pl-4 text-lg font-bold text-gray-700 dark:text-gray-100">
-          <span className="inline-block min-w-20 text-xs font-semibold uppercase tracking-wide text-primary-500 dark:text-primary-400">
-            Name:
-          </span>
-          <span>
-            {firstName} {lastName}
-          </span>
-        </p>
-        <p className="flex flex-row items-baseline bg-none pl-4 text-base font-bold text-gray-500 dark:text-gray-300">
-          <span className="inline-block min-w-20 text-xs font-semibold uppercase tracking-wide text-primary-500 dark:text-primary-400">
-            Location:
-          </span>
-          <span>{location}</span>
-        </p>
-        <p className="flex flex-row items-baseline bg-none pl-4 text-base font-bold text-gray-500 dark:text-gray-300">
-          <span className="inline-block min-w-20 text-xs font-semibold uppercase tracking-wide text-primary-500 dark:text-primary-400">
-            Phone:
-          </span>
-          <span>{phone}</span>
-        </p>
-        <p className="flex flex-row items-baseline bg-none pl-4 text-base font-bold text-gray-500 dark:text-gray-300">
-          <span className="inline-block min-w-20 text-xs font-semibold uppercase tracking-wide text-primary-500 dark:text-primary-400">
-            Email:
-          </span>
-          <span>{email}</span>
-        </p>
+        {cards.map((item) => (
+          <CardItem {...item} key={item.title} />
+        ))}
       </div>
     </div>
+  )
+}
+
+function CardItem({ title, text, emphasize = false }) {
+  console.log(title, text, emphasize)
+  return (
+    <p className="flex flex-row items-baseline bg-none pl-4 text-lg font-semibold text-gray-700 dark:text-gray-300">
+      <span
+        className={clsx(
+          'inline-block min-w-24 text-sm uppercase tracking-wide text-primary-500 dark:text-primary-400',
+          { 'font-bold': emphasize }
+        )}
+      >
+        {title}:
+      </span>
+      <span className={clsx({ 'text-lg font-bold': emphasize })}>{text}</span>
+    </p>
   )
 }
