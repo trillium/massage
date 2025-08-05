@@ -141,7 +141,9 @@
     "kinn",
     "tzdb",
     "Testville",
-    "appt"
+    "appt",
+    "Waitlist",
+    "Kentwood"
   ],
   "dictionaries": ["typescript", "node", "npm", "html", "css", "bash"],
   "languageSettings": [
