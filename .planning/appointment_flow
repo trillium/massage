@@ -1,0 +1,171 @@
+# Appointment Generation Flows
+
+This document summarizes each way an appointment can be generated in the codebase:
+
+---
+
+## 1. Standard Booking Flow (Individual) - Email Confirmation Required
+
+- **Entry Points:**
+  - `/book` page (`app/book/page.tsx`)
+  - Home page (`app/page.tsx`)
+- **Component:** `BookingForm` (`components/booking/BookingForm.tsx`)
+- **API Endpoint:** `api/request` (`app/api/request/route.ts`)
+- **Backend Logic:**
+  - Validates appointment request using `AppointmentRequestSchema`.
+  - Applies rate limiting per IP address.
+  - Sends email confirmation link to user (does NOT immediately create appointment).
+  - User must click confirmation link to finalize appointment.
+- **Confirmation Flow:**
+  - User clicks link in email → `/api/confirm` → validates data → creates calendar appointment → redirects to `/booked`
+
+---
+
+## 2. Onsite/Group Booking Flow
+
+- **Entry Point:** `/onsite` page (`app/onsite/ClientPage.tsx`)
+- **Component:** `BookingForm` (with `additionalData` for group/onsite context)
+- **API Endpoint:** `api/onsite/request` (`app/api/onsite/request/route.ts`)
+- **Backend Logic:**
+  - Validates and processes onsite/group appointment request.
+  - Sends approval email to admin with a confirmation link.
+  - Confirmation link triggers `/api/onsite/confirm` to finalize the appointment (calls `createOnsiteAppointment`).
+
+---
+
+## 3. User Email Confirmation (Standard Bookings)
+
+- **Flow:**
+  - User receives confirmation email after submitting booking request.
+  - Clicks confirmation link (`/api/confirm?data=...&key=...`).
+  - This endpoint validates and creates the appointment (calls `createCalendarAppointment`).
+  - Sends admin notification email about the confirmed appointment.
+  - Redirects to `/booked` page with details.
+
+---
+
+## 4. Admin/Manual Confirmation (Onsite Only)
+
+- **Flow:**
+  - Admin receives approval email from onsite/group booking.
+  - Clicks confirmation link (`/api/onsite/confirm?data=...&key=...`).
+  - This endpoint validates and creates the appointment (calls `createOnsiteAppointment`).
+  - Redirects to `/booked` page with details.
+
+---
+
+## 5. (Potential) Instant Confirm Flow
+
+- **Entry Point:** `/instantConfirm` (see `app/instantConfirm/ClientPage.tsx`)
+- **Component:** `BookedCard` (not a form, but displays confirmation)
+- **Note:** This appears to be a confirmation/summary page, not a booking generator, but may be part of a flow.
+
+---
+
+## 6. API/Backend
+
+All appointment creation is ultimately handled by three main API endpoints:
+
+### `api/request`
+
+- **Purpose:** Handles standard (individual) appointment requests by sending email confirmation links to users.
+- **How it works:**
+  - Receives POST requests from the `BookingForm` on `/book` and `/`.
+  - Validates the request body using a schema (`AppointmentRequestSchema`).
+  - Applies rate limiting per IP address.
+  - If valid, sends a confirmation email to the user:
+    - The email contains a confirmation link to `/api/confirm`.
+    - Does **not** immediately create the appointment.
+  - Returns a success or error response.
+- **Key Change:** Now requires user email confirmation before finalizing appointments.
+
+### `api/onsite/request`
+
+- **Purpose:** Handles group/onsite booking requests, which require admin approval before finalization.
+- **How it works:**
+  - Receives POST requests from the `BookingForm` on `/onsite`.
+  - Validates the request body using a schema (`OnSiteRequestSchema`).
+  - Applies rate limiting per IP address.
+  - If valid, sends an approval email to the admin (not the client):
+    - The email contains a confirmation link to `/api/onsite/confirm`.
+  - Does **not** immediately finalize the appointment; waits for admin action.
+  - Returns a success or error response.
+
+### `api/onsite/confirm`
+
+- **Purpose:** Finalizes an onsite/group appointment after admin approval.
+- **How it works:**
+  - Triggered when the admin clicks the confirmation link in the approval email.
+  - Validates the data and a hash key to ensure authenticity.
+  - Calls `createOnsiteAppointment` to create the appointment in the system (e.g., calendar, database).
+  - Redirects to `/booked` with appointment details, or returns an error if something fails.
+
+---
+
+### Key Differences: `api/request` vs `api/onsite/request`
+
+| Feature                | `api/request` (Standard)          | `api/onsite/request` (Onsite/Group)          |
+| ---------------------- | --------------------------------- | -------------------------------------------- |
+| Use case               | Individual bookings               | Group/onsite bookings                        |
+| User flow              | User submits → email confirmation | User submits, admin must approve             |
+| Validation             | AppointmentRequestSchema          | OnSiteRequestSchema                          |
+| Immediate confirmation | No (requires email confirmation)  | No (requires admin approval)                 |
+| Emails sent            | User (confirmation link)          | Admin only (approval link)                   |
+| Finalization           | User clicks `/api/confirm`        | Admin action via `/api/onsite/confirm`       |
+| Backend logic          | Email confirmation flow           | Approval email, then createOnsiteAppointment |
+
+---
+
+---
+
+## Summary Table
+
+| Flow               | User Entry Point | API Endpoint       | Finalizes Appointment   |
+| ------------------ | ---------------- | ------------------ | ----------------------- |
+| Standard Booking   | /book, /         | api/request        | User email confirmation |
+| Onsite/Group       | /onsite          | api/onsite/request | Admin via confirm       |
+| User Confirmation  | Email link       | api/confirm        | Yes                     |
+| Admin Confirmation | Email link       | api/onsite/confirm | Yes                     |
+| Instant Confirm    | /instantConfirm  | (N/A)              | (Display only)          |
+
+---
+
+See code for further details on each flow.
+
+---
+
+## Observed Inconsistencies and Areas of Improvement
+
+- **Email Confirmation Implementation:**
+  - ✅ **COMPLETED:** Standard bookings now require email confirmation before finalizing appointments.
+  - The user receives a confirmation email with a secure link that validates the appointment data.
+
+- **Schema/Validation Naming:**
+  - The standard and onsite flows use different schemas (`AppointmentRequestSchema` vs `OnSiteRequestSchema`), but the distinction and overlap are not always clear. Consider unifying or clearly documenting the differences.
+
+- **Email Logic Consistency:**
+  - ✅ **IMPROVED:** Both flows now require confirmation (user email confirmation for standard, admin approval for onsite).
+  - Consider whether the client should receive a "pending" notification for onsite bookings.
+
+- **Finalization Consistency:**
+  - ✅ **IMPROVED:** Both standard and onsite bookings now require explicit confirmation before finalization.
+  - User experience is now consistent - both flows clearly indicate pending status until confirmed.
+
+- **API Endpoint Naming:**
+  - The endpoint names are descriptive, but `api/request` is generic compared to `api/onsite/request`. Consider renaming to `api/individual/request` or similar for clarity.
+
+- **Error Handling:**
+  - Error responses are returned, but the user-facing feedback (especially for rate limits or validation errors) could be more consistent and user-friendly.
+
+- **Instant Confirm Flow:**
+  - The purpose and integration of the `/instantConfirm` flow is unclear. If it's only a display, consider clarifying its role or removing it if not needed.
+
+- **Code Duplication:**
+  - ✅ **ADDRESSED:** Created reusable `ClientConfirmationEmail` template for user confirmations.
+  - Consider refactoring more shared logic (e.g., validation, rate limiting) into common utilities.
+
+- **Documentation:**
+  - ✅ **COMPLETED:** The flows are now documented here with updated email confirmation requirements.
+  - Inline code comments and API docs would help future maintainers.
+
+---
