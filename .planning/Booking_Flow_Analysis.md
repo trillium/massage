@@ -116,7 +116,7 @@ The booking form collects:
 - **Implementation**: LRU Cache with 5 requests per IP per minute
 - **Protection**: Prevents spam and abuse
 
-[[Lets create tests to make sure this works. If this is in serverless functions on Vercel, how do we know IP data is being preserverd to prevent spam? Is that how it works?]]
+[[Lets create tests to make sure this works. If this is in serverless functions on Vercel, how do we know IP data is being preserved to prevent spam? Is that how it works?]]
 [[Make a writeup describing how the rate limiting works and if it has any inconsistencies]]
 
 **Data Validation:**
@@ -127,7 +127,6 @@ The booking form collects:
 **Email Notifications:**
 
 1. **Approval Email** → Massage therapist
-
    - Contains appointment details
    - Includes approval URL with hash-based security
    - Shows client information and preferences

@@ -28,7 +28,7 @@ const Header = () => {
           {typeof siteMetadata.headerTitle === 'string' ? (
             <div
               className={clsx(
-                'hidden border-b-[3px] text-2xl font-semibold leading-6 sm:block',
+                'hidden border-b-[3px] text-2xl leading-6 font-semibold sm:block',
                 { 'border-primary-500': pathName === '/' },
                 { 'border-transparent': pathName !== '/' }
               )}
@@ -51,7 +51,7 @@ const Header = () => {
                   key={link.title}
                   href={link.href}
                   className={clsx(
-                    'm-1 box-border block border-b-[3px] font-medium text-gray-900 transition hover:text-primary-500 dark:text-gray-100 dark:hover:text-primary-400',
+                    'hover:text-primary-500 dark:hover:text-primary-400 m-1 box-border block border-b-[3px] font-medium text-gray-900 transition dark:text-gray-100',
                     { 'border-primary-500': active },
                     { 'border-transparent': !active }
                   )}

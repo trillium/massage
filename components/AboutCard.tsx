@@ -27,12 +27,12 @@ const AuthorCard = () => {
               alt="avatar"
               width={224}
               height={224}
-              className="h-48 w-48 min-w-48 rounded-full border-2 border-primary-400 md:h-52 md:w-52"
+              className="border-primary-400 h-48 w-48 min-w-48 rounded-full border-2 object-cover md:h-52 md:w-52"
             />
           </div>
         )}
         <div>
-          <h3 className="pb-2 pt-4 text-2xl font-bold leading-8 tracking-tight sm:text-3xl md:text-4xl">
+          <h3 className="pt-4 pb-2 text-2xl leading-8 font-bold tracking-tight sm:text-3xl md:text-4xl">
             {author}
           </h3>
           <div className="md:text-md text-base text-gray-500 dark:text-gray-400">{occupation}</div>
@@ -45,14 +45,14 @@ const AuthorCard = () => {
         </div>
       </div>
       <div className="flex max-w-full flex-col items-center justify-center">
-        <div className="prose dark:prose-invert max-w-full pb-8 pt-10 xl:text-xl">
+        <div className="prose dark:prose-invert max-w-full pt-10 pb-8 xl:text-xl">
           <p className="py-2 text-justify">
             Trillium is a seasoned massage therapist with over a decade of experience, based in Los
             Angeles. Specializing in combining relaxation and pain relief techniques, Trillium
             provides you with effective massage therapy from the comfort of your own home. With with
             more than 3,000 in-home massage therapy sessions, Trillium has maintained a{' '}
             <Link
-              className="font-bold text-primary-500 underline-offset-0 transition-transform duration-300 hover:scale-105 hover:underline dark:text-primary-400"
+              className="text-primary-500 dark:text-primary-400 font-bold underline-offset-0 transition-transform duration-300 hover:scale-105 hover:underline"
               href={'/reviews'}
             >
               4.9-star rating

@@ -10,7 +10,7 @@ type LocationFieldProps = {
 
 export default function LocationField({ location, readOnly, onChange }: LocationFieldProps) {
   return (
-    <div className="relative px-3 pb-1.5 pt-2.5 ring-1 ring-inset ring-gray-300 first:rounded-md first:rounded-b-none last:rounded-md last:rounded-t-none focus-within:z-10 focus-within:ring-2 focus-within:ring-primary-400">
+    <div className="focus-within:ring-primary-400 relative px-3 pt-2.5 pb-1.5 ring-1 ring-gray-300 ring-inset first:rounded-md first:rounded-b-none last:rounded-md last:rounded-t-none focus-within:z-10 focus-within:ring-2">
       <label
         htmlFor="location"
         className="block text-xs font-medium text-gray-900 dark:text-gray-100"
@@ -27,8 +27,8 @@ export default function LocationField({ location, readOnly, onChange }: Location
         value={location.street}
         readOnly={readOnly}
         className={clsx(
-          'mb-1 block w-full border-0 p-0 py-1 pl-2 text-gray-900 placeholder:text-gray-400 focus:ring-0 dark:text-gray-100 sm:text-sm sm:leading-6',
-          { 'select-none bg-gray-400 dark:bg-gray-700': readOnly }
+          'mb-1 block w-full border-0 p-0 py-1 pl-2 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-gray-100',
+          { 'bg-gray-400 select-none dark:bg-gray-700': readOnly }
         )}
         placeholder="123 Address Road, Beverly Hills, CA 90210"
         onChange={onChange}
@@ -51,8 +51,8 @@ export default function LocationField({ location, readOnly, onChange }: Location
             value={location.city}
             readOnly={readOnly}
             className={clsx(
-              'mb-1 block w-full border-0 p-0 py-1 pl-2 text-gray-900 placeholder:text-gray-400 focus:ring-0 dark:text-gray-100 sm:text-sm sm:leading-6',
-              { 'select-none bg-gray-400 dark:bg-gray-700': readOnly }
+              'mb-1 block w-full border-0 p-0 py-1 pl-2 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-gray-100',
+              { 'bg-gray-400 select-none dark:bg-gray-700': readOnly }
             )}
             placeholder="Los Angeles"
             onChange={onChange}
@@ -75,8 +75,8 @@ export default function LocationField({ location, readOnly, onChange }: Location
             value={location.zip}
             readOnly={readOnly}
             className={clsx(
-              'mb-1 block w-full border-0 p-0 py-1 pl-2 text-gray-900 placeholder:text-gray-400 focus:ring-0 dark:text-gray-100 sm:text-sm sm:leading-6',
-              { 'select-none bg-gray-400 dark:bg-gray-700': readOnly }
+              'mb-1 block w-full border-0 p-0 py-1 pl-2 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-gray-100',
+              { 'bg-gray-400 select-none dark:bg-gray-700': readOnly }
             )}
             placeholder="90210"
             pattern="\d{5}(-\d{4})?"

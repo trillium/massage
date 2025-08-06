@@ -25,7 +25,7 @@ export default function Hero({
 
   return (
     <div className="bg-hero grid w-full grid-flow-row auto-rows-min grid-cols-2 gap-4 overflow-hidden pb-10">
-      <h1 className="col-span-2 text-3xl font-bold tracking-tight text-primary-500 dark:text-primary-400 sm:col-span-1 sm:text-4xl md:text-left md:text-5xl lg:text-5xl">
+      <h1 className="text-primary-500 dark:text-primary-400 col-span-2 text-3xl font-bold tracking-tight sm:col-span-1 sm:text-4xl md:text-left md:text-5xl lg:text-5xl">
         {title || 'Missing title'}
       </h1>
 
@@ -42,13 +42,13 @@ export default function Hero({
           src={img}
           alt="Image of Trillium"
           fill
-          className="absolute rounded-md border-2 border-primary-500 object-cover object-[50%_40%]"
+          className="border-primary-500 absolute rounded-md border-2 object-cover object-[50%_40%]"
         />
       </div>
 
       <p
         className={clsx(
-          'text-md col-span-2 font-light leading-relaxed tracking-wider sm:col-span-1 sm:text-base md:text-left lg:text-xl',
+          'text-md col-span-2 leading-relaxed font-light tracking-wider sm:col-span-1 sm:text-base md:text-left lg:text-xl',
           { 'row-span-2': !buttons }
         )}
       >
@@ -60,7 +60,7 @@ export default function Hero({
           <div className="flex items-end justify-center">
             <Link
               href="/book"
-              className="text-md w-full rounded-md border-2 border-primary-500 bg-primary-500 px-2 py-3 text-center font-semibold text-white"
+              className="text-md border-primary-500 bg-primary-500 w-full rounded-md border-2 px-2 py-3 text-center font-semibold text-white"
             >
               Book a session
             </Link>
@@ -68,7 +68,7 @@ export default function Hero({
           <div className="flex items-end justify-center">
             <Link
               href="/about"
-              className="text-md w-full rounded-md border-2 border-primary-500 bg-white px-2 py-3 text-center font-semibold text-primary-500 dark:text-primary-600"
+              className="text-md border-primary-500 text-primary-500 dark:text-primary-600 w-full rounded-md border-2 bg-white px-2 py-3 text-center font-semibold"
             >
               Find out more
             </Link>

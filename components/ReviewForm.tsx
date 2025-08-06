@@ -62,8 +62,8 @@ export default function ReviewForm({
             handleSubmit(event, dispatchRedux, router)
           }}
         >
-          <div className="mb-4 mt-3 rounded-md border-l-4 border-l-primary-400 bg-primary-100/30 p-3 dark:bg-primary-50/10">
-            <p className="text-base font-semibold text-primary-800 dark:text-primary-400 md:text-lg">
+          <div className="border-l-primary-400 bg-primary-100/30 dark:bg-primary-50/10 mt-3 mb-4 rounded-md border-l-4 p-3">
+            <p className="text-primary-800 dark:text-primary-400 text-base font-semibold md:text-lg">
               {formatLocalDate(start, { timeZone })}
             </p>
             <p className="text-sm md:text-base">
@@ -78,7 +78,7 @@ export default function ReviewForm({
 
           <div className="flex flex-col space-y-4">
             <div className="isolate -space-y-px rounded-md shadow-sm">
-              <div className="row relative flex px-3 pb-1.5 pt-2.5 ring-1 ring-inset ring-gray-300 first:rounded-md first:rounded-b-none last:rounded-md last:rounded-t-none focus-within:z-10 focus-within:ring-2 focus-within:ring-primary-400">
+              <div className="row focus-within:ring-primary-400 relative flex px-3 pt-2.5 pb-1.5 ring-1 ring-gray-300 ring-inset first:rounded-md first:rounded-b-none last:rounded-md last:rounded-t-none focus-within:z-10 focus-within:ring-2">
                 <div className="mx-1 w-full">
                   <label
                     htmlFor="name"
@@ -98,7 +98,7 @@ export default function ReviewForm({
                     value={firstName}
                     placeholder="First"
                     onChange={formOnChange}
-                    className="mb-1 block w-full border-0 p-0 py-1 pl-2 text-gray-900 placeholder:text-gray-400 focus:ring-0 dark:text-gray-100 sm:text-base sm:leading-6"
+                    className="mb-1 block w-full border-0 p-0 py-1 pl-2 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-base sm:leading-6 dark:text-gray-100"
                   />
                 </div>
                 <div className="mx-1 w-full">
@@ -120,11 +120,11 @@ export default function ReviewForm({
                     value={lastName}
                     placeholder="Last"
                     onChange={formOnChange}
-                    className="mb-1 block w-full border-0 p-0 py-1 pl-2 text-gray-900 placeholder:text-gray-400 focus:ring-0 dark:text-gray-100 sm:text-base sm:leading-6"
+                    className="mb-1 block w-full border-0 p-0 py-1 pl-2 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-base sm:leading-6 dark:text-gray-100"
                   />
                 </div>
               </div>
-              <div className="relative px-3 pb-1.5 pt-2.5 ring-1 ring-inset ring-gray-300 first:rounded-md first:rounded-b-none last:rounded-md last:rounded-t-none focus-within:z-10 focus-within:ring-2 focus-within:ring-primary-400">
+              <div className="focus-within:ring-primary-400 relative px-3 pt-2.5 pb-1.5 ring-1 ring-gray-300 ring-inset first:rounded-md first:rounded-b-none last:rounded-md last:rounded-t-none focus-within:z-10 focus-within:ring-2">
                 <label
                   htmlFor="date"
                   className="block text-sm font-medium text-gray-900 dark:text-gray-100"
@@ -139,11 +139,11 @@ export default function ReviewForm({
                   name="date"
                   id="date"
                   value={formatLocalDate(start, { timeZone })}
-                  className="mb-1 block w-full select-none border-0 bg-gray-400 p-0 py-1 pl-2 text-gray-900 placeholder:text-gray-400 focus:ring-0 dark:bg-gray-700 dark:text-gray-100 sm:text-base sm:leading-6"
+                  className="mb-1 block w-full border-0 bg-gray-400 p-0 py-1 pl-2 text-gray-900 select-none placeholder:text-gray-400 focus:ring-0 sm:text-base sm:leading-6 dark:bg-gray-700 dark:text-gray-100"
                   readOnly
                 />
               </div>
-              <div className="relative px-3 pb-1.5 pt-2.5 ring-1 ring-inset ring-gray-300 first:rounded-md first:rounded-b-none last:rounded-md last:rounded-t-none focus-within:z-10 focus-within:ring-2 focus-within:ring-primary-400">
+              <div className="focus-within:ring-primary-400 relative px-3 pt-2.5 pb-1.5 ring-1 ring-gray-300 ring-inset first:rounded-md first:rounded-b-none last:rounded-md last:rounded-t-none focus-within:z-10 focus-within:ring-2">
                 <label
                   htmlFor="rating"
                   className="mt-2 block text-sm font-medium text-gray-900 dark:text-gray-100"
@@ -157,7 +157,7 @@ export default function ReviewForm({
                   onChange={formOnChange}
                   required
                   aria-required
-                  className="mb-1 block w-full border-0 p-0 py-1 pl-2 text-gray-900 placeholder:text-gray-400 focus:ring-0 dark:text-gray-100 sm:text-base sm:leading-6"
+                  className="mb-1 block w-full border-0 p-0 py-1 pl-2 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-base sm:leading-6 dark:text-gray-100"
                 >
                   <option disabled value="">
                     Select a rating
@@ -168,7 +168,7 @@ export default function ReviewForm({
                     </option>
                   ))}
                 </select>
-                <div className="inline-flex   text-primary-400 focus-within:rounded-sm focus-within:outline-none focus-within:ring-2 focus-within:ring-gray-400">
+                <div className="text-primary-400 inline-flex focus-within:rounded-sm focus-within:ring-2 focus-within:ring-gray-400 focus-within:outline-none">
                   {[1, 2, 3, 4, 5].map((num) => (
                     <label key={`star${num}`} className="flex items-center">
                       <input
@@ -184,7 +184,7 @@ export default function ReviewForm({
                   ))}
                 </div>
               </div>
-              <div className="relative px-3 pb-1.5 pt-2.5 ring-1 ring-inset ring-gray-300 first:rounded-md first:rounded-b-none last:rounded-md last:rounded-t-none focus-within:z-10 focus-within:ring-2 focus-within:ring-primary-400">
+              <div className="focus-within:ring-primary-400 relative px-3 pt-2.5 pb-1.5 ring-1 ring-gray-300 ring-inset first:rounded-md first:rounded-b-none last:rounded-md last:rounded-t-none focus-within:z-10 focus-within:ring-2">
                 <label
                   htmlFor="comment"
                   className="block text-sm font-medium text-gray-900 dark:text-gray-100"
@@ -197,7 +197,7 @@ export default function ReviewForm({
                   name="text"
                   id="text"
                   value={text}
-                  className="mb-1 block w-full border-0 p-0 py-1 pl-2 text-gray-900 placeholder:text-gray-400 focus:ring-0 dark:text-gray-100 sm:text-base sm:leading-6"
+                  className="mb-1 block w-full border-0 p-0 py-1 pl-2 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-base sm:leading-6 dark:text-gray-100"
                   placeholder="Leave blank or leave a comment"
                   onChange={formOnChange}
                   maxLength={300}
@@ -214,7 +214,7 @@ export default function ReviewForm({
             <button
               type="submit"
               disabled={modal === 'busy'}
-              className="inline-flex w-full justify-center rounded-md bg-primary-400 px-3 py-2 text-base font-semibold text-white shadow-sm hover:bg-primary-500 disabled:opacity-50 sm:ml-3 sm:w-auto"
+              className="bg-primary-400 hover:bg-primary-500 inline-flex w-full justify-center rounded-md px-3 py-2 text-base font-semibold text-white shadow-sm disabled:opacity-50 sm:ml-3 sm:w-auto"
             >
               {modal === 'busy' ? (
                 <>
@@ -226,7 +226,7 @@ export default function ReviewForm({
             </button>
             <button
               type="button"
-              className="hocus:bg-gray-100 mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-base font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 sm:mt-0 sm:w-auto"
+              className="hocus:bg-gray-100 mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-base font-semibold text-gray-900 shadow-sm ring-1 ring-gray-300 ring-inset sm:mt-0 sm:w-auto"
               onClick={() => {
                 dispatchRedux(setModal({ status: 'closed' }))
               }}
@@ -237,9 +237,9 @@ export default function ReviewForm({
         </form>
         <div
           className={
-            'w-full rounded-xl border-2 border-primary-400 bg-slate-100 dark:bg-slate-900 ' +
-            'ml-0 mt-8 p-8 xl:ml-8 xl:mt-0 ' +
-            'col-span-12 xl:col-span-5 '
+            'border-primary-400 w-full rounded-xl border-2 bg-slate-100 dark:bg-slate-900 ' +
+            'mt-8 ml-0 p-8 xl:mt-0 xl:ml-8' +
+            'col-span-12 xl:col-span-5'
           }
         >
           <div className="w-full p-4">

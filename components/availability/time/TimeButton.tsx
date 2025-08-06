@@ -33,7 +33,7 @@ export default function TimeButton({
         'rounded-md border border-slate-300 px-3 py-2 shadow-sm transition-all',
         'text-sm text-gray-900',
         'hocus:bg-primary-50/20 hocus:shadow-sm hocus:shadow-primary-100 hocus:border-primary-500 dark:hocus:text-gray-200',
-        'outline-primary-600 active:-mb-0.5  active:mt-0.5',
+        'outline-primary-600 active:mt-0.5 active:-mb-0.5',
         {
           'bg-primary-500 font-bold text-white': active,
           'bg-white font-semibold text-gray-900': !active,

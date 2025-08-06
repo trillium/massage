@@ -98,7 +98,7 @@ export default function BookingForm({
         <div className="flex min-h-[200px] items-center justify-center">Loading...</div>
       ) : (
         <form
-          className="mt-3 sm:ml-4 sm:mt-0"
+          className="mt-3 sm:mt-0 sm:ml-4"
           onSubmit={(event) => {
             if (onSubmit) {
               onSubmit(event)
@@ -115,7 +115,7 @@ export default function BookingForm({
         >
           <DialogTitle
             as="h3"
-            className="text-base font-semibold leading-6 text-gray-900 dark:text-gray-100"
+            className="text-base leading-6 font-semibold text-gray-900 dark:text-gray-100"
           >
             Request appointment
           </DialogTitle>

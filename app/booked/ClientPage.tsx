@@ -58,7 +58,7 @@ export default function Booked({ url, data }: ClientPageProps) {
   return (
     <>
       <div className="mx-auto max-w-xl py-8 sm:py-16">
-        <h1 className="text-3xl font-bold tracking-tight text-primary-600 dark:text-primary-500">
+        <h1 className="text-primary-600 dark:text-primary-500 text-3xl font-bold tracking-tight">
           {h1Message}
         </h1>
         <p className="mt-6 text-xl font-medium text-gray-800 dark:text-gray-200">

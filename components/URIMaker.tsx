@@ -73,7 +73,7 @@ export default function URIMaker({ events }: URIMakerProps) {
           >
             <div className="flex flex-col space-y-4">
               <div className="isolate -space-y-px rounded-md shadow-sm">
-                <div className="row relative flex px-3 pb-1.5 pt-2.5 ring-1 ring-inset ring-gray-300 first:rounded-md first:rounded-b-none last:rounded-md last:rounded-t-none focus-within:z-10 focus-within:ring-2 focus-within:ring-primary-400">
+                <div className="row focus-within:ring-primary-400 relative flex px-3 pt-2.5 pb-1.5 ring-1 ring-gray-300 ring-inset first:rounded-md first:rounded-b-none last:rounded-md last:rounded-t-none focus-within:z-10 focus-within:ring-2">
                   <div className="mx-1 w-full">
                     <label
                       htmlFor="name"
@@ -93,7 +93,7 @@ export default function URIMaker({ events }: URIMakerProps) {
                       value={state.firstName}
                       placeholder="First"
                       onChange={formOnChange}
-                      className="mb-1 block w-full border-0 p-0 py-1 pl-2 text-gray-900 placeholder:text-gray-400 focus:ring-0 dark:text-gray-100 sm:text-base sm:leading-6"
+                      className="mb-1 block w-full border-0 p-0 py-1 pl-2 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-base sm:leading-6 dark:text-gray-100"
                     />
                   </div>
                   <div className="mx-1 w-full">
@@ -115,12 +115,12 @@ export default function URIMaker({ events }: URIMakerProps) {
                       value={state.lastName}
                       placeholder="Last"
                       onChange={formOnChange}
-                      className="mb-1 block w-full border-0 p-0 py-1 pl-2 text-gray-900 placeholder:text-gray-400 focus:ring-0 dark:text-gray-100 sm:text-base sm:leading-6"
+                      className="mb-1 block w-full border-0 p-0 py-1 pl-2 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-base sm:leading-6 dark:text-gray-100"
                     />
                   </div>
                 </div>
 
-                <div className="row relative flex px-3 pb-1.5 pt-2.5 ring-1 ring-inset ring-gray-300 first:rounded-md first:rounded-b-none last:rounded-md last:rounded-t-none focus-within:z-10 focus-within:ring-2 focus-within:ring-primary-400">
+                <div className="row focus-within:ring-primary-400 relative flex px-3 pt-2.5 pb-1.5 ring-1 ring-gray-300 ring-inset first:rounded-md first:rounded-b-none last:rounded-md last:rounded-t-none focus-within:z-10 focus-within:ring-2">
                   <div className="mx-1 w-full">
                     <label
                       htmlFor="name"
@@ -140,7 +140,7 @@ export default function URIMaker({ events }: URIMakerProps) {
                       value={state.start}
                       placeholder="start datetime"
                       onChange={formOnChange}
-                      className="mb-1 block w-full border-0 p-0 py-1 pl-2 text-gray-900 placeholder:text-gray-400 focus:ring-0 dark:text-gray-100 sm:text-base sm:leading-6"
+                      className="mb-1 block w-full border-0 p-0 py-1 pl-2 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-base sm:leading-6 dark:text-gray-100"
                     />
                   </div>
                   <div className="mx-1 w-full">
@@ -160,7 +160,7 @@ export default function URIMaker({ events }: URIMakerProps) {
                       value={state.end}
                       placeholder="end datetime"
                       onChange={formOnChange}
-                      className="mb-1 block w-full border-0 p-0 py-1 pl-2 text-gray-900 placeholder:text-gray-400 focus:ring-0 dark:text-gray-100 sm:text-base sm:leading-6"
+                      className="mb-1 block w-full border-0 p-0 py-1 pl-2 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-base sm:leading-6 dark:text-gray-100"
                     />
                   </div>
                 </div>
@@ -175,7 +175,7 @@ export default function URIMaker({ events }: URIMakerProps) {
               <button
                 type="submit"
                 disabled={modal === 'busy'}
-                className="inline-flex w-full justify-center rounded-md bg-primary-400 px-3 py-2 text-base font-semibold text-white shadow-sm hover:bg-primary-500 disabled:opacity-50 sm:ml-3 sm:w-auto"
+                className="bg-primary-400 hover:bg-primary-500 inline-flex w-full justify-center rounded-md px-3 py-2 text-base font-semibold text-white shadow-sm disabled:opacity-50 sm:ml-3 sm:w-auto"
               >
                 {modal === 'busy' ? (
                   <>
@@ -187,7 +187,7 @@ export default function URIMaker({ events }: URIMakerProps) {
               </button>
               <button
                 type="button"
-                className="hocus:bg-gray-100 mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-base font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 sm:mt-0 sm:w-auto"
+                className="hocus:bg-gray-100 mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-base font-semibold text-gray-900 shadow-sm ring-1 ring-gray-300 ring-inset sm:mt-0 sm:w-auto"
                 onClick={() => {
                   dispatchRedux(setModal({ status: 'closed' }))
                 }}
@@ -198,9 +198,9 @@ export default function URIMaker({ events }: URIMakerProps) {
           </form>
           <div
             className={
-              'w-full rounded-xl border-2 border-primary-400 bg-slate-100 dark:bg-slate-900 ' +
-              'ml-0 mt-8 p-8 xl:ml-8 xl:mt-0 ' +
-              'col-span-12 xl:col-span-5 '
+              'border-primary-400 w-full rounded-xl border-2 bg-slate-100 dark:bg-slate-900 ' +
+              'mt-8 ml-0 p-8 xl:mt-0 xl:ml-8' +
+              'col-span-12 xl:col-span-5'
             }
           >
             <div className="w-full p-4">
@@ -227,12 +227,12 @@ export default function URIMaker({ events }: URIMakerProps) {
             value={uriEncoded}
             placeholder="Hashed URI"
             readOnly
-            className="border-secondary-500 block w-full flex-1 rounded-md border-2 p-0 pl-2 pt-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 dark:text-gray-100 sm:text-base sm:leading-6"
+            className="border-secondary-500 block w-full flex-1 rounded-md border-2 p-0 pt-1 pl-2 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-base sm:leading-6 dark:text-gray-100"
           />
         </div>
         <button
           type="submit"
-          className="ml-2 h-8  rounded-md bg-primary-500 px-4 font-bold text-white"
+          className="bg-primary-500 ml-2 h-8 rounded-md px-4 font-bold text-white"
         >
           Copy
         </button>
@@ -288,7 +288,7 @@ function CalendarEvent({
 
   return (
     <li className="pb-2">
-      <h3 className="font-bold text-primary-400">{summary}</h3>
+      <h3 className="text-primary-400 font-bold">{summary}</h3>
       <div className="px-4">
         <p>{startDateTime}</p>
         <p>{endDateTime}</p>
@@ -296,7 +296,7 @@ function CalendarEvent({
         {description && <p>{description}</p>}
       </div>
       <button
-        className="m-4 rounded-md border border-primary-400 px-4 py-2 hover:bg-primary-400 hover:font-bold  "
+        className="border-primary-400 hover:bg-primary-400 m-4 rounded-md border px-4 py-2 hover:font-bold"
         onClick={() => handleSetStartEnd({ start: start.dateTime, end: end.dateTime })}
       >
         Set Start/End

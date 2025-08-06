@@ -34,7 +34,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<Sea
 
   return (
     <>
-      <div className="mb-10 flex flex-col items-center justify-center rounded-lg border-2 border-primary-500 p-5 text-2xl font-bold text-red-500">
+      <div className="border-primary-500 mb-10 flex flex-col items-center justify-center rounded-lg border-2 p-5 text-2xl font-bold text-red-500">
         <p>Note, looking to rebuild this here:</p>
         <div>
           <a

@@ -57,11 +57,7 @@ export default function EmailMockComponent({
           }}
           role="button"
           tabIndex={0}
-          className={`
-            [&_a] [&_a]:text-blue-600 [&_a]:underline
-            hover:[&_a]:text-blue-700 dark:[&_a]:text-blue-400 dark:hover:[&_a]:text-blue-300
-            [&_div]:text-gray-800 dark:[&_div]:text-gray-200 [&_p]:mb-2
-          `}
+          className={`[&_a] [&_a]:text-blue-600 [&_a]:underline hover:[&_a]:text-blue-700 dark:[&_a]:text-blue-400 dark:hover:[&_a]:text-blue-300 [&_div]:text-gray-800 dark:[&_div]:text-gray-200 [&_p]:mb-2`}
         />
       </div>
 

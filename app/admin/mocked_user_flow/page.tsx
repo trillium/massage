@@ -31,13 +31,13 @@ export default function MockedUserFlowPage() {
             <span className="text-xl font-bold text-gray-900 dark:text-gray-100">
               Mocked User Flow - Admin
             </span>
-            <span className="hidden text-sm text-gray-600 dark:text-gray-400 md:inline">
+            <span className="hidden text-sm text-gray-600 md:inline dark:text-gray-400">
               Simulates the entire booking flow (no emails or calendar events)
             </span>
           </div>
           <button
             onClick={handleReset}
-            className="whitespace-nowrap rounded bg-gray-600 px-4 py-2 text-sm font-medium text-white hover:bg-gray-700 dark:bg-gray-700 dark:hover:bg-gray-600"
+            className="rounded bg-gray-600 px-4 py-2 text-sm font-medium whitespace-nowrap text-white hover:bg-gray-700 dark:bg-gray-700 dark:hover:bg-gray-600"
           >
             Reset Flow
           </button>

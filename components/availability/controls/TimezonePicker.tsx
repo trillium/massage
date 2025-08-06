@@ -17,7 +17,7 @@ export default function TimezonePicker() {
     <div className="flex-grow">
       <label
         htmlFor="location"
-        className="leading-0 block text-sm font-medium text-gray-900 dark:text-gray-100"
+        className="block text-sm leading-0 font-medium text-gray-900 dark:text-gray-100"
       >
         Timezone
       </label>
@@ -26,7 +26,7 @@ export default function TimezonePicker() {
         value={selectedTimeZoneValue}
         id="location"
         name="location"
-        className="mt-1 block h-9 w-full overflow-x-clip rounded-md border-0 py-1.5 pl-3 pr-10 leading-6 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-primary-400 dark:text-gray-100"
+        className="focus:ring-primary-400 mt-1 block h-9 w-full overflow-x-clip rounded-md border-0 py-1.5 pr-10 pl-3 leading-6 text-gray-900 ring-1 ring-gray-300 ring-inset focus:ring-2 dark:text-gray-100"
         onChange={(e) => {
           dispatchRedux(setTimeZone(e.currentTarget.value))
         }}

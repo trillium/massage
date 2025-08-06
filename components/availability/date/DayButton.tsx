@@ -1,5 +1,6 @@
 import clsx from 'clsx'
 import type { DetailedHTMLProps, LabelHTMLAttributes } from 'react'
+import React from 'react'
 import { twMerge } from 'tailwind-merge'
 
 import Day from 'lib/day'
@@ -18,7 +19,7 @@ export default function DayButton({
   availabilityScore,
   hasAvailability,
   ...props
-}: DayProps): JSX.Element {
+}: DayProps): React.JSX.Element {
   const { selectedDate } = useReduxAvailability()
 
   const dispatchRedux = useAppDispatch()
@@ -41,14 +42,14 @@ export default function DayButton({
     <div>
       <label
         htmlFor={`day-${date.getDay()}`}
-        className={twMerge(
-          clsx('relative flex flex-col items-center transition-all', props.className, {
-            'hocus:shadow-sm hocus:shadow-primary-100 hocus:z-10 cursor-pointer bg-slate-300 font-semibold text-slate-800 dark:bg-slate-800 dark:text-slate-200':
-              !isDisabled,
-            'bg-white text-gray-500 dark:bg-slate-200 dark:text-gray-500': isDisabled,
-            'bg-primary-500 text-white dark:bg-primary-600 dark:text-gray-100': isSelected,
-          })
-        )}
+        className={clsx('relative flex flex-col items-center transition-all', props.className, {
+          'hocus:shadow-sm hocus:shadow-primary-100 hocus:z-10 cursor-pointer font-semibold':
+            !isDisabled,
+          'bg-slate-300 text-slate-800 dark:bg-slate-800 dark:text-slate-200':
+            !isDisabled && !isSelected,
+          'bg-white text-gray-500 dark:bg-slate-200 dark:text-gray-500': isDisabled,
+          'bg--500 dark:bg-primary-600 text-white dark:text-gray-100': isSelected,
+        })}
         aria-label={`${isToday ? 'Today' : ''} ${
           isDisabled ? 'Unavailable' : 'Available'
         } date ${date.toString()} in calendar`}
@@ -63,9 +64,9 @@ export default function DayButton({
           disabled={isDisabled}
           checked={isSelected}
         />
-        <div className="m-4 flex flex-col items-center justify-between leading-none">
+        <div className="m-4 flex flex-col items-center justify-between gap-2 leading-none">
           <p
-            className={clsx('leading-0 flex h-3 items-center text-[0.55rem] font-semibold', {
+            className={clsx('flex h-3 items-center text-[0.55rem] leading-0 font-semibold', {
               'text-white': isSelected,
               'text-gray-500 dark:text-gray-500': isDisabled && !isSelected,
               'text-primary-700 dark:text-primary-600': !isSelected,
@@ -73,7 +74,7 @@ export default function DayButton({
           >
             {isToday && 'TODAY'}
           </p>
-          <time className="leading-0 flex items-center text-base">{date.getDay()}</time>
+          <time className="flex items-center text-base leading-0">{date.getDay()}</time>
           <figure className="flex h-3 items-center justify-center space-x-0.5" aria-hidden="true">
             {Array.from({ length: isDisabled ? 0 : availabilityScore }).map((_, index) => (
               <div

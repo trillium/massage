@@ -16,7 +16,7 @@ const BookingFormActions: React.FC<BookingFormActionsProps> = ({ onSubmitLabel =
       <button
         type="submit"
         disabled={modal === 'busy'}
-        className="inline-flex w-full justify-center rounded-md bg-primary-400 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-500 disabled:opacity-50 sm:ml-3 sm:w-auto"
+        className="bg-primary-400 hover:bg-primary-500 inline-flex w-full justify-center rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm disabled:opacity-50 sm:ml-3 sm:w-auto"
       >
         {modal === 'busy' ? (
           <>
@@ -28,7 +28,7 @@ const BookingFormActions: React.FC<BookingFormActionsProps> = ({ onSubmitLabel =
       </button>
       <button
         type="button"
-        className="hocus:bg-gray-100 mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 sm:mt-0 sm:w-auto"
+        className="hocus:bg-gray-100 mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-gray-300 ring-inset sm:mt-0 sm:w-auto"
         onClick={() => {
           dispatchRedux(setModal({ status: 'closed' }))
         }}

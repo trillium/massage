@@ -73,7 +73,7 @@ const renderContent = (content: string | ContentItem[]) => {
                 <p key={index} className="text-gray-700 dark:text-gray-300">
                   <Link
                     href={item.href!}
-                    className="text-primary-600 underline hover:text-primary-800 dark:text-primary-400 dark:hover:text-primary-300"
+                    className="text-primary-600 hover:text-primary-800 dark:text-primary-400 dark:hover:text-primary-300 underline"
                   >
                     {item.text || item.href}
                   </Link>
@@ -107,7 +107,7 @@ const renderContent = (content: string | ContentItem[]) => {
                 <p key={index + before.length} className="text-gray-700 dark:text-gray-300">
                   <Link
                     href={item.href!}
-                    className="text-primary-600 underline hover:text-primary-800 dark:text-primary-400 dark:hover:text-primary-300"
+                    className="text-primary-600 hover:text-primary-800 dark:text-primary-400 dark:hover:text-primary-300 underline"
                   >
                     {item.text || item.href}
                   </Link>
@@ -184,7 +184,7 @@ const renderContent = (content: string | ContentItem[]) => {
               <p key={index} className="text-gray-700 dark:text-gray-300">
                 <Link
                   href={item.href!}
-                  className="text-primary-600 underline hover:text-primary-800 dark:text-primary-400 dark:hover:text-primary-300"
+                  className="text-primary-600 hover:text-primary-800 dark:text-primary-400 dark:hover:text-primary-300 underline"
                 >
                   {item.text || item.href}
                 </Link>
@@ -214,11 +214,11 @@ const FAQCard = ({ questions: questionsProp }: FAQCardProps) => {
               <>
                 <DisclosureButton
                   id={item.id}
-                  className="flex w-full justify-between rounded-lg border bg-none px-4 py-2 text-left font-medium text-gray-900 hover:bg-primary-200 focus:outline-none focus-visible:ring focus-visible:ring-primary-500/75 dark:border-primary-400 dark:text-white hover:dark:text-gray-900"
+                  className="hover:bg-primary-200 focus-visible:ring-primary-500/75 dark:border-primary-400 flex w-full justify-between rounded-lg border bg-none px-4 py-2 text-left font-medium text-gray-900 focus:outline-none focus-visible:ring dark:text-white hover:dark:text-gray-900"
                 >
                   <span>{item.q}</span>
                   <ChevronUpIcon
-                    className={`${open ? 'rotate-180 transform' : ''} h-5 w-5 text-primary-500`}
+                    className={`${open ? 'rotate-180 transform' : ''} text-primary-500 h-5 w-5`}
                   />
                 </DisclosureButton>
                 <Transition
@@ -229,7 +229,7 @@ const FAQCard = ({ questions: questionsProp }: FAQCardProps) => {
                   leaveFrom="transform scale-100 opacity-100"
                   leaveTo="transform scale-95 opacity-0"
                 >
-                  <DisclosurePanel className="px-4 pb-2 pt-4">
+                  <DisclosurePanel className="px-4 pt-4 pb-2">
                     {renderContent(item.a)}
                   </DisclosurePanel>
                 </Transition>

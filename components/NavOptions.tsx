@@ -48,9 +48,9 @@ const RenderNavLink = ({ navItem }: { navItem: NavItem }) => {
         key={navItem.title}
         href={navItem.href}
         className={clsx(
-          'text-sm font-medium hover:text-primary-500 dark:hover:text-primary-400 xs:text-base sm:block',
+          'hover:text-primary-500 dark:hover:text-primary-400 xs:text-base text-sm font-medium sm:block',
           {
-            'scale-105 font-bold text-primary-400 underline underline-offset-2': isActive,
+            'text-primary-400 scale-105 font-bold underline underline-offset-2': isActive,
             'text-gray-900 dark:text-gray-100': !isActive,
           }
         )}
@@ -66,7 +66,7 @@ const RenderNavLink = ({ navItem }: { navItem: NavItem }) => {
           {navItem.title && (
             <MenuButton
               className={
-                'hidden font-medium text-gray-900 hover:text-primary-500 dark:text-gray-100  dark:hover:text-primary-400 sm:block'
+                'hover:text-primary-500 dark:hover:text-primary-400 hidden font-medium text-gray-900 sm:block dark:text-gray-100'
               }
             >
               {navItem.title}
@@ -82,7 +82,7 @@ const RenderNavLink = ({ navItem }: { navItem: NavItem }) => {
           leaveFrom="transform opacity-100 scale-100"
           leaveTo="transform opacity-0 scale-95"
         >
-          <MenuItems className="absolute right-0 mt-2 w-32 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-gray-800">
+          <MenuItems className="ring-opacity-5 absolute right-0 mt-2 w-32 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black focus:outline-none dark:bg-gray-800">
             <div className="p-1">
               {navItem.children &&
                 navItem.children.map((link: NavItemChild) => (

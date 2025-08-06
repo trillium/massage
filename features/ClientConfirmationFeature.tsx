@@ -51,7 +51,7 @@ export default function Confirmation() {
   return (
     <>
       <div className="w-full max-w-2xl px-4 py-4 sm:px-0 sm:py-8">
-        <h1 className="text-3xl font-bold tracking-tight text-primary-500 dark:text-primary-400 sm:text-5xl">
+        <h1 className="text-primary-500 dark:text-primary-400 text-3xl font-bold tracking-tight sm:text-5xl">
           Thanks!
         </h1>
         <p className="mt-6 text-xl font-medium text-gray-800 dark:text-gray-200">

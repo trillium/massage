@@ -13,7 +13,7 @@ export default function PaymentMethodField({ selected, onChange }: PaymentMethod
     <div>
       <p className="text-sm font-medium">Intended payment method</p>
       <fieldset className="mt-2">
-        <div className="space-y-4 sm:flex sm:items-center sm:space-x-4 sm:space-y-0">
+        <div className="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-4">
           {paymentMethod.map((payType) => (
             <div key={payType.value} className="flex items-center">
               <input
@@ -23,7 +23,7 @@ export default function PaymentMethodField({ selected, onChange }: PaymentMethod
                 type="radio"
                 value={payType.value}
                 checked={selected === payType.value}
-                className="h-4 w-4 border-gray-300 text-primary-600 focus:ring-primary-400"
+                className="text-primary-600 focus:ring-primary-400 h-4 w-4 border-gray-300"
                 onChange={onChange}
               />
               <label

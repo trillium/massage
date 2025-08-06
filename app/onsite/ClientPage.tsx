@@ -112,7 +112,7 @@ function ClientPage({ duration, children }: { duration: number; children?: React
   return (
     <>
       <div className="flex w-full items-center justify-center align-middle">
-        <h2 className="py-2 text-lg font-bold text-primary-500 dark:text-primary-400">
+        <h2 className="text-primary-500 dark:text-primary-400 py-2 text-lg font-bold">
           Your link: {pathString}
         </h2>
       </div>
@@ -131,7 +131,7 @@ function ClientPage({ duration, children }: { duration: number; children?: React
             id="eventName"
             value={formik.values.eventName}
             onChange={formik.handleChange}
-            className="mb-1 block w-full rounded-md border-2 border-slate-100 p-0 py-1 pl-2 text-gray-900 placeholder:text-gray-400 focus:border-primary-500 focus:ring-2 focus:ring-primary-500 dark:border-white dark:text-gray-100 sm:text-base sm:leading-6"
+            className="focus:border-primary-500 focus:ring-primary-500 mb-1 block w-full rounded-md border-2 border-slate-100 p-0 py-1 pl-2 text-gray-900 placeholder:text-gray-400 focus:ring-2 sm:text-base sm:leading-6 dark:border-white dark:text-gray-100"
             placeholder="e.g., WeWork Playa Vista"
             maxLength={60}
             required
@@ -156,7 +156,7 @@ function ClientPage({ duration, children }: { duration: number; children?: React
                     id={`checked-checkbox-${duration}`}
                     type="checkbox"
                     value={duration}
-                    className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-400"
+                    className="focus:ring-primary-500 dark:focus:ring-primary-400 h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800"
                     onChange={formCheckboxOnChange}
                     required
                     aria-required
@@ -186,7 +186,7 @@ function ClientPage({ duration, children }: { duration: number; children?: React
                   type="radio"
                   name="paymentOptions"
                   value={option}
-                  className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-400"
+                  className="focus:ring-primary-500 dark:focus:ring-primary-400 h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800"
                   onChange={formik.handleChange}
                   required
                 />

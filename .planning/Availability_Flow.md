@@ -532,25 +532,21 @@ export async function fetchContainersByQuery({
 #### Complete User Journey
 
 1. **Page Load**:
-
    - `createPageConfiguration` fetches availability data
    - `InitialUrlUtility` sets up initial Redux state
    - Components render with available slots
 
 2. **Duration Selection**:
-
    - User selects duration via `DurationPicker`
    - `UpdateSlotsUtility` regenerates slots for new duration
    - Calendar and TimeList update automatically
 
 3. **Date Selection**:
-
    - User clicks date in `Calendar` component
    - `setSelectedDate` updates Redux state
    - `TimeList` filters to show times for selected date
 
 4. **Time Selection**:
-
    - User clicks time slot in `TimeList`
    - `setSelectedTime` updates Redux state
    - Booking modal opens with selected time

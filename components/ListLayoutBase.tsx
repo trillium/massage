@@ -44,7 +44,7 @@ export function ListLayoutBase({
                   {dateToSide && (
                     <dl className="hidden xl:block">
                       <dt className="sr-only">Published on</dt>
-                      <dd className="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
+                      <dd className="text-base leading-6 font-medium text-gray-500 dark:text-gray-400">
                         <time dateTime={date} suppressHydrationWarning>
                           {formatDate(date, siteMetadata.locale)}
                         </time>
@@ -53,10 +53,10 @@ export function ListLayoutBase({
                   )}
                   <div className={clsx({ 'space-y-5 xl:col-span-3': dateToSide === true })}>
                     <Link className="group" href={`/${path}`}>
-                      <div className="mb-2 rounded-lg border border-transparent p-2 group-hover:border-primary-400 group-hover:bg-primary-100 dark:hover:bg-primary-900">
+                      <div className="group-hover:border-primary-400 group-hover:bg-primary-100 dark:hover:bg-primary-900 mb-2 rounded-lg border border-transparent p-2">
                         <dl className={clsx({ 'block xl:hidden': dateToSide, block: !dateToSide })}>
                           <dt className="sr-only">Published on</dt>
-                          <dd className="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
+                          <dd className="text-base leading-6 font-medium text-gray-500 dark:text-gray-400">
                             <time dateTime={date} suppressHydrationWarning>
                               {formatDate(date, siteMetadata.locale)}
                             </time>
@@ -65,7 +65,7 @@ export function ListLayoutBase({
 
                         <div>
                           <div>
-                            <h2 className="text-2xl font-bold leading-8 tracking-tight">
+                            <h2 className="text-2xl leading-8 font-bold tracking-tight">
                               <p className="text-gray-900 dark:text-gray-100">{title}</p>
                             </h2>
                           </div>
@@ -73,7 +73,7 @@ export function ListLayoutBase({
                             {summary}
                           </div>
                           {readMore && (
-                            <div className="font-medium leading-6 text-primary-500 group-hover:text-primary-300">
+                            <div className="text-primary-500 group-hover:text-primary-300 leading-6 font-medium">
                               Read more &rarr;
                             </div>
                           )}

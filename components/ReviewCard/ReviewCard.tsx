@@ -57,13 +57,13 @@ const OtherCard = ({ enableSorting = false }) => (
           <div className="col-span-12 flex items-center xl:col-span-5">
             <div className="box mx-auto flex w-full flex-col gap-y-4 max-xl:max-w-3xl">
               {[5, 4, 3, 2, 1].map((num) => (
-                <div key={'num' + num} className="flex w-full items-center text-primary-400">
+                <div key={'num' + num} className="text-primary-400 flex w-full items-center">
                   <p className="mr-2 py-1 text-lg font-medium text-black dark:text-white">{num}</p>
                   <LittleStar />
-                  <p className="ml-5 mr-3 h-2 w-full rounded-3xl bg-gray-200 sm:min-w-72">
+                  <p className="mr-3 ml-5 h-2 w-full rounded-3xl bg-gray-200 sm:min-w-72">
                     <span
                       style={{ width: `${ratingPercent[num]}%` }}
-                      className={`flex h-full rounded-3xl bg-primary-500`}
+                      className={`bg-primary-500 flex h-full rounded-3xl`}
                     ></span>
                   </p>
                   <p className="mr-2 w-5 py-1 text-lg font-medium text-black dark:text-white">
@@ -77,7 +77,7 @@ const OtherCard = ({ enableSorting = false }) => (
             <div
               className={clsx(
                 'flex h-full w-full items-center justify-center rounded-3xl max-xl:mx-auto max-xl:max-w-3xl max-lg:py-8',
-                'border-2 border-primary-400 bg-gray-100 dark:bg-slate-900'
+                'border-primary-400 border-2 bg-gray-100 dark:bg-slate-900'
               )}
             >
               <div className="flex w-full items-center justify-between">
@@ -104,7 +104,7 @@ const OtherCard = ({ enableSorting = false }) => (
 
         <MostHelpful />
 
-        <div className="flex flex-col items-center justify-between pt-8 max-xl:mx-auto  max-xl:max-w-3xl sm:flex-row">
+        <div className="flex flex-col items-center justify-between pt-8 max-xl:mx-auto max-xl:max-w-3xl sm:flex-row">
           <p className="py-1 text-lg font-normal text-black dark:text-white">
             {review_data.length} reviews
           </p>
@@ -129,28 +129,28 @@ const ScoreDisplay = ({
   return (
     <div
       className={clsx(
-        'flex flex-col items-center justify-center border-gray-200 pt-6  sm:pt-0',
-        'last:border-t first:sm:pr-3 last:sm:border-l last:sm:border-t-0 last:sm:pl-3'
+        'flex flex-col items-center justify-center border-gray-200 pt-6 sm:pt-0',
+        'last:border-t first:sm:pr-3 last:sm:border-t-0 last:sm:border-l last:sm:pl-3'
       )}
     >
       <h2 className="mb-4 text-center text-5xl font-bold text-black dark:text-gray-200">
         {averageStr}
       </h2>
-      <div className="mb-4 flex items-center gap-3 text-primary-400">
+      <div className="text-primary-400 mb-4 flex items-center gap-3">
         <Star />
         <Star />
         <Star />
         <Star />
         <Star percent={0.6 / 5} />
       </div>
-      <p className="text-lg font-normal leading-8 text-gray-400">{text}</p>
+      <p className="text-lg leading-8 font-normal text-gray-400">{text}</p>
     </div>
   )
 }
 
 const MostHelpful = () => (
   <div className="border-b border-gray-200 pb-8 max-xl:mx-auto max-xl:max-w-3xl">
-    <h4 className="mb-6 text-3xl font-semibold leading-10 text-black dark:text-white">
+    <h4 className="mb-6 text-3xl leading-10 font-semibold text-black dark:text-white">
       Most helpful reviews
     </h4>
     {(review_data as ReviewType[])
@@ -192,8 +192,8 @@ export const ReviewSnippet = ({
 
   return (
     <div className="pt-4">
-      <div className="mb-4 flex flex-col justify-between sm:flex-row  sm:items-center">
-        <div className="flex items-center gap-3 text-primary-400">
+      <div className="mb-4 flex flex-col justify-between sm:flex-row sm:items-center">
+        <div className="text-primary-400 flex items-center gap-3">
           {Array.from({ length: rating || 0 }, (_, i) => (
             <Star key={i} size={30} />
           ))}
@@ -202,14 +202,14 @@ export const ReviewSnippet = ({
           ))}
         </div>
         <div className="flex items-center gap-3">
-          <h6 className="text-lg font-semibold capitalize leading-8 text-black dark:text-white">
+          <h6 className="text-lg leading-8 font-semibold text-black capitalize dark:text-white">
             {displayName}
           </h6>
-          {displayDate && <p className="text-base font-medium leading-7 text-gray-400">{date}</p>}
+          {displayDate && <p className="text-base leading-7 font-medium text-gray-400">{date}</p>}
         </div>
       </div>
 
-      <p className="text-lg font-normal leading-8 text-gray-800 dark:text-gray-400 ">{text}</p>
+      <p className="text-lg leading-8 font-normal text-gray-800 dark:text-gray-400">{text}</p>
     </div>
   )
 }
