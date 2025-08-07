@@ -265,6 +265,7 @@ export type SlugConfigurationType = {
   location: LocationObject | null
   locationIsReadOnly?: boolean
   eventContainer: string | null
+  blockingScope?: 'event' | 'general' // 'event' blocks only this event type, 'general' blocks all availability
   promoEndDate?: string | null // Format: YYYY-MM-DD
   pricing: PricingType | null
   discount: DiscountType | null

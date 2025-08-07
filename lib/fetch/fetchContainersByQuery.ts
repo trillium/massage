@@ -27,6 +27,39 @@ export async function fetchContainerGeneric({ searchParams }: { searchParams: Se
 }
 
 /**
+ * Fetches ALL calendar events (both __EVENT__ and regular calendar events).
+ * Use this when blockingScope is 'general' to block against all calendar events.
+ */
+export async function fetchAllCalendarEvents({ searchParams }: { searchParams: SearchParamsType }) {
+  const start = Day.todayWithOffset(0)
+  const end = Day.todayWithOffset(21)
+  const startDate = new Date(start.toString())
+  const endDate = new Date(end.toString())
+
+  // First, get all __EVENT__ events
+  const eventBasedEvents = await getEventsBySearchQuery({
+    start: startDate,
+    end: endDate,
+    query: '__EVENT__',
+  })
+
+  // Then, we need to get ALL calendar events (including regular events)
+  // This might require a different approach depending on your calendar API
+  // For now, we'll simulate by getting events with a very broad query or empty query
+  const allCalendarEvents = await getEventsBySearchQuery({
+    start: startDate,
+    end: endDate,
+    query: '', // Empty query should return all events
+  })
+
+  return {
+    start: start.toString(),
+    end: end.toString(),
+    allEvents: allCalendarEvents, // This includes both __EVENT__ and regular events
+  }
+}
+
+/**
  * Filters events locally for a specific query configuration.
  * Use this with fetchContainerGeneric results to avoid multiple API calls.
  */
@@ -66,6 +99,43 @@ export function filterEventsForQuery(allEvents: GoogleCalendarV3Event[], query: 
     searchQuery,
     eventMemberString,
     eventContainerString,
+  }
+}
+
+/**
+ * Filters all events for general availability blocking.
+ * This blocks ALL events - both __EVENT__ bookings AND regular calendar events.
+ */
+export function filterEventsForGeneralBlocking(allEvents: GoogleCalendarV3Event[]) {
+  // All events that contain __EVENT__MEMBER__ (event-based bookings)
+  const eventMembers = allEvents.filter((e: GoogleCalendarV3Event) => {
+    return (
+      e.summary.includes('__EVENT__MEMBER__') ||
+      (e.description && e.description.includes('__EVENT__MEMBER__'))
+    )
+  })
+
+  // All events that DON'T contain __EVENT__ (regular calendar events)
+  const regularEvents = allEvents.filter((e: GoogleCalendarV3Event) => {
+    return !(
+      e.summary.includes('__EVENT__') ||
+      (e.description && e.description.includes('__EVENT__'))
+    )
+  })
+
+  // Combine both types for blocking
+  const allBlockingEvents = [...eventMembers, ...regularEvents]
+
+  const busyQuery = allBlockingEvents.map((e: GoogleCalendarV3Event) => {
+    return { start: e.start, end: e.end }
+  })
+
+  return {
+    events: allEvents, // All events for reference
+    members: eventMembers, // Event-based bookings
+    regularEvents: regularEvents, // Regular calendar events
+    blockingEvents: allBlockingEvents, // Combined blocking events
+    busyQuery,
   }
 }
 

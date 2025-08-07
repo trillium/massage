@@ -14,6 +14,7 @@ export const initialState: SlugConfigurationType = {
   location: null,
   locationIsReadOnly: false,
   eventContainer: null,
+  blockingScope: undefined, // defaults to 'event' behavior if not specified
   discount: null,
   leadTimeMinimum: null, // in minutes,
   instantConfirm: false,
@@ -60,6 +61,9 @@ export const configSlice: Slice<SlugConfigurationType> = createSlice({
       // console.log('[configSlice]', action)
       state.eventContainer = action.payload
     },
+    setBlockingScope: (state, action: PayloadAction<'event' | 'general' | undefined>) => {
+      state.blockingScope = action.payload
+    },
     setDiscount: (state, action: PayloadAction<DiscountType>) => {
       state.discount = action.payload
     },
@@ -88,6 +92,7 @@ export const {
   setAllowedDurations,
   setLocation,
   setEventContainer,
+  setBlockingScope,
   setDiscount,
   setLeadTimeMinimum,
   setInstantConfirm,

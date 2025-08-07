@@ -4,7 +4,13 @@ import {
   SlugConfigurationType,
   StringInterval,
 } from '@/lib/types'
-import { fetchContainersByQuery } from '@/lib/fetch/fetchContainersByQuery'
+import {
+  fetchContainersByQuery,
+  fetchContainerGeneric,
+  fetchAllCalendarEvents,
+  filterEventsForQuery,
+  filterEventsForGeneralBlocking,
+} from '@/lib/fetch/fetchContainersByQuery'
 import { fetchData } from '@/lib/fetch/fetchData'
 
 type MockedData = {
@@ -69,10 +75,32 @@ export async function fetchPageData(
     configuration?.eventContainer
   ) {
     const query = configuration?.eventContainer || bookingSlug!
-    const containerData = await fetchContainersByQuery({
-      searchParams: resolvedParams,
-      query,
-    })
+    const blockingScope = configuration?.blockingScope || 'event' // default to 'event' behavior
+
+    let containerData
+
+    if (blockingScope === 'general') {
+      // For general blocking, fetch ALL calendar events and filter for general blocking
+      const allEventsData = await fetchAllCalendarEvents({
+        searchParams: resolvedParams,
+      })
+
+      const generalBlocking = filterEventsForGeneralBlocking(allEventsData.allEvents)
+      const querySpecific = filterEventsForQuery(allEventsData.allEvents, query)
+
+      containerData = {
+        start: allEventsData.start,
+        end: allEventsData.end,
+        busy: generalBlocking.busyQuery, // Block against ALL events
+        containers: querySpecific.containers, // But still only show containers for this query
+      }
+    } else {
+      // For event-only blocking (default behavior), use the original logic
+      containerData = await fetchContainersByQuery({
+        searchParams: resolvedParams,
+        query,
+      })
+    }
 
     // Convert busy times to the expected string format
     const busyConverted = containerData.busy.map((busyItem) => ({

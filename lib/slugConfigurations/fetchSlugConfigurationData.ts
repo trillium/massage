@@ -105,6 +105,7 @@ const slugConfigurations: SlugConfigurationType[] = [
       amountDollars: 70,
     },
     eventContainer: 'free-30',
+    blockingScope: 'general',
   },
 ]
 
