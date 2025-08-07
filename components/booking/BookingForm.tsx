@@ -149,6 +149,7 @@ export default function BookingForm({
             endString={endString}
             price={price}
             acceptingPayment={acceptingPayment}
+            discount={config.discount}
           />
           <div className="flex flex-col space-y-4">
             <div className="isolate -space-y-px rounded-md shadow-sm">

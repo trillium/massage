@@ -1,4 +1,6 @@
 import React from 'react'
+import { DiscountType } from '@/lib/types'
+import { GeneratePrice } from '@/components/utilities/GeneratePriceAtom'
 
 interface BookingSummaryProps {
   dateString: string
@@ -6,6 +8,7 @@ interface BookingSummaryProps {
   endString: string
   price?: string | number
   acceptingPayment: boolean
+  discount?: DiscountType | null
 }
 
 const BookingSummary: React.FC<BookingSummaryProps> = ({
@@ -14,6 +17,7 @@ const BookingSummary: React.FC<BookingSummaryProps> = ({
   endString,
   price,
   acceptingPayment,
+  discount,
 }) => (
   <div className="border-l-primary-400 dark:bg-primary-50/10 mt-3 mb-4 rounded-md border-l-4 bg-white p-3">
     <p className="text-primary-800 dark:text-primary-400 text-sm font-semibold md:text-base">
@@ -22,7 +26,11 @@ const BookingSummary: React.FC<BookingSummaryProps> = ({
     <p className="text-xs md:text-sm">
       {startString} - {endString}
     </p>
-    {acceptingPayment && <p className="text-xs md:text-sm">${price}</p>}
+    {acceptingPayment && (
+      <p className="text-xs md:text-sm">
+        <GeneratePrice price={Number(price)} discount={discount} />
+      </p>
+    )}
   </div>
 )
 
