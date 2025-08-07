@@ -61,7 +61,7 @@ export async function createPageConfiguration({
   })
 
   // 6. Generate container strings
-  const containerStrings = generateContainerStrings(bookingSlug)
+  const containerStrings = generateContainerStrings(bookingSlug, configuration)
 
   // 7. Build duration and pricing properties
   const allowedDurations = configuration?.allowedDurations ?? ALLOWED_DURATIONS

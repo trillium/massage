@@ -62,10 +62,16 @@ export async function fetchPageData(
     return result
   }
 
-  if (configuration?.type === 'scheduled-site' && !!bookingSlug) {
+  // Check for container-based availability
+  // This handles both 'scheduled-site' type and configurations with eventContainer property
+  if (
+    (configuration?.type === 'scheduled-site' && !!bookingSlug) ||
+    configuration?.eventContainer
+  ) {
+    const query = configuration?.eventContainer || bookingSlug!
     const containerData = await fetchContainersByQuery({
       searchParams: resolvedParams,
-      query: bookingSlug,
+      query,
     })
 
     // Convert busy times to the expected string format

@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import AdminNavigation from '@/components/AdminNavigation'
 import { fetchSlugConfigurationData } from '@/lib/slugConfigurations/fetchSlugConfigurationData'
 import Template from '@/components/Template'
 import { isPromoExpired } from '@/lib/utilities/promoValidation'
@@ -22,6 +23,8 @@ export default async function PromoRoutesPage() {
   return (
     <div className="min-h-screen bg-gray-50 py-8 dark:bg-gray-900">
       <div className="mx-auto max-w-4xl px-4">
+        <AdminNavigation />
+
         <Template
           title="Promotional Routes Directory"
           text="Internal reference page for all booking routes and promotional configurations"
