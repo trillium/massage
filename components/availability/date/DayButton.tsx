@@ -48,7 +48,7 @@ export default function DayButton({
           'bg-slate-300 text-slate-800 dark:bg-slate-800 dark:text-slate-200':
             !isDisabled && !isSelected,
           'bg-white text-gray-500 dark:bg-slate-200 dark:text-gray-500': isDisabled,
-          'bg--500 dark:bg-primary-600 text-white dark:text-gray-100': isSelected,
+          'bg-primary-500 dark:bg-primary-600 text-white dark:text-gray-100': isSelected,
         })}
         aria-label={`${isToday ? 'Today' : ''} ${
           isDisabled ? 'Unavailable' : 'Available'

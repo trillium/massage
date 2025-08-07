@@ -144,7 +144,8 @@
     "appt",
     "Waitlist",
     "Kentwood",
-    "Zelle"
+    "Zelle",
+    "Zoccolante"
   ],
   "dictionaries": ["typescript", "node", "npm", "html", "css", "bash"],
   "languageSettings": [

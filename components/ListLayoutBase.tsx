@@ -7,7 +7,6 @@ import siteMetadata from '@/data/siteMetadata'
 import type { Blog } from 'contentlayer/generated'
 import clsx from 'clsx'
 import Pagination, { PaginationProps } from '@/components/Pagination'
-import { ListLayoutProps } from '@/layouts/ListLayoutWithTags'
 import { CoreContent } from 'pliny/utils/contentlayer'
 
 interface ListLayoutBaseProps {

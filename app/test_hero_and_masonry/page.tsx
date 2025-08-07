@@ -1,7 +1,7 @@
 import Template from '@/components/Template'
 import Hero from '@/components/hero/Hero'
 import siteMetadata from '@/data/siteMetadata'
-import Masonry from '@/components/masonry/Masonry'
+// import Masonry from '@/components/masonry/Masonry'
 import { SearchParamsType } from '@/lib/types'
 import BookingForm from '@/components/booking/BookingForm'
 import DurationPicker from '@/components/availability/controls/DurationPicker'
@@ -46,7 +46,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<Sea
         </div>
       </div>
       <Hero title="Meet Trillium - Certified Massage Therapist" img={avatar} text={massageBio} />
-      <Masonry />
+      {/* <Masonry /> */}
       <Template title="Book a massage with Trillium :)" />
       <BookingForm endPoint="api/request" />
       <div className="flex flex-col space-y-8">

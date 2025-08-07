@@ -15,7 +15,7 @@ const BookingSummary: React.FC<BookingSummaryProps> = ({
   price,
   acceptingPayment,
 }) => (
-  <div className="border-l-primary-400 bg-primary-50/30 dark:bg-primary-50/10 mt-3 mb-4 rounded-md border-l-4 p-3">
+  <div className="border-l-primary-400 dark:bg-primary-50/10 mt-3 mb-4 rounded-md border-l-4 bg-white p-3">
     <p className="text-primary-800 dark:text-primary-400 text-sm font-semibold md:text-base">
       {dateString}
     </p>

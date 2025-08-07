@@ -31,11 +31,7 @@ interface DynamicGridMasonryProps {
   layout?: 'vertical' | 'horizontal'
   largestColumn?: 'left' | 'right'
 }
-interface DynamicGridMasonryProps {
-  images?: string[]
-  layout?: 'vertical' | 'horizontal'
-  largestColumn?: 'left' | 'right'
-}
+
 // Only vertical layout is implemented for now
 export default function DynamicGridMasonry(props: DynamicGridMasonryProps) {
   const { images = files, layout = 'vertical', largestColumn = 'left' } = props

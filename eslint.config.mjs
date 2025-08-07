@@ -30,13 +30,9 @@ const eslintConfig = [
   },
   js.configs.recommended,
   ...compat.extends(
-    'plugin:@typescript-eslint/eslint-recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:jsx-a11y/recommended',
-    'plugin:prettier/recommended',
-    'next',
-    'next/core-web-vitals',
-    'eslint:recommended'
+    'next/core-web-vitals'
   ),
   {
     plugins: {
@@ -46,7 +42,6 @@ const eslintConfig = [
     languageOptions: {
       globals: {
         ...globals.browser,
-        ...globals.amd,
         ...globals.node,
         React: 'readonly',
         JSX: 'readonly',
@@ -57,13 +52,15 @@ const eslintConfig = [
       sourceType: 'module',
 
       parserOptions: {
-        project: true,
+        project: './tsconfig.json',
         tsconfigRootDir: __dirname,
+        ecmaFeatures: {
+          jsx: true,
+        },
       },
     },
 
     rules: {
-      'prettier/prettier': 'error',
       'react/react-in-jsx-scope': 'off',
       'no-unused-vars': 'off',
       'no-useless-escape': 'off',
