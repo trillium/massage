@@ -14,10 +14,11 @@ export default function ParkingField({ parkingInstructions, onChange }: ParkingF
       </label>
       <select
         aria-label="Parking Instructions"
-        name="parkingInstructions"
+        autoComplete="off"
+        aria-required
         id="parkingInstructions"
         value={parkingInstructions}
-        className={fieldClasses.select}
+        className={fieldClasses.input}
         onChange={onChange}
       >
         <option value="">Select parking option</option>

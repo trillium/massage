@@ -103,7 +103,12 @@ describe('BookingForm', () => {
 
   it('should handle form submission correctly', async () => {
     const endPoint = '/book'
-    const mockHandleSubmit = handleSubmit as Mock
+
+    // Mock successful fetch response
+    vi.mocked(global.fetch).mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({ success: true }),
+    } as Response)
 
     const { getByLabelText, getByText } = render(
       <StoreProvider>
@@ -115,17 +120,24 @@ describe('BookingForm', () => {
     fireEvent.change(getByLabelText('First Name'), { target: { value: 'John' } })
     fireEvent.change(getByLabelText('Last Name'), { target: { value: 'Doe' } })
     fireEvent.change(getByLabelText('Email'), { target: { value: 'john.doe@example.com' } })
+    fireEvent.change(getByLabelText('Phone Number'), { target: { value: '555-123-4567' } })
+    fireEvent.change(getByLabelText('street address'), { target: { value: '123 Main St' } })
+    fireEvent.change(getByLabelText('city'), { target: { value: 'Playa Vista' } })
+    fireEvent.change(getByLabelText('zip code'), { target: { value: '90094' } })
 
-    // Submit the form
-    fireEvent.submit(getByText('Submit'))
+    // Submit the form by clicking the Submit button
+    const submitButton = getByText('Submit')
+    fireEvent.click(submitButton)
 
     await waitFor(() => {
-      // Verify handleSubmit is called with correct parameters
-      expect(mockHandleSubmit).toHaveBeenCalledWith(
+      // Verify fetch was called with correct parameters
+      expect(global.fetch).toHaveBeenCalledWith(
+        endPoint,
         expect.objectContaining({
-          endPoint,
-          router: expect.any(Object),
-          dispatchRedux: expect.any(Function),
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
         })
       )
     })

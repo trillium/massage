@@ -28,7 +28,8 @@ export default function Confirmation() {
       timeZoneName: 'shortGeneric',
     })
   }
-  const { firstName, lastName, location, phone, email } = useReduxFormData()
+  // Get form data from Redux
+  const { firstName, lastName, locationString, phone, email } = useReduxFormData()
   const { price: pricingRedux } = useReduxConfig()
   const { duration } = useReduxAvailability()
 
@@ -42,7 +43,7 @@ export default function Confirmation() {
     state: 'Pending' as const,
     firstName: firstName!,
     lastName: lastName!,
-    location: flattenLocation(location),
+    location: locationString || '',
     phone: phone!,
     email: email!,
     price: price,

@@ -27,6 +27,14 @@ export const initialBookingFormData: BookingFormData = {
   parkingInstructions: '',
   /** Additional notes */
   additionalNotes: '',
+  /** Location object for new form structure */
+  location: {
+    street: '',
+    city: '',
+    zip: '',
+  },
+  /** Location as formatted string */
+  locationString: '',
 }
 
 export const initialReviewFormState: ReviewFormData = {

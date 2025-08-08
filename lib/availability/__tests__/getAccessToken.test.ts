@@ -6,6 +6,10 @@ const originalFetch = global.fetch
 describe('getAccessToken', () => {
   beforeEach(() => {
     global.fetch = vi.fn()
+    // Clear environment variables for each test
+    delete process.env.GOOGLE_OAUTH_SECRET
+    delete process.env.GOOGLE_OAUTH_REFRESH
+    delete process.env.GOOGLE_OAUTH_CLIENT_ID
   })
 
   afterEach(() => {

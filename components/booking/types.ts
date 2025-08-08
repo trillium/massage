@@ -12,6 +12,8 @@ export type BookingFormData = {
   email?: string
   /** Location object with street, city, and zip */
   location?: LocationObject
+  /** Location as formatted string */
+  locationString?: string
   /** City of the requester */
   city?: string
   /** Zip code of the requester */

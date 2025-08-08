@@ -23,6 +23,21 @@ type DiscountType = {
   amount: string | number
 }
 
+const free_thirty: SlugConfigurationType = {
+  ...initialStateWithoutType,
+  type: 'area-wide',
+  title: 'On the fence? Try out 30 minutes free!',
+  leadTimeMinimum: 18,
+  allowedDurations: [30, 60, 90, 120],
+  pricing: { 30: 70, 60: 140, 90: 210, 120: 280 },
+  discount: {
+    type: 'dollar',
+    amountDollars: 70,
+  },
+  eventContainer: 'free-30',
+  blockingScope: 'general',
+}
+
 const slugConfigurations: SlugConfigurationType[] = [
   {
     ...initialStateWithoutType,
@@ -93,19 +108,49 @@ const slugConfigurations: SlugConfigurationType[] = [
     },
   },
   {
-    ...initialStateWithoutType,
-    type: 'area-wide',
+    ...free_thirty,
     bookingSlug: ['playa-free-30', 'free-30', 'free-thirty'],
-    title: 'On the fence? Try out 30 minutes free!',
-    leadTimeMinimum: 18,
-    allowedDurations: [30, 60, 90, 120],
-    pricing: { 30: 70, 60: 140, 90: 210, 120: 280 },
-    discount: {
-      type: 'dollar',
-      amountDollars: 70,
+    locationWarning: {
+      city: 'Playa Vista',
+      message:
+        'This free 30-minute offer is available for Playa Vista residents. Appointments outside this area might be declined.',
     },
-    eventContainer: 'free-30',
-    blockingScope: 'general',
+  },
+  {
+    ...free_thirty,
+    bookingSlug: ['playa-free-30', '90045-free-30', 'playa-del-rey-free-30'],
+    locationWarning: {
+      city: 'Playa Vista',
+      message:
+        'This free 30-minute offer is available for Playa Vista residents. Appointments outside this area might be declined.',
+    },
+  },
+  {
+    ...free_thirty,
+    bookingSlug: ['90045-free-30', 'playa-del-rey-free-30'],
+    locationWarning: {
+      zip: '90045',
+      message:
+        'This free 30-minute offer is available for Playa Vista residents. Appointments outside this area might be declined.',
+    },
+  },
+  {
+    ...free_thirty,
+    bookingSlug: ['playa-del-rey-free-30'],
+    locationWarning: {
+      city: 'Playa Del Rey',
+      message:
+        'This free 30-minute offer is available for Playa Del Rey residents. Appointments outside this area might be declined.',
+    },
+  },
+  {
+    ...free_thirty,
+    bookingSlug: ['westchester'],
+    locationWarning: {
+      city: 'Westchester',
+      message:
+        'This free 30-minute offer is available for Westchester residents. Appointments outside this area might be declined.',
+    },
   },
 ]
 

@@ -257,6 +257,10 @@ export type CustomFieldsType = {
   showNotesField?: boolean
 }
 
+export type LocationWarningType = {
+  message: string
+} & ({ city: string } | { zip: string })
+
 export type SlugConfigurationType = {
   bookingSlug: string | string[] | null // this must be unique and cannot conflict with current app pages
   type: SlugType
@@ -264,6 +268,7 @@ export type SlugConfigurationType = {
   text: string | null
   location: LocationObject | null
   locationIsReadOnly?: boolean
+  locationWarning?: LocationWarningType
   eventContainer: string | null
   blockingScope?: 'event' | 'general' // 'event' blocks only this event type, 'general' blocks all availability
   promoEndDate?: string | null // Format: YYYY-MM-DD

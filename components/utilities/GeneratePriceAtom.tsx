@@ -1,3 +1,4 @@
+import React from 'react'
 import { DiscountType } from '@/lib/types'
 import clsx from 'clsx'
 

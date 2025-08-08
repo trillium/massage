@@ -167,10 +167,16 @@ describe('BookingForm Integration Tests', () => {
       fireEvent.change(screen.getByLabelText('Email'), {
         target: { value: 'john.doe@example.com' },
       })
+      fireEvent.change(screen.getByLabelText('Phone Number'), { target: { value: '555-123-4567' } })
+      fireEvent.change(screen.getByLabelText('street address'), {
+        target: { value: '123 Main St' },
+      })
+      fireEvent.change(screen.getByLabelText('city'), { target: { value: 'Playa Vista' } })
+      fireEvent.change(screen.getByLabelText('zip code'), { target: { value: '90094' } })
 
-      // Submit the form by triggering form submission
-      const form = document.querySelector('form')!
-      fireEvent.submit(form)
+      // Submit the form by clicking the submit button
+      const submitButton = screen.getByText('Submit')
+      fireEvent.click(submitButton)
 
       // Wait for the API call
       await waitFor(() => {
@@ -214,10 +220,16 @@ describe('BookingForm Integration Tests', () => {
       fireEvent.change(screen.getByLabelText('Email'), {
         target: { value: 'john.doe@example.com' },
       })
+      fireEvent.change(screen.getByLabelText('Phone Number'), { target: { value: '555-123-4567' } })
+      fireEvent.change(screen.getByLabelText('street address'), {
+        target: { value: '123 Main St' },
+      })
+      fireEvent.change(screen.getByLabelText('city'), { target: { value: 'Playa Vista' } })
+      fireEvent.change(screen.getByLabelText('zip code'), { target: { value: '90094' } })
 
       // Submit the form
-      const form = document.querySelector('form')!
-      fireEvent.submit(form)
+      const submitButton = screen.getByText('Submit')
+      fireEvent.click(submitButton)
 
       // Wait for error state
       await waitFor(() => {
@@ -248,10 +260,16 @@ describe('BookingForm Integration Tests', () => {
       fireEvent.change(screen.getByLabelText('Email'), {
         target: { value: 'john.doe@example.com' },
       })
+      fireEvent.change(screen.getByLabelText('Phone Number'), { target: { value: '555-123-4567' } })
+      fireEvent.change(screen.getByLabelText('street address'), {
+        target: { value: '123 Main St' },
+      })
+      fireEvent.change(screen.getByLabelText('city'), { target: { value: 'Playa Vista' } })
+      fireEvent.change(screen.getByLabelText('zip code'), { target: { value: '90094' } })
 
       // Submit the form
-      const form = document.querySelector('form')!
-      fireEvent.submit(form)
+      const submitButton = screen.getByText('Submit')
+      fireEvent.click(submitButton)
 
       // Verify the API call includes expected data
       await waitFor(() => {

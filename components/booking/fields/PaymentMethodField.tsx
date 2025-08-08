@@ -20,7 +20,6 @@ export default function PaymentMethodField({ selected, onChange }: PaymentMethod
               <input
                 id={payType.value}
                 aria-label={payType.name}
-                name="paymentMethod"
                 type="radio"
                 value={payType.value}
                 checked={selected === payType.value}

@@ -14,7 +14,6 @@ export default function NotesField({ additionalNotes, onChange }: NotesFieldProp
       </label>
       <textarea
         aria-label="Additional Notes"
-        name="additionalNotes"
         id="additionalNotes"
         rows={3}
         value={additionalNotes}

@@ -7,6 +7,7 @@ import Step2GeneratedEmails from './components/Step2GeneratedEmails'
 import Step3TherapistApproval from './components/Step3TherapistApproval'
 import Step4FinalConfirmation from './components/Step4FinalConfirmation'
 import DebugData from './components/DebugData'
+import ConfigurationTester from 'components/admin/ConfigurationTester'
 import { useMockedUserFlow } from './hooks/useMockedUserFlow'
 
 export default function MockedUserFlowPage() {
@@ -42,6 +43,10 @@ export default function MockedUserFlowPage() {
             Reset Flow
           </button>
         </nav>
+
+        <div className="mb-8">
+          <ConfigurationTester />
+        </div>
 
         <Step1BookingSelection
           selectedDuration={selectedDuration}

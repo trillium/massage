@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import { FormikHelpers } from 'formik'
+import { z } from 'zod'
 
 import { DEFAULT_PRICING, ALLOWED_DURATIONS, DEFAULT_DURATION } from 'config'
 import { getHash } from '@/lib/hash'
@@ -17,8 +19,36 @@ import { AppointmentRequestType } from '@/lib/schema'
 import { createPageConfiguration } from '@/lib/slugConfigurations/createPageConfiguration'
 import { buildDurationProps } from '@/lib/slugConfigurations/helpers/buildDurationProps'
 import { handleSubmit, buildBookingPayload } from 'components/booking/handleSubmit'
+import { createLocationSchema } from 'components/booking/fields/validations/locationValidation'
 import { testUser } from '../../testUser'
 import { generateMockEmails } from './generateMockEmails'
+
+// Match the BookingForm's schema exactly
+const createBookingFormSchema = (config?: { cities?: string[]; zipCodes?: string[] }) => {
+  return z.object({
+    firstName: z.string().min(1, 'First name is required').max(50, 'First name too long'),
+    lastName: z.string().min(1, 'Last name is required').max(50, 'Last name too long'),
+    phone: z
+      .string()
+      .min(1, 'Phone number is required')
+      .regex(/^[\+]?[(]?[\d\s\-\(\)]{10,}$/, 'Please enter a valid phone number'),
+    email: z.string().min(1, 'Email is required').email('Please enter a valid email address'),
+    location: createLocationSchema(config),
+    paymentMethod: z.enum(['cash', 'venmo', 'zelle']),
+    hotelRoomNumber: z.string().optional(),
+    parkingInstructions: z.string().optional(),
+    additionalNotes: z.string().optional(),
+    start: z.string(),
+    end: z.string(),
+    duration: z.number(),
+    price: z.union([z.string(), z.number()]).optional(),
+    timeZone: z.string(),
+    eventBaseString: z.string(),
+    eventMemberString: z.string().optional(),
+  })
+}
+
+type BookingFormValues = z.infer<ReturnType<typeof createBookingFormSchema>>
 
 type PageConfigResult = Awaited<ReturnType<typeof createPageConfiguration>>
 
@@ -176,18 +206,48 @@ export function useMockedUserFlow() {
     // Helper to generate mock emails for therapist and client
   }
 
-  const handleMockedSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    console.log('[handleMockedSubmit]')
+  const handleMockedSubmit = async (
+    values: BookingFormValues,
+    formikHelpers: FormikHelpers<BookingFormValues>
+  ) => {
+    console.log('[useMockedUserFlow] handleMockedSubmit called!')
+    console.log('[useMockedUserFlow] Formik values:', values)
+    console.log('[useMockedUserFlow] Formik helpers:', formikHelpers)
 
-    // Use the unified handleSubmit function in mock mode
-    handleSubmit({
-      event,
-      dispatchRedux: dispatch,
-      router,
-      additionalData: {},
-      endPoint: '/admin/mocked_user_flow/mock-submit',
-      mockHandleSubmit: processFormData,
-    })
+    // Create FormData from Formik values
+    const formData = new FormData()
+    formData.append('firstName', values.firstName)
+    formData.append('lastName', values.lastName)
+    formData.append('phone', values.phone)
+    formData.append('email', values.email)
+    formData.append('location', values.location.street)
+    formData.append('city', values.location.city || '')
+    formData.append('zipCode', values.location.zip)
+    formData.append('paymentMethod', values.paymentMethod)
+    if (values.hotelRoomNumber) formData.append('hotelRoomNumber', values.hotelRoomNumber)
+    if (values.parkingInstructions)
+      formData.append('parkingInstructions', values.parkingInstructions)
+    if (values.additionalNotes) formData.append('additionalNotes', values.additionalNotes)
+    if (values.start) formData.append('start', values.start)
+    if (values.end) formData.append('end', values.end)
+    formData.append('duration', values.duration.toString())
+    if (values.price) formData.append('price', values.price.toString())
+    if (values.timeZone) formData.append('timeZone', values.timeZone)
+    if (values.eventBaseString) formData.append('eventBaseString', values.eventBaseString)
+    if (values.eventMemberString) formData.append('eventMemberString', values.eventMemberString)
+
+    // Directly call the mock processing function
+    dispatch(setModal({ status: 'busy' }))
+
+    setTimeout(() => {
+      try {
+        processFormData(formData)
+        dispatch(setModal({ status: 'closed' }))
+      } catch (error) {
+        console.error('Mock submission error:', error)
+        dispatch(setModal({ status: 'error' }))
+      }
+    }, 500)
   }
 
   const handleApprovalClick = () => {

@@ -196,7 +196,7 @@ describe('Location Object Integration Tests', () => {
       const state = store.getState()
 
       expect(state.config.location).toBeNull()
-      expect(state.form.location).toBeUndefined()
+      expect(state.form.location).toEqual({ street: '', city: '', zip: '' })
       expect(state.config.type).toBe('area-wide')
       expect(state.config.leadTimeMinimum).toBe(60)
     })
@@ -225,7 +225,7 @@ describe('Location Object Integration Tests', () => {
           expect(state.config.location).toEqual(state.form.location)
         } else {
           expect(state.config.location).toBeNull()
-          expect(state.form.location).toBeUndefined()
+          expect(state.form.location).toEqual({ street: '', city: '', zip: '' })
         }
 
         // Verify location structure if present (only hotel-june should have location)

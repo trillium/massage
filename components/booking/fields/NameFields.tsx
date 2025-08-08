@@ -22,8 +22,8 @@ export default function NameFields({ firstName, lastName, onChange }: NameFields
             autoComplete="given-name"
             required
             aria-required
-            name="firstName"
             id="firstName"
+            name="firstName"
             value={firstName}
             placeholder="First"
             onChange={onChange}
@@ -41,8 +41,8 @@ export default function NameFields({ firstName, lastName, onChange }: NameFields
             autoComplete="family-name"
             required
             aria-required
-            name="lastName"
             id="lastName"
+            name="lastName"
             value={lastName}
             placeholder="Last"
             onChange={onChange}

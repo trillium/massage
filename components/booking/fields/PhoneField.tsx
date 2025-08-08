@@ -17,8 +17,8 @@ export default function PhoneField({ phone, onChange }: PhoneFieldProps) {
         required
         autoComplete="tel"
         aria-required
-        name="phone"
         id="phone"
+        name="phone"
         value={phone}
         className={fieldClasses.input}
         placeholder="(555) 444 - 3333"

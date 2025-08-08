@@ -77,26 +77,26 @@ export async function POST(req: NextRequest & IncomingMessage): Promise<NextResp
     approveUrl,
   }
 
-  // await sendMail({
-  //   to: siteMetadata.email ?? '',
-  //   subject: approveEmail.subject,
-  //   body: approveEmail.body,
-  // })
+  await sendMail({
+    to: siteMetadata.email ?? '',
+    subject: approveEmail.subject,
+    body: approveEmail.body,
+  })
 
   // Generate and send the confirmation email
-  // const confirmationEmail = ClientRequestEmail({
-  //   ...data,
-  //   dateSummary: intervalToHumanString({
-  //     start,
-  //     end,
-  //     timeZone: data.timeZone,
-  //   }),
-  // })
-  // await sendMail({
-  //   to: data.email,
-  //   subject: confirmationEmail.subject,
-  //   body: confirmationEmail.body,
-  // })
+  const confirmationEmail = ClientRequestEmail({
+    ...data,
+    dateSummary: intervalToHumanString({
+      start,
+      end,
+      timeZone: data.timeZone,
+    }),
+  })
+  await sendMail({
+    to: data.email,
+    subject: confirmationEmail.subject,
+    body: confirmationEmail.body,
+  })
 
   return NextResponse.json({ success: true }, { status: 200 })
 

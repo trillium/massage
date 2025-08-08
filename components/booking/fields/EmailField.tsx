@@ -18,8 +18,8 @@ export default function EmailField({ email, onChange }: EmailFieldProps) {
         autoComplete="email"
         aria-required
         type="email"
-        name="email"
         id="email"
+        name="email"
         value={email}
         className={fieldClasses.input}
         placeholder="name@example.com"

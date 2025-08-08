@@ -107,6 +107,16 @@ export function filterEventsForQuery(allEvents: GoogleCalendarV3Event[], query: 
  * This blocks ALL events - both __EVENT__ bookings AND regular calendar events.
  */
 export function filterEventsForGeneralBlocking(allEvents: GoogleCalendarV3Event[]) {
+  // Handle case where allEvents is undefined or null
+  if (!allEvents || !Array.isArray(allEvents)) {
+    return {
+      busyQuery: [],
+      eventMembers: [],
+      regularEvents: [],
+      allBlockingEvents: [],
+    }
+  }
+
   // All events that contain __EVENT__MEMBER__ (event-based bookings)
   const eventMembers = allEvents.filter((e: GoogleCalendarV3Event) => {
     return (

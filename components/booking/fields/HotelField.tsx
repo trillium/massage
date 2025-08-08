@@ -18,7 +18,6 @@ export default function HotelField({ hotelRoomNumber, onChange }: HotelFieldProp
         autoComplete="off"
         aria-required
         type="text"
-        name="hotelRoomNumber"
         id="hotelRoomNumber"
         value={hotelRoomNumber}
         className={fieldClasses.input}
