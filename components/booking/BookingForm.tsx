@@ -1,6 +1,7 @@
 'use client'
 
 import React from 'react'
+import clsx from 'clsx'
 import { DialogTitle } from '@headlessui/react'
 import { useRouter } from 'next/navigation'
 import { Formik, Form, FormikHelpers } from 'formik'
@@ -493,11 +494,19 @@ export default function BookingForm({
                   </div>
 
                   {/* Location warning (non-blocking) - only show after field has been touched */}
-                  {locationWarning && (touched.location?.city || touched.location?.zip) && (
-                    <div className="mt-1 rounded border-2 border-amber-200 bg-amber-50 p-2 text-sm text-amber-500 dark:bg-amber-950/50">
-                      ⚠️ {locationWarning}
-                    </div>
-                  )}
+                  {/* Animate location warning in/out with Tailwind transitions */}
+                  <div
+                    className={clsx(
+                      'mt-1 transform rounded border-2 border-amber-200 bg-amber-50 p-2 text-sm text-amber-600 transition-all duration-300 ease-in-out dark:bg-amber-950/50 dark:text-amber-500',
+                      {
+                        'pointer-events-auto translate-y-0 opacity-100': locationWarning,
+                        'pointer-events-none h-0 -translate-y-2 opacity-0': !locationWarning,
+                      }
+                    )}
+                    aria-live="polite"
+                  >
+                    {locationWarning}
+                  </div>
 
                   {acceptingPayment && (
                     <>
