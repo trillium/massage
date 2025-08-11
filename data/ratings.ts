@@ -329,6 +329,7 @@ const ratings: ReviewType[] = [
       "There's a reason I'm a repeat customer: Trillium is one of the best massage therapists on Soothe. If you need shoulder or lower back work, look no further. I recommend a longer session if possible. Five Stars.",
     name: 'Ty W.',
     source: 'Soothe',
+    helpful: -1,
   },
   {
     rating: 5,
@@ -405,6 +406,7 @@ const ratings: ReviewType[] = [
       "I specifically told him from the beginning to focus on neck and shoulders. He only spent 5 minutes on neck and completely ignored shoulders even though I mentioned that 3 times during the session, until I had to stop him 5 min before he was done and tell him to do my shoulders and leave other areas that were not as tense. He just kept ignoring most tense spots and just did the easy part. Won't book him again, sorry!",
     name: 'Omar M.',
     source: 'Soothe',
+    helpful: -1,
   },
   {
     rating: 5,
@@ -419,6 +421,7 @@ const ratings: ReviewType[] = [
     comment: 'Leave a comment here...',
     name: 'Bryan L.',
     source: 'Soothe',
+    helpful: -1,
   },
   {
     rating: 5,
@@ -670,6 +673,7 @@ const ratings: ReviewType[] = [
     comment: 'Cash Tip was given',
     name: 'Cindy B.',
     source: 'Soothe',
+    helpful: -1,
   },
   {
     rating: 5,
@@ -1280,6 +1284,7 @@ const ratings: ReviewType[] = [
       'Great massage. Very attentive to my needs. It was my first time with Soothe and I was really happy',
     name: 'Matt W.',
     source: 'Soothe',
+    helpful: -1,
   },
   {
     rating: 5,
@@ -1591,6 +1596,7 @@ const ratings: ReviewType[] = [
     comment: 'Leave a comment here...',
     name: 'Lexi A.',
     source: 'Soothe',
+    helpful: -1,
   },
   {
     rating: 5,
@@ -1774,6 +1780,7 @@ const ratings: ReviewType[] = [
     comment: 'Amazing did exactly what I asked made my first experience with soothe perfect !',
     name: 'Ana R.',
     source: 'Soothe',
+    helpful: -1,
   },
   {
     rating: 5,
@@ -2089,6 +2096,7 @@ const ratings: ReviewType[] = [
     comment: 'Tipped in cash. He was great all around.',
     name: 'Tyke O.',
     source: 'Soothe',
+    helpful: -1,
   },
   {
     rating: 5,
@@ -2193,6 +2201,7 @@ const ratings: ReviewType[] = [
     comment: 'Leave a comment here...',
     name: 'Brandon Q.',
     source: 'Soothe',
+    helpful: -1,
   },
   {
     rating: 5,
@@ -2250,6 +2259,7 @@ const ratings: ReviewType[] = [
     comment: 'Face cradle hurt a bit but massage was great',
     name: 'Matthew G.',
     source: 'Soothe',
+    helpful: -1,
   },
   {
     rating: 5,
@@ -2412,6 +2422,7 @@ const ratings: ReviewType[] = [
     comment: 'Leave a comment here...',
     name: 'Danielle B.',
     source: 'Soothe',
+    helpful: -1,
   },
   {
     rating: 5,
@@ -2779,6 +2790,7 @@ const ratings: ReviewType[] = [
     comment: 'Leave a comment here...',
     name: 'Tu T.',
     source: 'Soothe',
+    helpful: -1,
   },
   {
     rating: 5,
@@ -2896,6 +2908,7 @@ const ratings: ReviewType[] = [
     comment: 'good. not my fave.',
     name: 'Claudia V.',
     source: 'Soothe',
+    helpful: -1,
   },
   {
     rating: 5,
@@ -3396,6 +3409,7 @@ const ratings: ReviewType[] = [
       "This was my first time using Soothe. Trillium was awesome. I've been suffering from a back injury, and he knew exactly how to work on it. His technique was flawless. Will definitely book again. Thank you Trillium!",
     name: 'Robert D.',
     source: 'Soothe',
+    helpful: -1,
   },
   {
     rating: 1,
@@ -3700,6 +3714,7 @@ const ratings: ReviewType[] = [
     comment: 'Leave a comment here...',
     name: 'Susan G.',
     source: 'Soothe',
+    helpful: -1,
   },
   {
     rating: 5,
@@ -3866,6 +3881,7 @@ const ratings: ReviewType[] = [
       'Not sure if it was time management issues, but most of my upper front torso went unmassaged.',
     name: 'Craig I.',
     source: 'Soothe',
+    helpful: -1,
   },
   {
     rating: 5,
@@ -4663,6 +4679,7 @@ const ratings: ReviewType[] = [
       "It was NOT a deep tissue massage. It was more of a let's put oil and rub with the forearm and hands. I asked for him to stop early 10 min. I wanted it done sooner. I couldn't handle it anymore. I specifically called and the rep told me that he would be good because I wanted a special request with Wattana, who is the best and if I ever book with Soothe again it's going to be with him. I was so disappointed with the massage. I feel worse today then I did last night",
     name: 'Sharis N.',
     source: 'Soothe',
+    helpful: -1,
   },
   {
     rating: 5,
@@ -5400,6 +5417,7 @@ const ratings: ReviewType[] = [
     comment: 'I tipped in cash',
     name: 'Cindy B.',
     source: 'Soothe',
+    helpful: -1,
   },
   {
     rating: 5,
