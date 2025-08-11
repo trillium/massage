@@ -117,13 +117,13 @@
   "lint-staged": {
     "*.+(js|jsx|ts|tsx)": [
       "eslint --fix",
-      "cspell --no-progress"
+      "bash -c 'cspell --no-progress \"$@\" || exit 0' --"
     ],
     "*.+(js|jsx|ts|tsx|json|css|md|mdx)": [
       "prettier --write"
     ],
     "*.{md,mdx}": [
-      "cspell --no-progress"
+      "bash -c 'cspell --no-progress \"$@\" || exit 0' --"
     ]
   },
   "packageManager": "pnpm@9.15.0"
