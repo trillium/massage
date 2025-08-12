@@ -53,7 +53,7 @@ const BookingSummary: React.FC<BookingSummaryProps> = ({
         <span className="w-18 shrink-0 font-medium">Client:&nbsp;</span>
         <span className="break-words">
           {clientName || (
-            <span className="text-gray-400 italic dark:text-gray-500">(enter name above)</span>
+            <span className="text-gray-400 italic dark:text-gray-500">(enter name below)</span>
           )}
         </span>
       </div>
@@ -61,7 +61,7 @@ const BookingSummary: React.FC<BookingSummaryProps> = ({
         <span className="w-18 shrink-0 font-medium">Location:&nbsp;</span>
         <span className="break-words">
           {location || (
-            <span className="text-gray-400 italic dark:text-gray-500">(enter location above)</span>
+            <span className="text-gray-400 italic dark:text-gray-500">(enter location below)</span>
           )}
           {formData?.hotelRoomNumber && <span>, Room: #{formData.hotelRoomNumber}</span>}
         </span>
