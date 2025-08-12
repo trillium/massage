@@ -4,6 +4,7 @@ import clsx from 'clsx'
 import type { ReviewType, RatingType } from '@/lib/types'
 import { getNumberOfReviews } from './getNumberOfReviews'
 import { getNumberOfReviewsSorted } from './getNumberOfReviewsSorted'
+import TestimonialsSection from '../landingPage/TestimonialsSection'
 
 const sorted_reviews = (review_data as ReviewType[]).sort((a: ReviewType, b: ReviewType) =>
   b.date.localeCompare(a.date)
@@ -49,7 +50,7 @@ const ReviewCard = () => {
 
 const OtherCard = ({ enableSorting = false }) => (
   <>
-    <div className="mx-auto w-full max-w-7xl px-4 md:px-0">
+    <div className="mx-auto w-full max-w-7xl px-0 md:px-4">
       <div>
         <Template title="Customer Reviews & Ratings" />
 
@@ -102,14 +103,7 @@ const OtherCard = ({ enableSorting = false }) => (
           </div>
         </div>
 
-        <MostHelpful />
-
-        <div className="flex flex-col items-center justify-between pt-8 max-xl:mx-auto max-xl:max-w-3xl sm:flex-row">
-          <p className="py-1 text-lg font-normal text-black dark:text-white">
-            {review_data.length} reviews
-          </p>
-          {/* {enableSorting && <ReviewSorting />} */}
-        </div>
+        <TestimonialsSection />
       </div>
     </div>
   </>
@@ -147,20 +141,6 @@ const ScoreDisplay = ({
     </div>
   )
 }
-
-const MostHelpful = () => (
-  <div className="border-b border-gray-200 pb-8 max-xl:mx-auto max-xl:max-w-3xl">
-    <h4 className="mb-6 text-3xl leading-10 font-semibold text-black dark:text-white">
-      Most helpful reviews
-    </h4>
-    {(review_data as ReviewType[])
-      .filter((item) => item.helpful)
-      .sort((a, b) => (b.helpful ?? 0) - (a.helpful ?? 0))
-      .map(({ comment, date, name, spellcheck }) => (
-        <ReviewSnippet key={`${date}_${name}`} text={spellcheck ?? comment ?? ''} name={name} />
-      ))}
-  </div>
-)
 
 export type ReviewSnippetProps = {
   name?: string
@@ -214,7 +194,7 @@ export const ReviewSnippet = ({
   )
 }
 
-const LittleStar = () => (
+export const LittleStar = () => (
   <svg
     width="20"
     height="20"
@@ -267,78 +247,5 @@ export const Star = ({
     </svg>
   )
 }
-
-// const ReviewSorting = () => (
-//   <form>
-//     <div className="flex">
-//       <div className="relative ">
-//         <div className=" absolute -left-0 top-0 px-2 py-2">
-//           <p className="text-lg font-normal leading-8 text-gray-500">Sort by:</p>
-//         </div>
-//         <input
-//           type="text"
-//           className="shadow-xs block h-11 w-60 cursor-pointer rounded-full bg-transparent py-2.5 pl-20 pr-4 text-lg font-medium leading-8 text-black placeholder-black focus:outline-gray-200 dark:text-white "
-//           placeholder="Most Relevant"
-//         />
-//         <div
-//           id="dropdown-button"
-//           data-target="dropdown"
-//           className="dropdown-toggle absolute right-0 top-2 z-10 inline-flex flex-shrink-0 cursor-pointer items-center bg-transparent px-4 py-2.5 pl-2 text-center text-base font-medium text-gray-900 "
-//         >
-//           <svg
-//             className="ml-2"
-//             width="12"
-//             height="7"
-//             viewBox="0 0 12 7"
-//             fill="currentColor"
-//             xmlns="http://www.w3.org/2000/svg"
-//           >
-//             <path
-//               d="M1 1.5L4.58578 5.08578C5.25245 5.75245 5.58579 6.08579 6 6.08579C6.41421 6.08579 6.74755 5.75245 7.41421 5.08579L11 1.5"
-//               stroke="#6B7280"
-//               stroke-width="1.5"
-//               stroke-linecap="round"
-//               stroke-linejoin="round"
-//             />
-//           </svg>
-//         </div>
-//         <div
-//           id="dropdown"
-//           className="absolute right-0 top-9 z-10 hidden w-44 divide-y divide-gray-100 rounded-lg bg-white shadow dark:bg-gray-700"
-//         >
-//           <ul
-//             className="py-2 text-sm text-gray-700 dark:text-gray-200"
-//             aria-labelledby="dropdown-button"
-//           >
-//             <li>
-//               <a
-//                 href="#"
-//                 className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-//               >
-//                 Most Relevant
-//               </a>
-//             </li>
-//             <li>
-//               <a
-//                 href="#"
-//                 className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-//               >
-//                 last week
-//               </a>
-//             </li>
-//             <li>
-//               <a
-//                 href="#"
-//                 className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-//               >
-//                 oldest
-//               </a>
-//             </li>
-//           </ul>
-//         </div>
-//       </div>
-//     </div>
-//   </form>
-// )
 
 export default ReviewCard
