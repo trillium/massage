@@ -1,7 +1,6 @@
 import { sortPosts, allCoreContent } from 'pliny/utils/contentlayer'
 import { allBlogs } from 'contentlayer/generated'
 import Template from '@/components/Template'
-import Main from './Main'
 import Hero from '@/components/hero/Hero'
 import siteMetadata from '@/data/siteMetadata'
 import { SearchParamsType, SlugConfigurationType } from '@/lib/types'
@@ -14,6 +13,7 @@ import { InitialUrlUtility } from '@/components/utilities/InitialUrlUtility'
 import { UrlUpdateUtility } from '@/components/utilities/UrlUpdateUtility'
 import { UpdateSlotsUtility } from '@/components/utilities/UpdateSlotsUtility'
 import { createPageConfiguration } from '@/lib/slugConfigurations/createPageConfiguration'
+import SectionContainer from '@/components/SectionContainer'
 
 const { avatar } = siteMetadata
 const mapData = '/static/images/foo/service-area.jpg'
@@ -44,27 +44,30 @@ export default async function Page({ searchParams }: { searchParams: Promise<Sea
 
   return (
     <>
-      <Hero
-        title="Meet Trillium - Certified Massage Therapist"
-        img={avatar}
-        text={massageBio}
-        imageRight
-      />
-      <Hero
-        title="What's the service area for mobile massage therapy?"
-        img={mapData}
-        text={serviceAreaBlurb}
-        buttons={false}
-        imageLeft
-      />
-      <Template title="Book a massage with Trillium :)" />
-      <BookingForm endPoint="api/request" />
-      <div className="flex flex-col space-y-8">
-        <DurationPicker {...durationProps} />
-        <Calendar />
-        <TimeList />
-      </div>
-
+      <SectionContainer>
+        <Hero
+          title="Meet Trillium - Certified Massage Therapist"
+          img={avatar}
+          text={massageBio}
+          imageRight
+        />
+        <Hero
+          title="What's the service area for mobile massage therapy?"
+          img={mapData}
+          text={serviceAreaBlurb}
+          buttons={false}
+          imageLeft
+        />
+      </SectionContainer>
+      <SectionContainer>
+        <Template title="Book a massage with Trillium :)" />
+        <BookingForm endPoint="api/request" />
+        <div className="flex flex-col space-y-8">
+          <DurationPicker {...durationProps} />
+          <Calendar />
+          <TimeList />
+        </div>
+      </SectionContainer>
       <InitialUrlUtility
         configSliceData={configuration}
         selectedDate={selectedDate}

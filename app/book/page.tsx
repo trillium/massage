@@ -11,6 +11,7 @@ import { InitialUrlUtility } from '@/components/utilities/InitialUrlUtility'
 import { UrlUpdateUtility } from '@/components/utilities/UrlUpdateUtility'
 import { UpdateSlotsUtility } from '@/components/utilities/UpdateSlotsUtility'
 import { createPageConfiguration } from '@/lib/slugConfigurations/createPageConfiguration'
+import SectionContainer from '@/components/SectionContainer'
 
 export type PageProps = InferGetServerSidePropsType<typeof fetchData>
 
@@ -35,7 +36,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<Sea
   } = await createPageConfiguration({ resolvedParams, overrides })
 
   return (
-    <>
+    <SectionContainer>
       <Template title="Book a massage with Trillium :)" />
       <BookingForm endPoint="api/request" />
       <div className="flex flex-col space-y-8">
@@ -53,6 +54,6 @@ export default async function Page({ searchParams }: { searchParams: Promise<Sea
       />
       <UrlUpdateUtility />
       <UpdateSlotsUtility busy={data.busy} start={start} end={end} configObject={configuration} />
-    </>
+    </SectionContainer>
   )
 }

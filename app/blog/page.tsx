@@ -2,6 +2,7 @@ import { allCoreContent, sortPosts } from 'pliny/utils/contentlayer'
 import { allBlogs } from 'contentlayer/generated'
 import { genPageMetadata } from 'app/seo'
 import ListLayout from '@/layouts/ListLayoutWithTags'
+import SectionContainer from '@/components/SectionContainer'
 
 const POSTS_PER_PAGE = 5
 
@@ -18,11 +19,13 @@ export default async function BlogPage(props: { searchParams: Promise<{ page: st
   }
 
   return (
-    <ListLayout
-      posts={posts}
-      initialDisplayPosts={initialDisplayPosts}
-      pagination={pagination}
-      title="All Posts"
-    />
+    <SectionContainer>
+      <ListLayout
+        posts={posts}
+        initialDisplayPosts={initialDisplayPosts}
+        pagination={pagination}
+        title="All Posts"
+      />
+    </SectionContainer>
   )
 }

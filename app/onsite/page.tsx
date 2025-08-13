@@ -11,6 +11,7 @@ import { createPageConfiguration } from '@/lib/slugConfigurations/createPageConf
 import DurationPicker from '@/components/availability/controls/DurationPicker'
 import Calendar from '@/components/availability/date/Calendar'
 import TimeList from '@/components/availability/time/TimeList'
+import SectionContainer from '@/components/SectionContainer'
 
 export type PageProps = InferGetServerSidePropsType<typeof fetchData>
 
@@ -33,7 +34,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<Sea
   } = await createPageConfiguration({ resolvedParams, overrides })
 
   return (
-    <>
+    <SectionContainer>
       <Template title="Book a session with Trillium :)" />
       <ClientPage duration={duration}>
         <div className="flex flex-col space-y-8">
@@ -54,7 +55,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<Sea
       />
       <UrlUpdateUtility />
       <UpdateSlotsUtility busy={data.busy} start={start} end={end} configObject={configuration} />
-    </>
+    </SectionContainer>
   )
 }
 
