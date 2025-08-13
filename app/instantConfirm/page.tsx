@@ -1,7 +1,12 @@
 import React from 'react'
 
 import ClientPage from './ClientPage'
+import SectionContainer from '@/components/SectionContainer'
 
 export default async function Page() {
-  return <ClientPage />
+  return (
+    <SectionContainer>
+      <ClientPage />
+    </SectionContainer>
+  )
 }

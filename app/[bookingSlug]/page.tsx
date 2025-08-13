@@ -11,6 +11,7 @@ import { SearchParamsType } from '@/lib/types'
 import NotFound from 'app/not-found'
 import { createPageConfiguration } from '@/lib/slugConfigurations/createPageConfiguration'
 import ExpiredPromoPage from '@/components/ExpiredPromoPage'
+import SectionContainer from '@/components/SectionContainer'
 
 export default async function Page({
   searchParams,
@@ -53,7 +54,7 @@ export default async function Page({
   } = result
 
   return (
-    <>
+    <SectionContainer>
       <Template
         title={configuration.title || 'Book a massage with Trillium :)'}
         text={configuration.text ?? undefined}
@@ -86,6 +87,6 @@ export default async function Page({
         end={end}
         configObject={configuration}
       />
-    </>
+    </SectionContainer>
   )
 }

@@ -1,6 +1,7 @@
 import React from 'react'
 
 import ClientPage from './ClientPage'
+import SectionContainer from '@/components/SectionContainer'
 
 export default async function Page({
   searchParams,
@@ -12,5 +13,9 @@ export default async function Page({
 
   const data = JSON.parse(dataRaw)
 
-  return <ClientPage url={url} data={data} />
+  return (
+    <SectionContainer>
+      <ClientPage url={url} data={data} />
+    </SectionContainer>
+  )
 }

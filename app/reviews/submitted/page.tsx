@@ -1,5 +1,10 @@
+import SectionContainer from '@/components/SectionContainer'
 import ClientPage from './ClientPage'
 
 export default async function Page() {
-  return <ClientPage />
+  return (
+    <SectionContainer>
+      <ClientPage />
+    </SectionContainer>
+  )
 }

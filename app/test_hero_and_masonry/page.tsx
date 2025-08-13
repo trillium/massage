@@ -11,6 +11,7 @@ import { InitialUrlUtility } from '@/components/utilities/InitialUrlUtility'
 import { UrlUpdateUtility } from '@/components/utilities/UrlUpdateUtility'
 import { UpdateSlotsUtility } from '@/components/utilities/UpdateSlotsUtility'
 import { createPageConfiguration } from '@/lib/slugConfigurations/createPageConfiguration'
+import SectionContainer from '@/components/SectionContainer'
 
 const { avatar } = siteMetadata
 const massageBio =
@@ -33,7 +34,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<Sea
   } = await createPageConfiguration({ resolvedParams })
 
   return (
-    <>
+    <SectionContainer>
       <div className="border-primary-500 mb-10 flex flex-col items-center justify-center rounded-lg border-2 p-5 text-2xl font-bold text-red-500">
         <p>Note, looking to rebuild this here:</p>
         <div>
@@ -64,6 +65,6 @@ export default async function Page({ searchParams }: { searchParams: Promise<Sea
       />
       <UrlUpdateUtility />
       <UpdateSlotsUtility busy={data.busy} start={start} end={end} configObject={configuration} />
-    </>
+    </SectionContainer>
   )
 }

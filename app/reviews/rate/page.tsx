@@ -1,6 +1,7 @@
 import React from 'react'
 import ClientPage from './ClientPage'
 import { decode } from 'lib/hashServer'
+import SectionContainer from '@/components/SectionContainer'
 
 export default async function Page({ searchParams }: { searchParams: Promise<URLSearchParams> }) {
   const resolvedParams = await searchParams
@@ -23,5 +24,9 @@ export default async function Page({ searchParams }: { searchParams: Promise<URL
     ...data,
   }
 
-  return <ClientPage {...clientPageProps} />
+  return (
+    <SectionContainer>
+      <ClientPage {...clientPageProps} />
+    </SectionContainer>
+  )
 }
