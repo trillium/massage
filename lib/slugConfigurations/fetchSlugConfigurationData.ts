@@ -145,7 +145,7 @@ const slugConfigurations: SlugConfigurationType[] = [
   },
   {
     ...free_thirty,
-    bookingSlug: ['westchester'],
+    bookingSlug: ['westchester-free-30'],
     locationWarning: {
       city: 'Westchester',
       message:
