@@ -39,6 +39,8 @@ const BaseRequestSchema = z
     hotelRoomNumber: z.string().optional(),
     parkingInstructions: z.string().optional(),
     additionalNotes: z.string().optional(),
+    bookingUrl: z.string().optional(),
+    promo: z.string().optional(),
   })
   .strict() // Disallow unknown keys
 

@@ -45,6 +45,8 @@ const createBookingFormSchema = (config?: { cities?: string[]; zipCodes?: string
     timeZone: z.string(),
     eventBaseString: z.string(),
     eventMemberString: z.string().optional(),
+    bookingUrl: z.string().optional(),
+    promo: z.string().optional(),
   })
 }
 
@@ -162,7 +164,7 @@ export function useMockedUserFlow() {
     allowedDurations: ALLOWED_DURATIONS,
   })
 
-  const processFormData = (formData: FormData) => {
+  const processFormData = async (formData: FormData) => {
     // Use buildBookingPayload to properly transform location fields
     const jsonData = buildBookingPayload(formData)
 
@@ -192,7 +194,7 @@ export function useMockedUserFlow() {
     const start = new Date(data.start as string)
     const end = new Date(data.end as string)
 
-    const { therapistEmailData, clientEmailData } = generateMockEmails({
+    const { therapistEmailData, clientEmailData } = await generateMockEmails({
       data,
       start,
       end,
@@ -235,13 +237,15 @@ export function useMockedUserFlow() {
     if (values.timeZone) formData.append('timeZone', values.timeZone)
     if (values.eventBaseString) formData.append('eventBaseString', values.eventBaseString)
     if (values.eventMemberString) formData.append('eventMemberString', values.eventMemberString)
+    if (values.bookingUrl) formData.append('bookingUrl', values.bookingUrl)
+    if (values.promo) formData.append('promo', values.promo)
 
     // Directly call the mock processing function
     dispatch(setModal({ status: 'busy' }))
 
-    setTimeout(() => {
+    setTimeout(async () => {
       try {
-        processFormData(formData)
+        await processFormData(formData)
         dispatch(setModal({ status: 'closed' }))
       } catch (error) {
         console.error('Mock submission error:', error)

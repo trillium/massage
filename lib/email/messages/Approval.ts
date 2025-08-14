@@ -16,6 +16,8 @@ export function ApprovalEmail({
   price,
   phone,
   duration,
+  bookingUrl,
+  promo,
 }: EmailProps) {
   const SUBJECT = `REQUEST: ${firstName} ${lastName}, ${duration} minutes, $${price}`
 
@@ -40,8 +42,10 @@ Would you be able to meet at a different time?`
     `<b>Date:</b> ${dateSummary}`,
     `<b>Location:</b> ${flattenLocation(location)}`,
     `${price ? `<b>Price:</b> $${price}` : ''}`,
+    `${promo ? `<b>Promo Applied:</b> ${promo}` : ''}`,
     `<b>Duration:</b> ${duration} minutes`,
     `<b>Phone Number:</b> ${phone}`,
+    `${bookingUrl ? `<b>Booking Page:</b> <a href="${bookingUrl}">${bookingUrl}</a>` : ''}`,
     `<br>`,
     `<br>`,
     `<b><a href=${approveUrl}>Accept the appointment</a></b>`,

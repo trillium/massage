@@ -29,7 +29,8 @@ export default function Confirmation() {
     })
   }
   // Get form data from Redux
-  const { firstName, lastName, locationString, phone, email } = useReduxFormData()
+  const { firstName, lastName, locationString, phone, email, promo, bookingUrl } =
+    useReduxFormData()
   const { price: pricingRedux } = useReduxConfig()
   const { duration } = useReduxAvailability()
 
@@ -47,6 +48,8 @@ export default function Confirmation() {
     phone: phone!,
     email: email!,
     price: price,
+    promo: promo || undefined,
+    bookingUrl: bookingUrl || undefined,
   }
 
   return (

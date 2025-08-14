@@ -35,6 +35,10 @@ export const initialBookingFormData: BookingFormData = {
   },
   /** Location as formatted string */
   locationString: '',
+  /** URL where this booking was made from */
+  bookingUrl: '',
+  /** Promotional offer applied to this booking */
+  promo: '',
 }
 
 export const initialReviewFormState: ReviewFormData = {

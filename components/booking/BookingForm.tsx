@@ -60,6 +60,8 @@ const createBookingFormSchema = (config?: { cities?: string[]; zipCodes?: string
     timeZone: z.string(),
     eventBaseString: z.string(),
     eventMemberString: z.string().optional(),
+    bookingUrl: z.string().optional(),
+    promo: z.string().optional(),
   })
 }
 
@@ -180,6 +182,14 @@ export default function BookingForm({
     timeZone: timeZone || '',
     eventBaseString: eventBaseString,
     eventMemberString: eventContainers?.eventMemberString,
+    bookingUrl: config?.bookingSlug
+      ? `/${Array.isArray(config.bookingSlug) ? config.bookingSlug[0] : config.bookingSlug}`
+      : undefined,
+    promo: config?.discount
+      ? config.discount.type === 'percent'
+        ? `${(config.discount.amountPercent || 0) * 100}% off`
+        : `$${config.discount.amountDollars || 0} off`
+      : undefined,
   }
 
   const handleFormSubmit = async (
@@ -202,6 +212,8 @@ export default function BookingForm({
           parkingInstructions: values.parkingInstructions,
           additionalNotes: values.additionalNotes,
           paymentMethod: values.paymentMethod,
+          promo: values.promo,
+          bookingUrl: values.bookingUrl,
         })
       )
 
@@ -226,6 +238,8 @@ export default function BookingForm({
           timeZone: values.timeZone,
           eventBaseString: values.eventBaseString,
           eventMemberString: values.eventMemberString || undefined,
+          bookingUrl: values.bookingUrl || undefined,
+          promo: values.promo || undefined,
           ...additionalData,
         }
 

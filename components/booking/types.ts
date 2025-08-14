@@ -28,4 +28,8 @@ export type BookingFormData = {
   parkingInstructions?: string
   /** Additional notes */
   additionalNotes?: string
+  /** URL where this booking was made from */
+  bookingUrl?: string
+  /** Promotional offer applied to this booking */
+  promo?: string
 }

@@ -28,13 +28,19 @@ export function buildBookingPayload(formData: FormData, additionalData: object =
     return {
       ...restEntries,
       location,
+      // Include promo and bookingUrl if they exist in the form data
+      ...(entries.promo && { promo: entries.promo }),
+      ...(entries.bookingUrl && { bookingUrl: entries.bookingUrl }),
       ...additionalData,
     }
   }
 
-  // If no location fields, return as before
+  // If no location fields, return as before but include promo and bookingUrl
   return {
     ...entries,
+    // Include promo and bookingUrl if they exist in the form data
+    ...(entries.promo && { promo: entries.promo }),
+    ...(entries.bookingUrl && { bookingUrl: entries.bookingUrl }),
     ...additionalData,
   }
 }

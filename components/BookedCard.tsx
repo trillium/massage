@@ -11,6 +11,8 @@ export function BookedCard({
   email,
   state,
   price,
+  promo,
+  bookingUrl,
 }: {
   dateString: string
   startString: string
@@ -22,12 +24,26 @@ export function BookedCard({
   email: string
   state?: 'Pending' | 'Confirmed' | 'Declined'
   price?: number | string
+  promo?: string
+  bookingUrl?: string
 }) {
   const cards = [
     { title: 'Name', text: `${firstName} ${lastName}`, emphasize: true },
     { title: 'Location', text: location, emphasize: false },
     { title: 'Phone', text: phone, emphasize: false },
     { title: 'Email', text: email, emphasize: false },
+    ...(promo ? [{ title: 'Promo', text: promo, emphasize: false }] : []),
+    ...(bookingUrl
+      ? [
+          {
+            title: 'Source',
+            text:
+              (typeof window !== 'undefined' ? window.location.host : 'trilliummassage.la') +
+              bookingUrl,
+            emphasize: false,
+          },
+        ]
+      : []),
   ]
   return (
     <div

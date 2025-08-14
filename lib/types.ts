@@ -57,6 +57,12 @@ export type DateTimeAndTimeZone = {
   timeZone: string
 }
 
+export type GoogleCalendarDateTime = {
+  dateTime?: string
+  date?: string
+  timeZone?: string
+}
+
 /**
  * Represents an interval of time between start and end.
  */
@@ -118,6 +124,10 @@ export type AppointmentProps = {
   eventBaseString: string
   eventMemberString?: string
   eventContainerString?: string
+  /** URL where this booking was made from */
+  bookingUrl?: string
+  /** Promotional offer applied to this booking */
+  promo?: string
 }
 
 export type EmailProps = {
@@ -131,6 +141,8 @@ export type EmailProps = {
   price?: string
   phone: string
   duration: string
+  bookingUrl?: string
+  promo?: string
 }
 
 export type ChairAppointmentBlockProps = {
@@ -186,9 +198,16 @@ export type LocationObject = {
 
 export type AttendeeType = {
   email: string
-  organizer: boolean
-  self: boolean
-  responseStatus: string
+  displayName?: string
+  organizer?: boolean
+  self?: boolean
+  responseStatus?: string
+}
+
+export type CreatorType = {
+  email?: string
+  displayName?: string
+  self?: boolean
 }
 
 export type GoogleCalendarFetchDataReturnType = {
@@ -210,8 +229,8 @@ export type GoogleCalendarV3Event = {
   summary: string
   /* The calendar appointment text */
   description?: string
-  start: DateTimeAndTimeZone
-  end: DateTimeAndTimeZone
+  start: GoogleCalendarDateTime
+  end: GoogleCalendarDateTime
   location?: string
   attendees?: AttendeeType[]
   kind: string
@@ -220,14 +239,14 @@ export type GoogleCalendarV3Event = {
   htmlLink: string
   created: string
   updated: string
-  creator: object
-  organizer: object
-  recurringEventId: string
-  originalStartTime: object
+  creator?: CreatorType
+  organizer?: CreatorType
+  recurringEventId?: string
+  originalStartTime?: object
   iCalUID: string
   sequence: number
   reminders: object
-  eventType: string
+  eventType?: string
 }
 
 export type AllowedDurationsType = number[]
@@ -327,4 +346,8 @@ export type BookingFormData = {
   parkingInstructions?: string
   /** Additional notes */
   additionalNotes?: string
+  /** URL where this booking was made from */
+  bookingUrl?: string
+  /** Promotional offer applied to this booking */
+  promo?: string
 }
