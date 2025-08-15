@@ -4,7 +4,7 @@ function createAnchorTag(url: string, text: string): string {
 
 export const parts = [
   'Trillium Smith',
-  '818.738.5344',
+  process.env.OWNER_PHONE || '',
   'Trillium Massage',
   createAnchorTag(
     'https://trilliummassage.la/?utm_source=email&utm_medium=signature&utm_campaign=personal_signature',
