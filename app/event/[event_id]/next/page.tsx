@@ -1,12 +1,14 @@
 import { fetchData } from '@/lib/fetch/fetchData'
 import { fetchSingleEvent } from '@/lib/fetch/fetchSingleEvent'
-import { UpdateSlotsUtility } from '@/components/utilities/UpdateSlotsUtility'
+import { NextSlotUpdateUtility } from '@/components/utilities/NextSlotUpdateUtility'
+import { MultiDurationSummary } from '@/components/availability/MultiDurationSummary'
+import { DynamicTimeList } from '@/components/availability/DynamicTimeList'
 import {
   GoogleCalendarV3Event,
   StringDateTimeIntervalAndLocation,
   LocationObject,
 } from '@/lib/types'
-import DurationPicker from '@/components/availability/controls/DurationPicker'
+import EnhancedDurationPicker from '@/components/availability/controls/EnhancedDurationPicker'
 import Calendar from '@/components/availability/date/Calendar'
 import TimeList from '@/components/availability/time/TimeList'
 import BookingForm from '@/components/booking/BookingForm'
@@ -16,7 +18,12 @@ import Day from '@/lib/day'
 import {
   getAvailableNextSlots,
   convertToTimeListFormat,
+  createMultiDurationAvailability,
 } from '@/lib/availability/getNextSlotAvailability'
+import Link from 'next/link'
+import MapTile from '@/components/MapTile'
+import { geocodeLocation } from '@/lib/geocode'
+import { IMAGE_CONFIG } from '@/lib/mapConfig'
 
 interface NextBookingPageProps {
   params: Promise<{ event_id: string }>
@@ -47,16 +54,22 @@ export default async function NextBookingPage({ params }: NextBookingPageProps) 
   const eventEndTime = currentEvent.end?.dateTime ? new Date(currentEvent.end.dateTime) : null
   const thirtyMinutesAfter = eventEndTime ? addMinutes(eventEndTime, 30) : null
 
-  // Use the new availability selector to get conflict-free slots
-  const availableSlots = await getAvailableNextSlots({
+  // Use multi-duration availability system for flexible next-slot booking
+  const multiDurationAvailability = await createMultiDurationAvailability({
     currentEvent,
-    appointmentDuration: DEFAULT_DURATION,
+    durationOptions: ALLOWED_DURATIONS, // Use all allowed durations
     slotInterval: 15, // 15-minute increments
     maxMinutesAhead: 30, // Look 30 minutes ahead
   })
 
-  // Convert to format expected by TimeList component
-  const slots = convertToTimeListFormat(availableSlots)
+  // Serialize multi-duration availability data for client components
+  const multiDurationSlots: Record<number, StringDateTimeIntervalAndLocation[]> = {}
+  for (const duration of ALLOWED_DURATIONS) {
+    multiDurationSlots[duration] = multiDurationAvailability.getTimeListFormatForDuration(duration)
+  }
+
+  // Start with default duration slots for initial display
+  const slots = multiDurationSlots[DEFAULT_DURATION]
 
   const eventEndTimeStr = eventEndTime ? eventEndTime.toLocaleString() : 'Unknown'
   const thirtyMinutesAfterStr = thirtyMinutesAfter ? thirtyMinutesAfter.toLocaleString() : 'Unknown'
@@ -68,6 +81,30 @@ export default async function NextBookingPage({ params }: NextBookingPageProps) 
   }
   const startObj = dayWithStartEndObj(data.start)
   const endObj = dayWithStartEndObj(data.end)
+
+  // Geocode the event location to get coordinates for the map
+  // Use the same defaults as MapTile component
+  const mapCoordinates = {
+    longitude: -118.2437, // Default Los Angeles coordinates (matches MapTile DEFAULT_VIEW)
+    latitude: 34.0522,
+    zoom: IMAGE_CONFIG.zoom, // Use zoom from mapConfig
+  }
+
+  if (currentEvent.location) {
+    try {
+      const geocodeResult = await geocodeLocation(currentEvent.location)
+      if (geocodeResult.success && geocodeResult.coordinates) {
+        mapCoordinates.longitude = geocodeResult.coordinates.lng
+        mapCoordinates.latitude = geocodeResult.coordinates.lat
+
+        console.log('Geocoded location:', currentEvent.location, '→', geocodeResult.coordinates)
+      } else {
+        console.warn('Geocoding failed for location:', currentEvent.location, geocodeResult.error)
+      }
+    } catch (error) {
+      console.error('Error geocoding location:', error)
+    }
+  }
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -96,66 +133,46 @@ export default async function NextBookingPage({ params }: NextBookingPageProps) 
           </div>
         </div>
 
-        {/* Set Redux slots and busy times for the booking UI */}
-        <UpdateSlotsUtility
-          busy={data.busy}
-          containers={[currentEvent]}
-          start={startObj}
-          end={endObj}
-          configObject={null}
-        />
+        {/* Set Redux slots for multi-duration next-slot booking */}
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+          <NextSlotUpdateUtility multiDurationSlots={multiDurationSlots} />
+        </div>
 
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
           {/* Left Column - Booking Configuration */}
           <div className="space-y-6">
             <div className="rounded-lg bg-white p-6 shadow-sm dark:bg-gray-800">
               <h3 className="mb-4 text-lg font-semibold text-gray-900 dark:text-white">Duration</h3>
-              <DurationPicker
+              <EnhancedDurationPicker
                 title={`${DEFAULT_DURATION} minute session - $${DEFAULT_PRICING[DEFAULT_DURATION]}`}
                 duration={DEFAULT_DURATION}
                 price={DEFAULT_PRICING}
                 allowedDurations={ALLOWED_DURATIONS}
                 configuration={null}
+                multiDurationSlots={multiDurationSlots}
               />
-            </div>
-
-            <div className="rounded-lg bg-white p-6 shadow-sm dark:bg-gray-800">
-              <h3 className="mb-4 text-lg font-semibold text-gray-900 dark:text-white">Date</h3>
               <Calendar />
-            </div>
-
-            <div className="rounded-lg bg-white p-6 shadow-sm dark:bg-gray-800">
-              <h3 className="mb-4 text-lg font-semibold text-gray-900 dark:text-white">
-                Available Times
-                <span className="ml-2 text-sm font-normal text-gray-500 dark:text-gray-400">
-                  (Within 30 minutes after current event)
-                </span>
-              </h3>
-              {slots.length > 0 ? (
-                <TimeList />
-              ) : (
-                <div className="py-4 text-center text-gray-500 dark:text-gray-400">
-                  <p>No available time slots</p>
-                  <p className="mt-1 text-xs">
-                    Time slots are only available within 30 minutes after the current event ends
-                  </p>
-                </div>
-              )}
+              <DynamicTimeList multiDurationSlots={multiDurationSlots} />
+              <BookingForm endPoint="/api/request" />
             </div>
           </div>
-
-          {/* Right Column - Booking Form */}
-          <div className="rounded-lg bg-white p-6 shadow-sm dark:bg-gray-800">
-            <h3 className="mb-6 text-lg font-semibold text-gray-900 dark:text-white">
-              Book Your Session
-            </h3>
-            <BookingForm endPoint="/api/book" />
+          <div className="space-y-6">
+            <div
+              id="map-container"
+              className="flex h-full min-h-96 w-full items-center justify-center overflow-hidden rounded-lg bg-white p-0 shadow-sm dark:bg-gray-800"
+            >
+              <MapTile
+                longitude={mapCoordinates.longitude}
+                latitude={mapCoordinates.latitude}
+                zoom={mapCoordinates.zoom}
+              />
+            </div>
           </div>
         </div>
 
         {/* Back Link */}
         <div className="mt-8">
-          <a
+          <Link
             href={`/event/${event_id}`}
             className="inline-flex items-center text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
           >
@@ -168,7 +185,7 @@ export default async function NextBookingPage({ params }: NextBookingPageProps) 
               />
             </svg>
             Back to Event Details
-          </a>
+          </Link>
         </div>
       </div>
     </div>

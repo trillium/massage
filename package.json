@@ -19,7 +19,8 @@
     "spellcheck": "cspell '**/*.{ts,tsx,js,jsx,md,mdx}' --no-progress",
     "spellcheck:fix": "cspell '**/*.{ts,tsx,js,jsx,md,mdx}' --no-progress --show-suggestions",
     "commit:build": "git config hooks.prebuild true && git commit",
-    "commit:no-build": "git config hooks.prebuild false && git commit"
+    "commit:no-build": "git config hooks.prebuild false && git commit",
+    "generate-static-map": "ts-node scripts/generate-la-map-auto.ts"
   },
   "dependencies": {
     "@headlessui/react": "2.2.0",
@@ -30,6 +31,7 @@
     "@tailwindcss/postcss": "^4.0.5",
     "@tailwindcss/typography": "^0.5.15",
     "@testing-library/react": "14.0.0",
+    "@vis.gl/react-maplibre": "^8.0.4",
     "@vvo/tzdb": "^6.157.0",
     "autoprefixer": "^10.4.13",
     "body-scroll-lock": "^4.0.0-beta.0",
@@ -43,6 +45,7 @@
     "hast-util-from-html-isomorphic": "^2.0.0",
     "image-size": "2.0.1",
     "lru-cache": "^11.0.2",
+    "maplibre-gl": "^5.6.2",
     "next": "15.2.4",
     "next-contentlayer2": "0.5.5",
     "next-themes": "^0.4.6",
@@ -82,6 +85,7 @@
     "@svgr/webpack": "^8.0.1",
     "@testing-library/jest-dom": "^6.6.3",
     "@types/mdx": "^2.0.12",
+    "@types/puppeteer": "^7.0.4",
     "@types/react": "^19.0.8",
     "@typescript-eslint/eslint-plugin": "^8.39.0",
     "@typescript-eslint/parser": "^8.39.0",
@@ -102,6 +106,7 @@
     "nspell": "^2.1.5",
     "prettier": "^3.4.2",
     "prettier-plugin-tailwindcss": "^0.6.11",
+    "puppeteer": "^24.16.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.2",
     "vite-tsconfig-paths": "^5.1.4",

@@ -147,7 +147,9 @@
     "Zelle",
     "Zoccolante",
     "ical",
-    "uid"
+    "uid",
+    "maplibregl",
+    "Bernardino"
   ],
   "dictionaries": ["typescript", "node", "npm", "html", "css", "bash"],
   "languageSettings": [
