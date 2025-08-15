@@ -1,9 +1,8 @@
 import React from 'react'
 import { notFound } from 'next/navigation'
-import { fetchSingleEvent } from '@/lib/fetch/fetchSingleEvent'
 import { getEventsBySearchQuery } from '@/lib/availability/getEventsBySearchQuery'
 import { GoogleCalendarV3Event } from '@/lib/types'
-import Link from 'next/link'
+import fetchSingleEvent from '@/lib/fetch/fetchSingleEvent'
 
 // Helper function to extract booking slug from event data
 function extractBookingSlug(event: GoogleCalendarV3Event): string | null {
@@ -41,7 +40,7 @@ function extractBookingSlug(event: GoogleCalendarV3Event): string | null {
 
 // Helper function to create booking URL with location parameters
 function createBookingUrl(bookingSlug: string | null, location?: string): string {
-  const baseUrl = bookingSlug ? `/${bookingSlug}` : '/'
+  const baseUrl = bookingSlug ? `/${bookingSlug}` : '/book'
 
   if (!location) {
     return baseUrl
@@ -78,18 +77,62 @@ function createBookingUrl(bookingSlug: string | null, location?: string): string
 }
 
 export default async function EventPage({ params }: { params: Promise<{ event_id: string }> }) {
+  console.log('[EventPage] params:', params)
   const { event_id } = await params
+  console.log('[EventPage] event_id:', event_id)
 
   // Fetch the specific calendar event
   const matchingEvent = await fetchSingleEvent(event_id)
+  console.log('matchingEvent:', matchingEvent)
 
   // Extract booking slug and create booking URL if event exists
   let bookingSlug: string | null = null
-  let bookingUrl: string = '/'
+  let bookingUrl: string = '/book'
 
   if (matchingEvent) {
     bookingSlug = extractBookingSlug(matchingEvent)
     bookingUrl = createBookingUrl(bookingSlug, matchingEvent.location)
+    console.log('[EventPage] Extracted booking slug:', bookingSlug)
+    console.log('[EventPage] Generated booking URL:', bookingUrl)
+  }
+
+  // Also search for events containing 'massage'
+  let massageEvents: GoogleCalendarV3Event[] = []
+  try {
+    // Create date range: 6 months ago to 6 months in the future
+    const eighteenMonthsAgo = new Date()
+    eighteenMonthsAgo.setMonth(eighteenMonthsAgo.getMonth() - 18)
+
+    const sixMonthsFromNow = new Date()
+    sixMonthsFromNow.setMonth(sixMonthsFromNow.getMonth() + 6)
+
+    console.log('Search date range:', {
+      start: eighteenMonthsAgo.toISOString(),
+      end: sixMonthsFromNow.toISOString(),
+    })
+
+    massageEvents = await getEventsBySearchQuery({
+      query: 'massage',
+      start: eighteenMonthsAgo,
+      end: sixMonthsFromNow,
+    })
+    console.log('massageEvents:', massageEvents)
+  } catch (error) {
+    console.error('Error fetching massage events:', error)
+  }
+
+  // Log whether we found the specific event or not
+  if (!matchingEvent) {
+    console.log(`No event found with ID: ${event_id}, but showing page with search results`)
+  } else {
+    // Log the matching event for debugging
+    console.log('[EventPage] Matching event found:', JSON.stringify(matchingEvent, null, 2))
+    console.log('[EventPage] matchingEvent.start:', matchingEvent.start)
+    console.log('[EventPage] matchingEvent.end:', matchingEvent.end)
+    console.log('[EventPage] matchingEvent.creator:', matchingEvent.creator)
+    console.log('[EventPage] matchingEvent.attendees:', matchingEvent.attendees)
+    console.log('[EventPage] matchingEvent.status:', matchingEvent.status)
+    console.log('[EventPage] matchingEvent.htmlLink:', matchingEvent.htmlLink)
   }
 
   return (
@@ -230,37 +273,29 @@ export default async function EventPage({ params }: { params: Promise<{ event_id
                         <span className="font-mono text-xs">{bookingSlug}</span>
                       </p>
                     )}
-                    <Link
+                    <a
                       href={bookingUrl}
                       className="inline-block rounded bg-green-600 px-4 py-2 text-white transition-colors hover:bg-green-700"
                     >
                       Book New Appointment
-                    </Link>
+                    </a>
                     <p className="text-xs text-gray-600 dark:text-gray-400">
                       {matchingEvent.location &&
                         'Location information will be pre-filled based on this event'}
                     </p>
                   </div>
                 </div>
-
-                {/* Book Next Slot Section */}
-                <div className="mt-6 rounded-lg bg-blue-50 p-4 dark:bg-blue-900/20">
-                  <h3 className="text-lg font-medium text-blue-700 dark:text-blue-300">
-                    Book the Next Available Slot After This Event:
-                  </h3>
-                  <div className="mt-2">
-                    <Link
-                      href={`/event/${matchingEvent.id}/next`}
-                      className="inline-block rounded bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700"
-                    >
-                      Book Next Slot
-                    </Link>
-                    <p className="mt-1 text-xs text-gray-600 dark:text-gray-400">
-                      Only times within 30 minutes after this event will be shown.
-                    </p>
-                  </div>
-                </div>
               </div>
+            </div>
+
+            {/* Debug section showing raw JSON */}
+            <div className="rounded-lg bg-gray-100 p-6 dark:bg-gray-900">
+              <h3 className="mb-4 text-lg font-medium text-gray-700 dark:text-gray-300">
+                Raw Event Data (Debug):
+              </h3>
+              <pre className="overflow-auto text-xs text-gray-900 dark:text-white">
+                {JSON.stringify(matchingEvent, null, 2)}
+              </pre>
             </div>
           </>
         ) : (
@@ -276,6 +311,71 @@ export default async function EventPage({ params }: { params: Promise<{ event_id
             </p>
           </div>
         )}
+
+        {/* Search Results for 'massage' */}
+        <div className="mt-8 rounded-lg bg-blue-50 p-6 dark:bg-blue-900/20">
+          <h2 className="mb-6 text-2xl font-bold text-gray-900 dark:text-white">
+            Events containing "massage"
+          </h2>
+          {massageEvents.length > 0 ? (
+            <div className="space-y-4">
+              {massageEvents.map((event, index) => (
+                <div
+                  key={event.id || index}
+                  className="rounded-lg bg-white p-4 shadow-sm dark:bg-gray-800"
+                >
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                    {event.summary || 'Untitled Event'}
+                  </h3>
+                  <div className="mt-2 space-y-1 text-sm text-gray-600 dark:text-gray-400">
+                    <p>
+                      <strong>ID:</strong> <span className="font-mono text-xs">{event.id}</span>
+                    </p>
+                    {(event.start?.dateTime || event.start?.date) && (
+                      <p>
+                        <strong>Start:</strong>{' '}
+                        {event.start.dateTime
+                          ? new Date(event.start.dateTime).toLocaleString()
+                          : event.start.date}
+                      </p>
+                    )}
+                    {(event.end?.dateTime || event.end?.date) && (
+                      <p>
+                        <strong>End:</strong>{' '}
+                        {event.end.dateTime
+                          ? new Date(event.end.dateTime).toLocaleString()
+                          : event.end.date}
+                      </p>
+                    )}
+                    {event.location && (
+                      <p>
+                        <strong>Location:</strong> {event.location}
+                      </p>
+                    )}
+                    {event.description && (
+                      <p>
+                        <strong>Description:</strong>{' '}
+                        {event.description.length > 100
+                          ? `${event.description.substring(0, 100)}...`
+                          : event.description}
+                      </p>
+                    )}
+                  </div>
+                  <div className="mt-3">
+                    <a
+                      href={`/event/${event.id}`}
+                      className="inline-block rounded bg-blue-600 px-3 py-1 text-sm text-white hover:bg-blue-700"
+                    >
+                      View Details
+                    </a>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="text-gray-600 dark:text-gray-400">No events found containing "massage"</p>
+          )}
+        </div>
       </div>
     </div>
   )

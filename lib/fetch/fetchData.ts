@@ -1,7 +1,12 @@
 import getBusyTimes from 'lib/availability/getBusyTimes'
 import { getDateRangeInterval, mapDatesToStrings } from 'lib/availability/helpers'
 import Day from 'lib/day'
-import { SearchParamsType } from '../types'
+import getAccessToken from 'lib/availability/getAccessToken'
+import {
+  SearchParamsType,
+  GoogleCalendarFetchDataReturnType,
+  GoogleCalendarV3Event,
+} from '../types'
 
 export async function fetchData({ searchParams }: { searchParams: SearchParamsType }) {
   // Offer two weeks of availability.
@@ -10,17 +15,19 @@ export async function fetchData({ searchParams }: { searchParams: SearchParamsTy
 
   const timeZone = undefined
 
-  const busy = await getBusyTimes(
-    getDateRangeInterval({
-      start,
-      end,
-      timeZone,
-    })
-  )
+  const dateRangeInterval = getDateRangeInterval({
+    start,
+    end,
+    timeZone,
+  })
+
+  const busy = await getBusyTimes(dateRangeInterval)
+
+  const mappedBusy = mapDatesToStrings(busy)
 
   return {
     start: start.toString(),
     end: end.toString(),
-    busy: mapDatesToStrings(busy),
+    busy: mappedBusy,
   }
 }

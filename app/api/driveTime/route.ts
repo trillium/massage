@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { fetchSingleEvent } from '@/lib/fetch/fetchData'
+import fetchSingleEvent from '@/lib/fetch/fetchSingleEvent'
 
 // Default event ID from loc/route.ts - used when no event ID is provided
 
