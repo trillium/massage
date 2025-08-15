@@ -149,7 +149,9 @@
     "ical",
     "uid",
     "maplibregl",
-    "Bernardino"
+    "Bernardino",
+    "Rebooking",
+    "Geospacial"
   ],
   "dictionaries": ["typescript", "node", "npm", "html", "css", "bash"],
   "languageSettings": [
