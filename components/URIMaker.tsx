@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useState } from 'react'
 import type { FormEvent, Dispatch, SetStateAction } from 'react'
 
@@ -237,13 +239,13 @@ export default function URIMaker({ events }: URIMakerProps) {
           Copy
         </button>
       </form>
-      <div className="pt-4">
+      {/* <div className="pt-4">
         <ul>
           {events.map((item: GoogleCalendarV3Event) => {
             return <CalendarEvent key={item.id} {...item} handleSetStartEnd={handleSetStartEnd} />
           })}
         </ul>
-      </div>
+      </div> */}
     </>
   )
 }
@@ -279,12 +281,22 @@ function CalendarEvent({
   location,
   handleSetStartEnd,
 }: CalendarEventProps) {
-  const startDateTime = new Date(start.dateTime).toLocaleString('en-US', {
-    timeZone: start.timeZone,
-  })
-  const endDateTime = new Date(end.dateTime).toLocaleString('en-US', {
-    timeZone: end.timeZone,
-  })
+  // Handle both dateTime and date formats from Google Calendar
+  const startDateTime = start.dateTime
+    ? new Date(start.dateTime).toLocaleString('en-US', {
+        timeZone: start.timeZone,
+      })
+    : start.date
+      ? new Date(start.date).toLocaleDateString('en-US')
+      : 'No start time'
+
+  const endDateTime = end.dateTime
+    ? new Date(end.dateTime).toLocaleString('en-US', {
+        timeZone: end.timeZone,
+      })
+    : end.date
+      ? new Date(end.date).toLocaleDateString('en-US')
+      : 'No end time'
 
   return (
     <li className="pb-2">
@@ -297,7 +309,14 @@ function CalendarEvent({
       </div>
       <button
         className="border-primary-400 hover:bg-primary-400 m-4 rounded-md border px-4 py-2 hover:font-bold"
-        onClick={() => handleSetStartEnd({ start: start.dateTime, end: end.dateTime })}
+        onClick={() => {
+          const startTime = start.dateTime || start.date || ''
+          const endTime = end.dateTime || end.date || ''
+          if (startTime && endTime) {
+            handleSetStartEnd({ start: startTime, end: endTime })
+          }
+        }}
+        disabled={!start.dateTime && !start.date}
       >
         Set Start/End
       </button>

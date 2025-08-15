@@ -2,7 +2,7 @@ import type { InferGetServerSidePropsType } from 'next'
 
 import Template from '@/components/Template'
 import { fetchData } from 'lib/fetch/fetchData'
-import { SearchParamsType } from '@/lib/types'
+import { SearchParamsType, SlugConfigurationType } from '@/lib/types'
 import BookingForm from '@/components/booking/BookingForm'
 import DurationPicker from '@/components/availability/controls/DurationPicker'
 import Calendar from '@/components/availability/date/Calendar'
@@ -15,6 +15,8 @@ import { createPageConfiguration } from '@/lib/slugConfigurations/createPageConf
 export type PageProps = InferGetServerSidePropsType<typeof fetchData>
 
 export const dynamic = 'force-dynamic'
+
+const overrides: Partial<SlugConfigurationType> = { type: 'area-wide' }
 
 export default async function Page({ searchParams }: { searchParams: Promise<SearchParamsType> }) {
   const resolvedParams = await searchParams
@@ -30,7 +32,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<Sea
     data,
     start,
     end,
-  } = await createPageConfiguration({ resolvedParams })
+  } = await createPageConfiguration({ resolvedParams, overrides })
 
   return (
     <>

@@ -79,13 +79,6 @@ async function getActiveContainers(): Promise<QueryGroup[]> {
       try {
         const filtered = filterEventsForQuery(allEvents, query)
 
-        console.log(`Local filtering for ${query}:`, {
-          searchQuery: filtered.searchQuery,
-          relevantEventCount: filtered.events.length,
-          containerCount: filtered.containers.length,
-          memberCount: filtered.members.length,
-        })
-
         queryGroups.set(query, {
           query,
           searchQuery: filtered.searchQuery,
