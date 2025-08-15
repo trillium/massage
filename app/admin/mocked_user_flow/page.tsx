@@ -6,6 +6,7 @@ import Step1_5UserConfirmation from './components/Step1_5UserConfirmation'
 import Step2GeneratedEmails from './components/Step2GeneratedEmails'
 import Step3TherapistApproval from './components/Step3TherapistApproval'
 import Step4FinalConfirmation from './components/Step4FinalConfirmation'
+import Step5EventObjectDetails from './components/Step5EventObjectDetails'
 import DebugData from './components/DebugData'
 import ConfigurationTester from 'components/admin/ConfigurationTester'
 import { useMockedUserFlow } from './hooks/useMockedUserFlow'
@@ -70,6 +71,8 @@ export default function MockedUserFlowPage() {
         />
 
         <Step4FinalConfirmation isConfirmed={isConfirmed} submittedData={submittedData} />
+
+        <Step5EventObjectDetails submittedData={submittedData} isConfirmed={isConfirmed} />
 
         <DebugData submittedData={submittedData} onReset={handleReset} />
       </div>
