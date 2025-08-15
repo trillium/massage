@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { fetchSingleEvent } from 'lib/fetch/fetchData'
+import { fetchSingleEvent } from 'lib/fetch/fetchSingleEvent'
 
 export async function GET(
   request: NextRequest,
