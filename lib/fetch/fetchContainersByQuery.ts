@@ -29,27 +29,30 @@ export async function fetchContainerGeneric({ searchParams }: { searchParams: Se
 /**
  * Fetches ALL calendar events (both __EVENT__ and regular calendar events).
  * Use this when blockingScope is 'general' to block against all calendar events.
+ * Updated to use empty query string to retrieve all calendar events in the date range.
+ * This is more efficient than multiple API calls and ensures we capture both
+ * event-based bookings and regular calendar appointments for comprehensive blocking.
  */
-export async function fetchAllCalendarEvents({ searchParams }: { searchParams: SearchParamsType }) {
+export async function fetchAllCalendarEvents({
+  searchParams,
+  options,
+}: {
+  searchParams: SearchParamsType
+  options?: { startDate?: Date; endDate?: Date }
+}) {
   const start = Day.todayWithOffset(0)
   const end = Day.todayWithOffset(21)
-  const startDate = new Date(start.toString())
-  const endDate = new Date(end.toString())
 
-  // First, get all __EVENT__ events
-  const eventBasedEvents = await getEventsBySearchQuery({
-    start: startDate,
-    end: endDate,
-    query: '__EVENT__',
-  })
+  // Use provided dates if available, otherwise use defaults
+  const startDate = options?.startDate || new Date(start.toString())
+  const endDate = options?.endDate || new Date(end.toString())
 
-  // Then, we need to get ALL calendar events (including regular events)
-  // This might require a different approach depending on your calendar API
-  // For now, we'll simulate by getting events with a very broad query or empty query
+  // Get ALL calendar events (including both __EVENT__ and regular events)
+  // Empty query string returns all events in the specified date range
   const allCalendarEvents = await getEventsBySearchQuery({
     start: startDate,
     end: endDate,
-    query: '', // Empty query should return all events
+    query: '', // Empty query returns all events
   })
 
   return {

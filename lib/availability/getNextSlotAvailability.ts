@@ -138,10 +138,9 @@ export async function getNextSlotAvailability(
   // Limit to 24 hours from event end time for performance optimization
   const searchEndTime = addMinutes(eventEndTime, 24 * 60) // 24 hours from event end
   const allEventsData = await fetchAllCalendarEvents({
-    searchParams: {},
-    options: {
-      startDate: eventEndTime,
-      endDate: searchEndTime,
+    searchParams: {
+      startDate: eventEndTime.toISOString(),
+      endDate: searchEndTime.toISOString(),
     },
   })
   const existingEvents = allEventsData.allEvents || []
@@ -229,10 +228,9 @@ export async function createMultiDurationAvailability(
    */
   const searchEndTime = addMinutes(eventEndTime, 24 * 60) // 24 hours from event end
   const allEventsData = await fetchAllCalendarEvents({
-    searchParams: {},
-    options: {
-      startDate: eventEndTime,
-      endDate: searchEndTime,
+    searchParams: {
+      startDate: eventEndTime.toISOString(),
+      endDate: searchEndTime.toISOString(),
     },
   })
   const existingEvents = allEventsData.allEvents || []

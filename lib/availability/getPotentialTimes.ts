@@ -49,6 +49,12 @@ export default function getPotentialTimes({
   // TODO - refactor this if/else block, lot of repeated code
   if (containers) {
     containers.forEach((slot) => {
+      // Handle both dateTime and date formats from Google Calendar
+      if (!slot.start.dateTime || !slot.end.dateTime) {
+        // Skip all-day events or events without dateTime
+        return
+      }
+
       const slotStart = new Date(slot.start.dateTime)
       const slotEnd = new Date(slot.end.dateTime)
 

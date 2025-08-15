@@ -15,7 +15,14 @@ const AppointmentPropsSchema = z.object({
   start: z.string(),
   end: z.string(),
   timeZone: z.string(),
-  location: z.string(),
+  location: z.union([
+    z.string(),
+    z.object({
+      street: z.string(),
+      city: z.string(),
+      zip: z.string(),
+    }),
+  ]),
   phone: z.string(),
   duration: z.string().refine((value) => !Number.isNaN(Number.parseInt(value)), {
     message: 'Duration must be a valid integer.',
@@ -23,6 +30,9 @@ const AppointmentPropsSchema = z.object({
   eventBaseString: z.string(),
   eventMemberString: z.string().optional(),
   eventContainerString: z.string().optional(),
+  // Optional fields that might be included but aren't required
+  price: z.string().optional(),
+  paymentMethod: z.string().optional(),
 })
 
 export async function GET(req: NextRequest) {
@@ -57,11 +67,18 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: 'Malformed request in date parsing' }, { status: 400 })
   }
 
-  // Convert string location to LocationObject for the appointment function
-  const locationObject = {
-    street: '', // We don't have street info from the string, so default to empty
-    city: validObject.location, // Use the location string as the city
-    zip: '', // We don't have zip info from the string, so default to empty
+  // Convert location to LocationObject for the appointment function
+  let locationObject
+  if (typeof validObject.location === 'string') {
+    // Legacy handling: location is a string
+    locationObject = {
+      street: '', // We don't have street info from the string, so default to empty
+      city: validObject.location, // Use the location string as the city
+      zip: '', // We don't have zip info from the string, so default to empty
+    }
+  } else {
+    // New handling: location is already a LocationObject
+    locationObject = validObject.location
   }
 
   // Create the confirmed appointment
