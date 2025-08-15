@@ -12,7 +12,9 @@ vi.mock('lib/pushover/pushover', () => ({
 // Mocks
 const sendMailMock = vi.fn(() => Promise.resolve())
 const approvalEmailMock = vi.fn(() => ({ subject: 'Approval', body: 'Approval body' }))
-const clientRequestEmailMock = vi.fn(() => ({ subject: 'Client', body: 'Client body' }))
+const clientRequestEmailMock = vi.fn(() =>
+  Promise.resolve({ subject: 'Client', body: 'Client body' })
+)
 const getHashMock = vi.fn(() => 'hash')
 
 const validPayload = {

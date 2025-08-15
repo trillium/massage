@@ -88,7 +88,7 @@ describe('BlockingScope Integration Tests', () => {
     expect(result.busyQuery).toHaveLength(6) // All blocking events create busy times
 
     // Should include both booking system events AND regular calendar events
-    const blockingEventSummaries = result.blockingEvents.map((e) => e.summary).sort()
+    const blockingEventSummaries = result.blockingEvents?.map((e) => e.summary).sort() || []
     expect(blockingEventSummaries).toEqual([
       'Doctor Appointment',
       'Lunch with Client',

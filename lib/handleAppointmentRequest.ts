@@ -73,8 +73,9 @@ export async function handleAppointmentRequest({
     subject: approveEmail.subject,
     body: approveEmail.body,
   })
-  const confirmationEmail = clientRequestEmailFn({
+  const confirmationEmail = await clientRequestEmailFn({
     ...data,
+    email: data.email, // Explicitly pass the email
     dateSummary: intervalToHumanString({
       start,
       end,

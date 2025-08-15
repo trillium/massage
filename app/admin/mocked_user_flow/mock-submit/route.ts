@@ -12,7 +12,7 @@ export async function POST(req: NextRequest) {
   console.log(parseResult)
 
   // Simulate a brief delay
-  await new Promise((resolve) => setTimeout(resolve, 1000))
+  await new Promise((resolve) => setTimeout(resolve, 250))
 
   return NextResponse.json({ success: true }, { status: 200 })
 }

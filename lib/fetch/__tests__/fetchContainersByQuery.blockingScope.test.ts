@@ -98,7 +98,7 @@ describe('fetchContainersByQuery - blockingScope filter functions', () => {
 
       // Should find all event members (regardless of query)
       expect(result.members).toHaveLength(2)
-      expect(result.members.map((e) => e.summary)).toEqual([
+      expect(result.members?.map((e) => e.summary)).toEqual([
         'free-30__EVENT__MEMBER__',
         'other-event__EVENT__MEMBER__',
       ])
@@ -113,7 +113,7 @@ describe('fetchContainersByQuery - blockingScope filter functions', () => {
 
       // Should combine both types for blocking
       expect(result.blockingEvents).toHaveLength(5) // 2 members + 3 regular
-      expect(result.blockingEvents.map((e) => e.summary)).toEqual([
+      expect(result.blockingEvents?.map((e) => e.summary)).toEqual([
         'free-30__EVENT__MEMBER__',
         'other-event__EVENT__MEMBER__',
         'regular meeting',
@@ -135,7 +135,7 @@ describe('fetchContainersByQuery - blockingScope filter functions', () => {
 
       // Event with __EVENT__MEMBER__ in description should be treated as a member event
       expect(result.members).toHaveLength(1)
-      expect(result.members[0].summary).toBe('meeting notes')
+      expect(result.members?.[0]?.summary).toBe('meeting notes')
 
       // Only truly regular events (no __EVENT__ anywhere) count as regular
       expect(result.regularEvents).toHaveLength(1)
@@ -153,7 +153,7 @@ describe('fetchContainersByQuery - blockingScope filter functions', () => {
 
       // Container events are excluded from blocking
       expect(result.blockingEvents).toHaveLength(2)
-      expect(result.blockingEvents.map((e) => e.summary)).toEqual([
+      expect(result.blockingEvents?.map((e) => e.summary)).toEqual([
         'free-30__EVENT__MEMBER__',
         'regular meeting',
       ])

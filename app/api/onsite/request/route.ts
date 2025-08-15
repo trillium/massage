@@ -84,7 +84,7 @@ export async function POST(req: NextRequest & IncomingMessage): Promise<NextResp
   })
 
   // Generate and send the confirmation email
-  const confirmationEmail = ClientRequestEmail({
+  const confirmationEmail = await ClientRequestEmail({
     ...data,
     dateSummary: intervalToHumanString({
       start,

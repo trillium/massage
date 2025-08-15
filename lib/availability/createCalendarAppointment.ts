@@ -19,7 +19,7 @@ function buildDescription(location: string) {
 }
 
 // Helper function to build the event body
-function buildEventBody({
+async function buildEventBody({
   start,
   end,
   summary,
@@ -34,7 +34,7 @@ function buildEventBody({
   eventMemberString,
   eventContainerString,
 }: AppointmentProps) {
-  const description = templates.eventDescription({
+  const description = await templates.eventDescription({
     start,
     end,
     summary,
@@ -69,7 +69,7 @@ function buildEventBody({
 }
 
 export default async function createCalendarAppointment(props: AppointmentProps) {
-  const body = buildEventBody(props)
+  const body = await buildEventBody(props)
 
   const apiUrl = new URL('https://www.googleapis.com/calendar/v3/calendars/primary/events')
 

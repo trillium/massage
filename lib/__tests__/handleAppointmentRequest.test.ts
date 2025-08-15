@@ -76,7 +76,7 @@ describe('handleAppointmentRequest', () => {
       subject: 'Approval Required',
       body: 'Please approve this appointment',
     })
-    mockClientRequestEmail.mockReturnValue({
+    mockClientRequestEmail.mockResolvedValue({
       subject: 'Request Received',
       body: 'Your request has been received',
     })

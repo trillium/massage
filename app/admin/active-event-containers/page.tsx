@@ -124,7 +124,8 @@ async function getActiveContainers(): Promise<QueryGroup[]> {
   return Array.from(queryGroups.values())
 }
 
-function formatDateTime(dateTime: string): string {
+function formatDateTime(dateTime?: string): string {
+  if (!dateTime) return 'Unknown'
   return new Date(dateTime).toLocaleString('en-US', {
     weekday: 'short',
     month: 'short',
@@ -133,6 +134,19 @@ function formatDateTime(dateTime: string): string {
     minute: '2-digit',
     timeZoneName: 'short',
   })
+}
+
+function formatGoogleDateTime(googleDateTime: { dateTime?: string; date?: string }): string {
+  if (googleDateTime.dateTime) {
+    return formatDateTime(googleDateTime.dateTime)
+  } else if (googleDateTime.date) {
+    return new Date(googleDateTime.date).toLocaleDateString('en-US', {
+      weekday: 'short',
+      month: 'short',
+      day: 'numeric',
+    })
+  }
+  return 'No date'
 }
 
 export default async function ActiveEventContainersPage() {
@@ -261,7 +275,7 @@ export default async function ActiveEventContainersPage() {
                     {group.allEvents.map((event) => (
                       <div key={event.id} className="mb-1 text-xs">
                         <span className="font-mono text-blue-800 dark:text-blue-200">
-                          "{event.summary}" - {formatDateTime(event.start.dateTime)}
+                          "{event.summary}" - {formatGoogleDateTime(event.start)}
                         </span>
                       </div>
                     ))}
@@ -292,8 +306,7 @@ export default async function ActiveEventContainersPage() {
                             {event.summary}
                           </div>
                           <div className="mt-1 text-gray-600 dark:text-gray-400">
-                            {formatDateTime(event.start.dateTime)} -{' '}
-                            {formatDateTime(event.end.dateTime)}
+                            {formatGoogleDateTime(event.start)} - {formatGoogleDateTime(event.end)}
                           </div>
                           {event.description && (
                             <div className="mt-1 text-xs text-gray-500 dark:text-gray-500">
@@ -329,8 +342,7 @@ export default async function ActiveEventContainersPage() {
                             {event.summary}
                           </div>
                           <div className="mt-1 text-gray-600 dark:text-gray-400">
-                            {formatDateTime(event.start.dateTime)} -{' '}
-                            {formatDateTime(event.end.dateTime)}
+                            {formatGoogleDateTime(event.start)} - {formatGoogleDateTime(event.end)}
                           </div>
                           {event.description && (
                             <div className="mt-1 text-xs text-gray-500 dark:text-gray-500">
