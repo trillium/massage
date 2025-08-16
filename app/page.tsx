@@ -74,8 +74,6 @@ export default async function Page({ searchParams }: { searchParams: Promise<Sea
       />
       <UrlUpdateUtility />
       <UpdateSlotsUtility busy={data.busy} start={start} end={end} configObject={configuration} />
-
-      {!!posts.length && <Main posts={posts} />}
     </>
   )
 }
