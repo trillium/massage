@@ -52,4 +52,4 @@ pnpm-debug.log*
 /.vscode
 
 # tag-data.json file rebuilt on every build
-tag-data.json
+app/tag-data.json
