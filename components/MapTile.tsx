@@ -1,6 +1,7 @@
 'use client'
 
 import * as React from 'react'
+import clsx from 'clsx'
 import Map from '@vis.gl/react-maplibre'
 import 'maplibre-gl/dist/maplibre-gl.css'
 import './maplibre-worker-setup'
@@ -60,7 +61,12 @@ export default function MapTile({
           />
 
           {/* Simple SVG circle overlay for appointment location */}
-          <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+          <div
+            className={clsx(
+              { hidden: !mapLoaded, block: mapLoaded },
+              'pointer-events-none absolute inset-0 flex items-center justify-center'
+            )}
+          >
             <svg width="200" height="200" className="overflow-visible">
               <circle
                 cx="100"
