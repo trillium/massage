@@ -1,4 +1,5 @@
 import { LocationObject } from '@/lib/types'
+import { unstable_cache } from 'next/cache'
 
 export interface Coordinates {
   lat: number
@@ -9,16 +10,14 @@ export interface GeocodeResponse {
   success: boolean
   coordinates?: Coordinates
   error?: string
+  cached?: boolean // Add flag to indicate if result was cached
+  timestamp?: number // Add timestamp for cache tracking
 }
 
 /**
- * Converts a location string or LocationObject into latitude/longitude coordinates
- * using the Google Maps Geocoding API
- *
- * @param location - Either a string address or LocationObject with street, city, zip
- * @returns Promise<GeocodeResponse> - Contains coordinates or error information
+ * Internal geocoding function that performs the actual API call
  */
-export async function geocodeLocation(location: string | LocationObject): Promise<GeocodeResponse> {
+async function _geocodeLocation(location: string | LocationObject): Promise<GeocodeResponse> {
   try {
     // Convert LocationObject to address string if needed
     let address: string
@@ -71,6 +70,7 @@ export async function geocodeLocation(location: string | LocationObject): Promis
     const encodedAddress = encodeURIComponent(address)
     const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodedAddress}&key=${apiKey}`
 
+    console.log(`🌍 Making geocoding API call for: "${address}"`)
     const response = await fetch(geocodeUrl)
 
     if (!response.ok) {
@@ -116,6 +116,8 @@ export async function geocodeLocation(location: string | LocationObject): Promis
         lat: coordinates.lat,
         lng: coordinates.lng,
       },
+      cached: false, // Fresh API call
+      timestamp: Date.now(),
     }
   } catch (error) {
     console.error('Geocoding error:', error)
@@ -125,6 +127,48 @@ export async function geocodeLocation(location: string | LocationObject): Promis
       error: error instanceof Error ? error.message : 'Unknown geocoding error occurred',
     }
   }
+}
+
+/**
+ * Converts a location string or LocationObject into latitude/longitude coordinates
+ * using the Google Maps Geocoding API. Results are cached for 5 minutes.
+ *
+ * @param location - Either a string address or LocationObject with street, city, zip
+ * @returns Promise<GeocodeResponse> - Contains coordinates or error information
+ */
+const _cachedGeocodeLocation = unstable_cache(_geocodeLocation, ['geocode-location'], {
+  revalidate: 60 * 5, // Cache for 5 minutes
+  tags: ['geocoding'],
+})
+
+export async function geocodeLocation(location: string | LocationObject): Promise<GeocodeResponse> {
+  const addressString =
+    typeof location === 'string'
+      ? location
+      : [location.street, location.city, location.zip].filter(Boolean).join(', ')
+
+  console.log(`🔍 Geocoding request for: "${addressString}"`)
+
+  const startTime = Date.now()
+  const result = await _cachedGeocodeLocation(location)
+  const duration = Date.now() - startTime
+
+  if (result.success) {
+    // If the call was very fast (< 50ms), it's likely cached
+    const wasCached = duration < 50
+    console.log(
+      `${wasCached ? '⚡ CACHED' : '🌍 API CALL'} geocoding result (${duration}ms): ${result.coordinates?.lat}, ${result.coordinates?.lng}`
+    )
+
+    return {
+      ...result,
+      cached: wasCached,
+      timestamp: Date.now(),
+    }
+  }
+
+  console.log(`❌ Geocoding failed (${duration}ms): ${result.error}`)
+  return result
 }
 
 /**
