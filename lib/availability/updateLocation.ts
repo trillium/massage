@@ -11,7 +11,7 @@ export default async function updateLocation({
   zipCode?: string
 }) {
   // cspell:disable-next-line
-  const eventId = '01vd8vpsq30jo29j379mritaoo'
+  const eventId = process.env.GOOGLE_MAPS_CAL_PRIMARY_EVENT_ID
   const apiUrl = `https://www.googleapis.com/calendar/v3/calendars/primary/events/${eventId}`
 
   const timeZone = 'America/Los_Angeles'

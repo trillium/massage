@@ -3,7 +3,7 @@ import { fetchSingleEvent } from 'lib/fetch/fetchSingleEvent'
 
 // Default event ID from loc/route.ts - used when no event ID is provided
 
-const DEFAULT_EVENT_ID = '01vd8vpsq30jo29j379mritaoo' // cspell:ignore 01vd8vpsq30jo29j379mritaoo
+const DEFAULT_EVENT_ID = process.env.GOOGLE_MAPS_CAL_PRIMARY_EVENT_ID
 
 interface DriveTimeRequest {
   eventId?: string
