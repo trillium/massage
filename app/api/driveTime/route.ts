@@ -132,7 +132,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Determine which event to use
-    const targetEventId = eventId || DEFAULT_EVENT_ID
+    const targetEventId = eventId || (DEFAULT_EVENT_ID as string)
     console.log(`Fetching event with ID: ${targetEventId}`)
 
     // Fetch the event to get its location
@@ -204,7 +204,7 @@ export async function GET(request: NextRequest) {
 
   try {
     // Determine which event to use
-    const targetEventId = eventId || DEFAULT_EVENT_ID
+    const targetEventId = eventId || (DEFAULT_EVENT_ID as string)
     console.log(`Fetching event with ID: ${targetEventId}`)
 
     // Fetch the event to get its location
