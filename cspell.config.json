@@ -151,7 +151,10 @@
     "maplibregl",
     "Bernardino",
     "Rebooking",
-    "Geospacial"
+    "Geospacial",
+    "worktrees",
+    "worktree",
+    "agentic"
   ],
   "dictionaries": ["typescript", "node", "npm", "html", "css", "bash"],
   "languageSettings": [

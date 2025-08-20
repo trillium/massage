@@ -96,10 +96,6 @@ The `w` tool is a Zsh function for managing multiple git worktrees across projec
    w --list
    ```
 
-### Tab Completion
-
-- The `w` tool provides tab completion for project names, worktree names, and common commands.
-
 ### Best Practices
 
 - Use a separate worktree for each feature, bugfix, or agent session.
