@@ -16,3 +16,7 @@ export function normalizeYYYYMMDD(date: string): string {
   const [, year, month, day] = match
   return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
 }
+
+export function createContactUrl(subject: string): string {
+  return `/contact?subject=${encodeURIComponent(subject)}`
+}
