@@ -1370,6 +1370,8 @@ const ratings: ReviewType[] = [
     date: '2018-03-21',
     comment:
       'Trillium was absolutely amazing. looking forward to use him again. Very professional and polite...... He brought me back to life',
+    spellcheck:
+      'Trillium was absolutely amazing. Looking forward to use him again. Very professional and polite, he brought me back to life!',
     name: 'Martin F.',
     source: 'Soothe',
   },
@@ -1440,6 +1442,7 @@ const ratings: ReviewType[] = [
       'Everything about the massage was amazing except for when you got to my neck. My entire body feels fantastic except for my neck since you barely massaged it. Bums me out since it was one of the areas I wanted special attention.',
     name: 'Cheri P.',
     source: 'Soothe',
+    helpful: -1,
   },
   {
     rating: 5,
@@ -1518,6 +1521,8 @@ const ratings: ReviewType[] = [
     date: '2017-09-16',
     comment:
       "Honestly seriously. The best ever. Can't wait for next time. Just can't afford to always do so long! Lol",
+    spellcheck:
+      "Honestly seriously. The best ever. Can't wait for next time. Just can't afford to always do so long!",
     name: 'Roy V.',
     source: 'Soothe',
   },
@@ -3219,7 +3224,7 @@ const ratings: ReviewType[] = [
     comment:
       'Superb massage. Really excellent and conncted- feeling technique. Also, a nice guy. Ill be booking him again.',
     spellcheck:
-      'Superb massage. Really excellent and connected- feeling technique. Also, a nice guy. Ill be booking him again.',
+      "Superb massage. Really excellent and connected-feeling technique. Also, a nice guy. I'll be booking him again.",
     name: 'Kerry M.',
     source: 'Soothe',
   },
@@ -3240,6 +3245,8 @@ const ratings: ReviewType[] = [
     date: '2020-01-25',
     comment:
       'Great experience!!! Very professional. Amazing equipment. Brought high end speaker for music. Would definitely book again! He really loves what he does.',
+    spellcheck:
+      'Great experience!!! Very professional, amazing equipment. Brought high end speaker for music. Would definitely book again! He really loves what he does.',
     name: 'Barbara P.',
     source: 'Soothe',
     helpful: 1,
@@ -3801,6 +3808,8 @@ const ratings: ReviewType[] = [
     date: '2019-11-03',
     comment:
       'Trillium helped Ned with lots of aches and pains and he felt so fantastic afterwards. Thank you Trillium',
+    spellcheck:
+      'Trillium helped Ned with lots of aches and pains and he felt so fantastic afterwards. Thank you Trillium!',
     name: 'Karen N.',
     source: 'Soothe',
   },
@@ -4040,6 +4049,8 @@ const ratings: ReviewType[] = [
     date: '2019-09-15',
     comment:
       'On time, very professional , love the heat pad massage table .. strong hands , also he definitely knows muscle , knots. Will book him again :))',
+    spellcheck:
+      'On time, very professional, loved the heat pad on massage table. Strong hands, also he definitely knows muscles and knots. Will book him again :)',
     name: 'Cristal S.',
     source: 'Soothe',
   },
