@@ -191,7 +191,7 @@ function DirectionButton({
       aria-label={ariaLabel}
       onClick={onClick}
       className={clsx(
-        'focus:ring-primary-500 mr-2 rounded-full bg-gray-200 p-2 text-gray-600 transition-all duration-300 hover:bg-gray-300 focus:ring-2 focus:outline-none active:bg-gray-400 active:ring-2 active:ring-yellow-500 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600',
+        'focus:ring-primary-500 mr-2 h-10 w-10 rounded-full bg-gray-200 p-2 text-gray-600 transition-all duration-300 hover:bg-gray-300 focus:ring-2 focus:outline-none active:bg-gray-400 active:ring-2 active:ring-yellow-500 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600',
         placementClasses
       )}
     >
