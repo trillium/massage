@@ -3,7 +3,8 @@ const siteMetadata = {
   title: 'Trillium Massage',
   author: 'Trillium Smith',
   headerTitle: 'Trillium Massage',
-  description: 'Book a massage with Trillium!',
+  description:
+    'Let the spa come to you. Providing in-home massage therapy and wellness to the LA Metro Area',
   language: 'en-us',
   siteUrl: 'https://trilliummassage.la/',
   siteRepo: 'https://github.com/Spiteless/www-massage/',
