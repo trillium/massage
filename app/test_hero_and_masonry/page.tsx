@@ -12,6 +12,7 @@ import { UrlUpdateUtility } from '@/components/utilities/UrlUpdateUtility'
 import { UpdateSlotsUtility } from '@/components/utilities/UpdateSlotsUtility'
 import { createPageConfiguration } from '@/lib/slugConfigurations/createPageConfiguration'
 import SectionContainer from '@/components/SectionContainer'
+import Link from '@/components/Link'
 
 const { avatar } = siteMetadata
 const massageBio =
@@ -38,12 +39,12 @@ export default async function Page({ searchParams }: { searchParams: Promise<Sea
       <div className="border-primary-500 mb-10 flex flex-col items-center justify-center rounded-lg border-2 p-5 text-2xl font-bold text-red-500">
         <p>Note, looking to rebuild this here:</p>
         <div>
-          <a
+          <Link
             className="text-blue-500 underline"
             href="https://flowbite.com/docs/components/gallery/"
           >
             Flowbite Gallery Component
-          </a>
+          </Link>{' '}
         </div>
       </div>
       <Hero title="Meet Trillium - Certified Massage Therapist" img={avatar} text={massageBio} />

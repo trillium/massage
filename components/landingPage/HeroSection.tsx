@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import Link from 'next/link'
+import Link from '@/components/Link'
 import clsx from 'clsx'
 import { FaCar, FaRegClock } from 'react-icons/fa'
 import { FiMapPin } from 'react-icons/fi'

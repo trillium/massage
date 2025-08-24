@@ -1,6 +1,6 @@
 import SectionContainer from '@/components/SectionContainer'
 import { DEFAULT_PRICING } from 'config'
-import Link from 'next/link'
+import Link from '@/components/Link'
 
 const pricingStart = [{ duration: 60 }, { duration: 90 }, { duration: 120 }, { duration: 150 }]
 

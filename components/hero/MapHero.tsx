@@ -1,5 +1,5 @@
 import MapTile from '@/components/MapTile'
-import Link from 'next/link'
+import Link from '@/components/Link'
 import clsx from 'clsx'
 import { fetchSingleEvent } from '@/lib/fetch/fetchSingleEvent'
 import { geocodeLocation } from '@/lib/geocode'

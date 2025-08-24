@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation'
 import { getEventsBySearchQuery } from '@/lib/availability/getEventsBySearchQuery'
 import { GoogleCalendarV3Event } from '@/lib/types'
 import { fetchSingleEvent } from 'lib/fetch/fetchSingleEvent'
+import Link from '@/components/Link'
 
 // Helper function to extract booking slug from event data
 function extractBookingSlug(event: GoogleCalendarV3Event): string | null {
@@ -224,14 +225,14 @@ export default async function EventPage({ params }: { params: Promise<{ event_id
                     <h3 className="text-lg font-medium text-gray-700 dark:text-gray-300">
                       Google Calendar Link:
                     </h3>
-                    <a
+                    <Link
                       href={matchingEvent.htmlLink}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-blue-600 hover:underline dark:text-blue-400"
                     >
                       Open in Google Calendar
-                    </a>
+                    </Link>
                   </div>
                 )}
 
@@ -247,12 +248,12 @@ export default async function EventPage({ params }: { params: Promise<{ event_id
                         <span className="font-mono text-xs">{bookingSlug}</span>
                       </p>
                     )}
-                    <a
+                    <Link
                       href={bookingUrl}
                       className="inline-block rounded bg-green-600 px-4 py-2 text-white transition-colors hover:bg-green-700"
                     >
                       Book New Appointment
-                    </a>
+                    </Link>
                     <p className="text-xs text-gray-600 dark:text-gray-400">
                       {matchingEvent.location &&
                         'Location information will be pre-filled based on this event'}
@@ -336,12 +337,12 @@ export default async function EventPage({ params }: { params: Promise<{ event_id
                     )}
                   </div>
                   <div className="mt-3">
-                    <a
+                    <Link
                       href={`/event/${event.id}`}
                       className="inline-block rounded bg-blue-600 px-3 py-1 text-sm text-white hover:bg-blue-700"
                     >
                       View Details
-                    </a>
+                    </Link>
                   </div>
                 </div>
               ))}

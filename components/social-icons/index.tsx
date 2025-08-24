@@ -13,6 +13,7 @@ import {
   Bluesky,
 } from './icons'
 import clsx from 'clsx'
+import Link from '@/components/Link'
 
 const components = {
   mail: Mail,
@@ -82,7 +83,7 @@ const SocialIcon = ({ kind, href, size = 8 }: SocialIconProps) => {
   const SocialSvg = components[kind]
 
   return (
-    <a className="text-sm transition" target="_blank" rel="noopener noreferrer" href={href}>
+    <Link className="text-sm transition" target="_blank" rel="noopener noreferrer" href={href}>
       <span className="sr-only">{kind}</span>
       <SocialSvg
         className={clsx(
@@ -90,7 +91,7 @@ const SocialIcon = ({ kind, href, size = 8 }: SocialIconProps) => {
           sizeClasses[size]
         )}
       />
-    </a>
+    </Link>
   )
 }
 

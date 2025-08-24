@@ -6,6 +6,7 @@ import clsx from 'clsx'
 import { GoogleCalendarV3Event } from '@/lib/types'
 import { getHash } from '@/lib/hash'
 import { CategorizedEventList } from './EventComponents'
+import Link from '@/components/Link'
 
 interface EventCardProps {
   event: GoogleCalendarV3Event
@@ -264,7 +265,7 @@ export function EventCard({ event, index, keyPrefix, colorClasses }: EventCardPr
         </div>
 
         <div className="ml-4 flex flex-col space-y-2">
-          <a
+          <Link
             href={`/event/${event.id}`}
             className={clsx(
               'inline-block rounded px-3 py-1 text-center text-sm text-white transition-colors',
@@ -272,8 +273,7 @@ export function EventCard({ event, index, keyPrefix, colorClasses }: EventCardPr
             )}
           >
             View Details
-          </a>
-
+          </Link>
           {/* Drive Time Button */}
           {event.location && (
             <button

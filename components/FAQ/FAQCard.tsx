@@ -4,7 +4,7 @@ import { Disclosure, DisclosureButton, DisclosurePanel, Transition } from '@head
 import { ChevronUpIcon } from '@heroicons/react/20/solid'
 import Template from '@/components/Template'
 import Image from 'next/image'
-import Link from 'next/link'
+import Link from '@/components/Link'
 import { questions, type FAQItem } from './questions'
 import DynamicGridMasonry from '../masonry/DynamicGridMasonry'
 

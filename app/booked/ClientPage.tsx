@@ -3,6 +3,7 @@ import { BookedCard } from 'components/BookedCard'
 import { formatLocalDate, formatLocalTime } from 'lib/availability/helpers'
 import { AttendeeType } from 'lib/types'
 import { flattenLocation } from '@/lib/helpers/locationHelpers'
+import Link from '@/components/Link'
 
 type dateTimeAndTimeZone = {
   dateTime: string
@@ -66,14 +67,14 @@ export default function Booked({ url, data }: ClientPageProps) {
           {attendees || 'them'}.
         </p>
         <p className="mt-6 text-xl font-medium text-gray-800 dark:text-gray-200">
-          <a
+          <Link
             href={'https://www.google.com/calendar/event?eid=' + url}
             target="_blank"
             rel="noreferrer"
             className="text-blue-700 underline"
           >
             View it on Google Calendar
-          </a>
+          </Link>
         </p>
       </div>
 

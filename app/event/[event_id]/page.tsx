@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation'
 import { fetchSingleEvent } from '@/lib/fetch/fetchSingleEvent'
 import { getEventsBySearchQuery } from '@/lib/availability/getEventsBySearchQuery'
 import { GoogleCalendarV3Event } from '@/lib/types'
-import Link from 'next/link'
+import Link from '@/components/Link'
 
 // Helper function to extract booking slug from event data
 function extractBookingSlug(event: GoogleCalendarV3Event): string | null {
@@ -207,14 +207,14 @@ export default async function EventPage({ params }: { params: Promise<{ event_id
                     <h3 className="text-lg font-medium text-gray-700 dark:text-gray-300">
                       Google Calendar Link:
                     </h3>
-                    <a
+                    <Link
                       href={matchingEvent.htmlLink}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-blue-600 hover:underline dark:text-blue-400"
                     >
                       Open in Google Calendar
-                    </a>
+                    </Link>{' '}
                   </div>
                 )}
 

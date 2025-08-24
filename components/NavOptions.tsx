@@ -4,7 +4,7 @@ import { Fragment } from 'react'
 import { usePathname } from 'next/navigation'
 import { Menu, MenuButton, MenuItems, Transition } from '@headlessui/react'
 import headerNavLinks from '@/data/headerNavLinks'
-import Link from 'next/link'
+import Link from '@/components/Link'
 import clsx from 'clsx'
 
 type NavItemBase = {

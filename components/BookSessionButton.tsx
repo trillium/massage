@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import Link from '@/components/Link'
 
 interface BookSessionButtonProps {
   href: string // href must be a string within headerNavLinks { href: __THIS__ }

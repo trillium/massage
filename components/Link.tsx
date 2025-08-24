@@ -17,7 +17,7 @@ const CustomLink = ({
   }
 
   if (isAnchorLink) {
-    return <a className={clsx('break-words', classes)} href={href} {...rest} />
+    return <Link className={clsx('break-words', classes)} href={href} {...rest} />
   }
 
   return (

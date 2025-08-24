@@ -1,6 +1,6 @@
 import siteMetadata from '@/data/siteMetadata'
 import Image from 'next/image'
-import Link from 'next/link'
+import Link from '@/components/Link'
 import { GradientText } from '@/components/ui/GradientText'
 
 const { avatar } = siteMetadata

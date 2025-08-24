@@ -1,6 +1,6 @@
 import SectionContainer from '@/components/SectionContainer'
 import Image from 'next/image'
-import Link from 'next/link'
+import Link from '@/components/Link'
 
 import { services } from '@/data/servicesData'
 import type { ServiceTypePriced } from '@/lib/types'

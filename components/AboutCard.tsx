@@ -2,7 +2,7 @@ import Image from './Image'
 // import SocialIcon from '@/components/social-icons'
 import siteMetadata from '@/data/siteMetadata'
 import SocialIcon from '@/components/social-icons'
-import Link from 'next/link'
+import Link from '@/components/Link'
 
 const AuthorCard = () => {
   const {
