@@ -23,7 +23,7 @@ const AuthorCard = () => {
         {avatar && (
           <div className="pr-2 xl:pr-4">
             <Image
-              src={'/static/images/avatar.png'}
+              src={'/static/images/avatar.jpg'}
               alt="avatar"
               width={224}
               height={224}

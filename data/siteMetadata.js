@@ -12,7 +12,7 @@ const siteMetadata = {
   socialBanner: '/static/images/twitter-card.jpg',
   // openToWork: true,
   theme: 'system', // system, dark or light
-  avatar: '/static/images/avatar.png',
+  avatar: '/static/images/avatar.jpg',
   email: 'trilliummassagela@gmail.com',
   occupation: 'Massage Therapist',
   company: 'Trillium Massage',
