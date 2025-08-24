@@ -50,8 +50,8 @@ export default function FeatureHighlightsSection() {
 function FeatureItem({ icon, title, description }: FeatureItemProps) {
   return (
     <div className="flex items-center gap-4 sm:items-start">
-      <div className="relative flex items-center justify-center rounded-full bg-teal-100 p-8">
-        <div className="absolute text-3xl text-teal-600">{icon}</div>
+      <div className="bg-primary-100 relative flex items-center justify-center rounded-full p-8">
+        <div className="text-primary-600 absolute text-3xl">{icon}</div>
       </div>
       <div>
         <div className="text-lg font-bold sm:text-base">{title}</div>
