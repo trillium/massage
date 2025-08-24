@@ -73,8 +73,6 @@ export default async function NextBookingPage({ params }: NextBookingPageProps) 
       if (geocodeResult.success && geocodeResult.coordinates) {
         mapCoordinates.longitude = geocodeResult.coordinates.lng
         mapCoordinates.latitude = geocodeResult.coordinates.lat
-
-        console.log('Geocoded location:', currentEvent.location, '→', geocodeResult.coordinates)
       } else {
         console.warn('Geocoding failed for location:', currentEvent.location, geocodeResult.error)
       }

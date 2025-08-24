@@ -77,13 +77,10 @@ function createBookingUrl(bookingSlug: string | null, location?: string): string
 }
 
 export default async function EventPage({ params }: { params: Promise<{ event_id: string }> }) {
-  console.log('[EventPage] params:', params)
   const { event_id } = await params
-  console.log('[EventPage] event_id:', event_id)
 
   // Fetch the specific calendar event
   const matchingEvent = await fetchSingleEvent(event_id)
-  console.log('matchingEvent:', matchingEvent)
 
   // Extract booking slug and create booking URL if event exists
   let bookingSlug: string | null = null
@@ -92,8 +89,6 @@ export default async function EventPage({ params }: { params: Promise<{ event_id
   if (matchingEvent) {
     bookingSlug = extractBookingSlug(matchingEvent)
     bookingUrl = createBookingUrl(bookingSlug, matchingEvent.location)
-    console.log('[EventPage] Extracted booking slug:', bookingSlug)
-    console.log('[EventPage] Generated booking URL:', bookingUrl)
   }
 
   // Also search for events containing 'massage'
@@ -105,34 +100,13 @@ export default async function EventPage({ params }: { params: Promise<{ event_id
 
     const sixMonthsFromNow = new Date()
     sixMonthsFromNow.setMonth(sixMonthsFromNow.getMonth() + 6)
-
-    console.log('Search date range:', {
-      start: eighteenMonthsAgo.toISOString(),
-      end: sixMonthsFromNow.toISOString(),
-    })
-
     massageEvents = await getEventsBySearchQuery({
       query: 'massage',
       start: eighteenMonthsAgo,
       end: sixMonthsFromNow,
     })
-    console.log('massageEvents:', massageEvents)
   } catch (error) {
     console.error('Error fetching massage events:', error)
-  }
-
-  // Log whether we found the specific event or not
-  if (!matchingEvent) {
-    console.log(`No event found with ID: ${event_id}, but showing page with search results`)
-  } else {
-    // Log the matching event for debugging
-    console.log('[EventPage] Matching event found:', JSON.stringify(matchingEvent, null, 2))
-    console.log('[EventPage] matchingEvent.start:', matchingEvent.start)
-    console.log('[EventPage] matchingEvent.end:', matchingEvent.end)
-    console.log('[EventPage] matchingEvent.creator:', matchingEvent.creator)
-    console.log('[EventPage] matchingEvent.attendees:', matchingEvent.attendees)
-    console.log('[EventPage] matchingEvent.status:', matchingEvent.status)
-    console.log('[EventPage] matchingEvent.htmlLink:', matchingEvent.htmlLink)
   }
 
   return (

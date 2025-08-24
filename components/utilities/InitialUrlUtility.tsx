@@ -65,10 +65,6 @@ export function InitialUrlUtility({
         // Update form data with complete location object (not separate fields)
         // This ensures form field changes don't overwrite the location data
         dispatchRedux(setForm({ location: locationFromUrl }))
-
-        console.log('[InitialUrlUtility] Form updates from URL:', { location: locationFromUrl })
-
-        console.log('[InitialUrlUtility] Parsed URL location (lower priority):', locationFromUrl)
       }
     } catch (error) {
       console.warn('Failed to parse URL parameters for location:', error)
@@ -83,24 +79,11 @@ export function InitialUrlUtility({
         // This will replace any URL-based location that was set above
         dispatchRedux(setLocation(configSliceData.location))
         dispatchRedux(setForm({ location: configSliceData.location }))
-
-        console.log(
-          '[InitialUrlUtility] Applied server config location (highest priority):',
-          configSliceData.location
-        )
-        console.log(
-          '[InitialUrlUtility] Server config overrode URL params:',
-          locationFromUrl ? 'YES' : 'NO'
-        )
       } else if (locationFromUrl) {
         // If server has no location config, URL params are used as fallback
-        console.log('[InitialUrlUtility] No server location config, using URL params as fallback')
-        console.log('[InitialUrlUtility] URL params should remain in form state')
       }
     } else if (locationFromUrl) {
       // If no server config at all, URL params are the only source
-      console.log('[InitialUrlUtility] No server config, URL params are primary location source')
-      console.log('[InitialUrlUtility] URL params should remain in form state')
     }
 
     // Rest of the existing logic remains unchanged

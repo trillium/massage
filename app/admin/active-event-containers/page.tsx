@@ -60,11 +60,6 @@ async function getActiveContainers(): Promise<QueryGroup[]> {
       searchParams: {},
     })
     allEvents = genericResult.allEvents
-
-    console.log(`Single fetch found ${allEvents.length} events with "__EVENT__"`, {
-      dateRange: { start: genericResult.start, end: genericResult.end },
-      eventSummaries: allEvents.map((e) => e.summary).slice(0, 10), // Show first 10
-    })
   } catch (error) {
     console.error('Error fetching all events:', error)
   }
