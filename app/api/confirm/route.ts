@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server'
 import { type NextRequest } from 'next/server'
-import { redirect } from 'next/navigation'
 import { z } from 'zod'
 
 import createCalendarAppointment from 'lib/availability/createCalendarAppointment'
@@ -102,8 +101,9 @@ export async function GET(req: NextRequest) {
   // If we have a link to the event, take us there.
   if (match && match[1]) {
     const encodedDetails = encodeURIComponent(JSON.stringify(validObject))
-    redirect(`/booked?data=${encodedDetails}&url=${encodeURIComponent(match[1])}`)
-    return
+    return NextResponse.redirect(
+      `/booked?data=${encodedDetails}&url=${encodeURIComponent(match[1])}`
+    )
   }
 
   // Otherwise, something's wrong.
