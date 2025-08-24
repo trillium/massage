@@ -27,7 +27,6 @@ const REQUESTS_PER_IP_PER_MINUTE_LIMIT = 5
 
 // The actual route handler, now just wiring dependencies
 export async function POST(req: NextRequest & IncomingMessage): Promise<NextResponse> {
-  console.log(req)
   const headers = await nextHeaders()
   return handleAppointmentRequest({
     req,
