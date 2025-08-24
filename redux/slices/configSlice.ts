@@ -67,7 +67,6 @@ export const configSlice: Slice<SlugConfigurationType> = createSlice({
       }
     },
     setEventContainer: (state, action: PayloadAction<string>) => {
-      // console.log('[configSlice]', action)
       state.eventContainer = action.payload
     },
     setBlockingScope: (state, action: PayloadAction<'event' | 'general' | undefined>) => {
@@ -86,7 +85,6 @@ export const configSlice: Slice<SlugConfigurationType> = createSlice({
       state.acceptingPayment = action.payload
     },
     setBulkConfigSliceState: (state, action: PayloadAction<Partial<SlugConfigurationType>>) => {
-      // console.log('[configSlice]', action.payload)
       Object.assign(state, action.payload)
     },
     configSliceReset: (state) => {
