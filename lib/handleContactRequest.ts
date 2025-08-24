@@ -57,17 +57,16 @@ export async function handleContactRequest({
     body: adminEmailBody,
   })
 
-  //   // Generate user confirmation email using template
-  //   const userEmailBody = templates.contactFormConfirmation(data)
+  // Generate user confirmation email using template
+  const userEmailBody = templates.contactFormConfirmation(data)
 
-  //   // Send confirmation email to user
-  //   await sendMailFn({
-  //     to: data.email,
-  //     subject: 'Thank you for contacting Trillium Massage',
-  //     body: userEmailBody,
-  //   })
+  // Send confirmation email to user
+  await sendMailFn({
+    to: data.email,
+    subject: 'Thank you for contacting Trillium Massage',
+    body: userEmailBody,
+  })
 
-  console.log('[handleContactRequest] About to return success response')
   return NextResponse.json(
     {
       message: 'Contact form submitted successfully',
