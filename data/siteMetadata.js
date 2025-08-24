@@ -9,7 +9,7 @@ const siteMetadata = {
   siteUrl: 'https://trilliummassage.la/',
   siteRepo: 'https://github.com/Spiteless/www-massage/',
   siteLogo: '/static/images/logo.svg',
-  socialBanner: '/static/images/twitter-card.png',
+  socialBanner: '/static/images/twitter-card.jpg',
   // openToWork: true,
   theme: 'system', // system, dark or light
   avatar: '/static/images/avatar.png',
