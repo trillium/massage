@@ -22,12 +22,12 @@ const massageBio =
 const serviceAreaBlurb =
   'Trillium is based out of Westchester, but happy to travel to the LA area in general. Very close locations include Playa Vista, Mar Vista, Santa Monica, Venice, El Segundo, and Torrance.'
 
+const overrides: Partial<SlugConfigurationType> = { type: 'area-wide' }
+
 export default async function Page({ searchParams }: { searchParams: Promise<SearchParamsType> }) {
   const sortedPosts = sortPosts(allBlogs)
   const posts = allCoreContent(sortedPosts)
   const resolvedParams = await searchParams
-
-  const overrides: Partial<SlugConfigurationType> = { type: 'area-wide' }
 
   const {
     durationProps,
