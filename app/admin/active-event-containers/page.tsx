@@ -6,6 +6,9 @@ import Day from '@/lib/day'
 import { GoogleCalendarV3Event } from '@/lib/types'
 import SectionContainer from '@/components/SectionContainer'
 
+// Force this route to be dynamic since it fetches live data from Google Calendar
+export const dynamic = 'force-dynamic'
+
 export const metadata: Metadata = {
   title: 'Active Event Containers - Admin',
   description: 'Monitor active event containers and their associated events',
