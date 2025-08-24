@@ -1,6 +1,7 @@
-const { withContentlayer } = require('next-contentlayer2')
+import { withContentlayer } from 'next-contentlayer2'
+import bundleAnalyzer from '@next/bundle-analyzer'
 
-const withBundleAnalyzer = require('@next/bundle-analyzer')({
+const withBundleAnalyzer = bundleAnalyzer({
   enabled: process.env.ANALYZE === 'true',
 })
 
@@ -62,13 +63,14 @@ const unoptimized = process.env.UNOPTIMIZED ? true : undefined
 /**
  * @type {import('next/dist/next-server/server/config').NextConfig}
  **/
-module.exports = () => {
-  const plugins = [withContentlayer, withBundleAnalyzer]
+const plugins = [withContentlayer, withBundleAnalyzer]
+
+/* eslint import/no-anonymous-default-export: [2, {"allowArrowFunction": true}] */
+export default () => {
   return plugins.reduce((acc, next) => next(acc), {
     output,
     basePath,
     reactStrictMode: true,
-    trailingSlash: false,
     pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
     eslint: {
       dirs: ['app', 'components', 'layouts', 'scripts'],
@@ -97,6 +99,22 @@ module.exports = () => {
       })
 
       return config
+    },
+    async rewrites() {
+      return [
+        {
+          source: '/ingest/static/:path*',
+          destination: 'https://us-assets.i.posthog.com/static/:path*',
+        },
+        {
+          source: '/ingest/:path*',
+          destination: 'https://us.i.posthog.com/:path*',
+        },
+        {
+          source: '/ingest/decide',
+          destination: 'https://us.i.posthog.com/decide',
+        },
+      ]
     },
   })
 }
