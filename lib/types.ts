@@ -351,3 +351,19 @@ export type BookingFormData = {
   /** Promotional offer applied to this booking */
   promo?: string
 }
+
+/**
+ * Represents form data from the contact form
+ */
+export type ContactFormType = {
+  /** Subject of the contact inquiry */
+  subject: string
+  /** Name of the person contacting */
+  name: string
+  /** Email address of the person contacting */
+  email: string
+  /** Phone number of the person contacting */
+  phone: string
+  /** Message content */
+  message: string
+}

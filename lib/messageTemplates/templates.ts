@@ -1,4 +1,4 @@
-import { AppointmentProps, LocationObject } from '../types'
+import { AppointmentProps, LocationObject, ContactFormType } from '../types'
 import { flattenLocation } from '@/lib/helpers/locationHelpers'
 import { generateSecureMyEventsUrlServer } from '@/lib/generateSecureMyEventsUrl'
 
@@ -92,9 +92,58 @@ async function eventDescription({
   return output
 }
 
+/**
+ * Creates an email body for contact form submissions.
+ *
+ * @function
+ * @returns {string} Returns the email body string for a contact form submission.
+ */
+function contactFormEmail({ subject, name, email, phone, message }: ContactFormType) {
+  let output = 'New Contact Form Submission'
+  output += '\n\n'
+  output += `<b>Subject</b>: ${subject}\n`
+  output += `<b>Name</b>: ${name}\n`
+  output += `<b>Email</b>: ${email}\n`
+  output += `<b>Phone</b>: ${phone}\n`
+  output += '\n'
+  output += `<b>Message</b>:\n${message}\n`
+  output += '\n\n'
+  output += `Submitted on: ${new Date().toLocaleString()}`
+  output += '\n\n'
+  output += 'Trillium Smith, LMT'
+  output += '\n'
+  output += `<a href="https://trilliummassage.la/">www.trilliummassage.la</a>\n`
+
+  return output
+}
+
+/**
+ * Creates a confirmation email body for users who submit the contact form.
+ *
+ * @function
+ * @returns {string} Returns the confirmation email body string.
+ */
+function contactFormConfirmation({ name, message }: ContactFormType) {
+  const output = `
+    <h2>Thank you for contacting Trillium Massage</h2>
+    <p>Hi ${name},</p>
+    <p>We've received your message and will get back to you within 24 hours.</p>
+    <p><strong>Your message:</strong></p>
+    <p>${message}</p>
+    <br>
+    <p>Best regards,</p>
+    <p>Trillium Smith, LMT<br>
+    <a href="https://trilliummassage.la/">www.trilliummassage.la</a></p>
+  `
+
+  return output
+}
+
 const templates = {
   eventSummary,
   eventDescription,
+  contactFormEmail,
+  contactFormConfirmation,
 }
 
 export default templates

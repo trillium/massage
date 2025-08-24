@@ -59,5 +59,13 @@ export const OnSiteRequestSchema = BaseRequestSchema.extend({
   leadTime: z.number(),
 })
 
+export const ContactFormSchema = z.object({
+  subject: z.string().min(1, 'Subject is required'),
+  name: z.string().min(1, 'Name is required'),
+  email: z.string().email('Invalid email format'),
+  phone: z.string().min(1, 'Phone number is required'),
+  message: z.string().min(1, 'Message is required'),
+})
+
 export type AppointmentRequestType = z.infer<typeof AppointmentRequestSchema>
 export type OnSiteRequestType = z.infer<typeof OnSiteRequestSchema>

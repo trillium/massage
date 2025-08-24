@@ -1,0 +1,78 @@
+import { NextRequest, NextResponse } from 'next/server'
+import { IncomingMessage } from 'http'
+import sendMail from './email'
+import { getHash } from './hash'
+import { ContactFormSchema } from './schema'
+import { z } from 'zod'
+import { ContactFormType } from './types'
+import templates from './messageTemplates/templates'
+import { pushoverSendMesage } from './pushover'
+
+export type ContactRequestValidationResult =
+  | { success: true; data: z.output<typeof ContactFormSchema> }
+  | { success: false; error: z.ZodError<z.input<typeof ContactFormSchema>> }
+
+export async function handleContactRequest({
+  req,
+  headers,
+  sendMailFn,
+  siteMetadata,
+  rateLimiter,
+  schema,
+}: {
+  req: NextRequest
+  headers: Headers
+  sendMailFn: typeof sendMail
+  siteMetadata: { email?: string }
+  rateLimiter: (req: NextRequest, headers: Headers) => boolean
+  schema: typeof ContactFormSchema
+}) {
+  const jsonData = await req.json()
+
+  if (rateLimiter(req, headers)) {
+    return NextResponse.json({ error: 'Rate limit exceeded' }, { status: 429 })
+  }
+
+  const validationResult: ContactRequestValidationResult = schema.safeParse(jsonData)
+  if (!validationResult.success) {
+    return NextResponse.json({ error: 'Invalid form data' }, { status: 400 })
+  }
+
+  const { data } = validationResult
+
+  // Generate admin notification email using template
+  const adminEmailBody = templates.contactFormEmail(data)
+
+  // Send Pushover notification to admin
+  pushoverSendMesage({
+    title: 'Contact Form Submission',
+    message: `New contact form from ${data.name} (${data.email}): ${data.subject}\n${data.message}`,
+    priority: 0,
+  })
+
+  // Send email to admin
+  await sendMailFn({
+    to: siteMetadata.email ?? '',
+    subject: `New Contact Form: ${data.subject}`,
+    body: adminEmailBody,
+  })
+
+  //   // Generate user confirmation email using template
+  //   const userEmailBody = templates.contactFormConfirmation(data)
+
+  //   // Send confirmation email to user
+  //   await sendMailFn({
+  //     to: data.email,
+  //     subject: 'Thank you for contacting Trillium Massage',
+  //     body: userEmailBody,
+  //   })
+
+  console.log('[handleContactRequest] About to return success response')
+  return NextResponse.json(
+    {
+      message: 'Contact form submitted successfully',
+      success: true,
+    },
+    { status: 200 }
+  )
+}
