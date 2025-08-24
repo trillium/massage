@@ -30,7 +30,7 @@ function TextContent({ positionClasses }: { positionClasses?: string }) {
     >
       <div>
         <h1 className="text-4xl font-bold tracking-tight md:text-5xl lg:text-6xl">
-          Relax, Rejuvenate, <GradientText>Restore</GradientText>
+          Relax, Restore, <GradientText>Rejuvenate</GradientText>
         </h1>
         <h2 className="mx-auto mt-4 max-w-lg text-3xl font-semibold text-gray-600 md:mx-0 dark:text-gray-300">
           Let the spa come to you
@@ -77,7 +77,6 @@ function ButtonContent({ positionClasses }: { positionClasses?: string }) {
         <div className="sm:grid-span-1 col-span-2 grid grid-cols-1 gap-2 sm:col-span-1 sm:grid-cols-2">
           <Link
             href="/book"
-            // className="text-md border-primary-500 bg-primary-500 w-full rounded-md border-2 px-2 py-3 text-center font-semibold text-white"
             className="bg-primary-600 hover:bg-primary-700 border-primary-500 mt-auto inline-block w-full rounded border-2 px-4 py-2 text-center font-semibold text-white transition-colors"
           >
             Book a session
@@ -85,7 +84,6 @@ function ButtonContent({ positionClasses }: { positionClasses?: string }) {
 
           <Link
             href="/services"
-            // className="text-md border-primary-500 text-primary-500 dark:text-primary-600 w-full rounded-md border-2 bg-white px-2 py-3 text-center font-semibold"
             className="text-md border-primary-500 text-primary-600 mt-auto inline-block w-full rounded border-2 bg-white px-4 py-2 text-center font-semibold transition-colors hover:bg-gray-200"
           >
             Explore Services
