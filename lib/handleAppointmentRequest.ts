@@ -44,8 +44,6 @@ export async function handleAppointmentRequest({
   }
   const validationResult: AppointmentRequestValidationResult = schema.safeParse(jsonData)
   if (!validationResult.success) {
-    console.log('[handleAppointmentRequest]', 'fail')
-    console.log(jsonData)
     return NextResponse.json(validationResult.error.message, { status: 400 })
   }
   const { data } = validationResult
