@@ -51,6 +51,19 @@
   --color-gray-900: oklch(0.21 0.034 264.665);
   --color-gray-950: oklch(0.13 0.028 261.692);
 
+  /* Colors - Using Tailwind's blue palette for secondary */
+  --color-secondary-50: oklch(98.4% 0.014 240.72);
+  --color-secondary-100: oklch(95.3% 0.051 240.801);
+  --color-secondary-200: oklch(91% 0.096 240.426);
+  --color-secondary-300: oklch(85.5% 0.138 241.071);
+  --color-secondary-400: oklch(77.7% 0.152 241.912);
+  --color-secondary-500: oklch(70.4% 0.14 242.503);
+  --color-secondary-600: oklch(60% 0.118 244.704);
+  --color-secondary-700: oklch(51.1% 0.096 246.391);
+  --color-secondary-800: oklch(43.7% 0.078 248.216);
+  --color-secondary-900: oklch(38.6% 0.063 248.416);
+  --color-secondary-950: oklch(27.7% 0.046 252.524);
+
   /* Line heights */
   --line-height-11: 2.75rem;
   --line-height-12: 3rem;
