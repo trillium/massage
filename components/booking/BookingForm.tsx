@@ -100,7 +100,6 @@ export default function BookingForm({
       schema.parse(values)
       return {}
     } catch (error) {
-      console.log('❌ [BookingForm] Validation failed:', error)
       if (error instanceof z.ZodError) {
         const errors: Record<string, string | Record<string, string>> = {}
         error.issues.forEach((issue) => {
@@ -120,7 +119,6 @@ export default function BookingForm({
             errors[path] = issue.message
           }
         })
-        console.log('❌ [BookingForm] Validation errors:', errors)
         return errors
       }
       return {}
@@ -400,15 +398,8 @@ export default function BookingForm({
                         }
                         setFieldValue(`location.${locationField}`, e.target.value)
                         // DO NOT set touched on change - only on blur!
-                        console.log(
-                          '🔍 [LocationField] After setFieldValue - NOT setting touched on change'
-                        )
                       }}
                       onBlur={(e) => {
-                        console.log(
-                          '🔍 [LocationField] Before onBlur setFieldTouched - current touched:',
-                          touched.location
-                        )
                         // Map the field names for blur events
                         const fieldName = e.target.name
                         let locationField: string
@@ -428,9 +419,6 @@ export default function BookingForm({
                         }
 
                         setFieldTouched(`location.${locationField}`, true, true)
-                        console.log(
-                          '🔍 [LocationField] After onBlur setFieldTouched - touched state should be updated'
-                        )
                       }}
                       validationConfig={{ cities: ['Playa Vista'] }}
                       errors={{
