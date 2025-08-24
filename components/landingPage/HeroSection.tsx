@@ -49,7 +49,7 @@ function ImageContent({ positionClasses }: { positionClasses?: string }) {
       <div className="border-primary-500 relative h-[400px] w-full min-w-96 overflow-hidden rounded-lg border-2 md:h-[500px]">
         {
           <Image
-            src={'/static/images/foo/A_good_03.webp'}
+            src={'/static/images/table/table_square_02.webp'}
             alt="Massage therapy session"
             fill
             className="object-cover"
