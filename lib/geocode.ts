@@ -70,7 +70,6 @@ async function _geocodeLocation(location: string | LocationObject): Promise<Geoc
     const encodedAddress = encodeURIComponent(address)
     const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodedAddress}&key=${apiKey}`
 
-    console.log(`🌍 Making geocoding API call for: "${address}"`)
     const response = await fetch(geocodeUrl)
 
     if (!response.ok) {
@@ -147,8 +146,6 @@ export async function geocodeLocation(location: string | LocationObject): Promis
       ? location
       : [location.street, location.city, location.zip].filter(Boolean).join(', ')
 
-  console.log(`🔍 Geocoding request for: "${addressString}"`)
-
   const startTime = Date.now()
   const result = await _cachedGeocodeLocation(location)
   const duration = Date.now() - startTime
@@ -156,9 +153,6 @@ export async function geocodeLocation(location: string | LocationObject): Promis
   if (result.success) {
     // If the call was very fast (< 50ms), it's likely cached
     const wasCached = duration < 50
-    console.log(
-      `${wasCached ? '⚡ CACHED' : '🌍 API CALL'} geocoding result (${duration}ms): ${result.coordinates?.lat}, ${result.coordinates?.lng}`
-    )
 
     return {
       ...result,
@@ -167,7 +161,6 @@ export async function geocodeLocation(location: string | LocationObject): Promis
     }
   }
 
-  console.log(`❌ Geocoding failed (${duration}ms): ${result.error}`)
   return result
 }
 
