@@ -3,7 +3,12 @@ import { fetchSingleEvent } from 'lib/fetch/fetchSingleEvent'
 
 // Default event ID from loc/route.ts - used when no event ID is provided
 
-const DEFAULT_EVENT_ID = process.env.GOOGLE_MAPS_CAL_PRIMARY_EVENT_ID
+const DEFAULT_EVENT_ID = process.env.GOOGLE_MAPS_CAL_PRIMARY_EVENT_ID as string
+
+// Fail fast: this API relies on a default calendar event ID being available
+if (!DEFAULT_EVENT_ID) {
+  throw new Error('Required environment variable GOOGLE_MAPS_CAL_PRIMARY_EVENT_ID is not set')
+}
 
 interface DriveTimeRequest {
   eventId?: string
@@ -42,8 +47,6 @@ async function calculateDriveTime(location1: string, location2: string): Promise
     url.searchParams.set('departure_time', 'now') // For real-time traffic
     url.searchParams.set('key', apiKey)
 
-    console.log(`Calling Google Maps API for drive time between "${location1}" and "${location2}"`)
-
     const response = await fetch(url.toString())
     const data = await response.json()
 
@@ -63,8 +66,6 @@ async function calculateDriveTime(location1: string, location2: string): Promise
     const durationMinutes =
       Math.ceil(element.duration_in_traffic?.value / 60) || Math.ceil(element.duration.value / 60)
 
-    console.log(`Google Maps API result: ${durationMinutes} minutes (${element.distance.text})`)
-
     return durationMinutes
   } catch (error) {
     console.error('Error calling Google Maps API, falling back to mock:', error)
@@ -78,8 +79,6 @@ async function calculateDriveTime(location1: string, location2: string): Promise
 async function calculateDriveTimeMock(location1: string, location2: string): Promise<number> {
   // Mock calculation based on location strings
   // This is a simplified mock - in reality you'd use a proper distance/time API
-
-  console.log(`Using mock calculation for drive time between "${location1}" and "${location2}"`)
 
   // Simple mock logic based on location similarity/distance indicators
   const loc1Lower = location1.toLowerCase().trim()
@@ -133,7 +132,6 @@ export async function POST(request: NextRequest) {
 
     // Determine which event to use
     const targetEventId = eventId || (DEFAULT_EVENT_ID as string)
-    console.log(`Fetching event with ID: ${targetEventId}`)
 
     // Fetch the event to get its location
     const event = await fetchSingleEvent(targetEventId)
@@ -164,10 +162,6 @@ export async function POST(request: NextRequest) {
 
     // Calculate drive time between the two locations
     const driveTimeMinutes = await calculateDriveTime(eventLocation, userLocation)
-
-    console.log(
-      `Drive time calculated: ${driveTimeMinutes} minutes from "${eventLocation}" to "${userLocation}"`
-    )
 
     return NextResponse.json({
       success: true,
@@ -205,7 +199,6 @@ export async function GET(request: NextRequest) {
   try {
     // Determine which event to use
     const targetEventId = eventId || (DEFAULT_EVENT_ID as string)
-    console.log(`Fetching event with ID: ${targetEventId}`)
 
     // Fetch the event to get its location
     const event = await fetchSingleEvent(targetEventId)
@@ -236,10 +229,6 @@ export async function GET(request: NextRequest) {
 
     // Calculate drive time between the two locations
     const driveTimeMinutes = await calculateDriveTime(eventLocation, userLocation)
-
-    console.log(
-      `Drive time calculated: ${driveTimeMinutes} minutes from "${eventLocation}" to "${userLocation}"`
-    )
 
     return NextResponse.json({
       success: true,
