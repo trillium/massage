@@ -16,7 +16,7 @@ import { createPageConfiguration } from '@/lib/slugConfigurations/createPageConf
 import SectionContainer from '@/components/SectionContainer'
 
 const { avatar } = siteMetadata
-const mapData = '/static/images/foo/service-area.jpg'
+const mapData = '/static/images/service-area.jpg'
 const massageBio =
   'Trillium is a massage therapist with 10 years of experience. Working in the LA Metro Area, Trillium found success in specializing in In-Home mobile massage therapy, working solo and through platforms like Soothe and Zeel since 2016.'
 const serviceAreaBlurb =

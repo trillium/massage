@@ -1,7 +1,7 @@
 import Image from '@/components/Image'
 import clsx from 'clsx'
 
-const mapData = '/static/images/foo/service-area.jpg'
+const mapData = '/static/images/service-area.jpg'
 const serviceAreaBlurb =
   'Trillium is based out of Westchester, but happy to travel to the LA area in general. Very close locations include Playa Vista, Mar Vista, Santa Monica, Venice, El Segundo, Torrance, and Culver City.'
 const title = "What's the service area for mobile massage therapy?"

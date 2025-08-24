@@ -19,7 +19,7 @@ export default async function ContactPage({
         <div className="flex flex-col justify-center space-y-4">
           <div className="border-primary-500 flex w-full items-center justify-center rounded border-2 bg-gray-200 text-center text-gray-500">
             <Image
-              src="/static/images/foo/service-area.jpg"
+              src="/static/images/service-area.jpg"
               alt="Los Angeles map"
               width={600}
               height={400}
