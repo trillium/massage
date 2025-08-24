@@ -62,7 +62,7 @@ export default function MockedConfirmationPage({ data }: MockedConfirmationPageP
       <BookedCard {...bookedData} />
 
       <div className="flex flex-grow items-center justify-center pt-12">
-        <BookSessionButton title="Book Another Session!" href="/" />
+        <BookSessionButton title="Book Another Session!" href="/book" />
       </div>
     </div>
   )

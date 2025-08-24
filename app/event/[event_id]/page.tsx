@@ -85,7 +85,7 @@ export default async function EventPage({ params }: { params: Promise<{ event_id
 
   // Extract booking slug and create booking URL if event exists
   let bookingSlug: string | null = null
-  let bookingUrl: string = '/'
+  let bookingUrl: string = '/book'
 
   if (matchingEvent) {
     bookingSlug = extractBookingSlug(matchingEvent)

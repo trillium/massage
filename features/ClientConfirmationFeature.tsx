@@ -68,7 +68,7 @@ export default function Confirmation() {
       <BookedCard {...BookedData} />
 
       <div className="flex flex-grow items-center justify-center pt-12">
-        <BookSessionButton title="Book Another Session!" href="/" />
+        <BookSessionButton title="Book Another Session!" href="/book" />
       </div>
     </>
   )
