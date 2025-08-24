@@ -3,7 +3,6 @@ import updateLocation from 'lib/availability/updateLocation'
 
 export async function GET(req: NextRequest) {
   const searchParams = req.nextUrl.searchParams
-  console.log('🔗', searchParams)
 
   const password = searchParams.get('password')
 
@@ -31,7 +30,6 @@ export async function GET(req: NextRequest) {
 
   const newObj = { ...paramsObj, res }
 
-  console.log(newObj)
   // Create a new response with the search parameters as JSON
   return new NextResponse(JSON.stringify(paramsObj), {
     status: 200, // OK status
