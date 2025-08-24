@@ -21,7 +21,8 @@
     "commit:build": "git config hooks.prebuild true && git commit",
     "commit:no-build": "git config hooks.prebuild false && git commit",
     "generate-static-map": "ts-node scripts/generate-la-map-auto.ts",
-    "cspell:ignore": "./scripts/cspell-ignore-and-prettier.sh"
+    "cspell:ignore": "./scripts/cspell-ignore-and-prettier.sh",
+    "convert-images": "bash ./scripts/convert_and_resize_images.sh"
   },
   "dependencies": {
     "@headlessui/react": "2.2.0",
