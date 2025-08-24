@@ -28,7 +28,6 @@ export async function identifyUser(
 
     // Identify the user with PostHog
     posthog.identify(userId, properties)
-    console.log('[PostHog]', 'Identified user:', userId, 'with properties:', properties)
 
     return { success: true, message: 'User identified successfully' }
   } catch (error) {
@@ -76,8 +75,6 @@ export async function captureEvent(
 
     // Capture the event with PostHog
     posthog.capture(eventName, properties)
-
-    console.log('[PostHog]', 'Captured event:', eventName, 'with properties:', properties)
 
     return { success: true, message: 'Event captured successfully' }
   } catch (error) {
