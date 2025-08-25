@@ -12,6 +12,18 @@ export function createLocationObject(street: string, city: string, zip: string):
 }
 
 /**
+ * Create a full location object with street address
+ */
+export function stringToLocationObject(address: string): LocationObject {
+  const [street, city, zip] = address.split(',').map((part) => part.trim())
+  return {
+    street: street || '',
+    city: city || '',
+    zip: zip || '',
+  }
+}
+
+/**
  * Parse URL search parameters to extract location information
  */
 export function parseLocationFromParams(searchParams: URLSearchParams): LocationObject {

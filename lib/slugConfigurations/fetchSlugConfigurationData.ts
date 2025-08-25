@@ -16,7 +16,7 @@ import { initialState } from '@/redux/slices/configSlice'
 const { ...initialStateWithoutType } = initialState
 
 import { SlugConfigurationType, LocationObject } from '../types'
-import { createLocationObject } from './helpers/parseLocationFromSlug'
+import { createLocationObject, stringToLocationObject } from './helpers/parseLocationFromSlug'
 
 type DiscountType = {
   type: 'percent' | 'dollar'
@@ -151,6 +151,21 @@ const slugConfigurations: SlugConfigurationType[] = [
       message:
         'This free 30-minute offer is available for Westchester residents. Appointments outside this area might be declined.',
     },
+  },
+  {
+    ...initialStateWithoutType,
+    bookingSlug: ['recharge'],
+    type: 'fixed-location',
+    title: 'Recharge while you charge!',
+    text: 'Quick massage pick-me-up while charging ;)',
+    location: stringToLocationObject('3JR8+FR West Hollywood, California, 90069'),
+    eventContainer: 'recharge_chair',
+    blockingScope: 'general',
+    pricing: { 15: 25, 30: 50, 45: 75, 60: 100 },
+    leadTimeMinimum: 0,
+    instantConfirm: true,
+    acceptingPayment: true,
+    allowedDurations: [15, 30, 45, 60],
   },
 ]
 
