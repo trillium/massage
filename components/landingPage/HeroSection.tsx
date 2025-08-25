@@ -46,7 +46,7 @@ function TextContent({ positionClasses }: { positionClasses?: string }) {
 function ImageContent({ positionClasses }: { positionClasses?: string }) {
   return (
     <div className={clsx('relative flex-1', positionClasses)}>
-      <div className="border-primary-500 relative h-[400px] w-full min-w-96 overflow-hidden rounded-lg border-2 md:h-[500px]">
+      <div className="border-primary-500 relative h-72 w-full overflow-hidden rounded-lg border-2 sm:h-100 md:h-128 lg:h-148 xl:h-152">
         {
           <Image
             src={'/static/images/table/table_square_02.webp'}

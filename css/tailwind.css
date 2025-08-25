@@ -168,6 +168,76 @@
   .min-h-92 {
     min-height: 23rem;
   }
+
+  /* Custom height utilities up to 600px (37.5rem) */
+  .h-100 {
+    height: 25rem;
+  }
+  .h-104 {
+    height: 26rem;
+  }
+  .h-108 {
+    height: 27rem;
+  }
+  .h-112 {
+    height: 28rem;
+  }
+  .h-116 {
+    height: 29rem;
+  }
+  .h-120 {
+    height: 30rem;
+  }
+  .h-128 {
+    height: 32rem;
+  }
+  .h-136 {
+    height: 34rem;
+  }
+  .h-144 {
+    height: 36rem;
+  }
+  .h-148 {
+    height: 37rem;
+  }
+  .h-152 {
+    height: 38rem;
+  }
+
+  /* Custom width utilities up to 600px (37.5rem) */
+  .w-100 {
+    width: 25rem;
+  }
+  .w-104 {
+    width: 26rem;
+  }
+  .w-108 {
+    width: 27rem;
+  }
+  .w-112 {
+    width: 28rem;
+  }
+  .w-116 {
+    width: 29rem;
+  }
+  .w-120 {
+    width: 30rem;
+  }
+  .w-128 {
+    width: 32rem;
+  }
+  .w-136 {
+    width: 34rem;
+  }
+  .w-144 {
+    width: 36rem;
+  }
+  .w-148 {
+    width: 37rem;
+  }
+  .w-152 {
+    width: 38rem;
+  }
 }
 
 .task-list-item::before {
