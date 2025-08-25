@@ -96,16 +96,20 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <link rel="alternate" type="application/rss+xml" href={`${basePath}/feed.xml`} />
       <body className="bg-white text-black antialiased dark:bg-gray-950 dark:text-white">
         <ThemeProviders>
-          <Analytics analyticsConfig={siteMetadata.analytics as AnalyticsConfig} />
-          <SearchProvider searchConfig={siteMetadata.search as SearchConfig}>
-            <SectionContainer>
-              <Header />
+          <div className="flex min-h-screen flex-col">
+            <Analytics analyticsConfig={siteMetadata.analytics as AnalyticsConfig} />
+            <SearchProvider searchConfig={siteMetadata.search as SearchConfig}>
+              <SectionContainer>
+                <Header />
+              </SectionContainer>
+              <main className="mb-auto">{children}</main>
+            </SearchProvider>
+            <SectionContainer colorClasses="bg-slate-900" positionClasses="mt-12">
+              <div className="mt-auto">
+                <Footer />
+              </div>
             </SectionContainer>
-            <main className="mb-auto">{children}</main>
-          </SearchProvider>
-          <SectionContainer colorClasses="bg-slate-900" positionClasses="mt-12">
-            <Footer />
-          </SectionContainer>
+          </div>
         </ThemeProviders>
       </body>
     </html>

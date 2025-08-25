@@ -67,5 +67,10 @@ export const ContactFormSchema = z.object({
   message: z.string().min(1, 'Message is required'),
 })
 
+export const AdminAccessRequestSchema = z.object({
+  email: z.string().email('Invalid email address'),
+  requestReason: z.string().min(10, 'Please provide a reason (minimum 10 characters)'),
+})
+
 export type AppointmentRequestType = z.infer<typeof AppointmentRequestSchema>
 export type OnSiteRequestType = z.infer<typeof OnSiteRequestSchema>

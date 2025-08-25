@@ -22,7 +22,8 @@
     "commit:no-build": "git config hooks.prebuild false && git commit",
     "generate-static-map": "ts-node scripts/generate-la-map-auto.ts",
     "cspell:ignore": "./scripts/cspell-ignore-and-prettier.sh",
-    "convert-images": "bash ./scripts/convert_and_resize_images.sh"
+    "convert-images": "bash ./scripts/convert_and_resize_images.sh",
+    "admin:generate-link": "tsx scripts/generate-admin-link.ts --emailEnv"
   },
   "dependencies": {
     "@headlessui/react": "2.2.0",
@@ -40,6 +41,7 @@
     "contentlayer2": "0.5.5",
     "date-fns": "^4.1.0",
     "date-fns-tz": "^3.2.0",
+    "dotenv": "^17.2.1",
     "esbuild": "0.25.2",
     "formik": "^2.4.6",
     "github-slugger": "^2.0.0",
