@@ -161,11 +161,11 @@ const slugConfigurations: SlugConfigurationType[] = [
     location: stringToLocationObject('3JR8+FR West Hollywood, California, 90069'),
     eventContainer: 'recharge_chair',
     blockingScope: 'general',
-    pricing: { 15: 25, 30: 50, 45: 75, 60: 100 },
+    pricing: { 10: 18, 15: 25, 30: 50 },
     leadTimeMinimum: 0,
     instantConfirm: true,
     acceptingPayment: true,
-    allowedDurations: [15, 30, 45, 60],
+    allowedDurations: [10, 15, 30],
   },
 ]
 
