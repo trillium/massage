@@ -47,6 +47,31 @@ export async function handleAppointmentRequest({
     return NextResponse.json(validationResult.error.message, { status: 400 })
   }
   const { data } = validationResult
+
+  // Check if instantConfirm is true
+  if (data.instantConfirm) {
+    const start = new Date(data.start)
+    const end = new Date(data.end)
+
+    // Send confirmation email directly
+    const confirmationEmail = await clientRequestEmailFn({
+      ...data,
+      email: data.email, // Explicitly pass the email
+      dateSummary: intervalToHumanString({
+        start,
+        end,
+        timeZone: data.timeZone,
+      }),
+    })
+    await sendMailFn({
+      to: data.email,
+      subject: confirmationEmail.subject,
+      body: confirmationEmail.body,
+    })
+
+    return NextResponse.json({ success: true, instantConfirm: true }, { status: 200 })
+  }
+
   const start = new Date(data.start)
   const end = new Date(data.end)
   const approveUrl = `${headers.get('origin') ?? '?'}\/api/confirm/?data=${encodeURIComponent(JSON.stringify(data))}&key=${getHashFn(JSON.stringify(data))}`
@@ -60,30 +85,30 @@ export async function handleAppointmentRequest({
     }),
   })
 
-  pushoverSendMesage({
-    message: JSON.stringify(data, null, 2),
-    title: createTitle(data),
-    priority: 0,
-  })
+  // pushoverSendMesage({
+  //   message: JSON.stringify(data, null, 2),
+  //   title: createTitle(data),
+  //   priority: 0,
+  // })
 
-  await sendMailFn({
-    to: siteMetadata.email ?? '',
-    subject: approveEmail.subject,
-    body: approveEmail.body,
-  })
-  const confirmationEmail = await clientRequestEmailFn({
-    ...data,
-    email: data.email, // Explicitly pass the email
-    dateSummary: intervalToHumanString({
-      start,
-      end,
-      timeZone: data.timeZone,
-    }),
-  })
-  await sendMailFn({
-    to: data.email,
-    subject: confirmationEmail.subject,
-    body: confirmationEmail.body,
-  })
+  // await sendMailFn({
+  //   to: siteMetadata.email ?? '',
+  //   subject: approveEmail.subject,
+  //   body: approveEmail.body,
+  // })
+  // const confirmationEmail = await clientRequestEmailFn({
+  //   ...data,
+  //   email: data.email, // Explicitly pass the email
+  //   dateSummary: intervalToHumanString({
+  //     start,
+  //     end,
+  //     timeZone: data.timeZone,
+  //   }),
+  // })
+  // await sendMailFn({
+  //   to: data.email,
+  //   subject: confirmationEmail.subject,
+  //   body: confirmationEmail.body,
+  // })
   return NextResponse.json({ success: true }, { status: 200 })
 }

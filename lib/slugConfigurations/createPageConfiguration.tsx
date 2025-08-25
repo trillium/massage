@@ -80,6 +80,7 @@ export async function createPageConfiguration({
     data,
     start,
     end,
+    instantConfirm: configuration.instantConfirm,
   }
 
   // 9. Check if promo is expired

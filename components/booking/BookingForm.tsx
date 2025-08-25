@@ -62,6 +62,7 @@ const createBookingFormSchema = (config?: { cities?: string[]; zipCodes?: string
     eventMemberString: z.string().optional(),
     bookingUrl: z.string().optional(),
     promo: z.string().optional(),
+    instantConfirm: z.boolean().optional(),
   })
 }
 
@@ -87,7 +88,8 @@ export default function BookingForm({
   const config = useReduxConfig()
   const { status: modal } = useReduxModal()
   const { selectedTime, timeZone, duration } = useReduxAvailability()
-  const price = duration ? DEFAULT_PRICING[duration] : 'null'
+  const price =
+    duration && config.pricing ? config.pricing[duration] : DEFAULT_PRICING[duration] || 'null'
   const router = useRouter()
 
   // Create custom validation function from Zod schema
@@ -168,6 +170,7 @@ export default function BookingForm({
     location: (eventContainers && eventContainers.location) ||
       (config && config.location) ||
       (formData && formData.location) || { street: '', city: '', zip: '' },
+    instantConfirm: config.instantConfirm || false,
     paymentMethod: (formData.paymentMethod as 'cash' | 'venmo' | 'zelle') || 'cash',
     hotelRoomNumber: typeof formData.hotelRoomNumber === 'string' ? formData.hotelRoomNumber : '',
     parkingInstructions:
@@ -238,6 +241,7 @@ export default function BookingForm({
           eventMemberString: values.eventMemberString || undefined,
           bookingUrl: values.bookingUrl || undefined,
           promo: values.promo || undefined,
+          instantConfirm: config.instantConfirm || false,
           ...additionalData,
         }
 
@@ -253,8 +257,13 @@ export default function BookingForm({
           const json = await response.json()
 
           if (json.success && response.ok) {
+            console.log(json)
             dispatchRedux(setModal({ status: 'closed' }))
-            router.push('/confirmation')
+            if (json.instantConfirm) {
+              router.push('/instantConfirm')
+            } else {
+              router.push('/confirmation')
+            }
           } else {
             dispatchRedux(setModal({ status: 'error' }))
           }
