@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import clsx from 'clsx'
 import { DialogTitle } from '@headlessui/react'
 import { useRouter } from 'next/navigation'
@@ -36,6 +36,7 @@ import siteMetadata from 'data/siteMetadata'
 import BookingSummary from './BookingSummary'
 import BookingFormActions from './BookingFormActions'
 import { flattenLocation } from '@/lib/helpers/locationHelpers'
+import { stringToLocationObject } from '@/lib/slugConfigurations/helpers/parseLocationFromSlug'
 const { eventBaseString } = siteMetadata
 
 // Zod schema for form validation
@@ -91,6 +92,79 @@ export default function BookingForm({
   const price =
     duration && config.pricing ? config.pricing[duration] : DEFAULT_PRICING[duration] || 'null'
   const router = useRouter()
+
+  // Store Formik's setFieldValue function so we can access it from useEffect
+  const formikRef = useRef<{
+    setFieldValue: (field: string, value: unknown) => void
+  } | null>(null)
+
+  // Function to sync Redux config location with Formik
+  const setFormikLocation = (configLocation: LocationObject | string | null, source: string) => {
+    console.log(`🔄 [setFormikLocation] source: ${source}`, {
+      configLocation,
+      formikRefExists: !!formikRef.current,
+      timestamp: new Date().toISOString(),
+    })
+    if (configLocation && formikRef.current) {
+      let newLocation: LocationObject
+
+      // Handle both LocationObject and string types
+      if (typeof configLocation === 'string') {
+        // Use the existing stringToLocationObject function to parse the address
+        newLocation = stringToLocationObject(configLocation)
+      } else {
+        // If it's a LocationObject, use its properties
+        newLocation = {
+          street: configLocation.street || '',
+          city: configLocation.city || '',
+          zip: configLocation.zip || '',
+        }
+      }
+
+      console.log(`📍 [setFormikLocation] updating Formik location:`, newLocation)
+      formikRef.current.setFieldValue('location', newLocation)
+    } else if (configLocation && !formikRef.current) {
+      console.log(`⏰ [setFormikLocation] Formik ref not ready yet, will retry when Formik renders`)
+    }
+  }
+
+  // Store pending location updates for when Formik is ready
+  const pendingLocationUpdate = useRef<{
+    location: LocationObject | string | null
+    source: string
+  } | null>(null)
+
+  // Watch for changes to config.location and sync with Formik
+  useEffect(() => {
+    console.log('⚡ [useEffect] config.location changed:', config.location)
+    if (config.location) {
+      if (formikRef.current) {
+        setFormikLocation(config.location, 'config.location useEffect')
+      } else {
+        console.log('⏰ [useEffect] Formik not ready, storing pending update')
+        pendingLocationUpdate.current = {
+          location: config.location,
+          source: 'config.location useEffect (delayed)',
+        }
+      }
+    }
+  }, [config.location])
+
+  // Also watch for eventContainers.location changes
+  useEffect(() => {
+    console.log('⚡ [useEffect] eventContainers.location changed:', eventContainers?.location)
+    if (eventContainers?.location) {
+      if (formikRef.current) {
+        setFormikLocation(eventContainers.location, 'eventContainers.location useEffect')
+      } else {
+        console.log('⏰ [useEffect] Formik not ready, storing pending update')
+        pendingLocationUpdate.current = {
+          location: eventContainers.location,
+          source: 'eventContainers.location useEffect (delayed)',
+        }
+      }
+    }
+  }, [eventContainers?.location])
 
   // Create custom validation function from Zod schema
   const validateForm = (values: BookingFormValues) => {
@@ -167,9 +241,23 @@ export default function BookingForm({
     lastName: formData.lastName || '',
     phone: formData.phone || '',
     email: formData.email || '',
-    location: (eventContainers && eventContainers.location) ||
-      (config && config.location) ||
-      (formData && formData.location) || { street: '', city: '', zip: '' },
+    location: (() => {
+      // Priority order: eventContainers > config > formData > default
+      const locationSources = [eventContainers?.location, config?.location, formData?.location]
+
+      for (const locationSource of locationSources) {
+        if (locationSource) {
+          if (typeof locationSource === 'string') {
+            return stringToLocationObject(locationSource)
+          } else {
+            return locationSource
+          }
+        }
+      }
+
+      // Default empty location
+      return { street: '', city: '', zip: '' }
+    })(),
     instantConfirm: config.instantConfirm || false,
     paymentMethod: (formData.paymentMethod as 'cash' | 'venmo' | 'zelle') || 'cash',
     hotelRoomNumber: typeof formData.hotelRoomNumber === 'string' ? formData.hotelRoomNumber : '',
@@ -192,6 +280,19 @@ export default function BookingForm({
         : `$${config.discount.amountDollars || 0} off`
       : undefined,
   }
+
+  // Debug initial values
+  console.log(`🚀 [BookingForm] Initial form values:`, {
+    initialValues,
+    formData,
+    eventContainers,
+    config: {
+      location: config.location,
+      locationIsReadOnly: config.locationIsReadOnly,
+      instantConfirm: config.instantConfirm,
+    },
+    timestamp: new Date().toISOString(),
+  })
 
   const handleFormSubmit = async (
     values: BookingFormValues,
@@ -316,6 +417,47 @@ export default function BookingForm({
             isSubmitting,
             handleSubmit,
           }) => {
+            // Create a debug wrapper around setFieldValue
+            const debugSetFieldValue = (
+              field: string,
+              value: unknown,
+              shouldValidate?: boolean
+            ) => {
+              console.log(`🔧 [Formik] setFieldValue called:`, {
+                field,
+                value,
+                shouldValidate,
+                currentValues: values,
+                timestamp: new Date().toISOString(),
+                stack: new Error().stack?.split('\n').slice(1, 4).join('\n'), // Show call stack
+              })
+              return setFieldValue(field, value, shouldValidate)
+            }
+
+            // Store the debug setFieldValue function in the ref so useEffect can access it
+            formikRef.current = { setFieldValue: debugSetFieldValue }
+
+            // Process any pending location updates now that Formik is ready
+            if (pendingLocationUpdate.current) {
+              console.log(
+                '🔄 [Formik] Processing pending location update:',
+                pendingLocationUpdate.current
+              )
+              const { location, source } = pendingLocationUpdate.current
+              setFormikLocation(location, source)
+              pendingLocationUpdate.current = null // Clear after processing
+            }
+
+            // Debug current form state on every render
+            console.log(`🎯 [Formik] Current form state:`, {
+              values,
+              errors,
+              touched,
+              isSubmitting,
+              formikRefExists: !!formikRef.current,
+              timestamp: new Date().toISOString(),
+            })
+
             // Get location warning (non-blocking) - only if location fields have been touched
             const locationWarning =
               touched.location?.city || touched.location?.zip
@@ -358,7 +500,12 @@ export default function BookingForm({
                       firstName={values.firstName}
                       lastName={values.lastName}
                       onChange={(e) => {
-                        setFieldValue(e.target.name, e.target.value)
+                        console.log(`📝 [NameFields] onChange:`, {
+                          field: e.target.name,
+                          value: e.target.value,
+                          timestamp: new Date().toISOString(),
+                        })
+                        debugSetFieldValue(e.target.name, e.target.value)
                         // Also update Redux state for integration tests
                         dispatchRedux(setForm({ [e.target.name]: e.target.value }))
                       }}
@@ -373,7 +520,12 @@ export default function BookingForm({
                     <PhoneField
                       phone={values.phone}
                       onChange={(e) => {
-                        setFieldValue('phone', e.target.value)
+                        console.log(`📞 [PhoneField] onChange:`, {
+                          field: 'phone',
+                          value: e.target.value,
+                          timestamp: new Date().toISOString(),
+                        })
+                        debugSetFieldValue('phone', e.target.value)
                         // Also update Redux state for integration tests
                         dispatchRedux(setForm({ phone: e.target.value }))
                       }}
@@ -405,7 +557,16 @@ export default function BookingForm({
                           default:
                             return // Unknown field, ignore
                         }
-                        setFieldValue(`location.${locationField}`, e.target.value)
+
+                        console.log(`📍 [LocationField] onChange:`, {
+                          fieldName,
+                          locationField,
+                          value: e.target.value,
+                          currentLocation: values.location,
+                          timestamp: new Date().toISOString(),
+                        })
+
+                        debugSetFieldValue(`location.${locationField}`, e.target.value)
                         // DO NOT set touched on change - only on blur!
                       }}
                       onBlur={(e) => {
@@ -449,7 +610,12 @@ export default function BookingForm({
                     <EmailField
                       email={values.email}
                       onChange={(e) => {
-                        setFieldValue('email', e.target.value)
+                        console.log(`📧 [EmailField] onChange:`, {
+                          field: 'email',
+                          value: e.target.value,
+                          timestamp: new Date().toISOString(),
+                        })
+                        debugSetFieldValue('email', e.target.value)
                         // Also update Redux state for integration tests
                         dispatchRedux(setForm({ email: e.target.value }))
                       }}

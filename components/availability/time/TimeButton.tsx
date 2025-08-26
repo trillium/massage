@@ -8,6 +8,11 @@ import { setSelectedTime } from '@/redux/slices/availabilitySlice'
 import { setModal } from '@/redux/slices/modalSlice'
 import { useAppDispatch, useReduxAvailability } from '@/redux/hooks'
 import { clearEventContainers, setEventContainers } from '@/redux/slices/eventContainersSlice'
+import {
+  createLocationObject,
+  stringToLocationObject,
+} from '@/lib/slugConfigurations/helpers/parseLocationFromSlug'
+import { setLocation, setLocationFromString } from '@/redux/slices/configSlice'
 
 type TimeProps = {
   time: StringDateTimeInterval
@@ -47,9 +52,11 @@ export default function TimeButton({
           })
         )
         if (location) {
-          dispatchRedux(setEventContainers({ location: location || '' }))
+          // Set the location in eventContainers - don't convert to empty string
+          dispatchRedux(setEventContainers({ location: location }))
         } else {
-          dispatchRedux(clearEventContainers({}))
+          // Don't clear all eventContainers, just clear the location field
+          dispatchRedux(setEventContainers({ location: undefined }))
         }
         dispatchRedux(setModal({ status: 'open' }))
       }}

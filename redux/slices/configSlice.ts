@@ -45,6 +45,15 @@ export const configSlice: Slice<SlugConfigurationType> = createSlice({
     setLocation: (state, action: PayloadAction<LocationObject | null>) => {
       state.location = action.payload
     },
+    setLocationFromString: (state, action: PayloadAction<string | null>) => {
+      if (!action.payload) {
+        state.location = null
+        return
+      }
+      // Very basic parsing: expects "123 Main St, City, ZIP"
+      const [street = '', city = '', zip = ''] = action.payload.split(',').map((s) => s.trim())
+      state.location = { street, city, zip }
+    },
     setLocationReadOnly: (state, action: PayloadAction<boolean>) => {
       state.locationIsReadOnly = action.payload
     },
@@ -107,6 +116,7 @@ export const {
   setBulkConfigSliceState,
   setLocationReadOnly,
   setLocationWarning,
+  setLocationFromString,
   updateLocationField,
   configSliceReset,
 } = configSlice.actions
