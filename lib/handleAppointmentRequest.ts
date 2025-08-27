@@ -85,30 +85,30 @@ export async function handleAppointmentRequest({
     }),
   })
 
-  // pushoverSendMesage({
-  //   message: JSON.stringify(data, null, 2),
-  //   title: createTitle(data),
-  //   priority: 0,
-  // })
+  pushoverSendMesage({
+    message: JSON.stringify(data, null, 2),
+    title: createTitle(data),
+    priority: 0,
+  })
 
-  // await sendMailFn({
-  //   to: siteMetadata.email ?? '',
-  //   subject: approveEmail.subject,
-  //   body: approveEmail.body,
-  // })
-  // const confirmationEmail = await clientRequestEmailFn({
-  //   ...data,
-  //   email: data.email, // Explicitly pass the email
-  //   dateSummary: intervalToHumanString({
-  //     start,
-  //     end,
-  //     timeZone: data.timeZone,
-  //   }),
-  // })
-  // await sendMailFn({
-  //   to: data.email,
-  //   subject: confirmationEmail.subject,
-  //   body: confirmationEmail.body,
-  // })
+  await sendMailFn({
+    to: siteMetadata.email ?? '',
+    subject: approveEmail.subject,
+    body: approveEmail.body,
+  })
+  const confirmationEmail = await clientRequestEmailFn({
+    ...data,
+    email: data.email, // Explicitly pass the email
+    dateSummary: intervalToHumanString({
+      start,
+      end,
+      timeZone: data.timeZone,
+    }),
+  })
+  await sendMailFn({
+    to: data.email,
+    subject: confirmationEmail.subject,
+    body: confirmationEmail.body,
+  })
   return NextResponse.json({ success: true }, { status: 200 })
 }
