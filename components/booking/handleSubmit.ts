@@ -70,7 +70,6 @@ export function handleSubmit({
 
   // Extract FormData immediately while event is still valid
   const formData = new FormData(event.currentTarget)
-  console.log('[[formData]]', formData)
 
   dispatchRedux(setModal({ status: 'busy' }))
 
@@ -100,7 +99,6 @@ export function handleSubmit({
   })
     .then(async (data) => {
       const json = await data.json()
-      console.log('[json]', json)
       if (json.success) {
         dispatchRedux(setModal({ status: 'closed' }))
         if (json.instantConfirm) {
