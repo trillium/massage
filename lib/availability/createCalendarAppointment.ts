@@ -33,21 +33,25 @@ async function buildEventBody({
   eventBaseString,
   eventMemberString,
   eventContainerString,
-}: AppointmentProps) {
-  const description = await templates.eventDescription({
-    start,
-    end,
-    summary,
-    email,
-    phone,
-    duration,
-    location,
-    firstName,
-    lastName,
-    eventBaseString,
-    eventMemberString,
-    eventContainerString,
-  })
+  customDescription, // Add support for custom description
+}: AppointmentProps & { customDescription?: string }) {
+  // Use custom description if provided, otherwise generate standard description
+  const description =
+    customDescription ||
+    (await templates.eventDescription({
+      start,
+      end,
+      summary,
+      email,
+      phone,
+      duration,
+      location,
+      firstName,
+      lastName,
+      eventBaseString,
+      eventMemberString,
+      eventContainerString,
+    }))
 
   return {
     start: {
@@ -68,7 +72,9 @@ async function buildEventBody({
   }
 }
 
-export default async function createCalendarAppointment(props: AppointmentProps) {
+export default async function createCalendarAppointment(
+  props: AppointmentProps & { customDescription?: string }
+) {
   const body = await buildEventBody(props)
 
   const apiUrl = new URL('https://www.googleapis.com/calendar/v3/calendars/primary/events')

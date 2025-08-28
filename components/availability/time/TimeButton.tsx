@@ -4,33 +4,22 @@ import type { DetailedHTMLProps, HTMLAttributes } from 'react'
 import { formatLocalTime } from 'lib/availability/helpers'
 import type { StringDateTimeInterval, LocationObject } from 'lib/types'
 
-import { setSelectedTime } from '@/redux/slices/availabilitySlice'
-import { setModal } from '@/redux/slices/modalSlice'
-import { useAppDispatch, useReduxAvailability } from '@/redux/hooks'
-import { clearEventContainers, setEventContainers } from '@/redux/slices/eventContainersSlice'
-import {
-  createLocationObject,
-  stringToLocationObject,
-} from '@/lib/slugConfigurations/helpers/parseLocationFromSlug'
-import { setLocation, setLocationFromString } from '@/redux/slices/configSlice'
-
 type TimeProps = {
   time: StringDateTimeInterval
   active: boolean
-} & { location?: LocationObject } & DetailedHTMLProps<
-    HTMLAttributes<HTMLButtonElement>,
-    HTMLButtonElement
-  >
+  timeZone: string
+  location?: LocationObject
+  onTimeSelect: (time: StringDateTimeInterval, location?: LocationObject) => void
+} & Omit<DetailedHTMLProps<HTMLAttributes<HTMLButtonElement>, HTMLButtonElement>, 'onClick'>
 
 export default function TimeButton({
   time: { start, end },
   active,
+  timeZone,
   location,
+  onTimeSelect,
   ...props
 }: TimeProps) {
-  const { timeZone } = useReduxAvailability()
-  const dispatchRedux = useAppDispatch()
-
   return (
     <button
       type="button"
@@ -44,22 +33,7 @@ export default function TimeButton({
           'bg-white font-semibold text-gray-900': !active,
         }
       )}
-      onClick={() => {
-        dispatchRedux(
-          setSelectedTime({
-            start: start,
-            end: end,
-          })
-        )
-        if (location) {
-          // Set the location in eventContainers - don't convert to empty string
-          dispatchRedux(setEventContainers({ location: location }))
-        } else {
-          // Don't clear all eventContainers, just clear the location field
-          dispatchRedux(setEventContainers({ location: undefined }))
-        }
-        dispatchRedux(setModal({ status: 'open' }))
-      }}
+      onClick={() => onTimeSelect({ start, end }, location)}
       {...props}
     >
       {formatLocalTime(start, { timeZone })} – {formatLocalTime(end, { timeZone })}

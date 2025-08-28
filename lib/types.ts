@@ -128,6 +128,7 @@ export type AppointmentProps = {
   bookingUrl?: string
   /** Promotional offer applied to this booking */
   promo?: string
+  source?: string
 }
 
 export type EmailProps = {

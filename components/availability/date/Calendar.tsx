@@ -9,13 +9,17 @@ import type { RootState } from '@/redux/store'
 import { format } from 'date-fns-tz'
 
 import type { StringDateTimeIntervalAndLocation } from 'lib/types'
-import { useReduxAvailability } from '@/redux/hooks'
+import { useReduxAvailability, useAppDispatch } from '@/redux/hooks'
+import { setSelectedDate } from '@/redux/slices/availabilitySlice'
 
 interface CalendarProps {
   slots?: StringDateTimeIntervalAndLocation[]
   start?: string
   end?: string
   timeZone?: string
+  onDaySelect?: (date: Day) => void
+  forceEnableFutureDates?: boolean
+  selectedDate?: Day | null
 }
 
 export default function Calendar({
@@ -23,18 +27,31 @@ export default function Calendar({
   start: startProp,
   end: endProp,
   timeZone: timeZoneProp,
+  onDaySelect,
+  forceEnableFutureDates = false,
+  selectedDate: selectedDateProp,
 }: CalendarProps) {
-  const { slots: slotsRedux } = useReduxAvailability()
+  const { slots: slotsRedux, selectedDate } = useReduxAvailability()
   const {
     start: startRedux,
     end: endRedux,
     timeZone: timeZoneRedux,
   } = useSelector((state: RootState) => state.availability)
 
+  const dispatch = useAppDispatch()
+
   const slots = slotsProp || slotsRedux || []
   const start = startProp || startRedux
   const end = endProp || endRedux
   const timeZone = timeZoneProp || timeZoneRedux
+
+  const handleDaySelect = (date: Day) => {
+    if (onDaySelect) {
+      onDaySelect(date)
+    } else {
+      dispatch(setSelectedDate(date.toString()))
+    }
+  }
 
   let maximumAvailability = 0
   const availabilityByDate = slots.reduce<Record<string, StringDateTimeIntervalAndLocation[]>>(
@@ -97,6 +114,24 @@ export default function Calendar({
       ))}
       {days.slice(0, 21).map((day) => {
         const availabilityTest = offers[day.toString()] ?? []
+
+        // Determine which selected date to use - props override Redux
+        const activeSelectedDate = selectedDateProp || selectedDate
+        const isSelected = activeSelectedDate
+          ? day.toString() === activeSelectedDate.toString()
+          : false
+
+        // Determine if day should have availability
+        let hasAvailability = availabilityTest.length > 0
+
+        // Override availability for future dates if forceEnableFutureDates is true
+        if (forceEnableFutureDates) {
+          const dayInterval = day.toInterval(timeZone)
+          const nowInterval = now.toInterval(timeZone)
+          // Enable if day is today or in the future
+          hasAvailability = dayInterval.start >= nowInterval.start
+        }
+
         return (
           <DayButton
             key={day.toString()}
@@ -105,7 +140,9 @@ export default function Calendar({
               openSlots: offers[day.toString()]?.length ?? 0,
               maximumAvailability,
             })}
-            hasAvailability={availabilityTest.length > 0}
+            hasAvailability={hasAvailability}
+            isSelected={isSelected}
+            onDaySelect={handleDaySelect}
           />
         )
       })}

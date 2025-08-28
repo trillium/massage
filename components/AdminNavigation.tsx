@@ -20,6 +20,11 @@ const adminRoutes = [
     label: 'Customer Reviews',
     description: 'View customer ratings and feedback',
   },
+  {
+    href: '/admin/gmail-events',
+    label: 'Gmail Soothe Emails',
+    description: 'Search and parse Soothe booking emails',
+  },
 ]
 
 export default function AdminNavigation() {

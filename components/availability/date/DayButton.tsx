@@ -5,37 +5,32 @@ import { twMerge } from 'tailwind-merge'
 
 import Day from 'lib/day'
 
-import { setSelectedDate } from '@/redux/slices/availabilitySlice'
-import { useAppDispatch, useReduxAvailability } from '@/redux/hooks'
-
 type DayProps = {
   date: Day
   availabilityScore: number
   hasAvailability: boolean
+  isSelected: boolean
+  onDaySelect: (date: Day) => void
 } & DetailedHTMLProps<LabelHTMLAttributes<HTMLLabelElement>, HTMLLabelElement>
 
 export default function DayButton({
   date,
   availabilityScore,
   hasAvailability,
+  isSelected,
+  onDaySelect,
   ...props
 }: DayProps): React.JSX.Element {
-  const { selectedDate } = useReduxAvailability()
-
-  const dispatchRedux = useAppDispatch()
-
   const now = Day.todayWithOffset(0)
 
   // Facts about the current date used to apply formatting/logic later.
 
   const isToday = date.toString() === now.toString()
 
-  const isSelected = selectedDate ? date.toString() === selectedDate.toString() : false
-
   const isDisabled = !hasAvailability
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    dispatchRedux(setSelectedDate(date.toString()))
+    onDaySelect(date)
   }
 
   return (
