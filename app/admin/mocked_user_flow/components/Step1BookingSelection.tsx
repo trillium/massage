@@ -125,6 +125,9 @@ export default function Step1BookingSelection({
                 })(),
               }}
               active={false}
+              timeZone="America/Los_Angeles"
+              location={mockLocation}
+              onTimeSelect={() => {}}
             />
             <TimeButton
               time={{
@@ -140,6 +143,9 @@ export default function Step1BookingSelection({
                 })(),
               }}
               active={false}
+              timeZone="America/Los_Angeles"
+              location={mockLocation}
+              onTimeSelect={() => {}}
             />
             <TimeButton
               time={{
@@ -155,6 +161,9 @@ export default function Step1BookingSelection({
                 })(),
               }}
               active={false}
+              timeZone="America/Los_Angeles"
+              location={mockLocation}
+              onTimeSelect={() => {}}
             />
           </div>
         </div>
