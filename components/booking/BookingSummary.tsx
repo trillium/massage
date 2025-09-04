@@ -1,6 +1,6 @@
 import React from 'react'
 import { DiscountType } from '@/lib/types'
-import { GeneratePrice } from '@/components/utilities/GeneratePriceAtom'
+import { GeneratePrice } from '@/components/ui/atoms/GeneratePriceAtom'
 import { BookingFormData } from './types'
 import { flattenLocation } from '@/lib/helpers/locationHelpers'
 

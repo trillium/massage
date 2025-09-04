@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react'
 import { ALLOWED_DURATIONS, DEFAULT_DURATION, DEFAULT_PRICING } from 'config'
 import { setDuration } from '@/redux/slices/availabilitySlice'
 import { useAppDispatch, useReduxAvailability, useReduxConfig } from '@/redux/hooks'
-import { GeneratePrice } from '@/components/utilities/GeneratePriceAtom'
+import { GeneratePrice } from '@/components/ui/atoms/GeneratePriceAtom'
 import { durationPropsType } from '@/lib/slugConfigurations/helpers/buildDurationProps'
 import { StringDateTimeIntervalAndLocation } from '@/lib/types'
 
