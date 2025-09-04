@@ -30,21 +30,7 @@ interface BookingResponse {
 }
 
 export default function GmailTestPage() {
-  const [bookings, setBookings] = useState<BookingResponse['bookings']>([
-    {
-      clientName: 'Olivia Mathis',
-      sessionType: 'Swedish',
-      duration: '60', // Convert to string
-      isCouples: true,
-      location: '5743 North Canvas Court, North Hollywood\nLos Angeles, CA 91601',
-      payout: '83', // Convert to string
-      tip: '0', // Convert to string
-      extraServices: [], // Ensure type matches string[]
-      messageId: '', // Add required fields
-      date: '',
-      subject: '',
-    },
-  ])
+  const [bookings, setBookings] = useState<BookingResponse['bookings']>()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [maxResults, setMaxResults] = useState(25)
@@ -59,7 +45,7 @@ export default function GmailTestPage() {
   const [selectedLocation, setSelectedLocation] = useState<string>('')
 
   useEffect(() => {
-    if (bookings.length > 0) {
+    if (bookings && bookings.length > 0) {
       const booking = bookings[0]
       setSelectedBooking(booking)
       setSelectedLocation(booking.location || '')
@@ -278,7 +264,7 @@ export default function GmailTestPage() {
         selectedDate={selectedDay}
       />
 
-      {bookings.length > 0 && (
+      {bookings && bookings.length > 0 && (
         <div className="space-y-6">
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {bookings.map((booking, index) => (
