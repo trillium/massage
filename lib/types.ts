@@ -269,7 +269,14 @@ export type DiscountType = {
  * - 'scheduled-site': Bookings tied to specific containers/resources with their own schedules (e.g., specific therapists)
  * - null: Default/fallback configuration
  */
-export type SlugType = 'area-wide' | 'fixed-location' | 'scheduled-site' | null
+export type SlugType =
+  | 'area-wide'
+  | 'fixed-location'
+  | 'scheduled-site'
+  | 'next'
+  | 'previous'
+  | 'next-previous'
+  | null
 
 export type CustomFieldsType = {
   showHotelField?: boolean
