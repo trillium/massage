@@ -139,7 +139,6 @@ export default function TestDynamicFieldsPage() {
 
             <BookingForm
               additionalData={testAdditionalData}
-              endPoint="/api/request"
               acceptingPayment={true}
               onSubmit={mockSubmitHandler}
             />

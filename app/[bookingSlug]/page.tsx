@@ -59,10 +59,7 @@ export default async function Page({
         title={configuration.title || 'Book a massage with Trillium :)'}
         text={configuration.text ?? undefined}
       />
-      <BookingForm
-        endPoint="api/request"
-        acceptingPayment={configuration.acceptingPayment ?? true}
-      />
+      <BookingForm acceptingPayment={configuration.acceptingPayment ?? true} />
 
       <div className="flex flex-col space-y-8">
         <DurationPicker {...durationProps} />

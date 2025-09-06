@@ -128,7 +128,7 @@ export default async function NextBookingPage({ params }: NextBookingPageProps) 
                 />
                 <Calendar />
                 <DynamicTimeList multiDurationSlots={multiDurationSlots} />
-                <BookingForm endPoint="/api/request" />
+                <BookingForm />
               </div>
             </div>
             <div className="space-y-6">

@@ -73,13 +73,13 @@ type BookingFormValues = z.infer<ReturnType<typeof createBookingFormSchema>>
 type BookingFormProps = {
   additionalData?: Partial<ChairAppointmentBlockProps>
   acceptingPayment?: boolean
-  endPoint: string
+  endPoint?: string
   onSubmit?: (values: BookingFormValues, formikHelpers: FormikHelpers<BookingFormValues>) => void
 }
 
 export default function BookingForm({
   additionalData = {},
-  endPoint,
+  endPoint = 'api/request',
   acceptingPayment = true,
   onSubmit,
 }: BookingFormProps) {

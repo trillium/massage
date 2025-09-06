@@ -38,7 +38,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<Sea
   return (
     <SectionContainer>
       <Template title="Book a massage with Trillium :)" />
-      <BookingForm endPoint="api/request" />
+      <BookingForm />
       <div className="flex flex-col space-y-8">
         <DurationPicker {...durationProps} />
         <Calendar />

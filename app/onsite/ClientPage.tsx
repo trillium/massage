@@ -202,7 +202,7 @@ function ClientPage({ duration, children }: { duration: number; children?: React
         </ol>
       </form>
       {children}
-      <BookingForm additionalData={formik.values} endPoint="api/onsite/request" />
+      <BookingForm additionalData={formik.values} />
     </>
   )
 }
