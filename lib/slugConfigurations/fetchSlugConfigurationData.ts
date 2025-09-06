@@ -18,11 +18,6 @@ const { ...initialStateWithoutType } = initialState
 import { SlugConfigurationType, LocationObject } from '../types'
 import { createLocationObject, stringToLocationObject } from './helpers/parseLocationFromSlug'
 
-type DiscountType = {
-  type: 'percent' | 'dollar'
-  amount: string | number
-}
-
 const free_thirty: SlugConfigurationType = {
   ...initialStateWithoutType,
   type: 'area-wide',
