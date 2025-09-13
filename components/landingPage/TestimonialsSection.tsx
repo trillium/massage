@@ -4,6 +4,7 @@ import { Star } from '../ReviewCard'
 import ratings from '@/data/ratings'
 import clsx from 'clsx'
 import React, { useEffect, useState, useCallback } from 'react'
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 
 const longestFiveStarReviews = ratings
   .filter((r) => r.rating === 5)
@@ -129,7 +130,7 @@ export function TestimonialsCarousel() {
         {/* Left button: visually first */}
         <DirectionButton
           ref={leftButtonRef}
-          text="&#8592;"
+          icon={FaChevronLeft}
           onClick={goLeft}
           ariaLabel="Previous review"
           placementClasses="mr-2 order-1"
@@ -137,7 +138,7 @@ export function TestimonialsCarousel() {
         {/* Right button: visually last */}
         <DirectionButton
           ref={rightButtonRef}
-          text="&#8594;"
+          icon={FaChevronRight}
           onClick={goRight}
           ariaLabel="Next review"
           placementClasses="ml-2 order-3"
@@ -173,17 +174,18 @@ export function TestimonialsCarousel() {
 
 function DirectionButton({
   onClick,
-  text,
+  icon,
   ariaLabel,
   placementClasses,
   ref,
 }: {
   onClick: () => void
-  text: string
+  icon: React.ComponentType
   ariaLabel: string
   placementClasses: string
   ref?: React.RefObject<HTMLButtonElement | null>
 }) {
+  const IconComponent = icon
   return (
     <button
       ref={ref}
@@ -191,11 +193,13 @@ function DirectionButton({
       aria-label={ariaLabel}
       onClick={onClick}
       className={clsx(
-        'focus:ring-primary-500 mr-2 h-10 w-10 rounded-full bg-gray-200 p-2 text-gray-600 transition-all duration-300 hover:bg-gray-300 focus:ring-2 focus:outline-none active:bg-gray-400 active:ring-2 active:ring-yellow-500 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600',
+        'focus:ring-primary-500 mr-2 flex h-10 w-10 items-center justify-center rounded-full bg-gray-200 p-2 text-gray-600 transition-all duration-300 hover:bg-gray-300 focus:ring-2 focus:outline-none active:bg-gray-400 active:ring-2 active:ring-yellow-500 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600',
         placementClasses
       )}
     >
-      <span aria-hidden="true">{text}</span>
+      <span aria-hidden="true">
+        <IconComponent />
+      </span>
     </button>
   )
 }
