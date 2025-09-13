@@ -306,6 +306,9 @@ export type SlugConfigurationType = {
   acceptingPayment?: boolean
   allowedDurations: AllowedDurationsType | null
   customFields?: CustomFieldsType
+  nextEventFound?: boolean
+  currentEvent?: GoogleCalendarV3Event
+  targetDate?: string
 }
 
 export type SearchParamsType = { [key: string]: string | string[] | undefined }
