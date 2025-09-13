@@ -274,6 +274,7 @@ export default function BookingForm({
     formikHelpers: FormikHelpers<BookingFormValues>
   ) => {
     try {
+      dispatchRedux(setModal({ status: 'busy' }))
       // Store form data in Redux for the confirmation page
       const locationString = flattenLocation(values.location)
 
