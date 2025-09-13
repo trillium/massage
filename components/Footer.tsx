@@ -5,6 +5,7 @@ import SocialIcon from '@/components/social-icons'
 import Logo from '@/components/Logo'
 import { FaMapMarkerAlt, FaPhoneAlt, FaEnvelope, FaClock, FaRegCalendarAlt } from 'react-icons/fa'
 import { servicesLinks } from '@/data/servicesData'
+import { createContactUrl } from '@/lib/helpers'
 
 export default function Footer() {
   return (
@@ -188,7 +189,10 @@ const contactItems = [
   {
     icon: <FaPhoneAlt />,
     content: (
-      <Link href={'/contact'} classes="group outline-transparent">
+      <Link
+        href={createContactUrl(`Informational Callback Request`)}
+        classes="group outline-transparent"
+      >
         <div className="group-focus-within:outline-primary-500 inline-block rounded-md outline-2 outline-offset-2 outline-transparent hover:text-white">
           <span className="block">Availabile by phone</span>{' '}
           <span className="block">Request a call</span>

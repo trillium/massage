@@ -1,6 +1,8 @@
 import Image from 'next/image'
 import ContactForm from '@/components/ContactForm'
 import { FaMapMarkerAlt, FaPhoneAlt } from 'react-icons/fa'
+import { createContactUrl } from '@/lib/helpers'
+import Link from '@/components/Link'
 
 export default function ContactSection() {
   return (
@@ -33,7 +35,9 @@ export default function ContactSection() {
               </div>
               <div className="flex items-center gap-4">
                 <FaPhoneAlt className="text-primary-600 dark:text-primary-400 h-6 w-6" />
-                <span className="dark:text-gray-200">Have questions? Request a call!</span>
+                <Link href={createContactUrl(`Informational Callback Request`)} classes="">
+                  <span className="dark:text-gray-200">Have questions? Request a call!</span>
+                </Link>
               </div>
             </div>
           </div>
