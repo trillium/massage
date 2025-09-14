@@ -4,7 +4,7 @@ import React from 'react'
 import { formatLocalDate, formatLocalTime } from 'lib/availability/helpers'
 import BookSessionButton from 'components/BookSessionButton'
 import { BookedCard } from 'components/BookedCard'
-import { AppointmentRequestType } from '@/lib/schema'
+import { AppointmentRequestType } from '@/lib/types'
 import ClientConfirmationFeature from '@/features/ClientConfirmationFeature'
 
 interface Step1_5UserConfirmationProps {

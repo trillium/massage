@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { AppointmentRequestType } from '@/lib/schema'
+import { AppointmentRequestType } from '@/lib/types'
 
 interface DebugDataProps {
   submittedData: AppointmentRequestType | null

@@ -1,7 +1,7 @@
 import { intervalToHumanString } from 'lib/intervalToHumanString'
 import { ApprovalEmail } from 'lib/messaging/email/admin/Approval'
 import ClientRequestEmail from 'lib/messaging/email/client/ClientRequestEmail'
-import { AppointmentRequestType } from '@/lib/schema'
+import { AppointmentRequestType } from '@/lib/types'
 
 export async function generateMockEmails({
   data,

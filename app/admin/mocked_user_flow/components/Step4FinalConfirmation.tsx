@@ -2,7 +2,7 @@
 
 import React from 'react'
 import MockedConfirmationPage from '../MockedConfirmationPage'
-import { AppointmentRequestType } from '@/lib/schema'
+import { AppointmentRequestType } from '@/lib/types'
 import { flattenLocation } from '@/lib/helpers/locationHelpers'
 
 interface Step4FinalConfirmationProps {

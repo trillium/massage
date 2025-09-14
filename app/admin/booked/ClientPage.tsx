@@ -1,4 +1,4 @@
-import { BookedDataType } from '@/lib/schema'
+import { BookedDataType } from '@/lib/types'
 import { BookedCard } from 'components/BookedCard'
 import { formatLocalDate, formatLocalTime } from 'lib/availability/helpers'
 import { AttendeeType } from 'lib/types'
