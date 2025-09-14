@@ -7,6 +7,7 @@ import { z } from 'zod'
 import { ContactFormType } from './types'
 import contactFormEmail from './messaging/email/admin/contactFormEmail'
 import contactFormConfirmation from './messaging/email/client/contactFormConfirmation'
+import { ContactPushover } from './messaging/push/admin/ContactPushover'
 import { pushoverSendMesage } from './messaging/push/admin/pushover'
 
 export type ContactRequestValidationResult =
@@ -45,9 +46,10 @@ export async function handleContactRequest({
   const adminEmailBody = contactFormEmail(data)
 
   // Send Pushover notification to admin
+  const pushover = ContactPushover(data)
   pushoverSendMesage({
-    title: 'Contact Form Submission',
-    message: `New contact form from ${data.name} (${data.email}): ${data.subject}\n${data.message}`,
+    title: pushover.title,
+    message: pushover.message,
     priority: 0,
   })
 

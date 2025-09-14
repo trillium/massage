@@ -9,7 +9,7 @@ import { AppointmentRequestSchema } from './schema'
 import { z } from 'zod'
 // Manual type for the result of schema.safeParse(jsonData) (for Zod v4)
 import { pushoverSendMesage } from './messaging/push/admin/pushover'
-import { createTitle } from './messaging/push/admin/createTitle'
+import { AppointmentPushover } from './messaging/push/admin/AppointmentPushover'
 
 export type AppointmentRequestValidationResult =
   | { success: true; data: z.output<typeof AppointmentRequestSchema> }
@@ -85,9 +85,11 @@ export async function handleAppointmentRequest({
     }),
   })
 
+  const pushover = AppointmentPushover(data, ownerTimeZone)
+
   pushoverSendMesage({
-    message: JSON.stringify(data, null, 2),
-    title: createTitle(data),
+    message: pushover.message,
+    title: pushover.title,
     priority: 0,
   })
 
