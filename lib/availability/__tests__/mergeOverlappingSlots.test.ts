@@ -1,6 +1,6 @@
 import { describe, test, expect } from 'vitest'
-import mergeOverlappingIntervals from '../mergeOverlappingIntervals'
-import type { DateTimeInterval } from '../../types'
+import mergeOverlappingIntervals from '@/lib/availability/mergeOverlappingIntervals'
+import type { DateTimeInterval } from '@/lib/types'
 
 describe('mergeOverlappingIntervals', () => {
   test('should handle an empty array', () => {

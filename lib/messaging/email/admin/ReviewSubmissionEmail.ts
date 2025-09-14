@@ -1,6 +1,6 @@
 import type { EmailProps, RatingTypeStrict } from '@/lib/types'
 import type { ReviewSnippetProps } from '@/components/ReviewCard'
-import { parts as signatureParts } from '../../utilities/signature'
+import { parts as signatureParts } from '@/lib/messaging/utilities/signature'
 import localeDayString from '@/lib/locale'
 
 const LINE_PREFIX = `<div class="gmail_default" style="font-family:arial,sans-serif">`

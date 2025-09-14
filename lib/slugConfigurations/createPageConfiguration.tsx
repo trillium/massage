@@ -9,7 +9,7 @@ import {
   DayWithStartEnd,
 } from '@/lib/types'
 import { validateSearchParams } from '@/lib/searchParams/validateSearchParams'
-import { isPromoExpired } from '../utilities/promoValidation'
+import { isPromoExpired } from '@/lib/utilities/promoValidation'
 import { resolveConfiguration } from './helpers/resolveConfiguration'
 import { fetchPageData } from './helpers/fetchPageData'
 import { calculateEndDate } from './helpers/calculateEndDate'

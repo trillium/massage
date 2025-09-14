@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { flattenLocation, flattenLocationWithSeparator } from '../locationHelpers'
+import { flattenLocation, flattenLocationWithSeparator } from '@/lib/helpers/locationHelpers'
 import { LocationObject } from '@/lib/types'
 
 describe('locationHelpers', () => {

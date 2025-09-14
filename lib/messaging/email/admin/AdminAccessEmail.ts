@@ -1,4 +1,4 @@
-import { parts as signatureParts } from '../../utilities/signature'
+import { parts as signatureParts } from '@/lib/messaging/utilities/signature'
 
 interface AdminAccessEmailProps {
   email: string

@@ -1,4 +1,4 @@
-import { AppointmentProps } from '../../../types'
+import { AppointmentProps } from '@/lib/types'
 import eventDescription from './eventDescription'
 
 /**

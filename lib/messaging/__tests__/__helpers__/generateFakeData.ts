@@ -1,4 +1,4 @@
-import type { OnSiteRequestType } from '../../../types'
+import type { OnSiteRequestType } from '@/lib/types'
 
 export function generateFakeOnSiteRequest(): OnSiteRequestType {
   return {

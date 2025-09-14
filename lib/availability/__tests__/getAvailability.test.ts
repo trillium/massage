@@ -1,9 +1,9 @@
 import { add, areIntervalsOverlapping, sub } from 'date-fns'
 import { describe, it, expect } from 'vitest'
 
-import type { DateTimeInterval, StringDateTimeIntervalAndLocation } from '../../types'
-import getAvailability from '../getAvailability'
-import { formatDatetimeToString } from '../../helpers'
+import type { DateTimeInterval, StringDateTimeIntervalAndLocation } from '@/lib/types'
+import getAvailability from '@/lib/availability/getAvailability'
+import { formatDatetimeToString } from '@/lib/helpers'
 
 // Helper function to convert DateTimeInterval to StringDateTimeIntervalAndLocation
 function convertToStringIntervals(

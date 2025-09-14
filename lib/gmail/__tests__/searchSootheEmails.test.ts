@@ -1,8 +1,8 @@
 import { describe, it, expect, vi, beforeEach, afterEach, type Mock } from 'vitest'
-import { searchSootheEmails } from '../searchSootheEmails'
+import { searchSootheEmails } from '@/lib/gmail/searchSootheEmails'
 
 // Mock the Gmail access token function
-vi.mock('../getGmailAccessToken', () => ({
+vi.mock('@/lib/gmail/getGmailAccessToken', () => ({
   default: vi.fn().mockResolvedValue('mock_access_token'),
 }))
 

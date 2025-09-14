@@ -6,7 +6,7 @@ import {
   DEFAULT_DURATION,
   DEFAULT_PRICING,
 } from 'config'
-import { SearchParamsType } from '../types'
+import { SearchParamsType } from '@/lib/types'
 
 export function validateSearchParams({ searchParams }: { searchParams: SearchParamsType }) {
   const schema = z.object({

@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { fetchPageData } from '../helpers/fetchPageData'
-import { fetchSlugConfigurationData } from '../fetchSlugConfigurationData'
+import { fetchPageData } from '@/lib/slugConfigurations/helpers/fetchPageData'
+import { fetchSlugConfigurationData } from '@/lib/slugConfigurations/fetchSlugConfigurationData'
 import { GoogleCalendarV3Event } from '@/lib/types'
 
 describe('Event Container Functionality', () => {

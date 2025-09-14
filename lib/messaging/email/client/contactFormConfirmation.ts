@@ -1,4 +1,4 @@
-import { ContactFormType } from '../../../types'
+import { ContactFormType } from '@/lib/types'
 
 /**
  * Creates a confirmation email body for users who submit the contact form.

@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest'
-import updateLocation from '../updateLocation'
+import updateLocation from '@/lib/availability/updateLocation'
 
 // Mock fetch globally
 vi.stubGlobal(
@@ -7,7 +7,9 @@ vi.stubGlobal(
   vi.fn(() => Promise.resolve({ ok: true, json: () => ({}) }))
 )
 // Mock getAccessToken to avoid env dependency
-vi.mock('../getAccessToken', () => ({ default: () => Promise.resolve('fake-token') }))
+vi.mock('@/lib/availability/getAccessToken', () => ({
+  default: () => Promise.resolve('fake-token'),
+}))
 
 describe('updateLocation', () => {
   it('should include zipCode in the PATCH body if provided', async () => {

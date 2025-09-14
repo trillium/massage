@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
-import { fetchPageData } from '../fetchPageData'
+import { fetchPageData } from '@/lib/slugConfigurations/helpers/fetchPageData'
 import type { SlugConfigurationType, GoogleCalendarV3Event } from '@/lib/types'
 
 // Mock the required functions

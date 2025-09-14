@@ -1,4 +1,4 @@
-import { AppointmentProps } from '../../../types'
+import { AppointmentProps } from '@/lib/types'
 
 /**
  * Interface for Soothe booking data stored in the promo field

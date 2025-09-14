@@ -1,9 +1,9 @@
 import { compareAsc } from 'date-fns'
 
-import { CALENDARS_TO_CHECK, OWNER_TIMEZONE } from '../../config'
-import type { DateTimeInterval } from '../types'
+import { CALENDARS_TO_CHECK, OWNER_TIMEZONE } from 'config'
+import type { DateTimeInterval } from '@/lib/types'
 import getAccessToken from './getAccessToken'
-import { formatDatetimeToString } from '../helpers'
+import { formatDatetimeToString } from '@/lib/helpers'
 
 export default async function getBusyTimes({ start, end }: DateTimeInterval) {
   const response = await fetch('https://www.googleapis.com/calendar/v3/freeBusy', {

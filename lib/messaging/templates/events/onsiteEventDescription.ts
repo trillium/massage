@@ -1,5 +1,5 @@
-import { dumpData } from '../../../dataLoading'
-import { ChairAppointmentBlockCalendarProps } from '../../../types'
+import { dumpData } from '@/lib/dataLoading'
+import { ChairAppointmentBlockCalendarProps } from '@/lib/types'
 
 /**
  * Creates a description for an onsite calendar event.

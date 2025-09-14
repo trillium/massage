@@ -1,4 +1,4 @@
-import { ContactFormType } from '../../../types'
+import { ContactFormType } from '@/lib/types'
 
 /**
  * Creates an email body for contact form submissions.

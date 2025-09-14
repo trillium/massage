@@ -1,4 +1,4 @@
-import { AppointmentRequestSchema } from '../../../schema'
+import { AppointmentRequestSchema } from '@/lib/schema'
 import { z } from 'zod'
 import { formatRelative } from 'date-fns'
 

@@ -15,7 +15,7 @@ Current role is to return an object that has configurations for [bookingSlug] th
 import { initialState } from '@/redux/slices/configSlice'
 const { ...initialStateWithoutType } = initialState
 
-import { SlugConfigurationType, LocationObject } from '../types'
+import { SlugConfigurationType, LocationObject } from '@/lib/types'
 import { createLocationObject, stringToLocationObject } from './helpers/parseLocationFromSlug'
 
 const free_thirty: SlugConfigurationType = {

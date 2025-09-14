@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach, type Mock, type Mocked } from 'vitest'
-import getAccessToken from '../getAccessToken'
+import getAccessToken from '@/lib/availability/getAccessToken'
 
 const originalFetch = global.fetch
 

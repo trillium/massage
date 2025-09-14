@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest'
-import { createPageConfiguration } from '../createPageConfiguration'
+import { createPageConfiguration } from '@/lib/slugConfigurations/createPageConfiguration'
 import { initialState } from '@/redux/slices/configSlice'
 import { SearchParamsType } from '@/lib/types'
 

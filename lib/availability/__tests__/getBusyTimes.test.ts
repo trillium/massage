@@ -1,9 +1,9 @@
 import { describe, it, expect, vi, beforeEach, afterEach, type Mock } from 'vitest'
-import type { DateTimeInterval } from '../../types'
-import getAccessToken from '../getAccessToken'
-import getBusyTimes from '../getBusyTimes'
+import type { DateTimeInterval } from '@/lib/types'
+import getAccessToken from '@/lib/availability/getAccessToken'
+import getBusyTimes from '@/lib/availability/getBusyTimes'
 
-vi.mock('../getAccessToken')
+vi.mock('@/lib/availability/getAccessToken')
 
 const originalFetch = global.fetch
 

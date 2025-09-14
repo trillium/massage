@@ -1,5 +1,5 @@
-import { formatDatetimeToString } from '../helpers'
-import { GoogleCalendarFetchDataReturnType } from '../types'
+import { formatDatetimeToString } from '@/lib/helpers'
+import { GoogleCalendarFetchDataReturnType } from '@/lib/types'
 import getAccessToken from './getAccessToken' // Reuse existing function to get access token
 
 export async function getEventsBySearchQuery({

@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { createPageConfiguration } from '../createPageConfiguration'
+import { createPageConfiguration } from '@/lib/slugConfigurations/createPageConfiguration'
 import type { SlugConfigurationType, GoogleCalendarV3Event } from '@/lib/types'
 
 // Mock the required functions

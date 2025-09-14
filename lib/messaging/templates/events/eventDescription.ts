@@ -1,4 +1,4 @@
-import { AppointmentProps } from '../../../types'
+import { AppointmentProps } from '@/lib/types'
 import { flattenLocation } from '@/lib/helpers/locationHelpers'
 import { generateSecureMyEventsUrlServer } from '@/lib/generateSecureMyEventsUrl'
 

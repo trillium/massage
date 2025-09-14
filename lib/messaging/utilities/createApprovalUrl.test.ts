@@ -1,10 +1,10 @@
 import { describe, it, expect, vi } from 'vitest'
 import { createApprovalUrl } from './createApprovalUrl'
-import { getHash } from '../../hash'
-import { OnSiteRequestType } from '../../types'
-import { generateFakeOnSiteRequest } from '../__tests__/__helpers__/generateFakeData'
+import { getHash } from '@/lib/hash'
+import { OnSiteRequestType } from '@/lib/types'
+import { generateFakeOnSiteRequest } from '@/lib/messaging/__tests__/__helpers__/generateFakeData'
 
-vi.mock('../../hash', () => ({
+vi.mock('@/lib/hash', () => ({
   getHash: vi.fn(() => 'mockedHash'),
 }))
 

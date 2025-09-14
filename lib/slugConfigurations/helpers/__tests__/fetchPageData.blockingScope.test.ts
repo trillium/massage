@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { fetchPageData } from '../fetchPageData'
+import { fetchPageData } from '@/lib/slugConfigurations/helpers/fetchPageData'
 import type { SlugConfigurationType } from '@/lib/types'
 
 // Mock the fetch functions
