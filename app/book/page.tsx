@@ -7,9 +7,7 @@ import BookingForm from '@/components/booking/BookingForm'
 import DurationPicker from '@/components/availability/controls/DurationPicker'
 import Calendar from '@/components/availability/date/Calendar'
 import TimeList from '@/components/availability/time/TimeList'
-import { InitialUrlUtility } from '@/components/utilities/InitialUrlUtility'
-import { UrlUpdateUtility } from '@/components/utilities/UrlUpdateUtility'
-import { UpdateSlotsUtility } from '@/components/utilities/UpdateSlotsUtility'
+import { InitialUrlUtility, UpdateSlotsUtility } from '@/components/utilities/UpdateSlotsUtility'
 import { createPageConfiguration } from '@/lib/slugConfigurations/createPageConfiguration'
 import SectionContainer from '@/components/SectionContainer'
 
@@ -46,13 +44,11 @@ export default async function Page({ searchParams }: { searchParams: Promise<Sea
       </div>
 
       <InitialUrlUtility
-        configSliceData={configuration}
-        selectedDate={selectedDate}
-        duration={duration}
-        allowedDurations={allowedDurations}
-        slots={slots}
+        configObject={configuration}
+        initialSlots={slots}
+        initialSelectedDate={selectedDate || undefined}
+        initialDuration={duration}
       />
-      <UrlUpdateUtility />
       <UpdateSlotsUtility busy={data.busy} start={start} end={end} configObject={configuration} />
     </SectionContainer>
   )

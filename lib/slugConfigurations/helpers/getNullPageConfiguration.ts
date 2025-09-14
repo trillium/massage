@@ -6,26 +6,9 @@ import {
   StringDateTimeIntervalAndLocation,
   GoogleCalendarV3Event,
 } from '@/lib/types'
+import type { PageConfigurationReturnType } from '@/lib/slugConfigurations/createPageConfiguration.tsx'
 
-export function getNullPageConfiguration(): {
-  isExpired: boolean
-  durationProps: {
-    title: string
-    duration: number
-    price: PricingType
-    allowedDurations: number[]
-    configuration: SlugConfigurationType | null
-  }
-  configuration: SlugConfigurationType | null
-  selectedDate: string | null
-  allowedDurations: number[]
-  slots: StringDateTimeIntervalAndLocation[]
-  containerStrings: { eventMemberString: string; eventBaseString: string }
-  duration: number
-  data: { start: string; end: string; busy: []; containers?: GoogleCalendarV3Event[] }
-  start: DayWithStartEnd
-  end: DayWithStartEnd
-} {
+export function getNullPageConfiguration(): PageConfigurationReturnType {
   return {
     isExpired: false,
     durationProps: {
@@ -36,12 +19,22 @@ export function getNullPageConfiguration(): {
       configuration: null,
     },
     configuration: null,
+    instantConfirm: false,
     selectedDate: null,
     allowedDurations: [],
     slots: [],
-    containerStrings: { eventMemberString: '', eventBaseString: '' },
+    containerStrings: {
+      eventBaseString: '',
+      eventMemberString: '',
+      eventContainerString: '',
+    },
     duration: 90,
-    data: { start: '', end: '', busy: [], containers: [] },
+    data: {
+      start: '',
+      end: '',
+      busy: [],
+      containers: [],
+    },
     start: { year: 1970, month: 1, day: 1, start: '', end: '' },
     end: { year: 1970, month: 1, day: 1, start: '', end: '' },
   }

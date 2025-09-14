@@ -1,28 +1,63 @@
-import { fetchSingleEvent } from '@/lib/fetch/fetchSingleEvent'
-import { NextSlotUpdateUtility } from '@/components/utilities/NextSlotUpdateUtility'
 import { DynamicTimeList } from '@/components/availability/DynamicTimeList'
-import { GoogleCalendarV3Event, StringDateTimeIntervalAndLocation } from '@/lib/types'
+import {
+  SearchParamsType,
+  StringDateTimeIntervalAndLocation,
+  GoogleCalendarV3Event,
+} from '@/lib/types'
 import Calendar from '@/components/availability/date/Calendar'
 import BookingForm from '@/components/booking/BookingForm'
-import { addMinutes } from 'date-fns'
+import { format } from 'date-fns'
 import { DEFAULT_PRICING, ALLOWED_DURATIONS, DEFAULT_DURATION } from 'config'
-import { createMultiDurationAvailability } from '@/lib/availability/getNextSlotAvailability'
 import Link from '@/components/Link'
 import MapTile from '@/components/MapTile'
 import { geocodeLocation } from '@/lib/geocode'
 import { IMAGE_CONFIG } from '@/lib/mapConfig'
 import DurationPicker from '@/components/availability/controls/DurationPicker'
+import InitializeBookingState from '@/components/booking/InitializeBookingState'
+import DurationSlotManager from '@/components/booking/DurationSlotManager'
+import { createPageConfiguration } from '@/lib/slugConfigurations/createPageConfiguration'
 
 interface NextBookingPageProps {
   params: Promise<{ event_id: string }>
+  searchParams: Promise<SearchParamsType>
 }
 
-export default async function NextBookingPage({ params }: NextBookingPageProps) {
+export default async function NextBookingPage({ params, searchParams }: NextBookingPageProps) {
   const { event_id } = await params
-  // // Fetch busy/availability
-  // const data = await fetchData({ searchParams: {} })
-  // Fetch the single event details
-  const currentEvent: GoogleCalendarV3Event | null = await fetchSingleEvent(event_id)
+  const resolvedSearchParams = await searchParams
+
+  // Use the configuration system with 'next' type
+  const overrides = {
+    type: 'next' as const,
+    bookingSlug: 'next',
+    title: 'Book Next Available Slot',
+    text: null,
+    location: null,
+    eventContainer: null,
+    pricing: DEFAULT_PRICING,
+    discount: null,
+    leadTimeMinimum: null,
+    instantConfirm: true,
+    acceptingPayment: true,
+    allowedDurations: ALLOWED_DURATIONS,
+  }
+
+  const result = await createPageConfiguration({
+    resolvedParams: resolvedSearchParams,
+    overrides,
+    eventId: event_id,
+  })
+
+  // Access the properties from the result (specific to 'next' configuration type)
+  const resultWithNextData = result as typeof result & {
+    multiDurationSlots?: Record<number, StringDateTimeIntervalAndLocation[]>
+    currentEvent?: GoogleCalendarV3Event
+  }
+  const multiDurationSlots = resultWithNextData.multiDurationSlots || {}
+  const currentEvent = resultWithNextData.currentEvent
+  const selectedDate = result.selectedDate || undefined
+  const selectedDuration = result.duration
+  const configuration = result.configuration
 
   if (!currentEvent) {
     return (
@@ -40,31 +75,13 @@ export default async function NextBookingPage({ params }: NextBookingPageProps) 
   }
 
   const eventEndTime = currentEvent.end?.dateTime ? new Date(currentEvent.end.dateTime) : null
-  const thirtyMinutesAfter = eventEndTime ? addMinutes(eventEndTime, 30) : null
-
-  // Use multi-duration availability system for flexible next-slot booking
-  const multiDurationAvailability = await createMultiDurationAvailability({
-    currentEvent,
-    durationOptions: ALLOWED_DURATIONS, // Use all allowed durations
-    slotInterval: 15, // 15-minute increments
-    maxMinutesAhead: 30, // Look 30 minutes ahead
-  })
-
-  // Serialize multi-duration availability data for client components
-  const multiDurationSlots: Record<number, StringDateTimeIntervalAndLocation[]> = {}
-  for (const duration of ALLOWED_DURATIONS) {
-    multiDurationSlots[duration] = multiDurationAvailability.getTimeListFormatForDuration(duration)
-  }
-
   const eventEndTimeStr = eventEndTime ? eventEndTime.toLocaleString() : 'Unknown'
-  const thirtyMinutesAfterStr = thirtyMinutesAfter ? thirtyMinutesAfter.toLocaleString() : 'Unknown'
 
   // Geocode the event location to get coordinates for the map
-  // Use the same defaults as MapTile component
   const mapCoordinates = {
-    longitude: -118.2437, // Default Los Angeles coordinates (matches MapTile DEFAULT_VIEW)
+    longitude: -118.2437, // Default Los Angeles coordinates
     latitude: 34.0522,
-    zoom: IMAGE_CONFIG.zoom, // Use zoom from mapConfig
+    zoom: IMAGE_CONFIG.zoom,
   }
 
   if (currentEvent.location) {
@@ -81,10 +98,19 @@ export default async function NextBookingPage({ params }: NextBookingPageProps) 
     }
   }
 
+  // Get slots for the selected duration to pass to Redux initialization
+  const selectedDurationSlots = multiDurationSlots[selectedDuration] || []
+
   return (
     <>
-      {/* Set Redux slots for multi-duration next-slot booking */}
-      <NextSlotUpdateUtility multiDurationSlots={multiDurationSlots} />
+      {/* Initialize Redux state with server-generated data */}
+      <InitializeBookingState
+        slots={selectedDurationSlots}
+        duration={selectedDuration}
+        selectedDate={selectedDate}
+      />
+      {/* Manage slot updates when duration changes */}
+      <DurationSlotManager multiDurationSlots={multiDurationSlots} />
       <div className="container mx-auto px-4 py-8">
         <div className="mx-auto max-w-6xl">
           <div className="mb-8">
@@ -98,9 +124,6 @@ export default async function NextBookingPage({ params }: NextBookingPageProps) 
               <div className="space-y-1 text-sm text-gray-600 dark:text-gray-400">
                 <p>
                   <strong>Event ends at:</strong> {eventEndTimeStr}
-                </p>
-                <p>
-                  <strong>Available booking window:</strong> Until {thirtyMinutesAfterStr}
                 </p>
                 {currentEvent.location && (
                   <p>
@@ -119,12 +142,11 @@ export default async function NextBookingPage({ params }: NextBookingPageProps) 
                   Duration
                 </h3>
                 <DurationPicker
-                  title={`${DEFAULT_DURATION} minute session - $${DEFAULT_PRICING[DEFAULT_DURATION]}`}
-                  duration={DEFAULT_DURATION}
+                  title={`${selectedDuration} minute session - $${DEFAULT_PRICING[selectedDuration]}`}
+                  duration={selectedDuration}
                   price={DEFAULT_PRICING}
                   allowedDurations={ALLOWED_DURATIONS}
                   configuration={null}
-                  // multiDurationSlots={multiDurationSlots}
                 />
                 <Calendar />
                 <DynamicTimeList multiDurationSlots={multiDurationSlots} />
