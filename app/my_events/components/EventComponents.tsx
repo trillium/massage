@@ -2,7 +2,7 @@ import React from 'react'
 import clsx from 'clsx'
 import { GoogleCalendarV3Event } from '@/lib/types'
 import { categorizeEvents } from '@/lib/helpers/eventHelpers'
-import { EventCard } from './MyEventsPageClient'
+import { EventCard } from './EventCard'
 
 export function CategorizedEventList({ events }: { events: GoogleCalendarV3Event[] }) {
   const { futureEvents, todayEvents, pastEvents } = categorizeEvents(events)
