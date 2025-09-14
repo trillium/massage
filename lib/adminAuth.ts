@@ -1,8 +1,8 @@
-import { getHash } from './hash'
+import { hashHmac } from './hash'
 
 export interface AdminSession {
   email: string
-  hash: string
+  token: string
   timestamp: number
   expiresAt: number
 }
@@ -12,34 +12,66 @@ export const timeValue = 1000 * 60 * 60 * 24 * 30 // 30 days
 export class AdminAuthManager {
   private static readonly SESSION_KEY = 'admin_session'
   private static readonly SESSION_DURATION = timeValue
+  private static get TOKEN_SECRET(): string {
+    const secret = process.env.GOOGLE_OAUTH_SECRET
+    if (!secret) {
+      throw new Error(
+        'GOOGLE_OAUTH_SECRET environment variable is required for admin authentication'
+      )
+    }
+    return secret
+  }
 
   /**
-   * Generate a secure admin login link
+   * Generate a secure admin login link with signed token
    */
   static generateAdminLink(email: string, baseUrl: string = ''): string {
-    const hash = getHash(email)
-    return `${baseUrl}/admin?email=${encodeURIComponent(email)}&hash=${hash}`
+    const token = this.generateSignedToken(email)
+    return `${baseUrl}/admin?email=${encodeURIComponent(email)}&token=${token}`
+  }
+
+  /**
+   * Generate a signed token (HMAC for server-side validation)
+   */
+  private static generateSignedToken(email: string): string {
+    const payload = `${email}:${Date.now() + 15 * 24 * 60 * 60 * 1000}` // Expires in 15 days
+    const signature = hashHmac(payload, this.TOKEN_SECRET)
+    return btoa(payload + '|' + signature)
+  }
+
+  /**
+   * Validate signed token server-side
+   */
+  private static validateSignedToken(token: string, email: string): boolean {
+    try {
+      const decoded = atob(token)
+      const [payload, signature] = decoded.split('|')
+      const expectedSig = hashHmac(payload, this.TOKEN_SECRET)
+      if (signature !== expectedSig) return false
+      const [tokenEmail, expires] = payload.split(':')
+      return tokenEmail === email && Date.now() < parseInt(expires)
+    } catch {
+      return false
+    }
   }
 
   /**
    * Validate admin access from URL parameters
    */
-  static validateAdminAccess(email: string | null, hash: string | null): boolean {
-    if (!email || !hash) return false
-
-    const expectedHash = getHash(email)
-    return expectedHash === hash
+  static validateAdminAccess(email: string | null, token: string | null): boolean {
+    if (!email || !token) return false
+    return this.validateSignedToken(token, email)
   }
 
   /**
    * Create and store admin session in localStorage
    */
-  static createSession(email: string, hash: string): boolean {
-    if (!this.validateAdminAccess(email, hash)) return false
+  static createSession(email: string, token: string): boolean {
+    if (!this.validateAdminAccess(email, token)) return false
 
     const session: AdminSession = {
       email,
-      hash,
+      token,
       timestamp: Date.now(),
       expiresAt: Date.now() + this.SESSION_DURATION,
     }
@@ -57,10 +89,10 @@ export class AdminAuthManager {
    * Create and store admin session in localStorage after server-side validation
    * Use this when you've already validated the credentials server-side
    */
-  static createValidatedSession(email: string, hash: string): boolean {
+  static createValidatedSession(email: string, token: string): boolean {
     const session: AdminSession = {
       email,
-      hash,
+      token,
       timestamp: Date.now(),
       expiresAt: Date.now() + this.SESSION_DURATION,
     }

@@ -8,7 +8,7 @@ import { getHash } from '@/lib/hash'
 interface DebugInfo {
   urlParams: {
     email: string | null
-    hash: string | null
+    token: string | null
   }
   localStorage: {
     sessionExists: boolean
@@ -44,7 +44,7 @@ export function AdminDebugInfo() {
   useEffect(() => {
     const gatherDebugInfo = () => {
       const urlEmail = searchParams.get('email')
-      const urlHash = searchParams.get('hash')
+      const urlToken = searchParams.get('token')
 
       // Get localStorage data
       let sessionData: string | null = null
@@ -63,7 +63,7 @@ export function AdminDebugInfo() {
       const urlValidation: string = 'Server-side validation'
       const hashMatch: string = 'Server-side validation'
       const expectedHash: string = 'Hidden for security'
-      const actualHash: string | null = urlHash
+      const actualHash: string | null = urlToken
       const secretKey: string = 'Hidden for security (server-only)'
 
       const sessionExpired =
@@ -85,7 +85,7 @@ export function AdminDebugInfo() {
       const debug: DebugInfo = {
         urlParams: {
           email: urlEmail,
-          hash: urlHash,
+          token: urlToken,
         },
         localStorage: {
           sessionExists: sessionData !== null,
@@ -134,8 +134,8 @@ export function AdminDebugInfo() {
 
   const getSessionHash = () => {
     const session = debugInfo.localStorage.parsedSession
-    if (session && 'hash' in session) {
-      return session.hash ? `${session.hash.substring(0, 16)}...` : 'null'
+    if (session && 'token' in session) {
+      return session.token ? `${session.token.substring(0, 16)}...` : 'null'
     }
     return 'null'
   }
@@ -163,9 +163,9 @@ export function AdminDebugInfo() {
               <div className="font-bold text-blue-300">🔗 URL Parameters:</div>
               <div>Email: {debugInfo.urlParams.email || 'null'}</div>
               <div>
-                Hash:{' '}
-                {debugInfo.urlParams.hash
-                  ? `${debugInfo.urlParams.hash.substring(0, 16)}...`
+                Token:{' '}
+                {debugInfo.urlParams.token
+                  ? `${debugInfo.urlParams.token.substring(0, 16)}...`
                   : 'null'}
               </div>
             </div>
@@ -176,7 +176,7 @@ export function AdminDebugInfo() {
               {debugInfo.localStorage.parsedSession && (
                 <div>
                   <div>Email: {getSessionEmail()}</div>
-                  <div>Hash: {getSessionHash()}</div>
+                  <div>Token: {getSessionHash()}</div>
                 </div>
               )}
             </div>
@@ -191,10 +191,10 @@ export function AdminDebugInfo() {
             <div>
               <div className="font-bold text-blue-300">✓ Validation:</div>
               <div>URL Validation: {debugInfo.validation.urlValidation || 'N/A'}</div>
-              <div>Hash Match: {debugInfo.validation.hashMatch || 'N/A'}</div>
-              <div>Expected Hash: {debugInfo.validation.expectedHash || 'N/A'}</div>
+              <div>Token Match: {debugInfo.validation.hashMatch || 'N/A'}</div>
+              <div>Expected Token: {debugInfo.validation.expectedHash || 'N/A'}</div>
               <div>
-                Actual Hash:{' '}
+                Actual Token:{' '}
                 {debugInfo.validation.actualHash
                   ? `${debugInfo.validation.actualHash.substring(0, 16)}...`
                   : 'null'}

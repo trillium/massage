@@ -3,21 +3,21 @@ import { AdminAuthManager } from '@/lib/adminAuth'
 
 export async function POST(request: NextRequest) {
   try {
-    const { email, hash } = await request.json()
+    const { email, token } = await request.json()
 
     console.log('Admin validation request:', {
       email,
-      hash: hash ? `${hash.substring(0, 16)}...` : 'null',
+      token: token ? `${token.substring(0, 16)}...` : 'null',
       hasSecret: !!process.env.GOOGLE_OAUTH_SECRET,
     })
 
-    if (!email || !hash) {
-      console.log('Missing email or hash')
-      return NextResponse.json({ error: 'Email and hash are required' }, { status: 400 })
+    if (!email || !token) {
+      console.log('Missing email or token')
+      return NextResponse.json({ error: 'Email and token are required' }, { status: 400 })
     }
 
     // Validate the admin access server-side where GOOGLE_OAUTH_SECRET is available
-    const isValid = AdminAuthManager.validateAdminAccess(email, hash)
+    const isValid = AdminAuthManager.validateAdminAccess(email, token)
 
     console.log('Validation result:', { isValid, email })
 

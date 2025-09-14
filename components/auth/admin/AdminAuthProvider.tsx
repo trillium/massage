@@ -33,14 +33,14 @@ export function AdminAuthProvider({ children }: AdminAuthProviderProps) {
     const authenticateAdmin = async () => {
       // Check for URL parameters first (new login)
       const urlEmail = searchParams.get('email')
-      const urlHash = searchParams.get('hash')
+      const urlToken = searchParams.get('token')
 
-      if (urlEmail && urlHash) {
+      if (urlEmail && urlToken) {
         // Attempting new login with URL parameters - validate server-side
         try {
           console.log('Making admin validation request:', {
             email: urlEmail,
-            hash: urlHash.substring(0, 16) + '...',
+            token: urlToken.substring(0, 16) + '...',
           })
 
           const response = await fetch('/api/admin/validate', {
@@ -48,7 +48,7 @@ export function AdminAuthProvider({ children }: AdminAuthProviderProps) {
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ email: urlEmail, hash: urlHash }),
+            body: JSON.stringify({ email: urlEmail, token: urlToken }),
           })
 
           console.log('Validation response status:', response.status)
@@ -59,11 +59,11 @@ export function AdminAuthProvider({ children }: AdminAuthProviderProps) {
           if (result.valid) {
             // Valid credentials, create session (skip client-side validation since server already validated)
             console.log('Creating session for:', urlEmail)
-            if (AdminAuthManager.createValidatedSession(urlEmail, urlHash)) {
+            if (AdminAuthManager.createValidatedSession(urlEmail, urlToken)) {
               // Clean URL by removing auth parameters
               const cleanUrl = new URL(window.location.href)
               cleanUrl.searchParams.delete('email')
-              cleanUrl.searchParams.delete('hash')
+              cleanUrl.searchParams.delete('token')
               router.replace(cleanUrl.pathname)
 
               // Add PostHog identification for admin

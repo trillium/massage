@@ -34,7 +34,7 @@ export class UserAuthManager {
    * Generate a signed token (simple HMAC for client-side validation)
    */
   private static generateSignedToken(email: string): string {
-    const payload = `${email}:${Date.now() + 24 * 60 * 60 * 1000}` // Expires in 24h
+    const payload = `${email}:${Date.now() + 15 * 24 * 60 * 60 * 1000}` // Expires in 15 days
     const signature = hashHmac(payload, this.TOKEN_SECRET)
     return btoa(payload + '|' + signature)
   }
