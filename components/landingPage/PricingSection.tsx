@@ -41,7 +41,7 @@ const pricingOptions = pricingStart.map((item) => ({
 
 export default function PricingSection() {
   return (
-    <section className="flex w-full flex-col items-center bg-gray-50 dark:bg-gray-950">
+    <section className="flex w-full flex-col items-center bg-white dark:bg-gray-950">
       <div className="container">
         <h2 className="mb-8 text-center text-3xl font-bold md:text-4xl dark:text-white">Pricing</h2>
         <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
