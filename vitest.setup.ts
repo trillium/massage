@@ -9,6 +9,16 @@ global.React = React
 // Mock fetch globally
 global.fetch = vi.fn()
 
+// Mock pliny dependencies globally
+vi.mock('pliny/analytics', () => ({
+  Analytics: () => null,
+}))
+
+vi.mock('pliny/search', () => ({
+  SearchProvider: ({ children }: { children: React.ReactNode }) =>
+    React.createElement(React.Fragment, null, children),
+}))
+
 // Mock environment variables for tests
 process.env.GOOGLE_OAUTH_SECRET = 'test_oauth_secret'
 process.env.GOOGLE_OAUTH_REFRESH = 'test_oauth_refresh'
