@@ -1,4 +1,4 @@
-import { createHash } from 'crypto'
+import { createHash, createHmac } from 'crypto'
 /**
  * Generates a hash for the given data.
  *
@@ -14,4 +14,19 @@ export function getHash(data: string, key: string = process.env.GOOGLE_OAUTH_SEC
   return createHash('sha256')
     .update(data + key)
     .digest('hex')
+}
+
+/**
+ * Generates an HMAC for the given data using the provided key.
+ *
+ * This function takes a data string and generates an HMAC using the
+ * SHA-256 algorithm with the provided key.
+ *
+ * @function
+ * @param {string} data - The input data string for which to generate the HMAC.
+ * @param {string} key - The key to use for HMAC.
+ * @returns {string} The resulting HMAC as a hexadecimal string.
+ */
+export function hashHmac(data: string, key: string): string {
+  return createHmac('sha256', key).update(data).digest('hex')
 }

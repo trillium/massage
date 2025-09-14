@@ -23,7 +23,8 @@
     "generate-static-map": "ts-node scripts/generate-la-map-auto.ts",
     "cspell:ignore": "./scripts/cspell-ignore-and-prettier.sh",
     "convert-images": "bash ./scripts/convert_and_resize_images.sh",
-    "admin:generate-link": "tsx scripts/generate-admin-link.ts --emailEnv"
+    "admin:generate-link": "tsx scripts/generate-admin-link.ts --emailEnv",
+    "user:generate-link": "tsx scripts/generate-user-link.ts"
   },
   "dependencies": {
     "@headlessui/react": "2.2.0",
