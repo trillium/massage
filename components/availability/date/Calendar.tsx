@@ -20,6 +20,7 @@ interface CalendarProps {
   onDaySelect?: (date: Day) => void
   forceEnableFutureDates?: boolean
   selectedDate?: Day | null
+  weeksDisplayOverride?: number
 }
 
 export default function Calendar({
@@ -30,6 +31,7 @@ export default function Calendar({
   onDaySelect,
   forceEnableFutureDates = false,
   selectedDate: selectedDateProp,
+  weeksDisplayOverride = 3,
 }: CalendarProps) {
   const { slots: slotsRedux, selectedDate } = useReduxAvailability()
   const {
@@ -112,7 +114,7 @@ export default function Calendar({
           {weekday}
         </div>
       ))}
-      {days.slice(0, 21).map((day) => {
+      {days.slice(0, weeksDisplayOverride * 7).map((day) => {
         const availabilityTest = offers[day.toString()] ?? []
 
         // Determine which selected date to use - props override Redux
