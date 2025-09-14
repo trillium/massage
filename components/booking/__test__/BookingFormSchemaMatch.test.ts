@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { AppointmentRequestSchema } from '@/lib/schema'
-import { buildBookingPayload } from '../handleSubmit'
+import { buildBookingPayload } from '@/components/booking/handleSubmit'
 
 // Simulate a BookingForm submission and check schema compatibility
 

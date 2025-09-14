@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { buildBookingPayload } from '../handleSubmit'
+import { buildBookingPayload } from '@/components/booking/handleSubmit'
 
 describe('buildBookingPayload', () => {
   it('merges form data and additional data', () => {

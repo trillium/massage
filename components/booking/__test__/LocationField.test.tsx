@@ -1,9 +1,9 @@
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import { describe, it, expect } from 'vitest'
-import LocationField from '../fields/LocationField'
+import LocationField from '@/components/booking/fields/LocationField'
 import React from 'react'
-import { LocationObject } from 'lib/types'
+import { LocationObject } from '@/lib/types'
 
 describe('LocationField', () => {
   it('renders both zip code and city fields', () => {

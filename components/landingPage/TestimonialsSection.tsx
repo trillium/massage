@@ -1,6 +1,6 @@
 'use client'
 
-import { Star } from '../ReviewCard'
+import { Star } from '@/components/ReviewCard'
 import ratings from '@/data/ratings'
 import clsx from 'clsx'
 import React, { useEffect, useState, useCallback } from 'react'

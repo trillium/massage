@@ -6,7 +6,7 @@ import Template from '@/components/Template'
 import Image from 'next/image'
 import Link from '@/components/Link'
 import { questions, type FAQItem } from './questions'
-import DynamicGridMasonry from '../masonry/DynamicGridMasonry'
+import DynamicGridMasonry from '@/components/masonry/DynamicGridMasonry'
 
 type ContentItem = {
   type: 'text' | 'image' | 'list' | 'link' | 'imageMosaic'
