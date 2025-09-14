@@ -1,13 +1,6 @@
+import type { durationPropsType } from '@/lib/types'
 import { DEFAULT_PRICING, ALLOWED_DURATIONS } from 'config'
 import { PricingType, SlugConfigurationType } from '@/lib/types'
-
-export type durationPropsType = {
-  title: string
-  duration: number
-  price: PricingType
-  allowedDurations: number[]
-  configuration: SlugConfigurationType | null
-}
 
 /**
  * Builds duration and pricing properties for the page configuration

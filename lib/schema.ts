@@ -115,6 +115,4 @@ export const BookedDataSchema = z.object({
   end: DateTimeAndTimeZoneSchema,
 })
 
-export type AppointmentRequestType = z.infer<typeof AppointmentRequestSchema>
 export type OnSiteRequestType = z.infer<typeof OnSiteRequestSchema>
-export type BookedDataType = z.infer<typeof BookedDataSchema>

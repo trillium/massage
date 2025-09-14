@@ -1,12 +1,7 @@
+import type { SendMailParams } from '@/lib/types'
 import type { SendMailOptions, Transporter } from 'nodemailer'
 import { createTransport } from 'nodemailer'
 import siteMetadata from '@/data/siteMetadata'
-
-type SendMailParams = {
-  to: string
-  subject: string
-  body: string
-}
 
 /**
  * Configure the mail transporter using OAuth2 authentication.

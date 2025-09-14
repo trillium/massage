@@ -142,15 +142,7 @@ const ScoreDisplay = ({
   )
 }
 
-export type ReviewSnippetProps = {
-  name?: string
-  firstName?: string
-  lastName?: string
-  text?: string
-  date?: string
-  displayDate?: boolean
-  rating?: RatingType
-}
+import type { ReviewSnippetProps } from '@/lib/types'
 
 export const ReviewSnippet = ({
   text,

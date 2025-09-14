@@ -1,11 +1,7 @@
+import type { AdminSession } from '@/lib/types'
 import { hashHmac } from './hash'
 
-export interface AdminSession {
-  email: string
-  token: string
-  timestamp: number
-  expiresAt: number
-}
+export type { AdminSession }
 
 export const timeValue = 1000 * 60 * 60 * 24 * 30 // 30 days
 

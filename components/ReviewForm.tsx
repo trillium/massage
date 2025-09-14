@@ -17,17 +17,7 @@ import {
 import { ReviewSnippet, Star } from './ReviewCard'
 import type { RatingType, RatingTypeStrict } from '@/lib/types'
 
-export type ReviewFormData = {
-  name: string
-  firstName?: string
-  lastName?: string
-  start: string
-  end: string
-  error?: string
-  duration?: number | string
-  text?: string
-  rating?: RatingType
-}
+import type { ReviewFormData } from '@/lib/types'
 
 export default function ReviewForm({
   error,
