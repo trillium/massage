@@ -5,7 +5,7 @@ import { redirect } from 'next/navigation'
 import createOnsiteAppointment from 'lib/availability/createOnsiteAppointment'
 import { getHash } from 'lib/hash'
 
-import templates from 'lib/messageTemplates/onsiteTemplates'
+import onsiteEventSummary from 'lib/messaging/templates/events/onsiteEventSummary'
 import { OnSiteRequestSchema } from 'lib/schema'
 
 export async function GET(req: NextRequest) {
@@ -51,7 +51,7 @@ export async function GET(req: NextRequest) {
     ...validObject,
     pricing: transformedPricing, // Ensure pricing matches the expected type
     requestId: hash,
-    summary: templates.eventSummary(validObject) || 'Error in createEventSummary()',
+    summary: onsiteEventSummary(validObject) || 'Error in createEventSummary()',
   })
 
   const details = await response.json()

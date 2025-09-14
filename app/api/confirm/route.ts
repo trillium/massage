@@ -5,7 +5,7 @@ import { z } from 'zod'
 import createCalendarAppointment from 'lib/availability/createCalendarAppointment'
 import { getHash } from 'lib/hash'
 
-import templates from 'lib/messageTemplates/templates'
+import eventSummary from 'lib/messaging/templates/events/eventSummary'
 
 const AppointmentPropsSchema = z.object({
   firstName: z.string(),
@@ -86,7 +86,7 @@ export async function GET(req: NextRequest) {
     location: locationObject,
     requestId: hash,
     summary:
-      templates.eventSummary({
+      eventSummary({
         duration: validObject.duration,
         clientName: `${validObject.firstName} ${validObject.lastName}`,
       }) || 'Error in createEventSummary()',

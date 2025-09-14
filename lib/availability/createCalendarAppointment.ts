@@ -2,7 +2,7 @@ import type { AppointmentProps } from '../types'
 import getAccessToken from 'lib/availability/getAccessToken'
 import { flattenLocation } from '@/lib/helpers/locationHelpers'
 
-import templates from 'lib/messageTemplates/templates'
+import eventDescription from 'lib/messaging/templates/events/eventDescription'
 
 // Helper function to build the description
 function buildDescription(location: string) {
@@ -38,7 +38,7 @@ async function buildEventBody({
   // Use custom description if provided, otherwise generate standard description
   const description =
     customDescription ||
-    (await templates.eventDescription({
+    (await eventDescription({
       start,
       end,
       summary,

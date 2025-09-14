@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import templates from '@/lib/messageTemplates/templates'
+import createAdminAppointment from '@/lib/messaging/templates/events/createAdminAppointment'
+import adminAppointmentDescription from '@/lib/messaging/templates/events/adminAppointmentDescription'
 
 /**
  * POST /api/admin/create-appointment
@@ -81,10 +82,10 @@ export async function POST(request: NextRequest) {
       }
     }): Promise<Response> {
       // Create appointment props
-      const appointmentProps = await templates.createAdminAppointment(params)
+      const appointmentProps = await createAdminAppointment(params)
 
       // Generate the custom description with Soothe details
-      const description = await templates.adminAppointmentDescription(appointmentProps)
+      const description = await adminAppointmentDescription(appointmentProps)
 
       // Import the calendar creation function dynamically to avoid circular dependencies
       const { default: createCalendarAppointment } = await import(

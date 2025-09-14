@@ -5,8 +5,9 @@ import { getHash } from './hash'
 import { ContactFormSchema } from './schema'
 import { z } from 'zod'
 import { ContactFormType } from './types'
-import templates from './messageTemplates/templates'
-import { pushoverSendMesage } from './pushover'
+import contactFormEmail from './messaging/email/admin/contactFormEmail'
+import contactFormConfirmation from './messaging/email/client/contactFormConfirmation'
+import { pushoverSendMesage } from './messaging/push/admin/pushover'
 
 export type ContactRequestValidationResult =
   | { success: true; data: z.output<typeof ContactFormSchema> }
@@ -41,7 +42,7 @@ export async function handleContactRequest({
   const { data } = validationResult
 
   // Generate admin notification email using template
-  const adminEmailBody = templates.contactFormEmail(data)
+  const adminEmailBody = contactFormEmail(data)
 
   // Send Pushover notification to admin
   pushoverSendMesage({
@@ -58,7 +59,7 @@ export async function handleContactRequest({
   })
 
   // Generate user confirmation email using template
-  const userEmailBody = templates.contactFormConfirmation(data)
+  const userEmailBody = contactFormConfirmation(data)
 
   // Send confirmation email to user
   await sendMailFn({

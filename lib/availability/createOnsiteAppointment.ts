@@ -2,7 +2,7 @@ import type { AppointmentProps, ChairAppointmentBlockCalendarProps } from '../ty
 import getAccessToken from '@/lib/availability/getAccessToken'
 import { flattenLocation } from '@/lib/helpers/locationHelpers'
 
-import templates from '@/lib/messageTemplates/onsiteTemplates'
+import onsiteEventDescription from 'lib/messaging/templates/events/onsiteEventDescription'
 
 // Helper function to build the description
 function buildDescription(location: string) {
@@ -35,7 +35,7 @@ function buildEventBody(props: ChairAppointmentBlockCalendarProps) {
     eventMemberString,
     eventContainerString,
   } = props
-  const description = templates.eventDescription(props)
+  const description = onsiteEventDescription(props)
 
   return {
     start: {

@@ -1,8 +1,7 @@
-'use client'
-
 import React from 'react'
 import { AppointmentProps } from '@/lib/types'
-import templates from '@/lib/messageTemplates/templates'
+import eventSummary from '@/lib/messaging/templates/events/eventSummary'
+import eventDescription from '@/lib/messaging/templates/events/eventDescription'
 import { flattenLocation } from '@/lib/helpers/locationHelpers'
 
 interface Step5EventObjectDetailsProps {
@@ -10,7 +9,7 @@ interface Step5EventObjectDetailsProps {
   isConfirmed: boolean
 }
 
-export default function Step5EventObjectDetails({
+export default async function Step5EventObjectDetails({
   submittedData,
   isConfirmed,
 }: Step5EventObjectDetailsProps) {
@@ -31,12 +30,12 @@ export default function Step5EventObjectDetails({
 
   // Create mock event summary and description using backend templates
   const clientName = `${submittedData.firstName} ${submittedData.lastName}`
-  const eventSummary = templates.eventSummary({
+  const summary = eventSummary({
     clientName,
     duration: submittedData.duration || '60',
   })
 
-  const eventDescription = templates.eventDescription({
+  const description = await eventDescription({
     start: submittedData.start,
     end: submittedData.end,
     phone: submittedData.phone,
@@ -98,7 +97,7 @@ export default function Step5EventObjectDetails({
         <div>
           <h3 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">Event Title</h3>
           <div className="rounded bg-gray-100 p-3 dark:bg-gray-700">
-            <p className="font-medium text-gray-900 dark:text-white">{eventSummary}</p>
+            <p className="font-medium text-gray-900 dark:text-white">{summary}</p>
           </div>
         </div>
 
@@ -166,7 +165,7 @@ export default function Step5EventObjectDetails({
           <div className="rounded bg-gray-100 p-4 dark:bg-gray-700">
             <div
               className="text-sm whitespace-pre-wrap text-gray-700 dark:text-gray-300"
-              dangerouslySetInnerHTML={{ __html: eventDescription }}
+              dangerouslySetInnerHTML={{ __html: description }}
             />
           </div>
         </div>
@@ -223,8 +222,8 @@ export default function Step5EventObjectDetails({
               {JSON.stringify(
                 {
                   id: `mock_event_${Date.now()}`,
-                  summary: eventSummary,
-                  description: eventDescription,
+                  summary: summary,
+                  description: description,
                   start: {
                     dateTime: submittedData.start,
                     timeZone: submittedData.timeZone,
