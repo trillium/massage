@@ -1,6 +1,7 @@
 import type { AppointmentProps } from '../types'
 import getAccessToken from 'lib/availability/getAccessToken'
 import { flattenLocation } from '@/lib/helpers/locationHelpers'
+import siteMetadata from '@/data/siteMetadata'
 
 import eventDescription from 'lib/messaging/templates/events/eventDescription'
 
@@ -53,6 +54,10 @@ async function buildEventBody({
       eventContainerString,
     }))
 
+  // For admin-created events, the attendee should be the admin with their correct name
+  const isAdminCreated = email === process.env.OWNER_EMAIL
+  const attendeeDisplayName = isAdminCreated ? siteMetadata.author || 'Admin' : firstName
+
   return {
     start: {
       dateTime: start,
@@ -65,7 +70,7 @@ async function buildEventBody({
     attendees: [
       {
         email,
-        displayName: firstName,
+        displayName: attendeeDisplayName,
       },
     ],
     location: flattenLocation(location),

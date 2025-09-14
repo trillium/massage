@@ -23,8 +23,16 @@ interface SootheBookingData {
  * @returns {Promise<string>} Returns the formatted appointment description
  */
 async function adminAppointmentDescription(appointmentProps: AppointmentProps): Promise<string> {
+  // For admin-created events, don't include client contact info since we don't have it
+  const isAdminCreated = appointmentProps.email === process.env.OWNER_EMAIL
+
+  // Create a modified props object without email and phone for admin events
+  const descriptionProps = isAdminCreated
+    ? { ...appointmentProps, email: undefined, phone: undefined }
+    : appointmentProps
+
   // Get the standard event description
-  const baseDescription = await eventDescription(appointmentProps)
+  const baseDescription = await eventDescription(descriptionProps)
 
   // Parse Soothe-specific data from promo field
   let sootheData: SootheBookingData = {

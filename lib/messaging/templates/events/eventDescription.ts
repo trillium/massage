@@ -31,8 +31,12 @@ async function eventDescription({
   output += `<b>Start</b>: ${new Date(start || '').toLocaleTimeString()}\n`
   output += `<b>End</b>: ${new Date(end || '').toLocaleTimeString()}\n`
   output += `<b>Duration</b>: ${duration}\n`
-  output += `<b>Email</b>: ${email}\n`
-  output += `<b>Phone</b>: ${phone}\n`
+  if (email) {
+    output += `<b>Email</b>: ${email}\n`
+  }
+  if (phone) {
+    output += `<b>Phone</b>: ${phone}\n`
+  }
 
   // Handle both string and LocationObject
   let locationString = ''
