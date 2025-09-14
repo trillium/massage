@@ -72,5 +72,49 @@ export const AdminAccessRequestSchema = z.object({
   requestReason: z.string().min(10, 'Please provide a reason (minimum 10 characters)'),
 })
 
+// Schema for the booked data structure passed to admin booked page
+const DateTimeAndTimeZoneSchema = z.object({
+  dateTime: z.string(),
+  timeZone: z.string(),
+})
+
+export const BookedDataSchema = z.object({
+  firstName: z.string(),
+  lastName: z.string(),
+  email: z.string().email(),
+  timeZone: z.string(),
+  location: z.union([
+    z.string(),
+    z.object({
+      street: z.string(),
+      city: z.string(),
+      zip: z.string(),
+    }),
+  ]),
+  duration: z.string(),
+  phone: z.string(),
+  eventBaseString: z.string(),
+  eventMemberString: z.string().optional(),
+  eventContainerString: z.string().optional(),
+  price: z.string().optional(),
+  paymentMethod: z.string().optional(),
+  hotelRoomNumber: z.string().optional(),
+  parkingInstructions: z.string().optional(),
+  additionalNotes: z.string().optional(),
+  bookingUrl: z.string().optional(),
+  promo: z.string().optional(),
+  // Additional fields for booked data
+  attendees: z.array(
+    z.object({
+      email: z.string().email(),
+      name: z.string().optional(),
+    })
+  ),
+  dateTime: z.string(),
+  start: DateTimeAndTimeZoneSchema,
+  end: DateTimeAndTimeZoneSchema,
+})
+
 export type AppointmentRequestType = z.infer<typeof AppointmentRequestSchema>
 export type OnSiteRequestType = z.infer<typeof OnSiteRequestSchema>
+export type BookedDataType = z.infer<typeof BookedDataSchema>
