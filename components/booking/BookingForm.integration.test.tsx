@@ -67,7 +67,7 @@ describe('BookingForm Integration Tests', () => {
     it('should render the complete booking form when Redux state is properly set', () => {
       render(
         <Provider store={store}>
-          <BookingForm endPoint="/api/request" />
+          <BookingForm />
         </Provider>
       )
 
@@ -86,7 +86,7 @@ describe('BookingForm Integration Tests', () => {
 
       render(
         <Provider store={emptyStore}>
-          <BookingForm endPoint="/api/request" />
+          <BookingForm />
         </Provider>
       )
 
@@ -97,7 +97,7 @@ describe('BookingForm Integration Tests', () => {
     it('should show booking summary with correct time and pricing information', () => {
       render(
         <Provider store={store}>
-          <BookingForm endPoint="/api/request" />
+          <BookingForm />
         </Provider>
       )
 
@@ -112,7 +112,7 @@ describe('BookingForm Integration Tests', () => {
     it('should integrate with Redux form state when fields are changed', async () => {
       render(
         <Provider store={store}>
-          <BookingForm endPoint="/api/request" />
+          <BookingForm />
         </Provider>
       )
 
@@ -157,7 +157,7 @@ describe('BookingForm Integration Tests', () => {
 
       render(
         <Provider store={store}>
-          <BookingForm endPoint="/api/request" />
+          <BookingForm />
         </Provider>
       )
 
@@ -210,7 +210,7 @@ describe('BookingForm Integration Tests', () => {
 
       render(
         <Provider store={store}>
-          <BookingForm endPoint="/api/request" />
+          <BookingForm />
         </Provider>
       )
 
@@ -250,7 +250,7 @@ describe('BookingForm Integration Tests', () => {
 
       render(
         <Provider store={store}>
-          <BookingForm endPoint="/api/request" />
+          <BookingForm />
         </Provider>
       )
 
@@ -306,7 +306,7 @@ describe('BookingForm Integration Tests', () => {
       // Start with open modal
       render(
         <Provider store={store}>
-          <BookingForm endPoint="/api/request" />
+          <BookingForm />
         </Provider>
       )
 
@@ -327,7 +327,7 @@ describe('BookingForm Integration Tests', () => {
 
       render(
         <Provider store={store}>
-          <BookingForm endPoint="/api/request" />
+          <BookingForm />
         </Provider>
       )
 
