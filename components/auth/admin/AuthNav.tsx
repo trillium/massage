@@ -7,8 +7,8 @@ import {
   managementRoutes,
   toolsRoutes,
   testingRoutes,
-  type AuthNavLink,
 } from '@/data/authHeaderNavLinks'
+import type { AuthNavLink } from '@/lib/types'
 
 interface AuthNavProps {
   showCategories?: boolean
