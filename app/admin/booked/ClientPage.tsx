@@ -1,24 +1,13 @@
-import { AppointmentRequestType } from '@/lib/schema'
+import { BookedDataType } from '@/lib/schema'
 import { BookedCard } from 'components/BookedCard'
 import { formatLocalDate, formatLocalTime } from 'lib/availability/helpers'
 import { AttendeeType } from 'lib/types'
 import { flattenLocation } from '@/lib/helpers/locationHelpers'
 import Link from '@/components/Link'
 
-type dateTimeAndTimeZone = {
-  dateTime: string
-  timeZone: string
-}
-
 type ClientPageProps = {
   url: string
-  data: AppointmentRequestType & {
-    attendees: Array<{ email: string; name?: string }>
-    timeZone: string
-    dateTime: string
-    start: dateTimeAndTimeZone
-    end: dateTimeAndTimeZone
-  }
+  data: BookedDataType
 }
 
 export default function Booked({ url, data }: ClientPageProps) {
@@ -83,7 +72,9 @@ export default function Booked({ url, data }: ClientPageProps) {
         dateString={dateString}
         startString={startString}
         endString={endString}
-        location={flattenLocation(data.location)}
+        location={
+          typeof data.location === 'string' ? data.location : flattenLocation(data.location)
+        }
       />
     </>
   )

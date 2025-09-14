@@ -7,6 +7,8 @@ import { getHash } from 'lib/hash'
 
 import onsiteEventSummary from 'lib/messaging/templates/events/onsiteEventSummary'
 import { OnSiteRequestSchema } from 'lib/schema'
+import { AdminAuthManager } from '@/lib/adminAuth'
+import siteMetadata from '@/data/siteMetadata'
 
 export async function GET(req: NextRequest) {
   const searchParams = req.nextUrl.searchParams
@@ -62,9 +64,39 @@ export async function GET(req: NextRequest) {
 
   // If we have a link to the event, take us there.
   if (match && match[1]) {
-    const encodedDetails = encodeURIComponent(JSON.stringify(validObject))
+    // Construct the proper data structure expected by the /booked page
+    const bookedData = {
+      ...validObject,
+      attendees: details.attendees
+        ? details.attendees.map(
+            (attendee: { email: string; displayName?: string; name?: string }) => ({
+              email: attendee.email,
+              name: attendee.displayName || attendee.name,
+            })
+          )
+        : [{ email: validObject.email, name: validObject.firstName }],
+      timeZone: validObject.timeZone,
+      dateTime: validObject.start,
+      start: {
+        dateTime: validObject.start,
+        timeZone: validObject.timeZone,
+      },
+      end: {
+        dateTime: validObject.end,
+        timeZone: validObject.timeZone,
+      },
+    }
+
+    const encodedDetails = encodeURIComponent(JSON.stringify(bookedData))
+
+    // Generate admin authentication parameters for seamless admin identification
+    const adminEmail = siteMetadata.email
+    const adminLink = AdminAuthManager.generateAdminLink(adminEmail)
+    const url = new URL(adminLink)
+    const adminToken = url.searchParams.get('token')
+
     return NextResponse.redirect(
-      `/booked?data=${encodedDetails}&url=${encodeURIComponent(match[1])}`
+      `/admin/booked?data=${encodedDetails}&url=${encodeURIComponent(match[1])}&email=${encodeURIComponent(adminEmail)}&token=${adminToken}`
     )
   }
 
