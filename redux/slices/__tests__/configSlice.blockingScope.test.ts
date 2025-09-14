@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { configSlice, initialState, setBlockingScope } from '../configSlice'
+import { configSlice, initialState, setBlockingScope } from '@/redux/slices/configSlice'
 
 describe('configSlice - blockingScope', () => {
   it('should have blockingScope as undefined in initial state', () => {
