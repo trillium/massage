@@ -1,6 +1,6 @@
-import { getHash } from '../hash'
+import { getHash } from '../../hash'
 import { ReadonlyHeaders } from 'next/dist/server/web/spec-extension/adapters/headers'
-import { OnSiteRequestType } from '../types'
+import { OnSiteRequestType } from '../../types'
 
 type ApprovalUrl = {
   headers: ReadonlyHeaders

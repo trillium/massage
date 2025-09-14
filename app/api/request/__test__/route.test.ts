@@ -5,7 +5,7 @@ import type { NextRequest } from 'next/server'
 import type { IncomingMessage } from 'http'
 
 // Mock Pushover to prevent environment variable errors
-vi.mock('lib/pushover/pushover', () => ({
+vi.mock('lib/messaging/push/admin/pushover', () => ({
   pushoverSendMesage: vi.fn(() => Promise.resolve()),
 }))
 

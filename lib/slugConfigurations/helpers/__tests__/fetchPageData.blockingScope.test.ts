@@ -57,6 +57,7 @@ describe('fetchPageData - blockingScope functionality', () => {
         end: mockContainerData.end,
         busy: [{ start: '2024-01-01T10:00:00.000Z', end: '2024-01-01T11:00:00.000Z' }],
         containers: mockContainerData.containers,
+        nextEventFound: false,
       })
     })
 

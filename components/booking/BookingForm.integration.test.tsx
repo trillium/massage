@@ -181,7 +181,7 @@ describe('BookingForm Integration Tests', () => {
       // Wait for the API call
       await waitFor(() => {
         expect(global.fetch).toHaveBeenCalledWith(
-          '/api/request',
+          'api/request',
           expect.objectContaining({
             method: 'POST',
             headers: {
@@ -274,7 +274,7 @@ describe('BookingForm Integration Tests', () => {
       // Verify the API call includes expected data
       await waitFor(() => {
         expect(global.fetch).toHaveBeenCalledWith(
-          '/api/request',
+          'api/request',
           expect.objectContaining({
             method: 'POST',
             headers: {
