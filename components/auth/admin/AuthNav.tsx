@@ -14,12 +14,14 @@ interface AuthNavProps {
   showCategories?: boolean
   showDescriptions?: boolean
   layout?: 'grid' | 'list'
+  gridCols?: string
 }
 
 export default function AuthNav({
   showCategories = true,
   showDescriptions = true,
   layout = 'grid',
+  gridCols = 'sm:grid-cols-2 lg:grid-cols-1',
 }: AuthNavProps) {
   const pathname = usePathname()
 
@@ -31,7 +33,7 @@ export default function AuthNav({
           {title}
         </h3>
       )}
-      <div className={layout === 'grid' ? 'grid gap-2 sm:grid-cols-2 lg:grid-cols-1' : 'space-y-2'}>
+      <div className={layout === 'grid' ? `grid gap-2 ${gridCols}` : 'space-y-2'}>
         {routes.map((route) => (
           <Link
             key={route.href}
