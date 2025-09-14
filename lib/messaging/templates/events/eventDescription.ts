@@ -28,8 +28,8 @@ async function eventDescription({
   output += '\n\n'
   output += `<b>Name</b>: ${firstName} ${lastName}\n`
   output += `<b>Date</b>: ${new Date(start || '').toDateString()}\n`
-  output += `<b>Start</b>: ${new Date(start || '').toLocaleTimeString()}\n`
-  output += `<b>End</b>: ${new Date(end || '').toLocaleTimeString()}\n`
+  output += `<b>Start</b>: ${new Date(start || '').toLocaleTimeString('en-US', { timeZone: 'America/Los_Angeles' })}\n`
+  output += `<b>End</b>: ${new Date(end || '').toLocaleTimeString('en-US', { timeZone: 'America/Los_Angeles' })}\n`
   output += `<b>Duration</b>: ${duration}\n`
   if (email) {
     output += `<b>Email</b>: ${email}\n`
