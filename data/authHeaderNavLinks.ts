@@ -1,9 +1,4 @@
-interface AuthNavLink {
-  href: string
-  title: string
-  description?: string
-  category?: 'primary' | 'tools' | 'testing' | 'management'
-}
+import type { AuthNavLink } from '@/lib/types'
 
 const authHeaderNavLinks: AuthNavLink[] = [
   // Primary Admin Routes
@@ -94,4 +89,3 @@ export const protectedAuthRoutes = authHeaderNavLinks.filter(
 )
 
 export default authHeaderNavLinks
-export type { AuthNavLink }

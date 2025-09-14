@@ -1,5 +1,4 @@
-import type { EmailProps, RatingTypeStrict } from '@/lib/types'
-import type { ReviewSnippetProps } from '@/components/ReviewCard'
+import type { EmailProps, RatingTypeStrict, ReviewSnippetProps } from '@/lib/types'
 import { parts as signatureParts } from '@/lib/messaging/utilities/signature'
 import localeDayString from '@/lib/locale'
 

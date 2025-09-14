@@ -1,10 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction, Slice } from '@reduxjs/toolkit'
 import type { RootState } from '@/redux/store'
-import type { BookingFormData } from 'components/booking/types'
-import type { ReviewFormData } from 'components/ReviewForm'
-import { ReviewSnippetProps } from 'components/ReviewCard'
-import type { LocationObject } from 'lib/types'
+import type {
+  BookingFormData,
+  ReviewFormData,
+  ReviewSnippetProps,
+  LocationObject,
+} from '@/lib/types'
 
 export const initialBookingFormData: BookingFormData = {
   /** First name of the requester */

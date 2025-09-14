@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { searchSootheEmails, type SootheBookingInfo } from '@/lib/gmail/searchSootheEmails'
+import { searchSootheEmails } from '@/lib/gmail/searchSootheEmails'
+import type { SootheBookingInfo } from '@/lib/types'
 
 export async function GET(request: Request) {
   try {
