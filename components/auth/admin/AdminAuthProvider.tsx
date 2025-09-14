@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { AdminAuthManager } from '@/lib/adminAuth'
 import Spinner from '@/components/Spinner'
-import { AdminDebugInfo } from '@/components/AdminDebugInfo'
+import { AdminDebugInfo } from '@/components/auth/admin/AdminDebugInfo'
 
 interface AdminAuthProviderProps {
   children: React.ReactNode

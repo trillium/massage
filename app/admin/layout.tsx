@@ -1,6 +1,6 @@
-import { AdminAuthWrapper } from '@/components/AdminAuthWrapper'
-import { AdminDebugInfo } from '@/components/AdminDebugInfo'
-import AuthNav from '@/components/AuthNav'
+import { AdminAuthWrapper } from '@/components/auth/admin/AdminAuthWrapper'
+import { AdminDebugInfo } from '@/components/auth/admin/AdminDebugInfo'
+import AuthNav from '@/components/auth/admin/AuthNav'
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
