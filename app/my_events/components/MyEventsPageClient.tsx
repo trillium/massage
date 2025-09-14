@@ -6,6 +6,7 @@ import clsx from 'clsx'
 import { GoogleCalendarV3Event } from '@/lib/types'
 import { UserAuthManager } from '@/lib/userAuth'
 import { CategorizedEventList } from './EventComponents'
+import { identifyAuthenticatedUser } from '@/lib/posthog-utils'
 
 export default function MyEventsPageClient() {
   const searchParams = useSearchParams()
@@ -31,6 +32,8 @@ export default function MyEventsPageClient() {
 
       if (existingSession) {
         console.log('✅ Using existing session for:', existingSession.email)
+        // Add identification
+        await identifyAuthenticatedUser(existingSession.email, 'session')
         setIsVerified(true)
         setEmail(existingSession.email)
         setVerificationError(null)
@@ -80,6 +83,8 @@ export default function MyEventsPageClient() {
             window.history.replaceState({}, '', cleanUrl.pathname)
             console.log('🧹 URL cleaned')
 
+            // Add identification
+            await identifyAuthenticatedUser(urlEmail, 'token')
             setIsVerified(true)
             setEmail(urlEmail)
             setVerificationError(null)

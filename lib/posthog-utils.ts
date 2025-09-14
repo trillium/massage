@@ -103,3 +103,47 @@ export function getDistinctId(): string | null {
     return 'Error getting distinct ID'
   }
 }
+
+/**
+ * Identifies an authenticated user in PostHog with standard properties
+ * @param email - The verified email address of the user
+ * @param verificationMethod - How the user was verified ('token' | 'session' | 'admin_login' | etc.)
+ * @returns Promise<{ success: boolean; message: string }>
+ */
+export async function identifyAuthenticatedUser(
+  email: string,
+  verificationMethod:
+    | 'token'
+    | 'session'
+    | 'admin_login'
+    | 'admin_session'
+    | 'booking_complete'
+    | 'payment_complete'
+    | 'newsletter_verified'
+    | 'profile_access'
+    | 'login'
+    | 'action' = 'token'
+): Promise<{ success: boolean; message: string }> {
+  try {
+    if (process.env.NEXT_PUBLIC_DISABLE_POSTHOG === 'true') {
+      return { success: false, message: 'PostHog disabled' }
+    }
+
+    if (!posthog || !posthog.__loaded) {
+      return { success: false, message: 'PostHog not loaded' }
+    }
+
+    const properties = {
+      email,
+      verification_method: verificationMethod,
+      identified_at: new Date().toISOString(),
+      user_type: 'authenticated',
+    }
+
+    posthog.identify(email, properties)
+    return { success: true, message: 'User identified' }
+  } catch (error) {
+    console.error('PostHog identification error:', error)
+    return { success: false, message: 'Identification failed' }
+  }
+}

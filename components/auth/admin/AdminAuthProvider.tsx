@@ -5,6 +5,7 @@ import { useSearchParams, useRouter } from 'next/navigation'
 import { AdminAuthManager } from '@/lib/adminAuth'
 import Spinner from '@/components/Spinner'
 import { AdminDebugInfo } from '@/components/auth/admin/AdminDebugInfo'
+import { identifyAuthenticatedUser } from '@/lib/posthog-utils'
 
 interface AdminAuthProviderProps {
   children: React.ReactNode
@@ -65,6 +66,8 @@ export function AdminAuthProvider({ children }: AdminAuthProviderProps) {
               cleanUrl.searchParams.delete('hash')
               router.replace(cleanUrl.pathname)
 
+              // Add PostHog identification for admin
+              await identifyAuthenticatedUser(urlEmail, 'admin_login')
               setAuthState({
                 isAuthenticated: true,
                 isLoading: false,
@@ -95,6 +98,8 @@ export function AdminAuthProvider({ children }: AdminAuthProviderProps) {
       // No URL parameters, check existing session
       const session = AdminAuthManager.validateSession()
       if (session) {
+        // Add PostHog identification for returning admin
+        await identifyAuthenticatedUser(session.email, 'admin_session')
         setAuthState({
           isAuthenticated: true,
           isLoading: false,
