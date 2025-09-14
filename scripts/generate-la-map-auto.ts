@@ -8,8 +8,8 @@
 import puppeteer from 'puppeteer'
 import { promises as fs } from 'fs'
 import path from 'path'
-import { generateStandaloneMapHTML } from '../lib/generateStaticMapHTML'
-import { LA_BOUNDS, IMAGE_CONFIG } from '../lib/mapConfig'
+import { generateStandaloneMapHTML } from '@/lib/generateStaticMapHTML'
+import { LA_BOUNDS, IMAGE_CONFIG } from '@/lib/mapConfig'
 
 // Type declarations for browser globals
 declare global {

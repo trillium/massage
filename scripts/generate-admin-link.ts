@@ -6,8 +6,8 @@
  */
 
 import * as dotenv from 'dotenv'
-import { AdminAuthManager } from '../lib/adminAuth'
-import { timeValue } from '../lib/adminAuth'
+import { AdminAuthManager } from '@/lib/adminAuth'
+import { timeValue } from '@/lib/adminAuth'
 
 // Load environment variables from .env.local
 dotenv.config({ path: '.env.local' })

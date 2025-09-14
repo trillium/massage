@@ -6,7 +6,7 @@
  */
 
 import * as dotenv from 'dotenv'
-import { UserAuthManager } from '../lib/userAuth'
+import { UserAuthManager } from '@/lib/userAuth'
 
 // Load environment variables from .env.local
 dotenv.config({ path: '.env.local' })

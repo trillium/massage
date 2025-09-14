@@ -1,5 +1,5 @@
 import { writeFileSync, mkdirSync } from 'fs'
-import ratings from '../data/ratings.js'
+import ratings from '@/data/ratings'
 import nspell from 'nspell'
 import dictionary from 'dictionary-en'
 import { execSync } from 'child_process'
