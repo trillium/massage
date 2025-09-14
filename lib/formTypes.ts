@@ -1,0 +1,77 @@
+import { LocationObject } from './locationTypes'
+import { PaymentMethodType } from './paymentTypes'
+import { RatingType } from './reviewTypes'
+
+/**
+ * Represents form data from the booking form
+ */
+export type BookingFormData = {
+  /** firstName of the requester */
+  firstName?: string
+  /** lastName of the requester */
+  lastName?: string
+  /** Email address of the requester */
+  email?: string
+  /** Location object with street, city, and zip */
+  location?: LocationObject
+  /** Whether the location can be edited */
+  locationIsReadOnly?: boolean
+  /** Location as formatted string */
+  locationString?: string
+  /** City of the requester */
+  city?: string
+  /** Zip code of the requester */
+  zipCode?: string
+  /** Phone number of the requester */
+  phone?: string
+  /** Payment method of the requester */
+  paymentMethod?: PaymentMethodType
+  /** Hotel room number */
+  hotelRoomNumber?: string
+  /** Parking instructions */
+  parkingInstructions?: string
+  /** Additional notes */
+  additionalNotes?: string
+  /** URL where this booking was made from */
+  bookingUrl?: string
+  /** Promotional offer applied to this booking */
+  promo?: string
+}
+
+export type ReviewFormData = {
+  name: string
+  firstName?: string
+  lastName?: string
+  start: string
+  end: string
+  error?: string
+  duration?: number | string
+  text?: string
+  rating?: RatingType
+}
+
+export type ReviewSnippetProps = {
+  name?: string
+  firstName?: string
+  lastName?: string
+  text?: string
+  date?: string
+  displayDate?: boolean
+  rating?: RatingType
+}
+
+/**
+ * Represents form data from the contact form
+ */
+export type ContactFormType = {
+  /** Subject of the contact inquiry */
+  subject: string
+  /** Name of the person contacting */
+  name: string
+  /** Email address of the person contacting */
+  email: string
+  /** Phone number of the person contacting */
+  phone: string
+  /** Message content */
+  message: string
+}
