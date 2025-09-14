@@ -1,6 +1,6 @@
 import { AdminAuthWrapper } from '@/components/auth/admin/AdminAuthWrapper'
 import { AdminDebugInfo } from '@/components/auth/admin/AdminDebugInfo'
-import AuthNav from '@/components/auth/admin/AuthNav'
+import AdminNav from '@/components/auth/admin/AdminNav'
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -10,7 +10,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           <div className="grid gap-8 lg:grid-cols-4">
             {/* Navigation Sidebar */}
             <div className="lg:col-span-1">
-              <AuthNav />
+              <AdminNav />
             </div>
 
             {/* Main Content */}

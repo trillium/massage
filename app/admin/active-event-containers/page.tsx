@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import AdminNavigation from '@/components/AdminNavigation'
+import AdminNav from '@/components/auth/admin/AdminNav'
 import { fetchContainerGeneric, filterEventsForQuery } from '@/lib/fetch/fetchContainersByQuery'
 import { fetchSlugConfigurationData } from '@/lib/slugConfigurations/fetchSlugConfigurationData'
 import Day from '@/lib/day'
@@ -149,7 +149,7 @@ export default async function ActiveEventContainersPage() {
   return (
     <SectionContainer>
       <div className="mx-auto max-w-6xl px-4 py-8">
-        <AdminNavigation />
+        <AdminNav gridCols="gap-3 md:grid-cols-2 lg:grid-cols-4" />
 
         <div className="mb-8">
           <h1 className="mb-4 text-3xl font-bold text-gray-900 dark:text-white">

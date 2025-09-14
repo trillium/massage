@@ -1,7 +1,7 @@
 import { getEventsBySearchQuery } from 'lib/availability/getEventsBySearchQuery'
 import { GoogleCalendarV3Event } from 'lib/types'
 import { subWeeks, addWeeks } from 'date-fns'
-import AdminNavigation from '@/components/AdminNavigation'
+import AdminNav from '@/components/auth/admin/AdminNav'
 import URIMaker from '@/components/URIMaker'
 import { CategorizedEventList } from 'app/my_events/components/EventComponents'
 import SectionContainer from '@/components/SectionContainer'
@@ -18,7 +18,7 @@ export default async function Page() {
   return (
     <SectionContainer>
       <div className="mx-auto max-w-7xl px-4 py-8">
-        <AdminNavigation />
+        <AdminNav gridCols="gap-3 md:grid-cols-2 lg:grid-cols-4" />
         <div className="flex flex-col items-center">
           <URIMaker events={events} />
         </div>

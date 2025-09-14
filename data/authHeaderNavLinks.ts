@@ -4,8 +4,8 @@ const authHeaderNavLinks: AuthNavLink[] = [
   // Primary Admin Routes
   {
     href: '/admin',
-    title: 'Dashboard',
-    description: 'Calendar events and URI maker',
+    title: 'Calendar Events',
+    description: 'URI maker and event viewer',
     category: 'primary',
   },
 
@@ -36,7 +36,12 @@ const authHeaderNavLinks: AuthNavLink[] = [
     description: 'User management and testing',
     category: 'tools',
   },
-  // Note: /admin/event/[event_id] is a dynamic route and should not be included in static navigation
+  {
+    href: '/admin/gmail-events',
+    title: 'Gmail Emails',
+    description: 'Search and parse Soothe booking emails',
+    category: 'tools',
+  },
 
   // Testing & Development
   {
