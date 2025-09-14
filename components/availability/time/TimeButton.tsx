@@ -26,7 +26,7 @@ export default function TimeButton({
       className={clsx(
         'rounded-md border border-slate-300 px-3 py-2 shadow-sm transition-all',
         'text-sm text-gray-900',
-        'hocus:bg-primary-50/20 hocus:shadow-sm hocus:shadow-primary-100 hocus:border-primary-500 dark:hocus:text-gray-200',
+        'hocus:bg-primary-50/20 hocus:shadow-sm hocus:shadow-primary-100 hocus:border-primary-500 dark:hocus:text-gray-200 cursor-pointer',
         'outline-primary-600 active:mt-0.5 active:-mb-0.5',
         {
           'bg-primary-500 font-bold text-white': active,
