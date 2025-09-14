@@ -2,6 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { NextRequest, NextResponse } from 'next/server'
 import { IncomingMessage } from 'http'
 import { handleAppointmentRequest } from '../handleAppointmentRequest'
+import { AppointmentRequestType } from '@/lib/types'
 import { AppointmentRequestSchema } from '../schema'
 import { z } from 'zod'
 
@@ -136,7 +137,7 @@ describe('handleAppointmentRequest', () => {
     Object.assign(error, { message: 'Validation failed' })
     vi.spyOn(AppointmentRequestSchema, 'safeParse').mockImplementation(() => ({
       success: false,
-      error: error as z.ZodError<import('../schema').AppointmentRequestType>,
+      error: error as z.ZodError<AppointmentRequestType>,
     }))
 
     // Act

@@ -6,7 +6,7 @@ import {
   StringDateTimeIntervalAndLocation,
   GoogleCalendarV3Event,
 } from '@/lib/types'
-import type { PageConfigurationReturnType } from '@/lib/slugConfigurations/createPageConfiguration.tsx'
+import type { PageConfigurationReturnType } from '@/lib/types'
 
 export function getNullPageConfiguration(): PageConfigurationReturnType {
   return {

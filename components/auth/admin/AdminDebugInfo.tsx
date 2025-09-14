@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
-import { AdminAuthManager, AdminSession } from '@/lib/adminAuth'
+import { AdminAuthManager, type AdminSession } from '@/lib/adminAuth'
 import { getHash } from '@/lib/hash'
 
 interface DebugInfo {
