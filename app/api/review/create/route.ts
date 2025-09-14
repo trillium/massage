@@ -5,7 +5,7 @@ import { IncomingMessage } from 'http'
 import { LRUCache } from 'lru-cache'
 import { z } from 'zod'
 import sendMail from 'lib/email'
-import ReviewSubmissionEmail from 'lib/email/messages/ReviewSubmissionEmail'
+import ReviewSubmissionEmail from 'lib/messaging/email/admin/ReviewSubmissionEmail'
 import siteMetadata from '@/data/siteMetadata'
 import { RatingTypeStrict } from '@/lib/types'
 

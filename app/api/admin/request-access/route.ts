@@ -5,7 +5,7 @@ import sendMail from '@/lib/email'
 import siteMetadata from '@/data/siteMetadata'
 import { AdminAuthManager } from '@/lib/adminAuth'
 import { AdminAccessRequestSchema } from '@/lib/schema'
-import AdminAccessEmail from '@/lib/email/messages/AdminAccessEmail'
+import AdminAccessEmail from '@/lib/messaging/email/admin/AdminAccessEmail'
 
 // Rate limiting
 const rateLimitLRU = new LRUCache({
