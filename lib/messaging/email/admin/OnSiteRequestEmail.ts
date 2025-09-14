@@ -1,5 +1,5 @@
 import type { EmailProps, ChairAppointmentBlockProps } from '@/lib/types'
-import { parts as signatureParts } from './emailSegments/signature'
+import { parts as signatureParts } from '../../utilities/signature'
 
 const LINE_PREFIX = `<div class="gmail_default" style="font-family:arial,sans-serif">`
 const LINE_SUFFIX = `</div>`

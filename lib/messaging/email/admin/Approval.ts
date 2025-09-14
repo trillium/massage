@@ -1,5 +1,5 @@
 import { EmailProps } from '@/lib/types'
-import { parts as signatureParts } from './emailSegments/signature'
+import { parts as signatureParts } from '../../utilities/signature'
 import { flattenLocation } from '@/lib/helpers/locationHelpers'
 
 const LINE_PREFIX = `<div class="gmail_default" style="font-family:arial,sans-serif">`

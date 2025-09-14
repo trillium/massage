@@ -1,4 +1,4 @@
-import { parts as signatureParts } from './emailSegments/signature'
+import { parts as signatureParts } from '../../utilities/signature'
 
 interface AdminAccessEmailProps {
   email: string

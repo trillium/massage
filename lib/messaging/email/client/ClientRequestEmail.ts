@@ -1,5 +1,5 @@
 import { EmailProps } from '@/lib/types'
-import { parts as signatureParts } from './emailSegments/signature'
+import { parts as signatureParts } from '../../utilities/signature'
 import { flattenLocation } from '@/lib/helpers/locationHelpers'
 import { generateSecureMyEventsUrlServer } from '@/lib/generateSecureMyEventsUrl'
 
