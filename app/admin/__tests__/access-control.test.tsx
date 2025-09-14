@@ -31,7 +31,7 @@ vi.mock('@/lib/adminAuth', () => ({
 }))
 
 // Mock components
-vi.mock('@/components/auth/admin/AuthNav', () => ({
+vi.mock('@/components/auth/admin/AdminNav', () => ({
   default: () => <nav data-testid="auth-nav">Auth Navigation</nav>,
 }))
 
