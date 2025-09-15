@@ -49,8 +49,8 @@ const AuthorCard = () => {
           <p className="py-2 text-justify">
             Trillium is a seasoned massage therapist with over a decade of experience, based in Los
             Angeles. Specializing in combining relaxation and pain relief techniques, Trillium
-            provides you with effective massage therapy from the comfort of your own home. With with
-            more than 3,000 in-home massage therapy sessions, Trillium has maintained a{' '}
+            provides you with effective massage therapy from the comfort of your own home. With more
+            than 3,000 in-home massage therapy sessions, Trillium has maintained a{' '}
             <Link
               className="text-primary-500 dark:text-primary-400 font-bold underline-offset-0 transition-transform duration-300 hover:scale-105 hover:underline"
               href={'/reviews'}
