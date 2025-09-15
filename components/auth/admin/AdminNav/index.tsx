@@ -9,6 +9,7 @@ import {
   testingRoutes,
 } from '@/data/authHeaderNavLinks'
 import type { AuthNavLink } from '@/lib/types'
+import AdminNavItem from './AdminNavItem'
 
 interface AdminNavProps {
   showCategories?: boolean
@@ -35,22 +36,12 @@ export default function AdminNav({
       )}
       <div className={layout === 'grid' ? `grid gap-2 ${gridCols}` : 'space-y-2'}>
         {routes.map((route) => (
-          <Link
+          <AdminNavItem
             key={route.href}
-            href={route.href}
-            className={`block rounded-lg border p-3 transition-colors hover:bg-gray-50 dark:hover:bg-gray-700 ${
-              pathname === route.href
-                ? 'border-blue-500 bg-blue-50 dark:border-blue-400 dark:bg-blue-900/20'
-                : 'border-gray-200 dark:border-gray-700'
-            }`}
-          >
-            <div className="font-medium text-gray-900 dark:text-white">{route.title}</div>
-            {showDescriptions && route.description && (
-              <div className="mt-1 text-xs text-gray-600 dark:text-gray-400">
-                {route.description}
-              </div>
-            )}
-          </Link>
+            route={route}
+            pathname={pathname}
+            showDescriptions={showDescriptions}
+          />
         ))}
       </div>
     </div>
@@ -109,7 +100,6 @@ export function AdminNavSidebar() {
     <aside className="w-64 bg-white shadow-sm dark:bg-gray-800">
       <div className="p-4">
         <h2 className="mb-4 text-lg font-semibold text-gray-900 dark:text-white">Admin Panel</h2>
-        <AdminNav layout="list" showCategories={true} showDescriptions={false} />
       </div>
     </aside>
   )
