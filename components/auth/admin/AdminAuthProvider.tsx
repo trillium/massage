@@ -180,14 +180,12 @@ export function AdminAuthProvider({ children }: AdminAuthProviderProps) {
   // Authenticated - provide admin context to children
   return (
     <div className="min-h-screen">
-      <div className="border-b bg-blue-50 px-4 py-2 text-sm dark:bg-blue-900/20">
+      <div className="absolute top-0 rounded-br-3xl border-r border-b bg-blue-50 px-4 py-2 text-sm dark:bg-blue-900/20">
         <div className="flex items-center justify-between">
-          <span className="text-blue-800 dark:text-blue-200">
-            ✓ Admin authenticated: {authState.adminEmail}
-          </span>
+          <span className="text-blue-800 dark:text-blue-200">✓ Admin {authState.adminEmail}</span>
           <button
             onClick={handleLogout}
-            className="text-blue-600 hover:text-blue-800 dark:text-blue-300 dark:hover:text-blue-100"
+            className="pl-2 text-blue-600 hover:text-blue-800 dark:text-blue-300 dark:hover:text-blue-100"
           >
             Logout
           </button>
