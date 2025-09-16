@@ -62,14 +62,6 @@ const authHeaderNavLinks: AuthNavLink[] = [
     description: 'Test dynamic form fields',
     category: 'testing',
   },
-
-  // Access Management
-  {
-    href: '/admin/request-access',
-    title: 'Request Access',
-    description: 'Request admin access (public)',
-    category: 'management',
-  },
 ]
 
 // Filtered lists for different contexts
@@ -82,11 +74,6 @@ export const managementRoutes = authHeaderNavLinks.filter(
 export const toolsRoutes = authHeaderNavLinks.filter((route) => route.category === 'tools')
 
 export const testingRoutes = authHeaderNavLinks.filter((route) => route.category === 'testing')
-
-// Public routes (accessible without authentication)
-export const publicAuthRoutes = authHeaderNavLinks.filter(
-  (route) => route.href === '/admin/request-access'
-)
 
 // Protected routes (require authentication)
 export const protectedAuthRoutes = authHeaderNavLinks.filter(
