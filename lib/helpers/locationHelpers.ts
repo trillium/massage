@@ -1,13 +1,17 @@
 import { LocationObject } from '@/lib/types'
 
 /**
- * Flattens a LocationObject into a formatted address string
- * @param location - LocationObject containing street, city, and zip
- * @returns Formatted address string (e.g., "123 Main St, Los Angeles, 90210")
+ * Flattens a LocationObject into a formatted address string, or returns the string if already provided
+ * @param location - LocationObject containing street, city, and zip, or a string
+ * @returns Formatted address string or the input string if already a string (e.g., "123 Main St, Los Angeles, 90210")
  */
-export function flattenLocation(location: LocationObject | null | undefined): string {
+export function flattenLocation(location: LocationObject | string | null | undefined): string {
   if (!location) {
     return ''
+  }
+
+  if (typeof location === 'string') {
+    return location
   }
 
   const parts: string[] = []
@@ -28,17 +32,21 @@ export function flattenLocation(location: LocationObject | null | undefined): st
 }
 
 /**
- * Flattens a LocationObject into a formatted address string with custom separators
- * @param location - LocationObject containing street, city, and zip
+ * Flattens a LocationObject into a formatted address string with custom separators, or returns the string if already provided
+ * @param location - LocationObject containing street, city, and zip, or a string
  * @param separator - Custom separator string (default: ', ')
- * @returns Formatted address string with custom separator
+ * @returns Formatted address string with custom separator or the input string if already a string
  */
 export function flattenLocationWithSeparator(
-  location: LocationObject | null | undefined,
+  location: LocationObject | string | null | undefined,
   separator: string = ', '
 ): string {
   if (!location) {
     return ''
+  }
+
+  if (typeof location === 'string') {
+    return location
   }
 
   const parts: string[] = []

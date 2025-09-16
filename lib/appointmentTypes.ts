@@ -14,8 +14,8 @@ export type AppointmentProps = {
   email: string
   /** Phone number of the requester. */
   phone: string
-  /** Location object with street, city, and zip */
-  location: LocationObject
+  /** Location object with street, city, and zip, or a location string */
+  location: LocationObject | string
   /** Timezone of the requester. */
   timeZone: string
   /** A unique ID for generating Google Meet details */

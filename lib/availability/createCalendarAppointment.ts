@@ -71,6 +71,7 @@ async function buildEventBody({
       {
         email,
         displayName: attendeeDisplayName,
+        responseStatus: 'accepted',
       },
     ],
     location: flattenLocation(location),
@@ -81,6 +82,8 @@ export default async function createCalendarAppointment(
   props: AppointmentProps & { customDescription?: string }
 ) {
   const body = await buildEventBody(props)
+
+  console.log('[body]', body)
 
   const apiUrl = new URL('https://www.googleapis.com/calendar/v3/calendars/primary/events')
 

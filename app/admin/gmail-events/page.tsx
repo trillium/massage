@@ -145,7 +145,20 @@ export default function GmailTestPage() {
 
       // Success! Show confirmation
       toast.success(
-        `Appointment created successfully!\n\nEvent ID: ${result.event.id}\nCalendar Link: ${result.event.htmlLink}`
+        <div>
+          Appointment created successfully!
+          <br />
+          Event ID: {result.event.id}
+          <br />
+          <a
+            href={result.event.htmlLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-600 underline hover:text-blue-800"
+          >
+            Open in Calendar
+          </a>
+        </div>
       )
 
       // Optional: Reset selections after successful creation

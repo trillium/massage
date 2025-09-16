@@ -14,6 +14,40 @@ interface SootheBookingData {
 }
 
 /**
+ * Generates the appointment title/summary for Soothe bookings
+ * @param booking - The booking data
+ * @param fullName - The client's full name
+ * @param totalEarnings - Total earnings (payout + tip)
+ * @returns Formatted appointment title
+ */
+function generateTitle(
+  booking: {
+    clientName?: string
+    sessionType?: string
+    duration?: string
+    isCouples?: boolean
+    location?: string
+    payout?: string
+    tip?: string
+    notes?: string
+    extraServices?: string[]
+    messageId: string
+    date: string
+    subject: string
+  },
+  fullName: string,
+  totalEarnings: number
+): string {
+  const parts = [
+    `${booking.duration || '60'}min ${booking.sessionType || 'Massage'} with ${fullName}${booking.isCouples ? ' (Couples)' : ''}`,
+    `$${totalEarnings}`,
+    '-',
+    'Soothe',
+  ]
+  return parts.join(' ')
+}
+
+/**
  * Creates an admin calendar appointment using Soothe booking data and user selections.
  * This function transforms Soothe booking information into an AppointmentProps structure
  * and generates a calendar event with proper description formatting.
@@ -67,20 +101,19 @@ async function createAdminAppointment({
     throw new Error("OWNER_EMAIL isn't set")
   }
 
+  // Calculate total earnings
+  const payout = parseFloat(booking.payout || '0') || 0
+  const tip = parseFloat(booking.tip || '0') || 0
+  const totalEarnings = payout + tip
+
   // Create appointment props compatible with existing system
   const appointmentProps: AppointmentProps = {
     start: selectedTime.start,
     end: selectedTime.end,
-    summary: `${booking.duration || '60'}min ${booking.sessionType || 'Massage'} with ${fullName}${booking.isCouples ? ' (Couples)' : ''} - Soothe`,
+    summary: generateTitle(booking, fullName, totalEarnings),
     email: process.env.OWNER_EMAIL,
     phone: process.env.OWNER_PHONE_NUMBER || '(555) 000-0000',
-    location: {
-      street: selectedLocation.split('\n')[0] || selectedLocation.split(',')[0] || selectedLocation,
-      city: selectedLocation.includes('Los Angeles')
-        ? 'Los Angeles'
-        : selectedLocation.match(/,\s*([^,]+),\s*[A-Z]{2}/)?.[1] || 'Unknown City',
-      zip: selectedLocation.match(/\b\d{5}\b/)?.[0] || '90210',
-    },
+    location: selectedLocation,
     timeZone: 'America/Los_Angeles',
     requestId: `soothe-${booking.messageId}-${Date.now()}`,
     firstName,
