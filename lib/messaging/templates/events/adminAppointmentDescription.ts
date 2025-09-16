@@ -62,10 +62,6 @@ async function adminAppointmentDescription(appointmentProps: AppointmentProps): 
     sootheSection += `<b>Soothe Notes</b>: ${sootheData.notes}\n`
   }
 
-  if (sootheData.originalMessageId) {
-    sootheSection += `<b>Original Message ID</b>: ${sootheData.originalMessageId}\n`
-  }
-
   // Combine base description with Soothe-specific data
   return sootheSection
 }
