@@ -27,7 +27,7 @@ async function eventDescription({
   let output = 'Thanks for booking!'
   output += '\n\n'
   output += `<b>Name</b>: ${firstName} ${lastName}\n`
-  output += `<b>Date</b>: ${new Date(start || '').toDateString()}\n`
+  output += `<b>Date</b>: ${new Date(start || '').toLocaleDateString('en-US', { timeZone: 'America/Los_Angeles' })}\n`
   output += `<b>Start</b>: ${new Date(start || '').toLocaleTimeString('en-US', { timeZone: 'America/Los_Angeles' })}\n`
   output += `<b>End</b>: ${new Date(end || '').toLocaleTimeString('en-US', { timeZone: 'America/Los_Angeles' })}\n`
   output += `<b>Duration</b>: ${duration}\n`
