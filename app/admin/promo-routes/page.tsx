@@ -1,5 +1,4 @@
 import Link from '@/components/Link'
-import AdminNav from '@/components/auth/admin/AdminNav'
 import { fetchSlugConfigurationData } from '@/lib/slugConfigurations/fetchSlugConfigurationData'
 import Template from '@/components/Template'
 import { isPromoExpired } from '@/lib/utilities/promoValidation'
@@ -25,8 +24,6 @@ export default async function PromoRoutesPage() {
     <SectionContainer>
       <div className="min-h-screen bg-gray-50 py-8 dark:bg-gray-900">
         <div className="mx-auto max-w-4xl px-4">
-          <AdminNav gridCols="gap-3 md:grid-cols-2 lg:grid-cols-4" />
-
           <Template
             title="Promotional Routes Directory"
             text="Internal reference page for all booking routes and promotional configurations"
