@@ -16,6 +16,8 @@ export const categorizeEvents = (events: GoogleCalendarV3Event[]) => {
   const pastEvents: GoogleCalendarV3Event[] = []
 
   events.forEach((event) => {
+    if (event.summary === 'CURRENT_LOCATION') return
+
     const eventStart = event.start?.dateTime || event.start?.date
     if (!eventStart) {
       pastEvents.push(event) // If no start time, consider it past
