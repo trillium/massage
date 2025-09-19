@@ -14,12 +14,16 @@ interface EventCardProps {
     container: string
     button: string
   }
+  canEdit?: boolean
 }
 
-export function EventCard({ event, index, keyPrefix, colorClasses }: EventCardProps) {
-  const [driveTime, setDriveTime] = useState<number | null>(null)
-  const [driveTimeLoading, setDriveTimeLoading] = useState(false)
-  const [driveTimeError, setDriveTimeError] = useState<string | null>(null)
+export function EventCard({
+  event,
+  index,
+  keyPrefix,
+  colorClasses,
+  canEdit = false,
+}: EventCardProps) {
   const [isEditingLocation, setIsEditingLocation] = useState(false)
   const [newLocation, setNewLocation] = useState(event.location || '')
   const [updateLocationLoading, setUpdateLocationLoading] = useState(false)
@@ -34,42 +38,6 @@ export function EventCard({ event, index, keyPrefix, colorClasses }: EventCardPr
       return new Date(date).toLocaleDateString()
     }
     return 'N/A'
-  }
-
-  const handleGetDriveTime = async () => {
-    if (!event.location) {
-      setDriveTimeError('Event has no location specified')
-      return
-    }
-
-    setDriveTimeLoading(true)
-    setDriveTimeError(null)
-
-    try {
-      const response = await fetch('/api/driveTime', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          userLocation: event.location,
-          // Uses DEFAULT_EVENT_ID from the API route
-        }),
-      })
-
-      const data = await response.json()
-
-      if (!response.ok || !data.success) {
-        throw new Error(data.error || 'Failed to get drive time')
-      }
-
-      setDriveTime(data.driveTimeMinutes)
-    } catch (err) {
-      console.error('Error fetching drive time:', err)
-      setDriveTimeError(err instanceof Error ? err.message : 'An error occurred')
-    } finally {
-      setDriveTimeLoading(false)
-    }
   }
 
   const handleUpdateLocation = async () => {
@@ -120,10 +88,6 @@ export function EventCard({ event, index, keyPrefix, colorClasses }: EventCardPr
       event.location = newLocation
       setUpdateLocationSuccess(true)
       setIsEditingLocation(false)
-
-      // Clear drive time since location changed
-      setDriveTime(null)
-      setDriveTimeError(null)
     } catch (err) {
       console.error('Error updating event location:', err)
       setUpdateLocationError(err instanceof Error ? err.message : 'An error occurred')
@@ -164,12 +128,14 @@ export function EventCard({ event, index, keyPrefix, colorClasses }: EventCardPr
               {!isEditingLocation ? (
                 <span>
                   {event.location || 'No location specified'}
-                  <button
-                    onClick={() => setIsEditingLocation(true)}
-                    className="ml-2 text-xs text-blue-600 underline hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
-                  >
-                    Edit
-                  </button>
+                  {canEdit && (
+                    <button
+                      onClick={() => setIsEditingLocation(true)}
+                      className="ml-2 text-xs text-blue-600 underline hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
+                    >
+                      Edit
+                    </button>
+                  )}
                 </span>
               ) : (
                 <div className="mt-1 space-y-2">
@@ -219,20 +185,7 @@ export function EventCard({ event, index, keyPrefix, colorClasses }: EventCardPr
               </p>
             )}
 
-            {/* Drive Time Display */}
-            {driveTime !== null && (
-              <p className="font-medium text-green-600 dark:text-green-400">
-                <strong>Drive Time:</strong> {driveTime} minutes from default location
-              </p>
-            )}
-
             {/* Status Messages */}
-            {driveTimeError && (
-              <p className="text-xs text-red-600 dark:text-red-400">
-                <strong>Drive Time Error:</strong> {driveTimeError}
-              </p>
-            )}
-
             {updateLocationError && (
               <p className="text-xs text-red-600 dark:text-red-400">
                 <strong>Location Update Error:</strong> {updateLocationError}
@@ -262,12 +215,7 @@ export function EventCard({ event, index, keyPrefix, colorClasses }: EventCardPr
           )}
         </div>
 
-        <ActionButtons
-          event={event}
-          colorClasses={colorClasses}
-          driveTimeLoading={driveTimeLoading}
-          onGetDriveTime={handleGetDriveTime}
-        />
+        <ActionButtons event={event} colorClasses={colorClasses} />
       </div>
     </div>
   )
