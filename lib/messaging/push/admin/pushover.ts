@@ -22,7 +22,7 @@ type PushoverOptions = {
  * @param device - string (optional)
  * @returns Promise<boolean> - true if sent successfully, false otherwise
  */
-export async function pushoverSendMesage({
+export async function pushoverSendMessage({
   message,
   title,
   url,
