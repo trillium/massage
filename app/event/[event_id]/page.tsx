@@ -1,8 +1,5 @@
 import React from 'react'
-import { notFound } from 'next/navigation'
 import { fetchSingleEvent } from '@/lib/fetch/fetchSingleEvent'
-import { getEventsBySearchQuery } from '@/lib/availability/getEventsBySearchQuery'
-import { GoogleCalendarV3Event } from '@/lib/types'
 import Link from '@/components/Link'
 import { createBookingUrl } from '@/lib/helpers/createBookingUrl'
 import { extractBookingSlug } from '@/lib/helpers/extractBookingSlug'
