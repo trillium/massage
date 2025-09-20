@@ -7,7 +7,7 @@ describe('AppointmentRequestSchema', () => {
       firstName: 'Testy',
       lastName: 'Tester',
       email: 'testy@example.com',
-      location: {
+      locationObject: {
         street: '123 Address Road',
         city: 'Testville',
         zip: '00040',
@@ -31,7 +31,7 @@ describe('AppointmentRequestSchema', () => {
       firstName: 'Testy',
       lastName: 'Tester',
       email: 'testy@example.com',
-      location: {
+      locationObject: {
         street: '123 Address Road',
         city: 'City',
         zip: '00040',
@@ -54,7 +54,7 @@ describe('AppointmentRequestSchema', () => {
       firstName: 'Testy',
       lastName: 'Tester',
       email: 'testyexample.com',
-      location: {
+      locationObject: {
         street: '123 Address Road',
         city: 'City',
         zip: '00040',
@@ -77,7 +77,7 @@ describe('AppointmentRequestSchema', () => {
       firstName: 'Testy',
       lastName: 'Tester',
       email: 'testy@example.com',
-      location: {
+      locationObject: {
         street: '123 Address Road',
         city: 'City',
         zip: '00040',

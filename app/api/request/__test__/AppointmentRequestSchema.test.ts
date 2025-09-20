@@ -9,7 +9,7 @@ const validPayload = {
   start: new Date().toISOString(),
   end: new Date(Date.now() + 3600000).toISOString(),
   timeZone: 'America/Los_Angeles',
-  location: {
+  locationObject: {
     street: '123 Main St',
     city: 'New York',
     zip: '10001',
