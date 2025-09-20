@@ -10,7 +10,7 @@ import { z } from 'zod'
 // Manual type for the result of schema.safeParse(jsonData) (for Zod v4)
 import { pushoverSendMessage } from './messaging/push/admin/pushover'
 import { AppointmentPushover } from './messaging/push/admin/AppointmentPushover'
-import { generateApproveUrl } from './helpers/urlHelpers'
+import { generateApproveUrl } from './messaging/utilities/createApprovalUrl'
 
 export type AppointmentRequestValidationResult =
   | { success: true; data: z.output<typeof AppointmentRequestSchema> }
