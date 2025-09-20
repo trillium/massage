@@ -54,8 +54,8 @@ function buildEventBody(props: ChairAppointmentBlockCalendarProps) {
     ],
     ...{
       location: flattenLocation(location),
-      city: location.city,
-      zipCode: location.zip,
+      city: typeof location === 'string' ? '' : location.city,
+      zipCode: typeof location === 'string' ? '' : location.zip,
     },
   }
 }
