@@ -8,7 +8,8 @@ import { intervalToHumanString } from '@/lib/intervalToHumanString'
  */
 export function AppointmentPushover(
   data: z.output<typeof AppointmentRequestSchema>,
-  ownerTimeZone: string
+  ownerTimeZone: string,
+  approveUrl: string
 ) {
   const start = new Date(data.start)
   const end = new Date(data.end)
@@ -29,7 +30,7 @@ export function AppointmentPushover(
   message += `Duration: ${data.duration} minutes\n`
   message += `Phone: ${data.phone}\n`
   message += `Email: ${data.email}\n`
-  if (data.bookingUrl) message += `Booking URL: ${data.bookingUrl}\n`
+  message += `\nApprove: ${approveUrl}\n`
 
   return { message, title }
 }
