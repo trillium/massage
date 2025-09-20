@@ -10,7 +10,7 @@
     "build:staged:verbose": "./scripts/build-staged.sh --verbose",
     "serve": "next start",
     "analyze": "cross-env ANALYZE=true next build",
-    "lint": "next lint --fix --dir pages --dir app --dir components --dir lib --dir layouts --dir scripts",
+    "lint": "eslint --fix app components lib layouts scripts",
     "prepare": "husky",
     "test": "vitest run",
     "test:watch": "vitest --watch",
