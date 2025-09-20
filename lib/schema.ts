@@ -21,7 +21,8 @@ const BaseRequestSchema = z
       message: 'End must be a valid date.',
     }),
     timeZone: z.string(),
-    location: z.union([z.string(), LocationSchema]),
+    locationObject: LocationSchema.optional(),
+    locationString: z.string().optional(),
     duration: z.string().refine((value) => !Number.isNaN(Number.parseInt(value)), {
       message: 'Duration must be a valid integer.',
     }),
@@ -43,6 +44,9 @@ const BaseRequestSchema = z
     promo: z.string().optional(),
   })
   .strict() // Disallow unknown keys
+  .refine((data) => data.locationObject !== undefined || data.locationString !== undefined, {
+    message: 'Either locationObject or locationString must be provided.',
+  })
 
 export const AppointmentRequestSchema = BaseRequestSchema.extend({
   paymentMethod: z.enum(paymentMethodValues).optional(),
@@ -78,41 +82,39 @@ const DateTimeAndTimeZoneSchema = z.object({
   timeZone: z.string(),
 })
 
-export const BookedDataSchema = z.object({
-  firstName: z.string(),
-  lastName: z.string(),
-  email: z.email(),
-  timeZone: z.string(),
-  location: z.union([
-    z.string(),
-    z.object({
-      street: z.string(),
-      city: z.string(),
-      zip: z.string(),
-    }),
-  ]),
-  duration: z.string(),
-  phone: z.string(),
-  eventBaseString: z.string(),
-  eventMemberString: z.string().optional(),
-  eventContainerString: z.string().optional(),
-  price: z.string().optional(),
-  paymentMethod: z.string().optional(),
-  hotelRoomNumber: z.string().optional(),
-  parkingInstructions: z.string().optional(),
-  additionalNotes: z.string().optional(),
-  bookingUrl: z.string().optional(),
-  promo: z.string().optional(),
-  // Additional fields for booked data
-  attendees: z.array(
-    z.object({
-      email: z.email(),
-      name: z.string().optional(),
-    })
-  ),
-  dateTime: z.string(),
-  start: DateTimeAndTimeZoneSchema,
-  end: DateTimeAndTimeZoneSchema,
-})
+export const BookedDataSchema = z
+  .object({
+    firstName: z.string(),
+    lastName: z.string(),
+    email: z.email(),
+    timeZone: z.string(),
+    locationObject: LocationSchema.optional(),
+    locationString: z.string().optional(),
+    duration: z.string(),
+    phone: z.string(),
+    eventBaseString: z.string(),
+    eventMemberString: z.string().optional(),
+    eventContainerString: z.string().optional(),
+    price: z.string().optional(),
+    paymentMethod: z.string().optional(),
+    hotelRoomNumber: z.string().optional(),
+    parkingInstructions: z.string().optional(),
+    additionalNotes: z.string().optional(),
+    bookingUrl: z.string().optional(),
+    promo: z.string().optional(),
+    // Additional fields for booked data
+    attendees: z.array(
+      z.object({
+        email: z.email(),
+        name: z.string().optional(),
+      })
+    ),
+    dateTime: z.string(),
+    start: DateTimeAndTimeZoneSchema,
+    end: DateTimeAndTimeZoneSchema,
+  })
+  .refine((data) => data.locationObject !== undefined || data.locationString !== undefined, {
+    message: 'Either locationObject or locationString must be provided.',
+  })
 
 export type OnSiteRequestType = z.infer<typeof OnSiteRequestSchema>
