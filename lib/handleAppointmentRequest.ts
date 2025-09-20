@@ -10,6 +10,7 @@ import { z } from 'zod'
 // Manual type for the result of schema.safeParse(jsonData) (for Zod v4)
 import { pushoverSendMessage } from './messaging/push/admin/pushover'
 import { AppointmentPushover } from './messaging/push/admin/AppointmentPushover'
+import { generateApproveUrl } from './helpers/urlHelpers'
 
 export type AppointmentRequestValidationResult =
   | { success: true; data: z.output<typeof AppointmentRequestSchema> }
@@ -74,7 +75,7 @@ export async function handleAppointmentRequest({
 
   const start = new Date(data.start)
   const end = new Date(data.end)
-  const approveUrl = `${headers.get('origin') ?? '?'}\/api/confirm/?data=${encodeURIComponent(JSON.stringify(data))}&key=${getHashFn(JSON.stringify(data))}`
+  const approveUrl = generateApproveUrl(headers, data, getHashFn)
   const approveEmail = approvalEmailFn({
     ...data,
     approveUrl,
@@ -85,7 +86,7 @@ export async function handleAppointmentRequest({
     }),
   })
 
-  const pushover = AppointmentPushover(data, ownerTimeZone)
+  const pushover = AppointmentPushover(data, ownerTimeZone, approveUrl)
 
   pushoverSendMessage({
     message: pushover.message,
