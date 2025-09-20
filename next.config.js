@@ -103,15 +103,15 @@ export default () => {
     async rewrites() {
       return [
         {
-          source: '/ingest/static/:path*',
+          source: '/hostpog/static/:path*',
           destination: 'https://us-assets.i.posthog.com/static/:path*',
         },
         {
-          source: '/ingest/:path*',
+          source: '/hostpog/:path*',
           destination: 'https://us.i.posthog.com/:path*',
         },
         {
-          source: '/ingest/decide',
+          source: '/hostpog/decide',
           destination: 'https://us.i.posthog.com/decide',
         },
       ]
