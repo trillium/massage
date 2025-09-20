@@ -15,19 +15,21 @@ export function buildBookingPayload(formData: FormData, additionalData: object =
   const hasLocationFields = entries.location || entries.city || entries.zipCode
 
   if (hasLocationFields) {
-    // Transform individual location fields into location object
-    const location: LocationObject = {
-      street: (entries.location as string) || '',
-      city: (entries.city as string) || '',
-      zip: (entries.zipCode as string) || '',
-    }
+    // Transform individual location fields into locationString
+    const locationString = [
+      (entries.location as string) || '',
+      (entries.city as string) || '',
+      (entries.zipCode as string) || '',
+    ]
+      .filter(Boolean)
+      .join(', ')
 
-    // Remove individual location fields and add location object
+    // Remove individual location fields and add locationString
     const { location: _, city, zipCode, ...restEntries } = entries as Record<string, unknown>
 
     return {
       ...restEntries,
-      location,
+      locationString,
       // Include promo and bookingUrl if they exist in the form data
       ...(entries.promo && { promo: entries.promo }),
       ...(entries.bookingUrl && { bookingUrl: entries.bookingUrl }),

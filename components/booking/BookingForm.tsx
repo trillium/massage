@@ -304,7 +304,7 @@ export default function BookingForm({
           lastName: values.lastName,
           phone: values.phone,
           email: values.email,
-          location: values.location,
+          locationString: locationString, // Send location as string to API
           paymentMethod: values.paymentMethod,
           hotelRoomNumber: values.hotelRoomNumber || undefined,
           parkingInstructions: values.parkingInstructions || undefined,
