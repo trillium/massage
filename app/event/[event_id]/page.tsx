@@ -5,78 +5,7 @@ import { getEventsBySearchQuery } from '@/lib/availability/getEventsBySearchQuer
 import { GoogleCalendarV3Event } from '@/lib/types'
 import Link from '@/components/Link'
 import { createBookingUrl } from '@/lib/helpers/createBookingUrl'
-
-// Helper function to extract booking slug from event data
-function extractBookingSlug(event: GoogleCalendarV3Event): string | null {
-  // Check description for eventBaseString patterns that might contain booking slug
-  const description = event.description || ''
-
-  // Look for eventBaseString pattern which is constructed from booking slug
-  // Pattern: {bookingSlug}{eventBaseString} like "hotel-june__EVENT__"
-  const eventStringMatch = description.match(/([a-z0-9-]+)__EVENT__/)
-  if (eventStringMatch) {
-    return eventStringMatch[1]
-  }
-
-  // Look for other patterns that might indicate booking slug
-  const summaryLower = (event.summary || '').toLowerCase()
-  if (summaryLower.includes('hotel june') || summaryLower.includes('hotel-june')) {
-    return 'hotel-june'
-  }
-
-  // Check for playa vista indicators
-  if (summaryLower.includes('playa') || description.toLowerCase().includes('playa')) {
-    return 'playa-vista'
-  }
-
-  // Check for free 30 indicators
-  if (
-    summaryLower.includes('free') &&
-    (summaryLower.includes('30') || summaryLower.includes('thirty'))
-  ) {
-    return 'free-30'
-  }
-
-  return null
-}
-
-// Helper function to create booking URL with location parameters
-function createBookingUrl(bookingSlug: string | null, location?: string): string {
-  const baseUrl = bookingSlug ? `/${bookingSlug}` : '/'
-
-  if (!location) {
-    return baseUrl
-  }
-
-  // Extract city and zip from location string if possible
-  const params = new URLSearchParams()
-
-  // Try to parse location string for common patterns
-  // Example: "Hotel June West LA, 8639 Lincoln Blvd, Los Angeles, CA 90045"
-  // Example: "123 Main St, Los Angeles, CA 90210"
-  const cityMatch = location.match(/,\s*([^,]+),\s*[A-Z]{2}\s*(\d{5})/i)
-  if (cityMatch) {
-    const city = cityMatch[1].trim()
-    const zip = cityMatch[2]
-    params.set('city', city)
-    params.set('zip', zip)
-  } else {
-    // If we can't parse it cleanly, try to extract city from common patterns
-    const simpleCityMatch = location.match(/,\s*([^,\d]+)/i)
-    if (simpleCityMatch) {
-      params.set('city', simpleCityMatch[1].trim())
-    }
-  }
-
-  // Extract street address (everything before first comma)
-  const streetMatch = location.match(/^([^,]+)/)
-  if (streetMatch) {
-    params.set('street', streetMatch[1].trim())
-  }
-
-  const queryString = params.toString()
-  return queryString ? `${baseUrl}?${queryString}` : baseUrl
-}
+import { extractBookingSlug } from '@/lib/helpers/extractBookingSlug'
 
 export default async function EventPage({ params }: { params: Promise<{ event_id: string }> }) {
   const { event_id } = await params
