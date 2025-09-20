@@ -22,7 +22,9 @@ export default function Step4FinalConfirmation({
   const transformedData = submittedData
     ? {
         ...submittedData,
-        location: flattenLocation(submittedData.location),
+        location:
+          submittedData.locationString ||
+          (submittedData.locationObject ? flattenLocation(submittedData.locationObject) : ''),
       }
     : null
 

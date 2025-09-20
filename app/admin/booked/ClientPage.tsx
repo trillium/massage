@@ -73,7 +73,7 @@ export default function Booked({ url, data }: ClientPageProps) {
         startString={startString}
         endString={endString}
         location={
-          typeof data.location === 'string' ? data.location : flattenLocation(data.location)
+          data.locationString || (data.locationObject ? flattenLocation(data.locationObject) : '')
         }
       />
     </>
