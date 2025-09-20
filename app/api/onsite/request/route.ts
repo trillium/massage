@@ -60,6 +60,7 @@ export async function POST(req: NextRequest & IncomingMessage): Promise<NextResp
   // Generate and send the approval email
   const approveEmail = OnSiteRequestEmail({
     ...data,
+    location: data.locationObject || { street: '', city: data.locationString || '', zip: '' },
     pricing: transformedPricing,
     approveUrl,
     dateSummary: intervalToHumanString({
@@ -86,6 +87,7 @@ export async function POST(req: NextRequest & IncomingMessage): Promise<NextResp
   // Generate and send the confirmation email
   const confirmationEmail = await ClientRequestEmail({
     ...data,
+    location: data.locationObject || { street: '', city: data.locationString || '', zip: '' },
     dateSummary: intervalToHumanString({
       start,
       end,
