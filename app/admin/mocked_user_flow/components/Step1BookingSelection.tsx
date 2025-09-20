@@ -5,12 +5,15 @@ import BookingForm from 'components/booking/BookingForm'
 import TimeButton from 'components/availability/time/TimeButton'
 import DurationPicker from 'components/availability/controls/DurationPicker'
 import Calendar from 'components/availability/date/Calendar'
-import { DEFAULT_PRICING, ALLOWED_DURATIONS } from 'config'
 import type { durationPropsType } from '@/lib/types'
 import { LocationObject } from 'lib/types'
 import { FormikHelpers } from 'formik'
 import { z } from 'zod'
 import { createLocationSchema } from 'components/booking/fields/validations/locationValidation'
+import { useAppDispatch } from '@/redux/hooks'
+import { setSelectedTime } from '@/redux/slices/availabilitySlice'
+import { setModal } from '@/redux/slices/modalSlice'
+import { setEventContainers } from '@/redux/slices/eventContainersSlice'
 
 // Match the BookingForm's schema exactly
 const createBookingFormSchema = (config?: { cities?: string[]; zipCodes?: string[] }) => {
@@ -45,14 +48,33 @@ interface Step1BookingSelectionProps {
 }
 
 export default function Step1BookingSelection({
-  selectedDuration,
   onSubmit,
   durationProps,
 }: Step1BookingSelectionProps) {
+  const dispatch = useAppDispatch()
+
   const mockLocation: LocationObject = {
     street: '123 Mock Street',
     city: 'Los Angeles',
     zip: '90210',
+  }
+
+  const handleTimeButtonClick = (
+    time: { start: string; end: string },
+    location?: LocationObject
+  ) => {
+    dispatch(
+      setSelectedTime({
+        start: time.start,
+        end: time.end,
+      })
+    )
+    if (location) {
+      dispatch(setEventContainers({ location: location }))
+    } else {
+      dispatch(setEventContainers({ location: undefined }))
+    }
+    dispatch(setModal({ status: 'open' }))
   }
 
   return (
@@ -127,7 +149,7 @@ export default function Step1BookingSelection({
               active={false}
               timeZone="America/Los_Angeles"
               location={mockLocation}
-              onTimeSelect={() => {}}
+              onTimeSelect={handleTimeButtonClick}
             />
             <TimeButton
               time={{
@@ -145,7 +167,7 @@ export default function Step1BookingSelection({
               active={false}
               timeZone="America/Los_Angeles"
               location={mockLocation}
-              onTimeSelect={() => {}}
+              onTimeSelect={handleTimeButtonClick}
             />
             <TimeButton
               time={{
@@ -163,7 +185,7 @@ export default function Step1BookingSelection({
               active={false}
               timeZone="America/Los_Angeles"
               location={mockLocation}
-              onTimeSelect={() => {}}
+              onTimeSelect={handleTimeButtonClick}
             />
           </div>
         </div>
