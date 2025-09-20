@@ -57,6 +57,7 @@ export async function handleAppointmentRequest({
     // Send confirmation email directly
     const confirmationEmail = await clientRequestEmailFn({
       ...data,
+      location: data.locationObject || { street: '', city: data.locationString || '', zip: '' },
       email: data.email, // Explicitly pass the email
       dateSummary: intervalToHumanString({
         start,
@@ -78,6 +79,7 @@ export async function handleAppointmentRequest({
   const approveUrl = createGeneralApprovalUrl(headers, data, getHashFn)
   const approveEmail = approvalEmailFn({
     ...data,
+    location: data.locationObject || { street: '', city: data.locationString || '', zip: '' },
     approveUrl,
     dateSummary: intervalToHumanString({
       start,
@@ -101,6 +103,7 @@ export async function handleAppointmentRequest({
   })
   const confirmationEmail = await clientRequestEmailFn({
     ...data,
+    location: data.locationObject || { street: '', city: data.locationString || '', zip: '' },
     email: data.email, // Explicitly pass the email
     dateSummary: intervalToHumanString({
       start,
