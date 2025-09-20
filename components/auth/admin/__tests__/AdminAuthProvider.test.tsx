@@ -146,7 +146,7 @@ describe('AdminAuthProvider', () => {
         expect(screen.getByTestId('test-child')).toBeInTheDocument()
       })
 
-      expect(screen.getByText('✓ Admin authenticated: admin@example.com')).toBeInTheDocument()
+      expect(screen.getByText('✓ Admin admin@example.com')).toBeInTheDocument()
     })
 
     it('should show access denied for no existing session', async () => {
