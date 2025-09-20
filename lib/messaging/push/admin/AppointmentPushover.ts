@@ -24,7 +24,7 @@ export function AppointmentPushover(
   let message = `${data.firstName} ${data.lastName} has requested an appointment:\n\n`
   message += `Date: ${dateSummary}\n`
   message += `Timezone: ${data.timeZone}\n`
-  message += `Location: ${flattenLocation(data.location)}\n`
+  message += `Location: ${data.locationString || (data.locationObject ? flattenLocation(data.locationObject) : '')}\n`
   if (data.price) message += `Price: $${data.price}\n`
   if (data.promo) message += `Promo: ${data.promo}\n`
   message += `Duration: ${data.duration} minutes\n`

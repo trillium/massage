@@ -20,6 +20,7 @@ export async function generateMockEmails({
 }) {
   const therapistEmailData = ApprovalEmail({
     ...data,
+    location: data.locationObject || { street: '', city: data.locationString || '', zip: '' },
     dateSummary: intervalToHumanString({
       start,
       end,
@@ -32,6 +33,7 @@ export async function generateMockEmails({
 
   const clientEmailData = await ClientRequestEmail({
     ...data,
+    location: data.locationObject || { street: '', city: data.locationString || '', zip: '' },
     email: data.email, // Explicitly pass the email
     dateSummary: intervalToHumanString({
       start,
