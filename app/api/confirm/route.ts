@@ -42,18 +42,21 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: 'Malformed request in date parsing' }, { status: 400 })
   }
 
-  // Convert location to LocationObject for the appointment function
+  // Convert locationString to LocationObject for internal use
   let locationObject
-  if (typeof validObject.location === 'string') {
-    // Legacy handling: location is a string
+  if (validObject.locationString) {
+    // Parse locationString (expected format: "street, city, zip")
+    const parts = validObject.locationString.split(',').map((part: string) => part.trim())
     locationObject = {
-      street: '', // We don't have street info from the string, so default to empty
-      city: validObject.location, // Use the location string as the city
-      zip: '', // We don't have zip info from the string, so default to empty
+      street: parts[0] || '',
+      city: parts[1] || '',
+      zip: parts[2] || '',
     }
+  } else if (validObject.locationObject) {
+    // Use provided locationObject directly
+    locationObject = validObject.locationObject
   } else {
-    // New handling: location is already a LocationObject
-    locationObject = validObject.location
+    return NextResponse.json({ error: 'Location information is required' }, { status: 400 })
   }
 
   // Create the confirmed appointment
@@ -79,6 +82,13 @@ export async function GET(req: NextRequest) {
     // Construct the proper data structure expected by the /booked page
     const bookedData = {
       ...validObject,
+      locationObject, // Include the parsed location object
+      locationString:
+        validObject.locationString ||
+        `${locationObject.street}, ${locationObject.city}, ${locationObject.zip}`.replace(
+          /^, |, $/,
+          ''
+        ), // Include location string for API responses
       attendees: details.attendees
         ? details.attendees.map(
             (attendee: { email: string; displayName?: string; name?: string }) => ({

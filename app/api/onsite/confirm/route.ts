@@ -42,6 +42,23 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: 'Malformed request in date parsing' }, { status: 400 })
   }
 
+  // Convert locationString to LocationObject for internal use
+  let locationObject
+  if (validObject.locationString) {
+    // Parse locationString (expected format: "street, city, zip")
+    const parts = validObject.locationString.split(',').map((part: string) => part.trim())
+    locationObject = {
+      street: parts[0] || '',
+      city: parts[1] || '',
+      zip: parts[2] || '',
+    }
+  } else if (validObject.locationObject) {
+    // Use provided locationObject directly
+    locationObject = validObject.locationObject
+  } else {
+    return NextResponse.json({ error: 'Location information is required' }, { status: 400 })
+  }
+
   const transformedPricing = validObject.pricing
     ? Object.fromEntries(
         Object.entries(validObject.pricing).map(([key, value]) => [Number(key), Number(value)])
@@ -51,6 +68,7 @@ export async function GET(req: NextRequest) {
   // Create the confirmed appointment
   const response = await createOnsiteAppointment({
     ...validObject,
+    location: locationObject,
     pricing: transformedPricing, // Ensure pricing matches the expected type
     requestId: hash,
     summary: onsiteEventSummary(validObject) || 'Error in createEventSummary()',
@@ -67,6 +85,13 @@ export async function GET(req: NextRequest) {
     // Construct the proper data structure expected by the /booked page
     const bookedData = {
       ...validObject,
+      locationObject, // Include the parsed location object
+      locationString:
+        validObject.locationString ||
+        `${locationObject.street}, ${locationObject.city}, ${locationObject.zip}`.replace(
+          /^, |, $/,
+          ''
+        ), // Include location string for API responses
       attendees: details.attendees
         ? details.attendees.map(
             (attendee: { email: string; displayName?: string; name?: string }) => ({
