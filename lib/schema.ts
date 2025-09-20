@@ -3,7 +3,7 @@ import { z } from 'zod'
 
 const paymentMethodValues = paymentMethod.map((method) => method.value) as [string, ...string[]]
 
-const LocationSchema = z.object({
+export const LocationSchema = z.object({
   street: z.string(),
   city: z.string(),
   zip: z.string().regex(/^\d{5}(-\d{4})?$/, { message: 'Invalid US zip code.' }),
@@ -13,7 +13,7 @@ const BaseRequestSchema = z
   .object({
     firstName: z.string(),
     lastName: z.string(),
-    email: z.string().email(),
+    email: z.email(),
     start: z.string().refine((value) => !Number.isNaN(Date.parse(value)), {
       message: 'Start must be a valid date.',
     }),
@@ -21,7 +21,7 @@ const BaseRequestSchema = z
       message: 'End must be a valid date.',
     }),
     timeZone: z.string(),
-    location: LocationSchema,
+    location: z.union([z.string(), LocationSchema]),
     duration: z.string().refine((value) => !Number.isNaN(Number.parseInt(value)), {
       message: 'Duration must be a valid integer.',
     }),
@@ -62,13 +62,13 @@ export const OnSiteRequestSchema = BaseRequestSchema.extend({
 export const ContactFormSchema = z.object({
   subject: z.string().min(1, 'Subject is required'),
   name: z.string().min(1, 'Name is required'),
-  email: z.string().email('Invalid email format'),
+  email: z.email('Invalid email format'),
   phone: z.string().min(1, 'Phone number is required'),
   message: z.string().min(1, 'Message is required'),
 })
 
 export const AdminAccessRequestSchema = z.object({
-  email: z.string().email('Invalid email address'),
+  email: z.email('Invalid email address'),
   requestReason: z.string().min(10, 'Please provide a reason (minimum 10 characters)'),
 })
 
@@ -81,7 +81,7 @@ const DateTimeAndTimeZoneSchema = z.object({
 export const BookedDataSchema = z.object({
   firstName: z.string(),
   lastName: z.string(),
-  email: z.string().email(),
+  email: z.email(),
   timeZone: z.string(),
   location: z.union([
     z.string(),
@@ -106,7 +106,7 @@ export const BookedDataSchema = z.object({
   // Additional fields for booked data
   attendees: z.array(
     z.object({
-      email: z.string().email(),
+      email: z.email(),
       name: z.string().optional(),
     })
   ),

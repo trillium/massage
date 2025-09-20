@@ -8,33 +8,7 @@ import { getHash } from 'lib/hash'
 import eventSummary from 'lib/messaging/templates/events/eventSummary'
 import { AdminAuthManager } from '@/lib/adminAuth'
 import siteMetadata from '@/data/siteMetadata'
-
-const AppointmentPropsSchema = z.object({
-  firstName: z.string(),
-  lastName: z.string(),
-  email: z.string().email(),
-  start: z.string(),
-  end: z.string(),
-  timeZone: z.string(),
-  location: z.union([
-    z.string(),
-    z.object({
-      street: z.string(),
-      city: z.string(),
-      zip: z.string(),
-    }),
-  ]),
-  phone: z.string(),
-  duration: z.string().refine((value) => !Number.isNaN(Number.parseInt(value)), {
-    message: 'Duration must be a valid integer.',
-  }),
-  eventBaseString: z.string(),
-  eventMemberString: z.string().optional(),
-  eventContainerString: z.string().optional(),
-  // Optional fields that might be included but aren't required
-  price: z.string().optional(),
-  paymentMethod: z.string().optional(),
-})
+import { AppointmentRequestSchema } from 'lib/schema'
 
 export async function GET(req: NextRequest) {
   const searchParams = req.nextUrl.searchParams
@@ -55,7 +29,7 @@ export async function GET(req: NextRequest) {
   const object = JSON.parse(decodeURIComponent(data as string))
 
   // ...and validate it using Zod's safeParse method
-  const validationResult = AppointmentPropsSchema.safeParse(object)
+  const validationResult = AppointmentRequestSchema.safeParse(object)
 
   if (!validationResult.success) {
     return NextResponse.json({ error: 'Malformed request in data validation' }, { status: 400 })
