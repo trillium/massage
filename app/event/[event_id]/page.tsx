@@ -4,6 +4,7 @@ import { fetchSingleEvent } from '@/lib/fetch/fetchSingleEvent'
 import { getEventsBySearchQuery } from '@/lib/availability/getEventsBySearchQuery'
 import { GoogleCalendarV3Event } from '@/lib/types'
 import Link from '@/components/Link'
+import { createBookingUrl } from '@/lib/helpers/createBookingUrl'
 
 // Helper function to extract booking slug from event data
 function extractBookingSlug(event: GoogleCalendarV3Event): string | null {
