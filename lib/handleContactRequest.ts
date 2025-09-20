@@ -8,7 +8,7 @@ import { ContactFormType } from './types'
 import contactFormEmail from './messaging/email/admin/contactFormEmail'
 import contactFormConfirmation from './messaging/email/client/contactFormConfirmation'
 import { ContactPushover } from './messaging/push/admin/ContactPushover'
-import { pushoverSendMesage } from './messaging/push/admin/pushover'
+import { pushoverSendMessage } from './messaging/push/admin/pushover'
 
 export type ContactRequestValidationResult =
   | { success: true; data: z.output<typeof ContactFormSchema> }
@@ -47,7 +47,7 @@ export async function handleContactRequest({
 
   // Send Pushover notification to admin
   const pushover = ContactPushover(data)
-  pushoverSendMesage({
+  pushoverSendMessage({
     title: pushover.title,
     message: pushover.message,
     priority: 0,

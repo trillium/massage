@@ -2,7 +2,7 @@
 
 import { config } from 'dotenv'
 config({ path: '.env.local' })
-import { pushoverSendMesage } from '../lib/messaging/push/admin/pushover'
+import { pushoverSendMessage } from '../lib/messaging/push/admin/pushover'
 
 async function main() {
   const token = process.env.PUSHOVER_API_KEY
@@ -22,7 +22,7 @@ async function main() {
 
   console.log('Sending test pushover message...')
 
-  const success = await pushoverSendMesage({
+  const success = await pushoverSendMessage({
     message,
     title,
     priority,

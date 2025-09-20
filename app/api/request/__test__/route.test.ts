@@ -6,7 +6,7 @@ import type { IncomingMessage } from 'http'
 
 // Mock Pushover to prevent environment variable errors
 vi.mock('lib/messaging/push/admin/pushover', () => ({
-  pushoverSendMesage: vi.fn(() => Promise.resolve()),
+  pushoverSendMessage: vi.fn(() => Promise.resolve()),
 }))
 
 // Mocks
