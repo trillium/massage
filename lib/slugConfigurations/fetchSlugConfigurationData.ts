@@ -162,6 +162,27 @@ const slugConfigurations: SlugConfigurationType[] = [
     acceptingPayment: true,
     allowedDurations: [10, 15, 30],
   },
+  {
+    ...initialStateWithoutType,
+    bookingSlug: ['chat-with-me'],
+    type: 'fixed-location',
+    title: 'Psyche! Not a Massage, Just a Phone Call',
+    text: [
+      'This is actually just for scheduling a casual phone chat. No massage involved!',
+      "If you'd rather not send your phone number, (no worries), just enter a bunch of 0's and put a note saying let's chat over Google.",
+    ],
+    eventContainer: 'chat',
+    location: createLocationObject('Via Phone or Google Meet', 'Virtual', '00000'),
+    locationIsReadOnly: true,
+    pricing: { 30: 0, 60: 0 },
+    allowedDurations: [15, 30, 45, 60],
+    leadTimeMinimum: 5,
+    instantConfirm: true,
+    acceptingPayment: false,
+    customFields: {
+      showNotesField: true,
+    },
+  },
 ]
 
 export async function fetchSlugConfigurationData(): Promise<{
