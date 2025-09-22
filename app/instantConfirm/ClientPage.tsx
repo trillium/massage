@@ -22,7 +22,16 @@ export default function Confirmation() {
       timeZoneName: 'shortGeneric',
     })
   }
-  const { firstName, lastName, location, phone, email } = useReduxFormData()
+  const {
+    firstName,
+    lastName,
+    location,
+    phone,
+    email,
+    hotelRoomNumber,
+    parkingInstructions,
+    additionalNotes,
+  } = useReduxFormData()
 
   const bookedData = {
     dateString: dateString!,
@@ -34,6 +43,9 @@ export default function Confirmation() {
     location: flattenLocation(location),
     phone: phone!,
     email: email!,
+    hotelRoomNumber,
+    parkingInstructions,
+    additionalNotes,
   }
 
   return (
@@ -43,9 +55,10 @@ export default function Confirmation() {
           Thanks!
         </h1>
         <p className="mt-6 text-xl font-medium text-gray-800 dark:text-gray-200">
-          Your appoint has been booked!
+          Your appointment has been booked!
         </p>
       </div>
+
       <BookedCard {...bookedData} />
 
       <div className="flex flex-grow items-center justify-center pt-12">

@@ -13,6 +13,9 @@ export function BookedCard({
   price,
   promo,
   bookingUrl,
+  hotelRoomNumber,
+  parkingInstructions,
+  additionalNotes,
 }: {
   dateString: string
   startString: string
@@ -26,6 +29,9 @@ export function BookedCard({
   price?: number | string
   promo?: string
   bookingUrl?: string
+  hotelRoomNumber?: string
+  parkingInstructions?: string
+  additionalNotes?: string
 }) {
   const cards = [
     { title: 'Name', text: `${firstName} ${lastName}`, emphasize: true },
@@ -33,6 +39,11 @@ export function BookedCard({
     { title: 'Phone', text: phone, emphasize: false },
     { title: 'Email', text: email, emphasize: false },
     ...(promo ? [{ title: 'Promo', text: promo, emphasize: false }] : []),
+    ...(hotelRoomNumber ? [{ title: 'Room', text: hotelRoomNumber, emphasize: false }] : []),
+    ...(parkingInstructions
+      ? [{ title: 'Parking', text: parkingInstructions, emphasize: false }]
+      : []),
+    ...(additionalNotes ? [{ title: 'Notes', text: additionalNotes, emphasize: false }] : []),
     ...(bookingUrl
       ? [
           {

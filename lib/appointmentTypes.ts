@@ -1,4 +1,5 @@
 import { LocationObject } from './locationTypes'
+import { SlugConfigurationType } from './configTypes'
 
 /**
  * Represents a meeting request that is sent to the owner.
@@ -34,6 +35,8 @@ export type AppointmentProps = {
   bookingUrl?: string
   /** Promotional offer applied to this booking */
   promo?: string
+  /** Full slug configuration object */
+  slugConfiguration?: SlugConfigurationType
   source?: string
 }
 
@@ -50,6 +53,7 @@ export type EmailProps = {
   duration: string
   bookingUrl?: string
   promo?: string
+  slugConfiguration?: SlugConfigurationType // Full slug configuration object
 }
 
 export type ChairAppointmentBlockProps = {
