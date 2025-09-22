@@ -64,7 +64,7 @@ async function eventDescription({
     try {
       const host = process.env.NEXT_PUBLIC_SITE_URL || 'https://trilliummassage.la'
       const myEventsUrl = await generateSecureMyEventsUrlServer(email, host)
-      output += `<b>My Events</b>: ${myEventsUrl}\n`
+      output += `<b><a href="${myEventsUrl}">My Events</a></b>\n`
     } catch (error) {
       console.error('Error generating secure my_events URL in event template:', error)
     }
