@@ -23,6 +23,7 @@ async function eventDescription({
   bookingUrl,
   promo,
   source,
+  slugConfiguration,
 }: Partial<AppointmentProps>) {
   let output = 'Thanks for booking!'
   output += '\n\n'
@@ -59,12 +60,30 @@ async function eventDescription({
     output += `<b>Source</b>: ${source}\n`
   }
 
+  // Add slug configuration details (customer-relevant only)
+  if (slugConfiguration) {
+    output += '\n'
+    output += `<b>--- Booking Details ---</b>\n`
+    if (slugConfiguration.title) output += `<b>Service</b>: ${slugConfiguration.title}\n`
+    if (slugConfiguration.eventContainer)
+      output += `<b>Service Type</b>: ${slugConfiguration.eventContainer}\n`
+    if (slugConfiguration.pricing) {
+      output += `<b>Pricing</b>: ${Object.entries(slugConfiguration.pricing)
+        .map(([dur, price]) => `${dur}min: $${price}`)
+        .join(', ')}\n`
+    }
+    if (slugConfiguration.discount) {
+      const discount = slugConfiguration.discount
+      output += `<b>Discount Applied</b>: ${discount.type === 'percent' ? `${(discount.amountPercent || 0) * 100}% off` : `$${discount.amountDollars || 0} off`}\n`
+    }
+  }
+
   // Generate secure my_events URL if email is available
   if (email) {
     try {
       const host = process.env.NEXT_PUBLIC_SITE_URL || 'https://trilliummassage.la'
       const myEventsUrl = await generateSecureMyEventsUrlServer(email, host)
-      output += `<b><a href="${myEventsUrl}">My Events</a></b>\n`
+      output += `<b>My Events</b>: <a href="${myEventsUrl}">View My Events</a>\n`
     } catch (error) {
       console.error('Error generating secure my_events URL in event template:', error)
     }
