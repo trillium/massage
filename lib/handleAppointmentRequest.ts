@@ -4,6 +4,7 @@ import { intervalToHumanString } from './intervalToHumanString'
 import sendMail from './email'
 import { ApprovalEmail } from './messaging/email/admin/Approval'
 import ClientRequestEmail from './messaging/email/client/ClientRequestEmail'
+import ClientConfirmEmail from './messaging/email/client/ClientConfirmEmail'
 import { getHash } from './hash'
 import { AppointmentRequestSchema } from './schema'
 import { z } from 'zod'
@@ -25,6 +26,7 @@ export async function handleAppointmentRequest({
   ownerTimeZone,
   approvalEmailFn,
   clientRequestEmailFn,
+  clientConfirmEmailFn,
   getHashFn,
   rateLimiter,
   schema,
@@ -36,6 +38,7 @@ export async function handleAppointmentRequest({
   ownerTimeZone: string
   approvalEmailFn: typeof ApprovalEmail
   clientRequestEmailFn: typeof ClientRequestEmail
+  clientConfirmEmailFn: typeof ClientConfirmEmail
   getHashFn: typeof getHash
   rateLimiter: (req: NextRequest & IncomingMessage, headers: Headers) => boolean
   schema: typeof AppointmentRequestSchema
@@ -65,7 +68,7 @@ export async function handleAppointmentRequest({
     })
 
     // Send confirmation email directly
-    const confirmationEmail = await clientRequestEmailFn({
+    const confirmationEmail = await clientConfirmEmailFn({
       ...data,
       location: data.locationObject || { street: '', city: data.locationString || '', zip: '' },
       email: data.email, // Explicitly pass the email

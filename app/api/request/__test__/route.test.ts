@@ -15,6 +15,9 @@ const approvalEmailMock = vi.fn(() => ({ subject: 'Approval', body: 'Approval bo
 const clientRequestEmailMock = vi.fn(() =>
   Promise.resolve({ subject: 'Client', body: 'Client body' })
 )
+const clientConfirmEmailMock = vi.fn(() =>
+  Promise.resolve({ subject: 'Confirmed', body: 'Confirmed body' })
+)
 const getHashMock = vi.fn(() => 'hash')
 
 const validPayload = {
@@ -65,6 +68,7 @@ describe('handleAppointmentRequest', () => {
       ownerTimeZone: 'America/Los_Angeles',
       approvalEmailFn: approvalEmailMock,
       clientRequestEmailFn: clientRequestEmailMock,
+      clientConfirmEmailFn: clientConfirmEmailMock,
       getHashFn: getHashMock,
       rateLimiter: () => false,
       schema: AppointmentRequestSchema,
@@ -85,6 +89,7 @@ describe('handleAppointmentRequest', () => {
       ownerTimeZone: 'America/Los_Angeles',
       approvalEmailFn: approvalEmailMock,
       clientRequestEmailFn: clientRequestEmailMock,
+      clientConfirmEmailFn: clientConfirmEmailMock,
       getHashFn: getHashMock,
       rateLimiter: () => false,
       schema: AppointmentRequestSchema,
@@ -109,6 +114,7 @@ describe('handleAppointmentRequest', () => {
         ownerTimeZone: 'America/Los_Angeles',
         approvalEmailFn: approvalEmailMock,
         clientRequestEmailFn: clientRequestEmailMock,
+        clientConfirmEmailFn: clientConfirmEmailMock,
         getHashFn: getHashMock,
         rateLimiter,
         schema: AppointmentRequestSchema,
@@ -122,6 +128,7 @@ describe('handleAppointmentRequest', () => {
       ownerTimeZone: 'America/Los_Angeles',
       approvalEmailFn: approvalEmailMock,
       clientRequestEmailFn: clientRequestEmailMock,
+      clientConfirmEmailFn: clientConfirmEmailMock,
       getHashFn: getHashMock,
       rateLimiter,
       schema: AppointmentRequestSchema,
@@ -140,6 +147,7 @@ describe('handleAppointmentRequest', () => {
       ownerTimeZone: 'America/Los_Angeles',
       approvalEmailFn: approvalEmailMock,
       clientRequestEmailFn: clientRequestEmailMock,
+      clientConfirmEmailFn: clientConfirmEmailMock,
       getHashFn: getHashMock,
       rateLimiter: () => false,
       schema: AppointmentRequestSchema,

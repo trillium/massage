@@ -15,6 +15,7 @@ vi.mock('../messaging/push/admin/pushover', () => ({
 const mockSendMail = vi.fn()
 const mockApprovalEmail = vi.fn()
 const mockClientRequestEmail = vi.fn()
+const mockClientConfirmEmail = vi.fn()
 const mockGetHash = vi.fn()
 const mockRateLimiter = vi.fn()
 type MockAppointmentRequestSchema = { safeParse: ReturnType<typeof vi.fn> }
@@ -91,6 +92,7 @@ describe('handleAppointmentRequest', () => {
       ownerTimeZone: 'UTC',
       approvalEmailFn: mockApprovalEmail,
       clientRequestEmailFn: mockClientRequestEmail,
+      clientConfirmEmailFn: mockClientConfirmEmail,
       getHashFn: mockGetHash,
       rateLimiter: mockRateLimiter,
       schema: AppointmentRequestSchema,
@@ -116,6 +118,7 @@ describe('handleAppointmentRequest', () => {
       ownerTimeZone: 'UTC',
       approvalEmailFn: mockApprovalEmail,
       clientRequestEmailFn: mockClientRequestEmail,
+      clientConfirmEmailFn: mockClientConfirmEmail,
       getHashFn: mockGetHash,
       rateLimiter: mockRateLimiter,
       schema: AppointmentRequestSchema,
@@ -149,6 +152,7 @@ describe('handleAppointmentRequest', () => {
       ownerTimeZone: 'UTC',
       approvalEmailFn: mockApprovalEmail,
       clientRequestEmailFn: mockClientRequestEmail,
+      clientConfirmEmailFn: mockClientConfirmEmail,
       getHashFn: mockGetHash,
       rateLimiter: mockRateLimiter,
       schema: AppointmentRequestSchema,

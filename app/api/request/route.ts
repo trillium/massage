@@ -10,6 +10,7 @@ import { formatLocalDate, formatLocalTime } from 'lib/availability/helpers'
 import sendMail from 'lib/email'
 import { ApprovalEmail } from 'lib/messaging/email/admin/Approval'
 import ClientRequestEmail from 'lib/messaging/email/client/ClientRequestEmail'
+import ClientConfirmEmail from 'lib/messaging/email/client/ClientConfirmEmail'
 import { getHash } from 'lib/hash'
 import type { DateTimeIntervalWithTimezone } from 'lib/types'
 import { AppointmentRequestSchema } from 'lib/schema'
@@ -36,6 +37,7 @@ export async function POST(req: NextRequest & IncomingMessage): Promise<NextResp
     ownerTimeZone: OWNER_TIMEZONE,
     approvalEmailFn: ApprovalEmail,
     clientRequestEmailFn: ClientRequestEmail,
+    clientConfirmEmailFn: ClientConfirmEmail,
     getHashFn: getHash,
     rateLimiter: checkRateLimitFactory(rateLimitLRU, REQUESTS_PER_IP_PER_MINUTE_LIMIT),
     schema: AppointmentRequestSchema,
