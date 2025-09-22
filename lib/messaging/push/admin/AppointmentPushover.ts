@@ -30,6 +30,35 @@ export function AppointmentPushover(
   message += `Duration: ${data.duration} minutes\n`
   message += `Phone: ${data.phone}\n`
   message += `Email: ${data.email}\n`
+
+  // Add slug configuration details
+  if (data.slugConfiguration) {
+    message += `\n--- CONFIGURATION ---\n`
+    message += `Type: ${data.slugConfiguration.type || 'N/A'}\n`
+    if (data.slugConfiguration.title) message += `Title: ${data.slugConfiguration.title}\n`
+    if (data.slugConfiguration.eventContainer)
+      message += `Container: ${data.slugConfiguration.eventContainer}\n`
+    if (data.slugConfiguration.blockingScope)
+      message += `Blocking: ${data.slugConfiguration.blockingScope}\n`
+    if (data.slugConfiguration.leadTimeMinimum)
+      message += `Lead Time: ${data.slugConfiguration.leadTimeMinimum}min\n`
+    if (data.slugConfiguration.instantConfirm) message += `Instant Confirm: Yes\n`
+    if (data.slugConfiguration.acceptingPayment) message += `Accepting Payment: Yes\n`
+    if (data.slugConfiguration.promoEndDate)
+      message += `Promo End: ${data.slugConfiguration.promoEndDate}\n`
+    if (data.slugConfiguration.allowedDurations)
+      message += `Durations: ${data.slugConfiguration.allowedDurations.join(', ')}min\n`
+    if (data.slugConfiguration.pricing) {
+      message += `Pricing: ${Object.entries(data.slugConfiguration.pricing)
+        .map(([dur, price]) => `${dur}min:$${price}`)
+        .join(', ')}\n`
+    }
+    if (data.slugConfiguration.discount) {
+      const discount = data.slugConfiguration.discount
+      message += `Discount: ${discount.type === 'percent' ? `${(discount.amountPercent || 0) * 100}%` : `$${discount.amountDollars || 0}`}\n`
+    }
+  }
+
   message += `\nApprove: ${approveUrl}\n`
 
   return { message, title }

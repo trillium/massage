@@ -18,6 +18,7 @@ export function ApprovalEmail({
   duration,
   bookingUrl,
   promo,
+  slugConfiguration,
 }: EmailProps) {
   const SUBJECT = `REQUEST: ${firstName} ${lastName}, ${duration} minutes, $${price}`
 
@@ -47,6 +48,31 @@ Would you be able to meet at a different time?`
     `<b>Phone Number:</b> ${phone}`,
     `${bookingUrl ? `<b>Booking Page:</b> <a href="${bookingUrl}">${bookingUrl}</a>` : ''}`,
     `<br>`,
+    // Add slug configuration details
+    ...(slugConfiguration
+      ? [
+          `<b>--- Booking Configuration ---</b>`,
+          `<b>Type:</b> ${slugConfiguration.type || 'N/A'}`,
+          `<b>Title:</b> ${slugConfiguration.title || 'N/A'}`,
+          `${slugConfiguration.text ? `<b>Description:</b> ${Array.isArray(slugConfiguration.text) ? slugConfiguration.text.join(' ') : slugConfiguration.text}` : ''}`,
+          `${slugConfiguration.eventContainer ? `<b>Event Container:</b> ${slugConfiguration.eventContainer}` : ''}`,
+          `${slugConfiguration.blockingScope ? `<b>Blocking Scope:</b> ${slugConfiguration.blockingScope}` : ''}`,
+          `${slugConfiguration.leadTimeMinimum ? `<b>Lead Time:</b> ${slugConfiguration.leadTimeMinimum} minutes` : ''}`,
+          `${slugConfiguration.instantConfirm ? `<b>Instant Confirm:</b> Yes` : ''}`,
+          `${slugConfiguration.acceptingPayment ? `<b>Accepting Payment:</b> Yes` : ''}`,
+          `${slugConfiguration.promoEndDate ? `<b>Promo End Date:</b> ${slugConfiguration.promoEndDate}` : ''}`,
+          `${slugConfiguration.allowedDurations ? `<b>Allowed Durations:</b> ${slugConfiguration.allowedDurations.join(', ')} minutes` : ''}`,
+          `${
+            slugConfiguration.pricing
+              ? `<b>Pricing:</b> ${Object.entries(slugConfiguration.pricing)
+                  .map(([dur, price]) => `${dur}min: $${price}`)
+                  .join(', ')}`
+              : ''
+          }`,
+          `${slugConfiguration.discount ? `<b>Discount:</b> ${slugConfiguration.discount.type === 'percent' ? `${(slugConfiguration.discount.amountPercent || 0) * 100}% off` : `$${slugConfiguration.discount.amountDollars || 0} off`}` : ''}`,
+          `<br>`,
+        ]
+      : []),
     `<br>`,
     `<b><a href=${approveUrl}>Accept the appointment</a></b>`,
     `<br>`,
