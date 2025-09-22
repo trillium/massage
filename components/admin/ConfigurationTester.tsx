@@ -207,7 +207,15 @@ export default function ConfigurationTester({ onConfigurationChange }: Configura
             {selectedConfig.text && (
               <div className="mb-3">
                 <strong className="text-gray-700 dark:text-gray-300">Text:</strong>
-                <p className="mt-1 text-gray-600 dark:text-gray-400">{selectedConfig.text}</p>
+                {Array.isArray(selectedConfig.text) ? (
+                  selectedConfig.text.map((paragraph, index) => (
+                    <p key={index} className="mt-1 text-gray-600 dark:text-gray-400">
+                      {paragraph}
+                    </p>
+                  ))
+                ) : (
+                  <p className="mt-1 text-gray-600 dark:text-gray-400">{selectedConfig.text}</p>
+                )}
               </div>
             )}
 

@@ -46,7 +46,7 @@ export type SlugConfigurationType = {
   bookingSlug: string | string[] | null // this must be unique and cannot conflict with current app pages
   type: SlugType
   title: string | null
-  text: string | null
+  text: string | string[] | null
   location: LocationObject | null
   locationIsReadOnly?: boolean
   locationWarning?: LocationWarningType

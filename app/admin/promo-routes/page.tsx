@@ -77,9 +77,17 @@ export default async function PromoRoutesPage() {
                           </p>
                         )}
                         {config.text && (
-                          <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                            {config.text}
-                          </p>
+                          <div className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                            {Array.isArray(config.text) ? (
+                              config.text.map((paragraph, index) => (
+                                <p key={index} className={index > 0 ? 'mt-1' : ''}>
+                                  {paragraph}
+                                </p>
+                              ))
+                            ) : (
+                              <p>{config.text}</p>
+                            )}
+                          </div>
                         )}
                       </div>
                       <div className="ml-4 text-right">

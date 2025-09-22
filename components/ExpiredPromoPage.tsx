@@ -4,7 +4,7 @@ import Link from '@/components/Link'
 interface ExpiredPromoPageProps {
   title: string
   promoEndDate: string
-  originalText?: string | null
+  originalText?: string | string[] | null
 }
 
 export default function ExpiredPromoPage({
@@ -36,8 +36,17 @@ export default function ExpiredPromoPage({
           {originalText && (
             <div className="mt-6 rounded-lg bg-gray-100 p-4 dark:bg-gray-800">
               <p className="text-sm text-gray-600 dark:text-gray-400">
-                <span className="font-medium">Original offer:</span> {originalText}
+                <span className="font-medium">Original offer:</span>
               </p>
+              {Array.isArray(originalText) ? (
+                originalText.map((paragraph, index) => (
+                  <p key={index} className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+                    {paragraph}
+                  </p>
+                ))
+              ) : (
+                <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">{originalText}</p>
+              )}
             </div>
           )}
         </div>
