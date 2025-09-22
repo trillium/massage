@@ -10,6 +10,7 @@ import { z } from 'zod'
 // Manual type for the result of schema.safeParse(jsonData) (for Zod v4)
 import { pushoverSendMessage } from './messaging/push/admin/pushover'
 import { AppointmentPushover } from './messaging/push/admin/AppointmentPushover'
+import { AppointmentPushoverInstantConfirm } from './messaging/push/admin/AppointmentPushoverInstantConfirm'
 import { createGeneralApprovalUrl } from './messaging/utilities/createApprovalUrl'
 
 export type AppointmentRequestValidationResult =
@@ -53,6 +54,15 @@ export async function handleAppointmentRequest({
   if (data.instantConfirm) {
     const start = new Date(data.start)
     const end = new Date(data.end)
+
+    // Send pushover notification for instant confirm
+    const pushover = AppointmentPushoverInstantConfirm(data, ownerTimeZone)
+
+    pushoverSendMessage({
+      message: pushover.message,
+      title: pushover.title,
+      priority: 0,
+    })
 
     // Send confirmation email directly
     const confirmationEmail = await clientRequestEmailFn({
