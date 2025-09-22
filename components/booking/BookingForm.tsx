@@ -319,6 +319,7 @@ export default function BookingForm({
           bookingUrl: values.bookingUrl || undefined,
           promo: values.promo || undefined,
           instantConfirm: config.instantConfirm || false,
+          slugConfiguration: config, // Include full slug configuration
           ...additionalData,
         }
 

@@ -42,6 +42,7 @@ const BaseRequestSchema = z
     additionalNotes: z.string().optional(),
     bookingUrl: z.string().optional(),
     promo: z.string().optional(),
+    slugConfiguration: z.any().optional(), // Full slug configuration object
   })
   .strict() // Disallow unknown keys
   .refine((data) => data.locationObject !== undefined || data.locationString !== undefined, {
