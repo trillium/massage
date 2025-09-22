@@ -13,6 +13,8 @@ import { pushoverSendMessage } from './messaging/push/admin/pushover'
 import { AppointmentPushover } from './messaging/push/admin/AppointmentPushover'
 import { AppointmentPushoverInstantConfirm } from './messaging/push/admin/AppointmentPushoverInstantConfirm'
 import { createGeneralApprovalUrl } from './messaging/utilities/createApprovalUrl'
+import createCalendarAppointment from './availability/createCalendarAppointment'
+import eventSummary from './messaging/templates/events/eventSummary'
 
 export type AppointmentRequestValidationResult =
   | { success: true; data: z.output<typeof AppointmentRequestSchema> }
@@ -58,6 +60,21 @@ export async function handleAppointmentRequest({
     const start = new Date(data.start)
     const end = new Date(data.end)
 
+    // Create the calendar appointment directly
+    const location = data.locationObject || { street: '', city: data.locationString || '', zip: '' }
+    const requestId = getHashFn(JSON.stringify(data))
+
+    await createCalendarAppointment({
+      ...data,
+      location,
+      requestId,
+      summary:
+        eventSummary({
+          duration: data.duration,
+          clientName: `${data.firstName} ${data.lastName}`,
+        }) || 'Instant Confirm Appointment',
+    })
+
     // Send pushover notification for instant confirm
     const pushover = AppointmentPushoverInstantConfirm(data, ownerTimeZone)
 
@@ -70,7 +87,7 @@ export async function handleAppointmentRequest({
     // Send confirmation email directly
     const confirmationEmail = await clientConfirmEmailFn({
       ...data,
-      location: data.locationObject || { street: '', city: data.locationString || '', zip: '' },
+      location,
       email: data.email, // Explicitly pass the email
       dateSummary: intervalToHumanString({
         start,

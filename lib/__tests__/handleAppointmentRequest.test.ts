@@ -11,6 +11,16 @@ vi.mock('../messaging/push/admin/pushover', () => ({
   pushoverSendMessage: vi.fn(() => Promise.resolve()),
 }))
 
+// Mock createCalendarAppointment
+vi.mock('../availability/createCalendarAppointment', () => ({
+  default: vi.fn(() => Promise.resolve()),
+}))
+
+// Mock eventSummary
+vi.mock('../messaging/templates/events/eventSummary', () => ({
+  default: vi.fn(() => 'Test Appointment'),
+}))
+
 // Mock dependencies
 const mockSendMail = vi.fn()
 const mockApprovalEmail = vi.fn()
