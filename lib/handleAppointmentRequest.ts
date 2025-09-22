@@ -116,6 +116,7 @@ export async function handleAppointmentRequest({
       end,
       timeZone: ownerTimeZone,
     }),
+    data, // Pass the full data object for custom fields
   })
 
   const pushover = AppointmentPushover(data, ownerTimeZone, approveUrl)

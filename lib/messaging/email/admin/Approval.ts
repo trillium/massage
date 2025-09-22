@@ -1,6 +1,8 @@
+import { z } from 'zod'
 import { EmailProps } from '@/lib/types'
 import { parts as signatureParts } from '@/lib/messaging/utilities/signature'
 import { flattenLocation } from '@/lib/helpers/locationHelpers'
+import { AppointmentRequestSchema } from '@/lib/schema'
 
 const LINE_PREFIX = `<div class="gmail_default" style="font-family:arial,sans-serif">`
 const LINE_SUFFIX = `</div>`
@@ -19,7 +21,8 @@ export function ApprovalEmail({
   bookingUrl,
   promo,
   slugConfiguration,
-}: EmailProps) {
+  data,
+}: EmailProps & { data?: z.output<typeof AppointmentRequestSchema> }) {
   const SUBJECT = `REQUEST: ${firstName} ${lastName}, ${duration} minutes, $${price}`
 
   const declineUrl = `mailto:${encodeURI(email)}?subject=${encodeURIComponent(
@@ -47,6 +50,13 @@ Would you be able to meet at a different time?`
     `<b>Duration:</b> ${duration} minutes`,
     `<b>Phone Number:</b> ${phone}`,
     `${bookingUrl ? `<b>Booking Page:</b> <a href="${bookingUrl}">${bookingUrl}</a>` : ''}`,
+    ...(data
+      ? [
+          `${data.hotelRoomNumber ? `<b>Hotel Room:</b> ${data.hotelRoomNumber}` : ''}`,
+          `${data.parkingInstructions ? `<b>Parking Instructions:</b> ${data.parkingInstructions}` : ''}`,
+          `${data.additionalNotes ? `<b>Additional Notes:</b> ${data.additionalNotes}` : ''}`,
+        ]
+      : []),
     `<br>`,
     // Add slug configuration details
     ...(slugConfiguration

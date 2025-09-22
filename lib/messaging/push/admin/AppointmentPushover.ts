@@ -30,6 +30,9 @@ export function AppointmentPushover(
   message += `Duration: ${data.duration} minutes\n`
   message += `Phone: ${data.phone}\n`
   message += `Email: ${data.email}\n`
+  if (data.hotelRoomNumber) message += `Hotel Room: ${data.hotelRoomNumber}\n`
+  if (data.parkingInstructions) message += `Parking: ${data.parkingInstructions}\n`
+  if (data.additionalNotes) message += `Notes: ${data.additionalNotes}\n`
 
   // Add slug configuration details
   if (data.slugConfiguration) {
