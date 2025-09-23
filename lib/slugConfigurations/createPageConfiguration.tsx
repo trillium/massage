@@ -47,7 +47,10 @@ export async function createPageConfiguration({
   )
 
   // 3. Validate search parameters
-  const { duration, selectedDate } = validateSearchParams({ searchParams: resolvedParams })
+  const { duration, selectedDate } = validateSearchParams({
+    searchParams: resolvedParams,
+    allowedDurations: configuration?.allowedDurations ?? undefined,
+  })
 
   // 4. Calculate date boundaries
   const start = dayFromString(data.start)

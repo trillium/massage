@@ -8,16 +8,27 @@ import {
 } from 'config'
 import { SearchParamsType } from '@/lib/types'
 
-export function validateSearchParams({ searchParams }: { searchParams: SearchParamsType }) {
+export function validateSearchParams({
+  searchParams,
+  allowedDurations,
+}: {
+  searchParams: SearchParamsType
+  allowedDurations?: number[]
+}) {
+  const durationsToValidate = allowedDurations || VALID_DURATIONS
+  const defaultDuration = durationsToValidate.includes(DEFAULT_DURATION)
+    ? DEFAULT_DURATION
+    : durationsToValidate[Math.floor(durationsToValidate.length / 2)] || DEFAULT_DURATION
+
   const schema = z.object({
     duration: z
-      .enum([
-        ...(VALID_DURATIONS.map(String) as [string, ...string[]]),
-        DEFAULT_APPOINTMENT_INTERVAL.toString(),
-      ])
+      .string()
       .optional()
-      .default(String(DEFAULT_DURATION))
-      .transform(Number),
+      .transform((val) => {
+        if (!val) return defaultDuration
+        const num = Number(val)
+        return durationsToValidate.includes(num) ? num : defaultDuration
+      }),
     timeZone: z.string().optional(),
     selectedDate: z
       .string()
@@ -54,13 +65,13 @@ export function validateSearchParams({ searchParams }: { searchParams: SearchPar
 
   if (duration == undefined) {
     // if validation fails
-    duration = DEFAULT_DURATION
+    duration = defaultDuration
   }
 
   return {
     duration,
     ...(timeZone && { timeZone }),
     ...(selectedDate && { selectedDate }),
-    price: DEFAULT_PRICING[DEFAULT_DURATION],
+    price: DEFAULT_PRICING[defaultDuration] || DEFAULT_PRICING[DEFAULT_DURATION],
   }
 }
