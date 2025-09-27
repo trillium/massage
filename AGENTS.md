@@ -117,14 +117,11 @@ git push
 
 ---
 
-## Code Style Guidelines
+## Terminal Command Guidelines
 
-- **Imports:** Use ES6 import syntax. Group external, then internal modules.
-- **Formatting:** Prettier config: no semicolons, single quotes, 2 spaces, 100 char line, trailing commas (es5), bracket spacing, Tailwind plugin.
-- **Linting:** ESLint with TypeScript, Next.js, a11y, and Prettier. All lint errors must be fixed before merging.
-- **Types:** Use TypeScript types and interfaces. Prefer explicit types for function signatures and exports.
-- **Naming:** camelCase for variables/functions, PascalCase for types/classes/components, UPPER_CASE for constants.
-- **Error Handling:** Use try/catch for async code. Log errors with context. Avoid silent failures.
-- **Testing:** Place tests in `__tests__` folders or alongside modules. Use descriptive test names.
-- **Ignore/format:** See `.prettierignore` for files not formatted; see `.eslint.config.mjs` for ignored files.
-- **Package manager:** Use `pnpm` (see `package.json` for version).
+- **Destructive commands:** When proposing commands that delete files or directories (like `rm -rf`), always include a comment line above explaining the purpose:
+  ```sh
+  # Clear corrupted Next.js build cache
+  rm -rf .next
+  ```
+  This helps prevent accidental execution and makes the intent clear.
