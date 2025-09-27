@@ -73,7 +73,7 @@ describe('createPageConfiguration - type="next" functionality', () => {
 
   describe('When upcoming event is found', () => {
     it('should return limited availability (30 minutes) after event with multi-duration slots', async () => {
-      mockResolveConfiguration.mockResolvedValue(baseNextConfig)
+      mockResolveConfiguration.mockResolvedValue({ configuration: baseNextConfig })
 
       // Mock fetchPageData to return event-found scenario
       const mockMultiDurationSlots = {
@@ -133,7 +133,7 @@ describe('createPageConfiguration - type="next" functionality', () => {
     })
 
     it('should not offer excessive availability when event is found', async () => {
-      mockResolveConfiguration.mockResolvedValue(baseNextConfig)
+      mockResolveConfiguration.mockResolvedValue({ configuration: baseNextConfig })
 
       // Mock very limited post-event availability (only 2 slots)
       const limitedSlots = {
@@ -174,7 +174,7 @@ describe('createPageConfiguration - type="next" functionality', () => {
     })
 
     it('should include currentEvent in return object for display purposes', async () => {
-      mockResolveConfiguration.mockResolvedValue(baseNextConfig)
+      mockResolveConfiguration.mockResolvedValue({ configuration: baseNextConfig })
 
       mockFetchPageData.mockResolvedValue({
         start: '2025-09-06',
@@ -205,7 +205,7 @@ describe('createPageConfiguration - type="next" functionality', () => {
 
   describe('When no upcoming event is found', () => {
     it('should fallback to today availability when still time remaining', async () => {
-      mockResolveConfiguration.mockResolvedValue(baseNextConfig)
+      mockResolveConfiguration.mockResolvedValue({ configuration: baseNextConfig })
 
       // Mock fetchPageData to return fallback scenario for today
       mockFetchPageData.mockResolvedValue({
@@ -234,7 +234,7 @@ describe('createPageConfiguration - type="next" functionality', () => {
     })
 
     it('should fallback to tomorrow availability when too late for today', async () => {
-      mockResolveConfiguration.mockResolvedValue(baseNextConfig)
+      mockResolveConfiguration.mockResolvedValue({ configuration: baseNextConfig })
 
       // Mock fetchPageData to return fallback scenario for tomorrow
       mockFetchPageData.mockResolvedValue({
@@ -259,7 +259,7 @@ describe('createPageConfiguration - type="next" functionality', () => {
     })
 
     it('should use regular slot creation for fallback scenarios', async () => {
-      mockResolveConfiguration.mockResolvedValue(baseNextConfig)
+      mockResolveConfiguration.mockResolvedValue({ configuration: baseNextConfig })
 
       mockFetchPageData.mockResolvedValue({
         start: '2025-09-06',
@@ -285,7 +285,7 @@ describe('createPageConfiguration - type="next" functionality', () => {
 
   describe('With specific event provided', () => {
     it('should use provided currentEvent and not call event detection', async () => {
-      mockResolveConfiguration.mockResolvedValue(baseNextConfig)
+      mockResolveConfiguration.mockResolvedValue({ configuration: baseNextConfig })
 
       const mockProvidedEvent: GoogleCalendarV3Event = {
         ...mockUpcomingEvent,
@@ -327,12 +327,13 @@ describe('createPageConfiguration - type="next" functionality', () => {
         undefined,
         undefined,
         undefined,
-        mockProvidedEvent
+        mockProvidedEvent,
+        undefined
       )
     })
 
     it('should use provided eventId and fetch event details', async () => {
-      mockResolveConfiguration.mockResolvedValue(baseNextConfig)
+      mockResolveConfiguration.mockResolvedValue({ configuration: baseNextConfig })
 
       mockFetchPageData.mockResolvedValue({
         start: '2025-09-06',
@@ -364,6 +365,7 @@ describe('createPageConfiguration - type="next" functionality', () => {
         undefined,
         undefined,
         'specific-event-id',
+        undefined,
         undefined
       )
 
@@ -373,7 +375,7 @@ describe('createPageConfiguration - type="next" functionality', () => {
 
   describe('Edge cases', () => {
     it('should handle empty multi-duration slots gracefully', async () => {
-      mockResolveConfiguration.mockResolvedValue(baseNextConfig)
+      mockResolveConfiguration.mockResolvedValue({ configuration: baseNextConfig })
 
       mockFetchPageData.mockResolvedValue({
         start: '2025-09-06',
@@ -395,7 +397,7 @@ describe('createPageConfiguration - type="next" functionality', () => {
     })
 
     it('should handle missing duration in multi-duration slots', async () => {
-      mockResolveConfiguration.mockResolvedValue(baseNextConfig)
+      mockResolveConfiguration.mockResolvedValue({ configuration: baseNextConfig })
 
       mockFetchPageData.mockResolvedValue({
         start: '2025-09-06',
@@ -428,7 +430,7 @@ describe('createPageConfiguration - type="next" functionality', () => {
 
   describe('Availability constraints verification', () => {
     it('should confirm limited post-event time window (not full day)', async () => {
-      mockResolveConfiguration.mockResolvedValue(baseNextConfig)
+      mockResolveConfiguration.mockResolvedValue({ configuration: baseNextConfig })
 
       // Mock realistic 30-minute post-event window
       const restrictedSlots = {

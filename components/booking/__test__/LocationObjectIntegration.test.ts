@@ -114,7 +114,7 @@ describe('Location Object Integration Tests', () => {
 
   describe('Slug Configuration Integration', () => {
     it('should resolve hotel-june configuration with correct location', async () => {
-      const configuration = await resolveConfiguration('hotel-june')
+      const { configuration } = await resolveConfiguration('hotel-june')
 
       expect(configuration).toBeDefined()
       expect(configuration.bookingSlug).toEqual(['hotel-june'])
@@ -131,14 +131,14 @@ describe('Location Object Integration Tests', () => {
     })
 
     it('should resolve playa-vista configuration without location', async () => {
-      const configuration = await resolveConfiguration('playa-vista')
+      const { configuration } = await resolveConfiguration('playa-vista')
 
       // This should have no location since it's not explicitly set in config
       expect(configuration.location).toBeNull()
     })
 
     it('should resolve westchester slug configuration', async () => {
-      const configuration = await resolveConfiguration('westchester')
+      const { configuration } = await resolveConfiguration('westchester')
 
       // Should be part of the multi-slug config for nearby areas
       expect(configuration.bookingSlug).toEqual([
@@ -159,7 +159,7 @@ describe('Location Object Integration Tests', () => {
   describe('End-to-End Location Flow Integration', () => {
     it('should populate both config and form with location from hotel-june slug', async () => {
       // Step 1: Resolve configuration from slug
-      const configuration = await resolveConfiguration('hotel-june')
+      const { configuration } = await resolveConfiguration('hotel-june')
 
       // Step 2: Apply configuration to Redux config slice
       store.dispatch(setBulkConfigSliceState(configuration))
@@ -186,7 +186,7 @@ describe('Location Object Integration Tests', () => {
 
     it('should populate both config and form with location from area slug', async () => {
       // Step 1: Resolve configuration from area slug
-      const configuration = await resolveConfiguration('playa-vista')
+      const { configuration } = await resolveConfiguration('playa-vista')
 
       // Step 2: Apply configuration to Redux config slice
       store.dispatch(setBulkConfigSliceState(configuration))
@@ -209,7 +209,7 @@ describe('Location Object Integration Tests', () => {
         const testStore = createMockStore()
 
         // Resolve configuration
-        const configuration = await resolveConfiguration(slug)
+        const { configuration } = await resolveConfiguration(slug)
 
         // Apply to Redux
         testStore.dispatch(setBulkConfigSliceState(configuration))
