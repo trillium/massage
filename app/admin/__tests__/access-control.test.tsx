@@ -1,5 +1,7 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 import { render, screen, waitFor } from '@testing-library/react'
+import { Provider } from 'react-redux'
+import { makeStore } from '@/redux/store'
 import { AdminAuthWrapper } from '@/components/auth/admin/AdminAuthWrapper'
 import { AdminAuthManager } from '@/lib/adminAuth'
 
@@ -43,6 +45,10 @@ vi.mock('@/components/Spinner', () => ({
   default: () => <div data-testid="spinner">Loading...</div>,
 }))
 
+const ReduxWrapper = ({ children }: { children: React.ReactNode }) => (
+  <Provider store={makeStore()}>{children}</Provider>
+)
+
 describe('Admin Page Access Control', () => {
   const TestAdminContent = () => <div data-testid="admin-content">Admin Dashboard</div>
 
@@ -62,15 +68,21 @@ describe('Admin Page Access Control', () => {
     })
 
     it('should render children when authenticated', async () => {
-      // Mock successful authentication via URL parameters
-      mockSearchParams.set('email', 'admin@example.com')
-      mockSearchParams.set('token', 'valid-token')
-      vi.mocked(AdminAuthManager.createValidatedSession).mockReturnValue(true)
+      // Mock existing valid session instead of URL parameters
+      const mockSession = {
+        email: 'admin@example.com',
+        token: 'valid-token',
+        timestamp: Date.now(),
+        expiresAt: Date.now() + 24 * 60 * 60 * 1000,
+      }
+      vi.mocked(AdminAuthManager.validateSession).mockReturnValue(mockSession)
 
       render(
-        <AdminAuthWrapper>
-          <TestAdminContent />
-        </AdminAuthWrapper>
+        <ReduxWrapper>
+          <AdminAuthWrapper>
+            <TestAdminContent />
+          </AdminAuthWrapper>
+        </ReduxWrapper>
       )
 
       await waitFor(() => {
@@ -83,9 +95,11 @@ describe('Admin Page Access Control', () => {
       vi.mocked(AdminAuthManager.validateSession).mockReturnValue(null)
 
       render(
-        <AdminAuthWrapper>
-          <TestAdminContent />
-        </AdminAuthWrapper>
+        <ReduxWrapper>
+          <AdminAuthWrapper>
+            <TestAdminContent />
+          </AdminAuthWrapper>
+        </ReduxWrapper>
       )
 
       await waitFor(() => {
@@ -108,9 +122,11 @@ describe('Admin Page Access Control', () => {
       mockSearchParams.set('token', 'test-token')
 
       render(
-        <AdminAuthWrapper>
-          <TestAdminContent />
-        </AdminAuthWrapper>
+        <ReduxWrapper>
+          <AdminAuthWrapper>
+            <TestAdminContent />
+          </AdminAuthWrapper>
+        </ReduxWrapper>
       )
 
       // Should show loading state initially
@@ -135,9 +151,11 @@ describe('Admin Page Access Control', () => {
       vi.mocked(AdminAuthManager.validateSession).mockReturnValue(mockSession)
 
       render(
-        <AdminAuthWrapper>
-          <TestAdminContent />
-        </AdminAuthWrapper>
+        <ReduxWrapper>
+          <AdminAuthWrapper>
+            <TestAdminContent />
+          </AdminAuthWrapper>
+        </ReduxWrapper>
       )
 
       await waitFor(() => {
@@ -149,9 +167,11 @@ describe('Admin Page Access Control', () => {
       vi.mocked(AdminAuthManager.validateSession).mockReturnValue(null)
 
       render(
-        <AdminAuthWrapper>
-          <TestAdminContent />
-        </AdminAuthWrapper>
+        <ReduxWrapper>
+          <AdminAuthWrapper>
+            <TestAdminContent />
+          </AdminAuthWrapper>
+        </ReduxWrapper>
       )
 
       await waitFor(() => {

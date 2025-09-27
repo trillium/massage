@@ -187,7 +187,7 @@ export function AdminAuthProvider({ children }: AdminAuthProviderProps) {
   // Authenticated - provide admin context to children
   return (
     <div className="min-h-screen">
-      <AdminAuthChip />
+      <AdminAuthChip onLogout={handleLogout} />
       {children}
     </div>
   )
