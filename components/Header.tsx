@@ -8,6 +8,7 @@ import Link from './Link'
 import MobileNav from './MobileNav'
 import ThemeSwitch from './ThemeSwitch'
 import SearchButton from './SearchButton'
+import { AdminAuthChip } from './auth/admin/AdminAuthChip'
 import clsx from 'clsx'
 import { NavOptions } from './NavOptions'
 
@@ -21,6 +22,7 @@ const Header = () => {
 
   return (
     <header className={headerClass}>
+      <AdminAuthChip />
       <Link href="/" aria-label={siteMetadata.headerTitle}>
         <div className="flex items-center justify-between">
           <div className="mr-3">

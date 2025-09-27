@@ -2,6 +2,9 @@
 
 import Link from '@/components/Link'
 import { usePathname } from 'next/navigation'
+import { useSelector, useDispatch } from 'react-redux'
+import type { AppDispatch } from '@/redux/store'
+import { selectAuth, logout } from '@/redux/slices/authSlice'
 import {
   primaryAdminRoutes,
   managementRoutes,
@@ -25,6 +28,12 @@ export default function AdminNav({
   gridCols = 'sm:grid-cols-2 lg:grid-cols-1',
 }: AdminNavProps) {
   const pathname = usePathname()
+  const auth = useSelector(selectAuth)
+  const dispatch = useDispatch<AppDispatch>()
+
+  const handleLogout = () => {
+    dispatch({ type: 'auth/logout' })
+  }
 
   const renderNavSection = (title: string, routes: AuthNavLink[], icon?: string) => (
     <div key={title} className="space-y-3">
@@ -52,7 +61,19 @@ export default function AdminNav({
       <div className="rounded-lg bg-white p-6 shadow-md dark:bg-gray-800">
         <div className="mb-6 flex items-center justify-between">
           <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Admin Navigation</h2>
-          <div className="text-xs text-gray-500 dark:text-gray-400">{pathname}</div>
+          <div className="flex items-center space-x-4">
+            <div className="text-xs text-gray-500 dark:text-gray-400">
+              {auth.adminEmail && `Logged in as: ${auth.adminEmail}`}
+            </div>
+            {auth.isAuthenticated && (
+              <button
+                onClick={handleLogout}
+                className="rounded bg-red-600 px-3 py-1 text-xs text-white hover:bg-red-700"
+              >
+                Logout
+              </button>
+            )}
+          </div>
         </div>
 
         <div className="space-y-8">

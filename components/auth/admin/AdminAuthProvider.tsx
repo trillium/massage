@@ -2,9 +2,12 @@
 
 import { useEffect, useState } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
+import { useAppDispatch, useAppSelector } from '@/redux/hooks'
+import { login, logout, checkAuth } from '@/redux/slices/authSlice'
 import { AdminAuthManager } from '@/lib/adminAuth'
 import Spinner from '@/components/Spinner'
 import { AdminDebugInfo } from '@/components/auth/admin/AdminDebugInfo'
+import { AdminAuthChip } from '@/components/auth/admin/AdminAuthChip'
 import { identifyAuthenticatedUser } from '@/lib/posthog-utils'
 
 interface AdminAuthProviderProps {
@@ -28,6 +31,7 @@ export function AdminAuthProvider({ children }: AdminAuthProviderProps) {
 
   const searchParams = useSearchParams()
   const router = useRouter()
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
     const authenticateAdmin = async () => {
@@ -74,6 +78,7 @@ export function AdminAuthProvider({ children }: AdminAuthProviderProps) {
                 adminEmail: urlEmail,
                 error: null,
               })
+              dispatch(login({ email: urlEmail, token: urlToken }))
               return
             } else {
               console.error('Failed to create session')
@@ -106,6 +111,7 @@ export function AdminAuthProvider({ children }: AdminAuthProviderProps) {
           adminEmail: session.email,
           error: null,
         })
+        dispatch({ type: 'auth/checkAuth' })
       } else {
         setAuthState({
           isAuthenticated: false,
@@ -117,7 +123,7 @@ export function AdminAuthProvider({ children }: AdminAuthProviderProps) {
     }
 
     authenticateAdmin()
-  }, [searchParams, router])
+  }, [searchParams, router, dispatch])
 
   const handleLogout = () => {
     AdminAuthManager.clearSession()
@@ -127,6 +133,7 @@ export function AdminAuthProvider({ children }: AdminAuthProviderProps) {
       adminEmail: null,
       error: 'Logged out successfully.',
     })
+    dispatch({ type: 'auth/logout' })
   }
 
   if (authState.isLoading) {
@@ -180,17 +187,7 @@ export function AdminAuthProvider({ children }: AdminAuthProviderProps) {
   // Authenticated - provide admin context to children
   return (
     <div className="min-h-screen">
-      <div className="absolute top-0 rounded-br-3xl border-r border-b bg-blue-50 px-4 py-2 text-sm dark:bg-blue-900/20">
-        <div className="flex items-center justify-between">
-          <span className="text-blue-800 dark:text-blue-200">✓ Admin {authState.adminEmail}</span>
-          <button
-            onClick={handleLogout}
-            className="pl-2 text-blue-600 hover:text-blue-800 dark:text-blue-300 dark:hover:text-blue-100"
-          >
-            Logout
-          </button>
-        </div>
-      </div>
+      <AdminAuthChip />
       {children}
     </div>
   )
