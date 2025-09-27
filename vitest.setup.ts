@@ -6,6 +6,13 @@ import React from 'react'
 // Make React available globally for JSX
 global.React = React
 
+// Mock ResizeObserver for headlessui
+global.ResizeObserver = class ResizeObserver {
+  observe() {}
+  unobserve() {}
+  disconnect() {}
+}
+
 // Mock fetch globally
 global.fetch = vi.fn()
 
