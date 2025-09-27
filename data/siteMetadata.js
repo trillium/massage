@@ -104,4 +104,4 @@ const siteMetadata = {
   eventBaseString: '__EVENT__',
 }
 
-module.exports = siteMetadata
+export default siteMetadata
