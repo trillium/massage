@@ -37,6 +37,11 @@ type FetchPageDataReturnType = {
   currentEvent?: GoogleCalendarV3Event
   nextEventFound: boolean
   targetDate?: string
+  debugInfo?: {
+    pathTaken: string
+    inputs: Record<string, unknown>
+    outputs: Record<string, unknown>
+  }
 }
 
 /**
@@ -48,8 +53,17 @@ export async function fetchPageData(
   bookingSlug?: string,
   mocked?: MockedData | null,
   eventId?: string,
-  currentEvent?: GoogleCalendarV3Event
+  currentEvent?: GoogleCalendarV3Event,
+  debug?: boolean
 ): Promise<FetchPageDataReturnType> {
+  const debugInfo = debug
+    ? {
+        pathTaken: '',
+        inputs: { configuration, resolvedParams, bookingSlug, mocked, eventId, currentEvent },
+        outputs: {},
+      }
+    : undefined
+
   // If configuration type is null, this is an invalid/non-existent slug
   if (configuration?.type === null) {
     const today = new Date()
@@ -58,12 +72,17 @@ export async function fetchPageData(
     yesterday.setDate(yesterday.getDate() - 1)
     const yesterdayStr = yesterday.toISOString().split('T')[0]
 
-    return {
+    const result = {
       start: todayStr,
       end: yesterdayStr, // End before start = invalid range, no availability
       busy: [],
       nextEventFound: false, // Invalid slug never has a next event
     }
+    if (debugInfo) {
+      debugInfo.pathTaken = 'invalid-slug'
+      debugInfo.outputs = result
+    }
+    return { ...result, debugInfo }
   }
 
   if (mocked) {
@@ -80,7 +99,11 @@ export async function fetchPageData(
       containers: [], // Ensure containers property exists
       nextEventFound: false, // Mocked data never has a next event
     }
-    return result
+    if (debugInfo) {
+      debugInfo.pathTaken = 'mocked'
+      debugInfo.outputs = result
+    }
+    return { ...result, debugInfo }
   }
 
   // Check for container-based availability
@@ -130,7 +153,11 @@ export async function fetchPageData(
       containers: containerData.containers,
       nextEventFound: false, // Container-based bookings don't have next events
     }
-    return result
+    if (debugInfo) {
+      debugInfo.pathTaken = blockingScope === 'general' ? 'container-general' : 'container-event'
+      debugInfo.outputs = result
+    }
+    return { ...result, debugInfo }
   }
 
   if (configuration?.type === 'fixed-location') {
@@ -143,7 +170,11 @@ export async function fetchPageData(
       busy: regularData.busy,
       nextEventFound: false, // Fixed-location bookings don't have next events
     }
-    return result
+    if (debugInfo) {
+      debugInfo.pathTaken = 'fixed-location'
+      debugInfo.outputs = result
+    }
+    return { ...result, debugInfo }
   }
 
   if (configuration?.type === 'next') {
@@ -200,7 +231,11 @@ export async function fetchPageData(
         currentEvent: actualCurrentEvent,
         nextEventFound: true, // Flag to indicate next event was found
       }
-      return result
+      if (debugInfo) {
+        debugInfo.pathTaken = 'next-with-event'
+        debugInfo.outputs = result
+      }
+      return { ...result, debugInfo }
     } else {
       // No upcoming event found - intelligently fallback based on actual availability
       const now = new Date()
@@ -253,7 +288,11 @@ export async function fetchPageData(
         nextEventFound: false, // Flag to indicate no next event was found
         targetDate: targetDateString, // Add info about which day we're targeting
       }
-      return result
+      if (debugInfo) {
+        debugInfo.pathTaken = 'next-no-event'
+        debugInfo.outputs = result
+      }
+      return { ...result, debugInfo }
     }
   }
 
@@ -276,5 +315,9 @@ export async function fetchPageData(
     busy: regularData.busy,
     nextEventFound: false, // Default case never has a next event
   }
-  return result
+  if (debugInfo) {
+    debugInfo.pathTaken = 'area-wide'
+    debugInfo.outputs = result
+  }
+  return { ...result, debugInfo }
 }

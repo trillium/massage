@@ -17,7 +17,11 @@ import { generateContainerStrings } from './helpers/generateContainerStrings'
 import { buildDurationProps } from './helpers/buildDurationProps'
 import { getNullPageConfiguration } from './helpers/getNullPageConfiguration'
 
-import type { createPageConfigurationProps, PageConfigurationReturnType } from '@/lib/types'
+import type {
+  createPageConfigurationProps,
+  PageConfigurationReturnType,
+  DebugInfoType,
+} from '@/lib/componentTypes'
 
 export async function createPageConfiguration({
   bookingSlug,
@@ -26,31 +30,76 @@ export async function createPageConfiguration({
   eventId,
   currentEvent,
   mocked,
+  debug,
 }: createPageConfigurationProps): Promise<PageConfigurationReturnType> {
+  const debugInfo: DebugInfoType | undefined = debug
+    ? {
+        executionPath: 'createPageConfiguration',
+        inputs: {
+          bookingSlug: bookingSlug || '',
+          resolvedParams,
+          overrides,
+        },
+        intermediateResults: {},
+        outputs: {},
+      }
+    : undefined
+
   // 1. Resolve configuration
-  const configuration = await resolveConfiguration(bookingSlug, overrides)
+  const { configuration, debugInfo: resolveDebug } = await resolveConfiguration(
+    bookingSlug,
+    overrides,
+    debug
+  )
+  if (debugInfo && resolveDebug) {
+    debugInfo.executionPath += '.resolveConfiguration'
+    debugInfo.intermediateResults.resolveConfiguration = resolveDebug
+  }
 
   // If configuration type is null, this is an invalid slug
   if (configuration?.type === null) {
     // exit the function without running any fetch queries
-    return getNullPageConfiguration()
+    const nullConfig = getNullPageConfiguration()
+    return {
+      ...nullConfig,
+      debug: debug
+        ? {
+            executionPath: 'invalid-slug',
+            inputs: { bookingSlug: bookingSlug || '', resolvedParams, overrides },
+            intermediateResults: {},
+            outputs: nullConfig,
+          }
+        : undefined,
+    }
   }
 
   // 2. Fetch data based on configuration and mocking requirements
-  const data = await fetchPageData(
+  const { debugInfo: fetchDebug, ...data } = await fetchPageData(
     configuration,
     resolvedParams,
     bookingSlug,
     mocked,
     eventId,
-    currentEvent
+    currentEvent,
+    debug
   )
+  if (debugInfo && fetchDebug) {
+    debugInfo.executionPath += '.fetchPageData'
+    debugInfo.intermediateResults.fetchPageData = fetchDebug
+  }
 
   // 3. Validate search parameters
-  const { duration, selectedDate } = validateSearchParams({
+  const validateSearchParamsResult = validateSearchParams({
     searchParams: resolvedParams,
     allowedDurations: configuration?.allowedDurations ?? undefined,
   })
+  const { duration, selectedDate } = validateSearchParamsResult
+  if (debugInfo) {
+    debugInfo.intermediateResults.validateSearchParams = {
+      inputs: { searchParams: resolvedParams, allowedDurations: configuration?.allowedDurations },
+      outputs: validateSearchParamsResult,
+    }
+  }
 
   // 4. Calculate date boundaries
   const start = dayFromString(data.start)
@@ -64,14 +113,28 @@ export async function createPageConfiguration({
   if (data.multiDurationSlots) {
     slots = data.multiDurationSlots[duration] || []
   } else {
-    slots = createSlots({
+    const createSlotsParams = {
       start,
       end,
       busy: data.busy,
       duration,
       leadTime,
       containers: data.containers,
-    })
+    }
+    slots = createSlots(createSlotsParams)
+    if (debugInfo) {
+      debugInfo.intermediateResults.createSlots = {
+        inputs: createSlotsParams,
+        outputs: slots,
+      }
+    }
+  }
+
+  if (debugInfo) {
+    debugInfo.intermediateResults.calculateLeadTime = {
+      inputs: { configurationLeadTime: configuration?.leadTimeMinimum, defaultLeadTime: LEAD_TIME },
+      outputs: { effectiveLeadTime: leadTime },
+    }
   }
 
   // 6. Generate container strings
@@ -106,11 +169,17 @@ export async function createPageConfiguration({
     instantConfirm: configuration.instantConfirm ?? false,
     multiDurationSlots: data.multiDurationSlots,
     currentEvent: data.currentEvent,
+    debug: debugInfo,
   }
 
   // 9. Check if promo is expired
   if (configuration && configuration.promoEndDate && isPromoExpired(configuration.promoEndDate)) {
     returnObj.isExpired = true
+  }
+
+  if (debugInfo) {
+    const { debug, ...outputs } = returnObj
+    debugInfo.outputs = outputs
   }
 
   return returnObj

@@ -7,8 +7,14 @@ import { initialState } from '@/redux/slices/configSlice'
  */
 export async function resolveConfiguration(
   bookingSlug?: string,
-  overrides?: Partial<SlugConfigurationType>
-): Promise<SlugConfigurationType> {
+  overrides?: Partial<SlugConfigurationType>,
+  debug?: boolean
+): Promise<{
+  configuration: SlugConfigurationType
+  debugInfo?: { inputs: Record<string, unknown>; outputs: Record<string, unknown> }
+}> {
+  const debugInfo = debug ? { inputs: { bookingSlug, overrides }, outputs: {} } : undefined
+
   const slugData = await fetchSlugConfigurationData()
   let configuration: SlugConfigurationType
 
@@ -25,5 +31,7 @@ export async function resolveConfiguration(
     Object.assign(configuration, overrides)
   }
 
-  return configuration
+  if (debugInfo) debugInfo.outputs = { configuration }
+
+  return { configuration, debugInfo }
 }

@@ -24,6 +24,22 @@ export type createPageConfigurationProps = {
     timeZone?: string
     data?: Record<string, unknown>
   } | null
+  debug?: boolean
+}
+
+export type DebugInfoType = {
+  executionPath: string // Dot-separated string of function calls, e.g., "createPageConfiguration.resolveConfiguration.fetchPageData"
+  inputs: {
+    bookingSlug: string
+    resolvedParams: Record<string, unknown>
+    overrides?: unknown
+    // etc.
+  }
+  intermediateResults: Record<
+    string,
+    { inputs: Record<string, unknown>; outputs: Record<string, unknown> }
+  > // Flat object keyed by step name, e.g., { resolveConfiguration: { inputs: {...}, outputs: {...} } }
+  outputs: Record<string, unknown> // Final return props, e.g., isExpired, slots, etc.
 }
 
 export type PageConfigurationReturnType = {
@@ -54,4 +70,5 @@ export type PageConfigurationReturnType = {
   instantConfirm: boolean
   multiDurationSlots?: Record<number, StringDateTimeIntervalAndLocation[]>
   currentEvent?: GoogleCalendarV3Event
+  debug?: DebugInfoType
 }
