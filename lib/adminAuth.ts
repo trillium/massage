@@ -18,6 +18,10 @@ export class AdminAuthManager {
     return secret
   }
 
+  private static isLocalStorageAvailable(): boolean {
+    return typeof window !== 'undefined' && typeof localStorage !== 'undefined'
+  }
+
   /**
    * Generate a secure admin login link with signed token
    */
@@ -65,6 +69,8 @@ export class AdminAuthManager {
   static createSession(email: string, token: string): boolean {
     if (!this.validateAdminAccess(email, token)) return false
 
+    if (!this.isLocalStorageAvailable()) return false
+
     const session: AdminSession = {
       email,
       token,
@@ -86,6 +92,8 @@ export class AdminAuthManager {
    * Use this when you've already validated the credentials server-side
    */
   static createValidatedSession(email: string, token: string): boolean {
+    if (!this.isLocalStorageAvailable()) return false
+
     const session: AdminSession = {
       email,
       token,
@@ -106,6 +114,8 @@ export class AdminAuthManager {
    * Validate existing session from localStorage
    */
   static validateSession(): AdminSession | null {
+    if (!this.isLocalStorageAvailable()) return null
+
     try {
       const sessionData = localStorage.getItem(this.SESSION_KEY)
       if (!sessionData) return null
@@ -132,6 +142,8 @@ export class AdminAuthManager {
    * Clear admin session
    */
   static clearSession(): void {
+    if (!this.isLocalStorageAvailable()) return
+
     try {
       localStorage.removeItem(this.SESSION_KEY)
     } catch (error) {
