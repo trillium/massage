@@ -37,7 +37,10 @@ import BookingSummary from './BookingSummary'
 import BookingFormActions from './BookingFormActions'
 import { flattenLocation } from '@/lib/helpers/locationHelpers'
 import { stringToLocationObject } from '@/lib/slugConfigurations/helpers/parseLocationFromSlug'
+import { paymentMethod } from '@/data/paymentMethods'
 const { eventBaseString } = siteMetadata
+
+const paymentMethodValues = paymentMethod.map((method) => method.value) as [string, ...string[]]
 
 // Zod schema for form validation
 const createBookingFormSchema = (config?: { cities?: string[]; zipCodes?: string[] }) => {
@@ -50,7 +53,7 @@ const createBookingFormSchema = (config?: { cities?: string[]; zipCodes?: string
       .regex(/^[\+]?[(]?[\d\s\-\(\)]{10,}$/, 'Please enter a valid phone number'),
     email: z.string().min(1, 'Email is required').email('Please enter a valid email address'),
     location: createLocationSchema(config),
-    paymentMethod: z.enum(['cash', 'venmo', 'zelle']),
+    paymentMethod: z.enum(paymentMethodValues),
     hotelRoomNumber: z.string().optional(),
     parkingInstructions: z.string().optional(),
     additionalNotes: z.string().optional(),
@@ -247,7 +250,7 @@ export default function BookingForm({
       return { street: '', city: '', zip: '' }
     })(),
     instantConfirm: config.instantConfirm || false,
-    paymentMethod: (formData.paymentMethod as 'cash' | 'venmo' | 'zelle') || 'cash',
+    paymentMethod: (formData.paymentMethod as PaymentMethodType) || 'cash',
     hotelRoomNumber: typeof formData.hotelRoomNumber === 'string' ? formData.hotelRoomNumber : '',
     parkingInstructions:
       typeof formData.parkingInstructions === 'string' ? formData.parkingInstructions : '',
