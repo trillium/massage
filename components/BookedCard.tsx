@@ -11,6 +11,7 @@ export function BookedCard({
   email,
   state,
   price,
+  duration,
   promo,
   bookingUrl,
   hotelRoomNumber,
@@ -27,6 +28,7 @@ export function BookedCard({
   email: string
   state?: 'Pending' | 'Confirmed' | 'Declined'
   price?: number | string
+  duration: number | string
   promo?: string
   bookingUrl?: string
   hotelRoomNumber?: string
@@ -69,6 +71,7 @@ export function BookedCard({
             <div>
               <p className="text-primary-800 dark:text-primary-400 text-base font-semibold md:text-lg">
                 {dateString}
+                {duration && ` - ${duration}m Massage`}
               </p>
               <p className="text-sm md:text-base">
                 {startString} - {endString}
