@@ -48,7 +48,7 @@
     "esbuild": "0.25.10",
     "formik": "^2.4.6",
     "github-slugger": "^2.0.0",
-    "googleapis": "^157.0.0",
+    "googleapis": "^160.0.0",
     "gray-matter": "^4.0.2",
     "hast-util-from-html-isomorphic": "^2.0.0",
     "image-size": "2.0.2",
