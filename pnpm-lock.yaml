@@ -36,8 +36,8 @@ importers:
         specifier: ^8.0.4
         version: 8.0.4(maplibre-gl@5.6.2)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@vvo/tzdb':
-        specifier: ^6.157.0
-        version: 6.180.0
+        specifier: ^6.184.0
+        version: 6.184.0
       autoprefixer:
         specifier: ^10.4.13
         version: 10.4.21(postcss@8.5.6)
@@ -2913,8 +2913,8 @@ packages:
   '@vitest/utils@3.2.4':
     resolution: {integrity: sha512-fB2V0JFrQSMsCo9HiSq3Ezpdv4iYaXRG1Sx8edX3MwxfyNn83mKiGzOcH+Fkxt4MHxr3y42fQi1oeAInqgX2QA==}
 
-  '@vvo/tzdb@6.180.0':
-    resolution: {integrity: sha512-S6NC+urK/L4R3z1bemwlC10WFUT7R4yRctA4oL1hPK1ca4PgodBiLq9bEdybnkAjKVCrsKLdrD6/NHAI4Omzhg==}
+  '@vvo/tzdb@6.184.0':
+    resolution: {integrity: sha512-HbUxV1Jr3dKHZaXBw56cKvoVAF8o1oyWKrUH4J50wmNUntWV6yzcQRgj/HYfVdix0l9uPKU4Z5OnV/6zhSpxaA==}
 
   acorn-jsx@5.3.2:
     resolution: {integrity: sha512-rq9s+JNhf0IChjtDXxllJ7g41oZk5SlXtp0LHwyA5cejwn7vKmKp4pPri6YEePv2PU65sAsegbXtIinmDFDXgQ==}
@@ -9909,7 +9909,7 @@ snapshots:
       loupe: 3.2.0
       tinyrainbow: 2.0.0
 
-  '@vvo/tzdb@6.180.0': {}
+  '@vvo/tzdb@6.184.0': {}
 
   acorn-jsx@5.3.2(acorn@8.15.0):
     dependencies:

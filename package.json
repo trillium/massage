@@ -38,7 +38,7 @@
     "@tailwindcss/typography": "^0.5.15",
     "@testing-library/react": "14.0.0",
     "@vis.gl/react-maplibre": "^8.0.4",
-    "@vvo/tzdb": "^6.157.0",
+    "@vvo/tzdb": "^6.184.0",
     "autoprefixer": "^10.4.13",
     "body-scroll-lock": "^4.0.0-beta.0",
     "contentlayer2": "0.5.5",
