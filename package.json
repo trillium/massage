@@ -51,7 +51,7 @@
     "googleapis": "^157.0.0",
     "gray-matter": "^4.0.2",
     "hast-util-from-html-isomorphic": "^2.0.0",
-    "image-size": "2.0.1",
+    "image-size": "2.0.2",
     "lru-cache": "^11.0.2",
     "maplibre-gl": "^5.6.2",
     "next": "15.5.4",
