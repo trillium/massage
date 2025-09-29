@@ -109,7 +109,7 @@
     "eslint-config-prettier": "^9.1.0",
     "globals": "^16.4.0",
     "husky": "^9.1.7",
-    "jest-environment-jsdom": "^29.7.0",
+    "jest-environment-jsdom": "^30.2.0",
     "lint-staged": "^13.3.0",
     "msw": "^2.11.3",
     "nspell": "^2.1.5",
