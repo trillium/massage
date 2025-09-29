@@ -60,7 +60,7 @@
     "nodemailer": "^6.9.16",
     "pliny": "0.4.1",
     "postcss": "^8.4.24",
-    "posthog-js": "^1.258.2",
+    "posthog-js": "^1.268.8",
     "posthog-node": "^4.18.0",
     "react": "19.0.0",
     "react-dom": "19.0.0",
