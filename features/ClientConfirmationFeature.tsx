@@ -50,6 +50,7 @@ export default function Confirmation() {
     price: price,
     promo: promo || undefined,
     bookingUrl: bookingUrl || undefined,
+    duration,
   }
 
   return (

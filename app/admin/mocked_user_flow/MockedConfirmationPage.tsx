@@ -4,6 +4,7 @@ import React from 'react'
 import { BookedCard } from 'components/BookedCard'
 import BookSessionButton from 'components/BookSessionButton'
 import { formatLocalDate, formatLocalTime } from 'lib/availability/helpers'
+import { useReduxAvailability } from '@/redux/hooks'
 
 interface MockedConfirmationPageProps {
   data: {
@@ -20,6 +21,8 @@ interface MockedConfirmationPageProps {
 }
 
 export default function MockedConfirmationPage({ data }: MockedConfirmationPageProps) {
+  const { duration } = useReduxAvailability()
+
   if (!data) {
     return <div className="text-center text-gray-500">No booking data available</div>
   }
@@ -46,6 +49,7 @@ export default function MockedConfirmationPage({ data }: MockedConfirmationPageP
     phone: data.phone || '',
     email: data.email || '',
     price: data.price || '',
+    duration,
   }
 
   return (

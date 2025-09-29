@@ -8,7 +8,7 @@ import { BookedCard } from 'components/BookedCard'
 import { flattenLocation } from '@/lib/helpers/locationHelpers'
 
 export default function Confirmation() {
-  const { selectedTime, timeZone } = useReduxAvailability()
+  const { selectedTime, timeZone, duration } = useReduxAvailability()
 
   let dateString = ''
   let startString = ''
@@ -46,6 +46,7 @@ export default function Confirmation() {
     hotelRoomNumber,
     parkingInstructions,
     additionalNotes,
+    duration,
   }
 
   return (
