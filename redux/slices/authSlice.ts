@@ -8,8 +8,11 @@ export interface AuthState {
 }
 
 const initialState: AuthState = {
-  isAuthenticated: AdminAuthManager.isAuthenticated(),
-  adminEmail: AdminAuthManager.getCurrentAdminEmail(),
+  // Avoid calling AdminAuthManager at module load time to prevent
+  // side-effects and test/mock ordering issues. The `checkAuth`
+  // reducer will query AdminAuthManager when needed.
+  isAuthenticated: false,
+  adminEmail: null,
 }
 
 export const authSlice: Slice<AuthState> = createSlice({
