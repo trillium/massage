@@ -110,7 +110,7 @@
     "globals": "^16.4.0",
     "husky": "^9.1.7",
     "jest-environment-jsdom": "^30.2.0",
-    "lint-staged": "^13.3.0",
+    "lint-staged": "^16.2.3",
     "msw": "^2.11.3",
     "nspell": "^2.1.5",
     "prettier": "^3.4.2",
