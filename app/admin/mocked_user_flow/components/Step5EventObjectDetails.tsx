@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react'
 import { AppointmentProps } from '@/lib/types'
 import eventSummary from '@/lib/messaging/templates/events/eventSummary'
@@ -9,7 +11,7 @@ interface Step5EventObjectDetailsProps {
   isConfirmed: boolean
 }
 
-export default async function Step5EventObjectDetails({
+export default function Step5EventObjectDetails({
   submittedData,
   isConfirmed,
 }: Step5EventObjectDetailsProps) {
@@ -35,7 +37,7 @@ export default async function Step5EventObjectDetails({
     duration: submittedData.duration || '60',
   })
 
-  const description = await eventDescription({
+  const description = eventDescription({
     start: submittedData.start,
     end: submittedData.end,
     phone: submittedData.phone,
