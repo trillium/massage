@@ -49,20 +49,26 @@ const BaseRequestSchema = z
     message: 'Either locationObject or locationString must be provided.',
   })
 
-export const AppointmentRequestSchema = BaseRequestSchema.extend({
-  paymentMethod: z.enum(paymentMethodValues).optional(),
-})
+export const AppointmentRequestSchema = z
+  .object({
+    ...BaseRequestSchema.shape,
+    paymentMethod: z.enum(paymentMethodValues).optional(),
+  })
+  .strict()
 
-export const OnSiteRequestSchema = BaseRequestSchema.extend({
-  paymentMethod: z.enum(paymentMethodValues),
-  eventContainerString: z.string(), // Make this field required
-  allowedDurations: z.array(z.number()),
-  eventName: z.string(),
-  sessionDuration: z.string().optional(),
-  pricing: z.record(z.string(), z.number()).optional(),
-  paymentOptions: z.string(),
-  leadTime: z.number(),
-})
+export const OnSiteRequestSchema = z
+  .object({
+    ...BaseRequestSchema.shape,
+    paymentMethod: z.enum(paymentMethodValues),
+    eventContainerString: z.string(), // Make this field required
+    allowedDurations: z.array(z.number()),
+    eventName: z.string(),
+    sessionDuration: z.string().optional(),
+    pricing: z.record(z.string(), z.number()).optional(),
+    paymentOptions: z.string(),
+    leadTime: z.number(),
+  })
+  .strict()
 
 export const ContactFormSchema = z.object({
   subject: z.string().min(1, 'Subject is required'),
