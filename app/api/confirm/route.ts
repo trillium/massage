@@ -15,6 +15,7 @@ export async function GET(req: NextRequest) {
 
   const data = searchParams.get('data')
   const key = searchParams.get('key')
+  const mock = searchParams.get('mock') === 'true'
 
   if (!data) {
     return NextResponse.json({ error: 'Data is missing' }, { status: 400 })
@@ -60,18 +61,27 @@ export async function GET(req: NextRequest) {
   }
 
   // Create the confirmed appointment
-  const response = await createCalendarAppointment({
-    ...validObject,
-    location: locationObject,
-    requestId: hash,
-    summary:
-      eventSummary({
-        duration: validObject.duration,
-        clientName: `${validObject.firstName} ${validObject.lastName}`,
-      }) || 'Error in createEventSummary()',
-  })
+  let details
+  if (mock) {
+    details = {
+      htmlLink: 'https://calendar.google.com/calendar/event?eid=mock-event-id',
+      attendees: [],
+    }
+    console.log('Mock, skipping calendar creation 🗓️')
+  } else {
+    const response = await createCalendarAppointment({
+      ...validObject,
+      location: locationObject,
+      requestId: hash,
+      summary:
+        eventSummary({
+          duration: validObject.duration,
+          clientName: `${validObject.firstName} ${validObject.lastName}`,
+        }) || 'Error in createEventSummary()',
+    })
 
-  const details = await response.json()
+    details = await response.json()
+  }
 
   const htmlLink = details.htmlLink
   const regex = /eid=([^&]+)/
@@ -89,14 +99,21 @@ export async function GET(req: NextRequest) {
           /^, |, $/,
           ''
         ), // Include location string for API responses
-      attendees: details.attendees
-        ? details.attendees.map(
-            (attendee: { email: string; displayName?: string; name?: string }) => ({
-              email: attendee.email,
-              name: attendee.displayName || attendee.name,
-            })
-          )
-        : [{ email: validObject.email, name: validObject.firstName }],
+      attendees:
+        details.attendees && Array.isArray(details.attendees)
+          ? details.attendees
+              .filter(
+                (attendee) =>
+                  attendee &&
+                  typeof attendee === 'object' &&
+                  'email' in attendee &&
+                  typeof attendee.email === 'string'
+              )
+              .map((attendee: { email: string; displayName?: string; name?: string }) => ({
+                email: attendee.email,
+                name: attendee.displayName || attendee.name,
+              }))
+          : [{ email: validObject.email, name: validObject.firstName }],
       timeZone: validObject.timeZone,
       dateTime: validObject.start,
       start: {
@@ -114,11 +131,11 @@ export async function GET(req: NextRequest) {
     // Generate admin authentication parameters for seamless admin identification
     const adminEmail = siteMetadata.email
     const adminLink = AdminAuthManager.generateAdminLink(adminEmail)
-    const url = new URL(adminLink)
+    const url = new URL(adminLink, req.url)
     const adminToken = url.searchParams.get('token')
 
     return NextResponse.redirect(
-      `/admin/booked?data=${encodedDetails}&url=${encodeURIComponent(match[1])}&email=${encodeURIComponent(adminEmail)}&token=${adminToken}`
+      `${new URL(req.url).origin}/admin/booked?data=${encodedDetails}&url=${encodeURIComponent(match[1])}&email=${encodeURIComponent(adminEmail)}&token=${adminToken}`
     )
   }
 
