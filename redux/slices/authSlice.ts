@@ -2,7 +2,7 @@ import { createSlice, PayloadAction, Slice } from '@reduxjs/toolkit'
 import type { RootState } from '@/redux/store'
 import { AdminAuthManager } from '@/lib/adminAuth'
 
-interface AuthState {
+export interface AuthState {
   isAuthenticated: boolean
   adminEmail: string | null
 }
