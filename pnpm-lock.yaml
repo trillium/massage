@@ -177,8 +177,8 @@ importers:
         specifier: ^4.1.11
         version: 4.1.11
       zod-formik-adapter:
-        specifier: ^1.3.0
-        version: 1.3.0(formik@2.4.6(@types/react@19.1.15)(react@19.1.1))(zod@4.1.11)
+        specifier: ^2.0.0
+        version: 2.0.0(formik@2.4.6(@types/react@19.1.15)(react@19.1.1))(zod@4.1.11)
     devDependencies:
       '@eslint/eslintrc':
         specifier: ^3.2.0
@@ -7030,11 +7030,11 @@ packages:
   yup@1.7.1:
     resolution: {integrity: sha512-GKHFX2nXul2/4Dtfxhozv701jLQHdf6J34YDh2cEkpqoo8le5Mg6/LrdseVLrFarmFygZTlfIhHx/QKfb/QWXw==}
 
-  zod-formik-adapter@1.3.0:
-    resolution: {integrity: sha512-qWsVwRYqpRod5BL35pRXHD6UOugiyaEyLPO04rCN/uKTCFCR+VElPEG26+3wNrxGP7y5XmJM+4/0MrABnRYZrw==}
+  zod-formik-adapter@2.0.0:
+    resolution: {integrity: sha512-cLykLmQgmCmhx8C/mwR+rUNKRw6kEukejGRrByB+56zV1XtHF+xmOiQ2Lp2w5R0BdN3z42QKFekOI0Vy39vR8Q==}
     peerDependencies:
       formik: ^2.2.9
-      zod: ^3.22.4
+      zod: 4.x
 
   zod@3.25.76:
     resolution: {integrity: sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==}
@@ -15124,7 +15124,7 @@ snapshots:
       toposort: 2.0.2
       type-fest: 2.19.0
 
-  zod-formik-adapter@1.3.0(formik@2.4.6(@types/react@19.1.15)(react@19.1.1))(zod@4.1.11):
+  zod-formik-adapter@2.0.0(formik@2.4.6(@types/react@19.1.15)(react@19.1.1))(zod@4.1.11):
     dependencies:
       formik: 2.4.6(@types/react@19.1.15)(react@19.1.1)
       zod: 4.1.11
