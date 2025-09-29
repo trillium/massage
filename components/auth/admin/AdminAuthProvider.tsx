@@ -68,7 +68,7 @@ export function AdminAuthProvider({ children }: AdminAuthProviderProps) {
               const cleanUrl = new URL(window.location.href)
               cleanUrl.searchParams.delete('email')
               cleanUrl.searchParams.delete('token')
-              router.replace(cleanUrl.pathname)
+              router.replace(cleanUrl.href)
 
               // Add PostHog identification for admin
               await identifyAuthenticatedUser(urlEmail, 'admin_login')
