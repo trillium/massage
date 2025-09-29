@@ -115,7 +115,7 @@
     "nspell": "^2.1.5",
     "prettier": "^3.4.2",
     "prettier-plugin-tailwindcss": "^0.6.11",
-    "puppeteer": "^24.16.2",
+    "puppeteer": "^24.22.3",
     "ts-node": "^10.9.2",
     "tsx": "^4.20.6",
     "typescript": "^5.9.2",
