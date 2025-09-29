@@ -201,9 +201,6 @@ importers:
       '@types/mdx':
         specifier: ^2.0.12
         version: 2.0.13
-      '@types/puppeteer':
-        specifier: ^7.0.4
-        version: 7.0.4(typescript@5.9.2)
       '@types/react':
         specifier: ^19.1.15
         version: 19.1.15
@@ -2596,10 +2593,6 @@ packages:
 
   '@types/prismjs@1.26.5':
     resolution: {integrity: sha512-AUZTa7hQ2KY5L7AmtSiqxlhWxb4ina0yd8hNbl4TWuqnv/pFP0nDMb3YrfSBf4hJVGLh2YEIBfKaBW/9UEl6IQ==}
-
-  '@types/puppeteer@7.0.4':
-    resolution: {integrity: sha512-ja78vquZc8y+GM2al07GZqWDKQskQXygCDiu0e3uO0DMRKqE0MjrFBFmTulfPYzLB6WnL7Kl2tFPy0WXSpPomg==}
-    deprecated: This is a stub types definition. puppeteer provides its own type definitions, so you do not need this installed.
 
   '@types/react-dom@18.3.7':
     resolution: {integrity: sha512-MEe3UeoENYVFXzoXEWsvcpg6ZvlrFNlOQ7EOsvhI3CfAXwzPfO8Qwuxd40nepsYKqyyVQnTdEfv68q91yLcKrQ==}
@@ -9527,16 +9520,6 @@ snapshots:
       undici-types: 7.8.0
 
   '@types/prismjs@1.26.5': {}
-
-  '@types/puppeteer@7.0.4(typescript@5.9.2)':
-    dependencies:
-      puppeteer: 24.16.2(typescript@5.9.2)
-    transitivePeerDependencies:
-      - bare-buffer
-      - bufferutil
-      - supports-color
-      - typescript
-      - utf-8-validate
 
   '@types/react-dom@18.3.7(@types/react@19.1.15)':
     dependencies:
