@@ -6,9 +6,10 @@ import TimeButton from 'components/availability/time/TimeButton'
 import DurationPicker from 'components/availability/controls/DurationPicker'
 import Calendar from 'components/availability/date/Calendar'
 import type { durationPropsType } from '@/lib/types'
-import { LocationObject } from 'lib/types'
+import { LocationObject, PaymentMethodType } from 'lib/types'
 import { FormikHelpers } from 'formik'
 import { z } from 'zod'
+import { paymentMethod } from '@/data/paymentMethods'
 import { createLocationSchema } from 'components/booking/fields/validations/locationValidation'
 import { useAppDispatch } from '@/redux/hooks'
 import { setSelectedTime } from '@/redux/slices/availabilitySlice'
@@ -26,7 +27,7 @@ const createBookingFormSchema = (config?: { cities?: string[]; zipCodes?: string
       .regex(/^[\+]?[(]?[\d\s\-\(\)]{10,}$/, 'Please enter a valid phone number'),
     email: z.string().min(1, 'Email is required').email('Please enter a valid email address'),
     location: createLocationSchema(config),
-    paymentMethod: z.enum(['cash', 'venmo', 'zelle']),
+    paymentMethod: z.enum(paymentMethod.map((m) => m.value)),
     hotelRoomNumber: z.string().optional(),
     parkingInstructions: z.string().optional(),
     start: z.string(),
@@ -39,7 +40,9 @@ const createBookingFormSchema = (config?: { cities?: string[]; zipCodes?: string
   })
 }
 
-type BookingFormValues = z.infer<ReturnType<typeof createBookingFormSchema>>
+type BookingFormValues = z.infer<ReturnType<typeof createBookingFormSchema>> & {
+  paymentMethod: PaymentMethodType
+}
 
 interface Step1BookingSelectionProps {
   selectedDuration: number
