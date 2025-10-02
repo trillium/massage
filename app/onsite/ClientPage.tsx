@@ -9,7 +9,8 @@ import type { PageProps } from 'app/book/page'
 import { AllowedDurationsType } from '@/lib/types'
 import { useEffect, useRef, useState } from 'react'
 import { useFormik } from 'formik'
-import * as Yup from 'yup'
+import { z } from 'zod'
+import { toFormikValidationSchema } from 'zod-formik-adapter'
 
 import BookingForm from '@/components/booking/BookingForm'
 import Calendar from '@/components/availability/date/Calendar'
@@ -25,13 +26,13 @@ const paymentOptionsList = [
   'Individuals pay for their own sessions',
 ] // These need more explanation
 
-const OnsiteSchema = Yup.object().shape({
-  eventName: Yup.string().max(60, 'Too Long!').required('Required'),
-  allowedDurations: Yup.array()
-    .of(Yup.number())
+const OnsiteSchema = z.object({
+  eventName: z.string().max(60, 'Too Long!').min(1, 'Required'),
+  allowedDurations: z
+    .array(z.number())
     .min(1, 'At least one duration must be selected.')
-    .required('Required'),
-  paymentOptions: Yup.string().required('Required'),
+    .default([]),
+  paymentOptions: z.string().min(1, 'Required'),
 })
 
 function ClientPage({ duration, children }: { duration: number; children?: React.ReactNode }) {
@@ -52,7 +53,7 @@ function ClientPage({ duration, children }: { duration: number; children?: React
       paymentOptions: '',
       leadTime: 0,
     },
-    validationSchema: OnsiteSchema,
+    validationSchema: toFormikValidationSchema(OnsiteSchema),
     onSubmit: (values) => {},
   })
 
@@ -60,7 +61,10 @@ function ClientPage({ duration, children }: { duration: number; children?: React
 
   const formCheckboxOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseInt(event.target.value, 10)
-    const allowedDurations: number[] = formik.values.allowedDurations
+    // Ensure allowedDurations is always an array
+    const allowedDurations: number[] = Array.isArray(formik.values.allowedDurations)
+      ? formik.values.allowedDurations
+      : []
 
     const newDurations = allowedDurations.includes(value)
       ? allowedDurations.filter((duration) => duration !== value)
