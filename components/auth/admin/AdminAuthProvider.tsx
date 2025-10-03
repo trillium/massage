@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
+import Link from 'next/link'
 import { useAppDispatch, useAppSelector } from '@/redux/hooks'
 import { login, logout, checkAuth } from '@/redux/slices/authSlice'
 import { AdminAuthManager } from '@/lib/adminAuth'
@@ -172,10 +173,13 @@ export function AdminAuthProvider({ children }: AdminAuthProviderProps) {
             </h1>
             <p className="mb-4 text-gray-600 dark:text-gray-400">{authState.error}</p>
             <div className="text-sm text-gray-500 dark:text-gray-400">
-              <p className="mb-2">To access the admin panel:</p>
-              <ul className="list-inside list-decimal space-y-1 text-left">
-                <li>Request an admin link via email</li>
-              </ul>
+              <p>
+                To access the admin panel,{' '}
+                <Link href="/admin-request-access" className="text-blue-600 hover:underline">
+                  request admin access
+                </Link>
+                .
+              </p>
             </div>
           </div>
         </div>
