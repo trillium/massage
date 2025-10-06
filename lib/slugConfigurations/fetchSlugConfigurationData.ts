@@ -72,7 +72,7 @@ const slugConfigurations: SlugConfigurationType[] = [
     ...initialStateWithoutType,
     bookingSlug: ['midnight-runners-spooktober'],
     type: 'area-wide',
-    title: 'Midnight Runners Discount Page!',
+    title: 'Midnight Runners Discount Page 🎃🦇!',
     text: 'Thanks for considering me, please enjoy 25% off standard pricing :)',
     discount: {
       type: 'percent',
