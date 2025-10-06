@@ -5762,6 +5762,41 @@ const ratings: ReviewType[] = [
     name: 'John H.',
     source: 'Trillium Massage',
   },
+  {
+    rating: 5,
+    date: '2025-08-15',
+    name: 'Kristy D.',
+    source: 'Soothe',
+    comment: 'fantastic technique, professional would highly recommend!',
+  },
+  {
+    rating: 5,
+    date: '2025-08-15',
+    name: 'Michael C.',
+    source: 'Soothe',
+  },
+  {
+    rating: 5,
+    date: '2025-07-17',
+    name: 'Alicia E.',
+    source: 'Soothe',
+    comment: 'I doubt know that I’ve ever had a better massage. Thank you, Trillium!',
+  },
+  {
+    rating: 5,
+    date: '2025-07-06',
+    name: 'Michelle H.',
+    source: 'Soothe',
+    comment:
+      'Trillium is amazing and is always my first choice of therapists! He is so talented, skilled and I am always blown away by how good a therapist he is!',
+  },
+  {
+    rating: 5,
+    date: '2025-10-04',
+    name: 'Jade',
+    source: 'Airbnb',
+    comment: 'Showed up on time, prepared for service. Thank you!',
+  },
 ]
 
 export default ratings
