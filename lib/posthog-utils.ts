@@ -133,11 +133,13 @@ export async function identifyAuthenticatedUser(
       return { success: false, message: 'PostHog not loaded' }
     }
 
+    const isAdmin = verificationMethod === 'admin_login' || verificationMethod === 'admin_session'
     const properties = {
       email,
       verification_method: verificationMethod,
       identified_at: new Date().toISOString(),
       user_type: 'authenticated',
+      ...(isAdmin ? { is_admin: true } : {}),
     }
 
     posthog.identify(email, properties)
