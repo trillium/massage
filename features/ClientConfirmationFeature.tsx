@@ -1,6 +1,7 @@
 'use client'
 
 import clsx from 'clsx'
+import { redirect } from 'next/navigation'
 import {
   useAppDispatch,
   useReduxAvailability,
@@ -51,6 +52,19 @@ export default function Confirmation() {
     promo: promo || undefined,
     bookingUrl: bookingUrl || undefined,
     duration,
+  }
+
+  // If BookedData is missing required fields, redirect to home
+  if (
+    !BookedData.dateString ||
+    !BookedData.startString ||
+    !BookedData.endString ||
+    !BookedData.firstName ||
+    !BookedData.lastName ||
+    !BookedData.phone ||
+    !BookedData.email
+  ) {
+    redirect('/')
   }
 
   return (
