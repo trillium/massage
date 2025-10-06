@@ -82,6 +82,18 @@ const slugConfigurations: SlugConfigurationType[] = [
   },
   {
     ...initialStateWithoutType,
+    bookingSlug: ['nextdoor-spooktober'],
+    type: 'area-wide',
+    title: 'Nextoor Neighbors Discount Page 🎃🦇!',
+    text: 'Thanks for considering me, please enjoy 25% off standard pricing :)',
+    discount: {
+      type: 'percent',
+      amountPercent: 0.25,
+    },
+    promoEndDate: '2025-11-01',
+  },
+  {
+    ...initialStateWithoutType,
     bookingSlug: ['90045', 'westchester', 'playa', 'playa-vista', 'kentwood'],
     type: 'area-wide',
     title: 'Do you live ridiculously close to me??',
