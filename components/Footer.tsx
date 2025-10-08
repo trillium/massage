@@ -70,13 +70,13 @@ function ServiceIsContainer({ displayClasses }: { displayClasses?: string }) {
       <h2 className="mb-2 ml-4 text-base font-bold text-white">In-Home Massage Services</h2>
       <ul className="mb-8 space-y-1">
         {tableServiceLinks.map((item) => (
-          <ListItem positionClasses="pl-8" key={item.text} {...item} />
+          <ListItem positionClasses="pl-8 whitespace-nowrap" key={item.text} {...item} />
         ))}
       </ul>
       <h2 className="mb-2 ml-4 text-base font-bold text-white">In-Office/Event Massage Services</h2>
       <ul className="mb-8 space-y-1">
         {eventServiceLinks.map((item) => (
-          <ListItem positionClasses="pl-8" key={item.text} {...item} />
+          <ListItem positionClasses="pl-8 whitespace-nowrap" key={item.text} {...item} />
         ))}
       </ul>
     </div>
