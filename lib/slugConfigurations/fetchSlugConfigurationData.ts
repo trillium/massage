@@ -41,7 +41,7 @@ const instructionalSlug: SlugConfigurationType = {
   pricing: { 90: 210 },
   title: 'Ready to learn to give a great massage?!',
   text: [
-    'In this hands-on workshop for two, you’ll learn techniques to give a professional-level, relaxing massage while keeping your body comfortable and avoiding strain.',
+    'In this hands-on workshop you’ll learn techniques to give a professional-level, relaxing massage while keeping your body comfortable and avoiding strain.',
     'Designed for two participants with approximately 60 minutes of hands-on instruction. Larger groups can be accommodated with advance notice.',
   ],
 }
