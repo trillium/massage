@@ -45,6 +45,17 @@ const servicesStart: Partial<ServiceType>[] = [
     type: 'split-chair',
     bookHref: '/onsite',
   },
+  {
+    name: 'Massage Therapy Instructional',
+    id: 'massage-instructional',
+    description:
+      'Ever wanted to learn to give a relaxing, effective massage? Book a private hands-on workshop for two in your home! This in-home workshop is designed for two people, but can support groups as well.',
+    duration: [90],
+    image: '/static/images/table/table_square_02.webp',
+    group: 'table',
+    footerHrefText: 'Massage Therapy Instructional',
+    bookHref: '/instructional',
+  },
 ]
 
 const services: ServiceTypePriced[] = servicesStart.map((service) => {

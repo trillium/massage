@@ -33,7 +33,21 @@ const free_thirty: SlugConfigurationType = {
   blockingScope: 'general',
 }
 
+const instructionalSlug: SlugConfigurationType = {
+  ...initialStateWithoutType,
+  type: 'area-wide',
+  bookingSlug: ['instructional'],
+  allowedDurations: [90],
+  pricing: { 90: 210 },
+  title: 'Ready to learn to give a great massage?!',
+  text: [
+    'In this hands-on workshop for two, you’ll learn techniques to give a professional-level, relaxing massage while keeping your body comfortable and avoiding strain.',
+    'Designed for two participants with approximately 60 minutes of hands-on instruction. Larger groups can be accommodated with advance notice.',
+  ],
+}
+
 const slugConfigurations: SlugConfigurationType[] = [
+  instructionalSlug,
   {
     ...initialStateWithoutType,
     bookingSlug: ['foo'],
