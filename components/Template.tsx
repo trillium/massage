@@ -12,7 +12,7 @@ export default function Template({ title, text, classes, center = false }: Templ
     if (!text) return null
     if (typeof text === 'string') {
       return (
-        <p className="mt-2 font-medium text-gray-800 sm:mt-6 sm:text-xl dark:text-gray-100">
+        <p className="mt-2 mb-2 font-medium text-gray-800 sm:mt-6 sm:text-xl dark:text-gray-100">
           {text}
         </p>
       )
@@ -21,7 +21,7 @@ export default function Template({ title, text, classes, center = false }: Templ
       return text.map((paragraph, index) => (
         <p
           key={index}
-          className="mt-2 font-medium text-gray-800 sm:mt-6 sm:text-xl dark:text-gray-100"
+          className="mt-2 font-medium text-gray-800 last:mb-2 sm:mt-6 sm:text-xl dark:text-gray-100"
         >
           {paragraph}
         </p>
