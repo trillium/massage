@@ -5,9 +5,12 @@ import { ContactFormSchema } from '@/lib/schema'
  * Creates a pushover message for contact form submissions.
  */
 export function ContactPushover(data: z.output<typeof ContactFormSchema>) {
-  const title = 'Contact Form Submission'
+  const title = `Contact: ${data.subject}`
 
-  const message = `New contact form from ${data.name} (${data.email}): ${data.subject}\n${data.message}`
+  const message = `${data.name} (${data.email})
+Phone: ${data.phone}
+
+${data.message}`
 
   return { message, title }
 }

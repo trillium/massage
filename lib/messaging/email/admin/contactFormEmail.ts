@@ -8,19 +8,19 @@ import { ContactFormType } from '@/lib/types'
  */
 function contactFormEmail({ subject, name, email, phone, message }: ContactFormType) {
   let output = 'New Contact Form Submission'
-  output += '\n\n'
-  output += `<b>Subject</b>: ${subject}\n`
-  output += `<b>Name</b>: ${name}\n`
-  output += `<b>Email</b>: ${email}\n`
-  output += `<b>Phone</b>: ${phone}\n`
-  output += '\n'
-  output += `<b>Message</b>:\n${message}\n`
-  output += '\n\n'
+  output += '<br><br>'
+  output += `<b>Subject</b>: ${subject}<br>`
+  output += `<b>Name</b>: ${name}<br>`
+  output += `<b>Email</b>: ${email}<br>`
+  output += `<b>Phone</b>: ${phone}<br>`
+  output += '<br>'
+  output += `<b>Message</b>:<br>${message}<br>`
+  output += '<br><br>'
   output += `Submitted on: ${new Date().toLocaleString()}`
-  output += '\n\n'
+  output += '<br><br>'
   output += 'Trillium Smith, LMT'
-  output += '\n'
-  output += `<a href="https://trilliummassage.la/">www.trilliummassage.la</a>\n`
+  output += '<br>'
+  output += `<a href="https://trilliummassage.la/">www.trilliummassage.la</a><br>`
 
   return output
 }
