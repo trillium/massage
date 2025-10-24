@@ -6,9 +6,9 @@ import Day from 'lib/day'
 import { ALLOWED_DURATIONS } from 'config'
 
 type AvailabilityState = {
-  /** The earliest day we’ll offer appointments */
+  /** The earliest day we'll offer appointments */
   start: string
-  /** The latest day we’ll offer appointments */
+  /** The latest day we'll offer appointments */
   end: string
   /** The day the user selected (if made) */
   selectedDate?: string
@@ -21,6 +21,8 @@ type AvailabilityState = {
    */
   duration: number | null
   slots: StringDateTimeIntervalAndLocation[]
+  /** Buffer time in minutes between adjacent appointments (default: 30) */
+  adjacencyBuffer: number
 }
 
 const initialState: AvailabilityState = {
@@ -29,6 +31,7 @@ const initialState: AvailabilityState = {
   end: Day.todayWithOffset(14).toString(),
   timeZone: 'America/Los_Angeles',
   slots: [],
+  adjacencyBuffer: 30,
 }
 
 export const availabilitySlice: Slice<AvailabilityState> = createSlice({
@@ -50,11 +53,20 @@ export const availabilitySlice: Slice<AvailabilityState> = createSlice({
     setSlots: (state, action: PayloadAction<StringDateTimeIntervalAndLocation[]>) => {
       state.slots = action.payload
     },
+    setAdjacencyBuffer: (state, action: PayloadAction<number>) => {
+      state.adjacencyBuffer = action.payload
+    },
   },
 })
 
-export const { setDuration, setSelectedDate, setSelectedTime, setTimeZone, setSlots } =
-  availabilitySlice.actions
+export const {
+  setDuration,
+  setSelectedDate,
+  setSelectedTime,
+  setTimeZone,
+  setSlots,
+  setAdjacencyBuffer,
+} = availabilitySlice.actions
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectAvailability = (state: RootState) => state.availability

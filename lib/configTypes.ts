@@ -25,6 +25,10 @@ export type DiscountType = {
  * - 'area-wide': General availability across a service area, not tied to specific locations or resources
  * - 'fixed-location': Bookings at a predetermined, fixed location (e.g., spa, clinic)
  * - 'scheduled-site': Bookings tied to specific containers/resources with their own schedules (e.g., specific therapists)
+ * - 'next': Bookings immediately after a specific event
+ * - 'adjacent': Bookings before or after a specific event with a buffer
+ * - 'previous': Bookings immediately before a specific event
+ * - 'next-previous': Bookings immediately before or after a specific event
  * - null: Default/fallback configuration
  */
 export type SlugType =
@@ -32,6 +36,7 @@ export type SlugType =
   | 'fixed-location'
   | 'scheduled-site'
   | 'next'
+  | 'adjacent'
   | 'previous'
   | 'next-previous'
   | null

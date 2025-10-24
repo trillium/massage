@@ -15,6 +15,7 @@ import {
 import { fetchData } from '@/lib/fetch/fetchData'
 import { fetchSingleEvent } from '@/lib/fetch/fetchSingleEvent'
 import { createMultiDurationAvailability } from '@/lib/availability/getNextSlotAvailability'
+import { createMultiDurationAvailability as createAdjacentMultiDurationAvailability } from '@/lib/availability/getAdjacentSlotAvailability'
 import { getNextUpcomingEvent } from '@/lib/fetch/getNextUpcomingEvent'
 import { ALLOWED_DURATIONS } from 'config'
 
@@ -290,6 +291,88 @@ export async function fetchPageData(
       }
       if (debugInfo) {
         debugInfo.pathTaken = 'next-no-event'
+        debugInfo.outputs = result
+      }
+      return { ...result, debugInfo }
+    }
+  }
+
+  if (configuration?.type === 'adjacent') {
+    let actualCurrentEvent: GoogleCalendarV3Event | null = null
+
+    if (currentEvent) {
+      actualCurrentEvent = currentEvent
+    } else if (eventId && typeof eventId === 'string') {
+      const fetchedEvent = await fetchSingleEvent(eventId)
+      if (!fetchedEvent) {
+        throw new Error(`Event not found: ${eventId}`)
+      }
+      actualCurrentEvent = fetchedEvent
+    } else {
+      actualCurrentEvent = await getNextUpcomingEvent()
+    }
+
+    if (actualCurrentEvent) {
+      const multiDurationAvailability = await createAdjacentMultiDurationAvailability({
+        currentEvent: actualCurrentEvent,
+        durationOptions: ALLOWED_DURATIONS,
+        slotInterval: 15,
+        adjacencyBuffer: 30,
+      })
+
+      const multiDurationSlots: Record<number, StringDateTimeIntervalAndLocation[]> = {}
+      for (const duration of ALLOWED_DURATIONS) {
+        multiDurationSlots[duration] =
+          multiDurationAvailability.getTimeListFormatForDuration(duration)
+      }
+
+      const eventStartTime = actualCurrentEvent.start?.dateTime
+        ? new Date(actualCurrentEvent.start.dateTime)
+        : new Date()
+      const eventEndTime = actualCurrentEvent.end?.dateTime
+        ? new Date(actualCurrentEvent.end.dateTime)
+        : new Date()
+
+      const startDateString = eventStartTime.toISOString().split('T')[0]
+      const endDateString = eventEndTime.toISOString().split('T')[0]
+
+      const result = {
+        start: startDateString,
+        end: endDateString,
+        busy: [],
+        multiDurationSlots,
+        currentEvent: actualCurrentEvent,
+        nextEventFound: true,
+      }
+      if (debugInfo) {
+        debugInfo.pathTaken = 'adjacent-with-event'
+        debugInfo.outputs = result
+      }
+      return { ...result, debugInfo }
+    } else {
+      const now = new Date()
+      const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+      const tomorrow = new Date(today)
+      tomorrow.setDate(tomorrow.getDate() + 1)
+      const dayAfterTomorrow = new Date(tomorrow)
+      dayAfterTomorrow.setDate(dayAfterTomorrow.getDate() + 1)
+
+      const twoDaySearchParams = {
+        ...resolvedParams,
+        start: today.toISOString().split('T')[0],
+        end: dayAfterTomorrow.toISOString().split('T')[0],
+      }
+
+      const generalData = await fetchData({ searchParams: twoDaySearchParams })
+
+      const result = {
+        start: today.toISOString().split('T')[0],
+        end: tomorrow.toISOString().split('T')[0],
+        busy: generalData.busy,
+        nextEventFound: false,
+      }
+      if (debugInfo) {
+        debugInfo.pathTaken = 'adjacent-no-event'
         debugInfo.outputs = result
       }
       return { ...result, debugInfo }
