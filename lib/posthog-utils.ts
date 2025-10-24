@@ -107,22 +107,25 @@ export function getDistinctId(): string | null {
 /**
  * Identifies an authenticated user in PostHog with standard properties
  * @param email - The verified email address of the user
- * @param verificationMethod - How the user was verified ('token' | 'session' | 'admin_login' | etc.)
+ * @param verificationMethod - How the user was verified ('booking_form_submitted' | 'email_verified' | etc.)
+ * @param additionalProperties - Optional additional properties to set for the user
  * @returns Promise<{ success: boolean; message: string }>
  */
 export async function identifyAuthenticatedUser(
   email: string,
   verificationMethod:
-    | 'token'
+    | 'booking_form_submitted'
+    | 'contact_form_submitted'
+    | 'email_verified'
     | 'session'
     | 'admin_login'
     | 'admin_session'
-    | 'booking_complete'
     | 'payment_complete'
     | 'newsletter_verified'
     | 'profile_access'
     | 'login'
-    | 'action' = 'token'
+    | 'action' = 'email_verified',
+  additionalProperties: Record<string, unknown> = {}
 ): Promise<{ success: boolean; message: string }> {
   try {
     if (process.env.NEXT_PUBLIC_DISABLE_POSTHOG === 'true') {
@@ -134,12 +137,15 @@ export async function identifyAuthenticatedUser(
     }
 
     const isAdmin = verificationMethod === 'admin_login' || verificationMethod === 'admin_session'
+    const isEmailVerified = verificationMethod === 'email_verified'
     const properties = {
       email,
       verification_method: verificationMethod,
       identified_at: new Date().toISOString(),
       user_type: 'authenticated',
       ...(isAdmin ? { is_admin: true } : {}),
+      ...(isEmailVerified ? { email_verified: true } : {}),
+      ...additionalProperties,
     }
 
     posthog.identify(email, properties)

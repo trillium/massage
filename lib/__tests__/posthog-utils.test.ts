@@ -15,8 +15,8 @@ describe('identifyAuthenticatedUser', () => {
     process.env.NEXT_PUBLIC_DISABLE_POSTHOG = 'false'
   })
 
-  it('identifies user with token method', async () => {
-    const result = await identifyAuthenticatedUser('test@example.com', 'token')
+  it('identifies user with email_verified method', async () => {
+    const result = await identifyAuthenticatedUser('test@example.com', 'email_verified')
 
     expect(result.success).toBe(true)
     expect(result.message).toBe('User identified')
