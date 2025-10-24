@@ -187,6 +187,24 @@ export default async function EventPage({ params }: { params: Promise<{ event_id
                     </p>
                   </div>
                 </div>
+
+                {/* Book Adjacent Slot Section */}
+                <div className="mt-6 rounded-lg bg-purple-50 p-4 dark:bg-purple-900/20">
+                  <h3 className="text-lg font-medium text-purple-700 dark:text-purple-300">
+                    Book an Adjacent Slot Before or After This Event:
+                  </h3>
+                  <div className="mt-2">
+                    <Link
+                      href={`/event/${matchingEvent.id}/adjacent`}
+                      className="inline-block rounded bg-purple-600 px-4 py-2 text-white transition-colors hover:bg-purple-700"
+                    >
+                      Book Adjacent Slot
+                    </Link>
+                    <p className="mt-1 text-xs text-gray-600 dark:text-gray-400">
+                      Times before and after this event with a 30-minute buffer will be shown.
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
           </>
