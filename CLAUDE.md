@@ -165,3 +165,45 @@ status: completed
 - Async mode runs in background; check PID or status for completion
 - Sync mode waits and updates status immediately
 - Files are named rcode_YYYYMMDD_HHMMSS_query.md
+
+## Asking the User Questions
+
+When you need information from the user (clarifications, preferences, decisions, etc.), use the `ask` command instead of interrupting the conversation:
+
+```bash
+ask -m "1. Question one here?\n\n2. Question two?\n\n3. Should I proceed? (yes/no)\n"
+```
+
+**How it works:**
+
+- VSCode opens with your questions
+- User types answers inline
+- File closes → answers returned in stdout
+- All answers archived to `~/claude-conversations/`
+
+**Format your questions:**
+
+- Number each question
+- Use `\n\n` (double newline) after each question for answer space
+- Keep questions clear and concise
+- Add confirmation question at end (e.g., "Should I proceed? (yes/no)")
+
+**Example:**
+
+```bash
+ask -m "1. What framework should I use? (React/Vue/Angular)\n\n2. TypeScript or JavaScript?\n\n3. Proceed with these choices? (yes/no)\n"
+```
+
+**When to use:**
+
+- Need multiple pieces of information
+- Require clarification on requirements
+- Need user decision before proceeding
+- Gathering preferences or configuration details
+
+**Benefits:**
+
+- Batch questions instead of back-and-forth
+- User can answer in their editor
+- Conversation automatically archived
+- Single command, immediate results
