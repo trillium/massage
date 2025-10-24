@@ -84,7 +84,7 @@ export default function MyEventsPageClient() {
             console.log('🧹 URL cleaned')
 
             // Add identification
-            await identifyAuthenticatedUser(urlEmail, 'token')
+            await identifyAuthenticatedUser(urlEmail, 'email_verified')
             setIsVerified(true)
             setEmail(urlEmail)
             setVerificationError(null)
