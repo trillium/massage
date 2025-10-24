@@ -56,6 +56,76 @@ Use 'playground' folder in the project, create it if doesn't exist and make sure
 - Try to avoid rewriting, if unsure ask permission first
 - We always use terse semantic commit messages with short clear descriptions
 
+```
+{
+  "commit_guidelines": {
+    "workflow": {
+      "staged_changes_first": "IMPORTANT: Before starting any new work, always check for staged changes. If there are staged changes: 1. Run `git diff --cached` to see what's staged 2. Review the changes and create an appropriate commit message 3. Commit the staged changes immediately 4. Only then proceed with other work"
+    },
+    "format": {
+      "primary": "<type>(<scope>): <description>",
+      "multiline": "<type>(<scope>): <description>\n\n- <bullet point>\n- <bullet point>",
+      "preference": "Strongly prefer single-line commits"
+    },
+    "types": [
+      {
+        "type": "feat",
+        "description": "New feature"
+      },
+      {
+        "type": "fix",
+        "description": "Bug fix"
+      },
+      {
+        "type": "chore",
+        "description": "Maintenance tasks"
+      },
+      {
+        "type": "docs",
+        "description": "Documentation changes"
+      },
+      {
+        "type": "test",
+        "description": "Test additions or changes"
+      },
+      {
+        "type": "refactor",
+        "description": "Code refactoring"
+      },
+      {
+        "type": "style",
+        "description": "Formatting changes"
+      }
+    ],
+    "examples": {
+      "good": [
+        "feat(analytics): identify users on form submissions",
+        "chore(deps): update readme to provide setup instructions",
+        "fix(auth): resolve token expiration in session handler",
+        "test(utils): add tests for edge cases in date parser"
+      ],
+      "avoid": [
+        "Wordy descriptions",
+        "Multiple unrelated changes in one commit",
+        "Signing commits with Co-Authored-By (unless specifically requested)"
+      ]
+    },
+    "commit_proposals": {
+      "format": "executable shell script",
+      "example": "git add <file>\ngit add <file>\n# <clarifying questions or notes>\ngit commit -m \"<message>\""
+    },
+    "commit_size": {
+      "principle": "Keep commits focused and atomic",
+      "process": [
+        "Create a commit plan file breaking down the changes",
+        "Group related changes together",
+        "Ask for review before executing"
+      ]
+    }
+  }
+}
+```
+
 # Development Environment
 
 ## Build, Lint, and Test Commands
