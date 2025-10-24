@@ -15,6 +15,7 @@ import { AppointmentPushoverInstantConfirm } from './messaging/push/admin/Appoin
 import { createGeneralApprovalUrl } from './messaging/utilities/createApprovalUrl'
 import createCalendarAppointment from './availability/createCalendarAppointment'
 import eventSummary from './messaging/templates/events/eventSummary'
+import { identifyAuthenticatedUser } from './posthog-utils'
 
 export type AppointmentRequestValidationResult =
   | { success: true; data: z.output<typeof AppointmentRequestSchema> }
@@ -54,6 +55,8 @@ export async function handleAppointmentRequest({
     return NextResponse.json(validationResult.error.message, { status: 400 })
   }
   const { data } = validationResult
+
+  identifyAuthenticatedUser(data.email, 'booking_form_submitted')
 
   // Check if instantConfirm is true
   if (data.instantConfirm) {
