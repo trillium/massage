@@ -51,5 +51,11 @@ pnpm-debug.log*
 
 /.vscode
 
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+
 # tag-data.json file rebuilt on every build
 app/tag-data.json
