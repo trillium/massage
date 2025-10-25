@@ -85,10 +85,10 @@ importers:
         version: 5.6.2
       next:
         specifier: 15.5.0
-        version: 15.5.0(@babel/core@7.28.0)(@opentelemetry/api@1.9.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+        version: 15.5.0(@babel/core@7.28.0)(@opentelemetry/api@1.9.0)(@playwright/test@1.56.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       next-contentlayer2:
         specifier: 0.5.5
-        version: 0.5.5(acorn@8.15.0)(contentlayer2@0.5.5(acorn@8.15.0)(esbuild@0.25.2))(esbuild@0.25.2)(next@15.5.0(@babel/core@7.28.0)(@opentelemetry/api@1.9.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+        version: 0.5.5(acorn@8.15.0)(contentlayer2@0.5.5(acorn@8.15.0)(esbuild@0.25.2))(esbuild@0.25.2)(next@15.5.0(@babel/core@7.28.0)(@opentelemetry/api@1.9.0)(@playwright/test@1.56.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       next-themes:
         specifier: ^0.4.6
         version: 0.4.6(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -97,7 +97,7 @@ importers:
         version: 6.10.1
       pliny:
         specifier: 0.4.1
-        version: 0.4.1(@algolia/client-search@5.35.0)(@types/react-dom@18.3.7(@types/react@19.1.9))(@types/react@19.1.9)(acorn@8.15.0)(esbuild@0.25.2)(next@15.5.0(@babel/core@7.28.0)(@opentelemetry/api@1.9.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(search-insights@2.17.3)
+        version: 0.4.1(@algolia/client-search@5.35.0)(@types/react-dom@18.3.7(@types/react@19.1.9))(@types/react@19.1.9)(acorn@8.15.0)(esbuild@0.25.2)(next@15.5.0(@babel/core@7.28.0)(@opentelemetry/api@1.9.0)(@playwright/test@1.56.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(search-insights@2.17.3)
       postcss:
         specifier: ^8.4.24
         version: 8.5.6
@@ -189,6 +189,9 @@ importers:
       '@jest/types':
         specifier: ^29.6.3
         version: 29.6.3
+      '@playwright/test':
+        specifier: ^1.56.1
+        version: 1.56.1
       '@svgr/webpack':
         specifier: ^8.0.1
         version: 8.1.0(typescript@5.9.2)
@@ -255,6 +258,9 @@ importers:
       nspell:
         specifier: ^2.1.5
         version: 2.1.5
+      playwright:
+        specifier: ^1.56.1
+        version: 1.56.1
       prettier:
         specifier: ^3.4.2
         version: 3.6.2
@@ -2024,6 +2030,11 @@ packages:
   '@pkgjs/parseargs@0.11.0':
     resolution: {integrity: sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==}
     engines: {node: '>=14'}
+
+  '@playwright/test@1.56.1':
+    resolution: {integrity: sha512-vSMYtL/zOcFpvJCW71Q/OEGQb7KYBPAdKh35WNSkaZA75JlAO8ED8UN6GUNTm3drWomcbcqRPFqQbLae8yBTdg==}
+    engines: {node: '>=18'}
+    hasBin: true
 
   '@polka/url@1.0.0-next.29':
     resolution: {integrity: sha512-wwQAWhWSuHaag8c4q/KN/vCoeOJYshAIvMQwD4GpSb3OiZklFfvAgmj0VCBBImRpuF/aFgIRzllXlVX93Jevww==}
@@ -4073,6 +4084,11 @@ packages:
   fs.realpath@1.0.0:
     resolution: {integrity: sha512-OO0pH2lK6a0hZnAdau5ItzHPI6pUlvI7jMVnxUQRtw4owF2wk8lOSabtGDCTP4Ggrg2MbGnWO9X8K1t4+fGMDw==}
 
+  fsevents@2.3.2:
+    resolution: {integrity: sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA==}
+    engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
+    os: [darwin]
+
   fsevents@2.3.3:
     resolution: {integrity: sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==}
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
@@ -5578,6 +5594,16 @@ packages:
   pidtree@0.6.0:
     resolution: {integrity: sha512-eG2dWTVw5bzqGRztnHExczNxt5VGsE6OwTeCG3fdUf9KBsZzO3R5OIIIzWR+iZA0NtZ+RDVdaoE2dK1cn6jH4g==}
     engines: {node: '>=0.10'}
+    hasBin: true
+
+  playwright-core@1.56.1:
+    resolution: {integrity: sha512-hutraynyn31F+Bifme+Ps9Vq59hKuUCz7H1kDOcBs+2oGguKkWTU50bBWrtz34OUWmIwpBTWDxaRPXrIXkgvmQ==}
+    engines: {node: '>=18'}
+    hasBin: true
+
+  playwright@1.56.1:
+    resolution: {integrity: sha512-aFi5B0WovBHTEvpM3DzXTUaeN6eN0qWnTkKx4NQaH4Wvcmc153PdaY2UBdSYKaGYw+UyWXSVyxDUg5DoPEttjw==}
+    engines: {node: '>=18'}
     hasBin: true
 
   pliny@0.4.1:
@@ -8972,6 +8998,10 @@ snapshots:
   '@pkgjs/parseargs@0.11.0':
     optional: true
 
+  '@playwright/test@1.56.1':
+    dependencies:
+      playwright: 1.56.1
+
   '@polka/url@1.0.0-next.29': {}
 
   '@protobufjs/aspromise@1.1.2': {}
@@ -11294,6 +11324,9 @@ snapshots:
 
   fs.realpath@1.0.0: {}
 
+  fsevents@2.3.2:
+    optional: true
+
   fsevents@2.3.3:
     optional: true
 
@@ -12984,12 +13017,12 @@ snapshots:
 
   netmask@2.0.2: {}
 
-  next-contentlayer2@0.5.5(acorn@8.15.0)(contentlayer2@0.5.5(acorn@8.15.0)(esbuild@0.25.2))(esbuild@0.25.2)(next@15.5.0(@babel/core@7.28.0)(@opentelemetry/api@1.9.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0):
+  next-contentlayer2@0.5.5(acorn@8.15.0)(contentlayer2@0.5.5(acorn@8.15.0)(esbuild@0.25.2))(esbuild@0.25.2)(next@15.5.0(@babel/core@7.28.0)(@opentelemetry/api@1.9.0)(@playwright/test@1.56.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0):
     dependencies:
       '@contentlayer2/core': 0.5.5(acorn@8.15.0)(esbuild@0.25.2)
       '@contentlayer2/utils': 0.5.5
       contentlayer2: 0.5.5(acorn@8.15.0)(esbuild@0.25.2)
-      next: 15.5.0(@babel/core@7.28.0)(@opentelemetry/api@1.9.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      next: 15.5.0(@babel/core@7.28.0)(@opentelemetry/api@1.9.0)(@playwright/test@1.56.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       react: 19.0.0
       react-dom: 19.0.0(react@19.0.0)
     transitivePeerDependencies:
@@ -13009,7 +13042,7 @@ snapshots:
       react: 19.0.0
       react-dom: 19.0.0(react@19.0.0)
 
-  next@15.5.0(@babel/core@7.28.0)(@opentelemetry/api@1.9.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0):
+  next@15.5.0(@babel/core@7.28.0)(@opentelemetry/api@1.9.0)(@playwright/test@1.56.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0):
     dependencies:
       '@next/env': 15.5.0
       '@swc/helpers': 0.5.15
@@ -13028,6 +13061,7 @@ snapshots:
       '@next/swc-win32-arm64-msvc': 15.5.0
       '@next/swc-win32-x64-msvc': 15.5.0
       '@opentelemetry/api': 1.9.0
+      '@playwright/test': 1.56.1
       sharp: 0.34.3
     transitivePeerDependencies:
       - '@babel/core'
@@ -13262,7 +13296,15 @@ snapshots:
 
   pidtree@0.6.0: {}
 
-  pliny@0.4.1(@algolia/client-search@5.35.0)(@types/react-dom@18.3.7(@types/react@19.1.9))(@types/react@19.1.9)(acorn@8.15.0)(esbuild@0.25.2)(next@15.5.0(@babel/core@7.28.0)(@opentelemetry/api@1.9.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(search-insights@2.17.3):
+  playwright-core@1.56.1: {}
+
+  playwright@1.56.1:
+    dependencies:
+      playwright-core: 1.56.1
+    optionalDependencies:
+      fsevents: 2.3.2
+
+  pliny@0.4.1(@algolia/client-search@5.35.0)(@types/react-dom@18.3.7(@types/react@19.1.9))(@types/react@19.1.9)(acorn@8.15.0)(esbuild@0.25.2)(next@15.5.0(@babel/core@7.28.0)(@opentelemetry/api@1.9.0)(@playwright/test@1.56.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(search-insights@2.17.3):
     dependencies:
       '@docsearch/react': 3.9.0(@algolia/client-search@5.35.0)(@types/react@19.1.9)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(search-insights@2.17.3)
       '@giscus/react': 3.1.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -13272,8 +13314,8 @@ snapshots:
       github-slugger: 2.0.0
       js-yaml: 4.1.0
       kbar: 0.1.0-beta.45(@types/react-dom@18.3.7(@types/react@19.1.9))(@types/react@19.1.9)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
-      next: 15.5.0(@babel/core@7.28.0)(@opentelemetry/api@1.9.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
-      next-contentlayer2: 0.5.5(acorn@8.15.0)(contentlayer2@0.5.5(acorn@8.15.0)(esbuild@0.25.2))(esbuild@0.25.2)(next@15.5.0(@babel/core@7.28.0)(@opentelemetry/api@1.9.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      next: 15.5.0(@babel/core@7.28.0)(@opentelemetry/api@1.9.0)(@playwright/test@1.56.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      next-contentlayer2: 0.5.5(acorn@8.15.0)(contentlayer2@0.5.5(acorn@8.15.0)(esbuild@0.25.2))(esbuild@0.25.2)(next@15.5.0(@babel/core@7.28.0)(@opentelemetry/api@1.9.0)(@playwright/test@1.56.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       next-themes: 0.3.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       probe-image-size: 7.2.3
       react: 19.0.0
