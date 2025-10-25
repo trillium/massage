@@ -1,14 +1,43 @@
+'use client'
+
 import React from 'react'
 import clsx from 'clsx'
 import { GoogleCalendarV3Event } from '@/lib/types'
 import { categorizeEvents } from '@/lib/helpers/eventHelpers'
 import { EventCard } from './EventCard'
 
-export function CategorizedEventList({ events }: { events: GoogleCalendarV3Event[] }) {
+export function CategorizedEventList({
+  events,
+  isAdmin = false,
+}: {
+  events: GoogleCalendarV3Event[]
+  isAdmin?: boolean
+}) {
   const { futureEvents, todayEvents, pastEvents } = categorizeEvents(events)
+
+  const handleDownloadJSON = () => {
+    const dataStr =
+      'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(events, null, 2))
+    const downloadAnchorNode = document.createElement('a')
+    downloadAnchorNode.setAttribute('href', dataStr)
+    downloadAnchorNode.setAttribute('download', 'events.json')
+    document.body.appendChild(downloadAnchorNode)
+    downloadAnchorNode.click()
+    downloadAnchorNode.remove()
+  }
 
   return (
     <div>
+      {isAdmin && (
+        <div className="mb-4 flex justify-end">
+          <button
+            onClick={handleDownloadJSON}
+            className="rounded bg-gray-800 px-4 py-2 text-sm font-medium text-white shadow hover:bg-gray-700 dark:bg-gray-700 dark:hover:bg-gray-600"
+          >
+            Download All Events (JSON)
+          </button>
+        </div>
+      )}
       {todayEvents.length > 0 && (
         <>
           <EventDelimiter
