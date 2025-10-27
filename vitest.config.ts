@@ -11,12 +11,13 @@ export default defineConfig({
   },
   test: {
     globals: true,
-    environment: 'jsdom', // Use jsdom for React component tests
+    environment: 'jsdom',
     setupFiles: ['./vitest.setup.ts'],
     coverage: {
       provider: 'v8',
       reporter: ['text', 'html'],
     },
     include: ['**/?(*.)+(test|spec).{ts,tsx,js,jsx}'],
+    exclude: ['**/node_modules/**', '**/dist/**', '**/tests/e2e/**'],
   },
 })
