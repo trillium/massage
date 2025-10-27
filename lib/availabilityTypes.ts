@@ -1,14 +1,26 @@
 import { LocationObject } from './locationTypes'
+import { GoogleCalendarV3Event } from './calendarTypes'
 
 /**
  * Used to represent a period of time in a day that
  * is available for a meeting (provided it's not booked).
  */
 export type AvailabilitySlot = {
-  /** Starting hour and minute (in the owner’s timezone) */
+  /** Starting hour and minute (in the owner's timezone) */
   start: { hour: number; minute?: number }
-  /** Ending hour and minute (in the owner’s timezone) */
+  /** Ending hour and minute (in the owner's timezone) */
   end: { hour: number; minute?: number }
+}
+
+export interface CalendarAvailabilitySlot {
+  start: Date
+  end: Date
+  startISO: string
+  endISO: string
+  location?: LocationObject
+  available: boolean
+  conflictingEvent?: GoogleCalendarV3Event
+  duration: number
 }
 
 /**
@@ -105,4 +117,33 @@ export type Day = {
 export type DayWithStartEnd = Day & {
   start: string
   end: string
+}
+
+export interface SlotSearchOptions {
+  currentEvent: GoogleCalendarV3Event
+  appointmentDuration?: number
+  slotInterval?: number
+}
+
+export interface MultiDurationSearchOptions {
+  currentEvent: GoogleCalendarV3Event
+  durationOptions?: number[]
+  slotInterval?: number
+}
+
+export interface AvailabilityCacheBase {
+  currentEvent: GoogleCalendarV3Event
+  existingEvents: GoogleCalendarV3Event[]
+  slotInterval: number
+  cachedAt: Date
+  slotsByDuration: Map<number, CalendarAvailabilitySlot[]>
+}
+
+export interface MultiDurationAvailability {
+  cache: AvailabilityCacheBase
+  getSlotsForDuration: (duration: number) => CalendarAvailabilitySlot[]
+  getAvailableSlotsForDuration: (duration: number) => CalendarAvailabilitySlot[]
+  getTimeListFormatForDuration: (duration: number) => StringDateTimeIntervalAndLocation[]
+  getAvailableDurations: () => number[]
+  isCacheValid: () => boolean
 }

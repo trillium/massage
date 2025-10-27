@@ -2,75 +2,27 @@ import {
   GoogleCalendarV3Event,
   StringDateTimeIntervalAndLocation,
   LocationObject,
+  CalendarAvailabilitySlot,
+  SlotSearchOptions,
+  MultiDurationSearchOptions,
+  AvailabilityCacheBase,
+  MultiDurationAvailability,
 } from '@/lib/types'
 import { addMinutes, subMinutes, isBefore, isAfter, parseISO } from 'date-fns'
 import { fetchAllCalendarEvents } from '@/lib/fetch/fetchContainersByQuery'
 
-export interface PreviousSlotOptions {
-  /** The event before which to find availability */
-  currentEvent: GoogleCalendarV3Event
-  /** Duration of the appointment in minutes (default: 60) */
-  appointmentDuration?: number
-  /** Interval between available slots in minutes (default: 15) */
-  slotInterval?: number
-  /** Maximum minutes before event to look for availability (default: 60) */
+export interface PreviousSlotOptions extends SlotSearchOptions {
   maxMinutesBefore?: number
 }
 
-export interface MultiDurationPreviousOptions {
-  /** The event before which to find availability */
-  currentEvent: GoogleCalendarV3Event
-  /** Array of duration options in minutes */
-  durationOptions?: number[]
-  /** Interval between available slots in minutes (default: 15) */
-  slotInterval?: number
-  /** Maximum minutes before event to look for availability (default: 60) */
+export interface MultiDurationPreviousOptions extends MultiDurationSearchOptions {
   maxMinutesBefore?: number
 }
 
-export interface AvailabilitySlot {
-  start: Date
-  end: Date
-  startISO: string
-  endISO: string
-  location?: LocationObject
-  available: boolean
-  conflictingEvent?: GoogleCalendarV3Event
-  duration: number
-}
-
-export interface PreviousAvailabilityCache {
-  /** The original event */
-  currentEvent: GoogleCalendarV3Event
-  /** All existing events fetched from calendar */
-  existingEvents: GoogleCalendarV3Event[]
-  /** Event start time as Date object */
+export interface PreviousAvailabilityCache extends AvailabilityCacheBase {
   eventStartTime: Date
-  /** Minimum search time as Date object (going backwards) */
   minSearchTime: Date
-  /** Default location object */
   defaultLocation: LocationObject
-  /** Slot interval in minutes */
-  slotInterval: number
-  /** When this cache was created */
-  cachedAt: Date
-  /** Available slots by duration */
-  slotsByDuration: Map<number, AvailabilitySlot[]>
-}
-
-export interface MultiDurationAvailability {
-  /** Cached data to avoid repeated API calls */
-  cache: PreviousAvailabilityCache
-  /** Get slots for a specific duration */
-  getSlotsForDuration: (duration: number) => AvailabilitySlot[]
-  /** Get available slots for a specific duration */
-  getAvailableSlotsForDuration: (duration: number) => AvailabilitySlot[]
-  /** Get slots in TimeList format for a specific duration */
-  getTimeListFormatForDuration: (duration: number) => StringDateTimeIntervalAndLocation[]
-  /** Get all available durations (durations that have at least one available slot) */
-  getAvailableDurations: () => number[]
-  /** Check if cache is still valid (within 5 minutes) */
-  isCacheValid: () => boolean
 }
 
 /**
@@ -109,7 +61,7 @@ function hasConflict(
  */
 export async function getPreviousSlotAvailability(
   options: PreviousSlotOptions
-): Promise<AvailabilitySlot[]> {
+): Promise<CalendarAvailabilitySlot[]> {
   const {
     currentEvent,
     appointmentDuration = 60,
@@ -137,7 +89,7 @@ export async function getPreviousSlotAvailability(
   })
   const existingEvents = allEventsData.allEvents || []
 
-  const availabilitySlots: AvailabilitySlot[] = []
+  const availabilitySlots: CalendarAvailabilitySlot[] = []
   let slotEndTime = new Date(eventStartTime)
 
   // Generate slots ending at event start time, going backwards
@@ -149,7 +101,7 @@ export async function getPreviousSlotAvailability(
       // Check for conflicts with existing events
       const conflictCheck = hasConflict(slotStart, slotEndTime, existingEvents)
 
-      const slot: AvailabilitySlot = {
+      const slot: CalendarAvailabilitySlot = {
         start: new Date(slotStart),
         end: new Date(slotEndTime),
         startISO: slotStart.toISOString(),
@@ -175,7 +127,7 @@ export async function getPreviousSlotAvailability(
  */
 export async function getAvailablePreviousSlots(
   options: PreviousSlotOptions
-): Promise<AvailabilitySlot[]> {
+): Promise<CalendarAvailabilitySlot[]> {
   const allSlots = await getPreviousSlotAvailability(options)
   return allSlots.filter((slot) => slot.available)
 }
@@ -184,7 +136,7 @@ export async function getAvailablePreviousSlots(
  * Converts availability slots to the format expected by TimeList component
  */
 export function convertToTimeListFormat(
-  slots: AvailabilitySlot[]
+  slots: CalendarAvailabilitySlot[]
 ): StringDateTimeIntervalAndLocation[] {
   return slots
     .filter((slot) => slot.available)
@@ -295,8 +247,8 @@ export async function createMultiDurationAvailability(
 function calculateSlotsForDuration(
   cache: PreviousAvailabilityCache,
   duration: number
-): AvailabilitySlot[] {
-  const slots: AvailabilitySlot[] = []
+): CalendarAvailabilitySlot[] {
+  const slots: CalendarAvailabilitySlot[] = []
   let slotEndTime = new Date(cache.eventStartTime)
 
   while (
@@ -313,7 +265,7 @@ function calculateSlotsForDuration(
       // Check for conflicts with existing events
       const conflictCheck = hasConflict(slotStart, slotEndTime, cache.existingEvents)
 
-      const slot: AvailabilitySlot = {
+      const slot: CalendarAvailabilitySlot = {
         start: new Date(slotStart),
         end: new Date(slotEndTime),
         startISO: slotStart.toISOString(),
