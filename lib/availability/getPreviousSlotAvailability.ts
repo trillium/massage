@@ -10,6 +10,11 @@ import {
 } from '@/lib/types'
 import { addMinutes, subMinutes, isBefore, isAfter, parseISO } from 'date-fns'
 import { fetchAllCalendarEvents } from '@/lib/fetch/fetchContainersByQuery'
+import {
+  hasConflict,
+  convertToTimeListFormat as sharedConvertToTimeListFormat,
+  createMultiDurationAvailabilityObject,
+} from './availabilityHelpers'
 
 export interface PreviousSlotOptions extends SlotSearchOptions {
   maxMinutesBefore?: number
@@ -30,29 +35,6 @@ export interface PreviousAvailabilityCache extends AvailabilityCacheBase {
  */
 function createDefaultLocation(): LocationObject {
   return { street: 'TBD', city: 'Los Angeles', zip: '90210' }
-}
-
-/**
- * Checks if a time slot conflicts with any existing events
- */
-function hasConflict(
-  slotStart: Date,
-  slotEnd: Date,
-  existingEvents: GoogleCalendarV3Event[]
-): { hasConflict: boolean; conflictingEvent?: GoogleCalendarV3Event } {
-  for (const event of existingEvents) {
-    if (!event.start?.dateTime || !event.end?.dateTime) continue
-
-    const eventStart = parseISO(event.start.dateTime)
-    const eventEnd = parseISO(event.end.dateTime)
-
-    // Check for overlap: slot starts before event ends AND slot ends after event starts
-    if (isBefore(slotStart, eventEnd) && isAfter(slotEnd, eventStart)) {
-      return { hasConflict: true, conflictingEvent: event }
-    }
-  }
-
-  return { hasConflict: false }
 }
 
 /**
@@ -132,20 +114,7 @@ export async function getAvailablePreviousSlots(
   return allSlots.filter((slot) => slot.available)
 }
 
-/**
- * Converts availability slots to the format expected by TimeList component
- */
-export function convertToTimeListFormat(
-  slots: CalendarAvailabilitySlot[]
-): StringDateTimeIntervalAndLocation[] {
-  return slots
-    .filter((slot) => slot.available)
-    .map((slot) => ({
-      start: slot.startISO,
-      end: slot.endISO,
-      location: slot.location,
-    }))
-}
+export const convertToTimeListFormat = sharedConvertToTimeListFormat
 
 /**
  * Creates a comprehensive availability object that can handle multiple durations
@@ -199,46 +168,7 @@ export async function createMultiDurationAvailability(
     cache.slotsByDuration.set(duration, slots)
   }
 
-  // Return the multi-duration availability object
-  return {
-    cache,
-    getSlotsForDuration: (duration: number) => {
-      let slots = cache.slotsByDuration.get(duration)
-      if (!slots) {
-        slots = calculateSlotsForDuration(cache, duration)
-        cache.slotsByDuration.set(duration, slots)
-      }
-      return slots
-    },
-    getAvailableSlotsForDuration: (duration: number) => {
-      const allSlots =
-        cache.slotsByDuration.get(duration) || calculateSlotsForDuration(cache, duration)
-      return allSlots.filter((slot) => slot.available)
-    },
-    getTimeListFormatForDuration: (duration: number) => {
-      const availableSlots =
-        cache.slotsByDuration.get(duration)?.filter((slot) => slot.available) ||
-        calculateSlotsForDuration(cache, duration).filter((slot) => slot.available)
-      return availableSlots.map((slot) => ({
-        start: slot.startISO,
-        end: slot.endISO,
-        location: slot.location,
-      }))
-    },
-    getAvailableDurations: () => {
-      const availableDurations: number[] = []
-      for (const [duration, slots] of cache.slotsByDuration) {
-        if (slots.some((slot) => slot.available)) {
-          availableDurations.push(duration)
-        }
-      }
-      return availableDurations.sort((a, b) => a - b)
-    },
-    isCacheValid: () => {
-      const fiveMinutesAgo = addMinutes(new Date(), -5)
-      return isAfter(cache.cachedAt, fiveMinutesAgo)
-    },
-  }
+  return createMultiDurationAvailabilityObject(cache, calculateSlotsForDuration)
 }
 
 /**
