@@ -86,8 +86,8 @@ export default function CachedTileMap({
         tileArray.push({
           x: tileXCoord,
           y: tileYCoord,
-          left: containerSize.width / 2 + dx * 256 - offsetX,
-          top: containerSize.height / 2 + dy * 256 - offsetY,
+          left: Math.round((containerSize.width / 2 + dx * 256 - offsetX) * 1000) / 1000,
+          top: Math.round((containerSize.height / 2 + dy * 256 - offsetY) * 1000) / 1000,
         })
       }
     }
@@ -95,9 +95,16 @@ export default function CachedTileMap({
   }, [centerTileX, centerTileY, startX, endX, startY, endY, offsetX, offsetY, containerSize, zoom])
 
   return (
-    <div style={style} className={clsx('relative overflow-hidden', className)} ref={containerRef}>
-      <div className="h-full w-full overflow-hidden rounded-lg shadow-lg">
-        <div className="relative h-full w-full bg-gray-100">
+    <div
+      style={style}
+      className={clsx(
+        'relative overflow-hidden rounded-lg border-2 border-gray-300 bg-transparent dark:border-gray-500',
+        className
+      )}
+      ref={containerRef}
+    >
+      <div className="h-full w-full overflow-hidden">
+        <div className="relative h-full w-full">
           {/* Render tiles */}
           {tiles.map((tile) => {
             const tileKey = `${tile.x}-${tile.y}`
