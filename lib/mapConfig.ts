@@ -1,8 +1,8 @@
 // Default coordinates and zoom for demonstration
 export const DEFAULT_VIEW = {
-  longitude: -118.2437, // Los Angeles
-  latitude: 34.0522,
-  zoom: 10,
+  longitude: -118.3816, // West LA / Culver City area
+  latitude: 34.0259,
+  zoom: 11,
 }
 /**
  * Client-side constants for LA map bounds and image configuration
