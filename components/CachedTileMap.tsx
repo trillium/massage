@@ -22,7 +22,6 @@ export default function CachedTileMap({
 }: CachedTileMapProps) {
   const containerRef = React.useRef<HTMLDivElement>(null)
   const [containerSize, setContainerSize] = React.useState({ width: 512, height: 512 })
-  const [tilesLoaded, setTilesLoaded] = React.useState(false)
 
   // Get container dimensions
   React.useEffect(() => {
@@ -95,20 +94,8 @@ export default function CachedTileMap({
     return tileArray
   }, [centerTileX, centerTileY, startX, endX, startY, endY, offsetX, offsetY, containerSize, zoom])
 
-  // Track loaded tiles
-  const loadedTiles = React.useRef(new Set<string>())
-  const handleTileLoad = (tileKey: string) => {
-    loadedTiles.current.add(tileKey)
-    if (loadedTiles.current.size === tiles.length && tiles.length > 0) {
-      setTilesLoaded(true)
-    }
-  }
-
-  const zoomChange = 13
-
   return (
     <div style={style} className={clsx('relative overflow-hidden', className)} ref={containerRef}>
-      {/* Tile container with proper styling */}
       <div className="h-full w-full overflow-hidden rounded-lg shadow-lg">
         <div className="relative h-full w-full bg-gray-100">
           {/* Render tiles */}
@@ -128,21 +115,13 @@ export default function CachedTileMap({
                   height: 256,
                 }}
                 loading="eager"
-                onLoad={() => handleTileLoad(tileKey)}
                 draggable={false}
               />
             )
           })}
 
-          {/* Marker overlay - same as original */}
           {showMarker && (
-            <div
-              className={clsx(
-                'pointer-events-none absolute inset-0 flex items-center justify-center',
-                { 'opacity-0': !tilesLoaded, 'opacity-100': tilesLoaded },
-                'transition-opacity duration-300'
-              )}
-            >
+            <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
               <svg width="200" height="200" className="overflow-visible">
                 <circle
                   cx="100"
@@ -151,13 +130,6 @@ export default function CachedTileMap({
                   className="fill-primary-500/20 stroke-primary-500 stroke-2"
                 />
               </svg>
-            </div>
-          )}
-
-          {/* Loading indicator */}
-          {!tilesLoaded && (
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="border-primary-500 h-8 w-8 animate-spin rounded-full border-2 border-t-transparent" />
             </div>
           )}
         </div>
