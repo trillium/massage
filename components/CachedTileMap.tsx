@@ -109,10 +109,10 @@ export default function CachedTileMap({
                 alt=""
                 className="pointer-events-none absolute select-none"
                 style={{
-                  left: tile.left,
-                  top: tile.top,
-                  width: 256,
-                  height: 256,
+                  left: `${tile.left}px`,
+                  top: `${tile.top}px`,
+                  width: '256px',
+                  height: '256px',
                 }}
                 loading="eager"
                 draggable={false}
@@ -126,7 +126,7 @@ export default function CachedTileMap({
                 <circle
                   cx="100"
                   cy="100"
-                  r="80"
+                  r="120"
                   className="fill-primary-500/20 stroke-primary-500 stroke-2"
                 />
               </svg>
