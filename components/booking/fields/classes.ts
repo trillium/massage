@@ -1,7 +1,7 @@
 // Comprehensive field classes store for booking form components
 const fieldClasses = {
   // Container and layout classes
-  row: 'row focus-within:ring-primary-400 relative grid grid-cols-1 gap-x-2 px-3 pb-1.5 pt-2.5 ring-1 ring-inset ring-gray-300 first:rounded-md first:rounded-b-none last:rounded-md last:rounded-t-none focus-within:z-10 focus-within:ring-2',
+  row: 'row focus-within:ring-primary-400 relative grid grid-cols-1 gap-x-2 px-3 pb-1.5 pt-2.5 ring-1 ring-inset ring-gray-300 first:rounded-md first:rounded-b-none last:rounded-md last:rounded-t-none only:rounded-md focus-within:z-10 focus-within:ring-2',
   rowDiv: 'w-full grid grid-cols-1 gap-y-2',
   rowDivFlex: 'w-full flex space-x-2 flex-col',
   flexRow: 'flex space-x-2',
