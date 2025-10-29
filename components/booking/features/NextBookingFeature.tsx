@@ -66,7 +66,7 @@ export default function NextBookingFeature({
         targetDate={data.targetDate}
       />
 
-      <div className="mb-8 overflow-hidden rounded-lg shadow-lg">
+      <div className="mb-8 flex flex-col gap-6 overflow-hidden rounded-lg bg-gray-100 shadow-lg dark:bg-gray-950">
         <CachedTileMap {...locationProps} />
         <DriveTimeCalculator currentEvent={currentEvent} />
       </div>
