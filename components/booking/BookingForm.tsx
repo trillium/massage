@@ -466,7 +466,12 @@ export default function BookingForm({
                         }
 
                         setFieldValue(`location.${locationField}`, e.target.value)
-                        // DO NOT set touched on change - only on blur!
+
+                        const updatedLocation = {
+                          ...values.location,
+                          [locationField]: e.target.value,
+                        }
+                        dispatchRedux(setForm({ location: updatedLocation }))
                       }}
                       onBlur={(e) => {
                         // Map the field names for blur events
