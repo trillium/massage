@@ -62,6 +62,7 @@ export type PageConfigurationReturnType = {
     containers?: GoogleCalendarV3Event[]
     multiDurationSlots?: Record<number, StringDateTimeIntervalAndLocation[]>
     currentEvent?: GoogleCalendarV3Event
+    eventCoordinates?: { latitude: number; longitude: number }
     nextEventFound?: boolean
     targetDate?: string
   }

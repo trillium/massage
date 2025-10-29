@@ -161,6 +161,7 @@ export async function createPageConfiguration({
       containers: data.containers,
       multiDurationSlots: data.multiDurationSlots,
       currentEvent: data.currentEvent,
+      eventCoordinates: data.eventCoordinates,
       nextEventFound: data.nextEventFound,
       targetDate: data.targetDate,
     },
