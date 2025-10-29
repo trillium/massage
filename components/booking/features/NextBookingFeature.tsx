@@ -68,7 +68,7 @@ export default function NextBookingFeature({
 
       <div className="mb-8 flex flex-col gap-6 overflow-hidden rounded-lg bg-gray-100 shadow-lg dark:bg-gray-950">
         <CachedTileMap {...locationProps} />
-        <DriveTimeCalculator currentEvent={currentEvent} />
+        {currentEvent && <DriveTimeCalculator currentEvent={currentEvent} />}
       </div>
 
       <BookingForm />
