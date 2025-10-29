@@ -6,9 +6,9 @@ import Day from 'lib/day'
 import { ALLOWED_DURATIONS } from 'config'
 
 type AvailabilityState = {
-  /** The earliest day we’ll offer appointments */
+  /** The earliest day we'll offer appointments */
   start: string
-  /** The latest day we’ll offer appointments */
+  /** The latest day we'll offer appointments */
   end: string
   /** The day the user selected (if made) */
   selectedDate?: string
@@ -21,6 +21,8 @@ type AvailabilityState = {
    */
   duration: number | null
   slots: StringDateTimeIntervalAndLocation[]
+  /** Drive time in minutes from user's location to current event */
+  driveTime: number | null
 }
 
 const initialState: AvailabilityState = {
@@ -29,6 +31,7 @@ const initialState: AvailabilityState = {
   end: Day.todayWithOffset(14).toString(),
   timeZone: 'America/Los_Angeles',
   slots: [],
+  driveTime: null,
 }
 
 export const availabilitySlice: Slice<AvailabilityState> = createSlice({
@@ -50,11 +53,20 @@ export const availabilitySlice: Slice<AvailabilityState> = createSlice({
     setSlots: (state, action: PayloadAction<StringDateTimeIntervalAndLocation[]>) => {
       state.slots = action.payload
     },
+    setDriveTime: (state, action: PayloadAction<number | null>) => {
+      state.driveTime = action.payload
+    },
   },
 })
 
-export const { setDuration, setSelectedDate, setSelectedTime, setTimeZone, setSlots } =
-  availabilitySlice.actions
+export const {
+  setDuration,
+  setSelectedDate,
+  setSelectedTime,
+  setTimeZone,
+  setSlots,
+  setDriveTime,
+} = availabilitySlice.actions
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectAvailability = (state: RootState) => state.availability
