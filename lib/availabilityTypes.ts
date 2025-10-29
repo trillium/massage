@@ -92,6 +92,7 @@ export type DateTimeIntervalAndLocation = DateTimeInterval & {
 
 export type StringDateTimeIntervalAndLocation = StringDateTimeInterval & {
   location?: LocationObject
+  className?: string
 }
 
 /**

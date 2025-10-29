@@ -62,7 +62,7 @@ export default function TimeList({}) {
 
   return (
     <div className="grid grid-cols-2 gap-2">
-      {availability?.map(({ start, end, location }) => {
+      {availability?.map(({ start, end, location, className }) => {
         const isActive = selectedTime ? start + end === timeSignature : false
 
         return (
@@ -72,6 +72,7 @@ export default function TimeList({}) {
             time={{ start, end }}
             timeZone={timeZone}
             location={location}
+            className={className}
             onTimeSelect={handleTimeButtonClick}
           />
         )

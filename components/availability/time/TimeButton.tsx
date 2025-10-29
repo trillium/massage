@@ -9,6 +9,7 @@ type TimeProps = {
   active: boolean
   timeZone: string
   location?: LocationObject
+  className?: string
   onTimeSelect: (time: StringDateTimeInterval, location?: LocationObject) => void
 } & Omit<DetailedHTMLProps<HTMLAttributes<HTMLButtonElement>, HTMLButtonElement>, 'onClick'>
 
@@ -17,6 +18,7 @@ export default function TimeButton({
   active,
   timeZone,
   location,
+  className,
   onTimeSelect,
   ...props
 }: TimeProps) {
@@ -31,7 +33,8 @@ export default function TimeButton({
         {
           'bg-primary-500 font-bold text-white': active,
           'bg-white font-semibold text-gray-900': !active,
-        }
+        },
+        className
       )}
       onClick={() => onTimeSelect({ start, end }, location)}
       {...props}
