@@ -16,6 +16,7 @@ import { fetchData } from '@/lib/fetch/fetchData'
 import { fetchSingleEvent } from '@/lib/fetch/fetchSingleEvent'
 import { createMultiDurationAvailability } from '@/lib/availability/getNextSlotAvailability'
 import { getNextUpcomingEvent } from '@/lib/fetch/getNextUpcomingEvent'
+import { geocodeLocation } from '@/lib/geocode'
 import { ALLOWED_DURATIONS } from 'config'
 
 type MockedData = {
@@ -35,6 +36,7 @@ type FetchPageDataReturnType = {
   data?: Record<string, unknown>
   multiDurationSlots?: Record<number, StringDateTimeIntervalAndLocation[]>
   currentEvent?: GoogleCalendarV3Event
+  eventCoordinates?: { latitude: number; longitude: number }
   nextEventFound: boolean
   targetDate?: string
   debugInfo?: {
@@ -223,12 +225,29 @@ export async function fetchPageData(
       const startDateString = eventEndTime.toISOString().split('T')[0]
       const endDateString = searchEndTime.toISOString().split('T')[0]
 
+      // Geocode the event location if available (server-side for performance and security)
+      let eventCoordinates: { latitude: number; longitude: number } | undefined
+      if (actualCurrentEvent.location) {
+        try {
+          const geocodeResult = await geocodeLocation(actualCurrentEvent.location)
+          if (geocodeResult.success && geocodeResult.coordinates) {
+            eventCoordinates = {
+              latitude: geocodeResult.coordinates.lat,
+              longitude: geocodeResult.coordinates.lng,
+            }
+          }
+        } catch (error) {
+          console.error('Error geocoding event location:', error)
+        }
+      }
+
       const result = {
         start: startDateString,
         end: endDateString,
         busy: [], // Next-type configurations don't use traditional busy slots
         multiDurationSlots,
         currentEvent: actualCurrentEvent,
+        eventCoordinates,
         nextEventFound: true, // Flag to indicate next event was found
       }
       if (debugInfo) {
