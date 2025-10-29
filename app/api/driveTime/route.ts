@@ -12,7 +12,8 @@ if (!DEFAULT_EVENT_ID) {
 
 interface DriveTimeRequest {
   eventId?: string
-  userLocation: string
+  userLocation?: string
+  userCoordinates?: { lat: number; lng: number }
 }
 
 interface DriveTimeResponse {
@@ -118,13 +119,13 @@ async function calculateDriveTimeMock(location1: string, location2: string): Pro
 export async function POST(request: NextRequest) {
   try {
     const body: DriveTimeRequest = await request.json()
-    const { eventId, userLocation } = body
+    const { eventId, userLocation, userCoordinates } = body
 
-    if (!userLocation) {
+    if (!userLocation && !userCoordinates) {
       return NextResponse.json(
         {
           success: false,
-          error: 'userLocation is required',
+          error: 'userLocation or userCoordinates is required',
         } as DriveTimeResponse,
         { status: 400 }
       )
@@ -154,20 +155,25 @@ export async function POST(request: NextRequest) {
           success: false,
           error: 'Event does not have a location specified',
           eventLocation: 'Not specified',
-          userLocation,
+          userLocation: userLocation || `${userCoordinates?.lat},${userCoordinates?.lng}`,
         } as DriveTimeResponse,
         { status: 400 }
       )
     }
 
+    // Use coordinates if provided, otherwise use location string
+    const destination = userCoordinates
+      ? `${userCoordinates.lat},${userCoordinates.lng}`
+      : userLocation!
+
     // Calculate drive time between the two locations
-    const driveTimeMinutes = await calculateDriveTime(eventLocation, userLocation)
+    const driveTimeMinutes = await calculateDriveTime(eventLocation, destination)
 
     return NextResponse.json({
       success: true,
       driveTimeMinutes,
       eventLocation,
-      userLocation,
+      userLocation: destination,
     } as DriveTimeResponse)
   } catch (error) {
     console.error('Error calculating drive time:', error)
