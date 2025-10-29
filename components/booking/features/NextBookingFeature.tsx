@@ -6,6 +6,7 @@ import TimeList from '@/components/availability/time/TimeList'
 import { InitialUrlUtility, UpdateSlotsUtility } from '@/components/utilities/UpdateSlotsUtility'
 import SectionContainer from '@/components/SectionContainer'
 import CachedTileMap from '@/components/CachedTileMap'
+import DriveTimeCalculator from '@/components/booking/features/DriveTimeCalculator'
 import { DEFAULT_VIEW } from '@/lib/mapConfig'
 import { buildDurationProps } from '@/lib/slugConfigurations/helpers/buildDurationProps'
 import {
@@ -67,6 +68,7 @@ export default function NextBookingFeature({
 
       <div className="mb-8 overflow-hidden rounded-lg shadow-lg">
         <CachedTileMap {...locationProps} />
+        <DriveTimeCalculator currentEvent={currentEvent} />
       </div>
 
       <BookingForm />
