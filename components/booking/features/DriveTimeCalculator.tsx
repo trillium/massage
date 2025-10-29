@@ -151,15 +151,15 @@ export default function DriveTimeCalculator({ currentEvent }: DriveTimeCalculato
   }
 
   return (
-    <div className="mt-4 rounded-lg bg-white p-6 dark:bg-gray-800">
-      <div className="mb-4 flex items-center justify-between">
+    <div className="focus-within:border-primary-500 dark:focus-within:border-primary-500 rounded-lg border-2 border-gray-300 bg-slate-100 p-6 dark:border-gray-700 dark:bg-slate-800">
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
         <h3 className="text-base leading-6 font-semibold text-gray-900 dark:text-gray-100">
           Want to be next? Calculate Drive Time
         </h3>
         <button
           onClick={handleUseDeviceLocation}
           disabled={isGettingLocation}
-          className="bg-primary-600 hover:bg-primary-700 focus:ring-primary-500 dark:bg-primary-500 dark:hover:bg-primary-600 rounded-md px-4 py-2 text-sm font-medium text-white shadow-sm focus:ring-2 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:bg-gray-400 disabled:hover:bg-gray-400"
+          className="bg-primary-600 hover:bg-primary-700 focus:ring-primary-500 dark:bg-primary-500 dark:hover:bg-primary-600 rounded-md px-4 py-2 text-sm font-medium whitespace-nowrap text-white shadow-sm focus:ring-2 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:bg-gray-400 disabled:hover:bg-gray-400"
         >
           {isGettingLocation ? 'Getting Location...' : 'Use Device Location'}
         </button>
