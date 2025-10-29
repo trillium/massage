@@ -5,6 +5,8 @@ import Calendar from '@/components/availability/date/Calendar'
 import TimeList from '@/components/availability/time/TimeList'
 import { InitialUrlUtility, UpdateSlotsUtility } from '@/components/utilities/UpdateSlotsUtility'
 import SectionContainer from '@/components/SectionContainer'
+import CachedTileMap from '@/components/CachedTileMap'
+import { DEFAULT_VIEW } from '@/lib/mapConfig'
 import { buildDurationProps } from '@/lib/slugConfigurations/helpers/buildDurationProps'
 import {
   SlugConfigurationType,
@@ -26,6 +28,7 @@ interface NextBookingFeatureProps {
     containers?: GoogleCalendarV3Event[]
     multiDurationSlots?: Record<number, StringDateTimeIntervalAndLocation[]>
     currentEvent?: GoogleCalendarV3Event
+    eventCoordinates?: { latitude: number; longitude: number }
     nextEventFound?: boolean
     targetDate?: string
   }
@@ -43,29 +46,29 @@ export default function NextBookingFeature({
   start,
   end,
 }: NextBookingFeatureProps) {
-  // Check if the configuration system found a next event or fell back to general availability
   const foundNextEvent = data?.nextEventFound ?? false
   const currentEvent = data?.currentEvent || null
 
-  let displayTitle: string
-  let displayText: string
-
-  if (foundNextEvent) {
-    displayTitle = `Book After Current Event: ${currentEvent?.summary || 'Untitled Event'}`
-    displayText = `Book your next appointment after: ${currentEvent?.summary || 'Untitled Event'}`
-  } else {
-    // Determine if we're showing today or tomorrow based on the targetDate from fetchPageData
-    const today = new Date().toISOString().split('T')[0]
-    const isShowingToday = data.targetDate === today
-    const timeLabel = isShowingToday ? 'Today' : 'Tomorrow'
-
-    displayTitle = `Book Next Available - ${timeLabel}`
-    displayText = `Book your next available appointment ${isShowingToday ? 'today' : 'tomorrow'}.`
+  const locationProps = {
+    latitude: data.eventCoordinates?.latitude ?? DEFAULT_VIEW.latitude,
+    longitude: data.eventCoordinates?.longitude ?? DEFAULT_VIEW.longitude,
+    zoom: data.eventCoordinates ? 12 : DEFAULT_VIEW.zoom,
+    style: { width: '100%', height: '400px' },
+    showMarker: data.eventCoordinates ? true : false,
   }
 
   return (
     <SectionContainer>
-      <Template title={displayTitle} text={displayText} />
+      <NextBookingHeader
+        foundNextEvent={foundNextEvent}
+        currentEvent={currentEvent}
+        targetDate={data.targetDate}
+      />
+
+      <div className="mb-8 overflow-hidden rounded-lg shadow-lg">
+        <CachedTileMap {...locationProps} />
+      </div>
+
       <BookingForm />
       <div className="flex flex-col space-y-8">
         <DurationPicker {...durationProps} />
@@ -82,4 +85,59 @@ export default function NextBookingFeature({
       <UpdateSlotsUtility busy={data.busy} start={start} end={end} configObject={configuration} />
     </SectionContainer>
   )
+}
+
+interface NextBookingHeaderProps {
+  foundNextEvent: boolean
+  currentEvent: GoogleCalendarV3Event | null
+  targetDate?: string
+}
+
+function NextBookingHeader({ foundNextEvent, currentEvent, targetDate }: NextBookingHeaderProps) {
+  let displayTitle: string
+  let displayText: string
+
+  if (foundNextEvent) {
+    const locationArea = extractLocationArea(currentEvent?.location)
+    const endTime = formatEventTime(currentEvent?.end?.dateTime)
+
+    displayTitle = `Book After Current Session`
+    displayText = `Finishing a session ${locationArea} at ${endTime}`
+  } else {
+    const today = new Date().toISOString().split('T')[0]
+    const isShowingToday = targetDate === today
+    const timeLabel = isShowingToday ? 'Today' : 'Tomorrow'
+
+    displayTitle = `Book Next Available - ${timeLabel}`
+    displayText = `Book your next available appointment ${isShowingToday ? 'today' : 'tomorrow'}.`
+  }
+
+  return <Template title={displayTitle} text={displayText} />
+}
+
+function extractLocationArea(location?: string): string {
+  if (!location) return 'in the LA area'
+
+  const zipMatch = location.match(/\b\d{5}\b/)
+  if (zipMatch) return `in ${zipMatch[0]}`
+
+  const cityMatch = location.match(/,\s*([^,]+),\s*[A-Z]{2}/)
+  if (cityMatch) return `in ${cityMatch[1].trim()}`
+
+  const parts = location.split(',').map((p) => p.trim())
+  if (parts.length >= 2) return `in ${parts[parts.length - 2]}`
+
+  return 'in the LA area'
+}
+
+function formatEventTime(dateTime?: string): string {
+  if (!dateTime) return 'soon'
+
+  const date = new Date(dateTime)
+  const hours = date.getHours()
+  const minutes = date.getMinutes()
+  const ampm = hours >= 12 ? 'PM' : 'AM'
+  const displayHours = hours % 12 || 12
+
+  return `${displayHours}:${minutes.toString().padStart(2, '0')} ${ampm}`
 }
