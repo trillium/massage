@@ -36,11 +36,17 @@ function generateTitle(
     subject: string
   },
   fullName: string,
+  payout: number,
+  tip: number,
   totalEarnings: number
 ): string {
+  const payoutStr = `$${payout}`
+  const tipStr = tip > 0 ? `+$${tip}` : ''
+  const earningsDisplay = `${payoutStr}${tipStr} ($${totalEarnings})`
+
   const parts = [
     `${booking.duration || '60'}min ${booking.sessionType || 'Massage'} with ${fullName}${booking.isCouples ? ' (Couples)' : ''}`,
-    `$${totalEarnings}`,
+    earningsDisplay,
     '-',
     'Soothe',
   ]
@@ -110,7 +116,7 @@ async function createAdminAppointment({
   const appointmentProps: AppointmentProps = {
     start: selectedTime.start,
     end: selectedTime.end,
-    summary: generateTitle(booking, fullName, totalEarnings),
+    summary: generateTitle(booking, fullName, payout, tip, totalEarnings),
     email: process.env.OWNER_EMAIL,
     phone: process.env.OWNER_PHONE_NUMBER || '(555) 000-0000',
     location: selectedLocation,
