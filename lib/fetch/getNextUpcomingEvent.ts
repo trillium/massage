@@ -3,9 +3,14 @@ import { fetchAllCalendarEvents } from './fetchContainersByQuery'
 import { addHours, isAfter } from 'date-fns'
 
 /**
- * Finds the next upcoming event that contains '__EVENT__' in its summary,
- * within the next 18 hours. Events containing 'next_exclude__EVENT__' in their
+ * Finds the next upcoming event OR current event (if in progress) that contains '__EVENT__' in its summary.
+ * Looks within the next 18 hours. Events containing 'next-exclude__EVENT__' in their
  * summary or description are excluded. If no event is found, returns null.
+ *
+ * Returns:
+ * - Current event (if one is in progress now)
+ * - OR next upcoming event (if no current event)
+ * - OR null (if no events found)
  */
 export async function getNextUpcomingEvent(): Promise<GoogleCalendarV3Event | null> {
   try {
@@ -21,7 +26,7 @@ export async function getNextUpcomingEvent(): Promise<GoogleCalendarV3Event | nu
       },
     })
 
-    // Filter events that contain '__EVENT__' and are in the future
+    // Filter events that contain '__EVENT__' and are in the future or in progress now
     const systemEvents = allEvents
       .filter((event) => {
         // Must contain '__EVENT__' in summary OR description
@@ -44,9 +49,15 @@ export async function getNextUpcomingEvent(): Promise<GoogleCalendarV3Event | nu
           return false
         }
 
-        // Must be in the future
+        // Must be in the future OR currently in progress
         const eventStartTime = new Date(event.start.dateTime)
-        return isAfter(eventStartTime, now)
+        const eventEndTime = event.end?.dateTime ? new Date(event.end.dateTime) : null
+
+        // Include if: event starts in the future OR event is happening now
+        const isUpcoming = isAfter(eventStartTime, now)
+        const isInProgress = eventEndTime && eventStartTime <= now && eventEndTime > now
+
+        return isUpcoming || isInProgress
       })
       // Sort by start time (earliest first)
       .sort((a, b) => {
