@@ -1,10 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
 import createAdminAppointment from '@/lib/messaging/templates/events/createAdminAppointment'
 import adminAppointmentDescription from '@/lib/messaging/templates/events/adminAppointmentDescription'
+import createManualAdminAppointment from '@/lib/messaging/templates/events/createManualAdminAppointment'
+import manualAdminAppointmentDescription from '@/lib/messaging/templates/events/manualAdminAppointmentDescription'
 
 /**
  * POST /api/admin/create-appointment
- * Creates a calendar appointment from admin interface using Soothe booking data
+ * Creates a calendar appointment from admin interface
+ * Supports both Soothe booking data and manual entry data
  */
 export async function POST(request: NextRequest) {
   try {
@@ -20,12 +23,17 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Validate booking object has required fields
-    if (!booking.clientName || !booking.duration) {
-      return NextResponse.json(
-        { error: 'Booking must have clientName and duration' },
-        { status: 400 }
-      )
+    // Determine platform type
+    const platform = booking.platform || 'Soothe'
+
+    // Validate platform-specific required fields
+    if (platform === 'Soothe') {
+      if (!booking.messageId || !booking.date || !booking.subject) {
+        return NextResponse.json(
+          { error: 'Soothe bookings require messageId, date, and subject' },
+          { status: 400 }
+        )
+      }
     }
 
     // Validate selectedTime object
@@ -47,14 +55,16 @@ export async function POST(request: NextRequest) {
 
     // Create the appointment
     /**
-     * Creates and submits a calendar appointment for admin-created Soothe bookings.
-     * This function handles the complete flow from Soothe data to calendar creation.
+     * Creates and submits a calendar appointment for admin-created bookings.
+     * This function handles the complete flow from booking data to calendar creation.
+     * Supports both Soothe and ManualEntry platforms.
      *
      * @function
      * @param {Object} params - The appointment creation parameters
      * @returns {Promise<Response>} Returns the Google Calendar API response
      */
     async function createAndSubmitAdminAppointment(params: {
+      platform: 'Soothe' | 'ManualEntry'
       booking: {
         clientName?: string
         sessionType?: string
@@ -65,9 +75,9 @@ export async function POST(request: NextRequest) {
         tip?: string
         notes?: string
         extraServices?: string[]
-        messageId: string
-        date: string
-        subject: string
+        messageId?: string
+        date?: string
+        subject?: string
       }
       selectedTime: {
         start: string
@@ -81,11 +91,26 @@ export async function POST(request: NextRequest) {
         toString: () => string
       }
     }): Promise<Response> {
-      // Create appointment props
-      const appointmentProps = await createAdminAppointment(params)
+      let appointmentProps
+      let description
 
-      // Generate the custom description with Soothe details
-      const description = await adminAppointmentDescription(appointmentProps)
+      // Route to correct template based on platform
+      if (params.platform === 'ManualEntry') {
+        appointmentProps = await createManualAdminAppointment(params)
+        description = await manualAdminAppointmentDescription(appointmentProps)
+      } else {
+        // For Soothe bookings, we've validated messageId, date, subject exist
+        appointmentProps = await createAdminAppointment({
+          ...params,
+          booking: {
+            ...params.booking,
+            messageId: params.booking.messageId!,
+            date: params.booking.date!,
+            subject: params.booking.subject!,
+          },
+        })
+        description = await adminAppointmentDescription(appointmentProps)
+      }
 
       // Import the calendar creation function dynamically to avoid circular dependencies
       const { default: createCalendarAppointment } = await import(
@@ -100,6 +125,7 @@ export async function POST(request: NextRequest) {
     }
 
     const response = await createAndSubmitAdminAppointment({
+      platform,
       booking,
       selectedTime,
       selectedLocation,

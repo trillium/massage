@@ -125,9 +125,7 @@ async function createAdminAppointment({
     firstName,
     lastName,
     duration: booking.duration || '60',
-    eventBaseString: 'SOOTHE_ADMIN_BOOKING',
-    eventMemberString: booking.sessionType || 'massage',
-    eventContainerString: `soothe-${booking.isCouples ? 'couples' : 'single'}`,
+    eventBaseString: '__EVENT__',
     bookingUrl: 'admin-created',
     source: 'Soothe Admin Interface',
     // Add Soothe-specific data in promo field for tracking
