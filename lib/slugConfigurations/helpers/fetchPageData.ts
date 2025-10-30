@@ -338,5 +338,23 @@ export async function fetchPageData(
     debugInfo.pathTaken = 'area-wide'
     debugInfo.outputs = result
   }
-  return { ...result, debugInfo }
+
+  // Capture data if enabled (server-side only)
+  const finalResult = { ...result, debugInfo }
+  if (typeof window === 'undefined' && process.env.CAPTURE_TEST_DATA === 'true') {
+    try {
+      const { captureFetchPageData } = await import('@/lib/utils/captureTestData')
+      await captureFetchPageData({
+        configuration: configuration as Record<string, unknown>,
+        resolvedParams: resolvedParams as Record<string, unknown>,
+        bookingSlug,
+        eventId,
+        result: finalResult,
+      })
+    } catch (error) {
+      console.error('Failed to capture test data:', error)
+    }
+  }
+
+  return finalResult
 }

@@ -98,6 +98,14 @@ export default () => {
         use: ['@svgr/webpack'],
       })
 
+      // Exclude dev-mode-prod-excluded folders from production builds
+      if (!options.dev && options.isServer) {
+        config.module.rules.push({
+          test: /\/dev-mode-prod-excluded\/.*$/i,
+          loader: 'ignore-loader',
+        })
+      }
+
       return config
     },
     async rewrites() {
