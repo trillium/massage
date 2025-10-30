@@ -72,9 +72,6 @@ export default () => {
     basePath,
     reactStrictMode: true,
     pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
-    eslint: {
-      dirs: ['app', 'components', 'layouts', 'scripts'],
-    },
     images: {
       remotePatterns: [
         {
@@ -83,6 +80,14 @@ export default () => {
         },
       ],
       unoptimized,
+    },
+    turbopack: {
+      rules: {
+        '*.svg': {
+          loaders: ['@svgr/webpack'],
+          as: '*.js',
+        },
+      },
     },
     async headers() {
       return [
@@ -98,7 +103,6 @@ export default () => {
         use: ['@svgr/webpack'],
       })
 
-      // Exclude dev-mode-prod-excluded folders from production builds
       if (!options.dev && options.isServer) {
         config.module.rules.push({
           test: /\/dev-mode-prod-excluded\/.*$/i,
