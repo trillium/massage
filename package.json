@@ -6,11 +6,11 @@
   "scripts": {
     "start": "next dev",
     "dev": "cross-env INIT_CWD=$PWD next dev --port 9876",
-    "build": "cross-env INIT_CWD=$PWD next build && cross-env NODE_OPTIONS='--experimental-json-modules' node ./scripts/postbuild.mjs",
+    "build": "cross-env INIT_CWD=$PWD next build --webpack && cross-env NODE_OPTIONS='--experimental-json-modules' node ./scripts/postbuild.mjs",
     "build:staged": "./scripts/build-staged.sh",
     "build:staged:verbose": "./scripts/build-staged.sh --verbose",
     "serve": "next start",
-    "analyze": "cross-env ANALYZE=true next build",
+    "analyze": "cross-env ANALYZE=true next build --webpack",
     "lint": "eslint --fix app components lib layouts scripts",
     "prepare": "husky",
     "test": "vitest run",
