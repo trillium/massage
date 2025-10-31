@@ -63,7 +63,22 @@ async function adminAppointmentDescription(appointmentProps: AppointmentProps): 
   }
 
   // Combine base description with Soothe-specific data
-  return sootheSection
+  let output = sootheSection
+
+  if (appointmentProps.eventBaseString) {
+    output += '\n'
+    output += appointmentProps.eventBaseString
+  }
+  if (appointmentProps.eventMemberString) {
+    output += '\n'
+    output += appointmentProps.eventMemberString
+  }
+  if (appointmentProps.eventContainerString) {
+    output += '\n'
+    output += appointmentProps.eventContainerString
+  }
+
+  return output
 }
 
 export default adminAppointmentDescription

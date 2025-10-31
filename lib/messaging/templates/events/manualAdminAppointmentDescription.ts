@@ -46,7 +46,22 @@ async function manualAdminAppointmentDescription(
     manualEntrySection += `<b>Notes</b>: ${manualEntryData.notes}\n`
   }
 
-  return manualEntrySection
+  let output = manualEntrySection
+
+  if (appointmentProps.eventBaseString) {
+    output += '\n'
+    output += appointmentProps.eventBaseString
+  }
+  if (appointmentProps.eventMemberString) {
+    output += '\n'
+    output += appointmentProps.eventMemberString
+  }
+  if (appointmentProps.eventContainerString) {
+    output += '\n'
+    output += appointmentProps.eventContainerString
+  }
+
+  return output
 }
 
 export default manualAdminAppointmentDescription
