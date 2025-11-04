@@ -10,7 +10,7 @@ if (typeof window !== 'undefined') {
     hostname === 'test.trilliummassage.la' ||
     hostname === 'admin.trilliummassage.la' ||
     hostname === 'dev.trilliummassage.la'
-  const isProdDomain = hostname.endsWith('.trilliummassage.la') && !isDevSubdomain
+  const isProdDomain = hostname.endsWith('trilliummassage.la') && !isDevSubdomain
 
   const posthogKey = isProdDomain
     ? process.env.NEXT_PUBLIC_POSTHOG_KEY_PROD
