@@ -34,6 +34,9 @@ export default function DriveTimeCalculator({ currentEvent }: DriveTimeCalculato
     lng: number
   } | null>(null)
   const [driveTimeIsStale, setDriveTimeIsStale] = React.useState(false)
+  const [validationErrors, setValidationErrors] = React.useState<{
+    zip?: string
+  }>({})
 
   const location: LocationObject = React.useMemo(() => {
     if (formData.location && typeof formData.location !== 'string') {
@@ -49,6 +52,21 @@ export default function DriveTimeCalculator({ currentEvent }: DriveTimeCalculato
     const updatedLocation = {
       ...location,
       [fieldName]: value,
+    }
+
+    if (fieldName === 'zip') {
+      const zipPattern = /^\d{5}(-\d{4})?$/
+      if (value && !zipPattern.test(value)) {
+        setValidationErrors((prev) => ({
+          ...prev,
+          zip: 'Please enter a valid 5-digit ZIP code',
+        }))
+      } else {
+        setValidationErrors((prev) => ({
+          ...prev,
+          zip: undefined,
+        }))
+      }
     }
 
     dispatch(setForm({ location: updatedLocation }))
@@ -111,6 +129,7 @@ export default function DriveTimeCalculator({ currentEvent }: DriveTimeCalculato
     const hasCoordinates = deviceCoordinates !== null
 
     if (!hasAddress && !hasCoordinates) return
+    if (validationErrors.zip) return
 
     setIsCalculating(true)
     setError(null)
@@ -173,7 +192,12 @@ export default function DriveTimeCalculator({ currentEvent }: DriveTimeCalculato
         </div>
       ) : (
         <div className="isolate -space-y-px rounded-md shadow-sm">
-          <LocationField location={location} readOnly={false} onChange={handleLocationChange} />
+          <LocationField
+            location={location}
+            readOnly={false}
+            onChange={handleLocationChange}
+            errors={validationErrors}
+          />
         </div>
       )}
       {error && (
@@ -192,7 +216,11 @@ export default function DriveTimeCalculator({ currentEvent }: DriveTimeCalculato
         }
         disabled={
           !deviceCoordinates &&
-          (isCalculating || !location.street || !location.city || !location.zip)
+          (isCalculating ||
+            !location.street ||
+            !location.city ||
+            !location.zip ||
+            !!validationErrors.zip)
         }
         className="bg-primary-600 hover:bg-primary-700 focus:ring-primary-500 dark:bg-primary-500 dark:hover:bg-primary-600 mt-4 rounded-md px-4 py-2 text-sm font-medium text-white shadow-sm focus:ring-2 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:bg-gray-400 disabled:hover:bg-gray-400"
       >

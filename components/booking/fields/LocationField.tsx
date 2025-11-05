@@ -102,7 +102,13 @@ export default function LocationField({
             )}
             placeholder="90210"
             pattern="\d{5}(-\d{4})?"
+            inputMode="numeric"
+            maxLength={10}
             onChange={onChange}
+            onInput={(e) => {
+              const target = e.target as HTMLInputElement
+              target.value = target.value.replace(/[^\d-]/g, '')
+            }}
           />
         </div>
       </div>
