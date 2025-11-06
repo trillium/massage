@@ -23,6 +23,8 @@ type AvailabilityState = {
   slots: StringDateTimeIntervalAndLocation[]
   /** Drive time in minutes from user's location to current event */
   driveTime: number | null
+  /** Buffer time in minutes between adjacent appointments (default: 30) */
+  adjacencyBuffer: number
 }
 
 const initialState: AvailabilityState = {
@@ -32,6 +34,7 @@ const initialState: AvailabilityState = {
   timeZone: 'America/Los_Angeles',
   slots: [],
   driveTime: null,
+  adjacencyBuffer: 30,
 }
 
 export const availabilitySlice: Slice<AvailabilityState> = createSlice({
@@ -56,6 +59,9 @@ export const availabilitySlice: Slice<AvailabilityState> = createSlice({
     setDriveTime: (state, action: PayloadAction<number | null>) => {
       state.driveTime = action.payload
     },
+    setAdjacencyBuffer: (state, action: PayloadAction<number>) => {
+      state.adjacencyBuffer = action.payload
+    },
   },
 })
 
@@ -66,6 +72,7 @@ export const {
   setTimeZone,
   setSlots,
   setDriveTime,
+  setAdjacencyBuffer,
 } = availabilitySlice.actions
 
 // Other code such as selectors can use the imported `RootState` type
