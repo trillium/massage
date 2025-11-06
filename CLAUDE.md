@@ -131,7 +131,7 @@ Use 'playground' folder in the project, create it if doesn't exist and make sure
 ## Build, Lint, and Test Commands
 
 - **Install dependencies:** `pnpm install` (preferred; or `npm install`/`yarn install`)
-- **Start dev server:** `pnpm dev`
+- **Start dev server:** `pnpm dev` (runs on port 9876: http://localhost:9876)
 - **Build:** `pnpm build`
 - **Lint (auto-fix):** `pnpm lint`
 - **Format:** `pnpm format` (Prettier)

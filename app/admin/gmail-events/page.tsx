@@ -53,6 +53,10 @@ export default function GmailTestPage() {
     }
   }, [bookings])
 
+  useEffect(() => {
+    searchSootheEmails()
+  }, [])
+
   // Handler functions for selections
   const handleDaySelect = (day: Day) => {
     setSelectedDay(day)

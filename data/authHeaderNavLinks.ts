@@ -1,6 +1,20 @@
 import type { AuthNavLink } from '@/lib/types'
 
 const authHeaderNavLinks: AuthNavLink[] = [
+  // Tools & Utilities
+  {
+    href: '/admin/gmail-events',
+    title: 'Gmail Create Calendar Events',
+    description: 'Search and parse Soothe booking emails',
+    category: 'tools',
+  },
+  {
+    href: '/admin/isTestUser',
+    title: 'Test Users',
+    description: 'User management and testing',
+    category: 'tools',
+  },
+
   // Primary Admin Routes
   {
     href: '/admin',
@@ -27,20 +41,6 @@ const authHeaderNavLinks: AuthNavLink[] = [
     title: 'Reviews',
     description: 'Customer ratings and feedback',
     category: 'management',
-  },
-
-  // Tools & Utilities
-  {
-    href: '/admin/isTestUser',
-    title: 'Test Users',
-    description: 'User management and testing',
-    category: 'tools',
-  },
-  {
-    href: '/admin/gmail-events',
-    title: 'Gmail Emails',
-    description: 'Search and parse Soothe booking emails',
-    category: 'tools',
   },
 
   // Testing & Development
