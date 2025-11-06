@@ -70,17 +70,28 @@ values ('your-email@example.com');
 
 ### 6️⃣ (Optional) Enable Google OAuth (10 min)
 
-1. Go to Supabase Dashboard → Authentication → Providers
-2. Find "Google" and click "Enable"
-3. Create Google OAuth credentials:
-   - Go to [Google Cloud Console](https://console.cloud.google.com)
-   - Create a new project or select existing
-   - Go to "APIs & Services" → "Credentials"
-   - Click "Create Credentials" → "OAuth 2.0 Client ID"
-   - Application type: "Web application"
-   - Authorized redirect URIs: Add the callback URL from Supabase dashboard
-4. Copy Client ID and Client Secret to Supabase
-5. Save
+**Get your callback URL:**
+
+```bash
+echo "https://$(grep NEXT_PUBLIC_SUPABASE_URL .env.local | cut -d'=' -f2 | sed 's|https://||')/auth/v1/callback"
+```
+
+**Setup steps:**
+
+1. Go to [Google Cloud Console](https://console.cloud.google.com)
+2. Create project or select existing
+3. Go to "APIs & Services" → "Credentials"
+4. Click "Create Credentials" → "OAuth 2.0 Client ID"
+5. Application type: "Web application"
+6. Authorized redirect URIs: Paste the callback URL from above
+7. Copy Client ID and Client Secret
+
+**Configure in Supabase:**
+
+1. Go to Supabase Dashboard → Authentication → Providers → Google
+2. Click "Enable"
+3. Paste Client ID and Client Secret
+4. Save
 
 **That's it!** The "Sign in with Google" button will now work.
 
