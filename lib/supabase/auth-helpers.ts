@@ -44,6 +44,14 @@ export async function signInWithOAuth(provider: Provider, redirectTo?: string) {
 }
 
 /**
+ * Sign in with Google OAuth
+ * Convenience wrapper for Google authentication
+ */
+export async function signInWithGoogle(redirectTo?: string) {
+  return signInWithOAuth('google', redirectTo)
+}
+
+/**
  * Sign in with email and password
  * Note: Requires password auth to be enabled in Supabase
  */
@@ -135,9 +143,7 @@ export async function isClientAdmin() {
  * Listen to auth state changes
  * Returns unsubscribe function
  */
-export function onAuthStateChange(
-  callback: (event: string, session: any) => void
-): () => void {
+export function onAuthStateChange(callback: (event: string, session: unknown) => void): () => void {
   const supabase = getSupabaseBrowserClient()
 
   const {

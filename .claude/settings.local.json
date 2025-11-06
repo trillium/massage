@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": ["Bash(pnpm install:*)", "Bash(git branch:*)", "Bash(git add:*)", "Bash(xargs:*)"],
+    "deny": [],
+    "ask": []
+  }
+}
