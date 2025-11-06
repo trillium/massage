@@ -1,7 +1,7 @@
 /**
- * Next.js Middleware for Supabase Auth
+ * Next.js Proxy for Supabase Auth
  *
- * This middleware:
+ * This proxy:
  * 1. Refreshes the user's session on each request
  * 2. Updates auth cookies
  * 3. Protects routes that require authentication
@@ -11,7 +11,7 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
-export async function middleware(request: NextRequest) {
+export default async function proxy(request: NextRequest) {
   let supabaseResponse = NextResponse.next({
     request,
   })
@@ -25,9 +25,7 @@ export async function middleware(request: NextRequest) {
           return request.cookies.getAll()
         },
         setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value, options }) =>
-            request.cookies.set(name, value)
-          )
+          cookiesToSet.forEach(({ name, value, options }) => request.cookies.set(name, value))
           supabaseResponse = NextResponse.next({
             request,
           })
@@ -50,9 +48,7 @@ export async function middleware(request: NextRequest) {
   // Protected routes - require authentication
   const protectedPaths = ['/admin', '/my_events']
 
-  const isProtectedPath = protectedPaths.some((path) =>
-    request.nextUrl.pathname.startsWith(path)
-  )
+  const isProtectedPath = protectedPaths.some((path) => request.nextUrl.pathname.startsWith(path))
 
   // If accessing protected path without authentication, redirect to login
   if (isProtectedPath && !user) {
