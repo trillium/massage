@@ -1,7 +1,15 @@
 {
   "permissions": {
-    "allow": ["Bash(pnpm install:*)", "Bash(git branch:*)", "Bash(git add:*)", "Bash(xargs:*)"],
+    "allow": [
+      "Bash(pnpm install:*)",
+      "Bash(git branch:*)",
+      "Bash(git add:*)",
+      "Bash(xargs:*)",
+      "Bash(chmod:*)"
+    ],
     "deny": [],
     "ask": []
-  }
+  },
+  "enabledMcpjsonServers": ["massage-tracker"],
+  "enableAllProjectMcpServers": true
 }
