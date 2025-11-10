@@ -51,6 +51,9 @@ pnpm-debug.log*
 
 /.vscode
 
+# Claude Code local settings
+.claude/settings.local.json
+
 # Playwright
 /test-results/
 /playwright-report/
