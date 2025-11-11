@@ -62,3 +62,6 @@ pnpm-debug.log*
 
 # tag-data.json file rebuilt on every build
 app/tag-data.json
+
+# Google OAuth credentials (never commit)
+.google-oauth-supabase.json
