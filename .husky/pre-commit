@@ -1,1 +1,14 @@
+git diff --cached --name-only --diff-filter=ACM | \
+  grep -v "node_modules\|\.next\|\.git" | \
+  while read file; do
+    if [ -f "$file" ]; then
+      lines=$(wc -l < "$file" | tr -d ' ')
+      if [ "$lines" -gt 250 ]; then
+        echo "❌ File exceeds 250 lines: $file ($lines lines)"
+        echo "   Refactor into smaller files or use --no-verify to bypass"
+        exit 1
+      fi
+    fi
+  done
+
 npx --no-install lint-staged
