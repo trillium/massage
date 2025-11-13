@@ -40,7 +40,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<Sea
     <SectionContainer>
       <SlotHoldProvider>
         <SlotTakenAlert />
-        <Template title={siteConfig.content.bookingTitle ?? 'Book a session'} />
+        <Template title={siteConfig.content.bookingTitle ?? 'Book a reading with Kendra :)'} />
         <BookingForm />
         <div className="flex flex-col space-y-8">
           <DurationPicker {...durationProps} />

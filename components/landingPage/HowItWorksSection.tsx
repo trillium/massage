@@ -40,7 +40,7 @@ export default function HowItWorksSection() {
               key={index}
               className="flex flex-col items-center rounded-lg bg-surface-50 p-6 text-center shadow dark:bg-surface-800 dark:text-accent-100"
             >
-              <step.icon className="mb-4 h-10 w-10 text-teal-600 dark:text-teal-400" />
+              <step.icon className="text-primary-600 dark:text-primary-400 mb-4 h-10 w-10" />
               <h3 className="mb-2 text-xl font-semibold dark:text-white">{step.title}</h3>
               <p className="mt-auto text-center text-accent-600 dark:text-accent-300">
                 {step.description}

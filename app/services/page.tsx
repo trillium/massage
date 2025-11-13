@@ -8,8 +8,8 @@ import type { ServiceTypePriced } from '@/lib/types'
 export default function ServicesPage() {
   return (
     <SectionContainer>
-      <h1 className="mb-4 text-3xl font-bold">Our Massage Services</h1>
-      <p className="mb-8">Explore our range of massage services. Book your session today!</p>
+      <h1 className="mb-4 text-3xl font-bold">Our Tarot Reading Services</h1>
+      <p className="mb-8">Explore our range of tarot reading services. Book your session today!</p>
       <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
         {services.map((service) => (
           <ServiceItem {...service} key={service.name} />
