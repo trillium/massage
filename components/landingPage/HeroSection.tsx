@@ -30,13 +30,13 @@ function TextContent({ positionClasses }: { positionClasses?: string }) {
     >
       <div>
         <h1 className="text-4xl font-bold tracking-tight md:text-5xl lg:text-6xl">
-          Relax, Restore, <GradientText>Rejuvenate</GradientText>
+          Free Thinking <GradientText>Tarot</GradientText>
         </h1>
         <h2 className="mx-auto mt-4 max-w-lg text-3xl font-semibold text-gray-600 md:mx-0 dark:text-gray-300">
-          Let the spa come to you
+          Witchy Shit, Tarot, Flower Essences
         </h2>
         <p className="mx-auto mt-4 max-w-lg text-xl text-gray-600 md:mx-0 dark:text-gray-300">
-          Spa level massage therapy in your home, at your convenience.
+          Readings that really read!
         </p>
       </div>
     </div>
@@ -49,14 +49,14 @@ function ImageContent({ positionClasses }: { positionClasses?: string }) {
       <div className="border-primary-500 relative h-72 w-full overflow-hidden rounded-lg border-2 sm:h-100 md:h-128 lg:h-148 xl:h-152">
         {
           <Image
-            src={'/static/images/table/table_square_02.webp'}
-            alt="Massage therapy session"
+            src={'/static/images/BusinessCardPoppys.png'}
+            alt="California poppies"
             fill
             className="object-cover"
             priority
           />
         }
-        <div className="absolute inset-0 bg-gradient-to-r from-teal-600/20 to-transparent"></div>
+        <div className="from-primary-600/20 absolute inset-0 bg-gradient-to-r to-transparent"></div>
       </div>
       <div className="bg-primary-100 absolute -bottom-6 -left-6 flex h-24 w-24 items-center justify-center rounded-full">
         <HiSparkles className="text-primary-600 h-10 w-10" />
@@ -79,7 +79,7 @@ function ButtonContent({ positionClasses }: { positionClasses?: string }) {
             href="/book"
             className="bg-primary-600 hover:bg-primary-700 border-primary-500 mt-auto inline-block w-full rounded border-2 px-4 py-2 text-center font-semibold text-white transition-colors"
           >
-            Book a session
+            Book your reading
           </Link>
 
           <Link
@@ -91,15 +91,15 @@ function ButtonContent({ positionClasses }: { positionClasses?: string }) {
         </div>
         <div className="xs:flex-col flex flex-col flex-wrap justify-around gap-2 gap-y-6 sm:flex-row md:flex-col xl:flex-row">
           <div className="flex items-center gap-2">
-            <FaRegClock className="h-5 w-5 text-teal-600" />
+            <FaRegClock className="text-primary-600 h-5 w-5" />
             <span className="text-sm whitespace-nowrap">Open 7 days</span>
           </div>
           <div className="flex items-center gap-2">
-            <FiMapPin className="h-5 w-5 text-teal-600" />
+            <FiMapPin className="text-primary-600 h-5 w-5" />
             <span className="text-sm whitespace-nowrap">Westchester Based</span>
           </div>
           <div className="flex items-center gap-2">
-            <FaCar className="h-5 w-5 text-teal-600" />
+            <FaCar className="text-primary-600 h-5 w-5" />
             <span className="text-sm whitespace-nowrap">Serving the LA Metro Area</span>
           </div>
         </div>

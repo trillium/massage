@@ -158,7 +158,7 @@ export function TestimonialsCarousel({ reviews }: { reviews: ReviewType[] }) {
           )}
           <div className="flex w-full items-end">
             <div className="flex w-full flex-col items-start">
-              <span className="block text-sm font-semibold text-teal-700 sm:text-base md:text-lg xl:text-2xl dark:text-teal-300">
+              <span className="text-primary-700 dark:text-primary-300 block text-sm font-semibold sm:text-base md:text-lg xl:text-2xl">
                 {r.name}
               </span>
             </div>
@@ -199,7 +199,7 @@ export function TestimonialsCarousel({ reviews }: { reviews: ReviewType[] }) {
             <label
               htmlFor={`review-dot-${idx}`}
               className={clsx('h-2 w-2 cursor-pointer rounded-full transition-all duration-300', {
-                'bg-teal-600 ring-2 ring-teal-400': idx === current,
+                'bg-primary-600 ring-primary-400 ring-2': idx === current,
                 'bg-gray-300 dark:bg-gray-600': idx !== current,
               })}
             >

@@ -5,31 +5,31 @@ import clsx from 'clsx'
 
 const pricingStart = [
   {
-    title: '60-Minute Massage',
+    title: '60-Minute Reading',
     duration: 60,
     features: [
-      'Focus on 1–2 specific areas of tension (e.g., neck, shoulders, or back)',
-      'Good for stress relief and general relaxation',
-      'Enough time for a focused therapeutic session or a lighter full-body pass',
+      'Comprehensive exploration of 1–2 key life areas or focused questions',
+      'Good for gaining clarity on specific situations or decisions',
+      'Popular choice for first-time clients and regular check-ins',
     ],
   },
   {
-    title: '90-Minute Massage',
+    title: '90-Minute Reading',
     duration: 90,
     mostPopular: true,
     features: [
-      'Balanced full-body massage with extra focus on 2–3 problem areas',
-      'Ideal for combining relaxation and deeper therapeutic work',
-      'Time to address chronic tightness while still covering the whole body',
+      'Deep dive into multiple areas of life or complex situations',
+      'Ideal for exploring relationships, career transitions, or spiritual growth',
+      'Time for detailed card interpretation and meaningful conversation',
     ],
   },
   {
-    title: '120-Minute Massage',
+    title: '120-Minute Reading',
     duration: 120,
     features: [
-      'Comprehensive full-body massage with detailed work on multiple areas',
-      'Best choice for chronic pain, athletes, or deeper restorative sessions',
-      'Allows slow, thorough treatment without rushing any part of the body',
+      'Comprehensive exploration of multiple topics or deep spiritual work',
+      'Best choice for major life transitions, yearly forecasts, or intensive guidance',
+      'Allows thorough examination without rushing through important insights',
     ],
   },
 ]

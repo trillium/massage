@@ -16,7 +16,7 @@ export default function ContactSection() {
             <ContactForm />
             <div className="flex flex-col justify-center space-y-4">
               <h2 className="text-center text-3xl font-bold md:text-4xl dark:text-white">
-                Trillium Massage
+                Flower Flyther
               </h2>
               <CachedTileMap
                 latitude={33.99}
