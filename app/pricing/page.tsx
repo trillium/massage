@@ -13,7 +13,9 @@ export default function PricingPage() {
   return (
     <SectionContainer>
       <h1 className="mb-4 text-3xl font-bold">Pricing</h1>
-      <p className="mb-6">Transparent pricing for all our massage sessions. No hidden fees.</p>
+      <p className="mb-6">
+        Transparent pricing for all our tarot reading sessions. No hidden fees.
+      </p>
       <table className="mb-6 w-full table-auto border-collapse overflow-hidden rounded-lg">
         <thead className="bg-primary-500 dark:bg-primary-600 text-gray-100">
           <tr>

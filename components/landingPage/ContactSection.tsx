@@ -16,7 +16,7 @@ export default function ContactSection() {
             <ContactForm />
             <div className="flex flex-col justify-center space-y-4">
               <h2 className="text-center text-3xl font-bold md:text-4xl dark:text-white">
-                Trillium Massage
+                Flower Flyther
               </h2>
               <div className="border-primary-500 flex w-full items-center justify-center rounded border-2 bg-gray-200 text-center text-gray-500">
                 <Image
