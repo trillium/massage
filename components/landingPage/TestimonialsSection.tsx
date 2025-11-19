@@ -1,10 +1,13 @@
 'use client'
 
 import { Star } from '@/components/ReviewCard'
-import ratings from '@/data/ratings'
+import ratings, { links } from '@/data/ratings'
 import clsx from 'clsx'
+import Image from 'next/image'
+import Link from 'next/link'
 import React, { useEffect, useState, useCallback } from 'react'
-import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
+import { FaChevronLeft, FaChevronRight, FaAirbnb } from 'react-icons/fa'
+import Logo from '../Logo'
 
 const longestFiveStarReviews = ratings
   .filter((r) => r.rating === 5)
@@ -19,6 +22,39 @@ const longestFiveStarReviews = ratings
     return bStr.length - aStr.length
   })
   .slice(0, 18)
+
+function SourceIcon({ source }: { source: string }) {
+  if (source.toLowerCase().includes('airbnb')) {
+    return (
+      <Link
+        href={links.airbnb}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="focus:ring-primary-500 flex items-center justify-center rounded-full focus:ring-2 focus:outline-none"
+      >
+        <FaAirbnb size={40} color="#FF5A5F" />
+      </Link>
+    )
+  }
+  if (source.toLowerCase().includes('soothe')) {
+    return (
+      <Image
+        src="/soothe-icon.webp"
+        alt="Soothe"
+        width={40}
+        height={40}
+        style={{
+          clipPath: 'circle(45% at center)',
+        }}
+      />
+    )
+  }
+  if (source.toLowerCase().includes('trillium')) {
+    return <Logo classes="text-primary-500 w-8 h-8 xs:w-10 xs:h-10" />
+  }
+
+  return null
+}
 
 export default function TestimonialsSection({ text }: { text?: string }) {
   return (
@@ -104,7 +140,7 @@ export function TestimonialsCarousel() {
           tabIndex={0} // eslint-disable-line jsx-a11y/no-noninteractive-tabindex
           id="review-body"
           aria-label="Review content - use arrow keys to navigate"
-          className="focus:ring-primary-500 order-2 flex min-h-64 flex-1 flex-col items-center justify-between rounded-lg bg-gray-50 p-6 text-center shadow transition-all duration-300 focus:ring-2 focus:outline-none dark:bg-gray-800"
+          className="focus:ring-primary-500 relative order-2 flex min-h-80 w-full flex-1 flex-col items-center justify-between rounded-lg bg-gray-50 p-6 text-center shadow transition-all duration-300 focus:ring-2 focus:outline-none dark:bg-gray-800"
         >
           <div className="text-primary-400 mb-4 flex items-center gap-1">
             {Array.from({ length: r.rating }, (_, i) => (
@@ -125,6 +161,9 @@ export function TestimonialsCarousel() {
                 {r.name}
               </span>
             </div>
+          </div>
+          <div className="absolute top-4 left-4">
+            <SourceIcon source={r.source} />
           </div>
         </div>
         {/* Left button: visually first */}
