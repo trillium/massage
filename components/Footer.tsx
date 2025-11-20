@@ -34,6 +34,7 @@ function QuicklinkContainer({ displayClasses }: { displayClasses?: string }) {
     { text: 'Testimonials', href: '/reviews' },
     { text: 'Pricing', href: '/pricing' },
     { text: 'Contact', href: '/contact' },
+    { text: 'Blog', href: '/blog' },
     { text: 'Frequently Ask Questions', href: '/faq' },
   ]
   return (
