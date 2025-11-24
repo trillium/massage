@@ -16,6 +16,7 @@
     "test": "vitest run",
     "test:watch": "vitest --watch",
     "test:coverage": "vitest run --coverage",
+    "dev:e2e": "cross-env INIT_CWD=$PWD next dev --port 9999",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:headed": "playwright test --headed",
