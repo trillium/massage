@@ -25,7 +25,7 @@ export function AdminAuthChip({ adminEmail, onLogout }: AdminAuthChipProps) {
   const displayEmail = adminEmail ?? reduxAuth.adminEmail
   const handleLogout = onLogout ?? (() => dispatch({ type: 'auth/logout' }))
 
-  if (!isClient || !reduxAuth.isAuthenticated) {
+  if (!isClient || (!adminEmail && !reduxAuth.isAuthenticated)) {
     return null
   }
 
