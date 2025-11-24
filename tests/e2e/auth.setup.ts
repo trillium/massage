@@ -22,13 +22,13 @@ setup('authenticate as admin', async ({ page }) => {
     console.error('Page error:', err.message)
   })
 
-  await page.goto('http://localhost:9999/auth/_test-login')
+  await page.goto('http://localhost:9999/auth/test-login')
 
   await page.getByLabel('Email').fill(testAdminEmail)
   await page.getByLabel('Password').fill(testAdminPassword)
   await page.getByRole('button', { name: /sign in/i }).click()
 
-  await page.waitForURL((url) => !url.pathname.includes('/auth/_test-login'), {
+  await page.waitForURL((url) => !url.pathname.includes('/auth/test-login'), {
     timeout: 10000,
     waitUntil: 'commit'
   })
@@ -61,20 +61,20 @@ setup('authenticate as user', async ({ page }) => {
     console.error('Page error:', err.message)
   })
 
-  await page.goto('http://localhost:9999/auth/_test-login')
+  await page.goto('http://localhost:9999/auth/test-login')
 
   await page.getByLabel('Email').fill(testUserEmail)
   await page.getByLabel('Password').fill(testUserPassword)
   await page.getByRole('button', { name: /sign in/i }).click()
 
-  await page.waitForURL((url) => !url.pathname.includes('/auth/_test-login'), {
+  await page.waitForURL((url) => !url.pathname.includes('/auth/test-login'), {
     timeout: 10000,
     waitUntil: 'commit'
   })
 
   await page.waitForTimeout(2000)
 
-  expect(page.url()).not.toContain('/auth/_test-login')
+  expect(page.url()).not.toContain('/auth/test-login')
 
   await page.context().storageState({ path: userFile })
 })

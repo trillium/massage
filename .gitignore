@@ -59,6 +59,9 @@ pnpm-debug.log*
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+/playwright/.auth/
+playwright-server.log
+proxy-debug.log
 
 # tag-data.json file rebuilt on every build
 app/tag-data.json
