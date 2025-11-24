@@ -11,7 +11,18 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
+const DEBUG = process.env.PROXY_DEBUG === 'true'
+
+function log(...args: any[]) {
+  if (DEBUG) {
+    console.log(...args)
+  }
+}
+
 export default async function proxy(request: NextRequest) {
+  log('[Proxy] ==========================================')
+  log('[Proxy] Request:', request.nextUrl.pathname)
+
   let supabaseResponse = NextResponse.next({
     request,
   })
@@ -45,6 +56,8 @@ export default async function proxy(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser()
 
+  log('[Proxy] User authenticated:', !!user, user?.email)
+
   // Protected routes - require authentication
   const protectedPaths = ['/admin', '/my_events']
 
@@ -52,8 +65,9 @@ export default async function proxy(request: NextRequest) {
 
   // If accessing protected path without authentication, redirect to login
   if (isProtectedPath && !user) {
+    log('[Proxy] Unauthenticated access to protected path - redirecting')
     const url = request.nextUrl.clone()
-    url.pathname = '/login'
+    url.pathname = '/auth/login'
     url.searchParams.set('redirectedFrom', request.nextUrl.pathname)
     return NextResponse.redirect(url)
   }
@@ -63,15 +77,16 @@ export default async function proxy(request: NextRequest) {
   const isAdminPath = adminPaths.some((path) => request.nextUrl.pathname.startsWith(path))
 
   if (isAdminPath && user) {
-    // Check if user is admin
     const { data: profile } = await supabase
       .from('profiles')
       .select('role')
       .eq('id', user.id)
       .single()
 
+    log('[Proxy] Admin check:', profile?.role)
+
     if (profile?.role !== 'admin') {
-      // Authenticated but not admin - redirect to home
+      log('[Proxy] Non-admin user denied access to admin route')
       const url = request.nextUrl.clone()
       url.pathname = '/'
       return NextResponse.redirect(url)
@@ -86,6 +101,7 @@ export default async function proxy(request: NextRequest) {
   // 4. Finally: return myNewResponse
   // If this is not done, you may be causing the browser and server to go out of sync and terminate the user's session prematurely!
 
+  log('[Proxy] Request allowed')
   return supabaseResponse
 }
 

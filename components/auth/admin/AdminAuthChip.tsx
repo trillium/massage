@@ -1,31 +1,80 @@
 'use client'
 
-import { useSelector, useDispatch } from 'react-redux'
-import type { AppDispatch } from '@/redux/store'
-import { selectAuth, logout } from '@/redux/slices/authSlice'
 import { Menu, MenuItems, MenuItem, MenuButton } from '@headlessui/react'
 import Link from '@/components/Link'
 import authHeaderNavLinks from '@/data/authHeaderNavLinks'
 import { useEffect, useState } from 'react'
+import { getSupabaseBrowserClient } from '@/lib/supabase/client'
+import { useRouter } from 'next/navigation'
 
 interface AdminAuthChipProps {
   adminEmail?: string | null
   onLogout?: () => void
 }
 
+interface AdminState {
+  isAdmin: boolean
+  email: string | null
+}
+
 export function AdminAuthChip({ adminEmail, onLogout }: AdminAuthChipProps) {
-  const reduxAuth = useSelector(selectAuth)
-  const dispatch = useDispatch<AppDispatch>()
+  const [adminState, setAdminState] = useState<AdminState>({ isAdmin: false, email: null })
   const [isClient, setIsClient] = useState(false)
+  const supabase = getSupabaseBrowserClient()
+  const router = useRouter()
 
   useEffect(() => {
     setIsClient(true)
-  }, [])
 
-  const displayEmail = adminEmail ?? reduxAuth.adminEmail
-  const handleLogout = onLogout ?? (() => dispatch({ type: 'auth/logout' }))
+    const checkAdminStatus = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser()
 
-  if (!isClient || !reduxAuth.isAuthenticated) {
+      if (!user) {
+        setAdminState({ isAdmin: false, email: null })
+        return
+      }
+
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('role')
+        .eq('id', user.id)
+        .single()
+
+      if (profile?.role === 'admin') {
+        setAdminState({ isAdmin: true, email: user.email || null })
+      } else {
+        setAdminState({ isAdmin: false, email: null })
+      }
+    }
+
+    checkAdminStatus()
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange(() => {
+      checkAdminStatus()
+    })
+
+    return () => {
+      subscription.unsubscribe()
+    }
+  }, [supabase])
+
+  const handleLogout = async () => {
+    if (onLogout) {
+      onLogout()
+    } else {
+      await supabase.auth.signOut()
+      setAdminState({ isAdmin: false, email: null })
+      router.push('/auth/login')
+    }
+  }
+
+  const displayEmail = adminEmail ?? adminState.email
+
+  if (!isClient || (!adminEmail && !adminState.isAdmin)) {
     return null
   }
 

@@ -5,7 +5,11 @@
       "Bash(git branch:*)",
       "Bash(git add:*)",
       "Bash(xargs:*)",
-      "Bash(chmod:*)"
+      "Bash(chmod:*)",
+      "Bash(npx supabase db dump:*)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:supabase.com)",
+      "Bash(npx supabase db diff:*)"
     ],
     "deny": [],
     "ask": []
