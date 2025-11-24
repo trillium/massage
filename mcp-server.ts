@@ -6,7 +6,12 @@ import { CallToolRequestSchema, ListToolsRequestSchema } from '@modelcontextprot
 
 import { getCalendarEvents } from './src/lib/mcp/tools/calendar-tools.js'
 import { searchEmails } from './src/lib/mcp/tools/email-tools.js'
-import { getCalendarEventsSchema, searchEmailsSchema } from './src/lib/mcp/schemas.js'
+import { createCalendarEvent } from './src/lib/mcp/tools/create-calendar-event.js'
+import {
+  getCalendarEventsSchema,
+  searchEmailsSchema,
+  createCalendarEventSchema,
+} from './src/lib/mcp/schemas.js'
 
 const server = new Server(
   {
@@ -46,6 +51,51 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
         },
       },
       {
+        name: 'create_calendar_event',
+        description:
+          'Create a new Google Calendar event on a specified calendar (or primary calendar by default).',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            summary: {
+              type: 'string',
+              description: 'Event title/summary',
+            },
+            startDateTime: {
+              type: 'string',
+              description: 'Start date and time in ISO 8601 format',
+            },
+            endDateTime: {
+              type: 'string',
+              description: 'End date and time in ISO 8601 format',
+            },
+            description: {
+              type: 'string',
+              description: 'Event description',
+            },
+            location: {
+              type: 'string',
+              description: 'Event location',
+            },
+            attendeeEmail: {
+              type: 'string',
+              description: 'Email of attendee to invite',
+            },
+            attendeeName: {
+              type: 'string',
+              description: 'Display name of attendee',
+            },
+            calendarId: {
+              type: 'string',
+              description:
+                'Calendar ID (email address like trillium@trilliumsmith.com or trillium@hatsfabulous.com). Defaults to "primary"',
+              default: 'primary',
+            },
+          },
+          required: ['summary', 'startDateTime', 'endDateTime'],
+        },
+      },
+      {
         name: 'search_emails',
         description:
           'Search Gmail messages using Gmail search syntax. Supports filters like from:, subject:, after:, before:, has:attachment, etc.',
@@ -81,6 +131,9 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
     switch (name) {
       case 'get_calendar_events':
         return await getCalendarEvents(getCalendarEventsSchema.parse(args))
+
+      case 'create_calendar_event':
+        return await createCalendarEvent(createCalendarEventSchema.parse(args))
 
       case 'search_emails':
         return await searchEmails(searchEmailsSchema.parse(args))

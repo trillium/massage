@@ -79,13 +79,16 @@ async function buildEventBody({
 }
 
 export default async function createCalendarAppointment(
-  props: AppointmentProps & { customDescription?: string }
+  props: AppointmentProps & { customDescription?: string; calendarId?: string }
 ) {
-  const body = await buildEventBody(props)
+  const { calendarId = 'primary', ...appointmentProps } = props
+  const body = await buildEventBody(appointmentProps)
 
   console.log('[body]', body)
 
-  const apiUrl = new URL('https://www.googleapis.com/calendar/v3/calendars/primary/events')
+  const apiUrl = new URL(
+    `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(calendarId)}/events`
+  )
 
   apiUrl.searchParams.set('sendNotifications', 'true')
   apiUrl.searchParams.set('conferenceDataVersion', '1')
