@@ -55,6 +55,7 @@ export default function GmailTestPage() {
 
   useEffect(() => {
     searchSootheEmails()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   // Handler functions for selections
