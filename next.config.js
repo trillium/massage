@@ -108,6 +108,10 @@ export default () => {
           test: /\/dev-mode-prod-excluded\/.*$/i,
           loader: 'ignore-loader',
         })
+        config.module.rules.push({
+          test: /\/app\/auth\/test-login\/.*$/i,
+          loader: 'ignore-loader',
+        })
       }
 
       return config
