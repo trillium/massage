@@ -12,21 +12,21 @@
 
 import { getSupabaseBrowserClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { notFound } from 'next/navigation'
 
+export const dynamic = 'force-dynamic'
+
 export default function TestLoginPage() {
+  if (process.env.NODE_ENV === 'production') {
+    notFound()
+  }
+
   const router = useRouter()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
-
-  useEffect(() => {
-    if (process.env.NODE_ENV === 'production') {
-      notFound()
-    }
-  }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()

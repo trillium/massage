@@ -103,13 +103,9 @@ export default () => {
         use: ['@svgr/webpack'],
       })
 
-      if (!options.dev) {
+      if (!options.dev && options.isServer) {
         config.module.rules.push({
           test: /\/dev-mode-prod-excluded\/.*$/i,
-          loader: 'ignore-loader',
-        })
-        config.module.rules.push({
-          test: /\/app\/auth\/test-login\/.*$/i,
           loader: 'ignore-loader',
         })
       }
