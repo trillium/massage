@@ -38,7 +38,7 @@ export async function GET(request: NextRequest) {
     })
 
     return NextResponse.redirect(
-      `${origin}/auth/supabase-login?error=${encodeURIComponent(error)}&error_description=${encodeURIComponent(errorDescription || '')}`
+      `${origin}/auth/login?error=${encodeURIComponent(error)}&error_description=${encodeURIComponent(errorDescription || '')}`
     )
   }
 
@@ -47,7 +47,7 @@ export async function GET(request: NextRequest) {
       timestamp: new Date().toISOString(),
       url: request.url,
     })
-    return NextResponse.redirect(`${origin}/auth/supabase-login`)
+    return NextResponse.redirect(`${origin}/auth/login`)
   }
 
   try {
@@ -88,7 +88,7 @@ export async function GET(request: NextRequest) {
       })
 
       return NextResponse.redirect(
-        `${origin}/auth/supabase-login?error=authentication_failed&error_description=${encodeURIComponent(exchangeError.message)}`
+        `${origin}/auth/login?error=authentication_failed&error_description=${encodeURIComponent(exchangeError.message)}`
       )
     }
 
@@ -117,7 +117,7 @@ export async function GET(request: NextRequest) {
     })
 
     return NextResponse.redirect(
-      `${origin}/auth/supabase-login?error=unexpected_error&error_description=${encodeURIComponent(err instanceof Error ? err.message : 'Unknown error')}`
+      `${origin}/auth/login?error=unexpected_error&error_description=${encodeURIComponent(err instanceof Error ? err.message : 'Unknown error')}`
     )
   }
 }

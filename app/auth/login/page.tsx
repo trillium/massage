@@ -1,10 +1,10 @@
 /**
- * Supabase Login Page
+ * Login Page
  *
- * Standalone login page using magic links.
+ * Standalone login page using magic links and OAuth.
  * Redirects to requested page after successful login.
  *
- * URL: /auth/supabase-login
+ * URL: /auth/login
  * Query params:
  * - redirectTo: Where to go after login (default: /)
  * - error: Error code from callback
