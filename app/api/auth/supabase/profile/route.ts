@@ -49,7 +49,7 @@ export async function PUT(request: Request) {
     const supabase = await getSupabaseServerClient()
 
     const allowedUpdates = ['email']
-    const updates: any = {}
+    const updates: Record<string, unknown> = {}
 
     for (const key of allowedUpdates) {
       if (key in body) {
