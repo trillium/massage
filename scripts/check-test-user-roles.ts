@@ -17,14 +17,14 @@ async function checkTestUserRoles() {
   console.log('Checking test user roles in Supabase...\n')
 
   for (const email of testEmails) {
-    const { data: authUsers } = await supabase.auth.admin.listUsers()
+    const { data, error: listError } = await supabase.auth.admin.listUsers()
 
-    if (!authUsers?.users) {
+    if (listError || !data?.users) {
       console.log(`❌ ${email}: Failed to fetch users`)
       continue
     }
 
-    const authUser = authUsers.users.find((u) => u.email === email)
+    const authUser = data.users.find((u) => u.email === email)
 
     if (!authUser) {
       console.log(`❌ ${email}: No auth user found`)
