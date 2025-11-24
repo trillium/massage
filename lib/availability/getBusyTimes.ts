@@ -6,6 +6,10 @@ import getAccessToken from './getAccessToken'
 import { formatDatetimeToString } from '@/lib/helpers'
 
 export default async function getBusyTimes({ start, end }: DateTimeInterval) {
+  if (process.env.USE_MOCK_CALENDAR_DATA === 'true') {
+    return []
+  }
+
   const response = await fetch('https://www.googleapis.com/calendar/v3/freeBusy', {
     method: 'POST',
     headers: {
