@@ -1,92 +1,186 @@
-# E2E Tests
+# Playwright E2E Testing with Supabase Auth
 
-End-to-end tests using Playwright for the Trillium Massage application.
+Role-based authentication testing using storage state pattern for fast, reliable tests.
 
-## Setup
+## Architecture
 
-### Install Dependencies
+```
+Setup (runs once)
+  └─ auth.setup.ts
+      ├─ Authenticates admin → saves to playwright/.auth/admin.json
+      └─ Authenticates user  → saves to playwright/.auth/user.json
 
-```bash
-pnpm install
-npx playwright install
+Test Projects (use saved state)
+  ├─ admin   → uses admin.json (auto-authenticated)
+  ├─ user    → uses user.json (auto-authenticated)
+  └─ public  → no auth state
 ```
 
-### Environment Variables
+## How Authentication Works
 
-For authenticated admin tests, you need to set up a test admin user with password authentication:
+### Storage State Pattern (66x faster)
 
-```bash
-# .env.test or .env.local
-TEST_ADMIN_EMAIL=trilliummassagela@gmail.com
-TEST_ADMIN_PASSWORD=your-test-password
+Instead of authenticating in each test, we:
+
+1. **Setup phase** - Authenticate once via Supabase API
+2. **Save session** - Store cookies to JSON files
+3. **Load state** - All tests reuse saved authentication
+
+```typescript
+const { data } = await supabase.auth.signInWithPassword({
+  email: 'admin@example.com',
+  password: process.env.TEST_ADMIN_PASSWORD
+})
+
+await page.context().addCookies([
+  { name: 'sb-access-token', value: data.session.access_token },
+  { name: 'sb-refresh-token', value: data.session.refresh_token }
+])
+
+await page.context().storageState({ path: 'playwright/.auth/admin.json' })
 ```
 
-**Note:** The authenticated tests require a Supabase user with:
+### What Gets Saved
 
-1. Email/password authentication enabled
-2. Admin role in the `profiles` table
+Storage state files contain:
+- Supabase session cookies (`sb-access-token`, `sb-refresh-token`)
+- Cookie metadata (domain, path, expiry, security flags)
+- localStorage/sessionStorage data (if any)
 
-### Creating a Test Admin User
-
-You can create a test admin user using Supabase SQL Editor:
-
-```sql
--- 1. Create auth user (or sign up via the app)
--- Use Supabase Dashboard → Authentication → Users → Add user
-
--- 2. Promote to admin
-UPDATE public.profiles
-SET role = 'admin'::user_role
-WHERE email = 'trilliummassagela@gmail.com';
-```
+These files are **gitignored** for security.
 
 ## Running Tests
 
-### Run all e2e tests
-
 ```bash
 pnpm test:e2e
-```
-
-### Run specific test file
-
-```bash
-npx playwright test admin-auth.spec.ts
-```
-
-### Run in UI mode (interactive)
-
-```bash
+pnpm test:e2e --project=admin
+pnpm test:e2e --project=user
+pnpm test:e2e --project=public
 pnpm test:e2e:ui
-```
-
-### Run in headed mode (see browser)
-
-```bash
 pnpm test:e2e:headed
 ```
 
-## Test Structure
+## Environment Setup
 
-### `admin-auth.spec.ts`
+Required in `.env.local`:
 
-Tests for **unauthenticated** users:
+```bash
+NEXT_PUBLIC_SUPABASE_URL=https://xxx.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJ...
+SUPABASE_SERVICE_ROLE_KEY=eyJ...
 
-- ✓ Cannot access admin dashboard
-- ✓ Redirected from admin subpages
-- ✓ See login form when accessing admin routes
+TEST_ADMIN_EMAIL=admin@example.com
+TEST_ADMIN_PASSWORD=secure-password-here
+TEST_USER_EMAIL=user@example.com
+TEST_USER_PASSWORD=secure-password-here
+```
 
-### `admin-auth-authenticated.spec.ts`
+### Creating Test Users
 
-Tests for **authenticated admin** users:
+```sql
+UPDATE public.profiles
+SET role = 'admin'::user_role
+WHERE email = 'admin@example.com';
+```
 
-- ✓ Can access admin dashboard
-- ✓ Can access admin subpages
-- ✓ Session persists across navigation
+## Test Organization
 
-## Notes
+```
+tests/e2e/
+├── auth.setup.ts
+├── helpers/
+│   └── auth.ts
+├── admin/
+│   └── admin-access.spec.ts
+├── user/
+│   └── user-access.spec.ts
+└── public/
+    └── public-access.spec.ts
+```
 
-- Tests use `http://localhost:9876` as configured in `playwright.config.ts`
-- The dev server is automatically started by Playwright
-- Tests clear cookies before each test to ensure clean state
-- Authenticated tests use real Supabase authentication (not mocked)
+## Writing Tests
+
+### Admin Tests
+
+```typescript
+import { test, expect } from '@playwright/test'
+
+test('admin can do something', async ({ page }) => {
+  await page.goto('/admin')
+})
+```
+
+### User Tests
+
+```typescript
+import { test, expect } from '@playwright/test'
+
+test('user can do something', async ({ page }) => {
+  await page.goto('/')
+})
+```
+
+### Public Tests
+
+```typescript
+import { test, expect } from '@playwright/test'
+
+test('public user can access home', async ({ page }) => {
+  await page.goto('/')
+})
+```
+
+## Key Implementation Details
+
+### Cookie Names
+
+Supabase SSR uses:
+- `sb-access-token` - Current access token
+- `sb-refresh-token` - Token for refreshing expired sessions
+
+### Proxy Integration
+
+The `proxy.ts` middleware:
+1. Reads cookies on each request
+2. Validates session with Supabase
+3. Refreshes expired tokens
+4. Protects admin routes by checking profile role
+
+Tests work because they provide valid cookies that proxy validates.
+
+## Troubleshooting
+
+### Tests fail with "Not authenticated"
+
+1. Check environment variables are set
+2. Verify test users exist in Supabase
+3. Delete `playwright/.auth/*.json` and re-run setup
+4. Check cookie names match Supabase client expectations
+
+### Setup fails
+
+1. Verify Supabase credentials in `.env.local`
+2. Ensure test users have correct roles in database
+3. Check network connectivity to Supabase
+
+### Session expires during tests
+
+Delete old state files and re-run tests to create fresh sessions.
+
+## Security Notes
+
+- **Never commit** `.env.local` or `playwright/.auth/*`
+- Auth state files contain real session tokens
+- Use separate test accounts, not production users
+- Rotate test passwords regularly
+- CI environments need encrypted secrets
+
+## Performance
+
+Before storage state:
+- 3 tests × 2s authentication each = 6 seconds
+
+After storage state:
+- 1 setup (2s) + 3 tests (instant) = 2 seconds total
+- **3x faster** for small suites
+- **66-100x faster** for large suites (100+ tests)
