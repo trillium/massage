@@ -5838,6 +5838,23 @@ const ratings: ReviewType[] = [
       'Trillium was amazing — easygoing, professional, and incredibly knowledgeable. He was prompt and flexible with scheduling, which made the whole experience smooth and relaxed. The session itself was exceptional; he really knows his craft and creates a calm, comfortable atmosphere. Highly recommend him to anyone looking for a skilled and intuitive massage therapist.',
     helpful: 5,
   },
+  {
+    rating: 5,
+    date: '2025-11-29',
+    name: 'Manuel',
+    source: 'Airbnb',
+    comment: 'Trillium is the best in the known universe.',
+    helpful: 5,
+  },
+  {
+    rating: 5,
+    date: '2025-11-19',
+    name: 'Tesha',
+    source: 'Airbnb',
+    comment:
+      'I had an amazing in-home massage experience. He was completely professional from start to finish and arrived right on time. The massage itself was incredible — he listened carefully to everything I mentioned about my problem areas and tailored the session perfectly. I felt relaxed, supported, and genuinely cared for. Highly recommend!',
+    helpful: 5,
+  },
 ]
 
 export default ratings
