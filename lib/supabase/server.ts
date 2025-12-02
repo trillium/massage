@@ -8,6 +8,7 @@
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import type { Database } from './database.types'
+import { getCookieOptionsWithDomain } from './cookie-options'
 
 export async function getSupabaseServerClient() {
   const cookieStore = await cookies()
@@ -22,9 +23,9 @@ export async function getSupabaseServerClient() {
         },
         setAll(cookiesToSet) {
           try {
-            cookiesToSet.forEach(({ name, value, options }) => {
-              cookieStore.set(name, value, options)
-            })
+            cookiesToSet.forEach(({ name, value, options }) =>
+              cookieStore.set(name, value, getCookieOptionsWithDomain(options))
+            )
           } catch {
             // The `setAll` method was called from a Server Component.
             // This can be ignored if you have middleware refreshing
@@ -72,11 +73,7 @@ export async function getUserProfile() {
     return null
   }
 
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('*')
-    .eq('id', user.id)
-    .single()
+  const { data: profile } = await supabase.from('profiles').select('*').eq('id', user.id).single()
 
   return profile
 }
