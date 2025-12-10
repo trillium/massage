@@ -5844,7 +5844,6 @@ const ratings: ReviewType[] = [
     name: 'Manuel',
     source: 'Airbnb',
     comment: 'Trillium is the best in the known universe.',
-    helpful: 5,
   },
   {
     rating: 5,
