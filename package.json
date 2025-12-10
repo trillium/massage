@@ -30,7 +30,9 @@
     "convert-images": "bash ./scripts/convert_and_resize_images.sh",
     "admin:generate-link": "tsx scripts/generate-admin-link.ts --emailEnv",
     "user:generate-link": "tsx scripts/generate-user-link.ts",
-    "push:send-test-message": "tsx scripts/send-test-pushover.ts"
+    "push:send-test-message": "tsx scripts/send-test-pushover.ts",
+    "blog:build": "contentlayer2 build && cross-env NODE_OPTIONS='--experimental-json-modules' node ./scripts/postbuild.mjs",
+    "blog:watch": "contentlayer2 dev"
   },
   "dependencies": {
     "@headlessui/react": "2.2.0",
