@@ -1,90 +1,6 @@
-import { DEFAULT_PRICING } from 'config'
+import { directPrices, servicesWebsite, servicesAirbnb, coupons } from './constants'
 
 export default function AirbnbCouponTable() {
-  // Direct booking prices from config
-  const directPrices = {
-    60: DEFAULT_PRICING[60], // $140
-    90: DEFAULT_PRICING[90], // $210
-    120: DEFAULT_PRICING[120], // $280
-    150: DEFAULT_PRICING[150], // $350
-  }
-
-  // Airbnb prices (approximately 15% higher due to fees)
-  const airbnbPrices = {
-    60: 160,
-    90: 240,
-    120: 320,
-    150: 400,
-  }
-
-  const servicesWebsite = [
-    { duration: 60, name: '60-Minute Massage' },
-    { duration: 90, name: '90-Minute Massage' },
-    { duration: 120, name: '120-Minute Massage' },
-    { duration: 150, name: 'Massage Therapy Instructional (2.5hr)' },
-  ]
-
-  const servicesAirbnb = [
-    { duration: 60, name: '60-Minute Massage', price: 150 },
-    { duration: 90, name: '90-Minute Massage', price: 225 },
-    { duration: 120, name: '120-Minute Massage', price: 300 },
-    { duration: 150, name: 'Massage Therapy Instructional (2hr)', price: 300 },
-    { duration: 400, name: 'Thank You Offering', price: 400 },
-  ]
-
-  const coupons = [
-    {
-      type: 'Percentage',
-      discount: '10% off',
-      calc: (price: number) => price * 0.9,
-    },
-    {
-      type: 'Percentage',
-      discount: '15% off',
-      calc: (price: number) => price * 0.85,
-    },
-    {
-      type: 'Percentage',
-      discount: '20% off',
-      calc: (price: number) => price * 0.8,
-    },
-    {
-      type: 'Percentage',
-      discount: '25% off',
-      calc: (price: number) => price * 0.75,
-    },
-    {
-      type: 'Percentage',
-      discount: '30% off',
-      calc: (price: number) => price * 0.7,
-    },
-    {
-      type: 'Percentage',
-      discount: '40% off',
-      calc: (price: number) => price * 0.6,
-    },
-    {
-      type: 'Percentage',
-      discount: '50% off',
-      calc: (price: number) => price * 0.5,
-    },
-    {
-      type: 'Dollar Amount',
-      discount: '$50 off',
-      calc: (price: number) => price - 50,
-    },
-    {
-      type: 'Dollar Amount',
-      discount: '$100 off',
-      calc: (price: number) => price - 100,
-    },
-    {
-      type: 'Dollar Amount',
-      discount: '$200 off',
-      calc: (price: number) => price - 200,
-    },
-  ]
-
   const getDirectPriceForService = (service: (typeof servicesAirbnb)[0]) => {
     // Find matching website service by duration
     const websiteService = servicesWebsite.find((s) => s.duration === service.duration)
@@ -93,7 +9,7 @@ export default function AirbnbCouponTable() {
     }
     // For Thank You Offering (400), calculate based on hourly rate
     if (service.duration === 400) {
-      return Math.round((DEFAULT_PRICING[60] / 60) * 150) // 2.5 hours = 150 minutes
+      return Math.round((directPrices[60] / 60) * 150) // 2.5 hours = 150 minutes
     }
     return 0
   }
