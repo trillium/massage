@@ -5882,6 +5882,47 @@ const ratings: ReviewType[] = [
       'I had an amazing in-home massage experience. He was completely professional from start to finish and arrived right on time. The massage itself was incredible — he listened carefully to everything I mentioned about my problem areas and tailored the session perfectly. I felt relaxed, supported, and genuinely cared for. Highly recommend!',
     helpful: 5,
   },
+  {
+    rating: 5,
+    date: '2025-11-19',
+    name: 'Tesha',
+    source: 'Airbnb',
+    comment: 'Excellent massage and service',
+  },
+  {
+    rating: 5,
+    date: '2025-12-10',
+    name: 'Liberty',
+    source: 'Airbnb',
+    comment:
+      'Thank you Trillium for your great Massage and attention to what I needed most ! I feel so much lighter overall. Blood is flowing again :). I loved your open hearted energy and you being easy going. Great experience ! Will book again !',
+    helpful: 5,
+  },
+  {
+    rating: 5,
+    date: '2025-12-09',
+    name: 'Lea',
+    source: 'Airbnb',
+    comment:
+      'Had a great massage! Pressure was good, communication was great, his set up was very comfortable. Would recommend. Very professional and nice experience. Thank you!',
+    helpful: 5,
+  },
+  {
+    rating: 5,
+    date: '2025-12-06',
+    name: 'Peter',
+    source: 'Airbnb',
+    comment: 'Amazing, pays attention to what you need.',
+  },
+  {
+    rating: 5,
+    date: '2025-12-04',
+    name: 'Danielle',
+    source: 'Airbnb',
+    comment:
+      'A great experience, so convenient to have the massage in my Airbnb and it was such a good massage. I was sore from lots of walking and carrying things, and felt so relaxed after. Highly recommend!',
+    helpful: 5,
+  },
 ]
 
 export default ratings
