@@ -5923,6 +5923,13 @@ const ratings: ReviewType[] = [
       'A great experience, so convenient to have the massage in my Airbnb and it was such a good massage. I was sore from lots of walking and carrying things, and felt so relaxed after. Highly recommend!',
     helpful: 5,
   },
+  {
+    rating: 5,
+    date: '2026-01-01',
+    name: 'Jacob',
+    source: 'Airbnb',
+    comment: 'Great massage, thanks!',
+  },
 ]
 
 export default ratings
