@@ -1,7 +1,6 @@
 import { EmailProps } from '@/lib/types'
 import { parts as signatureParts } from '@/lib/messaging/utilities/signature'
 import { generateSecureMyEventsUrlServer } from '@/lib/generateSecureMyEventsUrl'
-import { escapeHtml } from '@/lib/messaging/escapeHtml'
 
 const LINE_PREFIX = `<div class="gmail_default" style="font-family:arial,sans-serif">`
 const LINE_SUFFIX = `</div>`
@@ -30,14 +29,14 @@ export default async function ClientRequestEmail({
 
   let body = `<div dir="ltr">`
   body += [
-    `Hi ${escapeHtml(firstName) || 'there'}`,
+    `Hi ${firstName || 'there'}`,
     `<br>`,
     `Just letting you know I received your appointment request!`,
     `<br>`,
     `<b>Date:</b> ${dateSummary}`,
     `<b>Location:</b> ${location}`,
     `${price ? `<b>Price:</b> $${price}` : ''}`,
-    `${promo ? `<b>Promo Applied:</b> ${escapeHtml(promo)}` : ''}`,
+    `${promo ? `<b>Promo Applied:</b> ${promo}` : ''}`,
     `<b>Duration:</b> ${duration} minutes`,
     `${bookingUrl ? `<b>Booking Page:</b> <a href="${bookingUrl}">${bookingUrl}</a>` : ''}`,
     `<br>`,

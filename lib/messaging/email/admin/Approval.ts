@@ -2,7 +2,6 @@ import { z } from 'zod'
 import { EmailProps } from '@/lib/types'
 import { parts as signatureParts } from '@/lib/messaging/utilities/signature'
 import { AppointmentRequestSchema } from '@/lib/schema'
-import { escapeHtml } from '@/lib/messaging/escapeHtml'
 
 const LINE_PREFIX = `<div class="gmail_default" style="font-family:arial,sans-serif">`
 const LINE_SUFFIX = `</div>`
@@ -37,24 +36,24 @@ Would you be able to meet at a different time?`
 
   let body = `<div dir="ltr">`
   body += [
-    `<b>${escapeHtml(firstName)} ${escapeHtml(lastName)}</b> has requested a meeting:`,
+    `<b>${firstName} ${lastName}</b> has requested a meeting:`,
     `<br>`,
-    `Their local timezone is ${escapeHtml(timeZone)}`,
+    `Their local timezone is ${timeZone}`,
     `<br>`,
-    `<b>First Name:</b> ${escapeHtml(firstName)}`,
-    `<b>Last Name:</b> ${escapeHtml(lastName)}`,
+    `<b>First Name:</b> ${firstName}`,
+    `<b>Last Name:</b> ${lastName}`,
     `<b>Date:</b> ${dateSummary}`,
     `<b>Location:</b> ${location}`,
     `${price ? `<b>Price:</b> $${price}` : ''}`,
-    `${promo ? `<b>Promo Applied:</b> ${escapeHtml(promo)}` : ''}`,
+    `${promo ? `<b>Promo Applied:</b> ${promo}` : ''}`,
     `<b>Duration:</b> ${duration} minutes`,
-    `<b>Phone Number:</b> ${escapeHtml(phone)}`,
+    `<b>Phone Number:</b> ${phone}`,
     `${bookingUrl ? `<b>Booking Page:</b> <a href="${bookingUrl}">${bookingUrl}</a>` : ''}`,
     ...(data
       ? [
-          `${data.hotelRoomNumber ? `<b>Hotel Room:</b> ${escapeHtml(data.hotelRoomNumber)}` : ''}`,
-          `${data.parkingInstructions ? `<b>Parking Instructions:</b> ${escapeHtml(data.parkingInstructions)}` : ''}`,
-          `${data.additionalNotes ? `<b>Additional Notes:</b> ${escapeHtml(data.additionalNotes)}` : ''}`,
+          `${data.hotelRoomNumber ? `<b>Hotel Room:</b> ${data.hotelRoomNumber}` : ''}`,
+          `${data.parkingInstructions ? `<b>Parking Instructions:</b> ${data.parkingInstructions}` : ''}`,
+          `${data.additionalNotes ? `<b>Additional Notes:</b> ${data.additionalNotes}` : ''}`,
         ]
       : []),
     `<br>`,

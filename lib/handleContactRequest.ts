@@ -10,6 +10,7 @@ import contactFormConfirmation from './messaging/email/client/contactFormConfirm
 import { ContactPushover } from './messaging/push/admin/ContactPushover'
 import { pushoverSendMessage } from './messaging/push/admin/pushover'
 import { identifyAuthenticatedUser } from './posthog-utils'
+import { escapeHtml } from './messaging/escapeHtml'
 
 export type ContactRequestValidationResult =
   | { success: true; data: z.output<typeof ContactFormSchema> }
@@ -45,8 +46,16 @@ export async function handleContactRequest({
 
   identifyAuthenticatedUser(data.email, 'contact_form_submitted')
 
+  const safeData = {
+    subject: escapeHtml(data.subject),
+    name: escapeHtml(data.name),
+    email: escapeHtml(data.email),
+    phone: escapeHtml(data.phone),
+    message: escapeHtml(data.message),
+  }
+
   // Generate admin notification email using template
-  const adminEmailBody = contactFormEmail(data)
+  const adminEmailBody = contactFormEmail(safeData)
 
   // Send Pushover notification to admin
   const pushover = ContactPushover(data)
@@ -64,7 +73,7 @@ export async function handleContactRequest({
   })
 
   // Generate user confirmation email using template
-  const userEmailBody = contactFormConfirmation(data)
+  const userEmailBody = contactFormConfirmation(safeData)
 
   // Send confirmation email to user
   await sendMailFn({

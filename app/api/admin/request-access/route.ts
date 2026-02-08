@@ -6,6 +6,7 @@ import siteMetadata from '@/data/siteMetadata'
 import { AdminAuthManager } from '@/lib/adminAuth'
 import { AdminAccessRequestSchema } from '@/lib/schema'
 import AdminAccessEmail from '@/lib/messaging/email/admin/AdminAccessEmail'
+import { escapeHtml } from '@/lib/messaging/escapeHtml'
 
 // Rate limiting
 const rateLimitLRU = new LRUCache({
@@ -66,8 +67,8 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
 
     // Create email content using template
     const { subject: emailSubject, body: emailBody } = AdminAccessEmail({
-      email,
-      requestReason,
+      email: escapeHtml(email),
+      requestReason: escapeHtml(requestReason),
       adminLink,
       requestTime: new Date().toLocaleString(),
     })

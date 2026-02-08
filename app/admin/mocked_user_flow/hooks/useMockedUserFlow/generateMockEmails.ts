@@ -21,9 +21,18 @@ export async function generateMockEmails({
   price: { [key: number]: number }
 }) {
   const safeLocation = escapeHtml(flattenLocation(data.locationObject || data.locationString || ''))
+  const safeData = {
+    firstName: escapeHtml(data.firstName),
+    lastName: escapeHtml(data.lastName),
+    phone: escapeHtml(data.phone),
+    email: escapeHtml(data.email),
+    promo: data.promo ? escapeHtml(data.promo) : data.promo,
+    timeZone: escapeHtml(data.timeZone as string),
+  }
 
   const therapistEmailData = ApprovalEmail({
     ...data,
+    ...safeData,
     location: safeLocation,
     dateSummary: intervalToHumanString({
       start,
@@ -37,6 +46,7 @@ export async function generateMockEmails({
 
   const clientEmailData = await ClientRequestEmail({
     ...data,
+    ...safeData,
     location: safeLocation,
     email: data.email, // Explicitly pass the email
     dateSummary: intervalToHumanString({

@@ -1,6 +1,5 @@
 import { EmailProps, ReviewType } from '@/lib/types'
 import { parts as signatureParts } from '@/lib/messaging/utilities/signature'
-import { escapeHtml } from '@/lib/messaging/escapeHtml'
 
 const LINE_PREFIX = `<div class="gmail_default" style="font-family:arial,sans-serif">`
 const LINE_SUFFIX = `</div>`
@@ -26,13 +25,13 @@ export default function ReviewSubmission({
     `{`,
     `<b>rating:</b> ${rating},`,
     `<b>date:</b> ${date},`,
-    `<b>comment:</b> ${escapeHtml(comment)},`,
-    `<b>name:</b> ${escapeHtml(name)},`,
-    `<b>source:</b> ${escapeHtml(source)},`,
-    `<b>type:</b> ${escapeHtml(type)},`,
+    `<b>comment:</b> ${comment},`,
+    `<b>name:</b> ${name},`,
+    `<b>source:</b> ${source},`,
+    `<b>type:</b> ${type},`,
     `}`,
     `<br>`,
-    `<b>Name:</b> ${escapeHtml(name)}`,
+    `<b>Name:</b> ${name}`,
     `<b>Date:</b> ${dateSummary}`,
     `<b>Price:</b> $${price}`,
     `<b>Duration:</b> ${duration} minutes`,

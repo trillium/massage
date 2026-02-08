@@ -1,5 +1,4 @@
 import { parts as signatureParts } from '@/lib/messaging/utilities/signature'
-import { escapeHtml } from '@/lib/messaging/escapeHtml'
 
 interface AdminAccessEmailProps {
   email: string
@@ -38,9 +37,9 @@ export default function AdminAccessEmail({
       <div style="font-family:arial,sans-serif">
         <h2>Admin Access Request</h2>
         <p>A request for admin access was made with the following details:</p>
-        
-        <p><strong>Email:</strong> ${escapeHtml(email)}</p>
-        <p><strong>Reason:</strong> ${escapeHtml(requestReason)}</p>
+
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Reason:</strong> ${requestReason}</p>
         <p><strong>Time:</strong> ${requestTime}</p>
         
         <div style="margin: 20px 0; padding: 15px; background-color: #f8f9fa; border-left: 4px solid #007bff;">

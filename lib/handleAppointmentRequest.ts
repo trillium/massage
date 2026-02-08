@@ -59,6 +59,14 @@ export async function handleAppointmentRequest({
   const { data } = validationResult
 
   const safeLocation = escapeHtml(flattenLocation(data.locationObject || data.locationString || ''))
+  const safeData = {
+    firstName: escapeHtml(data.firstName),
+    lastName: escapeHtml(data.lastName),
+    phone: escapeHtml(data.phone),
+    email: escapeHtml(data.email),
+    promo: data.promo ? escapeHtml(data.promo) : data.promo,
+    timeZone: escapeHtml(data.timeZone),
+  }
 
   identifyAuthenticatedUser(data.email, 'booking_form_submitted')
 
@@ -94,6 +102,7 @@ export async function handleAppointmentRequest({
     // Send confirmation email directly
     const confirmationEmail = await clientConfirmEmailFn({
       ...data,
+      ...safeData,
       location: safeLocation,
       email: data.email, // Explicitly pass the email
       dateSummary: intervalToHumanString({
@@ -114,8 +123,19 @@ export async function handleAppointmentRequest({
   const start = new Date(data.start)
   const end = new Date(data.end)
   const approveUrl = createGeneralApprovalUrl(headers, data, getHashFn)
+
+  const safeExtraFields = {
+    hotelRoomNumber: data.hotelRoomNumber ? escapeHtml(data.hotelRoomNumber) : data.hotelRoomNumber,
+    parkingInstructions: data.parkingInstructions
+      ? escapeHtml(data.parkingInstructions)
+      : data.parkingInstructions,
+    additionalNotes: data.additionalNotes ? escapeHtml(data.additionalNotes) : data.additionalNotes,
+  }
+
   const approveEmail = approvalEmailFn({
     ...data,
+    ...safeData,
+    ...safeExtraFields,
     location: safeLocation,
     approveUrl,
     dateSummary: intervalToHumanString({
@@ -123,7 +143,11 @@ export async function handleAppointmentRequest({
       end,
       timeZone: ownerTimeZone,
     }),
-    data, // Pass the full data object for custom fields
+    data: {
+      ...data,
+      ...safeData,
+      ...safeExtraFields,
+    },
   })
 
   const pushover = AppointmentPushover(data, ownerTimeZone, approveUrl)
@@ -141,6 +165,7 @@ export async function handleAppointmentRequest({
   })
   const confirmationEmail = await clientRequestEmailFn({
     ...data,
+    ...safeData,
     location: safeLocation,
     email: data.email, // Explicitly pass the email
     dateSummary: intervalToHumanString({
