@@ -2,6 +2,7 @@ import { EmailProps } from '@/lib/types'
 import { parts as signatureParts } from '@/lib/messaging/utilities/signature'
 import { flattenLocation } from '@/lib/helpers/locationHelpers'
 import { generateSecureMyEventsUrlServer } from '@/lib/generateSecureMyEventsUrl'
+import { escapeHtml } from '@/lib/messaging/escapeHtml'
 
 const LINE_PREFIX = `<div class="gmail_default" style="font-family:arial,sans-serif">`
 const LINE_SUFFIX = `</div>`
@@ -30,14 +31,14 @@ export default async function ClientConfirmEmail({
 
   let body = `<div dir="ltr">`
   body += [
-    `Hi ${firstName || 'there'}`,
+    `Hi ${escapeHtml(firstName) || 'there'}`,
     `<br>`,
     `Great news! Your massage session has been confirmed.`,
     `<br>`,
     `<b>Date:</b> ${dateSummary}`,
     `<b>Location:</b> ${flattenLocation(location)}`,
     `${price ? `<b>Price:</b> $${price}` : ''}`,
-    `${promo ? `<b>Promo Applied:</b> ${promo}` : ''}`,
+    `${promo ? `<b>Promo Applied:</b> ${escapeHtml(promo)}` : ''}`,
     `<b>Duration:</b> ${duration} minutes`,
     `${bookingUrl ? `<b>Booking Page:</b> <a href="${bookingUrl}">${bookingUrl}</a>` : ''}`,
     `<br>`,
