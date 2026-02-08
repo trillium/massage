@@ -1,7 +1,15 @@
+# Load allowlist
+ALLOWLIST_FILE=".husky/large-files-allowlist.txt"
+
 git diff --cached --name-only --diff-filter=ACM | \
   grep -v "node_modules\|\.next\|\.git" | \
   while read file; do
     if [ -f "$file" ]; then
+      # Check if file is in allowlist (skip empty lines and comments)
+      if [ -f "$ALLOWLIST_FILE" ] && grep -q "^${file}$" "$ALLOWLIST_FILE"; then
+        continue
+      fi
+      
       lines=$(wc -l < "$file" | tr -d ' ')
       if [ "$lines" -gt 250 ]; then
         echo "❌ File exceeds 250 lines: $file ($lines lines)"
@@ -12,6 +20,7 @@ git diff --cached --name-only --diff-filter=ACM | \
         echo "3. Create barrel export: components/Form/index.tsx (exports from feature files)"
         echo "4. Existing imports unchanged: import { Form } from 'components/Form'"
         echo ""
+        echo "To exempt this file, add it to: $ALLOWLIST_FILE"
         echo "Use --no-verify to bypass if absolutely necessary."
         exit 1
       fi
