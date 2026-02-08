@@ -1,6 +1,5 @@
 import { EmailProps } from '@/lib/types'
 import { parts as signatureParts } from '@/lib/messaging/utilities/signature'
-import { flattenLocation } from '@/lib/helpers/locationHelpers'
 import { generateSecureMyEventsUrlServer } from '@/lib/generateSecureMyEventsUrl'
 import { escapeHtml } from '@/lib/messaging/escapeHtml'
 
@@ -36,7 +35,7 @@ export default async function ClientRequestEmail({
     `Just letting you know I received your appointment request!`,
     `<br>`,
     `<b>Date:</b> ${dateSummary}`,
-    `<b>Location:</b> ${flattenLocation(location)}`,
+    `<b>Location:</b> ${location}`,
     `${price ? `<b>Price:</b> $${price}` : ''}`,
     `${promo ? `<b>Promo Applied:</b> ${escapeHtml(promo)}` : ''}`,
     `<b>Duration:</b> ${duration} minutes`,

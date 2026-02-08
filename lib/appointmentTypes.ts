@@ -45,7 +45,7 @@ export type EmailProps = {
   email: string
   firstName: string
   lastName: string
-  location: LocationObject
+  location: LocationObject | string
   approveUrl: string
   timeZone: string
   price?: string

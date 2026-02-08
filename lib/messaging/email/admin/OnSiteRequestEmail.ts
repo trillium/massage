@@ -1,5 +1,6 @@
 import type { EmailProps, ChairAppointmentBlockProps } from '@/lib/types'
 import { parts as signatureParts } from '@/lib/messaging/utilities/signature'
+import { escapeHtml } from '@/lib/messaging/escapeHtml'
 
 const LINE_PREFIX = `<div class="gmail_default" style="font-family:arial,sans-serif">`
 const LINE_SUFFIX = `</div>`
@@ -39,9 +40,9 @@ Would you be able to meet at a different time?`
 
   let body = `<div dir="ltr">`
   body += [
-    `<b>${firstName} ${lastName}</b> has requested a Chair Massage Appointment Block:`,
+    `<b>${escapeHtml(firstName)} ${escapeHtml(lastName)}</b> has requested a Chair Massage Appointment Block:`,
     `<br>`,
-    `Their local timezone is ${timeZone}`,
+    `Their local timezone is ${escapeHtml(timeZone)}`,
     `<br>`,
     `<b>Event Name:</b> ${eventName}`,
     `<b>Allowed Durations:</b> ${allowedDurations.toString()}`,
@@ -51,9 +52,9 @@ Would you be able to meet at a different time?`
     `${price ? `<b>Price:</b> $${price}` : ''}`,
     `<b>Duration:</b> ${duration} minutes`,
     `<br>`,
-    `<b>First Name:</b> ${firstName}`,
-    `<b>Last Name:</b> ${lastName}`,
-    `<b>Phone Number:</b> ${phone}`,
+    `<b>First Name:</b> ${escapeHtml(firstName)}`,
+    `<b>Last Name:</b> ${escapeHtml(lastName)}`,
+    `<b>Phone Number:</b> ${escapeHtml(phone)}`,
     `<br>`,
     `<br>`,
     `<b><a href=${approveUrl}>Accept the appointment</a></b>`,

@@ -1,7 +1,6 @@
 import { z } from 'zod'
 import { EmailProps } from '@/lib/types'
 import { parts as signatureParts } from '@/lib/messaging/utilities/signature'
-import { flattenLocation } from '@/lib/helpers/locationHelpers'
 import { AppointmentRequestSchema } from '@/lib/schema'
 import { escapeHtml } from '@/lib/messaging/escapeHtml'
 
@@ -45,7 +44,7 @@ Would you be able to meet at a different time?`
     `<b>First Name:</b> ${escapeHtml(firstName)}`,
     `<b>Last Name:</b> ${escapeHtml(lastName)}`,
     `<b>Date:</b> ${dateSummary}`,
-    `<b>Location:</b> ${flattenLocation(location)}`,
+    `<b>Location:</b> ${location}`,
     `${price ? `<b>Price:</b> $${price}` : ''}`,
     `${promo ? `<b>Promo Applied:</b> ${escapeHtml(promo)}` : ''}`,
     `<b>Duration:</b> ${duration} minutes`,

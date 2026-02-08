@@ -16,6 +16,8 @@ import { createGeneralApprovalUrl } from './messaging/utilities/createApprovalUr
 import createCalendarAppointment from './availability/createCalendarAppointment'
 import eventSummary from './messaging/templates/events/eventSummary'
 import { identifyAuthenticatedUser } from './posthog-utils'
+import { flattenLocation } from './helpers/locationHelpers'
+import { escapeHtml } from './messaging/escapeHtml'
 
 export type AppointmentRequestValidationResult =
   | { success: true; data: z.output<typeof AppointmentRequestSchema> }
@@ -56,6 +58,8 @@ export async function handleAppointmentRequest({
   }
   const { data } = validationResult
 
+  const safeLocation = escapeHtml(flattenLocation(data.locationObject || data.locationString || ''))
+
   identifyAuthenticatedUser(data.email, 'booking_form_submitted')
 
   // Check if instantConfirm is true
@@ -90,7 +94,7 @@ export async function handleAppointmentRequest({
     // Send confirmation email directly
     const confirmationEmail = await clientConfirmEmailFn({
       ...data,
-      location,
+      location: safeLocation,
       email: data.email, // Explicitly pass the email
       dateSummary: intervalToHumanString({
         start,
@@ -112,7 +116,7 @@ export async function handleAppointmentRequest({
   const approveUrl = createGeneralApprovalUrl(headers, data, getHashFn)
   const approveEmail = approvalEmailFn({
     ...data,
-    location: data.locationObject || { street: '', city: data.locationString || '', zip: '' },
+    location: safeLocation,
     approveUrl,
     dateSummary: intervalToHumanString({
       start,
@@ -137,7 +141,7 @@ export async function handleAppointmentRequest({
   })
   const confirmationEmail = await clientRequestEmailFn({
     ...data,
-    location: data.locationObject || { street: '', city: data.locationString || '', zip: '' },
+    location: safeLocation,
     email: data.email, // Explicitly pass the email
     dateSummary: intervalToHumanString({
       start,
