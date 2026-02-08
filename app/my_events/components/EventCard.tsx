@@ -5,6 +5,7 @@ import clsx from 'clsx'
 import { GoogleCalendarV3Event } from '@/lib/types'
 import Link from '@/components/Link'
 import { ActionButtons } from './ActionButtons'
+import { adminFetch } from '@/lib/adminFetch'
 
 interface EventCardProps {
   event: GoogleCalendarV3Event
@@ -51,7 +52,7 @@ export function EventCard({
     setUpdateLocationSuccess(false)
 
     try {
-      const response = await fetch('/api/events/update', {
+      const response = await adminFetch('/api/events/update', {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
