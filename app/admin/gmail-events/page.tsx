@@ -8,6 +8,7 @@ import type { StringDateTimeInterval, LocationObject } from '@/lib/types'
 import clsx from 'clsx'
 import { generateTimeSlots } from './generateTimeSlots'
 import { toast } from 'sonner'
+import { adminFetch } from '@/lib/adminFetch'
 
 interface BookingResponse {
   success: boolean
@@ -79,7 +80,7 @@ export default function GmailTestPage() {
     setError(null)
 
     try {
-      const response = await fetch(
+      const response = await adminFetch(
         `/api/admin/gmail/soothe-bookings?maxResults=${maxResults}&daysBack=${daysBack}`
       )
       const data: BookingResponse = await response.json()
@@ -124,7 +125,7 @@ export default function GmailTestPage() {
         },
       })
 
-      const response = await fetch('/api/admin/create-appointment', {
+      const response = await adminFetch('/api/admin/create-appointment', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
