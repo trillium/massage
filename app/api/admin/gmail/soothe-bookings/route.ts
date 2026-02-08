@@ -1,9 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { searchSootheEmails } from '@/lib/gmail/searchSootheEmails'
 import type { SootheBookingInfo } from '@/lib/types'
+import { AdminAuthManager } from '@/lib/adminAuth'
 
 export async function GET(request: Request) {
   try {
+    const auth = AdminAuthManager.requireAdmin(request)
+    if (auth instanceof NextResponse) return auth
     const { searchParams } = new URL(request.url)
     const maxResults = parseInt(searchParams.get('maxResults') || '50')
     const daysBack = parseInt(searchParams.get('daysBack') || '1')

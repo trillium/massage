@@ -1,5 +1,6 @@
 import type { AdminSession } from '@/lib/types'
 import { hashHmac } from './hash'
+import { NextResponse } from 'next/server'
 
 export type { AdminSession }
 
@@ -61,6 +62,15 @@ export class AdminAuthManager {
   static validateAdminAccess(email: string | null, token: string | null): boolean {
     if (!email || !token) return false
     return this.validateSignedToken(token, email)
+  }
+
+  static requireAdmin(request: Request): NextResponse | { email: string } {
+    const email = request.headers.get('x-admin-email')
+    const token = request.headers.get('x-admin-token')
+    if (!this.validateAdminAccess(email, token)) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+    return { email: email! }
   }
 
   /**
