@@ -14,6 +14,8 @@ import type { DateTimeIntervalWithTimezone } from 'lib/types'
 import { OnSiteRequestSchema } from 'lib/schema'
 import siteMetadata from '@/data/siteMetadata'
 import { intervalToHumanString } from 'lib/intervalToHumanString'
+import { flattenLocation } from 'lib/helpers/locationHelpers'
+import { escapeHtml } from 'lib/messaging/escapeHtml'
 
 // Define the rate limiter
 const rateLimitLRU = new LRUCache({
@@ -43,6 +45,15 @@ export async function POST(req: NextRequest & IncomingMessage): Promise<NextResp
   }
   const { data } = validationResult
 
+  const safeLocation = escapeHtml(flattenLocation(data.locationObject || data.locationString || ''))
+  const safeData = {
+    firstName: escapeHtml(data.firstName),
+    lastName: escapeHtml(data.lastName),
+    phone: escapeHtml(data.phone),
+    email: escapeHtml(data.email),
+    timeZone: escapeHtml(data.timeZone),
+  }
+
   const start = new Date(data.start)
   const end = new Date(data.end)
 
@@ -60,7 +71,8 @@ export async function POST(req: NextRequest & IncomingMessage): Promise<NextResp
   // Generate and send the approval email
   const approveEmail = OnSiteRequestEmail({
     ...data,
-    location: data.locationObject || { street: '', city: data.locationString || '', zip: '' },
+    ...safeData,
+    location: safeLocation,
     pricing: transformedPricing,
     approveUrl,
     dateSummary: intervalToHumanString({
@@ -87,7 +99,8 @@ export async function POST(req: NextRequest & IncomingMessage): Promise<NextResp
   // Generate and send the confirmation email
   const confirmationEmail = await ClientRequestEmail({
     ...data,
-    location: data.locationObject || { street: '', city: data.locationString || '', zip: '' },
+    ...safeData,
+    location: safeLocation,
     dateSummary: intervalToHumanString({
       start,
       end,

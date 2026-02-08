@@ -37,7 +37,7 @@ export default function AdminAccessEmail({
       <div style="font-family:arial,sans-serif">
         <h2>Admin Access Request</h2>
         <p>A request for admin access was made with the following details:</p>
-        
+
         <p><strong>Email:</strong> ${email}</p>
         <p><strong>Reason:</strong> ${requestReason}</p>
         <p><strong>Time:</strong> ${requestTime}</p>

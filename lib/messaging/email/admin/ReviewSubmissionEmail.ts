@@ -33,14 +33,14 @@ export default function ReviewSubmissionEmail({
 
   let body = `<div dir="ltr">`
   body += [
-    `<b>{`,
-    `<b>rating: ${rating},`,
-    `<b>date: ${localeDayString(new Date(date))},`,
-    `<b>comment: ${text},`,
-    `<b>name: ${firstName} ${lastName[0]}.,`,
-    `<b>source: ${source},`,
-    `<b>type: ${type},`,
-    `<b>}`,
+    `{`,
+    `<b>rating:</b> ${rating},`,
+    `<b>date:</b> ${localeDayString(new Date(date))},`,
+    `<b>comment:</b> ${text},`,
+    `<b>name:</b> ${firstName} ${lastName[0]}.,`,
+    `<b>source:</b> ${source},`,
+    `<b>type:</b> ${type},`,
+    `}`,
     `<br>`,
     ...signatureParts,
   ]

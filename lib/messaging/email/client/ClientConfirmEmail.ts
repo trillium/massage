@@ -1,6 +1,5 @@
 import { EmailProps } from '@/lib/types'
 import { parts as signatureParts } from '@/lib/messaging/utilities/signature'
-import { flattenLocation } from '@/lib/helpers/locationHelpers'
 import { generateSecureMyEventsUrlServer } from '@/lib/generateSecureMyEventsUrl'
 
 const LINE_PREFIX = `<div class="gmail_default" style="font-family:arial,sans-serif">`
@@ -35,7 +34,7 @@ export default async function ClientConfirmEmail({
     `Great news! Your massage session has been confirmed.`,
     `<br>`,
     `<b>Date:</b> ${dateSummary}`,
-    `<b>Location:</b> ${flattenLocation(location)}`,
+    `<b>Location:</b> ${location}`,
     `${price ? `<b>Price:</b> $${price}` : ''}`,
     `${promo ? `<b>Promo Applied:</b> ${promo}` : ''}`,
     `<b>Duration:</b> ${duration} minutes`,

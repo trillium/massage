@@ -8,6 +8,7 @@ import sendMail from 'lib/email'
 import ReviewSubmissionEmail from 'lib/messaging/email/admin/ReviewSubmissionEmail'
 import siteMetadata from '@/data/siteMetadata'
 import { RatingTypeStrict } from '@/lib/types'
+import { escapeHtml } from 'lib/messaging/escapeHtml'
 
 // Define the rate limiter
 const rateLimitLRU = new LRUCache({
@@ -71,9 +72,18 @@ export async function POST(req: NextRequest & IncomingMessage): Promise<NextResp
 
   const { data } = validationResult
 
+  const safeData = {
+    firstName: escapeHtml(data.firstName),
+    lastName: escapeHtml(data.lastName),
+    text: escapeHtml(data.text),
+    source: escapeHtml(data.source),
+    type: escapeHtml(data.type),
+  }
+
   // Generate and send the approval email
   const createReviewEmail = ReviewSubmissionEmail({
     ...data,
+    ...safeData,
     rating: data.rating as RatingTypeStrict,
   })
   await sendMail({

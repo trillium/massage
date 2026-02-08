@@ -2,6 +2,8 @@ import { intervalToHumanString } from 'lib/intervalToHumanString'
 import { ApprovalEmail } from 'lib/messaging/email/admin/Approval'
 import ClientRequestEmail from 'lib/messaging/email/client/ClientRequestEmail'
 import { AppointmentRequestType } from '@/lib/types'
+import { flattenLocation } from '@/lib/helpers/locationHelpers'
+import { escapeHtml } from '@/lib/messaging/escapeHtml'
 
 export async function generateMockEmails({
   data,
@@ -18,9 +20,20 @@ export async function generateMockEmails({
   duration: number
   price: { [key: number]: number }
 }) {
+  const safeLocation = escapeHtml(flattenLocation(data.locationObject || data.locationString || ''))
+  const safeData = {
+    firstName: escapeHtml(data.firstName),
+    lastName: escapeHtml(data.lastName),
+    phone: escapeHtml(data.phone),
+    email: escapeHtml(data.email),
+    promo: data.promo ? escapeHtml(data.promo) : data.promo,
+    timeZone: escapeHtml(data.timeZone as string),
+  }
+
   const therapistEmailData = ApprovalEmail({
     ...data,
-    location: data.locationObject || { street: '', city: data.locationString || '', zip: '' },
+    ...safeData,
+    location: safeLocation,
     dateSummary: intervalToHumanString({
       start,
       end,
@@ -33,7 +46,8 @@ export async function generateMockEmails({
 
   const clientEmailData = await ClientRequestEmail({
     ...data,
-    location: data.locationObject || { street: '', city: data.locationString || '', zip: '' },
+    ...safeData,
+    location: safeLocation,
     email: data.email, // Explicitly pass the email
     dateSummary: intervalToHumanString({
       start,
