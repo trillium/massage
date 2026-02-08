@@ -3,6 +3,7 @@ import createAdminAppointment from '@/lib/messaging/templates/events/createAdmin
 import adminAppointmentDescription from '@/lib/messaging/templates/events/adminAppointmentDescription'
 import createManualAdminAppointment from '@/lib/messaging/templates/events/createManualAdminAppointment'
 import manualAdminAppointmentDescription from '@/lib/messaging/templates/events/manualAdminAppointmentDescription'
+import { AdminAuthManager } from '@/lib/adminAuth'
 
 /**
  * POST /api/admin/create-appointment
@@ -11,6 +12,8 @@ import manualAdminAppointmentDescription from '@/lib/messaging/templates/events/
  */
 export async function POST(request: NextRequest) {
   try {
+    const auth = AdminAuthManager.requireAdmin(request)
+    if (auth instanceof NextResponse) return auth
     const body = await request.json()
 
     // Validate required fields

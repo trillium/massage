@@ -1,9 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
 import getAccessToken from 'lib/availability/getAccessToken'
 import { GoogleCalendarV3Event } from 'lib/types'
+import { AdminAuthManager } from '@/lib/adminAuth'
 
 export async function PATCH(request: NextRequest) {
   try {
+    const auth = AdminAuthManager.requireAdmin(request)
+    if (auth instanceof NextResponse) return auth
     const body = await request.json()
     const { eventId, updateData } = body
 
