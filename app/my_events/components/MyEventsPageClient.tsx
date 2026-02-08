@@ -72,7 +72,7 @@ export default function MyEventsPageClient() {
         if (result.valid) {
           console.log('✅ Server validation passed, creating session')
 
-          const sessionCreated = UserAuthManager.createSession(urlEmail, urlToken, true)
+          const sessionCreated = UserAuthManager.createSession(urlEmail, urlToken)
           console.log('💾 Session creation result:', sessionCreated)
 
           if (sessionCreated) {

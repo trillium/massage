@@ -10,7 +10,10 @@ import { createHash, createHmac } from 'crypto'
  * @param {string} data - The input data string for which to generate the hash.
  * @returns {string} The resulting hash as a hexadecimal string.
  */
-export function getHash(data: string, key: string = process.env.GOOGLE_OAUTH_SECRET ?? ''): string {
+export function getHash(data: string, key: string = process.env.GOOGLE_OAUTH_SECRET!): string {
+  if (!key) {
+    throw new Error('GOOGLE_OAUTH_SECRET environment variable is required for hashing')
+  }
   return createHash('sha256')
     .update(data + key)
     .digest('hex')

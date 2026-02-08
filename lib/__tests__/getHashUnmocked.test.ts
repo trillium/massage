@@ -1,5 +1,5 @@
 import { getHash } from '@/lib/hash'
-import { describe, it, expect, vi, beforeEach, type Mock, type Mocked } from 'vitest'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
 
 describe('getHash unmocked', () => {
   const originalEnv = process.env
@@ -10,25 +10,24 @@ describe('getHash unmocked', () => {
     process.env = { ...originalEnv }
   })
 
-  it('should return different results when GOOGLE_OAUTH_SECRET is set and unset', () => {
-    const originalSecret = process.env.GOOGLE_OAUTH_SECRET
-
-    // Set the environment variable
+  it('should return a hash when GOOGLE_OAUTH_SECRET is set', () => {
     process.env.GOOGLE_OAUTH_SECRET = 'test_secret'
-    const resultWithSecret = getHash('data')
+    const result = getHash('data')
+    expect(typeof result).toBe('string')
+    expect(result.length).toBeGreaterThan(0)
+  })
 
-    // Unset the environment variable
+  it('should throw when GOOGLE_OAUTH_SECRET is not set', () => {
     delete process.env.GOOGLE_OAUTH_SECRET
-    const resultWithoutSecret = getHash('data')
+    expect(() => getHash('data')).toThrow(
+      'GOOGLE_OAUTH_SECRET environment variable is required for hashing'
+    )
+  })
 
-    // Compare the results
-    expect(resultWithSecret).not.toEqual(resultWithoutSecret)
-
-    // Restore the original environment variable
-    if (originalSecret !== undefined) {
-      process.env.GOOGLE_OAUTH_SECRET = originalSecret
-    } else {
-      delete process.env.GOOGLE_OAUTH_SECRET
-    }
+  it('should use explicit key parameter when provided', () => {
+    delete process.env.GOOGLE_OAUTH_SECRET
+    const result = getHash('data', 'explicit_key')
+    expect(typeof result).toBe('string')
+    expect(result.length).toBeGreaterThan(0)
   })
 })

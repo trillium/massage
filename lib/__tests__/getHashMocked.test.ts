@@ -28,9 +28,10 @@ describe('getHash', () => {
     expect(result).toBe('mocked_hash')
   })
 
-  it('should return the correct hash when GOOGLE_OAUTH_SECRET is not set', () => {
+  it('should throw when GOOGLE_OAUTH_SECRET is not set', () => {
     delete process.env.GOOGLE_OAUTH_SECRET
-    const result = getHash('data')
-    expect(result).toBe('mocked_hash')
+    expect(() => getHash('data')).toThrow(
+      'GOOGLE_OAUTH_SECRET environment variable is required for hashing'
+    )
   })
 })

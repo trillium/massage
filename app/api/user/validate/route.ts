@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { UserAuthManager } from '@/lib/userAuth'
-import { hashHmac } from '@/lib/hash'
+import { UserAuthServerManager } from '@/lib/userAuthServer'
 
 export async function POST(request: NextRequest) {
   try {
@@ -16,8 +15,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Email and token are required' }, { status: 400 })
     }
 
-    // Validate the user access server-side
-    const isValid = UserAuthManager.validateUserAccess(email, token)
+    const isValid = UserAuthServerManager.validateUserAccess(email, token)
 
     console.log('Validation result:', { isValid, email })
 

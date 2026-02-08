@@ -1,5 +1,3 @@
-import { hashHmac } from './hash'
-
 export interface UserSession {
   email: string
   token: string
@@ -12,63 +10,8 @@ export const timeValue = 1000 * 60 * 60 * 24 * 30 // 30 days
 export class UserAuthManager {
   private static readonly SESSION_KEY = 'user_session'
   private static readonly SESSION_DURATION = timeValue
-  private static get TOKEN_SECRET(): string {
-    const secret = process.env.GOOGLE_OAUTH_SECRET
-    if (!secret) {
-      throw new Error(
-        'GOOGLE_OAUTH_SECRET environment variable is required for user authentication'
-      )
-    }
-    return secret
-  }
 
-  /**
-   * Generate a secure my_events link with signed token
-   */
-  static generateMyEventsLink(email: string, baseUrl: string = ''): string {
-    const token = this.generateSignedToken(email)
-    return `${baseUrl}/my_events?email=${encodeURIComponent(email)}&token=${token}`
-  }
-
-  /**
-   * Generate a signed token (simple HMAC for client-side validation)
-   */
-  private static generateSignedToken(email: string): string {
-    const payload = `${email}:${Date.now() + 15 * 24 * 60 * 60 * 1000}` // Expires in 15 days
-    const signature = hashHmac(payload, this.TOKEN_SECRET)
-    return btoa(payload + '|' + signature)
-  }
-
-  /**
-   * Validate signed token client-side
-   */
-  private static validateSignedToken(token: string, email: string): boolean {
-    try {
-      const decoded = atob(token)
-      const [payload, signature] = decoded.split('|')
-      const expectedSig = hashHmac(payload, this.TOKEN_SECRET)
-      if (signature !== expectedSig) return false
-      const [tokenEmail, expires] = payload.split(':')
-      return tokenEmail === email && Date.now() < parseInt(expires)
-    } catch {
-      return false
-    }
-  }
-
-  /**
-   * Validate user access from URL parameters
-   */
-  static validateUserAccess(email: string | null, token: string | null): boolean {
-    if (!email || !token) return false
-    return this.validateSignedToken(token, email)
-  }
-
-  /**
-   * Create and store user session in localStorage after validation
-   */
-  static createSession(email: string, token: string, skipValidation = false): boolean {
-    if (!skipValidation && !this.validateUserAccess(email, token)) return false
-
+  static createSession(email: string, token: string): boolean {
     const session: UserSession = {
       email,
       token,
@@ -85,9 +28,6 @@ export class UserAuthManager {
     }
   }
 
-  /**
-   * Validate existing session from localStorage
-   */
   static validateSession(): UserSession | null {
     try {
       const sessionData = localStorage.getItem(this.SESSION_KEY)
@@ -95,7 +35,6 @@ export class UserAuthManager {
 
       const session: UserSession = JSON.parse(sessionData)
 
-      // Check expiration
       if (Date.now() > session.expiresAt) {
         this.clearSession()
         return null
@@ -109,9 +48,6 @@ export class UserAuthManager {
     }
   }
 
-  /**
-   * Clear user session
-   */
   static clearSession(): void {
     try {
       localStorage.removeItem(this.SESSION_KEY)
@@ -120,16 +56,10 @@ export class UserAuthManager {
     }
   }
 
-  /**
-   * Check if user is currently authenticated
-   */
   static isAuthenticated(): boolean {
     return this.validateSession() !== null
   }
 
-  /**
-   * Get current user email if authenticated
-   */
   static getCurrentUserEmail(): string | null {
     const session = this.validateSession()
     return session?.email || null
