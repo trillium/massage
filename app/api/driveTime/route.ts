@@ -1,13 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { fetchSingleEvent } from 'lib/fetch/fetchSingleEvent'
 
-// Default event ID from loc/route.ts - used when no event ID is provided
-
-const DEFAULT_EVENT_ID = process.env.GOOGLE_MAPS_CAL_PRIMARY_EVENT_ID as string
-
-// Fail fast: this API relies on a default calendar event ID being available
-if (!DEFAULT_EVENT_ID) {
-  throw new Error('Required environment variable GOOGLE_MAPS_CAL_PRIMARY_EVENT_ID is not set')
+function getDefaultEventId(): string {
+  const id = process.env.GOOGLE_MAPS_CAL_PRIMARY_EVENT_ID
+  if (!id) {
+    throw new Error('Required environment variable GOOGLE_MAPS_CAL_PRIMARY_EVENT_ID is not set')
+  }
+  return id
 }
 
 interface DriveTimeRequest {
@@ -132,7 +131,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Determine which event to use
-    const targetEventId = eventId || (DEFAULT_EVENT_ID as string)
+    const targetEventId = eventId || getDefaultEventId()
 
     // Fetch the event to get its location
     const event = await fetchSingleEvent(targetEventId)
@@ -204,7 +203,7 @@ export async function GET(request: NextRequest) {
 
   try {
     // Determine which event to use
-    const targetEventId = eventId || (DEFAULT_EVENT_ID as string)
+    const targetEventId = eventId || getDefaultEventId()
 
     // Fetch the event to get its location
     const event = await fetchSingleEvent(targetEventId)
