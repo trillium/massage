@@ -68,3 +68,9 @@ app/tag-data.json
 
 # Google OAuth credentials (never commit)
 .google-oauth-supabase.json
+
+# Gas Town (added by gt)
+.runtime/
+.claude/
+.beads/
+.logs/
