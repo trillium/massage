@@ -1,98 +1,141 @@
-# Architecture Audit: Trillium Massage Booking Platform
+# Architecture Audit: Trillium Massage
 
-**Audit Date:** 2026-02-09
-**Codebase:** `trillium-massage` v0.2.0
-**Branch:** `polecat/furiosa/app-4gp@mlffj5rw`
-
----
-
-## Executive Summary
-
-This is a full-stack massage booking platform built on Next.js 16 (React 19) with the
-App Router pattern. It combines a public-facing booking system, a blog/content site, and
-an admin dashboard into a single deployment. The app integrates with Google Calendar for
-availability, Gmail for third-party booking extraction, Supabase for auth/database, and
-PostHog for analytics.
-
-**Key finding:** The system runs three parallel authentication mechanisms (Supabase,
-HMAC-token admin auth, HMAC-token user auth). This is the most architecturally significant
-pattern in the codebase and warrants attention for long-term maintainability.
+**Date:** 2026-02-09
+**App:** trilliummassage.la
+**Stack:** Next.js 16 / React 19 / TypeScript 5.9 / Supabase / Redux Toolkit
 
 ---
 
-## 1. High-Level Architecture
+## Table of Contents
+
+1. [System Overview](#1-system-overview)
+2. [High-Level Architecture](#2-high-level-architecture)
+3. [Directory Structure](#3-directory-structure)
+4. [Route Map](#4-route-map)
+5. [Authentication Architecture](#5-authentication-architecture)
+6. [Data Flow](#6-data-flow)
+7. [State Management](#7-state-management)
+8. [External Service Integrations](#8-external-service-integrations)
+9. [Messaging Pipeline](#9-messaging-pipeline)
+10. [Content System](#10-content-system)
+11. [Component Architecture](#11-component-architecture)
+12. [Security Model](#12-security-model)
+13. [Technology Stack](#13-technology-stack)
+14. [Findings & Observations](#14-findings--observations)
+
+---
+
+## 1. System Overview
+
+Trillium Massage is a full-stack booking platform for an in-home massage therapy
+business in the LA metro area. It handles real-time availability checking against
+Google Calendar, appointment booking with multi-step confirmation flows, admin
+management, client notifications, reviews, a blog, and analytics.
 
 ```
-+------------------------------------------------------------------+
-|                        BROWSER (Client)                          |
-|                                                                  |
-|  +------------------+  +---------------+  +-------------------+  |
-|  | React Components |  | Redux Store   |  | PostHog Analytics |  |
-|  | (App Router)     |  | (7 slices)    |  | (via proxy)       |  |
-|  +--------+---------+  +-------+-------+  +---------+---------+  |
-|           |                    |                    |             |
-|           |   localStorage     |                    |             |
-|           |   +-----------+    |                    |             |
-|           |   | admin_    |    |                    |             |
-|           |   | session   |    |                    |             |
-|           |   | user_     |    |                    |             |
-|           |   | session   |    |                    |             |
-|           |   +-----------+    |                    |             |
-+-----------+--------------------+--------------------+------------+
-            |                    |                    |
-            v                    v                    v
-+------------------------------------------------------------------+
-|                     NEXT.JS SERVER (Vercel)                       |
-|                                                                  |
-|  +------------+  +--------------+  +---------------------------+ |
-|  | Middleware  |  | API Routes   |  | Server Components (SSR)  | |
-|  | (proxy.ts) |  | /api/*       |  | app/*/page.tsx            | |
-|  +-----+------+  +------+-------+  +-------------+------------+ |
-|        |                |                        |               |
-|        v                v                        v               |
-|  +-----------------------------------------------------------+  |
-|  |                   LIB LAYER                                |  |
-|  |                                                            |  |
-|  |  +-------------+  +-----------+  +-----------+             |  |
-|  |  | adminAuth   |  | supabase/ |  | availa-   |             |  |
-|  |  | userAuth    |  | client.ts |  | bility/   |             |  |
-|  |  | adminFetch  |  | server.ts |  | engine    |             |  |
-|  |  +-------------+  +-----------+  +-----------+             |  |
-|  |                                                            |  |
-|  |  +-------------+  +-----------+  +-----------+             |  |
-|  |  | messaging/  |  | gmail/    |  | fetch/    |             |  |
-|  |  | email+push  |  | extract   |  | calendar  |             |  |
-|  |  +-------------+  +-----------+  +-----------+             |  |
-|  +-----------------------------------------------------------+  |
-+------------------------------------------------------------------+
-            |           |           |            |
-            v           v           v            v
-+----------+ +--------+ +--------+ +----------+ +---------+
-| Supabase | | Google | | Gmail  | | Pushover | | PostHog |
-| (Auth+DB)| | Cal API| | API    | | (Push)   | | (Analy) |
-+----------+ +--------+ +--------+ +----------+ +---------+
++=========================================================================+
+|                        TRILLIUM MASSAGE PLATFORM                        |
+|                                                                         |
+|  +------------------+  +------------------+  +---------------------+    |
+|  |   Public Site    |  |  Booking Engine  |  |   Admin Dashboard   |    |
+|  |                  |  |                  |  |                     |    |
+|  |  Landing         |  |  Availability    |  |  Event Management   |    |
+|  |  About/FAQ       |  |  Calendar Picker |  |  Gmail Sync         |    |
+|  |  Services        |  |  Booking Form    |  |  Promo Routes       |    |
+|  |  Reviews         |  |  Confirmation    |  |  Reviews Admin      |    |
+|  |  Blog            |  |  Instant Confirm |  |  User Flow Tester   |    |
+|  |  Pricing         |  |  On-Site Booking |  |  Config Debug       |    |
+|  +------------------+  +------------------+  +---------------------+    |
+|                                                                         |
+|  +-----------------------------------------------------------------+    |
+|  |                         API Layer (24 routes)                    |    |
+|  |  request | confirm | contact | events | admin | auth | tiles    |    |
+|  +-----------------------------------------------------------------+    |
+|                                                                         |
+|  +-----------------------------------------------------------------+    |
+|  |                     External Services                            |    |
+|  |  Google Calendar | Gmail | Pushover | PostHog | Supabase | Maps |    |
+|  +-----------------------------------------------------------------+    |
++=========================================================================+
 ```
 
 ---
 
-## 2. Technology Stack
+## 2. High-Level Architecture
 
-| Layer              | Technology                      | Version   |
-|--------------------|---------------------------------|-----------|
-| Framework          | Next.js (App Router)            | 16.0.7    |
-| UI Library         | React                           | 19.2.0    |
-| Language           | TypeScript                      | 5.9       |
-| Styling            | Tailwind CSS                    | 4.0.5     |
-| State Management   | Redux Toolkit                   | 2.5.0     |
-| Database + Auth    | Supabase (PostgreSQL)           | 2.80      |
-| Forms              | Formik + Zod                    | 2.4 / 4.0 |
-| Maps               | MapLibre GL                     | 5.6.2     |
-| Content/Blog       | Contentlayer2 (MDX)             | 0.5.5     |
-| Email              | Nodemailer (Gmail SMTP/OAuth2)  | 6.9       |
-| Analytics          | PostHog (self-hosted proxy)     | 1.258     |
-| Push Notifications | Pushover                        | --        |
-| Testing            | Vitest + Playwright             | 3.2 / 1.56|
-| Package Manager    | pnpm                            | 9.15.0    |
+```
+                            +------------------+
+                            |     Browser      |
+                            |                  |
+                            |  React 19 SPA    |
+                            |  Redux Store     |
+                            |  PostHog Client  |
+                            +--------+---------+
+                                     |
+                                     | HTTPS
+                                     v
+                            +------------------+
+                            |   Next.js 16     |
+                            |   App Router     |
+                            |                  |
+                            |  Server Comps    |
+                            |  API Routes      |
+                            |  SSR / ISR       |
+                            +--------+---------+
+                                     |
+                    +----------------+----------------+
+                    |                |                 |
+                    v                v                 v
+           +-------+------+  +------+------+  +------+------+
+           | Google APIs   |  |  Supabase   |  |  Pushover   |
+           |               |  |             |  |             |
+           | Calendar v3   |  | PostgreSQL  |  | Push Notif  |
+           | Gmail v1      |  | Auth        |  |             |
+           | Maps          |  | Profiles    |  |             |
+           +-------+------+  +------+------+  +------+------+
+                   |
+                   v
+           +-------+------+
+           |  Gmail SMTP   |
+           |  (Nodemailer) |
+           |               |
+           | Admin Emails  |
+           | Client Emails |
+           +--------------+
+```
+
+### Request Lifecycle
+
+```
+  Client Request
+       |
+       v
+  +----+----+
+  | Next.js |---> Static assets (public/, .next/)
+  | Router  |
+  +----+----+
+       |
+       +--------> Server Components (SSR)
+       |              |
+       |              v
+       |          Contentlayer (blog/authors MDX)
+       |
+       +--------> API Routes (/api/*)
+       |              |
+       |              +---> Zod Validation
+       |              +---> Rate Limiting (LRU Cache)
+       |              +---> Auth Check (Admin/User)
+       |              +---> Google Calendar API
+       |              +---> Email (Nodemailer)
+       |              +---> Push (Pushover)
+       |
+       +--------> Client Components
+                      |
+                      v
+                  Redux Store <---> localStorage
+                  PostHog Analytics
+                  MapLibre GL Maps
+```
 
 ---
 
@@ -100,857 +143,983 @@ pattern in the codebase and warrants attention for long-term maintainability.
 
 ```
 /
-├── app/                        # Next.js App Router pages & API routes
-│   ├── layout.tsx              # Root layout (theme, analytics, header/footer)
-│   ├── page.tsx                # Home page
-│   ├── theme-providers.tsx     # Provider composition root
-│   ├── StoreProvider.tsx       # Redux store provider
-│   ├── [bookingSlug]/          # Dynamic promo/booking routes
-│   ├── admin/                  # Admin dashboard (protected)
-│   │   ├── layout.tsx          # Admin layout with auth wrapper
-│   │   ├── gmail-events/       # Soothe email extraction
-│   │   ├── mocked_user_flow/   # E2E booking flow tester
-│   │   └── ...                 # 12 admin sub-pages
-│   ├── api/                    # 28 API routes (see Section 6)
-│   │   ├── admin/              # Admin-only endpoints
-│   │   ├── auth/supabase/      # Supabase auth endpoints
-│   │   ├── events/             # Calendar event CRUD
-│   │   ├── request/            # Booking request handler
-│   │   ├── onsite/             # On-site booking handler
-│   │   └── ...
-│   ├── auth/                   # Login/auth pages
-│   ├── blog/                   # Blog listing + [slug] pages
-│   ├── book/                   # Main booking page
-│   ├── event/[event_id]/       # Event detail + adjacent/next
-│   ├── my_events/              # User event dashboard (protected)
-│   └── reviews/                # Reviews listing + submission
+├── app/                          # Next.js App Router
+│   ├── layout.tsx                # Root layout (theme, analytics, header/footer)
+│   ├── page.tsx                  # Home page
+│   ├── theme-providers.tsx       # Provider tree (PostHog > Auth > Redux > Theme)
+│   ├── StoreProvider.tsx         # Redux store initialization
+│   │
+│   ├── [bookingSlug]/            # Dynamic promo/booking routes
+│   ├── about/                    # About page
+│   ├── admin/                    # Admin dashboard (layout-protected)
+│   │   ├── layout.tsx            # AdminAuthWrapper guard
+│   │   ├── [bookingSlug]/        # Admin booking management
+│   │   ├── active-event-containers/
+│   │   ├── booked/               # Booked appointments list
+│   │   ├── event/[event_id]/     # Individual event management
+│   │   ├── gmail-events/         # Soothe email sync
+│   │   ├── mock-form-validators/ # Testing tools
+│   │   ├── mocked_user_flow/     # Multi-step flow tester
+│   │   ├── promo-routes/         # Promotional route config
+│   │   ├── request-access/       # Access request management
+│   │   ├── reviews-list/         # Review management
+│   │   └── test-dynamic-fields/  # Field testing
+│   │
+│   ├── api/                      # API routes (24 endpoints)
+│   │   ├── admin/                # Admin-only endpoints
+│   │   │   ├── configuration/[slug]/
+│   │   │   ├── create-appointment/
+│   │   │   ├── gmail/soothe-bookings/
+│   │   │   ├── request-access/
+│   │   │   └── validate/
+│   │   ├── auth/supabase/        # Supabase auth endpoints
+│   │   │   ├── admin/{promote,demote,users}/
+│   │   │   └── profile/
+│   │   ├── confirm/              # Booking confirmation
+│   │   ├── contact/              # Contact form
+│   │   ├── driveTime/            # Google Maps drive time
+│   │   ├── events/               # Calendar events CRUD
+│   │   ├── loc/                  # Location/geocoding
+│   │   ├── newsletter/           # Newsletter signup
+│   │   ├── onsite/{request,confirm}/
+│   │   ├── request/              # Main booking endpoint
+│   │   ├── review/create/        # Review submission
+│   │   ├── tiles/[z]/[x]/[y]/   # Map tile proxy
+│   │   └── user/validate/        # User token validation
+│   │
+│   ├── auth/                     # Auth pages
+│   │   ├── login/
+│   │   ├── callback/supabase/    # OAuth callback handler
+│   │   └── test-login/
+│   │
+│   ├── blog/                     # Blog (Contentlayer MDX)
+│   │   ├── [...slug]/            # Dynamic blog posts
+│   │   └── page/[page]/          # Pagination
+│   │
+│   ├── book/                     # Booking page
+│   ├── confirmation/             # Post-booking confirmation
+│   ├── contact/                  # Contact form
+│   ├── event/[event_id]/         # Event detail + adjacent/next
+│   ├── faq/                      # FAQ section
+│   ├── instantConfirm/           # Instant confirmation flow
+│   ├── landing/                  # Landing page
+│   ├── my_events/                # User's booked events
+│   ├── onsite/                   # On-site booking
+│   ├── pricing/                  # Pricing page
+│   ├── reviews/                  # Reviews + rate + submitted
+│   ├── services/                 # Services listing
+│   └── tags/                     # Blog tag filtering
 │
-├── components/                 # ~100 React components
-│   ├── auth/                   # Auth components (admin + supabase)
-│   ├── availability/           # Calendar, time picker, duration
-│   ├── booking/                # Booking form, fields, features
-│   ├── hero/                   # Hero sections
-│   ├── landingPage/            # Landing page sections
-│   ├── skeletons/              # Loading states
-│   └── ui/                     # Atomic UI components
+├── components/                   # Reusable React components (~90 files)
+│   ├── admin/                    # Admin-specific components
+│   ├── auth/                     # Auth components (admin + supabase)
+│   ├── availability/             # Calendar/time picker components
+│   ├── booking/                  # Booking form + fields + features
+│   ├── hero/                     # Hero section
+│   ├── landingPage/              # Landing page sections
+│   ├── masonry/                  # Image grid layout
+│   ├── skeletons/                # Loading states
+│   ├── social-icons/             # Social media icons
+│   ├── ui/                       # Atomic UI components
+│   └── *.tsx                     # Top-level shared components
 │
-├── lib/                        # Core business logic (~100 files)
-│   ├── availability/           # Slot calculation engine (15 files)
-│   ├── messaging/              # Email templates + push (15 files)
-│   ├── fetch/                  # Calendar data fetching (4 files)
-│   ├── gmail/                  # Gmail API integration (2 files)
-│   ├── supabase/               # Supabase client/server (5 files)
-│   ├── helpers/                # Location, booking, event helpers
-│   ├── slugConfigurations/     # Per-slug booking config
-│   └── *Types.ts               # 13 type definition files
+├── lib/                          # Core business logic (~100 files)
+│   ├── availability/             # Slot calculation engine (14 files)
+│   ├── fetch/                    # Data fetching utilities
+│   ├── gmail/                    # Gmail API integration
+│   ├── helpers/                  # General helpers
+│   ├── messaging/                # Email + push notification templates
+│   │   ├── email/admin/          # 6 admin email templates
+│   │   ├── email/client/         # 3 client email templates
+│   │   ├── push/admin/           # 3 push notification templates
+│   │   ├── templates/            # Shared email templates
+│   │   └── utilities/            # Messaging helpers
+│   ├── slugConfigurations/       # Per-slug booking configs
+│   ├── supabase/                 # Supabase client utilities
+│   ├── *Types.ts                 # Type definitions (13 type modules)
+│   └── *.ts                      # Core utilities (auth, hash, schema, etc.)
 │
-├── redux/                      # Redux Toolkit state
-│   ├── store.ts                # Store configuration
-│   ├── hooks.ts                # Typed hooks
-│   └── slices/                 # 7 state slices
+├── redux/                        # State management
+│   ├── store.ts                  # Redux store configuration
+│   ├── hooks.ts                  # Typed hooks + convenience selectors
+│   └── slices/                   # 7 Redux slices
 │
-├── data/                       # Static content & config
-│   ├── blog/                   # MDX blog posts (4)
-│   ├── ratings-*.ts            # Platform-specific reviews
-│   ├── siteMetadata.js         # Site-wide metadata
-│   └── servicesData.ts         # Service offerings
+├── data/                         # Static content & configuration
+│   ├── blog/                     # Blog posts (MDX)
+│   ├── authors/                  # Author profiles (MDX)
+│   ├── ratings-*.ts              # Platform-specific review data
+│   ├── siteMetadata.js           # Global site config
+│   └── *.ts                      # Nav links, services, payments
 │
-├── layouts/                    # Blog/content layouts (6 files)
-├── context/                    # React Context (PostHog analytics)
-├── features/                   # Feature components (1 file)
-├── scripts/                    # Build/utility scripts (16 files)
-├── supabase/                   # DB migrations (6 SQL files)
-├── css/                        # Tailwind + Prism styles
-├── src/lib/mcp/                # MCP server tools
-├── config.ts                   # Business config (pricing, hours)
-├── proxy.ts                    # Middleware (auth + route protection)
-└── mcp-server.ts               # MCP server entry point
+├── layouts/                      # Blog/content page layouts (6)
+├── context/                      # React Context (PostHog analytics)
+├── features/                     # Feature components (1)
+├── css/                          # Tailwind + Prism styles
+├── scripts/                      # Build & utility scripts (16)
+├── supabase/                     # Database migrations (6)
+├── src/lib/mcp/                  # MCP server tools (calendar, email)
+├── types/                        # Global TypeScript declarations
+├── tests/                        # E2E test directory
+└── docs/                         # Documentation
 ```
 
 ---
 
-## 4. Authentication Architecture (3 Parallel Systems)
+## 4. Route Map
 
-This is the most complex part of the architecture. Three auth systems coexist:
-
-```
-                    ┌─────────────────────────────┐
-                    │    AUTHENTICATION LAYER      │
-                    └──────────┬──────────────────┘
-                               │
-          ┌────────────────────┼────────────────────┐
-          │                    │                     │
-          v                    v                     v
-  ┌───────────────┐   ┌───────────────┐   ┌────────────────┐
-  │  SUPABASE     │   │ ADMIN AUTH    │   │ USER AUTH      │
-  │  (Primary)    │   │ (HMAC Token)  │   │ (HMAC Token)   │
-  │               │   │               │   │                │
-  │ OAuth/Magic   │   │ Email-based   │   │ Email-based    │
-  │ Link/Password │   │ signed links  │   │ signed links   │
-  │               │   │               │   │                │
-  │ Cookie-based  │   │ localStorage  │   │ localStorage   │
-  │ sessions      │   │ + headers     │   │ + headers      │
-  │               │   │               │   │                │
-  │ Server-side   │   │ HMAC-SHA256   │   │ HMAC-SHA256    │
-  │ validation    │   │ token signing │   │ token signing  │
-  │               │   │               │   │                │
-  │ Profiles DB   │   │ x-admin-email │   │ URL params     │
-  │ with roles    │   │ x-admin-token │   │ email + token  │
-  └───────────────┘   └───────────────┘   └────────────────┘
-        │                    │                     │
-        │ Used by:           │ Used by:            │ Used by:
-        │ • Middleware        │ • Admin dashboard   │ • /my_events
-        │ • /auth/* pages    │ • Admin API routes  │ • Event viewing
-        │ • /admin (role)    │ • Admin nav/UI      │
-        │ • Profile mgmt    │ • Gmail extraction   │
-        └────────────────────┴─────────────────────┘
-```
-
-### 4a. Supabase Auth (Primary System)
-
-- **Transport:** HTTP-only cookies managed by middleware
-- **Validation:** `proxy.ts` calls `supabase.auth.getUser()` on every request
-- **Admin check:** Queries `profiles` table for `role === 'admin'`
-- **Protected routes:** `/admin` (requires admin role), `/my_events` (requires auth)
-- **Files:** `lib/supabase/server.ts`, `lib/supabase/client.ts`, `lib/supabase/auth-helpers.ts`
-- **Login methods:** Magic link (OTP), Google OAuth, password
-
-### 4b. AdminAuthManager (Legacy HMAC System)
-
-- **Transport:** `x-admin-email` + `x-admin-token` headers (via `adminFetch()`)
-- **Session storage:** `localStorage` key `admin_session`
-- **Token format:** `Base64(email:expiresTimestamp|HMAC-SHA256-signature)`
-- **Token lifetime:** 15 days; session: 30 days
-- **Secret:** `GOOGLE_OAUTH_SECRET` environment variable
-- **Flow:**
-  1. Admin requests access at `/api/admin/request-access`
-  2. Server checks email against `ADMIN_EMAILS` env var
-  3. Generates signed link → sent via email
-  4. Client validates at `/api/admin/validate` → creates localStorage session
-  5. All admin API calls use `adminFetch()` which injects auth headers
-- **Files:** `lib/adminAuth.ts`, `lib/adminFetch.ts`
-
-### 4c. UserAuthServerManager (User HMAC System)
-
-- **Purpose:** Allows clients to view their booked events without full login
-- **Token format:** Same as admin (HMAC-signed, 15-day expiry)
-- **Flow:** User receives email with signed `/my_events?email=...&token=...` link
-- **Validation:** `POST /api/user/validate`
-- **Files:** `lib/userAuth.ts` (client), `lib/userAuthServer.ts` (server)
-
----
-
-## 5. State Management (Redux Toolkit)
+### Public Pages
 
 ```
-┌──────────────────────────────────────────────────────────────┐
-│                     REDUX STORE                              │
-│                                                              │
-│  ┌─────────────┐  ┌──────────────┐  ┌───────────────────┐  │
-│  │ formSlice   │  │ availability │  │ configSlice       │  │
-│  │             │  │ Slice        │  │                   │  │
-│  │ firstName   │  │ start/end    │  │ bookingSlug       │  │
-│  │ lastName    │  │ selectedDate │  │ pricing {}        │  │
-│  │ email       │  │ selectedTime │  │ allowedDurations  │  │
-│  │ phone       │  │ duration     │  │ location          │  │
-│  │ location    │  │ timeZone     │  │ instantConfirm    │  │
-│  │ paymentMeth │  │ slots []     │  │ discount          │  │
-│  │ promo       │  │ driveTime    │  │ blockingScope     │  │
-│  │ hotelRoom   │  │ adjBuffer    │  │ customFields      │  │
-│  │ parking     │  │              │  │ eventContainer    │  │
-│  │ notes       │  │              │  │ leadTimeMinimum   │  │
-│  └─────────────┘  └──────────────┘  └───────────────────┘  │
-│                                                              │
-│  ┌─────────────┐  ┌──────────────┐  ┌───────────────────┐  │
-│  │ authSlice   │  │ modalSlice   │  │ eventContainers   │  │
-│  │             │  │              │  │ Slice             │  │
-│  │ isAuth      │  │ status:      │  │ location          │  │
-│  │ adminEmail  │  │ open|busy|   │  │ eventBaseString   │  │
-│  │             │  │ error|closed │  │ eventMemberString │  │
-│  └─────────────┘  └──────────────┘  └───────────────────┘  │
-│                                                              │
-│  ┌─────────────┐                                            │
-│  │ readySlice  │  Custom Hooks: useReduxAvailability()      │
-│  │             │                useReduxFormData()           │
-│  │ Calendar    │                useReduxConfig()             │
-│  │ TimeList    │                useReduxModal()              │
-│  │ hidden      │                useReduxEventContainers()    │
-│  └─────────────┘                                            │
-└──────────────────────────────────────────────────────────────┘
+/                         Home (Main.tsx)
+/landing                  Landing page (multi-section)
+/about                    About page
+/book                     Booking page (availability + form)
+/pricing                  Pricing info
+/services                 Service listings
+/faq                      FAQ
+/contact                  Contact form
+/reviews                  Review display
+/reviews/rate             Submit a review
+/reviews/submitted        Review confirmation
+/confirmation             Booking confirmation
+/instantConfirm           Instant booking confirmation
+/onsite                   On-site booking request
+/[bookingSlug]            Dynamic promo/booking routes
+/event/[event_id]         Event details
+/event/[event_id]/next    Next available slot
+/event/[event_id]/adjacent Adjacent events
+/my_events                User's booked events (token-gated)
+```
+
+### Blog Routes
+
+```
+/blog                     Blog listing
+/blog/[...slug]           Individual blog post
+/blog/page/[page]         Paginated blog listing
+/tags                     All tags
+/tags/[tag]               Posts by tag
+/tags/[tag]/page/[page]   Paginated tag view
+```
+
+### Auth Routes
+
+```
+/auth/login               Login page (Supabase)
+/auth/callback/supabase   OAuth callback handler
+/admin-request-access     Request admin access
+```
+
+### Admin Routes (Layout-Protected)
+
+```
+/admin                         Dashboard
+/admin/[bookingSlug]           Booking slug management
+/admin/active-event-containers Active events
+/admin/booked                  Booked appointments
+/admin/event/[event_id]        Event management
+/admin/gmail-events            Soothe email sync
+/admin/mock-form-validators    Form validator testing
+/admin/mocked_user_flow        Multi-step booking flow tester
+/admin/promo-routes            Promo route management
+/admin/request-access          Access request admin
+/admin/reviews-list            Reviews management
+/admin/test-dynamic-fields     Dynamic field testing
+```
+
+### API Routes (24 Endpoints)
+
+```
+POST /api/request                          Main booking request
+GET  /api/confirm                          Booking confirmation
+POST /api/contact                          Contact form
+POST /api/newsletter                       Newsletter signup
+GET  /api/driveTime                        Drive time calculation
+GET  /api/loc                              Location/geocoding
+GET  /api/events/[event_id]                Fetch event
+GET  /api/events/byEmail                   Events by user email
+POST /api/events/update                    Update event
+POST /api/onsite/request                   On-site booking request
+GET  /api/onsite/confirm                   On-site confirmation
+POST /api/review/create                    Submit review
+GET  /api/tiles/[z]/[x]/[y]               Map tile proxy
+POST /api/user/validate                    User token validation
+POST /api/admin/validate                   Admin token validation
+POST /api/admin/create-appointment         Direct appointment creation
+GET  /api/admin/configuration/[slug]       Slug configuration
+POST /api/admin/request-access             Admin access request
+GET  /api/admin/gmail/soothe-bookings      Soothe email extraction
+GET  /api/auth/supabase/admin/users        List users
+POST /api/auth/supabase/admin/promote      Promote to admin
+POST /api/auth/supabase/admin/demote       Demote admin
+GET  /api/auth/supabase/profile            User profile
+GET  /api/auth/callback/supabase           OAuth callback
 ```
 
 ---
 
-## 6. API Route Inventory (28 Routes)
+## 5. Authentication Architecture
 
-### Booking Flow
-
-```
-POST /api/request              Rate-limited (5/min). Main booking submission.
-                               Validates with Zod, creates calendar event or
-                               sends approval email. Sends push + email.
-
-GET  /api/confirm              Hash-verified appointment confirmation.
-                               Creates Google Calendar event on approval.
-
-POST /api/onsite/request       Rate-limited (5/min). On-site booking request.
-GET  /api/onsite/confirm       On-site appointment confirmation.
-
-POST /api/contact              Rate-limited (3/min). Contact form handler.
-POST /api/newsletter           Newsletter subscription (via Pliny).
-POST /api/driveTime            Google Maps distance/time calculation.
-POST /api/review/create        User review submission.
-GET  /api/loc                  Location lookup.
-GET  /api/tiles/[z]/[x]/[y]   Map tile proxy server.
-```
-
-### Admin Routes (HMAC-protected via headers)
+The app has **three distinct auth systems** running in parallel:
 
 ```
-POST /api/admin/request-access Rate-limited (2/min). Sends admin link email.
-POST /api/admin/validate       Server-side admin token validation.
-POST /api/admin/create-appointment  Direct calendar event creation.
-GET  /api/admin/configuration/[slug]  Booking slug configuration.
-GET  /api/admin/gmail/soothe-bookings  Gmail Soothe booking extraction.
++================================================================+
+|                    AUTHENTICATION LAYERS                         |
+|                                                                  |
+|  +-------------------+  +------------------+  +--------------+  |
+|  | 1. Admin Auth     |  | 2. User Auth     |  | 3. Supabase  |  |
+|  | (HMAC Tokens)     |  | (HMAC Tokens)    |  | (OAuth/Email)|  |
+|  |                   |  |                  |  |              |  |
+|  | adminAuth.ts      |  | userAuth.ts      |  | supabase/    |  |
+|  | adminFetch.ts     |  | userAuthServer.ts|  |  client.ts   |  |
+|  |                   |  |                  |  |  server.ts   |  |
+|  | Storage:          |  | Storage:         |  | Storage:     |  |
+|  |  localStorage     |  |  localStorage    |  |  Cookies     |  |
+|  |                   |  |                  |  |              |  |
+|  | Guards:           |  | Guards:          |  | Guards:      |  |
+|  |  AdminAuthWrapper |  |  URL params      |  |  AuthGuard   |  |
+|  |  requireAdmin()   |  |  validate route  |  |  getUser()   |  |
+|  +-------------------+  +------------------+  +--------------+  |
++================================================================+
 ```
 
-### Auth Routes (Supabase)
+### Auth System 1: Admin Auth (HMAC-Signed Tokens)
 
 ```
-GET  /api/auth/supabase/profile       Get current user profile.
-PUT  /api/auth/supabase/profile       Update user profile.
-GET  /api/auth/supabase/admin/users   List all users (admin-only).
-POST /api/auth/supabase/admin/promote Promote user to admin.
-POST /api/auth/supabase/admin/demote  Demote admin to user.
-GET  /api/auth/callback/supabase      OAuth callback handler.
+  Admin Link Generation (CLI script)
+       |
+       v
+  generateAdminLink(email, baseUrl)
+       |
+       +---> generateSignedToken(email)
+       |         |
+       |         v
+       |     payload = "email:expiry"
+       |     signature = HMAC-SHA256(payload, GOOGLE_OAUTH_SECRET)
+       |     token = base64(payload + "|" + signature)
+       |
+       v
+  URL: /admin?email=x&token=y
+       |
+       v
+  AdminAuthWrapper (layout guard)
+       |
+       +---> validateAdminAccess(email, token)
+       |         |
+       |         +---> atob(token)
+       |         +---> split payload and signature
+       |         +---> verify HMAC signature
+       |         +---> check email match
+       |         +---> check expiration (15 days)
+       |
+       +---> createSession(email, token)
+       |         |
+       |         v
+       |     localStorage["admin_session"] = {
+       |       email, token, timestamp,
+       |       expiresAt: now + 30 days
+       |     }
+       |
+       v
+  Subsequent Requests: adminFetch()
+       |
+       +---> headers["x-admin-email"] = session.email
+       +---> headers["x-admin-token"] = session.token
+       |
+       v
+  API Route: requireAdmin(request)
+       |
+       +---> Extract x-admin-email, x-admin-token
+       +---> validateAdminAccess(email, token)
+       +---> Return { email } or 401
 ```
 
-### User Routes
+### Auth System 2: User Auth (HMAC-Signed Tokens)
 
 ```
-POST /api/user/validate               User HMAC token validation.
-GET  /api/events/byEmail              Events by email (18mo past, 6mo future).
-GET  /api/events/[event_id]           Single calendar event detail.
-POST /api/events/update               Update calendar event.
+  User Link Generation (email template or CLI)
+       |
+       v
+  generateMyEventsLink(email, baseUrl)
+       |
+       v
+  URL: /my_events?email=x&token=y
+       |
+       v
+  UserAuthManager.createSession(email, token)
+       |
+       v
+  localStorage["user_session"] = {
+    email, token, timestamp,
+    expiresAt: now + 30 days
+  }
 ```
 
-### Dev-Only
+### Auth System 3: Supabase Auth
 
 ```
-POST /api/dev-mode-prod-excluded/capture-test-data  (stripped in prod build)
-```
-
----
-
-## 7. Booking Request Flow
-
-```
-┌──────────┐     ┌──────────┐     ┌──────────────────┐
-│  Client   │     │  Redux   │     │ BookingForm.tsx   │
-│  Browser  │────>│  Store   │────>│ + field components│
-└──────────┘     └──────────┘     └────────┬─────────┘
-                                           │
-                                    User clicks Submit
-                                           │
-                                           v
-                               ┌───────────────────────┐
-                               │ POST /api/request      │
-                               │                        │
-                               │ 1. Rate limit check    │
-                               │ 2. Zod validation      │
-                               │ 3. HTML escape all     │
-                               │    user input          │
-                               │ 4. PostHog identify    │
-                               └───────────┬───────────┘
-                                           │
-                          ┌────────────────┴────────────────┐
-                          │                                  │
-                   instantConfirm?                    Standard Flow
-                          │                                  │
-                          v                                  v
-              ┌──────────────────┐              ┌──────────────────────┐
-              │ 1. Create Google │              │ 1. Generate approval │
-              │    Calendar event│              │    URL with hash     │
-              │                  │              │                      │
-              │ 2. Pushover push │              │ 2. Send approval     │
-              │    (instant)     │              │    email to admin    │
-              │                  │              │                      │
-              │ 3. Confirmation  │              │ 3. Pushover push     │
-              │    email to      │              │    to admin          │
-              │    client        │              │                      │
-              └──────────────────┘              │ 4. Request confirm   │
-                                                │    email to client   │
-                                                └──────────┬───────────┘
-                                                           │
-                                                  Admin clicks approve
-                                                           │
-                                                           v
-                                                ┌──────────────────────┐
-                                                │ GET /api/confirm     │
-                                                │                      │
-                                                │ 1. Verify hash       │
-                                                │ 2. Create calendar   │
-                                                │    event             │
-                                                │ 3. Send confirmed    │
-                                                │    email to client   │
-                                                └──────────────────────┘
-```
-
----
-
-## 8. Availability Calculation Engine
-
-```
-┌────────────────────────────────────────────────────────────────┐
-│                 AVAILABILITY ENGINE                             │
-│                 lib/availability/                               │
-│                                                                │
-│   INPUTS:                                                      │
-│   ┌───────────────────┐  ┌────────────────────┐               │
-│   │ OWNER_AVAILABILITY│  │ Google Calendar     │               │
-│   │ config.ts         │  │ freeBusy API        │               │
-│   │                   │  │                     │               │
-│   │ Mon-Sun: 10am-11pm│  │ Busy intervals from │               │
-│   │ (7 days/week)     │  │ 3 calendars         │               │
-│   └────────┬──────────┘  └──────────┬─────────┘               │
-│            │                        │                          │
-│            v                        v                          │
-│   ┌────────────────┐      ┌────────────────┐                  │
-│   │ getPotential   │      │ getBusyTimes() │                  │
-│   │ Times()        │      │                │                  │
-│   │                │      │ Merges busy    │                  │
-│   │ Generates      │      │ from primary + │                  │
-│   │ 30-min slots   │      │ 2 secondary    │                  │
-│   │ within owner   │      │ calendars      │                  │
-│   │ hours          │      │                │                  │
-│   └────────┬───────┘      └────────┬───────┘                  │
-│            │                       │                           │
-│            └───────────┬───────────┘                           │
-│                        │                                       │
-│                        v                                       │
-│            ┌───────────────────────┐                           │
-│            │ getAvailability()     │                           │
-│            │                       │                           │
-│            │ For each potential:   │                           │
-│            │  - Skip if in past    │                           │
-│            │  - Skip if within     │                           │
-│            │    LEAD_TIME (3hr)    │                           │
-│            │  - Skip if overlaps   │                           │
-│            │    any busy interval  │                           │
-│            │  - Keep if free       │                           │
-│            └───────────┬───────────┘                           │
-│                        │                                       │
-│                        v                                       │
-│            ┌───────────────────────┐                           │
-│            │ Available Slots []    │                           │
-│            │ → Redux avail slice   │                           │
-│            │ → Calendar + TimeList │                           │
-│            └───────────────────────┘                           │
-│                                                                │
-│   SPECIAL MODES:                                               │
-│   ┌──────────────────────────────────────────────────┐        │
-│   │ Event Container Blocking                          │        │
-│   │                                                   │        │
-│   │ blockingScope='event'   → only block within       │        │
-│   │                           same event container    │        │
-│   │ blockingScope='general' → block across ALL        │        │
-│   │                           calendar events         │        │
-│   │                                                   │        │
-│   │ Events tagged: {slug}__EVENT__MEMBER__            │        │
-│   │                {slug}__EVENT__CONTAINER__          │        │
-│   └──────────────────────────────────────────────────┘        │
-└────────────────────────────────────────────────────────────────┘
+  Login Form
+       |
+       v
+  Supabase signInWithOtp() / signInWithPassword()
+       |
+       v
+  /auth/callback/supabase (OAuth redirect)
+       |
+       v
+  Supabase manages cookies via @supabase/ssr
+       |
+       v
+  Server: getUser() / getSession() / isAdmin()
+       |
+       v
+  Client: SupabaseAuthProvider (context)
+       |
+       v
+  Profile: supabase.from('profiles').select('*')
+           role === 'admin' for admin access
 ```
 
 ---
 
-## 9. External Service Integration Map
+## 6. Data Flow
+
+### Booking Flow (Primary User Journey)
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                    EXTERNAL SERVICES                             │
-│                                                                  │
-│  ┌─────────────────────────┐    ┌────────────────────────────┐  │
-│  │ GOOGLE CALENDAR API     │    │ GMAIL API                  │  │
-│  │                         │    │                            │  │
-│  │ OAuth2 (refresh token)  │    │ OAuth2 (refresh token)     │  │
-│  │                         │    │                            │  │
-│  │ • freeBusy → busy times │    │ • messages.list (search)   │  │
-│  │ • events.list (search)  │    │ • messages.get (content)   │  │
-│  │ • events.get (single)   │    │                            │  │
-│  │ • events.insert (book)  │    │ Used for: Soothe booking   │  │
-│  │                         │    │ extraction via regex        │  │
-│  │ Calendars checked:      │    │                            │  │
-│  │  - primary              │    │ Rate-limited: 10 concurrent│  │
-│  │  - trillium@hats...     │    │                            │  │
-│  │  - trillium@trillium... │    │                            │  │
-│  └─────────────────────────┘    └────────────────────────────┘  │
-│                                                                  │
-│  ┌─────────────────────────┐    ┌────────────────────────────┐  │
-│  │ SUPABASE                │    │ POSTHOG                    │  │
-│  │                         │    │                            │  │
-│  │ • Auth (OAuth/Magic     │    │ Self-hosted via proxy:     │  │
-│  │   Link/Password)        │    │  /hostpog/* → us.posthog   │  │
-│  │ • PostgreSQL (profiles  │    │                            │  │
-│  │   table, role-based)    │    │ Events tracked:            │  │
-│  │ • RLS policies          │    │  - booking_form_submitted  │  │
-│  │                         │    │  - contact_form_submitted  │  │
-│  │ Admin client (service   │    │  - admin_login             │  │
-│  │ role key) for elevated  │    │  - profile_access          │  │
-│  │ operations              │    │                            │  │
-│  └─────────────────────────┘    └────────────────────────────┘  │
-│                                                                  │
-│  ┌─────────────────────────┐    ┌────────────────────────────┐  │
-│  │ NODEMAILER (Gmail SMTP) │    │ PUSHOVER                   │  │
-│  │                         │    │                            │  │
-│  │ Host: smtp.gmail.com    │    │ Push notifications to      │  │
-│  │ Port: 465 (TLS)         │    │ admin device:              │  │
-│  │ Auth: OAuth2 refresh    │    │                            │  │
-│  │                         │    │ • New appointment request  │  │
-│  │ Templates:              │    │ • Instant confirm booking  │  │
-│  │  Admin: Approval,       │    │ • Contact form submission  │  │
-│  │   AccessEmail, OnSite,  │    │                            │  │
-│  │   ReviewSubmission,     │    │                            │  │
-│  │   ContactForm           │    │                            │  │
-│  │  Client: RequestConfirm,│    │                            │  │
-│  │   BookingConfirm,       │    │                            │  │
-│  │   ContactConfirm        │    │                            │  │
-│  └─────────────────────────┘    └────────────────────────────┘  │
-│                                                                  │
-│  ┌─────────────────────────┐    ┌────────────────────────────┐  │
-│  │ GOOGLE MAPS API         │    │ MAPLIBRE GL                │  │
-│  │                         │    │                            │  │
-│  │ Drive time calculation  │    │ Client-side map rendering  │  │
-│  │ between therapist and   │    │ for service area display   │  │
-│  │ client locations        │    │ and location selection     │  │
-│  └─────────────────────────┘    └────────────────────────────┘  │
-└─────────────────────────────────────────────────────────────────┘
+  +----------+     +-----------+     +-----------+     +------------+
+  |  Landing  | --> |  /book    | --> |  Select   | --> |  Fill Form |
+  |  Page     |     |  Page     |     |  Time     |     |  (Formik)  |
+  +----------+     +-----+-----+     +-----+-----+     +------+-----+
+                         |                  |                   |
+                         v                  v                   v
+                   Fetch Busy Times   Redux: setSlots    Redux: setForm
+                   (Google Calendar)  setSelectedDate    setSelectedTime
+                         |            setDuration
+                         v
+              +----------+----------+
+              | getAvailability()   |
+              |                     |
+              | Input:              |
+              |  potential slots    |
+              |  busy times         |
+              |  lead time (3 hrs)  |
+              |  padding (0 min)    |
+              |                     |
+              | Algorithm:          |
+              |  1. Filter past     |
+              |  2. Add lead buffer |
+              |  3. Check overlaps  |
+              |  4. Return free     |
+              +----------+----------+
+                         |
+                         v
+                  Available Slots
+                  Shown in Calendar UI
+                         |
+                         v
+              +----------+----------+
+              |  User Submits Form  |
+              +----------+----------+
+                         |
+         +---------------+---------------+
+         |                               |
+         v                               v
+  +------+-------+              +--------+-------+
+  | Standard     |              | Instant        |
+  | (Approval)   |              | Confirm        |
+  +------+-------+              +--------+-------+
+         |                               |
+         v                               v
+  1. Zod Validation              1. Zod Validation
+  2. HTML Escape                 2. HTML Escape
+  3. Rate Limit Check            3. Rate Limit Check
+  4. Generate Approval URL       4. Create Calendar Event
+  5. Send Admin Approval Email   5. Send Pushover (instant)
+  6. Send Pushover               6. Send Confirm Email
+  7. Send Client Request Email   7. Return success
+  8. Return success
+         |
+         v
+  Admin Clicks Approve URL
+         |
+         v
+  /api/confirm
+         |
+         v
+  1. Validate hash
+  2. Create Calendar Event
+  3. Send Client Confirm Email
+  4. Return success
 ```
 
----
-
-## 10. Messaging System Architecture
+### Availability Calculation Pipeline
 
 ```
-                    ┌───────────────────┐
-                    │ TRIGGER EVENT      │
-                    │ (booking, contact, │
-                    │  review, admin)    │
-                    └─────────┬─────────┘
-                              │
-              ┌───────────────┼───────────────┐
-              │               │               │
-              v               v               v
-     ┌────────────┐  ┌──────────────┐  ┌───────────┐
-     │ EMAIL      │  │ PUSH         │  │ ANALYTICS │
-     │ (Nodemailer│  │ (Pushover)   │  │ (PostHog) │
-     │  via SMTP) │  │              │  │           │
-     └──────┬─────┘  └──────┬───────┘  └─────┬─────┘
-            │               │               │
-     ┌──────┴──────┐        │               │
-     │             │        │               │
-     v             v        v               v
-  ┌──────┐    ┌──────┐  ┌──────┐     ┌──────────┐
-  │ADMIN │    │CLIENT│  │ADMIN │     │ identify │
-  │INBOX │    │INBOX │  │PHONE │     │ User()   │
-  └──────┘    └──────┘  └──────┘     └──────────┘
-
-  Templates:                Push types:
-  lib/messaging/            lib/messaging/push/
-  email/admin/              admin/
-  ├── Approval.ts           ├── AppointmentPushover.ts
-  ├── AdminAccessEmail.ts   ├── AppointmentPushoverInstantConfirm.ts
-  ├── OnSiteRequestEmail.ts └── ContactPushover.ts
-  ├── ReviewSubmission.ts
-  └── contactFormEmail.ts
-
-  email/client/
-  ├── ClientRequestEmail.ts
-  ├── ClientConfirmEmail.ts
-  └── contactFormConfirmation.ts
+  config.ts                    Google Calendar API
+       |                              |
+       v                              v
+  OWNER_AVAILABILITY           getBusyTimes()
+  (10am-11pm, 7 days)         (freeBusy endpoint)
+       |                              |
+       v                              v
+  getPotentialTimes()          DateTimeInterval[]
+       |                        (busy periods)
+       v                              |
+  StringDateTimeInterval[]             |
+  (all possible slots)                |
+       |                              |
+       +----------+-------------------+
+                  |
+                  v
+           getAvailability()
+                  |
+                  v
+           Filter: past slots
+           Filter: lead time (now + 3hr)
+           Filter: busy overlap + padding
+                  |
+                  v
+           Available Slots
+                  |
+                  v
+           Redux: availabilitySlice
 ```
 
----
-
-## 11. Provider Composition (Client-Side)
+### Event Container System
 
 ```
-app/layout.tsx
-  └── <ThemeProviders>                    # app/theme-providers.tsx
-        ├── <CSPostHogProvider>           # context/AnalyticsContext.tsx
-        │     └── PostHogProvider         # PostHog analytics
-        ├── <AuthStateListener />         # app/components/AuthStateListener.tsx
-        │     └── Supabase onAuthStateChange listener
-        └── <StoreProvider>              # app/StoreProvider.tsx
-              └── <Provider store={}>    # Redux store
-                    └── <ThemeProvider>  # next-themes
-                          └── {children}
-```
+  Google Calendar Event Naming Convention:
 
-### Admin Layout (Additional Wrapping)
+  Regular Event:
+    Summary: "90min Massage - John Doe"
 
-```
-app/admin/layout.tsx
-  └── <AdminAuthWrapper>               # AdminAuthManager validation
-        └── <div>                      # Admin page container
-              └── {children}
-        └── <AdminDebugInfo />         # Debug panel (dev)
-```
+  Event Container (multi-booking block):
+    Summary: "airbnb__EVENT__CONTAINER__Feb 10"
+    Members: "airbnb__EVENT__MEMBER__Jane Smith 90min"
 
----
+  Blocking Scopes:
+  +-----------+--------------------------------------------+
+  | 'event'   | Only blocks within same event container    |
+  | 'general' | Blocks across ALL calendar events          |
+  +-----------+--------------------------------------------+
 
-## 12. Content System (Blog)
-
-```
-┌──────────────────────────────────────────┐
-│           CONTENTLAYER2 PIPELINE         │
-│                                          │
-│  data/blog/*.mdx                         │
-│       │                                  │
-│       v                                  │
-│  ┌────────────────┐                      │
-│  │ Remark Plugins  │                     │
-│  │ • remarkGfm     │  (GitHub Markdown)  │
-│  │ • remarkMath    │  (LaTeX equations)  │
-│  │ • remarkAlert   │  (GitHub alerts)    │
-│  │ • remarkCodeTitles │                  │
-│  │ • remarkImgToJsx│                     │
-│  └────────┬───────┘                      │
-│           v                              │
-│  ┌────────────────┐                      │
-│  │ Rehype Plugins  │                     │
-│  │ • rehypeSlug    │  (heading IDs)      │
-│  │ • rehypeAutolink│  (heading links)    │
-│  │ • rehypeKatex   │  (math rendering)   │
-│  │ • rehypePrism   │  (syntax highlight) │
-│  │ • rehypeMinify  │  (HTML minify)      │
-│  └────────┬───────┘                      │
-│           v                              │
-│  ┌────────────────┐                      │
-│  │ Post-processing │                     │
-│  │ • createTagCount() → tag-data.json    │
-│  │ • createSearchIndex() → search.json   │
-│  │ • computedFields: readingTime, toc    │
-│  └────────────────┘                      │
-│                                          │
-│  Layouts: PostLayout, PostSimple,        │
-│           PostBanner, ListLayout,        │
-│           ListLayoutWithTags,            │
-│           AuthorLayout                   │
-└──────────────────────────────────────────┘
+  Flow:
+  fetchContainersByQuery(slug)
+       |
+       v
+  Google Calendar: search for "{slug}__EVENT__"
+       |
+       v
+  Filter: __EVENT__MEMBER__ (booked slots)
+  Filter: __EVENT__CONTAINER__ (time blocks)
+       |
+       v
+  Build busy times from member events
+       |
+       v
+  getAvailability() with container-derived busy times
 ```
 
 ---
 
-## 13. Security Architecture
+## 7. State Management
 
-### Rate Limiting
-
-```
-LRU Cache-based, per-IP rate limiting:
-
-  /api/request              5 requests/minute
-  /api/onsite/request       5 requests/minute
-  /api/contact              3 requests/minute
-  /api/admin/request-access 2 requests/minute
-
-Implementation: lib/checkRateLimitFactory.ts
-IP source: x-forwarded-for header
-```
-
-### Security Headers (next.config.js)
+### Redux Store Architecture
 
 ```
-Content-Security-Policy:
-  default-src 'self'
-  script-src  'self' 'unsafe-eval' 'unsafe-inline' blob: giscus.app analytics.umami.is
-  style-src   'self' 'unsafe-inline'
-  img-src     * blob: data:
-  connect-src *
-  frame-src   giscus.app
-  worker-src  'self' blob:
-
-Referrer-Policy:         strict-origin-when-cross-origin
-X-Frame-Options:         DENY
-X-Content-Type-Options:  nosniff
-HSTS:                    max-age=31536000; includeSubDomains
-Permissions-Policy:      camera=(), microphone=(), geolocation=()
+  +================================================================+
+  |                        REDUX STORE                              |
+  |                                                                 |
+  |  +------------------+  +------------------+  +---------------+  |
+  |  | formSlice        |  | availabilitySlice|  | configSlice   |  |
+  |  |                  |  |                  |  |               |  |
+  |  | firstName        |  | start / end      |  | bookingSlug   |  |
+  |  | lastName         |  | selectedDate     |  | pricing {}    |  |
+  |  | email            |  | selectedTime     |  | allowedDurations|
+  |  | phone            |  | duration         |  | location {}   |  |
+  |  | location {}      |  | timeZone         |  | discount      |  |
+  |  | paymentMethod    |  | slots []         |  | instantConfirm|  |
+  |  | hotelRoomNumber  |  | driveTime        |  | blockingScope |  |
+  |  | parkingInstr.    |  | adjacencyBuffer  |  | customFields  |  |
+  |  | additionalNotes  |  +------------------+  +---------------+  |
+  |  | promo            |                                           |
+  |  | bookingUrl       |  +------------------+  +---------------+  |
+  |  +------------------+  | authSlice        |  | modalSlice    |  |
+  |                        |                  |  |               |  |
+  |  +------------------+  | isAuthenticated  |  | status:       |  |
+  |  | eventContainers  |  | adminEmail       |  |  open|busy    |  |
+  |  |                  |  +------------------+  |  error|closed  |  |
+  |  | location {}      |                        +---------------+  |
+  |  | eventBaseString  |  +------------------+                     |
+  |  | eventMemberStr   |  | readySlice       |                     |
+  |  | eventContainerStr|  |                  |                     |
+  |  +------------------+  | Calendar: bool   |                     |
+  |                        | TimeList: bool   |                     |
+  |                        | hidden: bool     |                     |
+  |                        +------------------+                     |
+  +================================================================+
 ```
 
-### Input Sanitization
-
-- All user input HTML-escaped via `lib/messaging/escapeHtml.ts` in `handleAppointmentRequest()`
-- Zod schema validation on all API endpoints accepting user data
-- Hash-based verification for appointment confirmation URLs
-
-### PostHog Proxy (Analytics Bypass)
+### Provider Tree
 
 ```
-next.config.js rewrites:
-  /hostpog/static/*  → https://us-assets.i.posthog.com/static/*
-  /hostpog/*         → https://us.i.posthog.com/*
-  /hostpog/decide    → https://us.i.posthog.com/decide
-
-Purpose: Avoid ad blockers that block posthog.com domains
-```
-
----
-
-## 14. Database Schema (Supabase)
-
-```
-┌──────────────────────────────────────────┐
-│ supabase/migrations/                     │
-│                                          │
-│ 001_initial_schema.sql                   │
-│   └── profiles table                     │
-│       ├── id (uuid, FK → auth.users)     │
-│       ├── email (text)                   │
-│       ├── full_name (text)               │
-│       ├── role ('user' | 'admin')        │
-│       ├── avatar_url (text)              │
-│       ├── created_at (timestamptz)       │
-│       └── updated_at (timestamptz)       │
-│                                          │
-│ 002_auth_functions.sql                   │
-│   └── Trigger: auto-create profile on    │
-│       new user signup                    │
-│                                          │
-│ 003_admin_setup.sql                      │
-│   └── Admin role setup and RLS policies  │
-│                                          │
-│ 004_add_admin_email.sql                  │
-│   └── Admin email column additions       │
-│                                          │
-│ 005_fix_profile_insert.sql               │
-│   └── Fix profile insert trigger         │
-│                                          │
-│ 006_fix_rls_recursion.sql                │
-│   └── Fix RLS infinite recursion issue   │
-└──────────────────────────────────────────┘
+  <html>
+    <body>
+      <ThemeProviders>              -- theme-providers.tsx
+        |
+        +-- <CSPostHogProvider>     -- context/AnalyticsContext.tsx
+        |     |
+        |     +-- <AuthStateListener>  -- Supabase auth state sync
+        |     |
+        |     +-- <StoreProvider>   -- Redux store
+        |           |
+        |           +-- <ThemeProvider>  -- next-themes (dark mode)
+        |                 |
+        |                 +-- <SearchProvider>  -- pliny/search (kbar)
+        |                       |
+        |                       +-- <Header />
+        |                       +-- <main>{children}</main>
+        |                       +-- <Footer />
+        |                       +-- <Toaster />  -- sonner toasts
+      </ThemeProviders>
+    </body>
+  </html>
 ```
 
 ---
 
-## 15. Testing Architecture
+## 8. External Service Integrations
 
 ```
-┌──────────────────────────────────────────────────────┐
-│                   TEST PYRAMID                        │
-│                                                       │
-│                    /\                                  │
-│                   /  \       Playwright E2E            │
-│                  / E2E\      (tests/ directory)        │
-│                 /______\                               │
-│                /        \    Vitest Integration         │
-│               / Integra- \   *.integration.test.ts     │
-│              /   tion     \  (blocking scope, auth)    │
-│             /______________\                           │
-│            /                \  Vitest Unit              │
-│           /   Unit Tests     \ *.test.ts               │
-│          /  (components, lib) \ ~40 test files          │
-│         /____________________\                        │
-│                                                       │
-│  Test Config:                                         │
-│  • vitest.config.ts (unit + integration)              │
-│  • playwright.config.ts (E2E, port 9999)              │
-│  • jest.config.ts (legacy, being migrated)            │
-│                                                       │
-│  Key Test Areas:                                      │
-│  • Auth: adminAuth, userAuth, requireAdmin            │
-│  • Booking: BookingForm, handleSubmit, schema          │
-│  • Availability: slots, busy times, intervals         │
-│  • API routes: validate, request                       │
-│  • Components: LocationField, PaymentMethod           │
-└──────────────────────────────────────────────────────┘
+  +================================================================+
+  |                   EXTERNAL SERVICES MAP                         |
+  |                                                                 |
+  |  +--------------------------+  +---------------------------+    |
+  |  | Google Calendar API v3   |  | Gmail API v1              |    |
+  |  |                          |  |                           |    |
+  |  | Auth: OAuth2 refresh     |  | Auth: OAuth2 refresh      |    |
+  |  |   token flow             |  |   token flow              |    |
+  |  |                          |  |                           |    |
+  |  | Endpoints:               |  | Endpoints:                |    |
+  |  |  POST /freeBusy          |  |  GET /messages (search)   |    |
+  |  |  GET  /events (search)   |  |  GET /messages/{id}       |    |
+  |  |  GET  /events/{id}       |  |                           |    |
+  |  |  POST /events (create)   |  | Use: Soothe booking       |    |
+  |  |                          |  |   email extraction         |    |
+  |  | Calendars checked:       |  +---------------------------+    |
+  |  |  - primary               |                                   |
+  |  |  - trillium@             |  +---------------------------+    |
+  |  |    hatsfabulous.com      |  | Gmail SMTP (Nodemailer)   |    |
+  |  |  - trillium@             |  |                           |    |
+  |  |    trilliumsmith.com     |  | Host: smtp.gmail.com:465  |    |
+  |  +--------------------------+  | Auth: OAuth2              |    |
+  |                                |                           |    |
+  |  +--------------------------+  | Templates: 9 HTML emails  |    |
+  |  | Supabase                 |  |  - Admin: 6 templates     |    |
+  |  |                          |  |  - Client: 3 templates    |    |
+  |  | PostgreSQL database      |  +---------------------------+    |
+  |  | Auth (OAuth + email)     |                                   |
+  |  | Row Level Security       |  +---------------------------+    |
+  |  | Profiles table           |  | Pushover                  |    |
+  |  | Admin role management    |  |                           |    |
+  |  |                          |  | Push notifications to     |    |
+  |  | 6 migrations:            |  |   admin mobile device     |    |
+  |  |  initial_schema          |  |                           |    |
+  |  |  auth_functions          |  | Templates:                |    |
+  |  |  admin_setup             |  |  - AppointmentPushover    |    |
+  |  |  add_admin_email         |  |  - InstantConfirm         |    |
+  |  |  fix_profile_insert      |  |  - ContactPushover        |    |
+  |  |  fix_rls_recursion       |  +---------------------------+    |
+  |  +--------------------------+                                   |
+  |                                +---------------------------+    |
+  |  +--------------------------+  | PostHog Analytics         |    |
+  |  | MapLibre GL / Tiles      |  |                           |    |
+  |  |                          |  | Self-hosted proxy:        |    |
+  |  | Map display for          |  |   /hostpog/* -> us.posthog|    |
+  |  |   service area           |  |                           |    |
+  |  | Tile proxy:              |  | Events:                   |    |
+  |  |   /api/tiles/[z]/[x]/[y]|  |  identify (on booking)    |    |
+  |  | Drive time calculation   |  |  capture (custom events)  |    |
+  |  |   via Google Maps        |  |  test_user marking        |    |
+  |  +--------------------------+  +---------------------------+    |
+  +================================================================+
 ```
 
----
-
-## 16. Build Pipeline
+### Google OAuth Token Flow
 
 ```
-┌────────────────────────────────────────────────────────────────┐
-│                      BUILD PIPELINE                            │
-│                                                                │
-│  pnpm dev                                                      │
-│  └── next dev --port 9876                                      │
-│                                                                │
-│  pnpm build                                                    │
-│  └── next build --webpack                                      │
-│      └── contentlayer2 processes data/blog/*.mdx               │
-│          └── generates .contentlayer/generated/                 │
-│      └── webpack strips dev-mode-prod-excluded/ in prod        │
-│      └── postbuild.mjs                                         │
-│          └── generates RSS feed (scripts/rss.mjs)              │
-│                                                                │
-│  pnpm build:staged                                             │
-│  └── scripts/build-staged.sh                                   │
-│      └── Only builds if staged files affect build              │
-│                                                                │
-│  Pre-commit (Husky + lint-staged):                             │
-│  ├── ESLint --fix on *.{js,jsx,ts,tsx}                         │
-│  ├── cspell (spellcheck, non-blocking)                         │
-│  └── Prettier --write on *.{js,jsx,ts,tsx,json,css,md,mdx}    │
-│                                                                │
-│  Plugins in next.config.js:                                    │
-│  ├── withContentlayer (MDX processing)                         │
-│  └── withBundleAnalyzer (ANALYZE=true)                         │
-└────────────────────────────────────────────────────────────────┘
-```
-
----
-
-## 17. Page Route Map
-
-```
-PUBLIC ROUTES:
-  /                          Home page
-  /landing                   Landing page
-  /book                      Booking page
-  /[bookingSlug]             Dynamic promo booking routes
-  /about                     About page
-  /faq                       FAQ page
-  /contact                   Contact form
-  /pricing                   Pricing page
-  /services                  Services listing
-  /reviews                   Reviews listing
-  /reviews/rate              Submit a review
-  /reviews/submitted         Review confirmation
-  /blog                      Blog listing
-  /blog/[...slug]            Blog post detail
-  /blog/page/[page]          Blog pagination
-  /tags                      All tags
-  /tags/[tag]                Tag-filtered posts
-  /confirmation              Booking confirmation
-  /instantConfirm            Instant booking confirmation
-  /onsite                    On-site booking
-
-PROTECTED ROUTES (require Supabase auth):
-  /my_events                 User's booked events
-  /event/[event_id]          Event detail
-  /event/[event_id]/next     Next available slot
-  /event/[event_id]/adjacent Adjacent events
-
-AUTH ROUTES:
-  /auth/login                Login page
-  /auth/callback/supabase    OAuth callback
-
-ADMIN ROUTES (require admin role):
-  /admin                     Admin dashboard
-  /admin/[bookingSlug]       Admin booking management
-  /admin/booked              Booked appointments
-  /admin/active-event-containers  Active event view
-  /admin/event/[event_id]    Admin event management
-  /admin/gmail-events        Gmail Soothe sync
-  /admin/reviews-list        Review management
-  /admin/promo-routes        Promo code management
-  /admin/request-access      Admin access requests
-  /admin/mock-form-validators  Form validator testing
-  /admin/mocked_user_flow    Mocked booking E2E tester
-  /admin/test-dynamic-fields Dynamic field testing
-  /admin-request-access      Public admin access request page
+  Environment Variables:
+    GOOGLE_OAUTH_CLIENT_ID
+    GOOGLE_OAUTH_SECRET
+    GOOGLE_OAUTH_REFRESH
+         |
+         v
+  POST https://oauth2.googleapis.com/token
+    grant_type=refresh_token
+    client_id=...
+    client_secret=...
+    refresh_token=...
+         |
+         v
+  access_token (short-lived)
+         |
+         v
+  Authorization: Bearer {access_token}
+         |
+         +---> Google Calendar API calls
+         +---> Gmail API calls
 ```
 
 ---
 
-## 18. Environment Variables
+## 9. Messaging Pipeline
 
 ```
-# Google APIs (Calendar + Gmail + Auth)
-GOOGLE_OAUTH_CLIENT_ID          OAuth2 client ID
-GOOGLE_OAUTH_SECRET             OAuth2 secret (also used for HMAC signing)
-GOOGLE_OAUTH_REFRESH            OAuth2 refresh token
-GOOGLE_MAPS_API_KEY             Maps/Distance Matrix API
-GOOGLE_MAPS_CAL_PRIMARY_EVENT_ID  Default event for drive time
-
-# Supabase
-NEXT_PUBLIC_SUPABASE_URL        Supabase project URL
-NEXT_PUBLIC_SUPABASE_ANON_KEY   Public anon key
-SUPABASE_SERVICE_ROLE_KEY       Admin operations key
-
-# Admin
-ADMIN_EMAILS                    Comma-separated admin email list
-
-# Analytics
-NEXT_PUBLIC_POSTHOG_KEY_PROD    PostHog production API key
-NEXT_PUBLIC_POSTHOG_KEY_DEV     PostHog development API key
-NEXT_PUBLIC_DISABLE_POSTHOG     Disable analytics (true/false)
-
-# Push Notifications
-PUSHOVER_TOKEN                  Pushover app token
-PUSHOVER_USER                   Pushover user key
-
-# Email
-OWNER_EMAIL                     Business email address
-OWNER_NAME                      Business owner name
-OWNER_PHONE_NUMBER              Contact phone number
-
-# Optional
-COOKIE_DOMAIN                   Custom cookie domain
-PROXY_DEBUG                     Enable middleware logging
-USE_MOCK_CALENDAR_DATA          Use mock data instead of Google API
-BASE_PATH                       URL base path override
-```
-
----
-
-## 19. MCP Server
-
-```
-┌────────────────────────────────────────┐
-│  mcp-server.ts (standalone, stdio)     │
-│                                        │
-│  Tools exposed:                        │
-│  ┌──────────────────────────────────┐  │
-│  │ get_calendar_events              │  │
-│  │ → Search/retrieve Google         │  │
-│  │   Calendar events                │  │
-│  ├──────────────────────────────────┤  │
-│  │ create_calendar_event            │  │
-│  │ → Create new calendar event      │  │
-│  ├──────────────────────────────────┤  │
-│  │ search_emails                    │  │
-│  │ → Search Gmail with Gmail syntax │  │
-│  └──────────────────────────────────┘  │
-│                                        │
-│  Schema defs: src/lib/mcp/schemas.ts   │
-│  Tool impls:  src/lib/mcp/tools/       │
-└────────────────────────────────────────┘
+  +================================================================+
+  |                    MESSAGING PIPELINE                            |
+  |                                                                 |
+  |  Trigger Event                                                  |
+  |       |                                                         |
+  |       +---> Booking Request (standard)                          |
+  |       |       |                                                 |
+  |       |       +---> [Admin] ApprovalEmail                       |
+  |       |       +---> [Admin] AppointmentPushover                 |
+  |       |       +---> [Client] ClientRequestEmail                 |
+  |       |                                                         |
+  |       +---> Booking Request (instant confirm)                   |
+  |       |       |                                                 |
+  |       |       +---> [Admin] AppointmentPushoverInstantConfirm   |
+  |       |       +---> [Client] ClientConfirmEmail                 |
+  |       |                                                         |
+  |       +---> Booking Approved                                    |
+  |       |       |                                                 |
+  |       |       +---> [Client] ClientConfirmEmail                 |
+  |       |                                                         |
+  |       +---> Contact Form                                        |
+  |       |       |                                                 |
+  |       |       +---> [Admin] contactFormEmail                    |
+  |       |       +---> [Admin] ContactPushover                     |
+  |       |       +---> [Client] contactFormConfirmation            |
+  |       |                                                         |
+  |       +---> On-Site Request                                     |
+  |       |       |                                                 |
+  |       |       +---> [Admin] OnSiteRequestEmail                  |
+  |       |       +---> [Client] ClientRequestEmail                 |
+  |       |                                                         |
+  |       +---> Review Submitted                                    |
+  |       |       |                                                 |
+  |       |       +---> [Admin] ReviewSubmissionEmail               |
+  |       |                                                         |
+  |       +---> Admin Access Request                                |
+  |               |                                                 |
+  |               +---> [Admin] AdminAccessEmail                    |
+  |                                                                 |
+  |  Security:                                                      |
+  |   - All user data HTML-escaped via escapeHtml()                 |
+  |   - Email addresses validated by Zod schema                     |
+  +================================================================+
 ```
 
 ---
 
-## 20. Observations & Notes
+## 10. Content System
 
-### Dual Auth Complexity
-The three auth systems (Supabase, AdminAuthManager, UserAuthServerManager) serve
-different purposes but create maintenance overhead. The HMAC-token systems predate the
-Supabase integration and may be candidates for eventual consolidation.
+### Contentlayer Pipeline
 
-### Event Container Pattern
-The `{slug}__EVENT__MEMBER__` / `{slug}__EVENT__CONTAINER__` naming convention in Google
-Calendar events is a creative solution for multi-event blocking that avoids needing a
-separate database for event metadata. It does tie the system to Google Calendar as the
-source of truth.
+```
+  data/blog/*.mdx
+  data/authors/*.mdx
+       |
+       v
+  contentlayer.config.ts
+       |
+       +---> Document Types:
+       |       Blog (title, date, tags, summary, authors, draft)
+       |       Authors (name, avatar, occupation, email, social)
+       |
+       +---> Computed Fields:
+       |       readingTime, slug, path, filePath, toc
+       |       structuredData (JSON-LD for SEO)
+       |
+       +---> Remark Plugins:
+       |       remarkGfm, remarkMath, remarkAlert
+       |       remarkCodeTitles, remarkImgToJsx
+       |
+       +---> Rehype Plugins:
+       |       rehypeSlug, rehypeAutolinkHeadings
+       |       rehypeKatex, rehypePrismPlus
+       |       rehypePresetMinify
+       |
+       +---> Post-build:
+               createTagCount() -> app/tag-data.json
+               createSearchIndex() -> public/search.json
 
-### No Middleware File
-The app uses `proxy.ts` (not `middleware.ts`) for its middleware layer. The Next.js config
-imports it differently — this is a Supabase SSR pattern for managing auth cookies on every
-request.
+  Layouts for rendering:
+    PostLayout, PostSimple, PostBanner
+    ListLayout, ListLayoutWithTags
+    AuthorLayout
+```
 
-### Strict Null Checks
-TypeScript `strict` is `false` but `strictNullChecks` is `true`. This is a pragmatic
-compromise — full strict mode would likely require significant refactoring.
+### Static Data Files
 
-### Dev-Mode Exclusion
-The webpack config strips `dev-mode-prod-excluded/` files from production builds using
-`ignore-loader`. This keeps test utilities out of production bundles.
-
-### PostHog Proxy Pattern
-Analytics are proxied through `/hostpog/*` rewrites to bypass ad blockers. The proxy
-distinguishes between dev and prod PostHog keys based on the hostname.
+```
+  data/
+  ├── siteMetadata.js         Site config (title, URLs, analytics, search)
+  ├── headerNavLinks.ts       Navigation: /book, /reviews, /about, /faq
+  ├── authHeaderNavLinks.ts   Authenticated nav links
+  ├── servicesData.ts         Services catalog (5 massage types)
+  ├── paymentMethods.ts       Payment options (cash, venmo, cashapp, etc.)
+  ├── projectsData.ts         Portfolio projects
+  ├── ratings.ts              Combined ratings export
+  ├── ratings-airbnb.ts       Airbnb reviews
+  ├── ratings-soothe.ts       Soothe platform reviews
+  └── ratings-trillium.ts     Direct Trillium reviews
+```
 
 ---
 
-*End of Architecture Audit*
+## 11. Component Architecture
+
+### Component Hierarchy (Booking Flow)
+
+```
+  BookingForm.tsx
+  |
+  +-- InitializeBookingState.tsx     (reads URL params, hydrates Redux)
+  |
+  +-- DurationSlotManager.tsx        (duration selection + slot fetching)
+  |     |
+  |     +-- EnhancedDurationPicker   (duration buttons)
+  |     +-- Calendar                 (date grid)
+  |     |     +-- DayButton          (individual day)
+  |     +-- DynamicTimeList          (available times)
+  |           +-- TimeList           (time button grid)
+  |                 +-- TimeButton   (individual slot)
+  |
+  +-- BookingSummary.tsx             (selected date/time/duration/price)
+  |
+  +-- Form Fields:
+  |     +-- NameFields.tsx           (first + last name)
+  |     +-- EmailField.tsx
+  |     +-- PhoneField.tsx
+  |     +-- LocationField.tsx        (street/city/zip with validation)
+  |     +-- HotelField.tsx           (conditional)
+  |     +-- ParkingField.tsx         (conditional)
+  |     +-- NotesField.tsx
+  |     +-- PaymentMethodField.tsx   (radio buttons)
+  |
+  +-- DriveTimeCalculator.tsx        (Google Maps integration)
+  |
+  +-- BookingFormActions.tsx          (submit/reset buttons)
+```
+
+### Component Categories
+
+```
+  +--------------------+-------------------------------------------+
+  | Category           | Count | Key Components                    |
+  +--------------------+-------+-----------------------------------+
+  | Top-level shared   |  ~30  | Header, Footer, Modal, Spinner   |
+  | Booking            |  ~20  | BookingForm, fields, features     |
+  | Availability       |   10  | Calendar, TimeList, DurationPicker|
+  | Auth (admin)       |    7  | AuthWrapper, AuthProvider, Nav    |
+  | Auth (supabase)    |    4  | AuthGuard, LoginForm, UserMenu   |
+  | Admin              |    3  | ConfigSpy, DebugPanel, Tester    |
+  | Landing page       |    8  | Hero, About, Pricing sections    |
+  | Blog/content       |    6  | Layouts, MDX components          |
+  | UI primitives      |   ~8  | GradientText, atoms              |
+  | Skeletons          |    4  | Calendar, Time loading states    |
+  +--------------------+-------+-----------------------------------+
+```
+
+---
+
+## 12. Security Model
+
+```
+  +================================================================+
+  |                      SECURITY LAYERS                            |
+  |                                                                 |
+  |  Layer 1: Transport                                             |
+  |  +----------------------------------------------------------+  |
+  |  | HTTPS enforced (HSTS: 31536000s, includeSubDomains)       |  |
+  |  | CSP: default-src 'self', script-src + giscus/analytics    |  |
+  |  | X-Frame-Options: DENY                                      |  |
+  |  | X-Content-Type-Options: nosniff                            |  |
+  |  | Referrer-Policy: strict-origin-when-cross-origin           |  |
+  |  | Permissions-Policy: camera=(), microphone=(), geolocation=()|
+  |  +----------------------------------------------------------+  |
+  |                                                                 |
+  |  Layer 2: Input Validation                                      |
+  |  +----------------------------------------------------------+  |
+  |  | Zod schemas on all API endpoints                           |  |
+  |  |   AppointmentRequestSchema, OnSiteRequestSchema            |  |
+  |  | HTML escaping on all user-provided data (escapeHtml)       |  |
+  |  | Rate limiting: LRU cache, 5 req/IP/min                    |  |
+  |  +----------------------------------------------------------+  |
+  |                                                                 |
+  |  Layer 3: Authentication                                        |
+  |  +----------------------------------------------------------+  |
+  |  | Admin: HMAC-SHA256 signed tokens (GOOGLE_OAUTH_SECRET)    |  |
+  |  |   - 15-day token expiry, 30-day session expiry            |  |
+  |  |   - requireAdmin() on all admin API routes                |  |
+  |  | User: HMAC-SHA256 signed tokens (same secret)             |  |
+  |  |   - Token validation on /my_events access                 |  |
+  |  | Supabase: OAuth + Row Level Security                       |  |
+  |  |   - Server-side getUser() validation                      |  |
+  |  |   - Admin client uses service role key (server only)       |  |
+  |  +----------------------------------------------------------+  |
+  |                                                                 |
+  |  Layer 4: Authorization                                         |
+  |  +----------------------------------------------------------+  |
+  |  | Admin layout: AdminAuthWrapper component guard             |  |
+  |  | API routes: requireAdmin() header validation               |  |
+  |  | Supabase RLS: Profile-based role checks                    |  |
+  |  | Approval URLs: Hash-verified confirmation links            |  |
+  |  +----------------------------------------------------------+  |
+  |                                                                 |
+  |  Layer 5: Analytics Privacy                                     |
+  |  +----------------------------------------------------------+  |
+  |  | PostHog self-hosted proxy (/hostpog/*)                     |  |
+  |  | Separate dev/prod API keys                                 |  |
+  |  | Test user marking for filtering                            |  |
+  |  +----------------------------------------------------------+  |
+  +================================================================+
+```
+
+---
+
+## 13. Technology Stack
+
+```
+  +========================+==========================================+
+  | Category               | Technology                               |
+  +========================+==========================================+
+  | Framework              | Next.js 16.0.7 (App Router)              |
+  | Runtime                | React 19.2.0                             |
+  | Language               | TypeScript 5.9                           |
+  | Package Manager        | pnpm 9.15.0                              |
+  +------------------------+------------------------------------------+
+  | Styling                | Tailwind CSS 4.0.5 + @tailwindcss/forms  |
+  |                        | @tailwindcss/typography                   |
+  +------------------------+------------------------------------------+
+  | State Management       | Redux Toolkit 2.5.0 (7 slices)           |
+  | Forms                  | Formik 2.4.6 + Zod 4.0.10               |
+  +------------------------+------------------------------------------+
+  | Database               | Supabase (PostgreSQL + Auth + RLS)        |
+  | Auth                   | Supabase Auth + Custom HMAC tokens        |
+  +------------------------+------------------------------------------+
+  | Calendar               | Google Calendar API v3                    |
+  | Email Sync             | Gmail API v1                              |
+  | Maps                   | MapLibre GL 5.6.2                        |
+  | Drive Time             | Google Maps API                           |
+  +------------------------+------------------------------------------+
+  | Email Sending          | Nodemailer (Gmail SMTP + OAuth2)          |
+  | Push Notifications     | Pushover                                 |
+  | Analytics              | PostHog (self-hosted proxy)               |
+  +------------------------+------------------------------------------+
+  | Content                | Contentlayer2 0.5.5 (MDX)                |
+  | Search                 | Kbar (client-side)                       |
+  | Theme                  | next-themes                               |
+  | Toasts                 | Sonner                                    |
+  +------------------------+------------------------------------------+
+  | Unit Tests             | Vitest 3.2.3                              |
+  | E2E Tests              | Playwright 1.56.1                         |
+  | Linting                | ESLint 9.14 + Prettier 3.4.2             |
+  | Spell Check            | cspell 9.2.0                              |
+  | Pre-commit             | Husky + lint-staged                       |
+  +------------------------+------------------------------------------+
+  | Build                  | Webpack (with turbopack rules)             |
+  | Bundle Analysis        | @next/bundle-analyzer                     |
+  | CI/CD                  | GitHub Actions                             |
+  +========================+==========================================+
+```
+
+---
+
+## 14. Findings & Observations
+
+### Architecture Strengths
+
+1. **Well-structured type system** -- 13 dedicated type modules with a central
+   re-export barrel (`lib/types.ts`). Types cover all domain concepts.
+
+2. **Comprehensive test coverage** -- Unit tests (Vitest) for auth, availability
+   calculation, form schemas, hash functions, email escaping. Integration tests
+   for booking flow. E2E tests (Playwright) for critical paths.
+
+3. **Security-conscious** -- Input validation (Zod) on all endpoints, HTML
+   escaping in email templates, rate limiting, CSP headers, HMAC-signed tokens.
+
+4. **Clean separation of concerns** -- Messaging templates isolated from
+   business logic. Availability engine separated from calendar API calls.
+   Redux slices focused on single responsibilities.
+
+5. **Rich admin tooling** -- Mocked user flow tester, config spy, debug panels,
+   Gmail sync for third-party booking extraction.
+
+### Architecture Observations
+
+1. **Three parallel auth systems** -- Admin auth (HMAC + localStorage), User auth
+   (HMAC + localStorage), and Supabase (cookies). These appear to be in different
+   stages of adoption. The HMAC-based systems may be candidates for consolidation
+   into Supabase auth as the platform matures.
+
+2. **Google OAuth secret reuse** -- `GOOGLE_OAUTH_SECRET` is used both as the
+   Google OAuth client secret AND as the HMAC signing key for admin/user tokens.
+   These serve different security purposes and could benefit from separate secrets.
+
+3. **No middleware.ts** -- Auth checks are done per-route (AdminAuthWrapper layout,
+   requireAdmin() in API routes) rather than via Next.js middleware. This is
+   functional but means each new admin route must remember to be under the
+   admin layout.
+
+4. **Event naming convention** -- The `__EVENT__`, `__EVENT__MEMBER__`,
+   `__EVENT__CONTAINER__` string-based convention in Google Calendar summaries is
+   a creative solution for managing multi-booking containers within Calendar's
+   constraints. It works but is fragile to summary edits.
+
+5. **localStorage for auth state** -- Both admin and user auth use localStorage
+   for session persistence. This means auth state doesn't transfer between
+   devices/browsers and is vulnerable to XSS (though CSP mitigates this).
+   The Supabase cookie-based auth is the more standard approach.
+
+6. **No explicit caching layer** -- Google Calendar API calls use Next.js ISR
+   (`revalidate: 1`), but there's no explicit caching strategy (Redis, etc.)
+   for frequently accessed data like availability. For current traffic levels
+   this is likely fine; it would become important at scale.
+
+7. **Dev-mode exclusion pattern** -- The `dev-mode-prod-excluded` convention
+   (ignored by webpack in production) is a clean way to keep testing utilities
+   available in development without shipping them to production.
+
+8. **Slug configuration system** -- Dynamic booking configurations loaded by
+   URL slug provide flexible promotional routing without code changes. This is
+   a well-designed extension point.
+
+### File Counts Summary
+
+```
+  +--------------------+-------+
+  | Directory          | Files |
+  +--------------------+-------+
+  | app/               |  ~80  |
+  |   pages            |  ~45  |
+  |   api routes       |   24  |
+  | components/        |  ~90  |
+  | lib/               | ~100  |
+  |   (tests)          |  ~25  |
+  | redux/             |   10  |
+  | data/              |   16  |
+  | layouts/           |    6  |
+  | scripts/           |   16  |
+  | supabase/          |    6  |
+  +--------------------+-------+
+  | Total (approx)     | ~350  |
+  +--------------------+-------+
+```
+
+---
+
+*Generated by architecture audit, 2026-02-09*
