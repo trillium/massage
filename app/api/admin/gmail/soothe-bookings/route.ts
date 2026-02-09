@@ -1,6 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
 import { searchSootheEmails } from '@/lib/gmail/searchSootheEmails'
-import type { SootheBookingInfo } from '@/lib/types'
 import { AdminAuthManager } from '@/lib/adminAuth'
 
 export async function GET(request: Request) {
@@ -13,13 +12,19 @@ export async function GET(request: Request) {
 
     console.log(`Searching for Soothe emails with maxResults: ${maxResults}, daysBack: ${daysBack}`)
 
-    const bookings = await searchSootheEmails(maxResults, daysBack)
+    const { bookings, failedMessageIds } = await searchSootheEmails(maxResults, daysBack)
 
     console.log(`Found ${bookings.length} Soothe booking emails`)
+    if (failedMessageIds.length > 0) {
+      console.warn(
+        `Failed to fetch ${failedMessageIds.length} messages: ${failedMessageIds.join(', ')}`
+      )
+    }
 
     return Response.json({
       success: true,
       count: bookings.length,
+      failedMessageIds,
       daysSearched: daysBack,
       bookings: bookings.map((booking) => ({
         clientName: booking.clientName,

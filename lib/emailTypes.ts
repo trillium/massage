@@ -43,3 +43,8 @@ export interface SootheBookingInfo {
   extraServices?: string[]
   rawMessage: GmailMessage
 }
+
+export interface SootheEmailSearchResult {
+  bookings: SootheBookingInfo[]
+  failedMessageIds: string[]
+}

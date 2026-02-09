@@ -1,16 +1,18 @@
 import getGmailAccessToken from './getGmailAccessToken'
-import type { GmailMessage, SootheBookingInfo } from '@/lib/types'
+import type { GmailMessage, SootheBookingInfo, SootheEmailSearchResult } from '@/lib/types'
+
+const MAX_CONCURRENT_FETCHES = 10
 
 /**
  * Searches Gmail for messages containing "soothe" and extracts booking information
  * @param maxResults - Maximum number of messages to retrieve (default: 50)
  * @param daysBack - Number of days back to search (default: 1 day)
- * @returns Array of parsed Soothe booking information
+ * @returns Parsed bookings and any failed message IDs
  */
 export async function searchSootheEmails(
   maxResults: number = 50,
   daysBack: number = 1
-): Promise<SootheBookingInfo[]> {
+): Promise<SootheEmailSearchResult> {
   const accessToken = await getGmailAccessToken()
 
   // Calculate date for search query (1 day ago by default)
@@ -40,28 +42,40 @@ export async function searchSootheEmails(
   const searchData = await searchResponse.json()
 
   if (!searchData.messages || searchData.messages.length === 0) {
-    return []
+    return { bookings: [], failedMessageIds: [] }
   }
 
-  // Fetch full message details for each message
-  const messagePromises = searchData.messages.map(async (message: { id: string }) => {
-    const messageUrl = `https://www.googleapis.com/gmail/v1/users/me/messages/${message.id}`
+  // Fetch full message details in rate-limited batches
+  const messageIds: { id: string }[] = searchData.messages
+  const messages: GmailMessage[] = []
+  const failedMessageIds: string[] = []
 
-    const messageResponse = await fetch(messageUrl, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    })
+  for (let i = 0; i < messageIds.length; i += MAX_CONCURRENT_FETCHES) {
+    const batch = messageIds.slice(i, i + MAX_CONCURRENT_FETCHES)
+    const batchResults = await Promise.all(
+      batch.map(async (message) => {
+        const messageUrl = `https://www.googleapis.com/gmail/v1/users/me/messages/${message.id}`
 
-    if (!messageResponse.ok) {
-      console.warn(`Failed to fetch message ${message.id}: ${messageResponse.status}`)
-      return null
+        const messageResponse = await fetch(messageUrl, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+
+        if (!messageResponse.ok) {
+          console.warn(`Failed to fetch message ${message.id}: ${messageResponse.status}`)
+          failedMessageIds.push(message.id)
+          return null
+        }
+
+        return messageResponse.json()
+      })
+    )
+
+    for (const result of batchResults) {
+      if (result) messages.push(result as GmailMessage)
     }
-
-    return messageResponse.json()
-  })
-
-  const messages = (await Promise.all(messagePromises)).filter(Boolean) as GmailMessage[]
+  }
 
   // Sort messages by date (most recent first)
   messages.sort((a, b) => {
@@ -73,7 +87,7 @@ export async function searchSootheEmails(
   // Parse each message for Soothe booking information
   const bookings = messages.map((message) => parseBookingInfo(message))
 
-  return bookings
+  return { bookings, failedMessageIds }
 }
 
 /**
@@ -202,7 +216,7 @@ function extractSessionInfo(content: string): {
   const result: { sessionType?: string; duration?: number; isCouples?: boolean } = {}
 
   // Look for session description pattern like "60 min - Couples Swedish Massage for Olivia Mathis"
-  const sessionPattern = /(\d+)\s+min\s*[-–]\s*([^for\n\r]*?)(?:\s+for\s+|$|\n|\r)/i
+  const sessionPattern = /(\d+)\s+min\s*[-–]\s*(.*?)(?:\s+for\s+|$|\n|\r)/i
   const match = content.match(sessionPattern)
 
   if (match) {

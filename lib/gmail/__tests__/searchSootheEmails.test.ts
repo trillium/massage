@@ -8,79 +8,73 @@ vi.mock('@/lib/gmail/getGmailAccessToken', () => ({
 
 const originalFetch = global.fetch
 
+function makeSootheMessage(
+  id: string,
+  body: string,
+  internalDate: string,
+  subject = "You're booked"
+) {
+  return {
+    id,
+    threadId: `thread_${id}`,
+    labelIds: ['INBOX'],
+    snippet: 'Soothe booking...',
+    payload: {
+      headers: [
+        { name: 'Subject', value: subject },
+        { name: 'From', value: 'bookings@soothe.com' },
+      ],
+      body: { data: btoa(body), size: body.length },
+    },
+    sizeEstimate: body.length,
+    historyId: '12345',
+    internalDate,
+  }
+}
+
 describe('searchSootheEmails', () => {
   beforeEach(() => {
     global.fetch = vi.fn()
+    vi.spyOn(console, 'warn').mockImplementation(() => {})
   })
 
   afterEach(() => {
     global.fetch = originalFetch
     vi.clearAllMocks()
+    vi.restoreAllMocks()
   })
 
   it('should search for soothe emails and parse booking information', async () => {
-    // Mock search response
     const searchResponse = {
       messages: [{ id: 'msg_123' }, { id: 'msg_456' }],
     }
 
-    // Mock message responses based on real Soothe booking data
-    const messageResponse1 = {
-      id: 'msg_123',
-      threadId: 'thread_123',
-      labelIds: ['INBOX'],
-      snippet: 'Your massage booking with Olivia Mathis...',
-      payload: {
-        headers: [
-          { name: 'Subject', value: "You're booked with Olivia" },
-          { name: 'From', value: 'bookings@soothe.com' },
-        ],
-        body: {
-          data: btoa(
-            '60 min - Couples Swedish massage for Olivia Mathis\n\nLocation\n5743 North Canvas Court, North Hollywood\nLos Angeles, CA 91601\n\n$83.00 + $ tip'
-          ),
-          size: 200,
-        },
-      },
-      sizeEstimate: 200,
-      historyId: '12345',
-      internalDate: '1724652461000', // 2025-08-26T05:27:41.000Z
-    }
+    const messageResponse1 = makeSootheMessage(
+      'msg_123',
+      '60 min - Couples Swedish massage for Olivia Mathis\n\nLocation\n5743 North Canvas Court, North Hollywood\nLos Angeles, CA 91601\n\n$83.00 + $ tip',
+      '1724652461000',
+      "You're booked with Olivia"
+    )
 
-    const messageResponse2 = {
-      id: 'msg_456',
-      threadId: 'thread_456',
-      labelIds: ['INBOX'],
-      snippet: 'Your massage appointment...',
-      payload: {
-        headers: [
-          { name: 'Subject', value: "You're booked with Marcus" },
-          { name: 'From', value: 'bookings@soothe.com' },
-        ],
-        body: {
-          data: btoa(
-            '90 min - Deep Tissue massage for Marcus Johnson\n\nLocation\n1234 Sunset Blvd, West Hollywood\nLos Angeles, CA 90046\n\n$95.50 + $ tip\n\nNotes: Client requests firm pressure'
-          ),
-          size: 180,
-        },
-      },
-      sizeEstimate: 180,
-      historyId: '12346',
-      internalDate: '1724652360000', // Earlier timestamp so it comes second
-    }
+    const messageResponse2 = makeSootheMessage(
+      'msg_456',
+      '90 min - Deep Tissue massage for Marcus Johnson\n\nLocation\n1234 Sunset Blvd, West Hollywood\nLos Angeles, CA 90046\n\n$95.50 + $ tip\n\nNotes: Client requests firm pressure',
+      '1724652360000',
+      "You're booked with Marcus"
+    )
 
-    // Setup fetch mocks
     ;(fetch as Mock)
       .mockResolvedValueOnce(new Response(JSON.stringify(searchResponse), { status: 200 }))
       .mockResolvedValueOnce(new Response(JSON.stringify(messageResponse1), { status: 200 }))
       .mockResolvedValueOnce(new Response(JSON.stringify(messageResponse2), { status: 200 }))
 
-    const results = await searchSootheEmails(10)
+    const { bookings, failedMessageIds } = await searchSootheEmails(10)
 
-    expect(results).toHaveLength(2)
+    expect(bookings).toHaveLength(2)
+    expect(failedMessageIds).toHaveLength(0)
 
     // Check first booking (Olivia Mathis - most recent)
-    expect(results[0]).toMatchObject({
+    expect(bookings[0]).toMatchObject({
       clientName: 'Olivia Mathis',
       sessionType: 'Swedish',
       duration: 60,
@@ -92,7 +86,7 @@ describe('searchSootheEmails', () => {
     })
 
     // Check second booking (Marcus Johnson)
-    expect(results[1]).toMatchObject({
+    expect(bookings[1]).toMatchObject({
       clientName: 'Marcus Johnson',
       sessionType: 'Deep Tissue',
       duration: 90,
@@ -119,9 +113,10 @@ describe('searchSootheEmails', () => {
       new Response(JSON.stringify({ messages: [] }), { status: 200 })
     )
 
-    const results = await searchSootheEmails(10)
+    const { bookings, failedMessageIds } = await searchSootheEmails(10)
 
-    expect(results).toHaveLength(0)
+    expect(bookings).toHaveLength(0)
+    expect(failedMessageIds).toHaveLength(0)
   })
 
   it('should handle API errors gracefully', async () => {
@@ -130,36 +125,102 @@ describe('searchSootheEmails', () => {
     await expect(searchSootheEmails(10)).rejects.toThrow('Gmail search failed')
   })
 
-  it('should handle message fetch errors gracefully', async () => {
+  it('should track failed message IDs instead of silently dropping', async () => {
     const searchResponse = {
       messages: [{ id: 'msg_123' }, { id: 'msg_456' }],
     }
 
-    const messageResponse1 = {
-      id: 'msg_123',
-      threadId: 'thread_123',
-      labelIds: ['INBOX'],
-      snippet: 'Valid message...',
-      payload: {
-        headers: [{ name: 'Subject', value: 'Test' }],
-        body: { data: btoa('Test content'), size: 12 },
-      },
-      sizeEstimate: 12,
-      historyId: '12345',
-      internalDate: '1640995200000',
-    }
+    const messageResponse1 = makeSootheMessage('msg_123', 'Test content', '1640995200000')
 
     ;(fetch as Mock)
       .mockResolvedValueOnce(new Response(JSON.stringify(searchResponse), { status: 200 }))
       .mockResolvedValueOnce(new Response(JSON.stringify(messageResponse1), { status: 200 }))
       .mockResolvedValueOnce(new Response('Server Error', { status: 500 }))
 
-    const results = await searchSootheEmails(10)
+    const { bookings, failedMessageIds } = await searchSootheEmails(10)
 
-    // Should still return the successfully fetched message
-    expect(results).toHaveLength(1)
+    expect(bookings).toHaveLength(1)
+    expect(failedMessageIds).toEqual(['msg_456'])
     expect(console.warn).toHaveBeenCalledWith(
       expect.stringContaining('Failed to fetch message msg_456')
     )
+  })
+
+  it('should correctly parse service names containing f, o, or r', async () => {
+    const searchResponse = {
+      messages: [{ id: 'msg_fr1' }, { id: 'msg_ar2' }, { id: 'msg_rf3' }],
+    }
+
+    // "French" contains f and r — the old [^for\n\r] regex would break on this
+    const msgFrench = makeSootheMessage(
+      'msg_fr1',
+      '60 min - French Aromatherapy massage for Jean Dupont\n\n$75.00 + $ tip',
+      '1724652461000'
+    )
+
+    // "Aromatherapy" contains o and r
+    const msgAroma = makeSootheMessage(
+      'msg_ar2',
+      '90 min - Aromatherapy massage for Sarah Connor\n\n$90.00 + $ tip',
+      '1724652360000'
+    )
+
+    // "Reflexology" contains r, f, o
+    const msgReflex = makeSootheMessage(
+      'msg_rf3',
+      '60 min - Reflexology treatment for John Doe\n\n$70.00 + $ tip',
+      '1724652260000'
+    )
+
+    ;(fetch as Mock)
+      .mockResolvedValueOnce(new Response(JSON.stringify(searchResponse), { status: 200 }))
+      .mockResolvedValueOnce(new Response(JSON.stringify(msgFrench), { status: 200 }))
+      .mockResolvedValueOnce(new Response(JSON.stringify(msgAroma), { status: 200 }))
+      .mockResolvedValueOnce(new Response(JSON.stringify(msgReflex), { status: 200 }))
+
+    const { bookings } = await searchSootheEmails(10)
+
+    expect(bookings).toHaveLength(3)
+
+    // French Aromatherapy should parse the full service description
+    expect(bookings[0].duration).toBe(60)
+    expect(bookings[0].clientName).toBe('Jean Dupont')
+    expect(bookings[0].sessionType).toBe('Aromatherapy')
+
+    // Aromatherapy should be recognized
+    expect(bookings[1].duration).toBe(90)
+    expect(bookings[1].clientName).toBe('Sarah Connor')
+    expect(bookings[1].sessionType).toBe('Aromatherapy')
+
+    // Reflexology — not in massageTypes list, full description captured
+    expect(bookings[2].duration).toBe(60)
+    expect(bookings[2].clientName).toBe('John Doe')
+    expect(bookings[2].sessionType).toBe('Reflexology Treatment')
+  })
+
+  it('should rate-limit concurrent fetches to batches of 10', async () => {
+    // Create 15 message IDs to verify batching
+    const messageIds = Array.from({ length: 15 }, (_, i) => ({ id: `msg_${i}` }))
+    const searchResponse = { messages: messageIds }
+
+    const mockMessages = messageIds.map((m, i) =>
+      makeSootheMessage(
+        m.id,
+        `60 min - Swedish massage for Client ${i}\n\n$80.00 + $ tip`,
+        `${1724652461000 - i * 1000}`
+      )
+    )
+
+    const fetchMock = fetch as Mock
+    fetchMock.mockResolvedValueOnce(new Response(JSON.stringify(searchResponse), { status: 200 }))
+    for (const msg of mockMessages) {
+      fetchMock.mockResolvedValueOnce(new Response(JSON.stringify(msg), { status: 200 }))
+    }
+
+    const { bookings } = await searchSootheEmails(20)
+
+    // All 15 should be fetched (1 search + 15 messages = 16 calls)
+    expect(fetch).toHaveBeenCalledTimes(16)
+    expect(bookings).toHaveLength(15)
   })
 })
