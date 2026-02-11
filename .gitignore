@@ -3,6 +3,9 @@
 # reports
 dead-code-report.md
 
+# worktrees (local agent worktrees)
+/worktrees
+
 # dependencies
 /node_modules
 /.pnp
@@ -84,3 +87,6 @@ playground/
 .beads/
 .logs/
 .env*.local
+
+# Generated files (QR codes, etc.)
+/generated

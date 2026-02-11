@@ -6,7 +6,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const QR_API = "https://api.qrcode-monkey.com//qr/custom";
-const OUTPUT_DIR = path.join(__dirname, "../public/marketing/qrcodes");
+const OUTPUT_DIR = path.join(__dirname, "../generated/qrcodes");
 
 const colors = {
   teal: "#2dd4bf",
