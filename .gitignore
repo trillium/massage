@@ -1,5 +1,8 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+# worktrees (local agent worktrees)
+/worktrees
+
 # dependencies
 /node_modules
 /.pnp
@@ -68,3 +71,6 @@ app/tag-data.json
 
 # Google OAuth credentials (never commit)
 .google-oauth-supabase.json
+
+# Generated files (QR codes, etc.)
+/generated
