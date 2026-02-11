@@ -29,6 +29,12 @@ interface QRConfig {
   body: string;
   eye: string;
   eyeBall: string;
+  erf1: string[];
+  erf2: string[];
+  erf3: string[];
+  brf1: string[];
+  brf2: string[];
+  brf3: string[];
 }
 
 const defaultConfig: QRConfig = {
@@ -43,7 +49,22 @@ const defaultConfig: QRConfig = {
   body: "round",
   eye: "frame2",
   eyeBall: "ball2",
+  erf1: [],
+  erf2: [],
+  erf3: [],
+  brf1: [],
+  brf2: [],
+  brf3: [],
 };
+
+interface QRPayload {
+  erf1?: string[];
+  erf2?: string[];
+  erf3?: string[];
+  brf1?: string[];
+  brf2?: string[];
+  brf3?: string[];
+}
 
 async function generateQRCode(
   url: string,
