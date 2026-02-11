@@ -49,10 +49,10 @@ const defaultConfig: QRConfig = {
   body: "round",
   eye: "frame2",
   eyeBall: "ball2",
-  erf1: [],
+  erf1: ["fv"],
   erf2: [],
   erf3: [],
-  brf1: [],
+  brf1: ["fv"],
   brf2: [],
   brf3: [],
 };
