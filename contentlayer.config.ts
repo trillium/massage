@@ -146,6 +146,10 @@ export const ClientSlug = defineDocumentType(() => ({
       type: 'string',
       resolve: (doc) => doc._raw.flattenedPath.replace(/^.+?(\/)/, ''),
     },
+    rawBody: {
+      type: 'string',
+      resolve: (doc) => doc._raw.body,
+    },
   },
 }))
 
