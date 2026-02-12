@@ -10,6 +10,7 @@ import PricingComparison from './PricingComparison'
 import ExternalBookingLink from './ExternalBookingLink'
 import LocationDisplay from './LocationDisplay'
 import StyledBookButton from './StyledBookButton'
+import PropertyName from './PropertyName'
 
 export const components: MDXComponents = {
   Image,
@@ -23,4 +24,5 @@ export const components: MDXComponents = {
   ExternalBookingLink,
   LocationDisplay,
   StyledBookButton,
+  PropertyName,
 }

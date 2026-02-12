@@ -1,27 +1,16 @@
+'use client'
+
+import { ClientSlugContext, ClientSlugContextType } from '@/lib/ClientSlugContext'
+
 interface ClientSlugLayoutProps {
   children: React.ReactNode
-  propertyName?: string
-  clientName?: string
+  data: ClientSlugContextType
 }
 
-export default function ClientSlugLayout({
-  children,
-  propertyName = 'Your Property',
-  clientName,
-}: ClientSlugLayoutProps) {
-  // Replace template variables with actual values
-  const processedContent = String(children).replace(
-    /\{\{propertyName\}\}/g,
-    propertyName
-  )
-
+export default function ClientSlugLayout({ children, data }: ClientSlugLayoutProps) {
   return (
-    <>
-      {typeof children === 'string' ? (
-        <div dangerouslySetInnerHTML={{ __html: processedContent }} />
-      ) : (
-        children
-      )}
-    </>
+    <ClientSlugContext.Provider value={data}>
+      {children}
+    </ClientSlugContext.Provider>
   )
 }
