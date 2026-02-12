@@ -5,31 +5,12 @@ import SectionContainer from '@/components/SectionContainer'
 import PageTitle from '@/components/PageTitle'
 import { notFound } from 'next/navigation'
 
-/**
- * Template replacement function for client slug MDX
- * Replaces {{variable}} placeholders with actual values
- */
-function replaceTemplateVars(code: string, data: Record<string, string>): string {
-  let result = code
-  Object.entries(data).forEach(([key, value]) => {
-    const regex = new RegExp(`{{${key}}}`, 'g')
-    result = result.replace(regex, value)
-  })
-  return result
-}
-
 export default function ClientSlugPreview() {
   const clientSlug = allClientSlugs.find((s) => s.slug === 'airbnb-sample')
 
   if (!clientSlug) {
     return notFound()
   }
-
-  // Replace template variables in the compiled code
-  const templateData = {
-    propertyName: clientSlug.propertyName || 'Your Property',
-  }
-  const processedCode = replaceTemplateVars(clientSlug.body.code, templateData)
 
   return (
     <SectionContainer>
@@ -47,7 +28,7 @@ export default function ClientSlugPreview() {
         </div>
 
         <div className="prose prose-lg max-w-none dark:prose-invert">
-          <MDXLayoutRenderer code={processedCode} components={components} />
+          <MDXLayoutRenderer code={clientSlug.body.code} components={components} />
         </div>
       </article>
     </SectionContainer>
