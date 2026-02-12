@@ -7,6 +7,7 @@
     "start": "next dev",
     "dev": "cross-env INIT_CWD=$PWD next dev --port 9876",
     "dev:watch-contentlayer": "bash ./scripts/watch-contentlayer.sh",
+    "dev:all": "bash ./scripts/dev-with-contentlayer.sh",
     "build": "cross-env INIT_CWD=$PWD next build --webpack && cross-env NODE_OPTIONS='--experimental-json-modules' node ./scripts/postbuild.mjs",
     "build:staged": "./scripts/build-staged.sh",
     "build:staged:verbose": "./scripts/build-staged.sh --verbose",
