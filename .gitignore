@@ -90,3 +90,9 @@ playground/
 
 # Generated files (QR codes, etc.)
 /generated
+
+# TypeScript build cache
+*.tsbuildinfo
+
+# Exploratory/playground code
+/playground
