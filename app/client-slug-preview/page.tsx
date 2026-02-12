@@ -15,13 +15,15 @@ export default function ClientSlugPreview() {
   return (
     <SectionContainer>
       <article className="space-y-8">
-        <div>
+        <div className="border-b border-gray-200 pb-8 dark:border-gray-800">
           <PageTitle>{clientSlug.title}</PageTitle>
           {clientSlug.clientName && (
-            <p className="text-lg text-gray-600">For: {clientSlug.clientName}</p>
+            <p className="text-lg text-gray-600 dark:text-gray-400">
+              For: {clientSlug.clientName}
+            </p>
           )}
           {clientSlug.metaDescription && (
-            <p className="text-gray-700">{clientSlug.metaDescription}</p>
+            <p className="text-gray-700 dark:text-gray-300">{clientSlug.metaDescription}</p>
           )}
         </div>
 
