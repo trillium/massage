@@ -5,6 +5,9 @@ import type { MDXComponents } from 'mdx/types'
 import Image from './Image'
 import CustomLink from './Link'
 import TableWrapper from './TableWrapper'
+import PromotionStatus from './PromotionStatus'
+import PricingComparison from './PricingComparison'
+import ExternalBookingLink from './ExternalBookingLink'
 
 export const components: MDXComponents = {
   Image,
@@ -13,4 +16,7 @@ export const components: MDXComponents = {
   pre: Pre,
   table: TableWrapper,
   BlogNewsletterForm,
+  PromotionStatus,
+  PricingComparison,
+  ExternalBookingLink,
 }
