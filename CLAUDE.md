@@ -35,6 +35,23 @@ Important: DO NOT COMMENT CODE, even if comments already present. Communicate me
 When you run into a problem you didn't expect, write yourself some exploratory code piece to see what's going on.
 Use 'playground' folder in the project, create it if doesn't exist and make sure it's in .gitignore
 
+## Git Worktrees for Sub-Agents
+
+**ALWAYS** create worktrees inside the project directory at `./worktrees/<name>` (gitignored).
+Sub-agents cannot Write/Edit files outside the project directory due to sandbox restrictions.
+External worktrees (e.g. `/Users/.../code/worktrees/massage/...`) will cause agent permission failures.
+
+```bash
+git worktree add worktrees/<name> -b trilliumsmith/<name>
+# or to check out an existing branch:
+git worktree add worktrees/<name> trilliumsmith/<name>
+```
+
+Clean up when done:
+```bash
+git worktree remove worktrees/<name>
+```
+
 ## Mutual Support and Proactivity
 
 - Don't flatter me. Be charming and nice, but very honest. Tell me something I need to know even if I don't want to hear it
