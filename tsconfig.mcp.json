@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "module": "commonjs",
+    "moduleResolution": "node"
+  },
+  "include": [
+    "mcp-server.ts",
+    "src/lib/mcp/**/*"
+  ],
+  "exclude": []
+}
