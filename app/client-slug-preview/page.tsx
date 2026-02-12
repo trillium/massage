@@ -3,6 +3,7 @@ import { components } from '@/components/MDXComponents'
 import { allClientSlugs } from 'contentlayer/generated'
 import SectionContainer from '@/components/SectionContainer'
 import PageTitle from '@/components/PageTitle'
+import ClientSlugLayout from '@/layouts/ClientSlugLayout'
 import { notFound } from 'next/navigation'
 
 export default function ClientSlugPreview() {
@@ -28,7 +29,15 @@ export default function ClientSlugPreview() {
         </div>
 
         <div className="prose prose-lg max-w-none dark:prose-invert">
-          <MDXLayoutRenderer code={clientSlug.body.code} components={components} />
+          <ClientSlugLayout
+            data={{
+              propertyName: clientSlug.propertyName,
+              clientName: clientSlug.clientName,
+              location: clientSlug.location as any,
+            }}
+          >
+            <MDXLayoutRenderer code={clientSlug.body.code} components={components} />
+          </ClientSlugLayout>
         </div>
       </article>
     </SectionContainer>
