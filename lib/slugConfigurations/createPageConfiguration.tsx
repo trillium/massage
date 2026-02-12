@@ -56,6 +56,17 @@ export async function createPageConfiguration({
     debugInfo.intermediateResults.resolveConfiguration = resolveDebug
   }
 
+  // Apply location from URL query params if no slug-level location is set
+  if (!configuration.location && resolvedParams) {
+    const street = typeof resolvedParams.street === 'string' ? resolvedParams.street : ''
+    const city = typeof resolvedParams.city === 'string' ? resolvedParams.city : ''
+    const zip = typeof resolvedParams.zip === 'string' ? resolvedParams.zip : ''
+
+    if (street || city || zip) {
+      configuration.location = { street, city, zip }
+    }
+  }
+
   // If configuration type is null, this is an invalid slug
   if (configuration?.type === null) {
     // exit the function without running any fetch queries
