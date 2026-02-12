@@ -33,7 +33,7 @@ export default function ClientSlugPreview() {
             data={{
               propertyName: clientSlug.propertyName,
               clientName: clientSlug.clientName,
-              location: clientSlug.location as any,
+              location: clientSlug.location,
             }}
           >
             <MDXLayoutRenderer code={clientSlug.body.code} components={components} />
