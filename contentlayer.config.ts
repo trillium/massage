@@ -135,6 +135,7 @@ export const ClientSlug = defineDocumentType(() => ({
   fields: {
     title: { type: 'string', required: true },
     clientName: { type: 'string' },
+    propertyName: { type: 'string' },
     airbnbLink: { type: 'string' },
     metaDescription: { type: 'string' },
     location: { type: 'json' },
