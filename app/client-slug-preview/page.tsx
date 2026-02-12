@@ -12,6 +12,12 @@ export default function ClientSlugPreview() {
     return notFound()
   }
 
+  // Inject propertyName into MDX code by replacing template variables
+  const processedCode = clientSlug.body.code.replace(
+    /\{\{propertyName\}\}/g,
+    clientSlug.propertyName || 'Your Property'
+  )
+
   return (
     <SectionContainer>
       <article className="space-y-8">
@@ -28,7 +34,7 @@ export default function ClientSlugPreview() {
         </div>
 
         <div className="prose prose-lg max-w-none dark:prose-invert">
-          <MDXLayoutRenderer code={clientSlug.body.code} components={components} />
+          <MDXLayoutRenderer code={processedCode} components={components} />
         </div>
       </article>
     </SectionContainer>
