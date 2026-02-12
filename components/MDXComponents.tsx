@@ -8,6 +8,7 @@ import TableWrapper from './TableWrapper'
 import PromotionStatus from './PromotionStatus'
 import PricingComparison from './PricingComparison'
 import ExternalBookingLink from './ExternalBookingLink'
+import LocationDisplay from './LocationDisplay'
 
 export const components: MDXComponents = {
   Image,
@@ -19,4 +20,5 @@ export const components: MDXComponents = {
   PromotionStatus,
   PricingComparison,
   ExternalBookingLink,
+  LocationDisplay,
 }
