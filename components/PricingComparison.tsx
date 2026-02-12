@@ -1,6 +1,6 @@
 'use client'
 
-import { DEFAULT_PRICING } from '@/config'
+import { DEFAULT_PRICING } from 'config'
 
 interface PricingComparisonProps {
   title?: string
