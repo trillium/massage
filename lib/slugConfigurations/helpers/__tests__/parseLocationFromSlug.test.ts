@@ -2,6 +2,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import {
   createLocationObject,
   parseLocationFromParams,
+  mergeParamsWithLocation,
   updateUrlWithLocation,
 } from '../parseLocationFromSlug'
 import { LocationObject } from '@/lib/types'
@@ -85,6 +86,67 @@ describe('parseLocationFromSlug', () => {
         city: 'Los Angeles',
         zip: '90210',
       })
+    })
+  })
+
+  describe('mergeParamsWithLocation', () => {
+    it('should preserve location params when adding new params', () => {
+      const result = mergeParamsWithLocation('street=123+Main+St&city=LA&zip=90210', {
+        duration: '60',
+        selectedDate: '2026-03-01',
+      })
+      const params = new URLSearchParams(result)
+
+      expect(params.get('duration')).toBe('60')
+      expect(params.get('selectedDate')).toBe('2026-03-01')
+      expect(params.get('street')).toBe('123 Main St')
+      expect(params.get('city')).toBe('LA')
+      expect(params.get('zip')).toBe('90210')
+    })
+
+    it('should work when no location params exist', () => {
+      const result = mergeParamsWithLocation('', { duration: '90' })
+      const params = new URLSearchParams(result)
+
+      expect(params.get('duration')).toBe('90')
+      expect(params.has('street')).toBe(false)
+      expect(params.has('city')).toBe(false)
+      expect(params.has('zip')).toBe(false)
+    })
+
+    it('should work when only partial location params exist', () => {
+      const result = mergeParamsWithLocation('city=LA&zip=90210', { duration: '60' })
+      const params = new URLSearchParams(result)
+
+      expect(params.get('duration')).toBe('60')
+      expect(params.has('street')).toBe(false)
+      expect(params.get('city')).toBe('LA')
+      expect(params.get('zip')).toBe('90210')
+    })
+
+    it('should not let newParams overwrite location keys', () => {
+      const result = mergeParamsWithLocation('city=LA', { city: 'should-not-win' })
+      const params = new URLSearchParams(result)
+
+      expect(params.get('city')).toBe('LA')
+    })
+
+    it('should handle empty newParams with location preserved', () => {
+      const result = mergeParamsWithLocation('street=123+Main&city=LA&zip=90210', {})
+      const params = new URLSearchParams(result)
+
+      expect(params.get('street')).toBe('123 Main')
+      expect(params.get('city')).toBe('LA')
+      expect(params.get('zip')).toBe('90210')
+    })
+
+    it('should drop non-location params from currentSearch', () => {
+      const result = mergeParamsWithLocation('city=LA&oldParam=stale', { duration: '60' })
+      const params = new URLSearchParams(result)
+
+      expect(params.get('duration')).toBe('60')
+      expect(params.get('city')).toBe('LA')
+      expect(params.has('oldParam')).toBe(false)
     })
   })
 

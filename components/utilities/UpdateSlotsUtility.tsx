@@ -28,6 +28,7 @@ import {
   setLocation,
   setLocationReadOnly,
 } from '@/redux/slices/configSlice'
+import { mergeParamsWithLocation } from '@/lib/slugConfigurations/helpers/parseLocationFromSlug'
 import { createSlots } from '@/lib/availability/createSlots'
 import { todayWithOffset } from '@/lib/dayAsObject'
 import { DEFAULT_DURATION, LEAD_TIME } from 'config'
@@ -186,8 +187,8 @@ export function UrlSynchronizationUtility() {
     if (selectedDateRedux) newParamsObj.selectedDate = selectedDateRedux
     if (timeZone !== 'America/Los_Angeles') newParamsObj.timeZone = timeZone
 
-    const newUrl = new URLSearchParams({ ...newParamsObj })
-    const finalUrl = `${window.location.pathname}?${newUrl.toString()}`
+    const merged = mergeParamsWithLocation(window.location.search, newParamsObj)
+    const finalUrl = `${window.location.pathname}${merged ? '?' + merged : ''}`
     window.history.replaceState(null, '', finalUrl)
   }, [durationRedux, selectedDateRedux, timeZone])
 

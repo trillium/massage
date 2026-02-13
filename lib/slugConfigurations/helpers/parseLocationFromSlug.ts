@@ -35,6 +35,27 @@ export function parseLocationFromParams(searchParams: URLSearchParams): Location
 }
 
 /**
+ * Merge non-location params into a search string while preserving any existing location params.
+ * This is the single source of truth for building URL search strings that include location.
+ */
+export function mergeParamsWithLocation(
+  currentSearch: string,
+  newParams: Record<string, string>
+): string {
+  const current = new URLSearchParams(currentSearch)
+
+  const locationKeys = ['street', 'city', 'zip'] as const
+  const preservedLocation: Record<string, string> = {}
+  for (const key of locationKeys) {
+    const val = current.get(key)
+    if (val) preservedLocation[key] = val
+  }
+
+  const merged = new URLSearchParams({ ...newParams, ...preservedLocation })
+  return merged.toString()
+}
+
+/**
  * Update URL with location object parameters
  */
 export function updateUrlWithLocation(location: LocationObject): void {
