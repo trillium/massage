@@ -200,3 +200,6 @@ Procfile          text
 
 # Ignore files (like .npmignore or .gitignore)
 *.*ignore         text
+
+# Use bd merge for beads JSONL files
+.beads/issues.jsonl merge=beads
