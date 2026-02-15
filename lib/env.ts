@@ -25,8 +25,8 @@ const ENV_VARS: EnvVar[] = [
   },
   {
     name: 'SUPABASE_SERVICE_ROLE_KEY',
-    required: true,
-    description: 'Supabase service role key (server-side only)',
+    required: false,
+    description: 'Supabase service role key (server-side only, needed for admin operations)',
   },
 
   // Google OAuth & Calendar
@@ -64,8 +64,8 @@ const ENV_VARS: EnvVar[] = [
   },
   {
     name: 'OWNER_NAME',
-    required: true,
-    description: 'Business owner name',
+    required: false,
+    description: 'Business owner name (falls back to NEXT_PUBLIC_OWNER_NAME)',
   },
   {
     name: 'OWNER_PHONE_NUMBER',
@@ -76,8 +76,8 @@ const ENV_VARS: EnvVar[] = [
   // Site Configuration
   {
     name: 'NEXT_PUBLIC_SITE_URL',
-    required: true,
-    description: 'Public site URL (e.g., https://example.com)',
+    required: false,
+    description: 'Public site URL (falls back to https://trilliummassage.la)',
   },
 
   // Optional Features
