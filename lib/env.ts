@@ -196,8 +196,9 @@ export function getOptionalEnv(name: string, defaultValue: string = ''): string 
 }
 
 // Run validation immediately when this module is imported
-// This ensures env vars are validated at build time and startup
-if (typeof window === 'undefined') {
-  // Only validate on server-side (not in browser)
+// Skip validation during build time (when NEXT_PHASE is set)
+// Validate at runtime startup (development and production)
+if (typeof window === 'undefined' && !process.env.NEXT_PHASE) {
+  // Only validate on server-side at runtime (not in browser, not during build)
   validateEnv()
 }
