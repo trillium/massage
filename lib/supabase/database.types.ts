@@ -62,7 +62,7 @@ export interface Database {
         ]
       }
     }
-    Views: Record<string, never>
+    Views: {}
     Functions: {
       is_admin: {
         Args: Record<string, never>

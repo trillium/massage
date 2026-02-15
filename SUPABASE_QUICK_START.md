@@ -34,10 +34,9 @@ cp .env.supabase.template .env.local
 ```
 
 Edit `.env.local` and add:
-
 - `NEXT_PUBLIC_SUPABASE_URL` - From Supabase Settings → API
-- `NEXT_PUBLIC_SUPABASE_ANON_KEY` - From Supabase Settings → API (look for "anon public" key)
-- `SUPABASE_SERVICE_ROLE_KEY` - From Supabase Settings → API (look for "service_role" key)
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY` - From Supabase Settings → API
+- `SUPABASE_SERVICE_ROLE_KEY` - From Supabase Settings → API
 
 ### 4️⃣ Run Database Migrations (5 min)
 
@@ -68,33 +67,6 @@ insert into public.admin_emails (email)
 values ('your-email@example.com');
 ```
 
-### 6️⃣ (Optional) Enable Google OAuth (10 min)
-
-**Get your callback URL:**
-
-```bash
-echo "https://$(grep NEXT_PUBLIC_SUPABASE_URL .env.local | cut -d'=' -f2 | sed 's|https://||')/auth/v1/callback"
-```
-
-**Setup steps:**
-
-1. Go to [Google Cloud Console](https://console.cloud.google.com)
-2. Create project or select existing
-3. Go to "APIs & Services" → "Credentials"
-4. Click "Create Credentials" → "OAuth 2.0 Client ID"
-5. Application type: "Web application"
-6. Authorized redirect URIs: Paste the callback URL from above
-7. Copy Client ID and Client Secret
-
-**Configure in Supabase:**
-
-1. Go to Supabase Dashboard → Authentication → Providers → Google
-2. Click "Enable"
-3. Paste Client ID and Client Secret
-4. Save
-
-**That's it!** The "Sign in with Google" button will now work.
-
 ### Test It! (10 min)
 
 ```bash
@@ -102,7 +74,6 @@ pnpm dev
 ```
 
 Visit:
-
 1. http://localhost:3000/auth/supabase-test
 2. Enter your email
 3. Check your email for magic link
@@ -133,7 +104,9 @@ export default function RootLayout({ children }) {
   return (
     <html>
       <body>
-        <SupabaseAuthProvider>{children}</SupabaseAuthProvider>
+        <SupabaseAuthProvider>
+          {children}
+        </SupabaseAuthProvider>
       </body>
     </html>
   )
@@ -180,23 +153,18 @@ function MyComponent() {
 ## Common Issues
 
 ### "Email not sending"
-
 Supabase provides test email service in dev. Check your spam folder.
 
 ### "Not seeing admin role"
-
 Make sure:
-
 1. Your email is in `admin_emails` table
 2. You signed up AFTER adding your email to the table
 3. If you signed up before, update your profile manually
 
 ### "Cookies not working"
-
 Check you're on localhost or HTTPS. HTTP cookies won't work in production.
 
 ### "RLS blocking my queries"
-
 You need to be authenticated. RLS is working correctly!
 
 ## Pro Tips
