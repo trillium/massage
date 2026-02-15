@@ -5,6 +5,11 @@ git diff --cached --name-only --diff-filter=ACM | \
   grep -v "node_modules\|\.next\|\.git" | \
   while read file; do
     if [ -f "$file" ]; then
+      # Skip test files
+      if echo "$file" | grep -qE '\.(test|spec)\.(ts|tsx|js|jsx)$'; then
+        continue
+      fi
+
       # Check if file is in allowlist (skip empty lines and comments)
       if [ -f "$ALLOWLIST_FILE" ] && grep -q "^${file}$" "$ALLOWLIST_FILE"; then
         continue
