@@ -33,3 +33,24 @@ export function createGeneralApprovalUrl(
 ): string {
   return buildApprovalUrl(headers, data, '/api/confirm/', getHashFn)
 }
+
+export function createConfirmUrl(
+  origin: string,
+  calendarEventId: string,
+  data: z.output<typeof AppointmentRequestSchema>,
+  getHashFn: typeof getHash
+): string {
+  const payload = { ...data, calendarEventId }
+  const hash = getHashFn(JSON.stringify(payload))
+  return `${origin}/api/confirm?data=${encodeURIComponent(JSON.stringify(payload))}&key=${hash}`
+}
+
+export function createDeclineUrl(
+  origin: string,
+  calendarEventId: string,
+  getHashFn: typeof getHash
+): string {
+  const payload = { calendarEventId }
+  const hash = getHashFn(JSON.stringify(payload))
+  return `${origin}/api/decline?data=${encodeURIComponent(JSON.stringify(payload))}&key=${hash}`
+}
