@@ -10,16 +10,7 @@ export async function GET(request: Request) {
     const maxResults = parseInt(searchParams.get('maxResults') || '50')
     const daysBack = parseInt(searchParams.get('daysBack') || '1')
 
-    console.log(`Searching for Soothe emails with maxResults: ${maxResults}, daysBack: ${daysBack}`)
-
     const { bookings, failedMessageIds } = await searchSootheEmails(maxResults, daysBack)
-
-    console.log(`Found ${bookings.length} Soothe booking emails`)
-    if (failedMessageIds.length > 0) {
-      console.warn(
-        `Failed to fetch ${failedMessageIds.length} messages: ${failedMessageIds.join(', ')}`
-      )
-    }
 
     return Response.json({
       success: true,

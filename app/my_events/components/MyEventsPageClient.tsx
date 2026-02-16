@@ -20,16 +20,9 @@ export default function MyEventsPageClient() {
 
   useEffect(() => {
     const verifyAccess = async () => {
-      console.log('🔍 Starting verification process')
-
       const existingSession = UserAuthManager.validateSession()
-      console.log(
-        '📋 Existing session check:',
-        existingSession ? 'Found valid session' : 'No valid session'
-      )
 
       if (existingSession) {
-        console.log('✅ Using existing session for:', existingSession.email)
         await identifyAuthenticatedUser(existingSession.email, 'session')
         setIsVerified(true)
         setEmail(existingSession.email)
@@ -39,10 +32,8 @@ export default function MyEventsPageClient() {
 
       const urlEmail = searchParams.get('email')
       const urlToken = searchParams.get('token')
-      console.log('🔗 URL params:', { email: urlEmail, tokenPresent: !!urlToken })
 
       if (!urlEmail || !urlToken) {
-        console.log('❌ Missing URL params')
         setVerificationError(
           'Missing email or verification token in URL. Please use the secure link from your email.'
         )
@@ -50,8 +41,6 @@ export default function MyEventsPageClient() {
       }
 
       try {
-        console.log('📡 Making server validation request')
-
         const response = await fetch('/api/user/validate', {
           method: 'POST',
           headers: {
@@ -60,35 +49,26 @@ export default function MyEventsPageClient() {
           body: JSON.stringify({ email: urlEmail, token: urlToken }),
         })
 
-        console.log('📡 Server response status:', response.status)
-
         const result = await response.json()
-        console.log('📡 Server response body:', result)
 
         if (result.valid) {
-          console.log('✅ Server validation passed, creating session')
-
           const sessionCreated = UserAuthManager.createSession(urlEmail, urlToken)
-          console.log('💾 Session creation result:', sessionCreated)
 
           if (sessionCreated) {
             const cleanUrl = new URL(window.location.href)
             cleanUrl.searchParams.delete('email')
             cleanUrl.searchParams.delete('token')
             window.history.replaceState({}, '', cleanUrl.pathname)
-            console.log('🧹 URL cleaned')
 
             await identifyAuthenticatedUser(urlEmail, 'email_verified')
             setIsVerified(true)
             setEmail(urlEmail)
             setVerificationError(null)
-            console.log('🎉 Verification complete')
           } else {
             console.error('❌ Failed to create session')
             setVerificationError('Failed to create user session.')
           }
         } else {
-          console.log('❌ Server validation failed')
           setVerificationError(
             'Invalid verification token. Please use the secure link provided in your email.'
           )

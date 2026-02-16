@@ -80,9 +80,6 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       body: emailBody,
     })
 
-    // Log successful request (without sensitive data)
-    console.log(`Admin access link sent to authorized email: ${email}`)
-
     return NextResponse.json(
       {
         success: true,

@@ -113,18 +113,6 @@ export default function GmailTestPage() {
       const dateString = selectedDay.toString()
       const [year, month, day] = dateString.split('-').map(Number)
 
-      console.log({
-        booking: selectedBooking,
-        selectedTime,
-        selectedLocation,
-        selectedDay: {
-          year,
-          month,
-          day,
-          toString: () => dateString,
-        },
-      })
-
       const response = await adminFetch('/api/admin/create-appointment', {
         method: 'POST',
         headers: {

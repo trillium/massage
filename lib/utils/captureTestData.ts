@@ -68,7 +68,6 @@ export async function captureTestData(
   // Write the JSON file with pretty formatting
   fs.writeFileSync(filepath, JSON.stringify(capturedData, null, 2))
 
-  console.log(`✅ Test data captured to: ${filepath}`)
   return filepath
 }
 

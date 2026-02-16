@@ -83,7 +83,6 @@ export async function GET(req: NextRequest) {
       htmlLink: `https://calendar.google.com/calendar/event?eid=${calendarEventId}`,
       attendees: [{ email: validObject.email, displayName: validObject.firstName }],
     }
-    console.log('Mock, skipping calendar update 🗓️')
   } else {
     try {
       details = await updateCalendarEvent(calendarEventId, {
