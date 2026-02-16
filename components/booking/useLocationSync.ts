@@ -13,25 +13,18 @@ export function useLocationSync(
   eventContainers: EventContainerType
 ) {
   const formikRef = useRef<FormikRef>(null)
+  const pendingLocation = useRef<LocationObject | string | null>(null)
 
-  const pendingLocationUpdate = useRef<{
-    location: LocationObject | string | null
-    source: string
-  } | null>(null)
-
-  const setFormikLocation = (configLocation: LocationObject | string | null, source: string) => {
+  const setFormikLocation = (configLocation: LocationObject | string | null) => {
     if (configLocation && formikRef.current) {
-      let newLocation: LocationObject
-
-      if (typeof configLocation === 'string') {
-        newLocation = stringToLocationObject(configLocation)
-      } else {
-        newLocation = {
-          street: configLocation.street || '',
-          city: configLocation.city || '',
-          zip: configLocation.zip || '',
-        }
-      }
+      const newLocation: LocationObject =
+        typeof configLocation === 'string'
+          ? stringToLocationObject(configLocation)
+          : {
+              street: configLocation.street || '',
+              city: configLocation.city || '',
+              zip: configLocation.zip || '',
+            }
 
       formikRef.current.setFieldValue('location', newLocation)
     }
@@ -40,12 +33,9 @@ export function useLocationSync(
   useEffect(() => {
     if (config.location) {
       if (formikRef.current) {
-        setFormikLocation(config.location, 'config.location useEffect')
+        setFormikLocation(config.location)
       } else {
-        pendingLocationUpdate.current = {
-          location: config.location,
-          source: 'config.location useEffect (delayed)',
-        }
+        pendingLocation.current = config.location
       }
     }
   }, [config.location])
@@ -53,12 +43,9 @@ export function useLocationSync(
   useEffect(() => {
     if (eventContainers?.location) {
       if (formikRef.current) {
-        setFormikLocation(eventContainers.location, 'eventContainers.location useEffect')
+        setFormikLocation(eventContainers.location)
       } else {
-        pendingLocationUpdate.current = {
-          location: eventContainers.location,
-          source: 'eventContainers.location useEffect (delayed)',
-        }
+        pendingLocation.current = eventContainers.location
       }
     }
   }, [eventContainers?.location])
@@ -66,10 +53,9 @@ export function useLocationSync(
   const processPendingUpdates = (setFieldValue: (field: string, value: unknown) => void) => {
     formikRef.current = { setFieldValue }
 
-    if (pendingLocationUpdate.current) {
-      const { location, source } = pendingLocationUpdate.current
-      setFormikLocation(location, source)
-      pendingLocationUpdate.current = null
+    if (pendingLocation.current) {
+      setFormikLocation(pendingLocation.current)
+      pendingLocation.current = null
     }
   }
 
