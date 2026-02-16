@@ -89,7 +89,15 @@ export function BookedCard({
   )
 }
 
-function CardItem({ title, text, emphasize = false }) {
+function CardItem({
+  title,
+  text,
+  emphasize = false,
+}: {
+  title: string
+  text: string
+  emphasize?: boolean
+}) {
   return (
     <p className="flex flex-row items-baseline bg-none pl-4 text-lg font-semibold text-gray-700 dark:text-gray-300">
       <span

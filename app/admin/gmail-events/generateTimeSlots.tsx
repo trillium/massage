@@ -2,7 +2,16 @@ import { format, toZonedTime } from 'date-fns-tz'
 import { addMinutes, set } from 'date-fns'
 import { StringDateTimeInterval } from '@/lib/types'
 
-export const generateTimeSlots = ({ selectedDay, selectedBooking }): StringDateTimeInterval[] => {
+type SelectedDay = { year: number; month: number; day: number }
+type SelectedBooking = { duration?: string }
+
+export const generateTimeSlots = ({
+  selectedDay,
+  selectedBooking,
+}: {
+  selectedDay: SelectedDay | null
+  selectedBooking: SelectedBooking | null
+}): StringDateTimeInterval[] => {
   const slots: StringDateTimeInterval[] = []
 
   // Set timezone to America/Los_Angeles

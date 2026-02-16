@@ -8,7 +8,7 @@ import type { ReviewType } from '@/lib/types'
 
 const filename = './data/ratings.ts'
 
-const quickDictionary = {
+const quickDictionary: Record<string, string> = {
   10: '10',
   30: '30',
   54: '54',
@@ -42,16 +42,16 @@ const quickDictionary = {
   Trillium: 'Trillium',
 }
 
-const newDictionary = {}
+const newDictionary: Record<string, string> = {}
 
-function spellcheck(comment) {
+function spellcheck(comment: string) {
   const spell = nspell(dictionary)
   spell.remove('trillium')
   spell.remove('Trillium')
   spell.remove('Trillion')
   spell.remove('trillion')
   const words = comment.split(' ')
-  const correctedWords = words.map((word) =>
+  const correctedWords = words.map((word: string) =>
     spell.correct(word) ? word : spell.suggest(word)[0] || word
   )
   return correctedWords.join(' ')

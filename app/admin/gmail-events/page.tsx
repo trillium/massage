@@ -310,7 +310,17 @@ export default function GmailTestPage() {
   )
 }
 
-function BookingItem({ booking, setActive, active }) {
+type BookingData = BookingResponse['bookings'][number]
+
+function BookingItem({
+  booking,
+  setActive,
+  active,
+}: {
+  booking: BookingData
+  setActive: (booking: BookingData) => void
+  active: boolean
+}) {
   return (
     <button
       className={clsx(

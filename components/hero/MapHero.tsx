@@ -13,15 +13,9 @@ type HeroProps = {
   imageRight?: boolean
 }
 
-let EVENT_LOC_STRING
-try {
-  EVENT_LOC_STRING = process.env.GOOGLE_MAPS_CAL_PRIMARY_EVENT_ID
-  if (!EVENT_LOC_STRING) {
-    throw new Error('GOOGLE_MAPS_CAL_PRIMARY_EVENT_ID environment variable is not set')
-  }
-} catch (error) {
-  console.error('Failed to get GOOGLE_MAPS_CAL_PRIMARY_EVENT_ID:', error)
-  throw error
+const EVENT_LOC_STRING = process.env.GOOGLE_MAPS_CAL_PRIMARY_EVENT_ID
+if (!EVENT_LOC_STRING) {
+  throw new Error('GOOGLE_MAPS_CAL_PRIMARY_EVENT_ID environment variable is not set')
 }
 
 export default async function Hero({
