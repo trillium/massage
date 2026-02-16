@@ -12,16 +12,17 @@ type EnvVar = {
 }
 
 const ENV_VARS: EnvVar[] = [
-  // Supabase
+  // Supabase (not yet fully integrated — warn only)
   {
     name: 'NEXT_PUBLIC_SUPABASE_URL',
-    required: true,
-    description: 'Supabase project URL',
+    required: false,
+    description: 'Supabase project URL (not yet required — auth migration in progress)',
   },
   {
     name: 'NEXT_PUBLIC_SUPABASE_ANON_KEY',
-    required: true,
-    description: 'Supabase anonymous/public API key',
+    required: false,
+    description:
+      'Supabase anonymous/public API key (not yet required — auth migration in progress)',
   },
   {
     name: 'SUPABASE_SERVICE_ROLE_KEY',
