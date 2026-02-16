@@ -274,6 +274,139 @@ describe('fetchPageData', () => {
     expect(result.multiDurationSlots).toBeDefined()
   })
 
+  it('adjacent type without event returns adjacent-no-event path', async () => {
+    const config = makeConfig({ type: 'adjacent' })
+    const { getNextUpcomingEvent } = await import('@/lib/fetch/getNextUpcomingEvent')
+    ;(getNextUpcomingEvent as Mock).mockResolvedValue(null)
+    const { fetchData } = await import('@/lib/fetch/fetchData')
+    ;(fetchData as Mock).mockResolvedValue({
+      start: '2025-01-15',
+      end: '2025-01-17',
+      busy: [{ start: '2025-01-15T14:00:00Z', end: '2025-01-15T15:00:00Z' }],
+    })
+    const result = await fetchPageData(config, {}, undefined, undefined, undefined, undefined, true)
+    expect(result.debugInfo?.pathTaken).toBe('adjacent-no-event')
+    expect(result.nextEventFound).toBe(false)
+    expect(result.busy).toEqual([{ start: '2025-01-15T14:00:00Z', end: '2025-01-15T15:00:00Z' }])
+    expect(result.multiDurationSlots).toBeUndefined()
+    expect(result.currentEvent).toBeUndefined()
+  })
+
+  it('next type with all-day event (no dateTime) falls back to current time', async () => {
+    const config = makeConfig({ type: 'next' })
+    const allDayEvent: Partial<GoogleCalendarV3Event> = {
+      id: 'all-day-event',
+      summary: 'All Day Event',
+      start: { date: '2025-01-15' },
+      end: { date: '2025-01-16' },
+    }
+    const { createMultiDurationAvailability } = await import(
+      '@/lib/availability/getNextSlotAvailability'
+    )
+    const mockGetTimeList = vi.fn().mockReturnValue([])
+    ;(createMultiDurationAvailability as Mock).mockResolvedValue({
+      getTimeListFormatForDuration: mockGetTimeList,
+    })
+    const result = await fetchPageData(
+      config,
+      {},
+      undefined,
+      undefined,
+      undefined,
+      allDayEvent as GoogleCalendarV3Event,
+      true
+    )
+    expect(result.debugInfo?.pathTaken).toBe('next-with-event')
+    expect(result.nextEventFound).toBe(true)
+    expect(result.start).toBeDefined()
+    expect(result.end).toBeDefined()
+  })
+
+  it('adjacent type with all-day event (no dateTime) falls back to current time', async () => {
+    const config = makeConfig({ type: 'adjacent' })
+    const allDayEvent: Partial<GoogleCalendarV3Event> = {
+      id: 'all-day-event',
+      summary: 'All Day Event',
+      start: { date: '2025-01-15' },
+      end: { date: '2025-01-16' },
+    }
+    const { createMultiDurationAvailability } = await import(
+      '@/lib/availability/getAdjacentSlotAvailability'
+    )
+    const mockGetTimeList = vi.fn().mockReturnValue([])
+    ;(createMultiDurationAvailability as Mock).mockResolvedValue({
+      getTimeListFormatForDuration: mockGetTimeList,
+    })
+    const result = await fetchPageData(
+      config,
+      {},
+      undefined,
+      undefined,
+      undefined,
+      allDayEvent as GoogleCalendarV3Event,
+      true
+    )
+    expect(result.debugInfo?.pathTaken).toBe('adjacent-with-event')
+    expect(result.nextEventFound).toBe(true)
+    expect(result.start).toBeDefined()
+    expect(result.end).toBeDefined()
+  })
+
+  it('next type with event without location skips geocoding', async () => {
+    const config = makeConfig({ type: 'next' })
+    const noLocationEvent: Partial<GoogleCalendarV3Event> = {
+      id: 'no-location-event',
+      summary: 'No Location',
+      start: { dateTime: '2025-01-15T14:00:00-08:00' },
+      end: { dateTime: '2025-01-15T15:00:00-08:00' },
+    }
+    const { createMultiDurationAvailability } = await import(
+      '@/lib/availability/getNextSlotAvailability'
+    )
+    const mockGetTimeList = vi.fn().mockReturnValue([])
+    ;(createMultiDurationAvailability as Mock).mockResolvedValue({
+      getTimeListFormatForDuration: mockGetTimeList,
+    })
+    const { geocodeLocation } = await import('@/lib/geocode')
+    const result = await fetchPageData(
+      config,
+      {},
+      undefined,
+      undefined,
+      undefined,
+      noLocationEvent as GoogleCalendarV3Event,
+      true
+    )
+    expect(result.debugInfo?.pathTaken).toBe('next-with-event')
+    expect(geocodeLocation).not.toHaveBeenCalled()
+    expect(result.eventCoordinates).toBeUndefined()
+  })
+
+  it('next type with geocoding failure still returns result', async () => {
+    const config = makeConfig({ type: 'next' })
+    const { createMultiDurationAvailability } = await import(
+      '@/lib/availability/getNextSlotAvailability'
+    )
+    const mockGetTimeList = vi.fn().mockReturnValue([])
+    ;(createMultiDurationAvailability as Mock).mockResolvedValue({
+      getTimeListFormatForDuration: mockGetTimeList,
+    })
+    const { geocodeLocation } = await import('@/lib/geocode')
+    ;(geocodeLocation as Mock).mockRejectedValue(new Error('Geocoding API down'))
+    const result = await fetchPageData(
+      config,
+      {},
+      undefined,
+      undefined,
+      undefined,
+      mockEvent as GoogleCalendarV3Event,
+      true
+    )
+    expect(result.debugInfo?.pathTaken).toBe('next-with-event')
+    expect(result.nextEventFound).toBe(true)
+    expect(result.eventCoordinates).toBeUndefined()
+  })
+
   it('area-wide type returns area-wide path', async () => {
     const config = makeConfig({ type: 'area-wide' })
     const { fetchData } = await import('@/lib/fetch/fetchData')
