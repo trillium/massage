@@ -14,7 +14,8 @@ export default async function ClientRequestEmail({
   bookingUrl,
   promo,
   email,
-}: Omit<EmailProps, 'approveUrl'> & { email: string }) {
+  cancelUrl,
+}: Omit<EmailProps, 'approveUrl'> & { email: string; cancelUrl?: string }) {
   const SUBJECT = `Massage Session Request $${price}, ${duration} minutes`
 
   // Generate secure my_events URL
@@ -43,6 +44,7 @@ export default async function ClientRequestEmail({
     `I'll review it as soon as I can and get back to you with a confirmation.`,
     `<br>`,
     myEventsUrl ? `<b><a href="${myEventsUrl}">View your appointments</a></b>` : '',
+    cancelUrl ? `<b><a href="${cancelUrl}">Cancel this request</a></b>` : '',
     `<br>`,
     `Thanks!`,
     `<br>`,
