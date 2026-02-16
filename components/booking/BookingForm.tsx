@@ -418,8 +418,6 @@ export default function BookingForm({
                       lastName={values.lastName}
                       onChange={(e) => {
                         setFieldValue(e.target.name, e.target.value)
-                        // Also update Redux state for integration tests
-                        dispatchRedux(setForm({ [e.target.name]: e.target.value }))
                       }}
                     />
                     {touched.firstName && errors.firstName && (
@@ -433,8 +431,6 @@ export default function BookingForm({
                       phone={values.phone}
                       onChange={(e) => {
                         setFieldValue('phone', e.target.value)
-                        // Also update Redux state for integration tests
-                        dispatchRedux(setForm({ phone: e.target.value }))
                       }}
                     />
                     {touched.phone && errors.phone && (
@@ -515,8 +511,6 @@ export default function BookingForm({
                       email={values.email}
                       onChange={(e) => {
                         setFieldValue('email', e.target.value)
-                        // Also update Redux state for integration tests
-                        dispatchRedux(setForm({ email: e.target.value }))
                       }}
                     />
                     {touched.email && errors.email && (

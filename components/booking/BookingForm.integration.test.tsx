@@ -109,14 +109,13 @@ describe('BookingForm Integration Tests', () => {
   })
 
   describe('Form Field Interaction', () => {
-    it('should integrate with Redux form state when fields are changed', async () => {
+    it('should update Formik-controlled inputs on change', async () => {
       render(
         <Provider store={store}>
           <BookingForm />
         </Provider>
       )
 
-      // Fill out form fields using the actual aria-labels from the component
       const firstNameInput = screen.getByLabelText('First Name')
       const lastNameInput = screen.getByLabelText('Last Name')
       const emailInput = screen.getByLabelText('Email')
@@ -125,16 +124,37 @@ describe('BookingForm Integration Tests', () => {
       fireEvent.change(lastNameInput, { target: { value: 'Doe' } })
       fireEvent.change(emailInput, { target: { value: 'john.doe@example.com' } })
 
-      // Verify the values were set in the form
       expect(firstNameInput).toHaveValue('John')
       expect(lastNameInput).toHaveValue('Doe')
       expect(emailInput).toHaveValue('john.doe@example.com')
+    })
 
-      // Check that the Redux state was updated
+    it('should not sync name/email to Redux until submit', async () => {
+      render(
+        <Provider store={store}>
+          <BookingForm />
+        </Provider>
+      )
+
+      fireEvent.change(screen.getByLabelText('First Name'), { target: { value: 'John' } })
+      fireEvent.change(screen.getByLabelText('Email'), { target: { value: 'john@test.com' } })
+
       const formState = store.getState().form
-      expect(formState.firstName).toBe('John')
-      expect(formState.lastName).toBe('Doe')
-      expect(formState.email).toBe('john.doe@example.com')
+      expect(formState.firstName).toBe('')
+      expect(formState.email).toBe('')
+    })
+
+    it('should sync location to Redux on keystroke for DriveTimeCalculator', async () => {
+      render(
+        <Provider store={store}>
+          <BookingForm />
+        </Provider>
+      )
+
+      fireEvent.change(screen.getByLabelText('zip code'), { target: { value: '90210' } })
+
+      const formState = store.getState().form
+      expect(formState.location).toEqual(expect.objectContaining({ zip: '90210' }))
     })
   })
 
