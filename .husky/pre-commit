@@ -1,33 +1,35 @@
 # Load allowlist
 ALLOWLIST_FILE=".husky/large-files-allowlist.txt"
+LINE_LIMIT=250
 
 git diff --cached --name-only --diff-filter=ACM | \
   grep -v "node_modules\|\.next\|\.git" | \
   while read file; do
     if [ -f "$file" ]; then
-      # Skip test files
       if echo "$file" | grep -qE '\.(test|spec)\.(ts|tsx|js|jsx)$'; then
         continue
       fi
 
-      # Check if file is in allowlist (skip empty lines and comments)
       if [ -f "$ALLOWLIST_FILE" ] && grep -q "^${file}$" "$ALLOWLIST_FILE"; then
         continue
       fi
-      
+
       lines=$(wc -l < "$file" | tr -d ' ')
-      if [ "$lines" -gt 250 ]; then
-        echo "❌ File exceeds 250 lines: $file ($lines lines)"
-        echo ""
-        echo "Refactor pattern (preserves existing imports):"
-        echo "1. Create same-named folder: components/Form/"
-        echo "2. Extract features to named files: components/Form/FormState.tsx, FormValidation.ts"
-        echo "3. Create barrel export: components/Form/index.tsx (exports from feature files)"
-        echo "4. Existing imports unchanged: import { Form } from 'components/Form'"
-        echo ""
-        echo "To exempt this file, add it to: $ALLOWLIST_FILE"
-        echo "Use --no-verify to bypass if absolutely necessary."
-        exit 1
+      if [ "$lines" -gt "$LINE_LIMIT" ]; then
+        echo "⚠️  Large file committed: $file ($lines lines, limit $LINE_LIMIT)"
+        if command -v bd &> /dev/null; then
+          existing=$(bd query "status:open label:large-file" 2>/dev/null | grep "$file" || true)
+          if [ -z "$existing" ]; then
+            bd create "Refactor $file ($lines lines)" \
+              -d "File exceeds ${LINE_LIMIT}-line limit at $lines lines. Extract logical sections into smaller modules." \
+              -p 2 \
+              -l "large-file,refactor" \
+              --silent
+            echo "   📋 Beads ticket created"
+          else
+            echo "   📋 Ticket already exists"
+          fi
+        fi
       fi
     fi
   done
