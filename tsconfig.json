@@ -2,14 +2,10 @@
   "compilerOptions": {
     "incremental": true,
     "target": "ES6",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
-    "strict": false,
+    "strict": true,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "composite": true,
@@ -20,45 +16,23 @@
     "isolatedModules": true,
     "jsx": "react-jsx",
     "baseUrl": ".",
-    "types": [
-      "vitest",
-      "node"
-    ],
+    "types": ["vitest", "node"],
     "paths": {
-      "@/components/*": [
-        "components/*"
-      ],
-      "@/data/*": [
-        "data/*"
-      ],
-      "@/layouts/*": [
-        "layouts/*"
-      ],
-      "@/css/*": [
-        "css/*"
-      ],
-      "@/redux/*": [
-        "redux/*"
-      ],
-      "@/lib/*": [
-        "lib/*"
-      ],
-      "@/features/*": [
-        "features/*"
-      ],
-      "contentlayer/generated": [
-        "./.contentlayer/generated"
-      ],
-      "pliny/*": [
-        "node_modules/pliny/*"
-      ]
+      "@/components/*": ["components/*"],
+      "@/data/*": ["data/*"],
+      "@/layouts/*": ["layouts/*"],
+      "@/css/*": ["css/*"],
+      "@/redux/*": ["redux/*"],
+      "@/lib/*": ["lib/*"],
+      "@/features/*": ["features/*"],
+      "contentlayer/generated": ["./.contentlayer/generated"],
+      "pliny/*": ["node_modules/pliny/*"]
     },
     "plugins": [
       {
         "name": "next"
       }
-    ],
-    "strictNullChecks": true
+    ]
   },
   "include": [
     "next-env.d.ts",
