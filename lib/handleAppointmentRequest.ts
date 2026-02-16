@@ -12,9 +12,13 @@ import { z } from 'zod'
 import { pushoverSendMessage } from './messaging/push/admin/pushover'
 import { AppointmentPushover } from './messaging/push/admin/AppointmentPushover'
 import { AppointmentPushoverInstantConfirm } from './messaging/push/admin/AppointmentPushoverInstantConfirm'
-import { createGeneralApprovalUrl } from './messaging/utilities/createApprovalUrl'
+import { createConfirmUrl, createDeclineUrl } from './messaging/utilities/createApprovalUrl'
 import createCalendarAppointment from './availability/createCalendarAppointment'
+import type createRequestCalendarEventFn from './availability/createRequestCalendarEvent'
+import type updateCalendarEventFn from './availability/updateCalendarEvent'
 import eventSummary from './messaging/templates/events/eventSummary'
+import requestEventSummary from './messaging/templates/events/requestEventSummary'
+import requestEventDescription from './messaging/templates/events/requestEventDescription'
 import { identifyAuthenticatedUser } from './posthog-utils'
 import { flattenLocation } from './helpers/locationHelpers'
 import { escapeHtml } from './messaging/escapeHtml'
@@ -35,6 +39,8 @@ export async function handleAppointmentRequest({
   getHashFn,
   rateLimiter,
   schema,
+  createRequestCalendarEvent,
+  updateCalendarEvent,
 }: {
   req: NextRequest & IncomingMessage
   headers: Headers
@@ -47,6 +53,8 @@ export async function handleAppointmentRequest({
   getHashFn: typeof getHash
   rateLimiter: (req: NextRequest & IncomingMessage, headers: Headers) => boolean
   schema: typeof AppointmentRequestSchema
+  createRequestCalendarEvent: typeof createRequestCalendarEventFn
+  updateCalendarEvent: typeof updateCalendarEventFn
 }) {
   const jsonData = await req.json()
   if (rateLimiter(req, headers)) {
@@ -122,7 +130,42 @@ export async function handleAppointmentRequest({
 
   const start = new Date(data.start)
   const end = new Date(data.end)
-  const approveUrl = createGeneralApprovalUrl(headers, data, getHashFn)
+  const origin = headers.get('origin') ?? '?'
+  const clientName = `${data.firstName} ${data.lastName}`
+
+  // Phase 1: Create REQUEST calendar event with placeholder description
+  const calendarResponse = await createRequestCalendarEvent({
+    start: data.start,
+    end: data.end,
+    summary: requestEventSummary({ clientName, duration: data.duration }),
+    description: 'Pending — links loading...',
+    location: flattenLocation(data.locationObject || data.locationString || ''),
+  })
+  const calendarEventId = calendarResponse.id
+
+  // Phase 2: Build accept/decline URLs using the calendarEventId
+  const acceptUrl = createConfirmUrl(origin, calendarEventId, data, getHashFn)
+  const declineUrl = createDeclineUrl(origin, calendarEventId, getHashFn)
+
+  // Phase 3: Patch the calendar event with real description containing links
+  await updateCalendarEvent(calendarEventId, {
+    description: requestEventDescription({
+      firstName: data.firstName,
+      lastName: data.lastName,
+      email: data.email,
+      phone: data.phone,
+      start: data.start,
+      end: data.end,
+      duration: data.duration,
+      location: flattenLocation(data.locationObject || data.locationString || ''),
+      price: data.price,
+      promo: data.promo,
+      timeZone: data.timeZone,
+      ownerTimeZone,
+      acceptUrl,
+      declineUrl,
+    }),
+  })
 
   const safeExtraFields = {
     hotelRoomNumber: data.hotelRoomNumber ? escapeHtml(data.hotelRoomNumber) : data.hotelRoomNumber,
@@ -132,12 +175,14 @@ export async function handleAppointmentRequest({
     additionalNotes: data.additionalNotes ? escapeHtml(data.additionalNotes) : data.additionalNotes,
   }
 
+  // Send admin approval email with accept + decline links
   const approveEmail = approvalEmailFn({
     ...data,
     ...safeData,
     ...safeExtraFields,
     location: safeLocation,
-    approveUrl,
+    approveUrl: acceptUrl,
+    declineUrl,
     dateSummary: intervalToHumanString({
       start,
       end,
@@ -150,7 +195,8 @@ export async function handleAppointmentRequest({
     },
   })
 
-  const pushover = AppointmentPushover(data, ownerTimeZone, approveUrl)
+  // Send pushover with accept + decline links
+  const pushover = AppointmentPushover(data, ownerTimeZone, acceptUrl, declineUrl)
 
   pushoverSendMessage({
     message: pushover.message,
@@ -163,11 +209,14 @@ export async function handleAppointmentRequest({
     subject: approveEmail.subject,
     body: approveEmail.body,
   })
+
+  // Send client email with cancel link
   const confirmationEmail = await clientRequestEmailFn({
     ...data,
     ...safeData,
     location: safeLocation,
-    email: data.email, // Explicitly pass the email
+    email: data.email,
+    cancelUrl: declineUrl,
     dateSummary: intervalToHumanString({
       start,
       end,

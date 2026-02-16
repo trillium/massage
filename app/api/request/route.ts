@@ -18,6 +18,8 @@ import siteMetadata from '@/data/siteMetadata'
 import { intervalToHumanString } from 'lib/intervalToHumanString'
 import { handleAppointmentRequest } from 'lib/handleAppointmentRequest'
 import { checkRateLimitFactory } from 'lib/checkRateLimitFactory'
+import createRequestCalendarEvent from 'lib/availability/createRequestCalendarEvent'
+import updateCalendarEvent from 'lib/availability/updateCalendarEvent'
 
 // Define the rate limiter
 const rateLimitLRU = new LRUCache({
@@ -41,5 +43,7 @@ export async function POST(req: NextRequest & IncomingMessage): Promise<NextResp
     getHashFn: getHash,
     rateLimiter: checkRateLimitFactory(rateLimitLRU, REQUESTS_PER_IP_PER_MINUTE_LIMIT),
     schema: AppointmentRequestSchema,
+    createRequestCalendarEvent,
+    updateCalendarEvent,
   })
 }
