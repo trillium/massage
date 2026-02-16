@@ -13,7 +13,7 @@ export function CategorizedEventList({
   events: GoogleCalendarV3Event[]
   isAdmin?: boolean
 }) {
-  const { futureEvents, todayEvents, pastEvents } = categorizeEvents(events)
+  const { pendingEvents, futureEvents, todayEvents, pastEvents } = categorizeEvents(events)
 
   const handleDownloadJSON = () => {
     const dataStr =
@@ -38,6 +38,30 @@ export function CategorizedEventList({
           </button>
         </div>
       )}
+
+      {pendingEvents.length > 0 && (
+        <>
+          <EventDelimiter
+            title="Pending Requests"
+            count={pendingEvents.length}
+            color="bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300"
+          />
+          {pendingEvents.map((event, index) => (
+            <EventCard
+              key={event.id || `pending-${index}`}
+              event={event}
+              index={index}
+              keyPrefix="pending"
+              colorClasses={{
+                container: 'border-amber-500 bg-amber-50 dark:bg-amber-900/20',
+                button: 'bg-amber-600 hover:bg-amber-700 dark:bg-amber-500 dark:hover:bg-amber-600',
+              }}
+              isPending
+            />
+          ))}
+        </>
+      )}
+
       {todayEvents.length > 0 && (
         <>
           <EventDelimiter
