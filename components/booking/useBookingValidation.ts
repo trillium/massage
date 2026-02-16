@@ -19,10 +19,14 @@ export function useBookingValidation(config: SlugConfigurationType) {
 
           if (issue.path.length > 1) {
             const [parent, ...childPath] = issue.path
-            if (!errors[parent as string]) {
-              errors[parent as string] = {}
+            const parentKey = parent as string
+            if (!errors[parentKey]) {
+              errors[parentKey] = {}
             }
-            errors[parent as string][childPath.join('.')] = issue.message
+            const parentErrors = errors[parentKey]
+            if (typeof parentErrors === 'object') {
+              parentErrors[childPath.join('.')] = issue.message
+            }
           } else {
             errors[path] = issue.message
           }

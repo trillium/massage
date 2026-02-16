@@ -36,7 +36,7 @@ type SocialIconProps = {
   size?: number
 }
 
-const sizeClasses = {
+const sizeClasses: Record<number, string> = {
   0: 'h-0 w-0',
   0.5: 'h-0.5 w-0.5',
   1: 'h-1 w-1',

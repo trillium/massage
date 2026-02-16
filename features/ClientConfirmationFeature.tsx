@@ -32,7 +32,7 @@ export default function Confirmation() {
   // Get form data from Redux
   const { firstName, lastName, locationString, phone, email, promo, bookingUrl } =
     useReduxFormData()
-  const { price: pricingRedux } = useReduxConfig()
+  const { pricing: pricingRedux } = useReduxConfig()
   const { duration } = useReduxAvailability()
 
   const pricing = pricingRedux || DEFAULT_PRICING

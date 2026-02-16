@@ -14,7 +14,7 @@ export default function DurationPicker({
   duration: durationProps,
   configuration,
 }: durationPropsType) {
-  const { price: priceRedux, allowedDurations: allowedDurationsRedux } = useReduxConfig()
+  const { pricing: priceRedux, allowedDurations: allowedDurationsRedux } = useReduxConfig()
   const { duration: durationRedux } = useReduxAvailability()
   const dispatchRedux = useAppDispatch()
 
