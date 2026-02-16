@@ -70,19 +70,19 @@ beforeEach(() => {
 })
 
 describe('/api/onsite/confirm', () => {
-  // NOTE: The route uses NextResponse.redirect() with a relative URL which throws
-  // in the test environment. NextResponse.redirect requires absolute URLs.
-  // The /api/confirm route correctly prefixes with origin — this route doesn't.
-  // We verify the redirect is attempted (throws with the expected path).
-
-  it('attempts redirect to /admin/booked on success with locationString', async () => {
+  it('redirects to /admin/booked on success with locationString', async () => {
     mockCalendarResponse('onsite123', [{ email: 'jane@example.com', displayName: 'Jane' }])
 
-    await expect(GET(confirmUrl(validOnsiteData, 'valid-hash'))).rejects.toThrow('/admin/booked')
+    const res = await GET(confirmUrl(validOnsiteData, 'valid-hash'))
+
+    expect(res.status).toBe(307)
+    const location = res.headers.get('location')!
+    expect(location).toContain('/admin/booked')
+    expect(location).toContain('data=')
     expect(createOnsiteAppointment).toHaveBeenCalled()
   })
 
-  it('attempts redirect on success with locationObject', async () => {
+  it('redirects on success with locationObject', async () => {
     const data = {
       ...validOnsiteData,
       locationString: undefined,
@@ -92,7 +92,10 @@ describe('/api/onsite/confirm', () => {
 
     mockCalendarResponse('onsite456', [{ email: 'jane@example.com', displayName: 'Jane' }])
 
-    await expect(GET(confirmUrl(data, 'valid-hash'))).rejects.toThrow('/admin/booked')
+    const res = await GET(confirmUrl(data, 'valid-hash'))
+
+    expect(res.status).toBe(307)
+    expect(res.headers.get('location')).toContain('/admin/booked')
   })
 
   it('passes transformed pricing to createOnsiteAppointment', async () => {
@@ -103,8 +106,9 @@ describe('/api/onsite/confirm', () => {
 
     mockCalendarResponse('price789')
 
-    await expect(GET(confirmUrl(dataWithPricing, 'valid-hash'))).rejects.toThrow('/admin/booked')
+    const res = await GET(confirmUrl(dataWithPricing, 'valid-hash'))
 
+    expect(res.status).toBe(307)
     expect(createOnsiteAppointment).toHaveBeenCalledWith(
       expect.objectContaining({
         pricing: { 60: 120, 90: 160 },

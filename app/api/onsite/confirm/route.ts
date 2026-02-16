@@ -121,7 +121,7 @@ export async function GET(req: NextRequest) {
     const adminToken = url.searchParams.get('token')
 
     return NextResponse.redirect(
-      `/admin/booked?data=${encodedDetails}&url=${encodeURIComponent(match[1])}&email=${encodeURIComponent(adminEmail)}&token=${adminToken}`
+      `${new URL(req.url).origin}/admin/booked?data=${encodedDetails}&url=${encodeURIComponent(match[1])}&email=${encodeURIComponent(adminEmail)}&token=${adminToken}`
     )
   }
 
