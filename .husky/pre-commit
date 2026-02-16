@@ -1,5 +1,5 @@
-# Load allowlist
 ALLOWLIST_FILE=".husky/large-files-allowlist.txt"
+TICKET_TEMPLATE=".husky/large-file-ticket-template.txt"
 LINE_LIMIT=250
 
 git diff --cached --name-only --diff-filter=ACM | \
@@ -20,10 +20,9 @@ git diff --cached --name-only --diff-filter=ACM | \
         if command -v bd &> /dev/null; then
           existing=$(bd query "status:open label:large-file" 2>/dev/null | grep "$file" || true)
           if [ -z "$existing" ]; then
+            desc=$(sed "s/{LINE_LIMIT}/$LINE_LIMIT/g; s/{LINES}/$lines/g; s/{FILE}/$file/g" "$TICKET_TEMPLATE")
             bd create "Refactor $file ($lines lines)" \
-              -d "File exceeds ${LINE_LIMIT}-line limit at $lines lines. Functional code should be small and single-scoped — extract logical sections into smaller modules.
-
-If this is a config file, data file, generated code, or structural file (e.g. barrel exports, route definitions, type declarations), add it to .husky/large-files-allowlist.txt instead of refactoring." \
+              -d "$desc" \
               -p 2 \
               -l "large-file,refactor" \
               --silent
