@@ -129,7 +129,7 @@ export default function BookingForm({
                   price={price}
                   acceptingPayment={acceptingPayment}
                   discount={config.discount}
-                  formData={{ ...values, location: values.location }}
+                  formData={values}
                 />
 
                 <BookingFormFields
