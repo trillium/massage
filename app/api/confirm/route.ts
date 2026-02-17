@@ -11,6 +11,10 @@ import siteMetadata from '@/data/siteMetadata'
 import { AppointmentRequestSchema } from 'lib/schema'
 import { flattenLocation } from '@/lib/helpers/locationHelpers'
 
+export const dynamic = 'force-dynamic'
+
+const NO_STORE_HEADERS = { 'Cache-Control': 'no-store' }
+
 export async function GET(req: NextRequest) {
   const searchParams = req.nextUrl.searchParams
 
@@ -19,13 +23,16 @@ export async function GET(req: NextRequest) {
   const mock = searchParams.get('mock') === 'true'
 
   if (!data) {
-    return NextResponse.json({ error: 'Data is missing' }, { status: 400 })
+    return NextResponse.json(
+      { error: 'Data is missing' },
+      { status: 400, headers: NO_STORE_HEADERS }
+    )
   }
   // Make sure the hash matches before doing anything
   const hash = getHash(decodeURIComponent(data as string))
 
   if (hash !== key) {
-    return NextResponse.json({ error: 'Invalid key' }, { status: 403 })
+    return NextResponse.json({ error: 'Invalid key' }, { status: 403, headers: NO_STORE_HEADERS })
   }
 
   const object = JSON.parse(decodeURIComponent(data as string))
@@ -34,21 +41,30 @@ export async function GET(req: NextRequest) {
   const { calendarEventId, ...appointmentData } = object
 
   if (!calendarEventId) {
-    return NextResponse.json({ error: 'Missing calendarEventId' }, { status: 400 })
+    return NextResponse.json(
+      { error: 'Missing calendarEventId' },
+      { status: 400, headers: NO_STORE_HEADERS }
+    )
   }
 
   // Validate appointment data using Zod
   const validationResult = AppointmentRequestSchema.safeParse(appointmentData)
 
   if (!validationResult.success) {
-    return NextResponse.json({ error: 'Malformed request in data validation' }, { status: 400 })
+    return NextResponse.json(
+      { error: 'Malformed request in data validation' },
+      { status: 400, headers: NO_STORE_HEADERS }
+    )
   }
 
   const validObject = validationResult.data
 
   // Check if start and end dates are valid
   if (Number.isNaN(Date.parse(validObject.start)) || Number.isNaN(Date.parse(validObject.end))) {
-    return NextResponse.json({ error: 'Malformed request in date parsing' }, { status: 400 })
+    return NextResponse.json(
+      { error: 'Malformed request in date parsing' },
+      { status: 400, headers: NO_STORE_HEADERS }
+    )
   }
 
   // Convert locationString to LocationObject for internal use
@@ -63,7 +79,10 @@ export async function GET(req: NextRequest) {
   } else if (validObject.locationObject) {
     locationObject = validObject.locationObject
   } else {
-    return NextResponse.json({ error: 'Location information is required' }, { status: 400 })
+    return NextResponse.json(
+      { error: 'Location information is required' },
+      { status: 400, headers: NO_STORE_HEADERS }
+    )
   }
 
   const clientName = `${validObject.firstName} ${validObject.lastName}`
@@ -101,7 +120,7 @@ export async function GET(req: NextRequest) {
       console.error('Error updating calendar event:', error)
       return NextResponse.json(
         { error: 'This appointment may have already been declined or cancelled.' },
-        { status: 404 }
+        { status: 404, headers: NO_STORE_HEADERS }
       )
     }
   }
@@ -161,5 +180,8 @@ export async function GET(req: NextRequest) {
   }
 
   // Otherwise, something's wrong.
-  return NextResponse.json({ error: 'Error trying to confirm the appointment' }, { status: 500 })
+  return NextResponse.json(
+    { error: 'Error trying to confirm the appointment' },
+    { status: 500, headers: NO_STORE_HEADERS }
+  )
 }

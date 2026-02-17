@@ -10,6 +10,10 @@ import { OnSiteRequestSchema } from 'lib/schema'
 import { AdminAuthManager } from '@/lib/adminAuth'
 import siteMetadata from '@/data/siteMetadata'
 
+export const dynamic = 'force-dynamic'
+
+const NO_STORE_HEADERS = { 'Cache-Control': 'no-store' }
+
 export async function GET(req: NextRequest) {
   const searchParams = req.nextUrl.searchParams
 
@@ -17,13 +21,16 @@ export async function GET(req: NextRequest) {
   const key = searchParams.get('key')
 
   if (!data) {
-    return NextResponse.json({ error: 'Data is missing' }, { status: 400 })
+    return NextResponse.json(
+      { error: 'Data is missing' },
+      { status: 400, headers: NO_STORE_HEADERS }
+    )
   }
   // Make sure the hash matches before doing anything
   const hash = getHash(decodeURIComponent(data as string))
 
   if (hash !== key) {
-    return NextResponse.json({ error: 'Invalid key' }, { status: 403 })
+    return NextResponse.json({ error: 'Invalid key' }, { status: 403, headers: NO_STORE_HEADERS })
   }
 
   const object = JSON.parse(decodeURIComponent(data as string))
@@ -32,14 +39,20 @@ export async function GET(req: NextRequest) {
   const validationResult = OnSiteRequestSchema.safeParse(object)
 
   if (!validationResult.success) {
-    return NextResponse.json({ error: 'Malformed request in data validation' }, { status: 400 })
+    return NextResponse.json(
+      { error: 'Malformed request in data validation' },
+      { status: 400, headers: NO_STORE_HEADERS }
+    )
   }
 
   const validObject = validationResult.data
 
   // Check if start and end dates are valid
   if (Number.isNaN(Date.parse(validObject.start)) || Number.isNaN(Date.parse(validObject.end))) {
-    return NextResponse.json({ error: 'Malformed request in date parsing' }, { status: 400 })
+    return NextResponse.json(
+      { error: 'Malformed request in date parsing' },
+      { status: 400, headers: NO_STORE_HEADERS }
+    )
   }
 
   // Convert locationString to LocationObject for internal use
@@ -56,7 +69,10 @@ export async function GET(req: NextRequest) {
     // Use provided locationObject directly
     locationObject = validObject.locationObject
   } else {
-    return NextResponse.json({ error: 'Location information is required' }, { status: 400 })
+    return NextResponse.json(
+      { error: 'Location information is required' },
+      { status: 400, headers: NO_STORE_HEADERS }
+    )
   }
 
   const transformedPricing = validObject.pricing
@@ -126,5 +142,8 @@ export async function GET(req: NextRequest) {
   }
 
   // Otherwise, something's wrong.
-  return NextResponse.json({ error: 'Error trying to create an appointment' }, { status: 500 })
+  return NextResponse.json(
+    { error: 'Error trying to create an appointment' },
+    { status: 500, headers: NO_STORE_HEADERS }
+  )
 }

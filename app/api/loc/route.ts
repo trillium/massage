@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 import updateLocation from 'lib/availability/updateLocation'
 
+export const dynamic = 'force-dynamic'
+
+const NO_STORE_HEADERS = { 'Cache-Control': 'no-store' }
+
 export async function GET(req: NextRequest) {
   const searchParams = req.nextUrl.searchParams
 
@@ -8,10 +12,8 @@ export async function GET(req: NextRequest) {
 
   if (password !== process.env.UPDATE_LOC_PASSWORD) {
     return new NextResponse(JSON.stringify({ error: 'Access denied.' }), {
-      status: 400, // NOT OK status
-      headers: {
-        'Content-Type': 'application/json', // Indicate the content type
-      },
+      status: 400,
+      headers: { 'Content-Type': 'application/json', ...NO_STORE_HEADERS },
     })
   }
 
@@ -30,11 +32,8 @@ export async function GET(req: NextRequest) {
 
   const newObj = { ...paramsObj, res }
 
-  // Create a new response with the search parameters as JSON
   return new NextResponse(JSON.stringify(paramsObj), {
-    status: 200, // OK status
-    headers: {
-      'Content-Type': 'application/json', // Indicate the content type
-    },
+    status: 200,
+    headers: { 'Content-Type': 'application/json', ...NO_STORE_HEADERS },
   })
 }
