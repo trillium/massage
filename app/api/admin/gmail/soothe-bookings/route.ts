@@ -1,10 +1,10 @@
 import { NextResponse } from 'next/server'
 import { searchSootheEmails } from '@/lib/gmail/searchSootheEmails'
-import { AdminAuthManager } from '@/lib/adminAuth'
+import { requireAdminWithFlag } from '@/lib/adminAuthBridge'
 
 export async function GET(request: Request) {
   try {
-    const auth = AdminAuthManager.requireAdmin(request)
+    const auth = await requireAdminWithFlag(request)
     if (auth instanceof NextResponse) return auth
     const { searchParams } = new URL(request.url)
     const maxResults = parseInt(searchParams.get('maxResults') || '50')

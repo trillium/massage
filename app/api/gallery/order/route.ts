@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { writeFile } from 'fs/promises'
 import { join } from 'path'
-import { AdminAuthManager } from '@/lib/adminAuth'
+import { requireAdminWithFlag } from '@/lib/adminAuthBridge'
 
 export async function POST(request: NextRequest) {
-  const auth = AdminAuthManager.requireAdmin(request)
+  const auth = await requireAdminWithFlag(request)
   if (auth instanceof NextResponse) return auth
 
   try {

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import getAccessToken from 'lib/availability/getAccessToken'
 import { GoogleCalendarV3Event } from 'lib/types'
-import { AdminAuthManager } from '@/lib/adminAuth'
+import { requireAdminWithFlag } from '@/lib/adminAuthBridge'
 
 const ALLOWED_UPDATE_FIELDS = new Set([
   'summary',
@@ -26,7 +26,7 @@ function pickAllowedFields(data: Record<string, unknown>): Record<string, unknow
 
 export async function PATCH(request: NextRequest) {
   try {
-    const auth = AdminAuthManager.requireAdmin(request)
+    const auth = await requireAdminWithFlag(request)
     if (auth instanceof NextResponse) return auth
     const body = await request.json()
     const { eventId, updateData } = body

@@ -2,10 +2,8 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { NextRequest, NextResponse } from 'next/server'
 import { POST } from '../route'
 
-vi.mock('@/lib/adminAuth', () => ({
-  AdminAuthManager: {
-    requireAdmin: vi.fn(),
-  },
+vi.mock('@/lib/adminAuthBridge', () => ({
+  requireAdminWithFlag: vi.fn(),
 }))
 
 vi.mock('@/lib/messaging/templates/events/createAdminAppointment', () => ({
@@ -36,7 +34,7 @@ vi.mock('@/lib/availability/createCalendarAppointment', () => ({
   default: vi.fn(),
 }))
 
-import { AdminAuthManager } from '@/lib/adminAuth'
+import { requireAdminWithFlag } from '@/lib/adminAuthBridge'
 import createCalendarAppointment from '@/lib/availability/createCalendarAppointment'
 
 const validSootheBody = {
@@ -87,7 +85,7 @@ const calendarEvent = {
 }
 
 beforeEach(() => {
-  vi.mocked(AdminAuthManager.requireAdmin).mockReturnValue({ email: 'admin@test.com' })
+  vi.mocked(requireAdminWithFlag).mockResolvedValue({ email: 'admin@test.com' })
   vi.mocked(createCalendarAppointment).mockResolvedValue({
     ok: true,
     json: async () => calendarEvent,
@@ -115,7 +113,7 @@ describe('/api/admin/create-appointment', () => {
   })
 
   it('returns 401 when not authorized', async () => {
-    vi.mocked(AdminAuthManager.requireAdmin).mockReturnValue(
+    vi.mocked(requireAdminWithFlag).mockResolvedValue(
       NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     )
 

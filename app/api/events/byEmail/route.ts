@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getEventsBySearchQuery } from '@/lib/availability/getEventsBySearchQuery'
-import { AdminAuthManager } from '@/lib/adminAuth'
+import { requireAdminWithFlag } from '@/lib/adminAuthBridge'
 
 export async function GET(request: NextRequest) {
-  const auth = AdminAuthManager.requireAdmin(request)
+  const auth = await requireAdminWithFlag(request)
   if (auth instanceof NextResponse) return auth
 
   try {

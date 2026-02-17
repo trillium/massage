@@ -2,17 +2,15 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { NextRequest } from 'next/server'
 import { PATCH, POST } from '../route'
 
-vi.mock('@/lib/adminAuth', () => ({
-  AdminAuthManager: {
-    requireAdmin: vi.fn(),
-  },
+vi.mock('@/lib/adminAuthBridge', () => ({
+  requireAdminWithFlag: vi.fn(),
 }))
 
 vi.mock('lib/availability/getAccessToken', () => ({
   default: vi.fn(() => 'mock-access-token'),
 }))
 
-import { AdminAuthManager } from '@/lib/adminAuth'
+import { requireAdminWithFlag } from '@/lib/adminAuthBridge'
 
 const validAdmin = { email: 'admin@test.com' }
 
@@ -30,7 +28,7 @@ function makeRequest(body: Record<string, unknown>) {
 
 beforeEach(() => {
   vi.clearAllMocks()
-  vi.mocked(AdminAuthManager.requireAdmin).mockReturnValue(validAdmin)
+  vi.mocked(requireAdminWithFlag).mockResolvedValue(validAdmin)
 })
 
 describe('/api/events/update', () => {
@@ -52,7 +50,7 @@ describe('/api/events/update', () => {
 
   it('returns 401 when not admin', async () => {
     const { NextResponse } = await import('next/server')
-    vi.mocked(AdminAuthManager.requireAdmin).mockReturnValue(
+    vi.mocked(requireAdminWithFlag).mockResolvedValue(
       NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     )
 

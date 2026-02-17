@@ -1,22 +1,21 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { NextRequest } from 'next/server'
 
-vi.mock('@/lib/adminAuth', () => ({
-  AdminAuthManager: {
-    requireAdmin: () => ({ email: 'admin@test.com' }),
-  },
+const mockWriteFile = vi.hoisted(() => vi.fn())
+
+vi.mock('@/lib/adminAuthBridge', () => ({
+  requireAdminWithFlag: vi.fn().mockResolvedValue({ email: 'admin@test.com' }),
 }))
-
-const mockWriteFile = vi.fn()
 
 vi.mock('fs/promises', () => ({
   writeFile: mockWriteFile,
   default: { writeFile: mockWriteFile },
 }))
 
-const { POST } = await import('../route')
+import { POST } from '../route'
 
 function makeRequest(body: Record<string, unknown>) {
-  return new Request('http://localhost/api/gallery/order', {
+  return new NextRequest('http://localhost/api/gallery/order', {
     method: 'POST',
     body: JSON.stringify(body),
     headers: { 'Content-Type': 'application/json' },

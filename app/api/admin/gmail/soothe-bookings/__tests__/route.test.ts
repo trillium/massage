@@ -1,17 +1,15 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { GET } from '../route'
 
-vi.mock('@/lib/adminAuth', () => ({
-  AdminAuthManager: {
-    requireAdmin: vi.fn(),
-  },
+vi.mock('@/lib/adminAuthBridge', () => ({
+  requireAdminWithFlag: vi.fn(),
 }))
 
 vi.mock('@/lib/gmail/searchSootheEmails', () => ({
   searchSootheEmails: vi.fn(),
 }))
 
-import { AdminAuthManager } from '@/lib/adminAuth'
+import { requireAdminWithFlag } from '@/lib/adminAuthBridge'
 import { searchSootheEmails } from '@/lib/gmail/searchSootheEmails'
 
 const validAdmin = { email: 'admin@test.com' }
@@ -24,7 +22,7 @@ function makeRequest(params: Record<string, string> = {}) {
 
 beforeEach(() => {
   vi.clearAllMocks()
-  vi.mocked(AdminAuthManager.requireAdmin).mockReturnValue(validAdmin)
+  vi.mocked(requireAdminWithFlag).mockResolvedValue(validAdmin)
 })
 
 describe('/api/admin/gmail/soothe-bookings', () => {
@@ -61,7 +59,7 @@ describe('/api/admin/gmail/soothe-bookings', () => {
 
   it('returns 401 when not admin', async () => {
     const { NextResponse } = await import('next/server')
-    vi.mocked(AdminAuthManager.requireAdmin).mockReturnValue(
+    vi.mocked(requireAdminWithFlag).mockResolvedValue(
       NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     )
 
