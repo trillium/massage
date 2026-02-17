@@ -62,7 +62,7 @@ export function createEventPageUrl(
   eventEndTime: string
 ): string {
   const token = createEventToken(eventId, email, eventEndTime)
-  return `${origin}/event/${eventId}?token=${token}`
+  return `${origin}/event/${encodeURIComponent(eventId)}?token=${encodeURIComponent(token)}`
 }
 
 function signPayload(data: string): string {
