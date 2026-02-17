@@ -9,7 +9,6 @@ import contactFormEmail from './messaging/email/admin/contactFormEmail'
 import contactFormConfirmation from './messaging/email/client/contactFormConfirmation'
 import { ContactPushover } from './messaging/push/admin/ContactPushover'
 import { pushoverSendMessage } from './messaging/push/admin/pushover'
-import { identifyAuthenticatedUser } from './posthog-utils'
 import { escapeHtml } from './messaging/escapeHtml'
 
 export type ContactRequestValidationResult =
@@ -43,8 +42,6 @@ export async function handleContactRequest({
   }
 
   const { data } = validationResult
-
-  identifyAuthenticatedUser(data.email, 'contact_form_submitted')
 
   const safeData = {
     subject: escapeHtml(data.subject),

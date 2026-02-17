@@ -18,7 +18,6 @@ import type updateCalendarEventFn from './availability/updateCalendarEvent'
 import eventSummary from './messaging/templates/events/eventSummary'
 import requestEventSummary from './messaging/templates/events/requestEventSummary'
 import requestEventDescription from './messaging/templates/events/requestEventDescription'
-import { identifyAuthenticatedUser } from './posthog-utils'
 import { flattenLocation } from './helpers/locationHelpers'
 import { escapeHtml } from './messaging/escapeHtml'
 
@@ -74,8 +73,6 @@ export async function handleAppointmentRequest({
     promo: data.promo ? escapeHtml(data.promo) : data.promo,
     timeZone: escapeHtml(data.timeZone),
   }
-
-  identifyAuthenticatedUser(data.email, 'booking_form_submitted')
 
   // Check if instantConfirm is true
   if (data.instantConfirm) {
