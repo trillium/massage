@@ -42,6 +42,7 @@ describe('/api/driveTime', () => {
       expect(res.status).toBe(200)
       expect(json.success).toBe(true)
       expect(typeof json.driveTimeMinutes).toBe('number')
+      expect(json.estimated).toBe(true)
       expect(json.eventLocation).toBe('123 Main St, LA')
       expect(json.userLocation).toBe('456 Oak Ave, LA')
       expect(fetchSingleEvent).toHaveBeenCalledWith(DEFAULT_EVENT_ID)
@@ -136,7 +137,7 @@ describe('/api/driveTime', () => {
       expect(global.fetch).toHaveBeenCalledWith(expect.stringContaining('distancematrix'))
     })
 
-    it('falls back to mock when Google Maps API fails', async () => {
+    it('returns 500 when Google Maps API fails', async () => {
       process.env.GOOGLE_MAPS_API_KEY = 'test-key'
       vi.mocked(fetchSingleEvent).mockResolvedValue({
         id: 'ev1',
@@ -148,9 +149,8 @@ describe('/api/driveTime', () => {
       const res = await POST(postRequest({ userLocation: '456 Oak Ave' }))
       const json = await res.json()
 
-      expect(res.status).toBe(200)
-      expect(json.success).toBe(true)
-      expect(typeof json.driveTimeMinutes).toBe('number')
+      expect(res.status).toBe(500)
+      expect(json.error).toBe('Failed to calculate drive time')
     })
 
     it('returns 500 on unexpected error', async () => {
