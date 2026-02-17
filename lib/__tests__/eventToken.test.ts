@@ -8,7 +8,7 @@ describe('Event Token System', () => {
   const eventId = 'cal-event-123'
   const email = 'client@example.com'
   const futureDate = new Date(Date.now() + 86400000).toISOString()
-  const pastDate = new Date(Date.now() - 86400000).toISOString()
+  const pastDate = new Date(Date.now() - 8 * 86400000).toISOString()
 
   describe('createEventToken', () => {
     it('returns a base64url string', () => {
@@ -28,7 +28,9 @@ describe('Event Token System', () => {
       if (result.valid) {
         expect(result.payload.eventId).toBe(eventId)
         expect(result.payload.email).toBe(email)
-        expect(result.payload.expiresAt).toBe(futureDate)
+        const expectedExpiry = new Date(futureDate)
+        expectedExpiry.setDate(expectedExpiry.getDate() + 7)
+        expect(result.payload.expiresAt).toBe(expectedExpiry.toISOString())
       }
     })
 

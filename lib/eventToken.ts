@@ -8,11 +8,16 @@ interface EventTokenPayload {
   expiresAt: string
 }
 
+const GRACE_PERIOD_DAYS = 7
+
 export function createEventToken(eventId: string, email: string, eventEndTime: string): string {
+  const expiry = new Date(eventEndTime)
+  expiry.setDate(expiry.getDate() + GRACE_PERIOD_DAYS)
+
   const payload: EventTokenPayload = {
     eventId,
     email,
-    expiresAt: eventEndTime,
+    expiresAt: expiry.toISOString(),
   }
   const data = JSON.stringify(payload)
   const signature = signPayload(data)
