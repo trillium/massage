@@ -101,7 +101,7 @@ export async function fetchContainerResult(
   }
 }
 
-export async function fetchFixedLocationResult(
+export async function fetchStandardAvailability(
   resolvedParams: SearchParamsType
 ): Promise<PageDataResult> {
   const regularData = await fetchData({ searchParams: resolvedParams })
@@ -113,17 +113,8 @@ export async function fetchFixedLocationResult(
   }
 }
 
-export async function fetchAreaWideResult(
-  resolvedParams: SearchParamsType
-): Promise<PageDataResult> {
-  const regularData = await fetchData({ searchParams: resolvedParams })
-  return {
-    start: regularData.start,
-    end: regularData.end,
-    busy: regularData.busy,
-    nextEventFound: false,
-  }
-}
+export const fetchFixedLocationResult = fetchStandardAvailability
+export const fetchAreaWideResult = fetchStandardAvailability
 
 export async function maybeCaptureTestData(
   result: FetchPageDataReturnType,
