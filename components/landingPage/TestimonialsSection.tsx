@@ -58,6 +58,14 @@ export default function TestimonialsSection({
           {text || 'What Clients Are Saying'}
         </h2>
         <TestimonialsCarousel reviews={reviews} />
+        <div className="mt-4 text-center">
+          <Link
+            href="/reviews"
+            className="text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 text-sm font-medium underline underline-offset-2"
+          >
+            Read all reviews
+          </Link>
+        </div>
       </div>
     </section>
   )
