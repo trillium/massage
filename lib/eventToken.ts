@@ -1,6 +1,6 @@
 import { createHmac, timingSafeEqual } from 'crypto'
 
-const SECRET_KEY = process.env.GOOGLE_OAUTH_SECRET!
+const EVENT_TOKEN_SECRET = process.env.GOOGLE_OAUTH_SECRET
 
 interface EventTokenPayload {
   eventId: string
@@ -66,8 +66,8 @@ export function createEventPageUrl(
 }
 
 function signPayload(data: string): string {
-  if (!SECRET_KEY) {
-    throw new Error('GOOGLE_OAUTH_SECRET environment variable is required')
+  if (!EVENT_TOKEN_SECRET) {
+    throw new Error('GOOGLE_OAUTH_SECRET environment variable is required for event tokens')
   }
-  return createHmac('sha256', SECRET_KEY).update(data).digest('hex')
+  return createHmac('sha256', EVENT_TOKEN_SECRET).update(data).digest('hex')
 }
