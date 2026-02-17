@@ -7,6 +7,7 @@ import {
   type EditableEventFields,
 } from '@/lib/helpers/parseEventDescription'
 import { isRequestEvent, getCleanSummary } from '@/lib/helpers/eventHelpers'
+import { escapeHtml } from '@/lib/messaging/escapeHtml'
 
 export const dynamic = 'force-dynamic'
 
@@ -45,26 +46,32 @@ export async function POST(
     return NextResponse.json({ error: 'Cannot edit a cancelled appointment' }, { status: 400 })
   }
 
+  const sanitized: Partial<EditableEventFields> = {}
+  if (fields.firstName !== undefined) sanitized.firstName = escapeHtml(fields.firstName)
+  if (fields.lastName !== undefined) sanitized.lastName = escapeHtml(fields.lastName)
+  if (fields.phone !== undefined) sanitized.phone = escapeHtml(fields.phone)
+  if (fields.location !== undefined) sanitized.location = escapeHtml(fields.location)
+
   const updateData: Record<string, unknown> = {}
 
   if (event.description) {
-    updateData.description = updateDescriptionFields(event.description, fields)
+    updateData.description = updateDescriptionFields(event.description, sanitized)
   }
 
-  if (fields.firstName !== undefined || fields.lastName !== undefined) {
+  if (sanitized.firstName !== undefined || sanitized.lastName !== undefined) {
     const cleanSummary = getCleanSummary(event)
     const match = cleanSummary.match(
       /^(\d+\s+minute\s+massage\s+with\s+).+(\s+-\s+TrilliumMassage)$/i
     )
     if (match) {
-      const newName = [fields.firstName, fields.lastName].filter(Boolean).join(' ')
+      const newName = [sanitized.firstName, sanitized.lastName].filter(Boolean).join(' ')
       const newSummary = `${match[1]}${newName}${match[2]}`
       updateData.summary = isRequestEvent(event) ? `REQUEST: ${newSummary}` : newSummary
     }
   }
 
-  if (fields.location !== undefined) {
-    updateData.location = fields.location
+  if (sanitized.location !== undefined) {
+    updateData.location = sanitized.location
   }
 
   try {
