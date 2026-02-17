@@ -8,7 +8,6 @@ export {
   selectBookingFormData as selectFormData,
   initialBookingFormData,
 } from './bookingFormSlice'
-export type { default } from './bookingFormSlice'
 
 export { initialReviewFormState, initialReviewSnippetProps } from './reviewFormSlice'
 
