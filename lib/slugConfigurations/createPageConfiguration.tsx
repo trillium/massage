@@ -67,6 +67,15 @@ export async function createPageConfiguration({
     }
   }
 
+  if (resolvedParams) {
+    if (typeof resolvedParams.firstName === 'string')
+      configuration.prefillFirstName = resolvedParams.firstName
+    if (typeof resolvedParams.lastName === 'string')
+      configuration.prefillLastName = resolvedParams.lastName
+    if (typeof resolvedParams.email === 'string') configuration.prefillEmail = resolvedParams.email
+    if (typeof resolvedParams.phone === 'string') configuration.prefillPhone = resolvedParams.phone
+  }
+
   // If configuration type is null, this is an invalid slug
   if (configuration?.type === null) {
     // exit the function without running any fetch queries

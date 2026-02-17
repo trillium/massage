@@ -123,7 +123,13 @@ export default async function EventPage({ params, searchParams }: EventPageProps
   const endString = endTime ? formatLocalTime(endTime, { timeZoneName: 'shortGeneric' }) : null
 
   const bookingSlug = extractBookingSlug(event)
-  const bookingUrl = createBookingUrl(bookingSlug, event.location)
+  const editableFields = event.description ? parseEditableFields(event.description) : null
+  const bookingUrl = createBookingUrl(bookingSlug, event.location, {
+    firstName: editableFields?.firstName,
+    lastName: editableFields?.lastName,
+    email: result.payload.email,
+    phone: editableFields?.phone,
+  })
 
   return (
     <SectionContainer>
@@ -170,9 +176,12 @@ export default async function EventPage({ params, searchParams }: EventPageProps
                 eventId={event_id}
                 token={token}
                 initialValues={
-                  event.description
-                    ? parseEditableFields(event.description)
-                    : { firstName: '', lastName: '', phone: '', location: event.location || '' }
+                  editableFields || {
+                    firstName: '',
+                    lastName: '',
+                    phone: '',
+                    location: event.location || '',
+                  }
                 }
               />
             </div>

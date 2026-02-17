@@ -30,10 +30,10 @@ export function useBookingInitialValues({
   price,
 }: UseBookingInitialValuesParams): BookingFormValues {
   return {
-    firstName: formData.firstName || '',
-    lastName: formData.lastName || '',
-    phone: formData.phone || '',
-    email: formData.email || '',
+    firstName: formData.firstName || config.prefillFirstName || '',
+    lastName: formData.lastName || config.prefillLastName || '',
+    phone: formData.phone || config.prefillPhone || '',
+    email: formData.email || config.prefillEmail || '',
     location: (() => {
       const locationSources = [eventContainers?.location, config?.location, formData?.location]
 
