@@ -1,7 +1,7 @@
 'use client'
 
 import * as React from 'react'
-import clsx from 'clsx'
+import { twMerge } from 'tailwind-merge'
 
 interface CachedTileMapProps {
   longitude: number
@@ -92,7 +92,7 @@ export default function CachedTileMap({
   return (
     <div
       style={style}
-      className={clsx(
+      className={twMerge(
         'relative overflow-hidden rounded-lg border-2 border-gray-300 bg-transparent dark:border-gray-500',
         className
       )}

@@ -1,7 +1,6 @@
-import Image from '@/components/Image'
+import CachedTileMap from '@/components/CachedTileMap'
 import clsx from 'clsx'
 
-const mapData = '/static/images/service-area.jpg'
 const serviceAreaBlurb =
   'Trillium is based out of Westchester, but happy to travel to the LA area in general. Very close locations include Playa Vista, Mar Vista, Santa Monica, Venice, El Segundo, Torrance, and Culver City.'
 const title = "What's the service area for mobile massage therapy?"
@@ -9,7 +8,7 @@ const title = "What's the service area for mobile massage therapy?"
 export function ServiceAreaSection() {
   return (
     <section className="container flex w-full flex-col items-center gap-8">
-      <ServiceArea title={title} img={mapData} text={serviceAreaBlurb} imageLeft />
+      <ServiceArea title={title} text={serviceAreaBlurb} imageLeft />
     </section>
   )
 }
@@ -17,12 +16,11 @@ export function ServiceAreaSection() {
 type ServiceAreaProps = {
   title: string
   text: string
-  img: string
   imageLeft?: boolean
   imageRight?: boolean
 }
 
-function ServiceArea({ text, img, imageLeft, imageRight }: ServiceAreaProps) {
+function ServiceArea({ text, imageLeft, imageRight }: ServiceAreaProps) {
   let left = true
   if (imageLeft !== undefined) left = true
   if (imageRight !== undefined) left = false
@@ -35,18 +33,20 @@ function ServiceArea({ text, img, imageLeft, imageRight }: ServiceAreaProps) {
 
       <div
         className={clsx(
-          'relative col-span-2 row-span-3 flex min-h-96 w-full items-center justify-center overflow-hidden rounded-md object-cover sm:col-span-1',
+          'border-primary-500 relative col-span-2 row-span-3 flex min-h-96 w-full items-center justify-center overflow-hidden rounded-md border-2 sm:col-span-1',
           {
             'order-last sm:order-none': left,
             'order-last sm:order-first': !left,
           }
         )}
       >
-        <Image
-          src={img}
-          alt="Image of Trillium"
-          fill
-          className="border-primary-500 absolute rounded-md border-2 object-cover object-[50%_40%]"
+        <CachedTileMap
+          latitude={33.99}
+          longitude={-118.4}
+          zoom={10}
+          className="absolute inset-0 border-0"
+          style={{ width: '100%', height: '100%' }}
+          showMarker={false}
         />
       </div>
 

@@ -1,4 +1,4 @@
-import Image from 'next/image'
+import CachedTileMap from '@/components/CachedTileMap'
 import ContactForm from '@/components/ContactForm'
 import { FaMapMarkerAlt, FaPhoneAlt } from 'react-icons/fa'
 import { createContactUrl } from '@/lib/helpers'
@@ -18,15 +18,14 @@ export default function ContactSection() {
               <h2 className="text-center text-3xl font-bold md:text-4xl dark:text-white">
                 Trillium Massage
               </h2>
-              <div className="border-primary-500 flex w-full items-center justify-center rounded border-2 bg-gray-200 text-center text-gray-500">
-                <Image
-                  src="/static/images/service-area.jpg"
-                  alt="Los Angeles map"
-                  width={600}
-                  height={400}
-                  className="rounded object-cover"
-                />
-              </div>
+              <CachedTileMap
+                latitude={33.99}
+                longitude={-118.4}
+                zoom={10}
+                className="border-primary-500"
+                style={{ width: '100%', height: '400px' }}
+                showMarker={false}
+              />
               <div>
                 <div className="flex items-center gap-4">
                   <FaMapMarkerAlt className="text-primary-600 dark:text-primary-400 h-6 w-6" />
