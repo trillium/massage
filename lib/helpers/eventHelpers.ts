@@ -1,6 +1,8 @@
 import { GoogleCalendarV3Event } from '@/lib/types'
 
-const REQUEST_PREFIX = 'REQUEST: '
+export const REQUEST_PREFIX = 'REQUEST: '
+export const SUMMARY_SUFFIX = ' - TrilliumMassage'
+const SUMMARY_PATTERN = /^(\d+\s+minute\s+massage\s+with\s+).+$/i
 
 export const isRequestEvent = (event: GoogleCalendarV3Event): boolean =>
   event.summary?.startsWith(REQUEST_PREFIX) ?? false
@@ -10,6 +12,15 @@ export const getCleanSummary = (event: GoogleCalendarV3Event): string => {
     return event.summary.slice(REQUEST_PREFIX.length)
   }
   return event.summary || 'Untitled Event'
+}
+
+export function rebuildSummary(cleanSummary: string, newName: string): string | null {
+  const withoutSuffix = cleanSummary.endsWith(SUMMARY_SUFFIX)
+    ? cleanSummary.slice(0, -SUMMARY_SUFFIX.length)
+    : cleanSummary
+  const match = withoutSuffix.match(SUMMARY_PATTERN)
+  if (!match) return null
+  return `${match[1]}${newName}${SUMMARY_SUFFIX}`
 }
 
 export const extractApprovalUrls = (

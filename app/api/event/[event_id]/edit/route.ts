@@ -6,7 +6,12 @@ import {
   updateDescriptionFields,
   type EditableEventFields,
 } from '@/lib/helpers/parseEventDescription'
-import { isRequestEvent, getCleanSummary } from '@/lib/helpers/eventHelpers'
+import {
+  isRequestEvent,
+  getCleanSummary,
+  rebuildSummary,
+  REQUEST_PREFIX,
+} from '@/lib/helpers/eventHelpers'
 import { escapeHtml } from '@/lib/messaging/escapeHtml'
 
 export const dynamic = 'force-dynamic'
@@ -59,14 +64,10 @@ export async function POST(
   }
 
   if (sanitized.firstName !== undefined || sanitized.lastName !== undefined) {
-    const cleanSummary = getCleanSummary(event)
-    const match = cleanSummary.match(
-      /^(\d+\s+minute\s+massage\s+with\s+).+(\s+-\s+TrilliumMassage)$/i
-    )
-    if (match) {
-      const newName = [sanitized.firstName, sanitized.lastName].filter(Boolean).join(' ')
-      const newSummary = `${match[1]}${newName}${match[2]}`
-      updateData.summary = isRequestEvent(event) ? `REQUEST: ${newSummary}` : newSummary
+    const newName = [sanitized.firstName, sanitized.lastName].filter(Boolean).join(' ')
+    const rebuilt = rebuildSummary(getCleanSummary(event), newName)
+    if (rebuilt) {
+      updateData.summary = isRequestEvent(event) ? `${REQUEST_PREFIX}${rebuilt}` : rebuilt
     }
   }
 
