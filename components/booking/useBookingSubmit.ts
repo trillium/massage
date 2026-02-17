@@ -80,7 +80,9 @@ export function useBookingSubmit({ additionalData, endPoint, onSubmit }: UseBook
 
           if (json.success && response.ok) {
             dispatch(setModal({ status: 'closed' }))
-            if (json.instantConfirm) {
+            if (json.eventPageUrl) {
+              router.push(json.eventPageUrl)
+            } else if (json.instantConfirm) {
               router.push('/instantConfirm')
             } else {
               router.push('/confirmation')

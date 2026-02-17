@@ -20,6 +20,7 @@ import requestEventSummary from './messaging/templates/events/requestEventSummar
 import requestEventDescription from './messaging/templates/events/requestEventDescription'
 import { flattenLocation } from './helpers/locationHelpers'
 import { escapeHtml } from './messaging/escapeHtml'
+import { createEventPageUrl } from './eventToken'
 
 export type AppointmentRequestValidationResult =
   | { success: true; data: z.output<typeof AppointmentRequestSchema> }
@@ -74,6 +75,8 @@ export async function handleAppointmentRequest({
     timeZone: escapeHtml(data.timeZone),
   }
 
+  const origin = headers.get('origin') ?? '?'
+
   // Check if instantConfirm is true
   if (data.instantConfirm) {
     const start = new Date(data.start)
@@ -125,12 +128,14 @@ export async function handleAppointmentRequest({
       body: confirmationEmail.body,
     })
 
-    return NextResponse.json({ success: true, instantConfirm: true }, { status: 200 })
+    const calendarData = await calendarResponse.json()
+    const eventPageUrl = createEventPageUrl(origin, calendarData.id, data.email, data.end)
+
+    return NextResponse.json({ success: true, instantConfirm: true, eventPageUrl }, { status: 200 })
   }
 
   const start = new Date(data.start)
   const end = new Date(data.end)
-  const origin = headers.get('origin') ?? '?'
   const clientName = `${data.firstName} ${data.lastName}`
 
   // Phase 1: Create REQUEST calendar event with placeholder description
@@ -240,5 +245,6 @@ export async function handleAppointmentRequest({
     )
   }
 
-  return NextResponse.json({ success: true }, { status: 200 })
+  const eventPageUrl = createEventPageUrl(origin, calendarEventId, data.email, data.end)
+  return NextResponse.json({ success: true, eventPageUrl }, { status: 200 })
 }
