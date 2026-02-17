@@ -7,6 +7,9 @@ import {
 } from '@/lib/types'
 import { addMinutes, isBefore, isAfter, parseISO } from 'date-fns'
 
+export const SEARCH_WINDOW_MINUTES = 24 * 60
+export const CACHE_VALIDITY_MINUTES = 5
+
 export function hasConflict(
   slotStart: Date,
   slotEnd: Date,
@@ -76,7 +79,7 @@ export function createMultiDurationAvailabilityObject<T extends AvailabilityCach
       return availableDurations.sort((a, b) => a - b)
     },
     isCacheValid: () => {
-      const fiveMinutesAgo = addMinutes(new Date(), -5)
+      const fiveMinutesAgo = addMinutes(new Date(), -CACHE_VALIDITY_MINUTES)
       return isAfter(cache.cachedAt, fiveMinutesAgo)
     },
   }

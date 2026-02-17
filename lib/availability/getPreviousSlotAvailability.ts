@@ -12,6 +12,7 @@ import { addMinutes, subMinutes, isBefore, isAfter, parseISO } from 'date-fns'
 import { fetchAllCalendarEvents } from '@/lib/fetch/fetchContainersByQuery'
 import {
   hasConflict,
+  SEARCH_WINDOW_MINUTES,
   convertToTimeListFormat as sharedConvertToTimeListFormat,
   createMultiDurationAvailabilityObject,
 } from './availabilityHelpers'
@@ -57,9 +58,7 @@ export async function getPreviousSlotAvailability(
   const minSearchTime = subMinutes(eventStartTime, maxMinutesBefore)
   const defaultLocation = createDefaultLocation()
 
-  // Fetch all existing events to check for conflicts
-  // Search backwards from event start time
-  const searchStartTime = subMinutes(eventStartTime, 24 * 60) // 24 hours before event start
+  const searchStartTime = subMinutes(eventStartTime, SEARCH_WINDOW_MINUTES)
   const allEventsData = await fetchAllCalendarEvents({
     searchParams: {
       startDate: searchStartTime.toISOString(),
@@ -136,9 +135,7 @@ export async function createMultiDurationAvailability(
   const minSearchTime = subMinutes(eventStartTime, maxMinutesBefore)
   const defaultLocation = createDefaultLocation()
 
-  // Fetch all existing events once
-  // Search backwards from event start time, limited to 24 hours for performance
-  const searchStartTime = subMinutes(eventStartTime, 24 * 60)
+  const searchStartTime = subMinutes(eventStartTime, SEARCH_WINDOW_MINUTES)
   const allEventsData = await fetchAllCalendarEvents({
     searchParams: {
       startDate: searchStartTime.toISOString(),

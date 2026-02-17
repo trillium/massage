@@ -36,6 +36,7 @@ vi.mock('@/lib/geocode', () => ({
 
 vi.mock('config', () => ({
   ALLOWED_DURATIONS: [60, 90, 120],
+  LEAD_TIME: 180,
 }))
 
 const mockEvent: Partial<GoogleCalendarV3Event> = {

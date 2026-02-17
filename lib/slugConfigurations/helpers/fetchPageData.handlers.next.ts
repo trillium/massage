@@ -6,7 +6,7 @@ import {
 import { fetchData } from '@/lib/fetch/fetchData'
 import { createMultiDurationAvailability } from '@/lib/availability/getNextSlotAvailability'
 import { geocodeLocation } from '@/lib/geocode'
-import { ALLOWED_DURATIONS } from 'config'
+import { ALLOWED_DURATIONS, LEAD_TIME } from 'config'
 import { FetchPageDataReturnType } from './fetchPageData.types'
 
 type PageDataResult = Omit<FetchPageDataReturnType, 'debugInfo'>
@@ -26,8 +26,9 @@ export async function fetchNextWithEventResult(
     multiDurationSlots[duration] = multiDurationAvailability.getTimeListFormatForDuration(duration)
   }
 
+  const SEARCH_BUFFER_MS = 30 * 60 * 1000
   const eventEndTime = event.end?.dateTime ? new Date(event.end.dateTime) : new Date()
-  const searchEndTime = new Date(eventEndTime.getTime() + 30 * 60 * 1000)
+  const searchEndTime = new Date(eventEndTime.getTime() + SEARCH_BUFFER_MS)
   const startDateString = eventEndTime.toISOString().split('T')[0]
   const endDateString = searchEndTime.toISOString().split('T')[0]
 
@@ -75,14 +76,14 @@ export async function fetchNextNoEventFallback(
 
   const generalData = await fetchData({ searchParams: twoDaySearchParams })
 
-  const leadTimeMinutes = 3 * 60
-  const earliestBookingTime = new Date(now.getTime() + leadTimeMinutes * 60 * 1000)
+  const END_OF_BUSINESS_HOUR = 23
+  const MINIMUM_VIABLE_MS = 60 * 60 * 1000
+  const earliestBookingTime = new Date(now.getTime() + LEAD_TIME * 60 * 1000)
   const endOfBusinessToday = new Date(today)
-  endOfBusinessToday.setHours(23, 0, 0, 0)
-  const minimumViableTime = 60 * 60 * 1000
+  endOfBusinessToday.setHours(END_OF_BUSINESS_HOUR, 0, 0, 0)
 
   let targetDateString: string
-  if (earliestBookingTime.getTime() + minimumViableTime <= endOfBusinessToday.getTime()) {
+  if (earliestBookingTime.getTime() + MINIMUM_VIABLE_MS <= endOfBusinessToday.getTime()) {
     targetDateString = today.toISOString().split('T')[0]
   } else {
     targetDateString = tomorrow.toISOString().split('T')[0]

@@ -13,6 +13,7 @@ import { fetchAllCalendarEvents } from '@/lib/fetch/fetchContainersByQuery'
 import { stringToLocationObject } from '@/lib/slugConfigurations/helpers/parseLocationFromSlug'
 import {
   hasConflict,
+  SEARCH_WINDOW_MINUTES,
   convertToTimeListFormat as sharedConvertToTimeListFormat,
   createMultiDurationAvailabilityObject,
 } from './availabilityHelpers'
@@ -62,9 +63,7 @@ export async function getNextSlotAvailability(
   const maxSearchTime = addMinutes(eventEndTime, maxMinutesAhead)
   const eventLocation = parseEventLocation(currentEvent.location)
 
-  // Fetch all existing events to check for conflicts
-  // Limit to 24 hours from event end time for performance optimization
-  const searchEndTime = addMinutes(eventEndTime, 24 * 60) // 24 hours from event end
+  const searchEndTime = addMinutes(eventEndTime, SEARCH_WINDOW_MINUTES)
   const allEventsData = await fetchAllCalendarEvents({
     searchParams: {
       startDate: eventEndTime.toISOString(),
@@ -138,12 +137,7 @@ export async function createMultiDurationAvailability(
   const maxSearchTime = addMinutes(eventEndTime, maxMinutesAhead)
   const eventLocation = parseEventLocation(currentEvent.location)
 
-  // Fetch all existing events once
-  /**
-   * Limit this call to 24 hours in the future from the current event end time
-   * This optimization reduces API payload size and improves performance
-   */
-  const searchEndTime = addMinutes(eventEndTime, 24 * 60) // 24 hours from event end
+  const searchEndTime = addMinutes(eventEndTime, SEARCH_WINDOW_MINUTES)
   const allEventsData = await fetchAllCalendarEvents({
     searchParams: {
       startDate: eventEndTime.toISOString(),

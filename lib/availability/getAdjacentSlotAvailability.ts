@@ -2,7 +2,7 @@ import { LocationObject } from '@/lib/types'
 import { addMinutes, subMinutes, isBefore, isAfter, parseISO } from 'date-fns'
 import { fetchAllCalendarEvents } from '@/lib/fetch/fetchContainersByQuery'
 import { stringToLocationObject } from '@/lib/slugConfigurations/helpers/parseLocationFromSlug'
-import { hasConflict } from './availabilityHelpers'
+import { hasConflict, SEARCH_WINDOW_MINUTES } from './availabilityHelpers'
 import type {
   AdjacentSlotOptions,
   MultiDurationAdjacentOptions,
@@ -45,8 +45,8 @@ export async function getAdjacentSlotAvailability(
   const beforeSlotEndTime = subMinutes(eventStartTime, adjacencyBuffer)
   const afterSlotStartTime = addMinutes(eventEndTime, adjacencyBuffer)
 
-  const searchStartTime = subMinutes(eventStartTime, 24 * 60)
-  const searchEndTime = addMinutes(eventEndTime, 24 * 60)
+  const searchStartTime = subMinutes(eventStartTime, SEARCH_WINDOW_MINUTES)
+  const searchEndTime = addMinutes(eventEndTime, SEARCH_WINDOW_MINUTES)
 
   const allEventsData = await fetchAllCalendarEvents({
     searchParams: {
@@ -82,7 +82,7 @@ export async function getAdjacentSlotAvailability(
   }
 
   let afterSlotTime = new Date(afterSlotStartTime)
-  const maxAfterTime = addMinutes(afterSlotStartTime, 24 * 60)
+  const maxAfterTime = addMinutes(afterSlotStartTime, SEARCH_WINDOW_MINUTES)
   while (isBefore(afterSlotTime, maxAfterTime)) {
     const slotEnd = addMinutes(afterSlotTime, appointmentDuration)
 
@@ -124,8 +124,8 @@ export async function createMultiDurationAvailability(
   const eventEndTime = parseISO(currentEvent.end.dateTime)
   const eventLocation = parseEventLocation(currentEvent.location)
 
-  const searchStartTime = subMinutes(eventStartTime, 24 * 60)
-  const searchEndTime = addMinutes(eventEndTime, 24 * 60)
+  const searchStartTime = subMinutes(eventStartTime, SEARCH_WINDOW_MINUTES)
+  const searchEndTime = addMinutes(eventEndTime, SEARCH_WINDOW_MINUTES)
 
   const allEventsData = await fetchAllCalendarEvents({
     searchParams: {
@@ -223,7 +223,7 @@ function calculateSlotsForDuration(cache: AvailabilityCache, duration: number): 
   }
 
   let afterSlotTime = new Date(afterSlotStartTime)
-  const maxAfterTime = addMinutes(afterSlotStartTime, 24 * 60)
+  const maxAfterTime = addMinutes(afterSlotStartTime, SEARCH_WINDOW_MINUTES)
   while (isBefore(afterSlotTime, maxAfterTime)) {
     const slotEnd = addMinutes(afterSlotTime, duration)
 
