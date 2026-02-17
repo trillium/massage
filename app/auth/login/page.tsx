@@ -14,14 +14,20 @@
 import { LoginForm } from '@/components/auth/supabase/LoginForm'
 import Link from 'next/link'
 import { Suspense } from 'react'
+import { isFeatureEnabled } from '@/lib/posthog-server'
+import { getUser } from '@/lib/supabase/server'
 
-function LoginContent({
+async function LoginContent({
   searchParams,
 }: {
   searchParams: { error?: string; error_description?: string }
 }) {
   const error = searchParams.error
   const errorDescription = searchParams.error_description
+
+  const user = await getUser()
+  const distinctId = user?.email || 'anonymous'
+  const useSupabaseAuth = await isFeatureEnabled('use-supabase-admin-auth', distinctId)
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4 dark:bg-gray-900">
@@ -51,6 +57,14 @@ function LoginContent({
           )}
 
           <LoginForm />
+
+          {useSupabaseAuth && (
+            <div className="mt-4 rounded-md border border-green-200 bg-green-50 p-2 text-center dark:border-green-900 dark:bg-green-950">
+              <span className="text-xs text-green-700 dark:text-green-300">
+                Supabase auth active
+              </span>
+            </div>
+          )}
         </div>
 
         <p className="mt-6 text-center text-sm text-gray-600 dark:text-gray-400">
