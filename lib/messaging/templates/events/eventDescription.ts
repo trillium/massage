@@ -17,7 +17,8 @@ function eventDescription({
   promo,
   source,
   slugConfiguration,
-}: Partial<AppointmentProps>) {
+  origin,
+}: Partial<AppointmentProps> & { origin?: string }) {
   let output = 'Thanks for booking!'
   output += '\n\n'
   output += `<b>Name</b>: ${firstName} ${lastName}\n`
@@ -71,7 +72,7 @@ function eventDescription({
     }
   }
 
-  const host = process.env.NEXT_PUBLIC_SITE_URL || 'https://trilliummassage.la'
+  const host = origin || process.env.NEXT_PUBLIC_SITE_URL || 'https://trilliummassage.la'
   output += `<b>My Events</b>: <a href="${host}/my_events">View My Events</a>\n`
 
   output += '\n\n'

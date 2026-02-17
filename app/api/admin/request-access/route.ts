@@ -7,6 +7,7 @@ import { AdminAuthManager } from '@/lib/adminAuth'
 import { AdminAccessRequestSchema } from '@/lib/schema'
 import AdminAccessEmail from '@/lib/messaging/email/admin/AdminAccessEmail'
 import { escapeHtml } from '@/lib/messaging/escapeHtml'
+import { getOriginFromHeaders } from '@/lib/helpers/getOriginFromHeaders'
 
 // Rate limiting
 const rateLimitLRU = new LRUCache({
@@ -62,7 +63,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     }
 
     // Generate secure admin link
-    const baseUrl = headers.get('origin') || process.env.NEXTAUTH_URL || 'http://localhost:3000'
+    const baseUrl = getOriginFromHeaders(headers)
     const adminLink = AdminAuthManager.generateAdminLink(email, baseUrl)
 
     // Create email content using template

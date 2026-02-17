@@ -15,6 +15,7 @@ import siteMetadata from '@/data/siteMetadata'
 import { intervalToHumanString } from 'lib/intervalToHumanString'
 import { flattenLocation } from 'lib/helpers/locationHelpers'
 import { escapeHtml } from 'lib/messaging/escapeHtml'
+import { getOriginFromHeaders } from 'lib/helpers/getOriginFromHeaders'
 
 // Define the rate limiter
 const rateLimitLRU = new LRUCache({
@@ -56,7 +57,8 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
   const start = new Date(data.start)
   const end = new Date(data.end)
 
-  const approveUrl = `${headers.get('origin') ?? '?'}/api/onsite/confirm/?data=${encodeURIComponent(
+  const origin = getOriginFromHeaders(headers)
+  const approveUrl = `${origin}/api/onsite/confirm/?data=${encodeURIComponent(
     JSON.stringify(data)
   )}&key=${getHash(JSON.stringify(data))}`
 

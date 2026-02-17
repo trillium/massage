@@ -21,6 +21,7 @@ import requestEventDescription from './messaging/templates/events/requestEventDe
 import { flattenLocation } from './helpers/locationHelpers'
 import { escapeHtml } from './messaging/escapeHtml'
 import { createEventPageUrl } from './eventToken'
+import { getOriginFromHeaders } from './helpers/getOriginFromHeaders'
 
 export type AppointmentRequestValidationResult =
   | { success: true; data: z.output<typeof AppointmentRequestSchema> }
@@ -75,11 +76,7 @@ export async function handleAppointmentRequest({
     timeZone: escapeHtml(data.timeZone),
   }
 
-  const origin =
-    headers.get('origin') ||
-    (headers.get('host') ? `https://${headers.get('host')}` : null) ||
-    process.env.NEXT_PUBLIC_SITE_URL ||
-    'https://trilliummassage.la'
+  const origin = getOriginFromHeaders(headers)
 
   // Check if instantConfirm is true
   if (data.instantConfirm) {
