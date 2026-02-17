@@ -3,7 +3,6 @@ import review_data from '@/data/ratings'
 import clsx from 'clsx'
 import type { ReviewType, RatingType } from '@/lib/types'
 import { getNumberOfReviews } from './getNumberOfReviews'
-import { getNumberOfReviewsSorted } from './getNumberOfReviewsSorted'
 import TestimonialsSection from '../landingPage/TestimonialsSection'
 
 const sorted_reviews = (review_data as ReviewType[]).sort((a: ReviewType, b: ReviewType) =>
@@ -28,7 +27,7 @@ type RatingCount = {
 
 const numberOfReviews = getNumberOfReviews(sorted_reviews)
 
-const numberOfReviewsSorted = getNumberOfReviewsSorted(sliced_sorted)
+const numberOfReviewsSorted = getNumberOfReviews(sliced_sorted)
 
 const reviews: { [key: number]: number } = numberOfReviews
 
