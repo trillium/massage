@@ -81,20 +81,26 @@ export async function GET(req: NextRequest) {
       )
     : undefined
 
-  // Create the confirmed appointment
   const response = await createOnsiteAppointment({
     ...validObject,
     location: locationObject,
-    pricing: transformedPricing, // Ensure pricing matches the expected type
+    pricing: transformedPricing,
     requestId: hash,
     summary: onsiteEventSummary(validObject) || 'Error in createEventSummary()',
   })
+
+  if (!response.ok) {
+    return NextResponse.json(
+      { error: 'Failed to create calendar appointment' },
+      { status: 502, headers: NO_STORE_HEADERS }
+    )
+  }
 
   const details = await response.json()
 
   const htmlLink = details.htmlLink
   const regex = /eid=([^&]+)/
-  const match = htmlLink.match(regex)
+  const match = htmlLink?.match(regex)
 
   // If we have a link to the event, take us there.
   if (match && match[1]) {
@@ -133,7 +139,7 @@ export async function GET(req: NextRequest) {
     // Generate admin authentication parameters for seamless admin identification
     const adminEmail = siteMetadata.email
     const adminLink = AdminAuthManager.generateAdminLink(adminEmail)
-    const url = new URL(adminLink)
+    const url = new URL(adminLink, req.url)
     const adminToken = url.searchParams.get('token')
 
     return NextResponse.redirect(

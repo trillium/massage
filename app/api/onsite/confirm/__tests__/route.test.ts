@@ -58,6 +58,7 @@ function confirmUrl(data: Record<string, unknown>, key: string) {
 
 function mockCalendarResponse(eid: string, attendees: Record<string, string>[] = []) {
   vi.mocked(createOnsiteAppointment).mockResolvedValue({
+    ok: true,
     json: async () => ({
       htmlLink: `https://calendar.google.com/calendar/event?eid=${eid}`,
       attendees,
@@ -164,8 +165,23 @@ describe('/api/onsite/confirm', () => {
     expect(res.status).toBe(400)
   })
 
+  it('returns 502 when calendar API fails', async () => {
+    vi.mocked(createOnsiteAppointment).mockResolvedValue({
+      ok: false,
+      status: 500,
+      json: async () => ({ error: 'Internal Server Error' }),
+    } as Response)
+
+    const res = await GET(confirmUrl(validOnsiteData, 'valid-hash'))
+    const json = await res.json()
+
+    expect(res.status).toBe(502)
+    expect(json.error).toContain('Failed to create calendar appointment')
+  })
+
   it('returns 500 when htmlLink has no eid match', async () => {
     vi.mocked(createOnsiteAppointment).mockResolvedValue({
+      ok: true,
       json: async () => ({
         htmlLink: 'https://calendar.google.com/calendar/event?id=nope',
         attendees: [],
