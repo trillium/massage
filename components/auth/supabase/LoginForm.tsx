@@ -9,7 +9,8 @@ interface LoginFormProps {
   onError?: (error: Error) => void
 }
 
-export function LoginForm({ redirectTo, onSuccess, onError }: LoginFormProps) {
+export function LoginForm({ redirectTo: rawRedirectTo, onSuccess, onError }: LoginFormProps) {
+  const redirectTo = rawRedirectTo?.startsWith('/') ? rawRedirectTo : undefined
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [showEmail, setShowEmail] = useState(false)
