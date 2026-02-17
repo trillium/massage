@@ -2,7 +2,8 @@ import { useDispatch, useSelector, useStore } from 'react-redux'
 import type { RootState, AppDispatch, AppStore } from '@/redux/store'
 import { selectAvailability } from '@/redux/slices/availabilitySlice'
 import { selectModal } from '@/redux/slices/modalSlice'
-import { selectFormData } from '@/redux/slices/formSlice'
+import { selectBookingFormData } from '@/redux/slices/bookingFormSlice'
+import { selectReviewFormData } from '@/redux/slices/reviewFormSlice'
 import { selectEventContainers } from '@/redux/slices/eventContainersSlice'
 import { selectConfig } from '@/redux/slices/configSlice'
 
@@ -19,7 +20,10 @@ export const useReduxModal = () => {
   return useAppSelector(selectModal)
 }
 export const useReduxFormData = () => {
-  return useAppSelector(selectFormData)
+  return useAppSelector(selectBookingFormData)
+}
+export const useReduxReviewFormData = () => {
+  return useAppSelector(selectReviewFormData)
 }
 export const useReduxEventContainers = () => {
   return useAppSelector(selectEventContainers)

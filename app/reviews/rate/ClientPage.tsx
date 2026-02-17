@@ -1,7 +1,7 @@
 'use client'
-import { useAppDispatch, useReduxFormData } from '@/redux/hooks'
+import { useAppDispatch, useReduxReviewFormData } from '@/redux/hooks'
 import ReviewForm from 'components/ReviewForm'
-import { setForm } from '@/redux/slices/formSlice'
+import { setReviewForm } from '@/redux/slices/reviewFormSlice'
 import { useEffect } from 'react'
 
 type PageProps = {
@@ -16,17 +16,10 @@ type PageProps = {
 export default function ClientPage(props: PageProps) {
   const { date, error, start, end, firstName, lastName } = props
   const dispatch = useAppDispatch()
-  const formData = useReduxFormData()
-  const newFormData = {
-    ...formData,
-    firstName: firstName,
-    lastName: lastName,
-  }
 
   useEffect(() => {
-    dispatch(setForm(newFormData))
-    // eslint-disable-next-line
-  }, [])
+    dispatch(setReviewForm({ firstName, lastName }))
+  }, [dispatch, firstName, lastName])
 
   return (
     <div className="flex flex-col items-center">

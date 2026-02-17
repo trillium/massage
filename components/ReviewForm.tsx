@@ -4,12 +4,12 @@ import { useRouter } from 'next/navigation'
 import Spinner from '@/components/Spinner'
 import { formatLocalDate, formatLocalTime } from '@/lib/availability/helpers'
 
-import { setForm } from '@/redux/slices/formSlice'
+import { setReviewForm } from '@/redux/slices/reviewFormSlice'
 import { setModal } from '@/redux/slices/modalSlice'
 import {
   useAppDispatch,
   useReduxAvailability,
-  useReduxFormData,
+  useReduxReviewFormData,
   useReduxModal,
 } from '@/redux/hooks'
 import { ReviewSnippet } from './ReviewCard/ReviewSnippet'
@@ -26,8 +26,8 @@ export default function ReviewForm({
   end: string
 }) {
   const dispatch = useAppDispatch()
-  const formData = useReduxFormData()
-  const { firstName, lastName, rating, text } = formData
+  const reviewData = useReduxReviewFormData()
+  const { firstName, lastName, rating, text } = reviewData
   const { status: modal } = useReduxModal()
   const { timeZone } = useReduxAvailability()
 
@@ -37,7 +37,7 @@ export default function ReviewForm({
     event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>
   ) => {
     const target = event.target as HTMLInputElement
-    dispatch(setForm({ ...formData, [target.name]: target.value }))
+    dispatch(setReviewForm({ [target.name]: target.value }))
   }
 
   return (

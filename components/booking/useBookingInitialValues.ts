@@ -4,13 +4,13 @@ import { stringToLocationObject } from '@/lib/slugConfigurations/helpers/parseLo
 import { BookingFormValues } from '@/lib/bookingFormSchema'
 import { SlugConfigurationType } from 'lib/configTypes'
 import { EventContainerType } from '@/redux/slices/eventContainersSlice'
-import { FormStateType } from '@/redux/slices/formSlice'
+import type { BookingFormData } from '@/lib/types'
 import siteMetadata from 'data/siteMetadata'
 
 const { eventBaseString } = siteMetadata
 
 type UseBookingInitialValuesParams = {
-  formData: FormStateType
+  formData: BookingFormData
   eventContainers: EventContainerType
   config: SlugConfigurationType
   selectedTime: IntervalType | undefined
