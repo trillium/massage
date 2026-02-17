@@ -3,8 +3,13 @@ import { POST } from '../route'
 
 const mockRpc = vi.fn()
 
+vi.mock('next/headers', () => ({
+  headers: vi.fn(() => new Headers({ 'x-forwarded-for': '127.0.0.1' })),
+}))
+
 vi.mock('@/lib/supabase/server', () => ({
   isAdmin: vi.fn(),
+  getUser: vi.fn(() => ({ id: 'admin-1' })),
   getSupabaseAdminClient: vi.fn(() => ({
     rpc: mockRpc,
   })),
