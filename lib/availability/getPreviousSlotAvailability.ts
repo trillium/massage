@@ -30,11 +30,8 @@ export interface PreviousAvailabilityCache extends AvailabilityCacheBase {
   defaultLocation: LocationObject
 }
 
-/**
- * Creates a default location object (not inherited from event)
- */
 function createDefaultLocation(): LocationObject {
-  return { street: 'TBD', city: 'Los Angeles', zip: '90210' }
+  return { street: '', city: '', zip: '' }
 }
 
 /**

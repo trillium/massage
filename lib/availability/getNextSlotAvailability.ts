@@ -10,6 +10,7 @@ import {
 } from '@/lib/types'
 import { addMinutes, isBefore, isAfter, parseISO } from 'date-fns'
 import { fetchAllCalendarEvents } from '@/lib/fetch/fetchContainersByQuery'
+import { stringToLocationObject } from '@/lib/slugConfigurations/helpers/parseLocationFromSlug'
 import {
   hasConflict,
   convertToTimeListFormat as sharedConvertToTimeListFormat,
@@ -33,16 +34,9 @@ export interface AvailabilityCache extends AvailabilityCacheBase {
 /**
  * Creates a location object from a string
  */
-function createLocationObject(locationString?: string): LocationObject {
-  if (!locationString) {
-    return { street: 'TBD', city: 'Los Angeles', zip: '90210' }
-  }
-
-  return {
-    street: locationString.split(',')[0]?.trim() || locationString,
-    city: locationString.split(',')[1]?.trim() || 'Los Angeles',
-    zip: '90210', // Could be enhanced to parse from location string
-  }
+function parseEventLocation(locationString?: string): LocationObject {
+  if (!locationString) return { street: '', city: '', zip: '' }
+  return stringToLocationObject(locationString)
 }
 
 /**
@@ -66,7 +60,7 @@ export async function getNextSlotAvailability(
 
   const eventEndTime = parseISO(currentEvent.end.dateTime)
   const maxSearchTime = addMinutes(eventEndTime, maxMinutesAhead)
-  const eventLocation = createLocationObject(currentEvent.location)
+  const eventLocation = parseEventLocation(currentEvent.location)
 
   // Fetch all existing events to check for conflicts
   // Limit to 24 hours from event end time for performance optimization
@@ -142,7 +136,7 @@ export async function createMultiDurationAvailability(
 
   const eventEndTime = parseISO(currentEvent.end.dateTime)
   const maxSearchTime = addMinutes(eventEndTime, maxMinutesAhead)
-  const eventLocation = createLocationObject(currentEvent.location)
+  const eventLocation = parseEventLocation(currentEvent.location)
 
   // Fetch all existing events once
   /**
