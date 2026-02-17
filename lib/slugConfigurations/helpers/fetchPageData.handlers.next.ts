@@ -6,7 +6,9 @@ import {
 import { fetchData } from '@/lib/fetch/fetchData'
 import { createMultiDurationAvailability } from '@/lib/availability/getNextSlotAvailability'
 import { geocodeLocation } from '@/lib/geocode'
-import { ALLOWED_DURATIONS, LEAD_TIME } from 'config'
+import { ALLOWED_DURATIONS, LEAD_TIME, OWNER_TIMEZONE } from 'config'
+import { toZonedTime } from 'date-fns-tz'
+import { format } from 'date-fns'
 import { FetchPageDataReturnType } from './fetchPageData.types'
 
 type PageDataResult = Omit<FetchPageDataReturnType, 'debugInfo'>
@@ -62,31 +64,35 @@ export async function fetchNextNoEventFallback(
   resolvedParams: SearchParamsType
 ): Promise<PageDataResult> {
   const now = new Date()
-  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
-  const tomorrow = new Date(today)
-  tomorrow.setDate(tomorrow.getDate() + 1)
-  const dayAfterTomorrow = new Date(tomorrow)
-  dayAfterTomorrow.setDate(dayAfterTomorrow.getDate() + 1)
+  const zonedNow = toZonedTime(now, OWNER_TIMEZONE)
+
+  const todayStr = format(zonedNow, 'yyyy-MM-dd')
+  const tomorrowDate = new Date(zonedNow)
+  tomorrowDate.setDate(tomorrowDate.getDate() + 1)
+  const tomorrowStr = format(tomorrowDate, 'yyyy-MM-dd')
+  const dayAfterDate = new Date(tomorrowDate)
+  dayAfterDate.setDate(dayAfterDate.getDate() + 1)
+  const dayAfterStr = format(dayAfterDate, 'yyyy-MM-dd')
 
   const twoDaySearchParams = {
     ...resolvedParams,
-    start: today.toISOString().split('T')[0],
-    end: dayAfterTomorrow.toISOString().split('T')[0],
+    start: todayStr,
+    end: dayAfterStr,
   }
 
   const generalData = await fetchData({ searchParams: twoDaySearchParams })
 
   const END_OF_BUSINESS_HOUR = 23
-  const MINIMUM_VIABLE_MS = 60 * 60 * 1000
-  const earliestBookingTime = new Date(now.getTime() + LEAD_TIME * 60 * 1000)
-  const endOfBusinessToday = new Date(today)
-  endOfBusinessToday.setHours(END_OF_BUSINESS_HOUR, 0, 0, 0)
+  const MINIMUM_VIABLE_HOURS = 1
+  const leadTimeHours = LEAD_TIME / 60
+  const currentHour = zonedNow.getHours() + zonedNow.getMinutes() / 60
+  const earliestBookableHour = currentHour + leadTimeHours
 
   let targetDateString: string
-  if (earliestBookingTime.getTime() + MINIMUM_VIABLE_MS <= endOfBusinessToday.getTime()) {
-    targetDateString = today.toISOString().split('T')[0]
+  if (earliestBookableHour + MINIMUM_VIABLE_HOURS <= END_OF_BUSINESS_HOUR) {
+    targetDateString = todayStr
   } else {
-    targetDateString = tomorrow.toISOString().split('T')[0]
+    targetDateString = tomorrowStr
   }
 
   return {

@@ -246,8 +246,8 @@ describe('fetchPageData - type="next" availability constraints', () => {
     })
 
     it('should offer today availability when there is still time (before 8 PM)', async () => {
-      // Mock current time: 2 PM (14:00) - plenty of time left today
-      const mockNow = new Date('2025-09-06T14:00:00.000Z')
+      // Mock current time: 2 PM Pacific = 9 PM UTC (PDT is UTC-7)
+      const mockNow = new Date('2025-09-06T21:00:00.000Z')
       vi.setSystemTime(mockNow)
 
       mockGetNextUpcomingEvent.mockResolvedValue(null) // No event found
@@ -260,24 +260,23 @@ describe('fetchPageData - type="next" availability constraints', () => {
 
       const result = await fetchPageData(nextConfig, mockSearchParams)
 
-      // Should target today
+      // Should target today (2 PM + 3hr lead = 5 PM, 5 PM + 1hr = 6 PM < 11 PM)
       expect(result.targetDate).toBe('2025-09-06')
       expect(result.nextEventFound).toBe(false)
 
-      // Should call fetchData with 2-day range to check availability, then constrain result to today
       expect(mockFetchData).toHaveBeenCalledWith({
         searchParams: {
           ...mockSearchParams,
           start: '2025-09-06',
-          end: '2025-09-08', // Fetch 2 days to check availability
+          end: '2025-09-08',
         },
       })
     })
 
     it('should offer tomorrow availability when too late for today (after 8 PM)', async () => {
-      // Mock current time: 11:30 PM - definitely too late for today
-      // (current + 3hrs = 2:30 AM next day > 11 PM closing)
-      const mockNow = new Date('2025-09-06T23:30:00')
+      // Mock current time: 8:30 PM Pacific = 3:30 AM UTC next day (PDT is UTC-7)
+      // 8:30 PM + 3hr lead = 11:30 PM, 11:30 PM + 1hr = 12:30 AM > 11 PM → tomorrow
+      const mockNow = new Date('2025-09-07T03:30:00.000Z')
       vi.setSystemTime(mockNow)
 
       mockGetNextUpcomingEvent.mockResolvedValue(null) // No event found
@@ -294,43 +293,6 @@ describe('fetchPageData - type="next" availability constraints', () => {
       expect(result.targetDate).toBe('2025-09-07')
       expect(result.nextEventFound).toBe(false)
 
-      // Should call fetchData with 2-day range to check availability, then constrain result to tomorrow
-      expect(mockFetchData).toHaveBeenCalledWith({
-        searchParams: {
-          ...mockSearchParams,
-          start: '2025-09-06', // Always start from today
-          end: '2025-09-08', // Fetch 2 days to check availability
-        },
-      })
-    })
-
-    it('should offer tomorrow availability at 7:22 PM LA time (realistic late evening scenario)', async () => {
-      // Mock current time: 7:22 PM Pacific on September 6, 2025
-      // In UTC this is 7:22 PM PDT = UTC-7 = 2:22 AM UTC on September 7th
-      // At 7:22 PM + 3 hour lead time = 10:22 PM, there's less than 1 hour until 11 PM close
-      // This should trigger tomorrow's availability since there's insufficient time for meaningful appointments
-      const mockNow = new Date('2025-09-07T02:22:00.000Z') // 7:22 PM PDT = 2:22 AM UTC next day
-      vi.setSystemTime(mockNow)
-
-      mockGetNextUpcomingEvent.mockResolvedValue(null) // No event found
-
-      mockFetchData.mockResolvedValue({
-        start: '2025-09-07',
-        end: '2025-09-07',
-        busy: [
-          { start: '2025-09-07T17:00:00.000Z', end: '2025-09-07T18:00:00.000Z' }, // Some tomorrow availability
-        ],
-      })
-
-      const result = await fetchPageData(nextConfig, mockSearchParams)
-
-      // Should target tomorrow because there's insufficient time today (< 40 minutes until close)
-      expect(result.targetDate).toBe('2025-09-07')
-      expect(result.nextEventFound).toBe(false)
-      expect(result.start).toBe('2025-09-07')
-      expect(result.end).toBe('2025-09-07')
-
-      // Should fetch 2-day range for evaluation
       expect(mockFetchData).toHaveBeenCalledWith({
         searchParams: {
           ...mockSearchParams,
@@ -340,7 +302,59 @@ describe('fetchPageData - type="next" availability constraints', () => {
       })
     })
 
+    it('should offer tomorrow availability at 7:22 PM LA time (realistic late evening scenario)', async () => {
+      // 7:22 PM Pacific = 2:22 AM UTC next day (PDT is UTC-7)
+      // 7:22 PM + 3hr lead = 10:22 PM, + 1hr minimum = 11:22 PM > 11 PM → tomorrow
+      const mockNow = new Date('2025-09-07T02:22:00.000Z')
+      vi.setSystemTime(mockNow)
+
+      mockGetNextUpcomingEvent.mockResolvedValue(null) // No event found
+
+      mockFetchData.mockResolvedValue({
+        start: '2025-09-07',
+        end: '2025-09-07',
+        busy: [{ start: '2025-09-07T17:00:00.000Z', end: '2025-09-07T18:00:00.000Z' }],
+      })
+
+      const result = await fetchPageData(nextConfig, mockSearchParams)
+
+      // Should target tomorrow — 7:22 PM + 3hr + 1hr = 11:22 PM > 11 PM
+      expect(result.targetDate).toBe('2025-09-07')
+      expect(result.nextEventFound).toBe(false)
+      expect(result.start).toBe('2025-09-07')
+      expect(result.end).toBe('2025-09-07')
+
+      expect(mockFetchData).toHaveBeenCalledWith({
+        searchParams: {
+          ...mockSearchParams,
+          start: '2025-09-06',
+          end: '2025-09-08',
+        },
+      })
+    })
+
+    it('should offer today at 3:36 PM Pacific (bug: was incorrectly showing tomorrow)', async () => {
+      // 3:36 PM Pacific = 10:36 PM UTC (PDT is UTC-7)
+      // 3:36 PM + 3hr lead = 6:36 PM, + 1hr = 7:36 PM < 11 PM → today
+      const mockNow = new Date('2025-09-06T22:36:00.000Z')
+      vi.setSystemTime(mockNow)
+
+      mockGetNextUpcomingEvent.mockResolvedValue(null)
+
+      mockFetchData.mockResolvedValue({
+        start: '2025-09-06',
+        end: '2025-09-06',
+        busy: [],
+      })
+
+      const result = await fetchPageData(nextConfig, mockSearchParams)
+
+      expect(result.targetDate).toBe('2025-09-06')
+      expect(result.nextEventFound).toBe(false)
+    })
+
     it('should only offer single day (not multiple days) in fallback mode', async () => {
+      // 7 AM Pacific = 2 PM UTC (PDT is UTC-7)
       const mockNow = new Date('2025-09-06T14:00:00.000Z')
       vi.setSystemTime(mockNow)
 
@@ -348,17 +362,15 @@ describe('fetchPageData - type="next" availability constraints', () => {
 
       mockFetchData.mockResolvedValue({
         start: '2025-09-06',
-        end: '2025-09-06', // Same day only
+        end: '2025-09-06',
         busy: [],
       })
 
       const result = await fetchPageData(nextConfig, mockSearchParams)
 
-      // Verify only single day offered
       expect(result.start).toBe('2025-09-06')
       expect(result.end).toBe('2025-09-06')
 
-      // Should not have multi-duration slots in fallback mode
       expect(result.multiDurationSlots).toBeUndefined()
       expect(result.currentEvent).toBeUndefined()
     })
