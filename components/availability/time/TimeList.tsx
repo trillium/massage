@@ -1,5 +1,6 @@
 'use client'
 
+import { useMemo } from 'react'
 import { useReduxAvailability, useAppDispatch } from '@/redux/hooks'
 import { setSelectedTime } from '@/redux/slices/availabilitySlice'
 import { setModal } from '@/redux/slices/modalSlice'
@@ -14,31 +15,24 @@ import type {
 import { format } from 'date-fns-tz'
 
 export default function TimeList({}) {
-  const { slots: slotsRedux, selectedDate } = useReduxAvailability()
-  const { selectedTime, timeZone } = useReduxAvailability()
+  const { slots: slotsRedux, selectedDate, selectedTime, timeZone } = useReduxAvailability()
   const dispatch = useAppDispatch()
 
   const slots = slotsRedux || []
 
   const timeSignature = (selectedTime?.start ?? '') + (selectedTime?.end ?? '')
 
-  let maximumAvailability = 0
-  const availabilityByDate = slots.reduce<Record<string, StringDateTimeIntervalAndLocation[]>>(
-    (acc, slot) => {
-      // Gives us the same YYYY-MM-DD format as Day.toString()
-      const date = format(slot.start, 'yyyy-MM-dd', { timeZone })
-
-      if (!acc[date]) {
-        acc[date] = []
-      }
-      acc[date].push(slot)
-
-      if (acc[date].length > maximumAvailability) {
-        maximumAvailability = acc[date].length
-      }
-      return acc
-    },
-    {}
+  const availabilityByDate = useMemo(
+    () =>
+      slots.reduce<Record<string, StringDateTimeIntervalAndLocation[]>>((acc, slot) => {
+        const date = format(slot.start, 'yyyy-MM-dd', { timeZone })
+        if (!acc[date]) {
+          acc[date] = []
+        }
+        acc[date].push(slot)
+        return acc
+      }, {}),
+    [slots, timeZone]
   )
 
   const availability = selectedDate ? availabilityByDate[selectedDate.toString()] : []
