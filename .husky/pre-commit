@@ -35,4 +35,34 @@ git diff --cached --name-only --diff-filter=ACM | \
     fi
   done
 
+# ── Next.js 16 conventions ──────────────────────────────────
+NEXTJS_FAIL=0
+
+# proxy.ts, not middleware.ts
+if git diff --cached --name-only | grep -q '^middleware\.\(ts\|js\)$'; then
+  echo "❌ Next.js 16 uses proxy.ts, not middleware.ts"
+  echo "   Rename: git mv middleware.ts proxy.ts"
+  echo "   Export:  export function proxy(request) {}"
+  NEXTJS_FAIL=1
+fi
+
+# Catch 'export function middleware' in proxy.ts
+if git diff --cached --name-only | grep -q '^proxy\.\(ts\|js\)$'; then
+  if git diff --cached -U0 proxy.ts 2>/dev/null | grep -q '+.*export.*function middleware'; then
+    echo "❌ proxy.ts must export 'proxy', not 'middleware'"
+    NEXTJS_FAIL=1
+  fi
+fi
+
+# Prefer app router — warn on new pages/ files
+if git diff --cached --name-only --diff-filter=A | grep -q '^pages/'; then
+  echo "⚠️  New file in pages/ — prefer app/ router (Next.js 16)"
+fi
+
+if [ "$NEXTJS_FAIL" -ne 0 ]; then
+  echo ""
+  echo "See: https://nextjs.org/docs/app/guides/upgrading/version-16"
+  exit 1
+fi
+
 npx --no-install lint-staged
