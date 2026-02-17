@@ -44,8 +44,7 @@ export default function getAvailability({
       end: add(now, { minutes: leadTime }),
     }
 
-    //add leadTimeBuffer to front of busy array
-    busy?.unshift(leadTimeBuffer)
+    busy = [leadTimeBuffer, ...busy]
   }
 
   const potential = potentialParam.filter((slot) => {

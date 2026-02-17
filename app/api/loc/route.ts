@@ -30,9 +30,7 @@ export async function GET(req: NextRequest) {
     res = { error: 'No location found on response' }
   }
 
-  const newObj = { ...paramsObj, res }
-
-  return new NextResponse(JSON.stringify(paramsObj), {
+  return new NextResponse(JSON.stringify({ ...paramsObj, result: res }), {
     status: 200,
     headers: { 'Content-Type': 'application/json', ...NO_STORE_HEADERS },
   })

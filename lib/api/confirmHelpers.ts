@@ -38,7 +38,19 @@ export function verifyHashedData(req: NextRequest): VerifyResult {
     }
   }
 
-  const parsed = JSON.parse(decoded)
+  let parsed: Record<string, unknown>
+  try {
+    parsed = JSON.parse(decoded)
+  } catch {
+    return {
+      success: false,
+      response: NextResponse.json(
+        { error: 'Malformed data payload' },
+        { status: 400, headers: NO_STORE_HEADERS }
+      ),
+    }
+  }
+
   return { success: true, data: parsed, hash }
 }
 
