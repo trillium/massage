@@ -86,7 +86,7 @@ export async function handleAppointmentRequest({
     const location = data.locationObject || { street: '', city: data.locationString || '', zip: '' }
     const requestId = getHashFn(JSON.stringify(data))
 
-    await createCalendarAppointment({
+    const calendarResponse = await createCalendarAppointment({
       ...data,
       location,
       requestId,
@@ -96,6 +96,10 @@ export async function handleAppointmentRequest({
           clientName: `${data.firstName} ${data.lastName}`,
         }) || 'Instant Confirm Appointment',
     })
+
+    if (!calendarResponse.ok) {
+      return NextResponse.json({ error: 'Failed to create calendar appointment' }, { status: 502 })
+    }
 
     // Send pushover notification for instant confirm
     const pushover = AppointmentPushoverInstantConfirm(data, ownerTimeZone)
