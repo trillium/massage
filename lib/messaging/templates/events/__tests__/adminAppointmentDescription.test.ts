@@ -15,6 +15,7 @@ describe('adminAppointmentDescription', () => {
     firstName: 'John',
     lastName: 'Doe',
     duration: '60',
+    eventBaseString: '',
   }
 
   it('should include __EVENT__ placeholder when eventBaseString is provided', async () => {

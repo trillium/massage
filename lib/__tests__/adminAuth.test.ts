@@ -118,7 +118,7 @@ describe('AdminAuthManager', () => {
       const url = new URL(link)
       const token = url.searchParams.get('token')
 
-      const result = AdminAuthManager.createSession(email, token)
+      const result = AdminAuthManager.createSession(email, token!)
 
       expect(result).toBe(true)
       expect(localStorageMock.setItem).toHaveBeenCalledTimes(1)
@@ -149,7 +149,7 @@ describe('AdminAuthManager', () => {
       const url = new URL(link)
       const token = url.searchParams.get('token')
 
-      const result = AdminAuthManager.createSession(email, token)
+      const result = AdminAuthManager.createSession(email, token!)
       expect(result).toBe(false)
     })
   })
