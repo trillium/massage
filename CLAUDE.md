@@ -45,6 +45,10 @@ Use 'playground' folder in the project, create it if doesn't exist and make sure
 - Ask questions if something is not clear and you need to make a choice. Don't choose randomly if it's important for what we're doing
 - When you show me a potential error or miss, start your response with ❗️ emoji
 
+## Proactive Issue Filing
+
+When you encounter tooling problems (OOMs, broken hooks, missing configs, flaky tests, etc.), file a bead immediately with `bd create`. Don't silently work around issues — capture them so we can fix root causes. Use appropriate priority: P0 for blockers, P1 for frequent friction, P2 for annoyances.
+
 # Code Principles
 
 - We prefer simple, clean, maintainable solutions over clever or complex ones, even if the latter are more concise or performant
@@ -140,14 +144,14 @@ Use 'playground' folder in the project, create it if doesn't exist and make sure
 - **Test (coverage):** `pnpm test:coverage`
 - **Test (single file):** `pnpm test path/to/file.test.ts` (or use `vitest` CLI directly)
 - **Spellcheck:** `pnpm spellcheck` (or `pnpm spellcheck:fix`)
-- **Pre-commit:** Uses lint-staged for ESLint, Prettier, and spellcheck on staged files
+- **Pre-commit:** Uses lint-staged for Biome, Prettier, and spellcheck on staged files
 
 ## Code Style Guidelines
 
 - **Package manager:** Use `pnpm` (see `package.json` for version)
 - **Imports:** Use ES6 import syntax. Group external, then internal modules
 - **Formatting:** Prettier config: no semicolons, single quotes, 2 spaces, 100 char line, trailing commas (es5), bracket spacing, Tailwind plugin
-- **Linting:** ESLint with TypeScript, Next.js, a11y, and Prettier. All lint errors must be fixed before merging
+- **Linting:** Biome for linting and formatting. All lint errors must be fixed before merging
 - **Types:** Use TypeScript types and interfaces. Prefer explicit types for function signatures and exports
 - **Naming:** camelCase for variables/functions, PascalCase for types/classes/components, UPPER_CASE for constants
 - **Error Handling:** Use try/catch for async code. Log errors with context. Avoid silent failures
