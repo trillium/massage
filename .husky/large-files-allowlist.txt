@@ -1,5 +1,6 @@
 # Files exempt from the 250-line limit in pre-commit hook
 # Add one file path per line (relative to repo root)
+pnpm-lock.yaml
 data/ratings-soothe.ts
 data/ratings-trillium.ts
 data/ratings-airbnb.ts
