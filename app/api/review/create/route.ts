@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { headers as nextHeaders } from 'next/headers'
-import { IncomingMessage } from 'http'
 
 import { LRUCache } from 'lru-cache'
 import { z } from 'zod'
@@ -50,7 +49,7 @@ const CreateReviewSchema = z.object({
   dateSummary: z.string().optional(),
 })
 
-export async function POST(req: NextRequest & IncomingMessage): Promise<NextResponse> {
+export async function POST(req: NextRequest): Promise<NextResponse> {
   const headers = await nextHeaders()
   const jsonData = await req.json()
 
@@ -103,7 +102,7 @@ export async function POST(req: NextRequest & IncomingMessage): Promise<NextResp
     const forwarded = headers.get('x-forwarded-for')
     const ip =
       (Array.isArray(forwarded) ? forwarded[0] : forwarded) ??
-      req.socket.remoteAddress ??
+      req.headers.get('x-real-ip') ??
       '127.0.0.1'
 
     const tokenCount = (rateLimitLRU.get(ip) as number[]) || [0]

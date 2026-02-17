@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { headers as nextHeaders } from 'next/headers'
-import { IncomingMessage } from 'http'
 
 import { LRUCache } from 'lru-cache'
 import { z } from 'zod'
@@ -29,7 +28,7 @@ const rateLimitLRU = new LRUCache({
 const REQUESTS_PER_IP_PER_MINUTE_LIMIT = 5
 
 // The actual route handler, now just wiring dependencies
-export async function POST(req: NextRequest & IncomingMessage): Promise<NextResponse> {
+export async function POST(req: NextRequest): Promise<NextResponse> {
   const headers = await nextHeaders()
   return handleAppointmentRequest({
     req,

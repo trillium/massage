@@ -22,11 +22,8 @@ export default function TestDynamicFieldsPage() {
     FormDataEntryValue
   > | null>(null)
 
-  const mockSubmitHandler = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    const formData = new FormData(event.target)
-    const data = Object.fromEntries(formData.entries())
-    setSubmittedData(data)
+  const mockSubmitHandler = (values: Record<string, unknown>) => {
+    setSubmittedData(values as Record<string, FormDataEntryValue>)
   }
 
   return (

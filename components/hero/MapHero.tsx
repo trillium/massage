@@ -31,7 +31,7 @@ export default async function Hero({
   let longitude: number | undefined
 
   try {
-    const event = await fetchSingleEvent(EVENT_LOC_STRING)
+    const event = await fetchSingleEvent(EVENT_LOC_STRING!)
     if (event?.location) {
       const geocodeResult = await geocodeLocation(event.location)
       if (geocodeResult.success && geocodeResult.coordinates) {

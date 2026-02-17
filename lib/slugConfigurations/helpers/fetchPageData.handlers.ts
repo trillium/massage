@@ -79,10 +79,15 @@ export async function fetchContainerResult(
     containerData = await fetchContainersByQuery({ searchParams: resolvedParams, query })
   }
 
-  const busyConverted = containerData.busy.map((busyItem) => ({
-    start: typeof busyItem.start === 'string' ? busyItem.start : busyItem.start.dateTime,
-    end: typeof busyItem.end === 'string' ? busyItem.end : busyItem.end.dateTime,
-  }))
+  const busyConverted = containerData.busy
+    .map((busyItem) => ({
+      start: typeof busyItem.start === 'string' ? busyItem.start : busyItem.start.dateTime,
+      end: typeof busyItem.end === 'string' ? busyItem.end : busyItem.end.dateTime,
+    }))
+    .filter(
+      (item): item is { start: string; end: string } =>
+        item.start !== undefined && item.end !== undefined
+    )
 
   return {
     result: {

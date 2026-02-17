@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { IncomingMessage } from 'http'
 import { intervalToHumanString } from './intervalToHumanString'
 import sendMail from './email'
 import { ApprovalEmail } from './messaging/email/admin/Approval'
@@ -42,7 +41,7 @@ export async function handleAppointmentRequest({
   createRequestCalendarEvent,
   updateCalendarEvent,
 }: {
-  req: NextRequest & IncomingMessage
+  req: NextRequest
   headers: Headers
   sendMailFn: typeof sendMail
   siteMetadata: { email?: string }
@@ -51,7 +50,7 @@ export async function handleAppointmentRequest({
   clientRequestEmailFn: typeof ClientRequestEmail
   clientConfirmEmailFn: typeof ClientConfirmEmail
   getHashFn: typeof getHash
-  rateLimiter: (req: NextRequest & IncomingMessage, headers: Headers) => boolean
+  rateLimiter: (req: NextRequest, headers: Headers) => boolean
   schema: typeof AppointmentRequestSchema
   createRequestCalendarEvent: typeof createRequestCalendarEventFn
   updateCalendarEvent: typeof updateCalendarEventFn

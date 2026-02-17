@@ -80,7 +80,8 @@ async function createTagCount(allBlogs: { tags?: string[]; draft?: boolean }[]) 
   writeFileSync('./app/tag-data.json', formatted)
 }
 
-function createSearchIndex(allBlogs: { tags?: string[]; draft?: boolean }[]) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function createSearchIndex(allBlogs: any[]) {
   if (
     siteMetadata?.search?.provider === 'kbar' &&
     siteMetadata.search.kbarConfig.searchDocumentsPath
