@@ -6,6 +6,7 @@ import SectionContainer from '@/components/SectionContainer'
 import Link from '@/components/Link'
 import { createBookingUrl } from '@/lib/helpers/createBookingUrl'
 import { extractBookingSlug } from '@/lib/helpers/extractBookingSlug'
+import CancelButton from './CancelButton'
 
 interface EventPageProps {
   params: Promise<{ event_id: string }>
@@ -162,8 +163,7 @@ export default async function EventPage({ params, searchParams }: EventPageProps
 
           {status !== 'cancelled' && (
             <div className="mt-8 flex flex-wrap gap-3">
-              {/* Cancel button — placeholder for 02b.4 */}
-              {/* Edit button — placeholder for 02b.5 */}
+              <CancelButton eventId={event_id} token={token} />
             </div>
           )}
 
