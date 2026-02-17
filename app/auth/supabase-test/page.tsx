@@ -51,9 +51,7 @@ function AuthTestContent() {
                 <span className="font-medium">Status: </span>
                 <span
                   className={`rounded px-2 py-1 text-sm ${
-                    user
-                      ? 'bg-green-100 text-green-800'
-                      : 'bg-gray-100 text-gray-800'
+                    user ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
                   }`}
                 >
                   {user ? 'Authenticated' : 'Not authenticated'}
@@ -68,15 +66,11 @@ function AuthTestContent() {
                   </div>
                   <div>
                     <span className="font-medium">Role: </span>
-                    <span className="text-gray-700">
-                      {profile?.role || 'Loading...'}
-                    </span>
+                    <span className="text-gray-700">{profile?.role || 'Loading...'}</span>
                   </div>
                   <div>
                     <span className="font-medium">Is Admin: </span>
-                    <span className="text-gray-700">
-                      {isAdmin ? 'Yes' : 'No'}
-                    </span>
+                    <span className="text-gray-700">{isAdmin ? 'Yes' : 'No'}</span>
                   </div>
                 </>
               )}
@@ -107,18 +101,14 @@ function AuthTestContent() {
 
         {user && (
           <div className="mt-6 rounded-lg border-2 border-blue-200 bg-blue-50 p-6">
-            <h2 className="mb-4 text-xl font-semibold text-blue-900">
-              Protected Content Example
-            </h2>
+            <h2 className="mb-4 text-xl font-semibold text-blue-900">Protected Content Example</h2>
             <p className="mb-4 text-blue-800">
               This content is only visible because you are authenticated.
             </p>
 
             {isAdmin && (
               <div className="mt-4 rounded-lg border-2 border-purple-200 bg-purple-50 p-4">
-                <h3 className="font-semibold text-purple-900">
-                  Admin-Only Content
-                </h3>
+                <h3 className="font-semibold text-purple-900">Admin-Only Content</h3>
                 <p className="text-purple-800">
                   This content is only visible because you are an admin.
                 </p>

@@ -27,9 +27,7 @@ export function UserMenu() {
   }
 
   if (loading) {
-    return (
-      <div className="h-8 w-8 animate-pulse rounded-full bg-gray-200"></div>
-    )
+    return <div className="h-8 w-8 animate-pulse rounded-full bg-gray-200"></div>
   }
 
   if (!user) {
@@ -47,18 +45,13 @@ export function UserMenu() {
         </div>
         <div className="text-left">
           <div className="font-medium">{user.email}</div>
-          {isAdmin && (
-            <div className="text-xs text-blue-600">Admin</div>
-          )}
+          {isAdmin && <div className="text-xs text-blue-600">Admin</div>}
         </div>
       </button>
 
       {isOpen && (
         <>
-          <div
-            className="fixed inset-0 z-10"
-            onClick={() => setIsOpen(false)}
-          />
+          <div className="fixed inset-0 z-10" onClick={() => setIsOpen(false)} />
           <div className="absolute right-0 z-20 mt-2 w-64 rounded-lg border border-gray-200 bg-white shadow-lg">
             <div className="border-b border-gray-100 p-4">
               <p className="text-sm font-medium text-gray-900">{user.email}</p>

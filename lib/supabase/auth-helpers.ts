@@ -135,9 +135,7 @@ export async function isClientAdmin() {
  * Listen to auth state changes
  * Returns unsubscribe function
  */
-export function onAuthStateChange(
-  callback: (event: string, session: any) => void
-): () => void {
+export function onAuthStateChange(callback: (event: string, session: any) => void): () => void {
   const supabase = getSupabaseBrowserClient()
 
   const {
