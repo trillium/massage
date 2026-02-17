@@ -100,16 +100,6 @@ export async function fetchPageData(
     )
   }
 
-  if (configuration?.type === 'previous') {
-    // get soonest event
-    // offer slots between 0 and leadTime minutes before session
-  }
-
-  if (configuration?.type === 'next-previous') {
-    // get soonest event
-    // offer slots between 0 and leadTime minutes before and after session
-  }
-
   const finalResult = wrapWithDebug(
     await fetchAreaWideResult(resolvedParams),
     'area-wide',
