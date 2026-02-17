@@ -191,6 +191,23 @@ export default async function EventPage({ params, searchParams }: EventPageProps
               </Link>
             </div>
           )}
+
+          <div className="mt-12 border-t border-gray-200 pt-8 dark:border-gray-700">
+            <div className="flex flex-col items-center gap-4 text-center">
+              {status !== 'cancelled' && (
+                <Link
+                  href={bookingUrl}
+                  className="text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 text-sm font-medium"
+                >
+                  Book Another Session
+                </Link>
+              )}
+              <p className="text-xs text-gray-500 dark:text-gray-500">
+                Want to see all your bookings?{' '}
+                <span className="text-gray-400">Sign in with Google (coming soon)</span>
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </SectionContainer>
