@@ -1,25 +1,9 @@
-import React from 'react'
-import ratings from '@/data/ratings'
+import { fetchReviews } from '@/lib/reviews/fetchReviews'
 
-type Review = {
-  rating: number
-  date: string
-  comment: string | null
-  name: string
-  source: string
-}
+export default async function ReviewsPage() {
+  const allReviews = await fetchReviews()
 
-const typedRatings: Review[] = ratings.map((rating) => ({
-  rating: rating.rating,
-  date: rating.date,
-  comment: rating.comment || null,
-  name: rating.name,
-  source: rating.source,
-}))
-
-export default function ReviewsPage() {
-  // Sort reviews by most recent date
-  const sortedReviews = typedRatings.sort(
+  const sortedReviews = allReviews.sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
   )
 

@@ -2,7 +2,7 @@
 import { useReduxFormData } from '@/redux/hooks'
 
 import Template from 'components/Template'
-import { ReviewSnippet } from 'components/ReviewCard'
+import { ReviewSnippet } from 'components/ReviewCard/ReviewSnippet'
 import BookSessionButton from 'components/BookSessionButton'
 
 export default function About() {

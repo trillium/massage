@@ -8,8 +8,13 @@ import ContactSection from '@/components/landingPage/ContactSection'
 import SectionContainer from '@/components/SectionContainer'
 import BookSessionButton from '@/components/BookSessionButton'
 import { ServiceAreaSection } from '@/components/landingPage/ServiceAreaSection'
+import { fetchReviews } from '@/lib/reviews/fetchReviews'
+import { filterTestimonialReviews } from '@/lib/reviews/filterTestimonialReviews'
 
-export default function Page({}) {
+export default async function Page() {
+  const allReviews = await fetchReviews()
+  const testimonialReviews = filterTestimonialReviews(allReviews)
+
   return (
     <SectionContainer>
       {/* Nav */}
@@ -18,7 +23,7 @@ export default function Page({}) {
         <FeatureHighlightsSection />
         <AboutSection />
         <ServiceAreaSection />
-        <TestimonialsSection />
+        <TestimonialsSection reviews={testimonialReviews} />
         <HowItWorksSection />
         <PricingSection />
         <ContactSection />

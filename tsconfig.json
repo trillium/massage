@@ -46,5 +46,5 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts"
   ],
-  "exclude": ["node_modules", "mcp-server.ts"]
+  "exclude": ["node_modules", "mcp-server.ts", "scripts"]
 }

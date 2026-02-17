@@ -1,7 +1,7 @@
 'use client'
 
-import { Star } from '@/components/ReviewCard'
-import ratings, { links } from '@/data/ratings'
+import { Star } from '@/components/ReviewCard/Stars'
+import type { ReviewType } from '@/lib/types'
 import clsx from 'clsx'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -9,25 +9,13 @@ import React, { useEffect, useState, useCallback } from 'react'
 import { FaChevronLeft, FaChevronRight, FaAirbnb } from 'react-icons/fa'
 import Logo from '../Logo'
 
-const longestFiveStarReviews = ratings
-  .filter((r) => r.rating === 5)
-  .filter((r) => r.helpful !== -1)
-  .filter((r) => (r.comment?.length ?? 0) > 0)
-  .sort((a, b) => {
-    // Sort by helpful (descending), then by comment length (descending)
-    const helpfulDiff = (b.helpful ?? 0) - (a.helpful ?? 0)
-    if (helpfulDiff !== 0) return helpfulDiff
-    const aStr = a.spellcheck || a.comment || ''
-    const bStr = b.spellcheck || b.comment || ''
-    return bStr.length - aStr.length
-  })
-  .slice(0, 18)
+const AIRBNB_REVIEWS_URL = 'https://www.airbnb.com/services/6527842?modal=reviews'
 
 function SourceIcon({ source }: { source: string }) {
   if (source.toLowerCase().includes('airbnb')) {
     return (
       <Link
-        href={links.airbnb}
+        href={AIRBNB_REVIEWS_URL}
         target="_blank"
         rel="noopener noreferrer"
         className="focus:ring-primary-500 flex items-center justify-center rounded-full focus:ring-2 focus:outline-none"
@@ -56,23 +44,28 @@ function SourceIcon({ source }: { source: string }) {
   return null
 }
 
-export default function TestimonialsSection({ text }: { text?: string }) {
+export default function TestimonialsSection({
+  text,
+  reviews,
+}: {
+  text?: string
+  reviews: ReviewType[]
+}) {
   return (
     <section>
       <div className="w-full">
         <h2 className="xs:mb-2 mb-0 text-center text-3xl font-bold sm:mb-4 md:text-4xl dark:text-white">
           {text || 'What Clients Are Saying'}
         </h2>
-        <TestimonialsCarousel />
+        <TestimonialsCarousel reviews={reviews} />
       </div>
     </section>
   )
 }
 
-export function TestimonialsCarousel() {
+export function TestimonialsCarousel({ reviews }: { reviews: ReviewType[] }) {
   const [current, setCurrent] = useState(0)
   const [pauseUntil, setPauseUntil] = useState(0)
-  const reviews = longestFiveStarReviews
   const total = reviews.length
   const leftButtonRef = React.useRef<HTMLButtonElement>(null)
   const rightButtonRef = React.useRef<HTMLButtonElement>(null)
@@ -152,7 +145,7 @@ export function TestimonialsCarousel() {
           </div>
           {r.comment && (
             <p className="mb-2 text-sm text-gray-700 italic sm:text-base md:text-lg xl:text-2xl dark:text-gray-200">
-              “{r.spellcheck || r.comment}”
+              "{r.spellcheck || r.comment}"
             </p>
           )}
           <div className="flex w-full items-end">

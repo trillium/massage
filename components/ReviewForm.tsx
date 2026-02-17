@@ -12,7 +12,8 @@ import {
   useReduxFormData,
   useReduxModal,
 } from '@/redux/hooks'
-import { ReviewSnippet, Star } from './ReviewCard'
+import { ReviewSnippet } from './ReviewCard/ReviewSnippet'
+import { Star } from './ReviewCard/Stars'
 import { handleReviewSubmit } from './ReviewForm.handleSubmit'
 
 export default function ReviewForm({
