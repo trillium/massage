@@ -1,5 +1,11 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 
+vi.mock('@/lib/adminAuth', () => ({
+  AdminAuthManager: {
+    requireAdmin: () => ({ email: 'admin@test.com' }),
+  },
+}))
+
 const mockWriteFile = vi.fn()
 
 vi.mock('fs/promises', () => ({

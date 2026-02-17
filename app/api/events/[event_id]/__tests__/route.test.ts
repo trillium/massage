@@ -2,6 +2,12 @@ import { describe, it, expect, vi } from 'vitest'
 import { NextRequest } from 'next/server'
 import { GET } from '../route'
 
+vi.mock('@/lib/adminAuth', () => ({
+  AdminAuthManager: {
+    requireAdmin: () => ({ email: 'admin@test.com' }),
+  },
+}))
+
 vi.mock('lib/fetch/fetchSingleEvent', () => ({
   fetchSingleEvent: vi.fn(),
 }))
