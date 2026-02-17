@@ -6,7 +6,7 @@ git diff --cached --name-only --diff-filter=ACM | \
   grep -v "node_modules\|\.next\|\.git" | \
   while read file; do
     if [ -f "$file" ]; then
-      if echo "$file" | grep -qE '\.(test|spec)\.(ts|tsx|js|jsx)$'; then
+      if echo "$file" | grep -qE '\.(test|spec)\.(ts|tsx|js|jsx)$|\.md$|\.mdx$'; then
         continue
       fi
 
