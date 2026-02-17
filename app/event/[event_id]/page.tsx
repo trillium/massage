@@ -204,7 +204,12 @@ export default async function EventPage({ params, searchParams }: EventPageProps
               )}
               <p className="text-xs text-gray-500 dark:text-gray-500">
                 Want to see all your bookings?{' '}
-                <span className="text-gray-400">Sign in with Google (coming soon)</span>
+                <Link
+                  href="/auth/login?redirectedFrom=/my_events"
+                  className="text-primary-500 hover:text-primary-600 dark:text-primary-400 font-medium"
+                >
+                  Sign in with Google
+                </Link>
               </p>
             </div>
           </div>
