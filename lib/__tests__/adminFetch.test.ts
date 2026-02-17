@@ -1,11 +1,12 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { adminFetch, AdminFetchError } from '../adminFetch'
-import { AdminAuthManager } from '../adminAuth'
 
-vi.mock('../adminAuth', () => ({
-  AdminAuthManager: {
-    validateSession: vi.fn(),
-  },
+const mockGetSession = vi.fn()
+
+vi.mock('@/lib/supabase/client', () => ({
+  getSupabaseBrowserClient: () => ({
+    auth: { getSession: mockGetSession },
+  }),
 }))
 
 const mockFetch = vi.fn<(url: string, options?: RequestInit) => Promise<Response>>(() =>
@@ -18,12 +19,9 @@ describe('adminFetch', () => {
     vi.clearAllMocks()
   })
 
-  it('attaches auth headers when session is valid', async () => {
-    vi.mocked(AdminAuthManager.validateSession).mockReturnValue({
-      email: 'admin@test.com',
-      token: 'valid-token',
-      timestamp: Date.now(),
-      expiresAt: Date.now() + 86400000,
+  it('calls fetch with credentials when session exists', async () => {
+    mockGetSession.mockResolvedValue({
+      data: { session: { user: { email: 'admin@test.com' } } },
     })
 
     await adminFetch('/api/admin/test', { method: 'POST' })
@@ -32,44 +30,20 @@ describe('adminFetch', () => {
     const [url, options] = mockFetch.mock.calls[0]
     expect(url).toBe('/api/admin/test')
     expect(options!.method).toBe('POST')
-    const headers = new Headers(options!.headers as HeadersInit)
-    expect(headers.get('x-admin-email')).toBe('admin@test.com')
-    expect(headers.get('x-admin-token')).toBe('valid-token')
+    expect(options!.credentials).toBe('same-origin')
   })
 
   it('throws AdminFetchError when no session exists', async () => {
-    vi.mocked(AdminAuthManager.validateSession).mockReturnValue(null)
+    mockGetSession.mockResolvedValue({ data: { session: null } })
 
     await expect(adminFetch('/api/admin/test')).rejects.toThrow(AdminFetchError)
     await expect(adminFetch('/api/admin/test')).rejects.toThrow('No active admin session')
     expect(mockFetch).not.toHaveBeenCalled()
   })
 
-  it('preserves existing headers from caller', async () => {
-    vi.mocked(AdminAuthManager.validateSession).mockReturnValue({
-      email: 'admin@test.com',
-      token: 'valid-token',
-      timestamp: Date.now(),
-      expiresAt: Date.now() + 86400000,
-    })
-
-    await adminFetch('/api/test', {
-      headers: { 'Content-Type': 'application/json' },
-    })
-
-    const [, options] = mockFetch.mock.calls[0]
-    const headers = new Headers(options!.headers as HeadersInit)
-    expect(headers.get('Content-Type')).toBe('application/json')
-    expect(headers.get('x-admin-email')).toBe('admin@test.com')
-    expect(headers.get('x-admin-token')).toBe('valid-token')
-  })
-
   it('preserves method and body from caller', async () => {
-    vi.mocked(AdminAuthManager.validateSession).mockReturnValue({
-      email: 'admin@test.com',
-      token: 'valid-token',
-      timestamp: Date.now(),
-      expiresAt: Date.now() + 86400000,
+    mockGetSession.mockResolvedValue({
+      data: { session: { user: { email: 'admin@test.com' } } },
     })
 
     const body = JSON.stringify({ data: 'test' })
