@@ -1,4 +1,4 @@
-import { AdminAuthManager } from '@/lib/adminAuth'
+import { getSupabaseBrowserClient } from '@/lib/supabase/client'
 
 export class AdminFetchError extends Error {
   constructor(message: string) {
@@ -8,17 +8,17 @@ export class AdminFetchError extends Error {
 }
 
 export async function adminFetch(input: RequestInfo | URL, init?: RequestInit): Promise<Response> {
-  const session = AdminAuthManager.validateSession()
+  const supabase = getSupabaseBrowserClient()
+  const {
+    data: { session },
+  } = await supabase.auth.getSession()
+
   if (!session) {
     throw new AdminFetchError('No active admin session')
   }
 
-  const headers = new Headers(init?.headers)
-  headers.set('x-admin-email', session.email)
-  headers.set('x-admin-token', session.token)
-
   return fetch(input, {
     ...init,
-    headers,
+    credentials: 'same-origin',
   })
 }
