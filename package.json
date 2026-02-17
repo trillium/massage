@@ -11,7 +11,7 @@
     "build:staged:verbose": "./scripts/build-staged.sh --verbose",
     "serve": "next start",
     "analyze": "cross-env ANALYZE=true next build --webpack",
-    "lint": "eslint --fix app components lib layouts scripts",
+    "lint": "biome check --write app components lib layouts scripts",
     "prepare": "husky",
     "test": "vitest run --changed --reporter=dot",
     "test:all": "vitest run --reporter=dot",
