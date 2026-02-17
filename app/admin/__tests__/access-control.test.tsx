@@ -38,10 +38,6 @@ vi.mock('@/components/Spinner', () => ({
   default: () => <div data-testid="spinner">Loading...</div>,
 }))
 
-vi.mock('@/components/auth/admin/AdminDebugInfo', () => ({
-  AdminDebugInfo: () => <div data-testid="debug-info">Debug Info</div>,
-}))
-
 vi.mock('@/lib/posthog-utils', () => ({
   identifyAuthenticatedUser: vi.fn(),
 }))

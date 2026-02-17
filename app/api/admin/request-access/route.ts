@@ -3,7 +3,6 @@ import { headers as nextHeaders } from 'next/headers'
 import { LRUCache } from 'lru-cache'
 import sendMail from '@/lib/email'
 import siteMetadata from '@/data/siteMetadata'
-import { AdminAuthManager } from '@/lib/adminAuth'
 import { AdminAccessRequestSchema } from '@/lib/schema'
 import AdminAccessEmail from '@/lib/messaging/email/admin/AdminAccessEmail'
 import { escapeHtml } from '@/lib/messaging/escapeHtml'
@@ -62,9 +61,9 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       )
     }
 
-    // Generate secure admin link
+    // Generate login link
     const baseUrl = getOriginFromHeaders(headers)
-    const adminLink = AdminAuthManager.generateAdminLink(email, baseUrl)
+    const adminLink = `${baseUrl}/auth/login`
 
     // Create email content using template
     const { subject: emailSubject, body: emailBody } = AdminAccessEmail({

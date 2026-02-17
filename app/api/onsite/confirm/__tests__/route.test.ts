@@ -14,14 +14,6 @@ vi.mock('lib/messaging/templates/events/onsiteEventSummary', () => ({
   default: vi.fn(() => 'Onsite Event Summary'),
 }))
 
-vi.mock('@/lib/adminAuth', () => ({
-  AdminAuthManager: {
-    generateAdminLink: vi.fn(
-      () => 'http://localhost/admin?email=admin%40test.com&token=admin-token-123'
-    ),
-  },
-}))
-
 vi.mock('@/data/siteMetadata', () => ({
   default: { email: 'admin@test.com' },
 }))

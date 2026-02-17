@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getHash } from 'lib/hash'
-import { AdminAuthManager } from '@/lib/adminAuth'
-import siteMetadata from '@/data/siteMetadata'
 import type { LocationObject } from '@/lib/locationTypes'
 
 const NO_STORE_HEADERS = { 'Cache-Control': 'no-store' }
@@ -123,13 +121,9 @@ export function buildBookedRedirect({
   }
 
   const encodedDetails = encodeURIComponent(JSON.stringify(bookedData))
-  const adminEmail = siteMetadata.email
-  const adminLink = AdminAuthManager.generateAdminLink(adminEmail)
-  const url = new URL(adminLink, req.url)
-  const adminToken = url.searchParams.get('token')
 
   return NextResponse.redirect(
-    `${new URL(req.url).origin}/admin/booked?data=${encodedDetails}&url=${encodeURIComponent(match[1])}&email=${encodeURIComponent(adminEmail)}&token=${adminToken}`
+    `${new URL(req.url).origin}/admin/booked?data=${encodedDetails}&url=${encodeURIComponent(match[1])}`
   )
 }
 

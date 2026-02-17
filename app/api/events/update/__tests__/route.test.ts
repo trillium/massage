@@ -20,8 +20,6 @@ function makeRequest(body: Record<string, unknown>) {
     body: JSON.stringify(body),
     headers: {
       'Content-Type': 'application/json',
-      'x-admin-email': 'admin@test.com',
-      'x-admin-token': 'token',
     },
   })
 }

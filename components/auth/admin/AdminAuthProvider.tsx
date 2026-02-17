@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { getSupabaseBrowserClient } from '@/lib/supabase/client'
 import Spinner from '@/components/Spinner'
-import { AdminDebugInfo } from '@/components/auth/admin/AdminDebugInfo'
 import { AdminAuthChip } from '@/components/auth/admin/AdminAuthChip'
 import { identifyAuthenticatedUser } from '@/lib/posthog-utils'
 
@@ -148,7 +147,6 @@ export function AdminAuthProvider({ children }: AdminAuthProviderProps) {
             </div>
           </div>
         </div>
-        <AdminDebugInfo />
       </>
     )
   }

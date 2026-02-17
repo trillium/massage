@@ -6,12 +6,6 @@ vi.mock('@/lib/email', () => ({
   default: vi.fn(() => Promise.resolve()),
 }))
 
-vi.mock('@/lib/adminAuth', () => ({
-  AdminAuthManager: {
-    generateAdminLink: vi.fn(() => 'http://localhost/admin?token=abc'),
-  },
-}))
-
 vi.mock('next/headers', () => ({
   headers: vi.fn(async () => ({
     get: (key: string) => {

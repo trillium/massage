@@ -69,8 +69,7 @@ function postRequest(body: Record<string, unknown>) {
     method: 'POST',
     body: JSON.stringify(body),
     headers: {
-      'x-admin-email': 'admin@test.com',
-      'x-admin-token': 'valid-token',
+      'Content-Type': 'application/json',
     },
   })
 }

@@ -41,10 +41,6 @@ vi.mock('@/components/Spinner', () => ({
   default: () => <div data-testid="spinner">Loading...</div>,
 }))
 
-vi.mock('@/components/auth/admin/AdminDebugInfo', () => ({
-  AdminDebugInfo: () => <div data-testid="debug-info">Debug Info</div>,
-}))
-
 const mockIdentify = vi.fn()
 vi.mock('@/lib/posthog-utils', () => ({
   identifyAuthenticatedUser: (...args: unknown[]) => mockIdentify(...args),
@@ -235,20 +231,6 @@ describe('AdminAuthProvider', () => {
 
       const loginLink = screen.getByRole('link', { name: 'log in' })
       expect(loginLink).toHaveAttribute('href', '/auth/login')
-    })
-
-    it('shows debug info panel', async () => {
-      mockNoUser()
-
-      render(
-        <AdminAuthProvider>
-          <TestChild />
-        </AdminAuthProvider>
-      )
-
-      await waitFor(() => {
-        expect(screen.getByTestId('debug-info')).toBeInTheDocument()
-      })
     })
   })
 
