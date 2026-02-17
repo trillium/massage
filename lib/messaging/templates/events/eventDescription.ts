@@ -1,13 +1,7 @@
 import { AppointmentProps } from '@/lib/types'
 import { flattenLocation } from '@/lib/helpers/locationHelpers'
 
-/**
- * Creates a description for a calendar event.
- *
- * @function
- * @returns {string} Returns the summary string for an event.
- */
-async function eventDescription({
+function eventDescription({
   start,
   end,
   phone,

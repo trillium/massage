@@ -4,7 +4,7 @@ import { parts as signatureParts } from '@/lib/messaging/utilities/signature'
 const LINE_PREFIX = `<div class="gmail_default" style="font-family:arial,sans-serif">`
 const LINE_SUFFIX = `</div>`
 
-export default async function ClientConfirmEmail({
+export default function ClientConfirmEmail({
   duration,
   price,
   firstName,
