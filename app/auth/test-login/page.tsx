@@ -44,7 +44,7 @@ export default function TestLoginPage() {
     console.log('[TestLogin] Auth response:', {
       hasSession: !!data.session,
       hasUser: !!data.user,
-      error: signInError?.message
+      error: signInError?.message,
     })
 
     if (signInError) {
@@ -57,7 +57,7 @@ export default function TestLoginPage() {
     if (data.session) {
       console.log('[TestLogin] Session established, redirecting to /')
 
-      await new Promise(resolve => setTimeout(resolve, 1000))
+      await new Promise((resolve) => setTimeout(resolve, 1000))
 
       console.log('[TestLogin] Calling router.push("/")')
       router.push('/')
@@ -74,11 +74,7 @@ export default function TestLoginPage() {
         <h1 className="mb-4 text-2xl font-bold">Test Login</h1>
         <p className="mb-4 text-sm text-gray-600">For E2E testing only</p>
 
-        {error && (
-          <div className="mb-4 rounded bg-red-50 p-3 text-sm text-red-800">
-            {error}
-          </div>
-        )}
+        {error && <div className="mb-4 rounded bg-red-50 p-3 text-sm text-red-800">{error}</div>}
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>

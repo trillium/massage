@@ -8,10 +8,10 @@ test.describe('Booking Flow - End to End', () => {
         contentType: 'application/json',
         body: JSON.stringify({
           calendars: {
-            'primary': {
-              busy: []
-            }
-          }
+            primary: {
+              busy: [],
+            },
+          },
         }),
       })
     })
@@ -23,7 +23,10 @@ test.describe('Booking Flow - End to End', () => {
 
     await page.waitForSelector('[role="grid"]', { timeout: 10000 })
 
-    const availableDateLabel = page.locator('label[for^="day-"]').filter({ has: page.locator('input:not([disabled])') }).first()
+    const availableDateLabel = page
+      .locator('label[for^="day-"]')
+      .filter({ has: page.locator('input:not([disabled])') })
+      .first()
     await availableDateLabel.click()
 
     await page.waitForSelector('button[type="button"]:has-text("–")', { timeout: 5000 })
@@ -70,10 +73,10 @@ test.describe('Booking Flow - End to End', () => {
         contentType: 'application/json',
         body: JSON.stringify({
           calendars: {
-            'primary': {
-              busy: []
-            }
-          }
+            primary: {
+              busy: [],
+            },
+          },
         }),
       })
     })
@@ -83,7 +86,10 @@ test.describe('Booking Flow - End to End', () => {
 
     await page.waitForSelector('[role="grid"]', { timeout: 10000 })
 
-    const availableDateLabel = page.locator('label[for^="day-"]').filter({ has: page.locator('input:not([disabled])') }).first()
+    const availableDateLabel = page
+      .locator('label[for^="day-"]')
+      .filter({ has: page.locator('input:not([disabled])') })
+      .first()
     await availableDateLabel.click()
 
     await page.waitForSelector('button[type="button"]:has-text("–")', { timeout: 5000 })
@@ -99,7 +105,9 @@ test.describe('Booking Flow - End to End', () => {
     await page.waitForTimeout(200)
 
     const firstNameField = page.locator('#firstName')
-    const validationMessage = await firstNameField.evaluate((el: HTMLInputElement) => el.validationMessage)
+    const validationMessage = await firstNameField.evaluate(
+      (el: HTMLInputElement) => el.validationMessage
+    )
 
     expect(validationMessage).toBeTruthy()
   })
@@ -111,10 +119,10 @@ test.describe('Booking Flow - End to End', () => {
         contentType: 'application/json',
         body: JSON.stringify({
           calendars: {
-            'primary': {
-              busy: []
-            }
-          }
+            primary: {
+              busy: [],
+            },
+          },
         }),
       })
     })
@@ -124,7 +132,10 @@ test.describe('Booking Flow - End to End', () => {
 
     await page.waitForSelector('[role="grid"]', { timeout: 10000 })
 
-    const availableDateLabel = page.locator('label[for^="day-"]').filter({ has: page.locator('input:not([disabled])') }).first()
+    const availableDateLabel = page
+      .locator('label[for^="day-"]')
+      .filter({ has: page.locator('input:not([disabled])') })
+      .first()
     await availableDateLabel.click()
 
     await page.waitForSelector('button[type="button"]:has-text("–")', { timeout: 5000 })
@@ -151,7 +162,9 @@ test.describe('Booking Flow - End to End', () => {
     await page.waitForTimeout(200)
 
     const emailField = page.locator('#email')
-    const validationMessage = await emailField.evaluate((el: HTMLInputElement) => el.validationMessage)
+    const validationMessage = await emailField.evaluate(
+      (el: HTMLInputElement) => el.validationMessage
+    )
 
     expect(validationMessage).toBeTruthy()
   })

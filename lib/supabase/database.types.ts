@@ -61,8 +61,44 @@ export interface Database {
           },
         ]
       }
+      reviews: {
+        Row: {
+          id: number
+          rating: number
+          date: string
+          name: string
+          source: string
+          comment: string | null
+          type: string | null
+          helpful: number | null
+          spellcheck: string | null
+        }
+        Insert: {
+          id?: number
+          rating: number
+          date: string
+          name: string
+          source: string
+          comment?: string | null
+          type?: string | null
+          helpful?: number | null
+          spellcheck?: string | null
+        }
+        Update: {
+          id?: number
+          rating?: number
+          date?: string
+          name?: string
+          source?: string
+          comment?: string | null
+          type?: string | null
+          helpful?: number | null
+          spellcheck?: string | null
+        }
+        Relationships: []
+      }
     }
-    Views: Record<string, never>
+    Views: {}
     Functions: {
       is_admin: {
         Args: Record<string, never>

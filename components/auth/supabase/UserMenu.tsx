@@ -51,14 +51,7 @@ export function UserMenu() {
 
       {isOpen && (
         <>
-          <div
-            className="fixed inset-0 z-10"
-            onClick={() => setIsOpen(false)}
-            onKeyDown={(e) => e.key === 'Escape' && setIsOpen(false)}
-            role="button"
-            tabIndex={0}
-            aria-label="Close menu"
-          />
+          <div className="fixed inset-0 z-10" onClick={() => setIsOpen(false)} />
           <div className="absolute right-0 z-20 mt-2 w-64 rounded-lg border border-gray-200 bg-white shadow-lg">
             <div className="border-b border-gray-100 p-4">
               <p className="text-sm font-medium text-gray-900">{user.email}</p>

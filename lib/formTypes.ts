@@ -18,10 +18,6 @@ export type BookingFormData = {
   locationIsReadOnly?: boolean
   /** Location as formatted string */
   locationString?: string
-  /** City of the requester */
-  city?: string
-  /** Zip code of the requester */
-  zipCode?: string
   /** Phone number of the requester */
   phone?: string
   /** Payment method of the requester */

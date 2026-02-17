@@ -1,7 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getEventsBySearchQuery } from '@/lib/availability/getEventsBySearchQuery'
+import { requireAdminWithFlag } from '@/lib/adminAuthBridge'
 
 export async function GET(request: NextRequest) {
+  const auth = await requireAdminWithFlag(request)
+  if (auth instanceof NextResponse) return auth
+
   try {
     const { searchParams } = new URL(request.url)
     const email = searchParams.get('email')

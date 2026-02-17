@@ -84,8 +84,6 @@ export default async function createCalendarAppointment(
   const { calendarId = 'primary', ...appointmentProps } = props
   const body = await buildEventBody(appointmentProps)
 
-  console.log('[body]', body)
-
   const apiUrl = new URL(
     `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(calendarId)}/events`
   )

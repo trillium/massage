@@ -69,8 +69,12 @@ app/tag-data.json
 # Google OAuth credentials (never commit)
 .google-oauth-supabase.json
 
+# Playground
+playground/
+
 # Gas Town (added by gt)
 .runtime/
 .claude/
 .beads/
 .logs/
+.env*.local

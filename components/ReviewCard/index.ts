@@ -1,2 +1,2 @@
-export { default } from './ReviewCard'
-export * from './ReviewCard'
+export { ReviewSnippet } from './ReviewSnippet'
+export { Star, LittleStar } from './Stars'

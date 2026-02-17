@@ -6,7 +6,7 @@ export function generateFakeOnSiteRequest(): OnSiteRequestType {
     lastName: 'Doe',
     phone: '555-123-4567',
     email: 'john.doe@example.com',
-    location: {
+    locationObject: {
       street: '123 Main St',
       city: 'Anytown',
       zip: '12345',

@@ -62,7 +62,7 @@ const computedFields: ComputedFields = {
 /**
  * Count the occurrences of all tags across blog posts and write to json file
  */
-async function createTagCount(allBlogs) {
+async function createTagCount(allBlogs: { tags?: string[]; draft?: boolean }[]) {
   const tagCount: Record<string, number> = {}
   allBlogs.forEach((file) => {
     if (file.tags && (!isProduction || file.draft !== true)) {
@@ -80,7 +80,8 @@ async function createTagCount(allBlogs) {
   writeFileSync('./app/tag-data.json', formatted)
 }
 
-function createSearchIndex(allBlogs) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function createSearchIndex(allBlogs: any[]) {
   if (
     siteMetadata?.search?.provider === 'kbar' &&
     siteMetadata.search.kbarConfig.searchDocumentsPath
@@ -149,6 +150,17 @@ export const Authors = defineDocumentType(() => ({
 
 export default makeSource({
   contentDirPath: 'data',
+  contentDirExclude: [
+    'node_modules',
+    '.git',
+    '.yarn',
+    '.cache',
+    '.next',
+    '.contentlayer',
+    'package.json',
+    'tsconfig.json',
+    'gallery-order.json',
+  ],
   documentTypes: [Blog, Authors],
   mdx: {
     cwd: process.cwd(),

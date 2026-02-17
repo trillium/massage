@@ -14,7 +14,6 @@ export default function IsTestUserPage() {
     const distinctId = getDistinctId()
     setDistinctId(distinctId)
     setUserId(distinctId || '')
-    console.log('[posthogId]', distinctId)
   }, [refreshKey])
 
   const handleSubmit = async (e: React.FormEvent) => {

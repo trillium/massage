@@ -1,10 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { fetchSingleEvent } from 'lib/fetch/fetchSingleEvent'
+import { requireAdminWithFlag } from '@/lib/adminAuthBridge'
 
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ event_id: string }> }
 ) {
+  const auth = await requireAdminWithFlag(request)
+  if (auth instanceof NextResponse) return auth
+
   try {
     const { event_id } = await params
 

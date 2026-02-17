@@ -1,3 +1,4 @@
+import { type ReactNode } from 'react'
 import clsx from 'clsx'
 import Link from './Link'
 import siteMetadata from '@/data/siteMetadata'
@@ -49,7 +50,15 @@ function QuicklinkContainer({ displayClasses }: { displayClasses?: string }) {
   )
 }
 
-function ListItem({ text, href, positionClasses }) {
+function ListItem({
+  text,
+  href,
+  positionClasses,
+}: {
+  text: string
+  href: string
+  positionClasses?: string
+}) {
   return (
     <li>
       <Link
@@ -153,7 +162,15 @@ function LogoAndBlurb({ displayClasses }: { displayClasses: string }) {
   )
 }
 
-function ContactItem({ icon, children, iconClass = '' }) {
+function ContactItem({
+  icon,
+  children,
+  iconClass = '',
+}: {
+  icon: ReactNode
+  children: ReactNode
+  iconClass?: string
+}) {
   return (
     <li className="flex items-start gap-3 pl-4">
       <span className={clsx('mt-1 text-lg text-teal-400', iconClass)}>{icon}</span>

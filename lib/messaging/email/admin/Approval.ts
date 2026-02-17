@@ -13,6 +13,7 @@ export function ApprovalEmail({
   location,
   dateSummary,
   approveUrl,
+  declineUrl,
   timeZone,
   price,
   phone,
@@ -23,16 +24,6 @@ export function ApprovalEmail({
   data,
 }: EmailProps & { data?: z.output<typeof AppointmentRequestSchema> }) {
   const SUBJECT = `REQUEST: ${firstName} ${lastName}, ${duration} minutes, $${price}`
-
-  const declineUrl = `mailto:${encodeURI(email)}?subject=${encodeURIComponent(
-    `Re: Massage appointment request`
-  )}&body=${encodeURIComponent(
-    `Hi ${`${firstName}` || 'there'},
-
-I just checked my calendar and it looks like ${dateSummary} won't work.
-
-Would you be able to meet at a different time?`
-  )}`
 
   let body = `<div dir="ltr">`
   body += [

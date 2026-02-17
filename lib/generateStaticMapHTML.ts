@@ -76,7 +76,6 @@ export function generateStandaloneMapHTML(): string {
             if (!window.mapReady) {
                 window.mapReady = true;
                 document.getElementById('status').textContent = 'Map ready for capture!';
-                console.log('Map is ready for screenshot');
             }
         });
 

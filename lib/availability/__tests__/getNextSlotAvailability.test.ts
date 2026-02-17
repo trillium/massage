@@ -277,7 +277,7 @@ describe('Next Slot Availability System', () => {
     expect(slots[0].location).toEqual({
       street: '123 Main St',
       city: 'Los Angeles',
-      zip: '90210',
+      zip: 'CA',
     })
     expect(slots[0].available).toBe(true)
   })
@@ -395,7 +395,7 @@ describe('Next Slot Availability System', () => {
     expect(timeListFormat[0].location).toEqual({
       street: '123 Main St',
       city: 'Los Angeles',
-      zip: '90210',
+      zip: 'CA',
     })
   })
 

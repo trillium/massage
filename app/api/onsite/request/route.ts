@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { headers as nextHeaders } from 'next/headers'
-import { IncomingMessage } from 'http'
 
 import { LRUCache } from 'lru-cache'
 
@@ -16,6 +15,7 @@ import siteMetadata from '@/data/siteMetadata'
 import { intervalToHumanString } from 'lib/intervalToHumanString'
 import { flattenLocation } from 'lib/helpers/locationHelpers'
 import { escapeHtml } from 'lib/messaging/escapeHtml'
+import { getOriginFromHeaders } from 'lib/helpers/getOriginFromHeaders'
 
 // Define the rate limiter
 const rateLimitLRU = new LRUCache({
@@ -26,7 +26,7 @@ const REQUESTS_PER_IP_PER_MINUTE_LIMIT = 5
 
 // Define the schema for the request body
 
-export async function POST(req: NextRequest & IncomingMessage): Promise<NextResponse> {
+export async function POST(req: NextRequest): Promise<NextResponse> {
   const headers = await nextHeaders()
   const jsonData = await req.json()
 
@@ -57,7 +57,8 @@ export async function POST(req: NextRequest & IncomingMessage): Promise<NextResp
   const start = new Date(data.start)
   const end = new Date(data.end)
 
-  const approveUrl = `${headers.get('origin') ?? '?'}/api/onsite/confirm/?data=${encodeURIComponent(
+  const origin = getOriginFromHeaders(headers)
+  const approveUrl = `${origin}/api/onsite/confirm/?data=${encodeURIComponent(
     JSON.stringify(data)
   )}&key=${getHash(JSON.stringify(data))}`
 
@@ -124,7 +125,7 @@ export async function POST(req: NextRequest & IncomingMessage): Promise<NextResp
     const forwarded = headers.get('x-forwarded-for')
     const ip =
       (Array.isArray(forwarded) ? forwarded[0] : forwarded) ??
-      req.socket.remoteAddress ??
+      req.headers.get('x-real-ip') ??
       '127.0.0.1'
 
     const tokenCount = (rateLimitLRU.get(ip) as number[]) || [0]

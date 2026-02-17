@@ -1,11 +1,15 @@
-/**
- * Retrieves an access token from Google using a refresh token.
- *
- * @returns {Promise<string>} A promise that resolves to the access token.
- * @throws {Error} If any required environment variables are missing,
- *                 or if no access token is returned.
- */
+const TOKEN_CACHE_MS = 50 * 60 * 1000
+let cachedToken: { value: string; expiresAt: number } | null = null
+
+export function clearTokenCache() {
+  cachedToken = null
+}
+
 export default async function getAccessToken(): Promise<string> {
+  if (cachedToken && Date.now() < cachedToken.expiresAt) {
+    return cachedToken.value
+  }
+
   if (!process.env.GOOGLE_OAUTH_SECRET) {
     throw new Error('GOOGLE_OAUTH_SECRET not set')
   }
@@ -38,5 +42,10 @@ export default async function getAccessToken(): Promise<string> {
     throw new Error(`Couldn't get access token: ${JSON.stringify(json, null, 2)}`)
   }
 
-  return json.access_token as string
+  cachedToken = {
+    value: json.access_token as string,
+    expiresAt: Date.now() + TOKEN_CACHE_MS,
+  }
+
+  return cachedToken.value
 }

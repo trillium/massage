@@ -1,227 +1,229 @@
-import React from 'react'
 import { fetchSingleEvent } from '@/lib/fetch/fetchSingleEvent'
+import { verifyEventToken } from '@/lib/eventToken'
+import { parseEventSummary } from '@/lib/helpers/parseEventSummary'
+import { formatLocalDate, formatLocalTime } from '@/lib/availability/helpers'
+import SectionContainer from '@/components/SectionContainer'
 import Link from '@/components/Link'
 import { createBookingUrl } from '@/lib/helpers/createBookingUrl'
 import { extractBookingSlug } from '@/lib/helpers/extractBookingSlug'
+import CancelButton from './CancelButton'
+import EditForm from './EditForm'
+import { parseEditableFields } from '@/lib/helpers/parseEventDescription'
 
-export default async function EventPage({ params }: { params: Promise<{ event_id: string }> }) {
-  const { event_id } = await params
+interface EventPageProps {
+  params: Promise<{ event_id: string }>
+  searchParams: Promise<{ token?: string }>
+}
 
-  // Fetch the specific calendar event
-  const matchingEvent = await fetchSingleEvent(event_id)
-
-  // Extract booking slug and create booking URL if event exists
-  let bookingSlug: string | null = null
-  let bookingUrl: string = '/book'
-
-  if (matchingEvent) {
-    bookingSlug = extractBookingSlug(matchingEvent)
-    bookingUrl = createBookingUrl(bookingSlug, matchingEvent.location)
+function StatusBadge({ status }: { status: 'pending' | 'confirmed' | 'cancelled' }) {
+  const config = {
+    pending: {
+      label: 'Pending Request',
+      icon: '\u23f3',
+      bg: 'bg-yellow-100 dark:bg-yellow-900/30',
+      text: 'text-yellow-800 dark:text-yellow-200',
+      border: 'border-yellow-300 dark:border-yellow-700',
+    },
+    confirmed: {
+      label: 'Confirmed',
+      icon: '\u2705',
+      bg: 'bg-green-100 dark:bg-green-900/30',
+      text: 'text-green-800 dark:text-green-200',
+      border: 'border-green-300 dark:border-green-700',
+    },
+    cancelled: {
+      label: 'Cancelled',
+      icon: '\u274c',
+      bg: 'bg-red-100 dark:bg-red-900/30',
+      text: 'text-red-800 dark:text-red-200',
+      border: 'border-red-300 dark:border-red-700',
+    },
   }
 
+  const c = config[status]
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="mx-auto max-w-4xl">
-        <h1 className="mb-6 text-3xl font-bold">Calendar Event Details</h1>
+    <span
+      className={`inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-sm font-semibold ${c.bg} ${c.text} ${c.border}`}
+    >
+      <span>{c.icon}</span>
+      {c.label}
+    </span>
+  )
+}
 
-        {matchingEvent ? (
-          <>
-            <div className="mb-8 rounded-lg bg-white p-6 shadow-lg dark:bg-gray-800">
-              <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
-                {matchingEvent.summary || 'Untitled Event'}
-              </h2>
-
-              <div className="space-y-4">
-                <div>
-                  <h3 className="text-lg font-medium text-gray-700 dark:text-gray-300">
-                    Event ID:
-                  </h3>
-                  <p className="rounded bg-gray-100 p-2 font-mono text-sm text-gray-900 dark:bg-gray-700 dark:text-white">
-                    {matchingEvent.id}
-                  </p>
-                </div>
-
-                {matchingEvent.description && (
-                  <div>
-                    <h3 className="text-lg font-medium text-gray-700 dark:text-gray-300">
-                      Description:
-                    </h3>
-                    <p className="whitespace-pre-wrap text-gray-900 dark:text-white">
-                      {matchingEvent.description}
-                    </p>
-                  </div>
-                )}
-
-                {(matchingEvent.start?.dateTime || matchingEvent.start?.date) && (
-                  <div>
-                    <h3 className="text-lg font-medium text-gray-700 dark:text-gray-300">
-                      Start Time:
-                    </h3>
-                    <p className="text-gray-900 dark:text-white">
-                      {matchingEvent.start.dateTime
-                        ? new Date(matchingEvent.start.dateTime).toLocaleString()
-                        : matchingEvent.start.date}
-                    </p>
-                  </div>
-                )}
-
-                {(matchingEvent.end?.dateTime || matchingEvent.end?.date) && (
-                  <div>
-                    <h3 className="text-lg font-medium text-gray-700 dark:text-gray-300">
-                      End Time:
-                    </h3>
-                    <p className="text-gray-900 dark:text-white">
-                      {matchingEvent.end.dateTime
-                        ? new Date(matchingEvent.end.dateTime).toLocaleString()
-                        : matchingEvent.end.date}
-                    </p>
-                  </div>
-                )}
-
-                {matchingEvent.location && (
-                  <div>
-                    <h3 className="text-lg font-medium text-gray-700 dark:text-gray-300">
-                      Location:
-                    </h3>
-                    <p className="text-gray-900 dark:text-white">{matchingEvent.location}</p>
-                  </div>
-                )}
-
-                {matchingEvent.creator && (
-                  <div>
-                    <h3 className="text-lg font-medium text-gray-700 dark:text-gray-300">
-                      Created by:
-                    </h3>
-                    <p className="text-gray-900 dark:text-white">
-                      {matchingEvent.creator.displayName || matchingEvent.creator.email}
-                    </p>
-                  </div>
-                )}
-
-                {matchingEvent.attendees && matchingEvent.attendees.length > 0 && (
-                  <div>
-                    <h3 className="text-lg font-medium text-gray-700 dark:text-gray-300">
-                      Attendees:
-                    </h3>
-                    <ul className="list-inside list-disc text-gray-900 dark:text-white">
-                      {matchingEvent.attendees.map((attendee, index) => (
-                        <li key={index}>
-                          {attendee.displayName || attendee.email}
-                          {attendee.responseStatus && (
-                            <span className="text-sm text-gray-600 dark:text-gray-400">
-                              ({attendee.responseStatus})
-                            </span>
-                          )}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-
-                {matchingEvent.status && (
-                  <div>
-                    <h3 className="text-lg font-medium text-gray-700 dark:text-gray-300">
-                      Status:
-                    </h3>
-                    <p className="text-gray-900 capitalize dark:text-white">
-                      {matchingEvent.status}
-                    </p>
-                  </div>
-                )}
-
-                {matchingEvent.htmlLink && (
-                  <div>
-                    <h3 className="text-lg font-medium text-gray-700 dark:text-gray-300">
-                      Google Calendar Link:
-                    </h3>
-                    <Link
-                      href={matchingEvent.htmlLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-blue-600 hover:underline dark:text-blue-400"
-                    >
-                      Open in Google Calendar
-                    </Link>{' '}
-                  </div>
-                )}
-
-                {/* Booking URL Section */}
-                <div className="rounded-lg bg-green-50 p-4 dark:bg-green-900/20">
-                  <h3 className="text-lg font-medium text-gray-700 dark:text-gray-300">
-                    Book a Similar Session:
-                  </h3>
-                  <div className="mt-2 space-y-2">
-                    {bookingSlug && (
-                      <p className="text-sm text-green-700 dark:text-green-300">
-                        <strong>Detected Booking Type:</strong>{' '}
-                        <span className="font-mono text-xs">{bookingSlug}</span>
-                      </p>
-                    )}
-                    <Link
-                      href={bookingUrl}
-                      className="inline-block rounded bg-green-600 px-4 py-2 text-white transition-colors hover:bg-green-700"
-                    >
-                      Book New Appointment
-                    </Link>
-                    <p className="text-xs text-gray-600 dark:text-gray-400">
-                      {matchingEvent.location &&
-                        'Location information will be pre-filled based on this event'}
-                    </p>
-                  </div>
-                </div>
-
-                {/* Book Next Slot Section */}
-                <div className="mt-6 rounded-lg bg-blue-50 p-4 dark:bg-blue-900/20">
-                  <h3 className="text-lg font-medium text-blue-700 dark:text-blue-300">
-                    Book the Next Available Slot After This Event:
-                  </h3>
-                  <div className="mt-2">
-                    <Link
-                      href={`/event/${matchingEvent.id}/next`}
-                      className="inline-block rounded bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700"
-                    >
-                      Book Next Slot
-                    </Link>
-                    <p className="mt-1 text-xs text-gray-600 dark:text-gray-400">
-                      Only times within 30 minutes after this event will be shown.
-                    </p>
-                  </div>
-                </div>
-
-                {/* Book Adjacent Slot Section */}
-                <div className="mt-6 rounded-lg bg-purple-50 p-4 dark:bg-purple-900/20">
-                  <h3 className="text-lg font-medium text-purple-700 dark:text-purple-300">
-                    Book an Adjacent Slot Before or After This Event:
-                  </h3>
-                  <div className="mt-2">
-                    <Link
-                      href={`/event/${matchingEvent.id}/adjacent`}
-                      className="inline-block rounded bg-purple-600 px-4 py-2 text-white transition-colors hover:bg-purple-700"
-                    >
-                      Book Adjacent Slot
-                    </Link>
-                    <p className="mt-1 text-xs text-gray-600 dark:text-gray-400">
-                      Times before and after this event with a 30-minute buffer will be shown.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </>
-        ) : (
-          <div className="mb-8 rounded-lg bg-red-50 p-6 dark:bg-red-900/20">
-            <h2 className="mb-4 text-2xl font-semibold text-red-800 dark:text-red-200">
-              Event Not Found
-            </h2>
-            <p className="text-red-700 dark:text-red-300">
-              No event found with ID: <span className="font-mono text-sm">{event_id}</span>
-            </p>
-            <p className="mt-2 text-red-600 dark:text-red-400">
-              Check the search results below for available events.
-            </p>
-          </div>
-        )}
-      </div>
+function DetailRow({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="flex flex-col gap-0.5 sm:flex-row sm:items-baseline sm:gap-3">
+      <span className="text-primary-500 dark:text-primary-400 min-w-24 text-sm font-medium tracking-wide uppercase">
+        {label}
+      </span>
+      <span className="text-lg text-gray-800 dark:text-gray-200">{value}</span>
     </div>
+  )
+}
+
+export default async function EventPage({ params, searchParams }: EventPageProps) {
+  const { event_id } = await params
+  const { token } = await searchParams
+
+  if (!token) {
+    return (
+      <SectionContainer>
+        <div className="py-16 text-center">
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Access Denied</h1>
+          <p className="mt-2 text-gray-600 dark:text-gray-400">
+            A valid token is required to view this appointment.
+          </p>
+        </div>
+      </SectionContainer>
+    )
+  }
+
+  const result = verifyEventToken(token, event_id)
+
+  if (!result.valid) {
+    return (
+      <SectionContainer>
+        <div className="py-16 text-center">
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Invalid Link</h1>
+          <p className="mt-2 text-gray-600 dark:text-gray-400">
+            {result.error === 'Token expired'
+              ? 'This link has expired. The appointment may have already passed.'
+              : 'This link is not valid. Please check the link from your email.'}
+          </p>
+        </div>
+      </SectionContainer>
+    )
+  }
+
+  const event = await fetchSingleEvent(event_id)
+
+  if (!event) {
+    return (
+      <SectionContainer>
+        <div className="py-16 text-center">
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+            Appointment Not Found
+          </h1>
+          <p className="mt-2 text-gray-600 dark:text-gray-400">
+            This appointment may have been cancelled or removed.
+          </p>
+        </div>
+      </SectionContainer>
+    )
+  }
+
+  const { status, duration, clientName } = parseEventSummary(event.summary || '', event.status)
+
+  const startTime = event.start?.dateTime
+  const endTime = event.end?.dateTime
+
+  const dateString = startTime ? formatLocalDate(startTime) : null
+  const startString = startTime ? formatLocalTime(startTime) : null
+  const endString = endTime ? formatLocalTime(endTime, { timeZoneName: 'shortGeneric' }) : null
+
+  const bookingSlug = extractBookingSlug(event)
+  const editableFields = event.description ? parseEditableFields(event.description) : null
+  const bookingUrl = createBookingUrl(bookingSlug, event.location, {
+    firstName: editableFields?.firstName,
+    lastName: editableFields?.lastName,
+    email: result.payload.email,
+    phone: editableFields?.phone,
+  })
+
+  return (
+    <SectionContainer>
+      <div className="py-8 sm:py-12">
+        <div className="mx-auto max-w-2xl">
+          <h1 className="text-primary-500 dark:text-primary-400 text-3xl font-bold tracking-tight sm:text-4xl">
+            Your Appointment
+          </h1>
+
+          <div className="mt-6">
+            <StatusBadge status={status} />
+          </div>
+
+          {status === 'pending' && (
+            <p className="mt-4 text-sm text-gray-600 dark:text-gray-400">
+              Your request has been received and is awaiting confirmation. You&#39;ll receive an
+              email once it&#39;s been reviewed.
+            </p>
+          )}
+
+          <div className="mt-8 space-y-3 rounded-2xl border-2 border-gray-200 bg-gray-50 p-6 dark:border-gray-700 dark:bg-gray-800/50">
+            {dateString && duration && (
+              <div className="border-l-primary-400 bg-primary-50/30 dark:bg-primary-50/10 mb-4 rounded-md border-l-4 p-3">
+                <p className="text-primary-800 dark:text-primary-400 text-lg font-semibold">
+                  {dateString} &mdash; {duration}min Massage
+                </p>
+                {startString && endString && (
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                    {startString} &ndash; {endString}
+                  </p>
+                )}
+              </div>
+            )}
+
+            {clientName && <DetailRow label="Name" value={clientName} />}
+            {event.location && <DetailRow label="Location" value={event.location} />}
+            <DetailRow label="Email" value={result.payload.email} />
+          </div>
+
+          {status !== 'cancelled' && (
+            <div className="mt-8 flex flex-wrap items-start gap-3">
+              <CancelButton eventId={event_id} token={token} />
+              <EditForm
+                eventId={event_id}
+                token={token}
+                initialValues={
+                  editableFields || {
+                    firstName: '',
+                    lastName: '',
+                    phone: '',
+                    location: event.location || '',
+                  }
+                }
+              />
+            </div>
+          )}
+
+          {status === 'cancelled' && (
+            <div className="mt-8 rounded-2xl border-2 border-gray-200 bg-gray-50 p-6 text-center dark:border-gray-700 dark:bg-gray-800/50">
+              <p className="text-lg font-medium text-gray-800 dark:text-gray-200">
+                This appointment has been cancelled.
+              </p>
+              <Link
+                href={bookingUrl}
+                className="bg-primary-600 hover:bg-primary-700 mt-4 inline-block rounded-lg px-6 py-2.5 font-medium text-white transition-colors"
+              >
+                Book a New Appointment
+              </Link>
+            </div>
+          )}
+
+          <div className="mt-12 border-t border-gray-200 pt-8 dark:border-gray-700">
+            <div className="flex flex-col items-center gap-4 text-center">
+              {status !== 'cancelled' && (
+                <Link
+                  href={bookingUrl}
+                  className="text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 text-sm font-medium"
+                >
+                  Book Another Session
+                </Link>
+              )}
+              <p className="text-xs text-gray-500 dark:text-gray-500">
+                Want to see all your bookings?{' '}
+                <Link
+                  href="/auth/login?redirectedFrom=/my_events"
+                  className="text-primary-500 hover:text-primary-600 dark:text-primary-400 font-medium"
+                >
+                  Sign in with Google
+                </Link>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </SectionContainer>
   )
 }

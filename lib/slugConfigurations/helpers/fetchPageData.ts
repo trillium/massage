@@ -1,55 +1,39 @@
+import { GoogleCalendarV3Event, SearchParamsType, SlugConfigurationType } from '@/lib/types'
+import { MockedData, FetchPageDataReturnType } from './fetchPageData.types'
 import {
-  GoogleCalendarV3Event,
-  SearchParamsType,
-  SlugConfigurationType,
-  StringInterval,
-  StringDateTimeIntervalAndLocation,
-} from '@/lib/types'
-import {
-  fetchContainersByQuery,
-  fetchContainerGeneric,
-  fetchAllCalendarEvents,
-  filterEventsForQuery,
-  filterEventsForGeneralBlocking,
-} from '@/lib/fetch/fetchContainersByQuery'
-import { fetchData } from '@/lib/fetch/fetchData'
-import { fetchSingleEvent } from '@/lib/fetch/fetchSingleEvent'
-import { createMultiDurationAvailability } from '@/lib/availability/getNextSlotAvailability'
-import { createMultiDurationAvailability as createAdjacentMultiDurationAvailability } from '@/lib/availability/getAdjacentSlotAvailability'
-import { getNextUpcomingEvent } from '@/lib/fetch/getNextUpcomingEvent'
-import { geocodeLocation } from '@/lib/geocode'
-import { ALLOWED_DURATIONS } from 'config'
+  resolveCurrentEvent,
+  buildInvalidSlugResult,
+  buildMockedResult,
+  fetchContainerResult,
+  fetchFixedLocationResult,
+  fetchNextWithEventResult,
+  fetchNextNoEventFallback,
+  fetchAdjacentWithEventResult,
+  fetchAdjacentNoEventFallback,
+  fetchAreaWideResult,
+  maybeCaptureTestData,
+} from './fetchPageData.handlers'
 
-type MockedData = {
-  start: string
-  end: string
-  busy: Array<{ start: Date; end: Date }>
-  timeZone?: string
-  data?: Record<string, unknown>
-}
+type DebugInfo = NonNullable<FetchPageDataReturnType['debugInfo']>
 
-type FetchPageDataReturnType = {
-  start: string
-  end: string
-  busy: StringInterval[]
-  containers?: GoogleCalendarV3Event[]
-  timeZone?: string
-  data?: Record<string, unknown>
-  multiDurationSlots?: Record<number, StringDateTimeIntervalAndLocation[]>
-  currentEvent?: GoogleCalendarV3Event
-  eventCoordinates?: { latitude: number; longitude: number }
-  nextEventFound: boolean
-  targetDate?: string
-  debugInfo?: {
-    pathTaken: string
-    inputs: Record<string, unknown>
-    outputs: Record<string, unknown>
+function wrapWithDebug(
+  result: Omit<FetchPageDataReturnType, 'debugInfo'>,
+  pathTaken: string,
+  debugInfo?: DebugInfo
+): FetchPageDataReturnType {
+  if (debugInfo) {
+    debugInfo.pathTaken = pathTaken
+    debugInfo.outputs = result
   }
+  return { ...result, debugInfo }
 }
 
-/**
- * Fetches data based on configuration type and mocking requirements
- */
+function isContainerBasedPath(configuration: SlugConfigurationType, bookingSlug?: string): boolean {
+  return (
+    (configuration?.type === 'scheduled-site' && !!bookingSlug) || !!configuration?.eventContainer
+  )
+}
+
 export async function fetchPageData(
   configuration: SlugConfigurationType,
   resolvedParams: SearchParamsType,
@@ -67,377 +51,60 @@ export async function fetchPageData(
       }
     : undefined
 
-  // If configuration type is null, this is an invalid/non-existent slug
   if (configuration?.type === null) {
-    const today = new Date()
-    const todayStr = today.toISOString().split('T')[0] // YYYY-MM-DD format
-    const yesterday = new Date(today)
-    yesterday.setDate(yesterday.getDate() - 1)
-    const yesterdayStr = yesterday.toISOString().split('T')[0]
-
-    const result = {
-      start: todayStr,
-      end: yesterdayStr, // End before start = invalid range, no availability
-      busy: [],
-      nextEventFound: false, // Invalid slug never has a next event
-    }
-    if (debugInfo) {
-      debugInfo.pathTaken = 'invalid-slug'
-      debugInfo.outputs = result
-    }
-    return { ...result, debugInfo }
+    return wrapWithDebug(buildInvalidSlugResult(), 'invalid-slug', debugInfo)
   }
 
   if (mocked) {
-    // Use mocked data instead of fetching
-    const result = {
-      start: mocked.start,
-      end: mocked.end,
-      busy: mocked.busy.map((busyItem) => ({
-        start: busyItem.start.toISOString(),
-        end: busyItem.end.toISOString(),
-      })),
-      timeZone: mocked.timeZone,
-      data: mocked.data || {},
-      containers: [], // Ensure containers property exists
-      nextEventFound: false, // Mocked data never has a next event
-    }
-    if (debugInfo) {
-      debugInfo.pathTaken = 'mocked'
-      debugInfo.outputs = result
-    }
-    return { ...result, debugInfo }
+    return wrapWithDebug(buildMockedResult(mocked), 'mocked', debugInfo)
   }
 
-  // Check for container-based availability
-  // This handles both 'scheduled-site' type and configurations with eventContainer property
-  if (
-    (configuration?.type === 'scheduled-site' && !!bookingSlug) ||
-    configuration?.eventContainer
-  ) {
-    const query = configuration?.eventContainer || bookingSlug!
-    const blockingScope = configuration?.blockingScope || 'event' // default to 'event' behavior
-
-    let containerData
-
-    if (blockingScope === 'general') {
-      // For general blocking, fetch ALL calendar events and filter for general blocking
-      const allEventsData = await fetchAllCalendarEvents({
-        searchParams: resolvedParams,
-      })
-
-      const generalBlocking = filterEventsForGeneralBlocking(allEventsData.allEvents)
-      const querySpecific = filterEventsForQuery(allEventsData.allEvents, query)
-
-      containerData = {
-        start: allEventsData.start,
-        end: allEventsData.end,
-        busy: generalBlocking.busyQuery, // Block against ALL events
-        containers: querySpecific.containers, // But still only show containers for this query
-      }
-    } else {
-      // For event-only blocking (default behavior), use the original logic
-      containerData = await fetchContainersByQuery({
-        searchParams: resolvedParams,
-        query,
-      })
-    }
-
-    // Convert busy times to the expected string format
-    const busyConverted = containerData.busy.map((busyItem) => ({
-      start: typeof busyItem.start === 'string' ? busyItem.start : busyItem.start.dateTime,
-      end: typeof busyItem.end === 'string' ? busyItem.end : busyItem.end.dateTime,
-    }))
-
-    const result = {
-      start: containerData.start,
-      end: containerData.end,
-      busy: busyConverted,
-      containers: containerData.containers,
-      nextEventFound: false, // Container-based bookings don't have next events
-    }
-    if (debugInfo) {
-      debugInfo.pathTaken = blockingScope === 'general' ? 'container-general' : 'container-event'
-      debugInfo.outputs = result
-    }
-    return { ...result, debugInfo }
+  if (isContainerBasedPath(configuration, bookingSlug)) {
+    const { result, pathTaken } = await fetchContainerResult(
+      configuration,
+      resolvedParams,
+      bookingSlug
+    )
+    return wrapWithDebug(result, pathTaken, debugInfo)
   }
 
   if (configuration?.type === 'fixed-location') {
-    // Fixed-location bookings use regular data fetching and OWNER_AVAILABILITY
-    const regularData = await fetchData({ searchParams: resolvedParams })
-    // Don't include containers - this will use OWNER_AVAILABILITY in getPotentialTimes
-    const result = {
-      start: regularData.start,
-      end: regularData.end,
-      busy: regularData.busy,
-      nextEventFound: false, // Fixed-location bookings don't have next events
-    }
-    if (debugInfo) {
-      debugInfo.pathTaken = 'fixed-location'
-      debugInfo.outputs = result
-    }
-    return { ...result, debugInfo }
+    return wrapWithDebug(
+      await fetchFixedLocationResult(resolvedParams),
+      'fixed-location',
+      debugInfo
+    )
   }
 
   if (configuration?.type === 'next') {
-    let actualCurrentEvent: GoogleCalendarV3Event | null = null
-
-    if (currentEvent) {
-      // Use the provided event object (no need to refetch)
-      actualCurrentEvent = currentEvent
-    } else if (eventId && typeof eventId === 'string') {
-      // Fetch the single event details using the provided eventId
-      const fetchedEvent = await fetchSingleEvent(eventId)
-      if (!fetchedEvent) {
-        throw new Error(`Event not found: ${eventId}`)
-      }
-      actualCurrentEvent = fetchedEvent
-    } else {
-      // No specific event provided - try to find the next upcoming event automatically
-      actualCurrentEvent = await getNextUpcomingEvent()
+    const event = await resolveCurrentEvent(eventId, currentEvent)
+    if (event) {
+      return wrapWithDebug(await fetchNextWithEventResult(event), 'next-with-event', debugInfo)
     }
-
-    // If we found an event, use next-slot availability
-    if (actualCurrentEvent) {
-      // Use multi-duration availability system for flexible next-slot booking
-      const multiDurationAvailability = await createMultiDurationAvailability({
-        currentEvent: actualCurrentEvent,
-        durationOptions: ALLOWED_DURATIONS, // Use all allowed durations
-        slotInterval: 15, // 15-minute increments
-        maxMinutesAhead: 30, // Look 30 minutes ahead
-      })
-
-      // Serialize multi-duration availability data for client components
-      const multiDurationSlots: Record<number, StringDateTimeIntervalAndLocation[]> = {}
-      for (const duration of ALLOWED_DURATIONS) {
-        multiDurationSlots[duration] =
-          multiDurationAvailability.getTimeListFormatForDuration(duration)
-      }
-
-      // For next-type configurations, we provide the event end time as the start
-      // and 30 minutes after as the end (matching the maxMinutesAhead)
-      const eventEndTime = actualCurrentEvent.end?.dateTime
-        ? new Date(actualCurrentEvent.end.dateTime)
-        : new Date()
-      const searchEndTime = new Date(eventEndTime.getTime() + 30 * 60 * 1000) // 30 minutes later
-
-      // Convert to YYYY-MM-DD format for dayFromString compatibility
-      const startDateString = eventEndTime.toISOString().split('T')[0]
-      const endDateString = searchEndTime.toISOString().split('T')[0]
-
-      // Geocode the event location if available (server-side for performance and security)
-      let eventCoordinates: { latitude: number; longitude: number } | undefined
-      if (actualCurrentEvent.location) {
-        try {
-          const geocodeResult = await geocodeLocation(actualCurrentEvent.location)
-          if (geocodeResult.success && geocodeResult.coordinates) {
-            eventCoordinates = {
-              latitude: geocodeResult.coordinates.lat,
-              longitude: geocodeResult.coordinates.lng,
-            }
-          }
-        } catch (error) {
-          console.error('Error geocoding event location:', error)
-        }
-      }
-
-      const result = {
-        start: startDateString,
-        end: endDateString,
-        busy: [], // Next-type configurations don't use traditional busy slots
-        multiDurationSlots,
-        currentEvent: actualCurrentEvent,
-        eventCoordinates,
-        nextEventFound: true, // Flag to indicate next event was found
-      }
-      if (debugInfo) {
-        debugInfo.pathTaken = 'next-with-event'
-        debugInfo.outputs = result
-      }
-      return { ...result, debugInfo }
-    } else {
-      // No upcoming event found - intelligently fallback based on actual availability
-      const now = new Date()
-      const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
-      const tomorrow = new Date(today)
-      tomorrow.setDate(tomorrow.getDate() + 1)
-      const dayAfterTomorrow = new Date(tomorrow)
-      dayAfterTomorrow.setDate(dayAfterTomorrow.getDate() + 1)
-
-      // Fetch general availability for the next 2 days to check what's actually available
-      const twoDaySearchParams = {
-        ...resolvedParams,
-        start: today.toISOString().split('T')[0],
-        end: dayAfterTomorrow.toISOString().split('T')[0], // Include 2 days
-      }
-
-      const generalData = await fetchData({ searchParams: twoDaySearchParams })
-
-      // Create temporary slots for today to see if any are available after lead time
-      const leadTimeMinutes = 3 * 60 // 3 hours in minutes
-      const earliestBookingTime = new Date(now.getTime() + leadTimeMinutes * 60 * 1000)
-
-      // Check if there's meaningful business time left today
-      // Business hours are 10 AM - 11 PM (23:00) from config.ts OWNER_AVAILABILITY
-      const endOfBusinessToday = new Date(today)
-      endOfBusinessToday.setHours(23, 0, 0, 0) // 11 PM is the close time
-
-      // We need at least 60 minutes of business time for a viable appointment
-      // (shortest duration is 60 minutes per ALLOWED_DURATIONS)
-      const minimumViableTime = 60 * 60 * 1000 // 60 minutes in milliseconds
-
-      let targetDate: Date
-      let targetDateString: string
-
-      if (earliestBookingTime.getTime() + minimumViableTime <= endOfBusinessToday.getTime()) {
-        // There's enough viable business time left today for at least a 60-minute appointment
-        targetDate = today
-        targetDateString = today.toISOString().split('T')[0]
-      } else {
-        // Not enough viable business time left today - offer tomorrow
-        targetDate = tomorrow
-        targetDateString = tomorrow.toISOString().split('T')[0]
-      }
-
-      // Return availability constrained to the single target day
-      const result = {
-        start: targetDateString, // Single day start
-        end: targetDateString, // Single day end (same day)
-        busy: generalData.busy, // Keep all busy times (slot creation will filter by date)
-        nextEventFound: false, // Flag to indicate no next event was found
-        targetDate: targetDateString, // Add info about which day we're targeting
-      }
-      if (debugInfo) {
-        debugInfo.pathTaken = 'next-no-event'
-        debugInfo.outputs = result
-      }
-      return { ...result, debugInfo }
-    }
+    return wrapWithDebug(await fetchNextNoEventFallback(resolvedParams), 'next-no-event', debugInfo)
   }
 
   if (configuration?.type === 'adjacent') {
-    let actualCurrentEvent: GoogleCalendarV3Event | null = null
-
-    if (currentEvent) {
-      actualCurrentEvent = currentEvent
-    } else if (eventId && typeof eventId === 'string') {
-      const fetchedEvent = await fetchSingleEvent(eventId)
-      if (!fetchedEvent) {
-        throw new Error(`Event not found: ${eventId}`)
-      }
-      actualCurrentEvent = fetchedEvent
-    } else {
-      actualCurrentEvent = await getNextUpcomingEvent()
+    const event = await resolveCurrentEvent(eventId, currentEvent)
+    if (event) {
+      return wrapWithDebug(
+        await fetchAdjacentWithEventResult(event),
+        'adjacent-with-event',
+        debugInfo
+      )
     }
-
-    if (actualCurrentEvent) {
-      const multiDurationAvailability = await createAdjacentMultiDurationAvailability({
-        currentEvent: actualCurrentEvent,
-        durationOptions: ALLOWED_DURATIONS,
-        slotInterval: 15,
-        adjacencyBuffer: 30,
-      })
-
-      const multiDurationSlots: Record<number, StringDateTimeIntervalAndLocation[]> = {}
-      for (const duration of ALLOWED_DURATIONS) {
-        multiDurationSlots[duration] =
-          multiDurationAvailability.getTimeListFormatForDuration(duration)
-      }
-
-      const eventStartTime = actualCurrentEvent.start?.dateTime
-        ? new Date(actualCurrentEvent.start.dateTime)
-        : new Date()
-      const eventEndTime = actualCurrentEvent.end?.dateTime
-        ? new Date(actualCurrentEvent.end.dateTime)
-        : new Date()
-
-      const startDateString = eventStartTime.toISOString().split('T')[0]
-      const endDateString = eventEndTime.toISOString().split('T')[0]
-
-      const result = {
-        start: startDateString,
-        end: endDateString,
-        busy: [],
-        multiDurationSlots,
-        currentEvent: actualCurrentEvent,
-        nextEventFound: true,
-      }
-      if (debugInfo) {
-        debugInfo.pathTaken = 'adjacent-with-event'
-        debugInfo.outputs = result
-      }
-      return { ...result, debugInfo }
-    } else {
-      const now = new Date()
-      const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
-      const tomorrow = new Date(today)
-      tomorrow.setDate(tomorrow.getDate() + 1)
-      const dayAfterTomorrow = new Date(tomorrow)
-      dayAfterTomorrow.setDate(dayAfterTomorrow.getDate() + 1)
-
-      const twoDaySearchParams = {
-        ...resolvedParams,
-        start: today.toISOString().split('T')[0],
-        end: dayAfterTomorrow.toISOString().split('T')[0],
-      }
-
-      const generalData = await fetchData({ searchParams: twoDaySearchParams })
-
-      const result = {
-        start: today.toISOString().split('T')[0],
-        end: tomorrow.toISOString().split('T')[0],
-        busy: generalData.busy,
-        nextEventFound: false,
-      }
-      if (debugInfo) {
-        debugInfo.pathTaken = 'adjacent-no-event'
-        debugInfo.outputs = result
-      }
-      return { ...result, debugInfo }
-    }
+    return wrapWithDebug(
+      await fetchAdjacentNoEventFallback(resolvedParams),
+      'adjacent-no-event',
+      debugInfo
+    )
   }
 
-  if (configuration?.type === 'previous') {
-    // get soonest event
-    // offer slots between 0 and leadTime minutes before session
-  }
-
-  if (configuration?.type === 'next-previous') {
-    // get soonest event
-    // offer slots between 0 and leadTime minutes before and after session
-  }
-
-  // Default case: area-wide or null type configurations
-  const regularData = await fetchData({ searchParams: resolvedParams })
-  // Don't include containers - this will use OWNER_AVAILABILITY in getPotentialTimes
-  const result = {
-    start: regularData.start,
-    end: regularData.end,
-    busy: regularData.busy,
-    nextEventFound: false, // Default case never has a next event
-  }
-  if (debugInfo) {
-    debugInfo.pathTaken = 'area-wide'
-    debugInfo.outputs = result
-  }
-
-  // Capture data if enabled (server-side only)
-  const finalResult = { ...result, debugInfo }
-  if (typeof window === 'undefined' && process.env.CAPTURE_TEST_DATA === 'true') {
-    try {
-      const { captureFetchPageData } = await import('@/lib/utils/captureTestData')
-      await captureFetchPageData({
-        configuration: configuration as Record<string, unknown>,
-        resolvedParams: resolvedParams as Record<string, unknown>,
-        bookingSlug,
-        eventId,
-        result: finalResult,
-      })
-    } catch (error) {
-      console.error('Failed to capture test data:', error)
-    }
-  }
-
+  const finalResult = wrapWithDebug(
+    await fetchAreaWideResult(resolvedParams),
+    'area-wide',
+    debugInfo
+  )
+  await maybeCaptureTestData(finalResult, configuration, resolvedParams, bookingSlug, eventId)
   return finalResult
 }

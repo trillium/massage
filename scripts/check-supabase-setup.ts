@@ -33,9 +33,9 @@ function printResults() {
 
   console.log('═'.repeat(60))
 
-  const passCount = results.filter(r => r.status === 'pass').length
-  const failCount = results.filter(r => r.status === 'fail').length
-  const warnCount = results.filter(r => r.status === 'warn').length
+  const passCount = results.filter((r) => r.status === 'pass').length
+  const failCount = results.filter((r) => r.status === 'fail').length
+  const warnCount = results.filter((r) => r.status === 'warn').length
 
   console.log(`\nResults: ${passCount} passed, ${failCount} failed, ${warnCount} warnings`)
 
@@ -74,11 +74,7 @@ async function checkEnvironmentVariables() {
     return false
   }
 
-  addResult(
-    'Environment: NEXT_PUBLIC_SUPABASE_URL',
-    'pass',
-    `Found: ${url}`
-  )
+  addResult('Environment: NEXT_PUBLIC_SUPABASE_URL', 'pass', `Found: ${url}`)
 
   if (!anonKey) {
     addResult(
@@ -117,11 +113,7 @@ async function checkConnection() {
   const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
   if (!url || !anonKey) {
-    addResult(
-      'Connection Test',
-      'fail',
-      'Skipped due to missing environment variables'
-    )
+    addResult('Connection Test', 'fail', 'Skipped due to missing environment variables')
     return false
   }
 
@@ -132,19 +124,11 @@ async function checkConnection() {
     const { error } = await supabase.auth.getSession()
 
     if (error) {
-      addResult(
-        'Connection Test',
-        'fail',
-        `Failed to connect: ${error.message}`
-      )
+      addResult('Connection Test', 'fail', `Failed to connect: ${error.message}`)
       return false
     }
 
-    addResult(
-      'Connection Test',
-      'pass',
-      'Successfully connected to Supabase'
-    )
+    addResult('Connection Test', 'pass', 'Successfully connected to Supabase')
     return true
   } catch (err) {
     addResult(
@@ -161,11 +145,7 @@ async function checkDatabase() {
   const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
   if (!url || !anonKey) {
-    addResult(
-      'Database Schema',
-      'fail',
-      'Skipped due to missing environment variables'
-    )
+    addResult('Database Schema', 'fail', 'Skipped due to missing environment variables')
     return false
   }
 
@@ -173,10 +153,7 @@ async function checkDatabase() {
     const supabase = createClient(url, anonKey)
 
     // Check if profiles table exists
-    const { data, error } = await supabase
-      .from('profiles')
-      .select('id')
-      .limit(1)
+    const { data, error } = await supabase.from('profiles').select('id').limit(1)
 
     if (error) {
       if (error.message.includes('relation "public.profiles" does not exist')) {
@@ -197,11 +174,7 @@ async function checkDatabase() {
       return true
     }
 
-    addResult(
-      'Database Schema',
-      'pass',
-      'Table "profiles" exists and is accessible'
-    )
+    addResult('Database Schema', 'pass', 'Table "profiles" exists and is accessible')
     return true
   } catch (err) {
     addResult(
@@ -218,11 +191,7 @@ async function checkAuth() {
   const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
   if (!url || !anonKey) {
-    addResult(
-      'Auth Configuration',
-      'fail',
-      'Skipped due to missing environment variables'
-    )
+    addResult('Auth Configuration', 'fail', 'Skipped due to missing environment variables')
     return false
   }
 
@@ -233,19 +202,11 @@ async function checkAuth() {
     const { data, error } = await supabase.auth.getSession()
 
     if (error && !error.message.includes('session_not_found')) {
-      addResult(
-        'Auth Configuration',
-        'fail',
-        `Auth error: ${error.message}`
-      )
+      addResult('Auth Configuration', 'fail', `Auth error: ${error.message}`)
       return false
     }
 
-    addResult(
-      'Auth Configuration',
-      'pass',
-      'Auth service is accessible and configured'
-    )
+    addResult('Auth Configuration', 'pass', 'Auth service is accessible and configured')
     return true
   } catch (err) {
     addResult(

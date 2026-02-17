@@ -96,8 +96,8 @@ export const configSlice: Slice<SlugConfigurationType> = createSlice({
     setBulkConfigSliceState: (state, action: PayloadAction<Partial<SlugConfigurationType>>) => {
       Object.assign(state, action.payload)
     },
-    configSliceReset: (state) => {
-      state = { ...initialState }
+    configSliceReset: () => {
+      return { ...initialState }
     },
   },
 })

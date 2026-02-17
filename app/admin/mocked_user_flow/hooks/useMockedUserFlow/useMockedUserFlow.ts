@@ -18,7 +18,7 @@ import { AppointmentRequestSchema as schema } from '@/lib/schema'
 import { AppointmentRequestType } from '@/lib/types'
 import { createPageConfiguration } from '@/lib/slugConfigurations/createPageConfiguration'
 import { buildDurationProps } from '@/lib/slugConfigurations/helpers/buildDurationProps'
-import { handleSubmit, buildBookingPayload } from 'components/booking/handleSubmit'
+import { buildBookingPayload } from 'components/booking/handleSubmit'
 import { createLocationSchema } from 'components/booking/fields/validations/locationValidation'
 import { testUser } from '../../testUser'
 import { generateMockEmails } from './generateMockEmails'
@@ -52,7 +52,6 @@ export function useMockedUserFlow() {
       }
 
       try {
-        // Create mock data to avoid OAuth requirements
         const mockData = {
           start: new Date().toISOString().split('T')[0], // Today's date in YYYY-MM-DD format
           end: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], // 30 days from now
@@ -60,13 +59,11 @@ export function useMockedUserFlow() {
           timeZone: 'America/Los_Angeles',
         }
 
-        // Use createPageConfiguration with mocked data to get proper configuration
         const result = await createPageConfiguration({
           resolvedParams: mockSearchParams,
           mocked: mockData,
         })
 
-        console.log('[useMockedUserFlow] createPageConfiguration result:', result)
         setPageConfig(result)
 
         // Initialize form with test user data
@@ -142,13 +139,9 @@ export function useMockedUserFlow() {
     // Use buildBookingPayload to properly transform location fields
     const jsonData = buildBookingPayload(formData)
 
-    console.log('[processFormData] Transformed data:', jsonData)
-
     const validationResult: AppointmentRequestValidationResult = schema.safeParse(jsonData)
     if (!validationResult.success) {
-      console.error('[processFormData] zod validation failed')
       console.error('[processFormData] Validation errors:', validationResult.error.issues)
-      console.error('[processFormData] Failed data:', jsonData)
       dispatch(setModal({ status: 'error' }))
       return
     }
@@ -179,17 +172,12 @@ export function useMockedUserFlow() {
 
     setTherapistEmail(therapistEmailData)
     setClientEmail(clientEmailData)
-    // Helper to generate mock emails for therapist and client
   }
 
   const handleMockedSubmit = async (
     values: BookingFormValues,
     formikHelpers: FormikHelpers<BookingFormValues>
   ) => {
-    console.log('[useMockedUserFlow] handleMockedSubmit called!')
-    console.log('[useMockedUserFlow] Formik values:', values)
-    console.log('[useMockedUserFlow] Formik helpers:', formikHelpers)
-
     // Create FormData from Formik values
     const formData = new FormData()
     formData.append('firstName', values.firstName)
@@ -235,7 +223,6 @@ export function useMockedUserFlow() {
   }
 
   const handleReset = () => {
-    // Reset all state to initial values
     setSubmittedData(null)
     setTherapistEmail(null)
     setClientEmail(null)

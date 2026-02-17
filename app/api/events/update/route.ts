@@ -1,39 +1,62 @@
 import { NextRequest, NextResponse } from 'next/server'
 import getAccessToken from 'lib/availability/getAccessToken'
 import { GoogleCalendarV3Event } from 'lib/types'
-import { AdminAuthManager } from '@/lib/adminAuth'
+import { requireAdminWithFlag } from '@/lib/adminAuthBridge'
+
+const ALLOWED_UPDATE_FIELDS = new Set([
+  'summary',
+  'description',
+  'location',
+  'start',
+  'end',
+  'attendees',
+  'status',
+  'colorId',
+])
+
+function pickAllowedFields(data: Record<string, unknown>): Record<string, unknown> {
+  const filtered: Record<string, unknown> = {}
+  for (const key of Object.keys(data)) {
+    if (ALLOWED_UPDATE_FIELDS.has(key)) {
+      filtered[key] = data[key]
+    }
+  }
+  return filtered
+}
 
 export async function PATCH(request: NextRequest) {
   try {
-    const auth = AdminAuthManager.requireAdmin(request)
+    const auth = await requireAdminWithFlag(request)
     if (auth instanceof NextResponse) return auth
     const body = await request.json()
     const { eventId, updateData } = body
 
     if (!eventId) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: 'Event ID is required',
-        },
-        { status: 400 }
-      )
+      return NextResponse.json({ success: false, error: 'Event ID is required' }, { status: 400 })
     }
 
     if (!updateData || Object.keys(updateData).length === 0) {
       return NextResponse.json(
+        { success: false, error: 'Update data is required' },
+        { status: 400 }
+      )
+    }
+
+    const sanitizedData = pickAllowedFields(updateData)
+
+    if (Object.keys(sanitizedData).length === 0) {
+      return NextResponse.json(
         {
           success: false,
-          error: 'Update data is required',
+          error: `No allowed fields in updateData. Allowed: ${[...ALLOWED_UPDATE_FIELDS].join(', ')}`,
         },
         { status: 400 }
       )
     }
 
     const accessToken = await getAccessToken()
-    const calendarId = 'primary' // Use 'primary' for the primary calendar
+    const calendarId = 'primary'
 
-    // Update the event using the Google Calendar API
     const apiUrl = `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(
       calendarId
     )}/events/${encodeURIComponent(eventId)}`
@@ -44,7 +67,7 @@ export async function PATCH(request: NextRequest) {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${accessToken}`,
       },
-      body: JSON.stringify(updateData),
+      body: JSON.stringify(sanitizedData),
       cache: 'no-cache',
     })
 

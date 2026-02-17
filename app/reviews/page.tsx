@@ -1,7 +1,7 @@
 import React from 'react'
 
 import SectionContainer from '@/components/SectionContainer'
-import ReviewCard from '@/components/ReviewCard'
+import ReviewCard from '@/components/ReviewCard/ReviewCard'
 import BookSessionButton from '@/components/BookSessionButton'
 
 export default async function Page() {

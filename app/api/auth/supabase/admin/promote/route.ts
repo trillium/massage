@@ -5,7 +5,8 @@
  */
 
 import { NextResponse } from 'next/server'
-import { getSupabaseAdminClient, isAdmin } from '@/lib/supabase/server'
+import { headers as nextHeaders } from 'next/headers'
+import { getSupabaseAdminClient, isAdmin, getUser } from '@/lib/supabase/server'
 
 export async function POST(request: Request) {
   try {
@@ -21,14 +22,20 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'userId is required' }, { status: 400 })
     }
 
+    const actor = await getUser()
+    const reqHeaders = await nextHeaders()
+    const ip = reqHeaders.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown'
+
     const supabase = getSupabaseAdminClient()
 
     const { error } = await supabase.rpc('promote_to_admin', { user_id: userId })
 
     if (error) {
-      console.error('Error promoting user:', error)
+      console.error('[AUDIT] PROMOTE FAILED', { actor: actor?.id, target: userId, ip, error })
       return NextResponse.json({ error: error.message }, { status: 500 })
     }
+
+    console.log('[AUDIT] PROMOTE', { actor: actor?.id, target: userId, ip })
 
     return NextResponse.json({ success: true })
   } catch (err) {

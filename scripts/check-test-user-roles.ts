@@ -9,10 +9,7 @@ const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
 const supabase = createClient(supabaseUrl, supabaseKey)
 
 async function checkTestUserRoles() {
-  const testEmails = [
-    process.env.TEST_ADMIN_EMAIL!,
-    process.env.TEST_USER_EMAIL!,
-  ]
+  const testEmails = [process.env.TEST_ADMIN_EMAIL!, process.env.TEST_USER_EMAIL!]
 
   console.log('Checking test user roles in Supabase...\n')
 

@@ -8,7 +8,9 @@ vi.mock('../adminAuth', () => ({
   },
 }))
 
-const mockFetch = vi.fn(() => Promise.resolve(new Response('ok', { status: 200 })))
+const mockFetch = vi.fn<(url: string, options?: RequestInit) => Promise<Response>>(() =>
+  Promise.resolve(new Response('ok', { status: 200 }))
+)
 vi.stubGlobal('fetch', mockFetch)
 
 describe('adminFetch', () => {
@@ -29,8 +31,8 @@ describe('adminFetch', () => {
     expect(mockFetch).toHaveBeenCalledTimes(1)
     const [url, options] = mockFetch.mock.calls[0]
     expect(url).toBe('/api/admin/test')
-    expect(options.method).toBe('POST')
-    const headers = new Headers(options.headers)
+    expect(options!.method).toBe('POST')
+    const headers = new Headers(options!.headers as HeadersInit)
     expect(headers.get('x-admin-email')).toBe('admin@test.com')
     expect(headers.get('x-admin-token')).toBe('valid-token')
   })
@@ -56,7 +58,7 @@ describe('adminFetch', () => {
     })
 
     const [, options] = mockFetch.mock.calls[0]
-    const headers = new Headers(options.headers)
+    const headers = new Headers(options!.headers as HeadersInit)
     expect(headers.get('Content-Type')).toBe('application/json')
     expect(headers.get('x-admin-email')).toBe('admin@test.com')
     expect(headers.get('x-admin-token')).toBe('valid-token')
@@ -77,7 +79,7 @@ describe('adminFetch', () => {
     })
 
     const [, options] = mockFetch.mock.calls[0]
-    expect(options.method).toBe('PATCH')
-    expect(options.body).toBe(body)
+    expect(options!.method).toBe('PATCH')
+    expect(options!.body).toBe(body)
   })
 })

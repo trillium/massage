@@ -17,10 +17,15 @@ import type { Provider } from '@supabase/supabase-js'
 export async function signInWithMagicLink(email: string, redirectTo?: string) {
   const supabase = getSupabaseBrowserClient()
 
+  const callbackUrl = new URL('/auth/callback/supabase', window.location.origin)
+  if (redirectTo) {
+    callbackUrl.searchParams.set('next', redirectTo)
+  }
+
   const { data, error } = await supabase.auth.signInWithOtp({
     email,
     options: {
-      emailRedirectTo: redirectTo || `${window.location.origin}/auth/callback/supabase`,
+      emailRedirectTo: callbackUrl.toString(),
     },
   })
 
@@ -33,22 +38,19 @@ export async function signInWithMagicLink(email: string, redirectTo?: string) {
 export async function signInWithOAuth(provider: Provider, redirectTo?: string) {
   const supabase = getSupabaseBrowserClient()
 
+  const callbackUrl = new URL('/auth/callback/supabase', window.location.origin)
+  if (redirectTo) {
+    callbackUrl.searchParams.set('next', redirectTo)
+  }
+
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider,
     options: {
-      redirectTo: redirectTo || `${window.location.origin}/auth/callback/supabase`,
+      redirectTo: callbackUrl.toString(),
     },
   })
 
   return { data, error }
-}
-
-/**
- * Sign in with Google OAuth
- * Convenience wrapper for Google authentication
- */
-export async function signInWithGoogle(redirectTo?: string) {
-  return signInWithOAuth('google', redirectTo)
 }
 
 /**
@@ -143,7 +145,7 @@ export async function isClientAdmin() {
  * Listen to auth state changes
  * Returns unsubscribe function
  */
-export function onAuthStateChange(callback: (event: string, session: unknown) => void): () => void {
+export function onAuthStateChange(callback: (event: string, session: any) => void): () => void {
   const supabase = getSupabaseBrowserClient()
 
   const {

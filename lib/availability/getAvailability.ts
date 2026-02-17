@@ -44,17 +44,13 @@ export default function getAvailability({
       end: add(now, { minutes: leadTime }),
     }
 
-    //add leadTimeBuffer to front of busy array
-    busy?.unshift(leadTimeBuffer)
+    busy = [leadTimeBuffer, ...busy]
   }
 
   const potential = potentialParam.filter((slot) => {
     const slotStartDate = new Date(slot.start)
     return slotStartDate > now
   }) // filter out slots that are in the past
-
-  // Make a deep copy of the potential array
-  const remainingSlots = [...potential]
 
   for (let i = 0; i < potential.length; i++) {
     const freeSlot = potential[i]
@@ -85,12 +81,6 @@ export default function getAvailability({
     // If the free slot is not booked, add it to the result
     if (isFree) {
       openSlots.push(freeSlot)
-    }
-
-    // Remove the free slot from the remainingSlots array
-    const index = remainingSlots.indexOf(freeSlot)
-    if (index !== -1) {
-      remainingSlots.splice(index, 1)
     }
   }
 

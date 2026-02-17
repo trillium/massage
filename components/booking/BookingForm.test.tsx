@@ -2,7 +2,6 @@ import { describe, it, expect, vi, beforeEach, type Mock, type Mocked } from 'vi
 import React from 'react'
 import { render, fireEvent, waitFor } from '@testing-library/react'
 import BookingForm from './BookingForm'
-import { handleSubmit } from './handleSubmit'
 import { setModal } from '@/redux/slices/modalSlice'
 import { useRouter } from 'next/navigation'
 import { AppDispatch } from '@/redux/store'
@@ -12,9 +11,6 @@ import StoreProvider from 'app/StoreProvider'
 // Mock dependencies
 vi.mock('next/navigation', () => ({
   useRouter: vi.fn(),
-}))
-vi.mock('./handleSubmit', () => ({
-  handleSubmit: vi.fn(),
 }))
 vi.mock('@/redux/slices/modalSlice', () => {
   const mockReducer = vi.fn((state = { status: 'closed' }) => state)
@@ -69,11 +65,11 @@ vi.mock('@/redux/hooks', () => ({
 global.fetch = vi.fn()
 
 describe('BookingForm', () => {
-  let dispatchRedux: Mock
+  let dispatch: Mock
   let router: ReturnType<typeof useRouter>
 
   beforeEach(() => {
-    dispatchRedux = vi.fn()
+    dispatch = vi.fn()
     router = {
       push: vi.fn(),
       replace: vi.fn(),

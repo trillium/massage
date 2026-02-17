@@ -113,18 +113,6 @@ export default function GmailTestPage() {
       const dateString = selectedDay.toString()
       const [year, month, day] = dateString.split('-').map(Number)
 
-      console.log({
-        booking: selectedBooking,
-        selectedTime,
-        selectedLocation,
-        selectedDay: {
-          year,
-          month,
-          day,
-          toString: () => dateString,
-        },
-      })
-
       const response = await adminFetch('/api/admin/create-appointment', {
         method: 'POST',
         headers: {
@@ -322,7 +310,17 @@ export default function GmailTestPage() {
   )
 }
 
-function BookingItem({ booking, setActive, active }) {
+type BookingData = BookingResponse['bookings'][number]
+
+function BookingItem({
+  booking,
+  setActive,
+  active,
+}: {
+  booking: BookingData
+  setActive: (booking: BookingData) => void
+  active: boolean
+}) {
   return (
     <button
       className={clsx(

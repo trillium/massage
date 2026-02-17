@@ -1,5 +1,6 @@
 'use client'
 
+import { useMemo } from 'react'
 import { addDays, eachDayOfInterval, endOfWeek, startOfWeek } from 'date-fns'
 
 import DayButton from './DayButton'
@@ -55,26 +56,24 @@ export default function Calendar({
     }
   }
 
-  let maximumAvailability = 0
-  const availabilityByDate = slots.reduce<Record<string, StringDateTimeIntervalAndLocation[]>>(
-    (acc, slot) => {
-      // Gives us the same YYYY-MM-DD format as Day.toString()
-      const date = format(slot.start, 'yyyy-MM-dd', { timeZone })
-
-      if (!acc[date]) {
-        acc[date] = []
-      }
-      acc[date].push(slot)
-
-      if (acc[date].length > maximumAvailability) {
-        maximumAvailability = acc[date].length
-      }
-      return acc
-    },
-    {}
-  )
-
-  const offers = availabilityByDate
+  const { offers, maximumAvailability } = useMemo(() => {
+    let maxAvail = 0
+    const byDate = slots.reduce<Record<string, StringDateTimeIntervalAndLocation[]>>(
+      (acc, slot) => {
+        const date = format(slot.start, 'yyyy-MM-dd', { timeZone })
+        if (!acc[date]) {
+          acc[date] = []
+        }
+        acc[date].push(slot)
+        if (acc[date].length > maxAvail) {
+          maxAvail = acc[date].length
+        }
+        return acc
+      },
+      {}
+    )
+    return { offers: byDate, maximumAvailability: maxAvail }
+  }, [slots, timeZone])
 
   const weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 

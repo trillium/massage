@@ -30,7 +30,7 @@ setup('authenticate as admin', async ({ page }) => {
 
   await page.waitForURL((url) => !url.pathname.includes('/auth/test-login'), {
     timeout: 10000,
-    waitUntil: 'commit'
+    waitUntil: 'commit',
   })
 
   await page.waitForTimeout(2000)
@@ -69,7 +69,7 @@ setup('authenticate as user', async ({ page }) => {
 
   await page.waitForURL((url) => !url.pathname.includes('/auth/test-login'), {
     timeout: 10000,
-    waitUntil: 'commit'
+    waitUntil: 'commit',
   })
 
   await page.waitForTimeout(2000)

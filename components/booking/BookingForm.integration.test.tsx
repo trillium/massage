@@ -109,14 +109,13 @@ describe('BookingForm Integration Tests', () => {
   })
 
   describe('Form Field Interaction', () => {
-    it('should integrate with Redux form state when fields are changed', async () => {
+    it('should update Formik-controlled inputs on change', async () => {
       render(
         <Provider store={store}>
           <BookingForm />
         </Provider>
       )
 
-      // Fill out form fields using the actual aria-labels from the component
       const firstNameInput = screen.getByLabelText('First Name')
       const lastNameInput = screen.getByLabelText('Last Name')
       const emailInput = screen.getByLabelText('Email')
@@ -125,16 +124,37 @@ describe('BookingForm Integration Tests', () => {
       fireEvent.change(lastNameInput, { target: { value: 'Doe' } })
       fireEvent.change(emailInput, { target: { value: 'john.doe@example.com' } })
 
-      // Verify the values were set in the form
       expect(firstNameInput).toHaveValue('John')
       expect(lastNameInput).toHaveValue('Doe')
       expect(emailInput).toHaveValue('john.doe@example.com')
+    })
 
-      // Check that the Redux state was updated
+    it('should not sync name/email to Redux until submit', async () => {
+      render(
+        <Provider store={store}>
+          <BookingForm />
+        </Provider>
+      )
+
+      fireEvent.change(screen.getByLabelText('First Name'), { target: { value: 'John' } })
+      fireEvent.change(screen.getByLabelText('Email'), { target: { value: 'john@test.com' } })
+
       const formState = store.getState().form
-      expect(formState.firstName).toBe('John')
-      expect(formState.lastName).toBe('Doe')
-      expect(formState.email).toBe('john.doe@example.com')
+      expect(formState.firstName).toBe('')
+      expect(formState.email).toBe('')
+    })
+
+    it('should sync location to Redux on keystroke for DriveTimeCalculator', async () => {
+      render(
+        <Provider store={store}>
+          <BookingForm />
+        </Provider>
+      )
+
+      fireEvent.change(screen.getByLabelText('zip code'), { target: { value: '90210' } })
+
+      const formState = store.getState().form
+      expect(formState.location).toEqual(expect.objectContaining({ zip: '90210' }))
     })
   })
 
@@ -199,6 +219,46 @@ describe('BookingForm Integration Tests', () => {
       // Check that modal was closed
       const modalState = store.getState().modal
       expect(modalState.status).toBe('closed')
+    })
+
+    it('should populate Redux with form data on submit for confirmation page', async () => {
+      vi.mocked(global.fetch).mockResolvedValueOnce({
+        json: async () => ({ success: true }),
+        ok: true,
+      } as Response)
+
+      render(
+        <Provider store={store}>
+          <BookingForm />
+        </Provider>
+      )
+
+      fireEvent.change(screen.getByLabelText('First Name'), { target: { value: 'Jane' } })
+      fireEvent.change(screen.getByLabelText('Last Name'), { target: { value: 'Smith' } })
+      fireEvent.change(screen.getByLabelText('Email'), {
+        target: { value: 'jane@example.com' },
+      })
+      fireEvent.change(screen.getByLabelText('Phone Number'), { target: { value: '555-987-6543' } })
+      fireEvent.change(screen.getByLabelText('street address'), {
+        target: { value: '456 Oak Ave' },
+      })
+      fireEvent.change(screen.getByLabelText('city'), { target: { value: 'Playa Vista' } })
+      fireEvent.change(screen.getByLabelText('zip code'), { target: { value: '90094' } })
+
+      fireEvent.click(screen.getByText('Submit'))
+
+      await waitFor(() => {
+        expect(global.fetch).toHaveBeenCalled()
+      })
+
+      const formState = store.getState().form
+      expect(formState.firstName).toBe('Jane')
+      expect(formState.lastName).toBe('Smith')
+      expect(formState.email).toBe('jane@example.com')
+      expect(formState.phone).toBe('555-987-6543')
+      expect(formState.location).toEqual(
+        expect.objectContaining({ street: '456 Oak Ave', city: 'Playa Vista', zip: '90094' })
+      )
     })
 
     it('should handle API errors gracefully', async () => {

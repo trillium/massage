@@ -1,14 +1,7 @@
 import { AppointmentProps } from '@/lib/types'
 import { flattenLocation } from '@/lib/helpers/locationHelpers'
-import { generateSecureMyEventsUrlServer } from '@/lib/generateSecureMyEventsUrl'
 
-/**
- * Creates a description for a calendar event.
- *
- * @function
- * @returns {string} Returns the summary string for an event.
- */
-async function eventDescription({
+function eventDescription({
   start,
   end,
   phone,
@@ -24,7 +17,8 @@ async function eventDescription({
   promo,
   source,
   slugConfiguration,
-}: Partial<AppointmentProps>) {
+  origin,
+}: Partial<AppointmentProps> & { origin?: string }) {
   let output = 'Thanks for booking!'
   output += '\n\n'
   output += `<b>Name</b>: ${firstName} ${lastName}\n`
@@ -78,16 +72,8 @@ async function eventDescription({
     }
   }
 
-  // Generate secure my_events URL if email is available
-  if (email) {
-    try {
-      const host = process.env.NEXT_PUBLIC_SITE_URL || 'https://trilliummassage.la'
-      const myEventsUrl = await generateSecureMyEventsUrlServer(email, host)
-      output += `<b>My Events</b>: <a href="${myEventsUrl}">View My Events</a>\n`
-    } catch (error) {
-      console.error('Error generating secure my_events URL in event template:', error)
-    }
-  }
+  const host = origin || process.env.NEXT_PUBLIC_SITE_URL || 'https://trilliummassage.la'
+  output += `<b>My Events</b>: <a href="${host}/my_events">View My Events</a>\n`
 
   output += '\n\n'
   output += 'Trillium Smith, LMT'

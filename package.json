@@ -5,15 +5,16 @@
   "type": "module",
   "scripts": {
     "start": "next dev",
-    "dev": "cross-env INIT_CWD=$PWD next dev --port 9876",
+    "dev": "cross-env INIT_CWD=$PWD next dev --port 9876 --hostname 0.0.0.0",
     "build": "cross-env INIT_CWD=$PWD next build --webpack && cross-env NODE_OPTIONS='--experimental-json-modules' node ./scripts/postbuild.mjs",
     "build:staged": "./scripts/build-staged.sh",
     "build:staged:verbose": "./scripts/build-staged.sh --verbose",
     "serve": "next start",
     "analyze": "cross-env ANALYZE=true next build --webpack",
-    "lint": "eslint --fix app components lib layouts scripts",
+    "lint": "biome check --write app components lib layouts scripts",
     "prepare": "husky",
-    "test": "vitest run",
+    "test": "vitest run --changed --reporter=dot",
+    "test:all": "vitest run --reporter=dot",
     "test:watch": "vitest --watch",
     "test:coverage": "vitest run --coverage",
     "dev:e2e": "cross-env INIT_CWD=$PWD next dev --port 9999",
@@ -96,6 +97,7 @@
     "zod-formik-adapter": "^1.3.0"
   },
   "devDependencies": {
+    "@biomejs/biome": "^2.4.2",
     "@eslint/eslintrc": "^3.2.0",
     "@eslint/js": "^9.16.0",
     "@faker-js/faker": "^9.3.0",
@@ -103,10 +105,16 @@
     "@playwright/test": "^1.56.1",
     "@svgr/webpack": "^8.0.1",
     "@testing-library/jest-dom": "^6.6.3",
+    "@types/body-scroll-lock": "^3.1.2",
+    "@types/cli-progress": "^3.11.6",
+    "@types/js-yaml": "^4.0.9",
     "@types/mdx": "^2.0.12",
+    "@types/node-fetch": "^2.6.13",
+    "@types/nodemailer": "^7.0.10",
     "@types/react": "^19.0.8",
     "@typescript-eslint/eslint-plugin": "^8.39.0",
     "@typescript-eslint/parser": "^8.39.0",
+    "@typescript/native-preview": "7.0.0-dev.20260217.1",
     "@vitest/coverage-v8": "^3.2.3",
     "@vitest/ui": "^3.2.3",
     "cli-progress": "^3.12.0",
@@ -125,7 +133,6 @@
     "nspell": "^2.1.5",
     "playwright": "^1.56.1",
     "prettier": "^3.4.2",
-    "prettier-plugin-tailwindcss": "^0.6.11",
     "puppeteer": "^24.16.2",
     "ts-node": "^10.9.2",
     "tsx": "^4.20.4",
@@ -135,13 +142,15 @@
   },
   "lint-staged": {
     "*.+(js|jsx|ts|tsx)": [
-      "eslint --fix",
+      "biome check --write --no-errors-on-unmatched",
+      "bash -c '.husky/tsc-staged.sh'",
       "bash -c 'cspell --no-progress \"$@\" || exit 0' --"
     ],
-    "*.+(js|jsx|ts|tsx|json|css|md|mdx)": [
-      "prettier --write"
+    "*.+(json|css)": [
+      "biome format --write --no-errors-on-unmatched"
     ],
-    "*.{md,mdx}": [
+    "*.+(md|mdx)": [
+      "prettier --write",
       "bash -c 'cspell --no-progress \"$@\" || exit 0' --"
     ]
   },

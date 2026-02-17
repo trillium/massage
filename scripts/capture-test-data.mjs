@@ -65,7 +65,7 @@ async function listCapturedFiles() {
 
     if (result.success) {
       console.log(`📁 Found ${result.count} captured files:`)
-      result.files.forEach(file => {
+      result.files.forEach((file) => {
         console.log(`  - ${file}`)
       })
     } else {
@@ -80,7 +80,7 @@ async function listCapturedFiles() {
 async function interactiveMode() {
   const rl = readline.createInterface({
     input: process.stdin,
-    output: process.stdout
+    output: process.stdout,
   })
 
   const question = (prompt) =>
@@ -114,7 +114,7 @@ async function interactiveMode() {
   const selectedConfig = configs[configIndex]
   const params = {
     type: selectedConfig.type,
-    captureMode: 'full'
+    captureMode: 'full',
   }
 
   if (selectedConfig.type === 'scheduled-site') {
@@ -155,7 +155,7 @@ async function main() {
       duration: options.duration ? parseInt(options.duration) : 60,
       date: options.date,
       eventId: options.eventId,
-      captureMode: 'full'
+      captureMode: 'full',
     }
     await captureData(params)
   } else {

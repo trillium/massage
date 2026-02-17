@@ -87,13 +87,9 @@ const URLToReduxBridge: React.FC = () => {
         reduxStore.dispatch(setLocation(location))
       }
 
-      // Update form data
-      const formUpdates: { city?: string; zipCode?: string } = {}
-      if (location.city) formUpdates.city = location.city
-      if (location.zip) formUpdates.zipCode = location.zip
-
-      if (Object.keys(formUpdates).length > 0) {
-        reduxStore.dispatch(setForm(formUpdates))
+      // Update form data with location object
+      if (location.street || location.city || location.zip) {
+        reduxStore.dispatch(setForm({ location }))
       }
     }
   }, [searchParams, reduxStore])
@@ -115,8 +111,8 @@ const ReduxStateDisplay: React.FC = () => {
   return (
     <div>
       <div data-testid="redux-location">{JSON.stringify(location)}</div>
-      <div data-testid="redux-form-city">{form.city}</div>
-      <div data-testid="redux-form-zip">{form.zipCode}</div>
+      <div data-testid="redux-form-city">{form.location?.city}</div>
+      <div data-testid="redux-form-zip">{form.location?.zip}</div>
     </div>
   )
 }

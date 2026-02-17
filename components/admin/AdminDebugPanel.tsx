@@ -6,8 +6,12 @@ interface AdminDebugPanelProps {
 
 export default function AdminDebugPanel({ debug }: AdminDebugPanelProps) {
   // Extract key lead time information
-  const resolvedConfig = debug.intermediateResults?.resolveConfiguration?.outputs?.configuration
+  const resolveOutputs = debug.intermediateResults?.resolveConfiguration?.outputs
+  const resolvedConfig =
+    resolveOutputs && !Array.isArray(resolveOutputs) ? resolveOutputs.configuration : undefined
   const leadTimeInfo = debug.intermediateResults?.calculateLeadTime
+  const leadTimeOutputs =
+    leadTimeInfo?.outputs && !Array.isArray(leadTimeInfo.outputs) ? leadTimeInfo.outputs : undefined
 
   const leadTimeData = {
     configurationLeadTime:
@@ -15,7 +19,7 @@ export default function AdminDebugPanel({ debug }: AdminDebugPanelProps) {
         ? (resolvedConfig as { leadTimeMinimum?: number }).leadTimeMinimum
         : undefined,
     defaultLeadTime: leadTimeInfo?.inputs?.defaultLeadTime,
-    effectiveLeadTime: leadTimeInfo?.outputs?.effectiveLeadTime,
+    effectiveLeadTime: leadTimeOutputs?.effectiveLeadTime,
     functionInputs: debug.inputs,
   }
 

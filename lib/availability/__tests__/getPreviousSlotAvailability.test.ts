@@ -96,9 +96,9 @@ describe('Previous Slot Availability System', () => {
       const slots = await getPreviousSlotAvailability(options)
 
       expect(slots[0].location).toEqual({
-        street: 'TBD',
-        city: 'Los Angeles',
-        zip: '90210',
+        street: '',
+        city: '',
+        zip: '',
       })
     })
 
@@ -260,9 +260,9 @@ describe('Previous Slot Availability System', () => {
       expect(typeof timeListFormat[0].start).toBe('string')
       expect(typeof timeListFormat[0].end).toBe('string')
       expect(timeListFormat[0].location).toEqual({
-        street: 'TBD',
-        city: 'Los Angeles',
-        zip: '90210',
+        street: '',
+        city: '',
+        zip: '',
       })
     })
   })

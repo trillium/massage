@@ -1,5 +1,6 @@
 import { combineSlices, configureStore } from '@reduxjs/toolkit'
-import { formSlice } from './slices/formSlice'
+import { bookingFormSlice } from './slices/bookingFormSlice'
+import { reviewFormSlice } from './slices/reviewFormSlice'
 import { availabilitySlice } from './slices/availabilitySlice'
 import { modalSlice } from './slices/modalSlice'
 import { readySlice } from './slices/readySlice'
@@ -8,7 +9,8 @@ import { configSlice } from './slices/configSlice'
 import { authSlice } from './slices/authSlice'
 
 const rootReducer = combineSlices(
-  formSlice,
+  bookingFormSlice,
+  reviewFormSlice,
   availabilitySlice,
   modalSlice,
   readySlice,

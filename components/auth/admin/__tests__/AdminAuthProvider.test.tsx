@@ -1,54 +1,55 @@
-import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
+import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { render, screen, waitFor } from '@testing-library/react'
-import { Provider } from 'react-redux'
-import { makeStore } from '@/redux/store'
 import { AdminAuthProvider } from '@/components/auth/admin/AdminAuthProvider'
-import { AdminAuthManager } from '@/lib/adminAuth'
 
-// Mock Next.js navigation
-const mockSearchParams = new URLSearchParams()
 const mockRouter = {
   replace: vi.fn(),
   push: vi.fn(),
 }
 
 vi.mock('next/navigation', () => ({
-  useSearchParams: () => mockSearchParams,
   useRouter: () => mockRouter,
 }))
 
-// Mock AdminAuthManager
-vi.mock('@/lib/adminAuth', () => ({
-  AdminAuthManager: {
-    validateAdminAccess: vi.fn(),
-    createValidatedSession: vi.fn(),
-    validateSession: vi.fn(),
-    clearSession: vi.fn(),
-    isAuthenticated: vi.fn(),
-    getCurrentAdminEmail: vi.fn(),
-  },
+const mockGetUser = vi.fn().mockResolvedValue({ data: { user: null }, error: null })
+const mockSignOut = vi.fn().mockResolvedValue({ error: null })
+const mockSingle = vi.fn().mockResolvedValue({ data: null, error: null })
+
+const safeSingle = (...args: unknown[]) =>
+  mockSingle(...args) ?? Promise.resolve({ data: null, error: null })
+
+vi.mock('@/lib/supabase/client', () => ({
+  getSupabaseBrowserClient: vi.fn(() => ({
+    auth: {
+      getUser: (...args: unknown[]) =>
+        mockGetUser(...args) ?? Promise.resolve({ data: { user: null }, error: null }),
+      signOut: mockSignOut,
+      onAuthStateChange: vi.fn(() => ({ data: { subscription: { unsubscribe: vi.fn() } } })),
+    },
+    from: () => ({
+      select: () => ({
+        eq: () => ({
+          single: safeSingle,
+        }),
+      }),
+    }),
+  })),
+  supabase: {},
 }))
 
-// Mock fetch
-const fetchMock = vi.fn()
-global.fetch = fetchMock
-
-// Mock Spinner component
 vi.mock('@/components/Spinner', () => ({
   default: () => <div data-testid="spinner">Loading...</div>,
 }))
 
-// Mock AdminDebugInfo component
 vi.mock('@/components/auth/admin/AdminDebugInfo', () => ({
   AdminDebugInfo: () => <div data-testid="debug-info">Debug Info</div>,
 }))
 
-// Mock PostHog
+const mockIdentify = vi.fn()
 vi.mock('@/lib/posthog-utils', () => ({
-  identifyAuthenticatedUser: vi.fn(),
+  identifyAuthenticatedUser: (...args: unknown[]) => mockIdentify(...args),
 }))
 
-// Mock HeadlessUI Menu components for testing
 vi.mock('@headlessui/react', () => ({
   Menu: ({ children }: { children: React.ReactNode }) => <div data-testid="menu">{children}</div>,
   MenuButton: ({ children, ...props }: React.PropsWithChildren<Record<string, unknown>>) => (
@@ -60,128 +61,138 @@ vi.mock('@headlessui/react', () => ({
   MenuItem: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
 }))
 
-const ReduxWrapper = ({ children }: { children: React.ReactNode }) => (
-  <Provider store={makeStore()}>{children}</Provider>
-)
+function mockAdminUser(email = 'admin@example.com') {
+  mockGetUser.mockResolvedValue({
+    data: { user: { id: 'user-1', email } },
+    error: null,
+  })
+  mockSingle.mockResolvedValue({
+    data: { role: 'admin' },
+    error: null,
+  })
+}
+
+function mockNoUser() {
+  mockGetUser.mockResolvedValue({
+    data: { user: null },
+    error: null,
+  })
+}
+
+function mockNonAdminUser() {
+  mockGetUser.mockResolvedValue({
+    data: { user: { id: 'user-2', email: 'user@example.com' } },
+    error: null,
+  })
+  mockSingle.mockResolvedValue({
+    data: { role: 'user' },
+    error: null,
+  })
+}
+
+function mockProfileError() {
+  mockGetUser.mockResolvedValue({
+    data: { user: { id: 'user-3', email: 'admin@example.com' } },
+    error: null,
+  })
+  mockSingle.mockResolvedValue({
+    data: null,
+    error: { message: 'Profile not found' },
+  })
+}
 
 describe('AdminAuthProvider', () => {
   const TestChild = () => <div data-testid="test-child">Admin Content</div>
 
   beforeEach(() => {
     vi.clearAllMocks()
-    mockSearchParams.delete('email')
-    mockSearchParams.delete('token')
-    process.env.GOOGLE_OAUTH_SECRET = 'test_secret'
-
-    // Default mocks
-    vi.mocked(AdminAuthManager.validateSession).mockReturnValue(null)
-    vi.mocked(AdminAuthManager.isAuthenticated).mockReturnValue(false)
-    vi.mocked(AdminAuthManager.getCurrentAdminEmail).mockReturnValue(null)
   })
 
-  afterEach(() => {
-    delete process.env.GOOGLE_OAUTH_SECRET
-  })
-
-  describe('Initial Loading State', () => {
-    it('should show loading spinner initially', async () => {
-      // Mock fetch to return a promise that doesn't resolve immediately
-      let resolveFetch: (value: Response) => void
-      const fetchPromise = new Promise<Response>((resolve) => {
-        resolveFetch = resolve
-      })
-      fetchMock.mockReturnValue(fetchPromise)
-
-      // Set URL parameters to trigger the fetch path
-      mockSearchParams.set('email', 'admin@example.com')
-      mockSearchParams.set('token', 'test-token')
+  describe('Loading State', () => {
+    it('shows spinner while checking auth', () => {
+      mockGetUser.mockReturnValue(new Promise(() => {}))
 
       render(
-        <ReduxWrapper>
-          <AdminAuthProvider>
-            <TestChild />
-          </AdminAuthProvider>
-        </ReduxWrapper>
+        <AdminAuthProvider>
+          <TestChild />
+        </AdminAuthProvider>
       )
 
-      // Should show loading state initially
       expect(screen.getByTestId('spinner')).toBeInTheDocument()
-      expect(screen.queryByTestId('test-child')).not.toBeInTheDocument()
-
-      // Resolve the fetch to complete the authentication
-      resolveFetch!({
-        ok: true,
-        json: () => Promise.resolve({ valid: true }),
-      } as Response)
-    })
-
-    it('should show loading text', async () => {
-      // Mock fetch to return a promise that doesn't resolve immediately
-      let resolveFetch: (value: Response) => void
-      const fetchPromise = new Promise<Response>((resolve) => {
-        resolveFetch = resolve
-      })
-      fetchMock.mockReturnValue(fetchPromise)
-
-      // Set URL parameters to trigger the fetch path
-      mockSearchParams.set('email', 'admin@example.com')
-      mockSearchParams.set('token', 'test-token')
-
-      render(
-        <ReduxWrapper>
-          <AdminAuthProvider>
-            <TestChild />
-          </AdminAuthProvider>
-        </ReduxWrapper>
-      )
-
       expect(screen.getByText('Verifying admin access...')).toBeInTheDocument()
-
-      // Resolve the fetch to complete the authentication
-      resolveFetch!({
-        ok: true,
-        json: () => Promise.resolve({ valid: true }),
-      } as Response)
+      expect(screen.queryByTestId('test-child')).not.toBeInTheDocument()
     })
   })
 
-  describe('No URL Parameters - Check Existing Session', () => {
-    it('should authenticate user with valid existing session', async () => {
-      const mockSession = {
-        email: 'admin@example.com',
-        token: 'valid-token',
-        timestamp: Date.now(),
-        expiresAt: Date.now() + 24 * 60 * 60 * 1000,
-      }
-
-      vi.mocked(AdminAuthManager.validateSession).mockReturnValue(mockSession)
-      vi.mocked(AdminAuthManager.isAuthenticated).mockReturnValue(true)
-      vi.mocked(AdminAuthManager.getCurrentAdminEmail).mockReturnValue('admin@example.com')
+  describe('Authenticated Admin', () => {
+    it('renders children when user is admin', async () => {
+      mockAdminUser()
 
       render(
-        <ReduxWrapper>
-          <AdminAuthProvider>
-            <TestChild />
-          </AdminAuthProvider>
-        </ReduxWrapper>
+        <AdminAuthProvider>
+          <TestChild />
+        </AdminAuthProvider>
       )
 
       await waitFor(() => {
         expect(screen.getByTestId('test-child')).toBeInTheDocument()
       })
-
-      expect(screen.getByText('✓ Admin admin@example.com')).toBeInTheDocument()
     })
 
-    it('should show access denied for no existing session', async () => {
-      vi.mocked(AdminAuthManager.validateSession).mockReturnValue(null)
+    it('shows admin chip with email', async () => {
+      mockAdminUser('admin@example.com')
 
       render(
-        <ReduxWrapper>
-          <AdminAuthProvider>
-            <TestChild />
-          </AdminAuthProvider>
-        </ReduxWrapper>
+        <AdminAuthProvider>
+          <TestChild />
+        </AdminAuthProvider>
+      )
+
+      await waitFor(() => {
+        expect(screen.getByText('✓ Admin admin@example.com')).toBeInTheDocument()
+      })
+    })
+
+    it('identifies user via PostHog', async () => {
+      mockAdminUser('admin@example.com')
+
+      render(
+        <AdminAuthProvider>
+          <TestChild />
+        </AdminAuthProvider>
+      )
+
+      await waitFor(() => {
+        expect(mockIdentify).toHaveBeenCalledWith('admin@example.com', 'admin_session')
+      })
+    })
+  })
+
+  describe('Not Authenticated', () => {
+    it('shows access denied when no user session', async () => {
+      mockNoUser()
+
+      render(
+        <AdminAuthProvider>
+          <TestChild />
+        </AdminAuthProvider>
+      )
+
+      await waitFor(() => {
+        expect(screen.getByText('Admin Access Required')).toBeInTheDocument()
+      })
+
+      expect(screen.getByText('Please log in to access admin panel.')).toBeInTheDocument()
+      expect(screen.queryByTestId('test-child')).not.toBeInTheDocument()
+    })
+
+    it('shows access denied when user is not admin', async () => {
+      mockNonAdminUser()
+
+      render(
+        <AdminAuthProvider>
+          <TestChild />
+        </AdminAuthProvider>
       )
 
       await waitFor(() => {
@@ -189,260 +200,120 @@ describe('AdminAuthProvider', () => {
       })
 
       expect(
-        screen.getByText('Admin access required. Please use your secure admin link.')
+        screen.getByText('Admin access required. Your account does not have admin privileges.')
       ).toBeInTheDocument()
     })
-  })
 
-  describe('URL Parameters - New Login Flow', () => {
-    it('should successfully authenticate with valid URL parameters', async () => {
-      const mockSession = {
-        email: 'admin@example.com',
-        token: 'valid-token-123',
-        timestamp: Date.now(),
-        expiresAt: Date.now() + 24 * 60 * 60 * 1000,
-      }
-
-      vi.mocked(AdminAuthManager.validateSession).mockReturnValue(mockSession)
+    it('shows error when profile fetch fails', async () => {
+      mockProfileError()
 
       render(
-        <ReduxWrapper>
-          <AdminAuthProvider>
-            <TestChild />
-          </AdminAuthProvider>
-        </ReduxWrapper>
-      )
-
-      await waitFor(() => {
-        expect(screen.getByTestId('test-child')).toBeInTheDocument()
-      })
-    })
-
-    it('should reject invalid URL parameters', async () => {
-      const adminEmail = 'admin@example.com'
-      const invalidToken = 'invalid-token'
-
-      // Set URL parameters
-      mockSearchParams.set('email', adminEmail)
-      mockSearchParams.set('token', invalidToken)
-
-      // Mock failed API response
-      fetchMock.mockResolvedValueOnce({
-        ok: true,
-        json: async () => ({ valid: false, email: null }),
-      })
-
-      render(
-        <ReduxWrapper>
-          <AdminAuthProvider>
-            <TestChild />
-          </AdminAuthProvider>
-        </ReduxWrapper>
+        <AdminAuthProvider>
+          <TestChild />
+        </AdminAuthProvider>
       )
 
       await waitFor(() => {
         expect(screen.getByText('Admin Access Required')).toBeInTheDocument()
       })
 
-      expect(
-        screen.getByText('Invalid admin credentials. Please check your admin link.')
-      ).toBeInTheDocument()
-      expect(AdminAuthManager.createValidatedSession).not.toHaveBeenCalled()
+      expect(screen.getByText('Unable to verify admin access.')).toBeInTheDocument()
     })
 
-    it('should handle API errors gracefully', async () => {
-      const adminEmail = 'admin@example.com'
-      const adminToken = 'some-token'
-
-      // Set URL parameters
-      mockSearchParams.set('email', adminEmail)
-      mockSearchParams.set('token', adminToken)
-
-      // Mock API error
-      fetchMock.mockRejectedValueOnce(new Error('Network error'))
+    it('shows login link', async () => {
+      mockNoUser()
 
       render(
-        <ReduxWrapper>
-          <AdminAuthProvider>
-            <TestChild />
-          </AdminAuthProvider>
-        </ReduxWrapper>
+        <AdminAuthProvider>
+          <TestChild />
+        </AdminAuthProvider>
       )
 
       await waitFor(() => {
         expect(screen.getByText('Admin Access Required')).toBeInTheDocument()
       })
 
-      expect(AdminAuthManager.createValidatedSession).not.toHaveBeenCalled()
+      const loginLink = screen.getByRole('link', { name: 'log in' })
+      expect(loginLink).toHaveAttribute('href', '/auth/login')
     })
 
-    it('should handle session creation failure', async () => {
-      const adminEmail = 'admin@example.com'
-      const adminToken = 'valid-token'
-
-      // Set URL parameters
-      mockSearchParams.set('email', adminEmail)
-      mockSearchParams.set('token', adminToken)
-
-      // Mock successful API response
-      fetchMock.mockResolvedValueOnce({
-        ok: true,
-        json: async () => ({ valid: true, email: adminEmail }),
-      })
-
-      // Mock failed session creation
-      vi.mocked(AdminAuthManager.createValidatedSession).mockReturnValue(false)
+    it('shows debug info panel', async () => {
+      mockNoUser()
 
       render(
-        <ReduxWrapper>
-          <AdminAuthProvider>
-            <TestChild />
-          </AdminAuthProvider>
-        </ReduxWrapper>
+        <AdminAuthProvider>
+          <TestChild />
+        </AdminAuthProvider>
       )
 
       await waitFor(() => {
-        expect(screen.getByText('Admin Access Required')).toBeInTheDocument()
+        expect(screen.getByTestId('debug-info')).toBeInTheDocument()
       })
-    })
-
-    it('should clean URL after successful authentication', async () => {
-      const adminEmail = 'admin@example.com'
-      const adminToken = 'valid-token'
-
-      // Set URL parameters
-      mockSearchParams.set('email', adminEmail)
-      mockSearchParams.set('token', adminToken)
-
-      // Mock successful flow
-      fetchMock.mockResolvedValueOnce({
-        ok: true,
-        json: async () => ({ valid: true, email: adminEmail }),
-      })
-      vi.mocked(AdminAuthManager.createValidatedSession).mockReturnValue(true)
-
-      render(
-        <ReduxWrapper>
-          <AdminAuthProvider>
-            <TestChild />
-          </AdminAuthProvider>
-        </ReduxWrapper>
-      )
-
-      await waitFor(() => {
-        expect(mockRouter.replace).toHaveBeenCalled()
-      })
-
-      const replaceCall = mockRouter.replace.mock.calls[0][0]
-      expect(replaceCall).not.toContain('email=')
-      expect(replaceCall).not.toContain('token=')
     })
   })
 
-  describe('Logout Functionality', () => {
-    it('should handle logout correctly', async () => {
-      const mockSession = {
-        email: 'admin@example.com',
-        token: 'valid-token',
-        timestamp: Date.now(),
-        expiresAt: Date.now() + 24 * 60 * 60 * 1000,
-      }
-
-      vi.mocked(AdminAuthManager.validateSession).mockReturnValue(mockSession)
-      vi.mocked(AdminAuthManager.isAuthenticated).mockReturnValue(true)
-      vi.mocked(AdminAuthManager.getCurrentAdminEmail).mockReturnValue('admin@example.com')
+  describe('Error Handling', () => {
+    it('handles getUser error gracefully', async () => {
+      mockGetUser.mockResolvedValue({
+        data: { user: null },
+        error: { message: 'Auth service unavailable' },
+      })
 
       render(
-        <ReduxWrapper>
-          <AdminAuthProvider>
-            <TestChild />
-          </AdminAuthProvider>
-        </ReduxWrapper>
+        <AdminAuthProvider>
+          <TestChild />
+        </AdminAuthProvider>
+      )
+
+      await waitFor(() => {
+        expect(screen.getByText('Admin Access Required')).toBeInTheDocument()
+      })
+
+      expect(screen.getByText('Please log in to access admin panel.')).toBeInTheDocument()
+    })
+
+    it('handles unexpected errors gracefully', async () => {
+      mockGetUser.mockRejectedValue(new Error('Network failure'))
+
+      render(
+        <AdminAuthProvider>
+          <TestChild />
+        </AdminAuthProvider>
+      )
+
+      await waitFor(() => {
+        expect(screen.getByText('Admin Access Required')).toBeInTheDocument()
+      })
+
+      expect(screen.getByText('An error occurred while checking admin access.')).toBeInTheDocument()
+    })
+  })
+
+  describe('Logout', () => {
+    it('calls signOut and redirects to login', async () => {
+      mockAdminUser()
+
+      render(
+        <AdminAuthProvider>
+          <TestChild />
+        </AdminAuthProvider>
       )
 
       await waitFor(() => {
         expect(screen.getByTestId('test-child')).toBeInTheDocument()
       })
 
-      // Find and click logout button
-      const logoutButton = screen.getByText('Logout')
-      logoutButton.click()
-
-      expect(AdminAuthManager.clearSession).toHaveBeenCalled()
-
-      // Should show access denied after logout
       await waitFor(() => {
-        expect(screen.getByText('Logged out successfully.')).toBeInTheDocument()
-      })
-    })
-  })
-
-  describe('Error States', () => {
-    it('should handle missing email parameter', async () => {
-      mockSearchParams.set('token', 'some-token')
-      // Missing email parameter
-
-      render(
-        <ReduxWrapper>
-          <AdminAuthProvider>
-            <TestChild />
-          </AdminAuthProvider>
-        </ReduxWrapper>
-      )
-
-      await waitFor(() => {
-        expect(screen.getByText('Admin Access Required')).toBeInTheDocument()
+        expect(screen.getByText('Logout')).toBeInTheDocument()
       })
 
-      expect(fetchMock).not.toHaveBeenCalled()
-    })
-
-    it('should handle missing token parameter', async () => {
-      mockSearchParams.set('email', 'admin@example.com')
-      // Missing token parameter
-
-      render(
-        <ReduxWrapper>
-          <AdminAuthProvider>
-            <TestChild />
-          </AdminAuthProvider>
-        </ReduxWrapper>
-      )
+      screen.getByText('Logout').click()
 
       await waitFor(() => {
-        expect(screen.getByText('Admin Access Required')).toBeInTheDocument()
+        expect(mockSignOut).toHaveBeenCalled()
       })
 
-      expect(fetchMock).not.toHaveBeenCalled()
-    })
-  })
-
-  describe('PostHog Integration', () => {
-    it('should identify user on existing session validation', async () => {
-      const mockSession = {
-        email: 'admin@example.com',
-        token: 'valid-token',
-        timestamp: Date.now(),
-        expiresAt: Date.now() + 24 * 60 * 60 * 1000,
-      }
-
-      vi.mocked(AdminAuthManager.validateSession).mockReturnValue(mockSession)
-
-      render(
-        <ReduxWrapper>
-          <AdminAuthProvider>
-            <TestChild />
-          </AdminAuthProvider>
-        </ReduxWrapper>
-      )
-
-      await waitFor(() => {
-        expect(screen.getByTestId('test-child')).toBeInTheDocument()
-      })
-
-      // PostHog identification should be called for returning admin
-      const { identifyAuthenticatedUser } = await import('@/lib/posthog-utils')
-      expect(identifyAuthenticatedUser).toHaveBeenCalledWith('admin@example.com', 'admin_session')
+      expect(mockRouter.push).toHaveBeenCalledWith('/auth/login')
     })
   })
 })

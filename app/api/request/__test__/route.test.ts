@@ -19,6 +19,8 @@ const clientConfirmEmailMock = vi.fn(() =>
   Promise.resolve({ subject: 'Confirmed', body: 'Confirmed body' })
 )
 const getHashMock = vi.fn(() => 'hash')
+const createRequestCalendarEventMock = vi.fn(() => Promise.resolve({ id: 'test-event-id' }))
+const updateCalendarEventMock = vi.fn(() => Promise.resolve({}))
 
 const validPayload = {
   firstName: 'Alice',
@@ -72,6 +74,8 @@ describe('handleAppointmentRequest', () => {
       getHashFn: getHashMock,
       rateLimiter: () => false,
       schema: AppointmentRequestSchema,
+      createRequestCalendarEvent: createRequestCalendarEventMock,
+      updateCalendarEvent: updateCalendarEventMock,
     })
     const json = await res.json()
     expect(res.status).toBe(200)
@@ -93,6 +97,8 @@ describe('handleAppointmentRequest', () => {
       getHashFn: getHashMock,
       rateLimiter: () => false,
       schema: AppointmentRequestSchema,
+      createRequestCalendarEvent: createRequestCalendarEventMock,
+      updateCalendarEvent: updateCalendarEventMock,
     })
     expect(res.status).toBe(400)
   })
@@ -118,6 +124,8 @@ describe('handleAppointmentRequest', () => {
         getHashFn: getHashMock,
         rateLimiter,
         schema: AppointmentRequestSchema,
+        createRequestCalendarEvent: createRequestCalendarEventMock,
+        updateCalendarEvent: updateCalendarEventMock,
       })
     }
     const res = await handleAppointmentRequest({
@@ -132,6 +140,8 @@ describe('handleAppointmentRequest', () => {
       getHashFn: getHashMock,
       rateLimiter,
       schema: AppointmentRequestSchema,
+      createRequestCalendarEvent: createRequestCalendarEventMock,
+      updateCalendarEvent: updateCalendarEventMock,
     })
     expect(res.status).toBe(429)
   })
@@ -151,6 +161,8 @@ describe('handleAppointmentRequest', () => {
       getHashFn: getHashMock,
       rateLimiter: () => false,
       schema: AppointmentRequestSchema,
+      createRequestCalendarEvent: createRequestCalendarEventMock,
+      updateCalendarEvent: updateCalendarEventMock,
     })
     expect(sendMailMock).toHaveBeenCalledTimes(2)
   })

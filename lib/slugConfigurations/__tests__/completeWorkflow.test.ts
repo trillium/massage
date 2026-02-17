@@ -58,12 +58,7 @@ describe('Complete URL Parameters to Redux Workflow', () => {
 
       // Step 3: Dispatch to Redux store
       store.dispatch(setLocation(parsedLocation))
-      store.dispatch(
-        setForm({
-          city: parsedLocation.city,
-          zipCode: parsedLocation.zip,
-        })
-      )
+      store.dispatch(setForm({ location: parsedLocation }))
 
       // Step 4: Verify Redux state
       const configState = store.getState().config
@@ -74,8 +69,8 @@ describe('Complete URL Parameters to Redux Workflow', () => {
         city: 'Playa Vista',
         zip: '90094',
       })
-      expect(formState.city).toBe('Playa Vista')
-      expect(formState.zipCode).toBe('90094')
+      expect(formState.location.city).toBe('Playa Vista')
+      expect(formState.location.zip).toBe('90094')
 
       // Step 5: User modifies location (e.g., adds street address)
       const updatedLocation = createLocationObject('123 Main St', 'Playa Vista', '90094')
@@ -102,16 +97,15 @@ describe('Complete URL Parameters to Redux Workflow', () => {
       store.dispatch(setLocation(location))
       store.dispatch(
         setForm({
-          city: location.city,
-          zipCode: location.zip,
+          location,
         })
       )
 
       // Verify state
       expect(store.getState().config.location?.city).toBe('San Diego')
       expect(store.getState().config.location?.zip).toBe('92101')
-      expect(store.getState().form.city).toBe('San Diego')
-      expect(store.getState().form.zipCode).toBe('92101')
+      expect(store.getState().form.location.city).toBe('San Diego')
+      expect(store.getState().form.location.zip).toBe('92101')
     })
 
     it('should handle workflow for all planned slug configurations', () => {
@@ -133,12 +127,7 @@ describe('Complete URL Parameters to Redux Workflow', () => {
 
         // Update Redux
         freshStore.dispatch(setLocation(location))
-        freshStore.dispatch(
-          setForm({
-            city: location.city,
-            zipCode: location.zip,
-          })
-        )
+        freshStore.dispatch(setForm({ location }))
 
         // Verify each configuration
         const configState = freshStore.getState().config
@@ -146,8 +135,8 @@ describe('Complete URL Parameters to Redux Workflow', () => {
 
         expect(configState.location?.city).toBe(city)
         expect(configState.location?.zip).toBe(zip)
-        expect(formState.city).toBe(city)
-        expect(formState.zipCode).toBe(zip)
+        expect(formState.location.city).toBe(city)
+        expect(formState.location.zip).toBe(zip)
       })
     })
   })
@@ -200,8 +189,7 @@ describe('Complete URL Parameters to Redux Workflow', () => {
       // Update form to match
       store.dispatch(
         setForm({
-          city: location.city,
-          zipCode: location.zip,
+          location,
         })
       )
 
@@ -209,8 +197,8 @@ describe('Complete URL Parameters to Redux Workflow', () => {
       const configState = store.getState().config
       const formState = store.getState().form
 
-      expect(configState.location?.city).toBe(formState.city)
-      expect(configState.location?.zip).toBe(formState.zipCode)
+      expect(configState.location?.city).toBe(formState.location.city)
+      expect(configState.location?.zip).toBe(formState.location.zip)
     })
 
     it('should handle partial updates without breaking synchronization', () => {
@@ -224,8 +212,7 @@ describe('Complete URL Parameters to Redux Workflow', () => {
       )
       store.dispatch(
         setForm({
-          city: 'Los Angeles',
-          zipCode: '90210',
+          location: { street: '', city: 'Los Angeles', zip: '90210' },
           firstName: 'John',
           email: 'john@example.com',
         })
@@ -236,12 +223,7 @@ describe('Complete URL Parameters to Redux Workflow', () => {
       const newLocation = parseLocationFromParams(newParams)
 
       store.dispatch(setLocation(newLocation))
-      store.dispatch(
-        setForm({
-          city: newLocation.city,
-          zipCode: newLocation.zip,
-        })
-      )
+      store.dispatch(setForm({ location: newLocation }))
 
       // Verify state
       const configState = store.getState().config
@@ -249,8 +231,8 @@ describe('Complete URL Parameters to Redux Workflow', () => {
 
       expect(configState.location?.city).toBe('San Diego')
       expect(configState.location?.zip).toBe('92101')
-      expect(formState.city).toBe('San Diego')
-      expect(formState.zipCode).toBe('92101')
+      expect(formState.location.city).toBe('San Diego')
+      expect(formState.location.zip).toBe('92101')
 
       // Other form fields should be preserved
       expect(formState.firstName).toBe('John')
@@ -272,19 +254,14 @@ describe('Complete URL Parameters to Redux Workflow', () => {
         const location = parseLocationFromParams(params)
 
         store.dispatch(setLocation(location))
-        store.dispatch(
-          setForm({
-            city: location.city,
-            zipCode: location.zip,
-          })
-        )
+        store.dispatch(setForm({ location }))
 
         // Verify each update
         const state = store.getState()
         expect(state.config.location?.city).toBe(location.city)
         expect(state.config.location?.zip).toBe(location.zip)
-        expect(state.form.city).toBe(location.city)
-        expect(state.form.zipCode).toBe(location.zip)
+        expect(state.form.location.city).toBe(location.city)
+        expect(state.form.location.zip).toBe(location.zip)
       })
     })
 

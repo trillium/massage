@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { IncomingMessage } from 'http'
 import { intervalToHumanString } from './intervalToHumanString'
 import sendMail from './email'
 import { ApprovalEmail } from './messaging/email/admin/Approval'
@@ -12,12 +11,17 @@ import { z } from 'zod'
 import { pushoverSendMessage } from './messaging/push/admin/pushover'
 import { AppointmentPushover } from './messaging/push/admin/AppointmentPushover'
 import { AppointmentPushoverInstantConfirm } from './messaging/push/admin/AppointmentPushoverInstantConfirm'
-import { createGeneralApprovalUrl } from './messaging/utilities/createApprovalUrl'
+import { createConfirmUrl, createDeclineUrl } from './messaging/utilities/createApprovalUrl'
 import createCalendarAppointment from './availability/createCalendarAppointment'
+import type createRequestCalendarEventFn from './availability/createRequestCalendarEvent'
+import type updateCalendarEventFn from './availability/updateCalendarEvent'
 import eventSummary from './messaging/templates/events/eventSummary'
-import { identifyAuthenticatedUser } from './posthog-utils'
+import requestEventSummary from './messaging/templates/events/requestEventSummary'
+import requestEventDescription from './messaging/templates/events/requestEventDescription'
 import { flattenLocation } from './helpers/locationHelpers'
 import { escapeHtml } from './messaging/escapeHtml'
+import { createEventPageUrl } from './eventToken'
+import { getOriginFromHeaders } from './helpers/getOriginFromHeaders'
 
 export type AppointmentRequestValidationResult =
   | { success: true; data: z.output<typeof AppointmentRequestSchema> }
@@ -35,8 +39,10 @@ export async function handleAppointmentRequest({
   getHashFn,
   rateLimiter,
   schema,
+  createRequestCalendarEvent,
+  updateCalendarEvent,
 }: {
-  req: NextRequest & IncomingMessage
+  req: NextRequest
   headers: Headers
   sendMailFn: typeof sendMail
   siteMetadata: { email?: string }
@@ -45,8 +51,10 @@ export async function handleAppointmentRequest({
   clientRequestEmailFn: typeof ClientRequestEmail
   clientConfirmEmailFn: typeof ClientConfirmEmail
   getHashFn: typeof getHash
-  rateLimiter: (req: NextRequest & IncomingMessage, headers: Headers) => boolean
+  rateLimiter: (req: NextRequest, headers: Headers) => boolean
   schema: typeof AppointmentRequestSchema
+  createRequestCalendarEvent: typeof createRequestCalendarEventFn
+  updateCalendarEvent: typeof updateCalendarEventFn
 }) {
   const jsonData = await req.json()
   if (rateLimiter(req, headers)) {
@@ -68,7 +76,7 @@ export async function handleAppointmentRequest({
     timeZone: escapeHtml(data.timeZone),
   }
 
-  identifyAuthenticatedUser(data.email, 'booking_form_submitted')
+  const origin = getOriginFromHeaders(headers)
 
   // Check if instantConfirm is true
   if (data.instantConfirm) {
@@ -79,7 +87,7 @@ export async function handleAppointmentRequest({
     const location = data.locationObject || { street: '', city: data.locationString || '', zip: '' }
     const requestId = getHashFn(JSON.stringify(data))
 
-    await createCalendarAppointment({
+    const calendarResponse = await createCalendarAppointment({
       ...data,
       location,
       requestId,
@@ -90,6 +98,10 @@ export async function handleAppointmentRequest({
         }) || 'Instant Confirm Appointment',
     })
 
+    if (!calendarResponse.ok) {
+      return NextResponse.json({ error: 'Failed to create calendar appointment' }, { status: 502 })
+    }
+
     // Send pushover notification for instant confirm
     const pushover = AppointmentPushoverInstantConfirm(data, ownerTimeZone)
 
@@ -99,12 +111,15 @@ export async function handleAppointmentRequest({
       priority: 0,
     })
 
+    const calendarData = await calendarResponse.json()
+    const eventPageUrl = createEventPageUrl(origin, calendarData.id, data.email, data.end)
+
     // Send confirmation email directly
     const confirmationEmail = await clientConfirmEmailFn({
       ...data,
       ...safeData,
       location: safeLocation,
-      email: data.email, // Explicitly pass the email
+      eventPageUrl,
       dateSummary: intervalToHumanString({
         start,
         end,
@@ -117,12 +132,46 @@ export async function handleAppointmentRequest({
       body: confirmationEmail.body,
     })
 
-    return NextResponse.json({ success: true, instantConfirm: true }, { status: 200 })
+    return NextResponse.json({ success: true, instantConfirm: true, eventPageUrl }, { status: 200 })
   }
 
   const start = new Date(data.start)
   const end = new Date(data.end)
-  const approveUrl = createGeneralApprovalUrl(headers, data, getHashFn)
+  const clientName = `${data.firstName} ${data.lastName}`
+
+  // Phase 1: Create REQUEST calendar event with placeholder description
+  const calendarResponse = await createRequestCalendarEvent({
+    start: data.start,
+    end: data.end,
+    summary: requestEventSummary({ clientName, duration: data.duration }),
+    description: 'Pending — links loading...',
+    location: flattenLocation(data.locationObject || data.locationString || ''),
+  })
+  const calendarEventId = calendarResponse.id
+
+  // Phase 2: Build accept/decline URLs using the calendarEventId
+  const acceptUrl = createConfirmUrl(origin, calendarEventId, data, getHashFn)
+  const declineUrl = createDeclineUrl(origin, calendarEventId, getHashFn)
+
+  // Phase 3: Patch the calendar event with real description containing links
+  await updateCalendarEvent(calendarEventId, {
+    description: requestEventDescription({
+      firstName: data.firstName,
+      lastName: data.lastName,
+      email: data.email,
+      phone: data.phone,
+      start: data.start,
+      end: data.end,
+      duration: data.duration,
+      location: flattenLocation(data.locationObject || data.locationString || ''),
+      price: data.price,
+      promo: data.promo,
+      timeZone: data.timeZone,
+      ownerTimeZone,
+      acceptUrl,
+      declineUrl,
+    }),
+  })
 
   const safeExtraFields = {
     hotelRoomNumber: data.hotelRoomNumber ? escapeHtml(data.hotelRoomNumber) : data.hotelRoomNumber,
@@ -132,12 +181,14 @@ export async function handleAppointmentRequest({
     additionalNotes: data.additionalNotes ? escapeHtml(data.additionalNotes) : data.additionalNotes,
   }
 
+  // Send admin approval email with accept + decline links
   const approveEmail = approvalEmailFn({
     ...data,
     ...safeData,
     ...safeExtraFields,
     location: safeLocation,
-    approveUrl,
+    approveUrl: acceptUrl,
+    declineUrl,
     dateSummary: intervalToHumanString({
       start,
       end,
@@ -150,7 +201,8 @@ export async function handleAppointmentRequest({
     },
   })
 
-  const pushover = AppointmentPushover(data, ownerTimeZone, approveUrl)
+  // Send pushover with accept + decline links
+  const pushover = AppointmentPushover(data, ownerTimeZone, acceptUrl, declineUrl)
 
   pushoverSendMessage({
     message: pushover.message,
@@ -158,26 +210,42 @@ export async function handleAppointmentRequest({
     priority: 0,
   })
 
-  await sendMailFn({
-    to: siteMetadata.email ?? '',
-    subject: approveEmail.subject,
-    body: approveEmail.body,
-  })
-  const confirmationEmail = await clientRequestEmailFn({
-    ...data,
-    ...safeData,
-    location: safeLocation,
-    email: data.email, // Explicitly pass the email
-    dateSummary: intervalToHumanString({
-      start,
-      end,
-      timeZone: data.timeZone,
-    }),
-  })
-  await sendMailFn({
-    to: data.email,
-    subject: confirmationEmail.subject,
-    body: confirmationEmail.body,
-  })
-  return NextResponse.json({ success: true }, { status: 200 })
+  const eventPageUrl = createEventPageUrl(origin, calendarEventId, data.email, data.end)
+
+  try {
+    await sendMailFn({
+      to: siteMetadata.email ?? '',
+      subject: approveEmail.subject,
+      body: approveEmail.body,
+    })
+
+    const confirmationEmail = await clientRequestEmailFn({
+      ...data,
+      ...safeData,
+      location: safeLocation,
+      eventPageUrl,
+      dateSummary: intervalToHumanString({
+        start,
+        end,
+        timeZone: data.timeZone,
+      }),
+    })
+    await sendMailFn({
+      to: data.email,
+      subject: confirmationEmail.subject,
+      body: confirmationEmail.body,
+    })
+  } catch (emailError) {
+    console.error('Email send failed after calendar event created:', emailError)
+    return NextResponse.json(
+      {
+        success: false,
+        error: 'Calendar event created but email notification failed',
+        calendarEventId,
+      },
+      { status: 502 }
+    )
+  }
+
+  return NextResponse.json({ success: true, eventPageUrl }, { status: 200 })
 }

@@ -1,30 +1,70 @@
-# Load allowlist
 ALLOWLIST_FILE=".husky/large-files-allowlist.txt"
+TICKET_TEMPLATE=".husky/large-file-ticket-template.txt"
+LINE_LIMIT=250
 
 git diff --cached --name-only --diff-filter=ACM | \
   grep -v "node_modules\|\.next\|\.git" | \
   while read file; do
     if [ -f "$file" ]; then
-      # Check if file is in allowlist (skip empty lines and comments)
+      if echo "$file" | grep -qE '\.(test|spec)\.(ts|tsx|js|jsx)$|\.md$|\.mdx$'; then
+        continue
+      fi
+
       if [ -f "$ALLOWLIST_FILE" ] && grep -q "^${file}$" "$ALLOWLIST_FILE"; then
         continue
       fi
-      
+
       lines=$(wc -l < "$file" | tr -d ' ')
-      if [ "$lines" -gt 250 ]; then
-        echo "❌ File exceeds 250 lines: $file ($lines lines)"
-        echo ""
-        echo "Refactor pattern (preserves existing imports):"
-        echo "1. Create same-named folder: components/Form/"
-        echo "2. Extract features to named files: components/Form/FormState.tsx, FormValidation.ts"
-        echo "3. Create barrel export: components/Form/index.tsx (exports from feature files)"
-        echo "4. Existing imports unchanged: import { Form } from 'components/Form'"
-        echo ""
-        echo "To exempt this file, add it to: $ALLOWLIST_FILE"
-        echo "Use --no-verify to bypass if absolutely necessary."
-        exit 1
+      if [ "$lines" -gt "$LINE_LIMIT" ]; then
+        echo "⚠️  Large file committed: $file ($lines lines, limit $LINE_LIMIT)"
+        if command -v bd &> /dev/null; then
+          existing=$(bd query "status:open label:large-file" 2>/dev/null | grep "$file" || true)
+          if [ -z "$existing" ]; then
+            desc=$(sed "s/{LINE_LIMIT}/$LINE_LIMIT/g; s/{LINES}/$lines/g; s/{FILE}/$file/g" "$TICKET_TEMPLATE")
+            bd create "Refactor $file ($lines lines)" \
+              -d "$desc" \
+              -p 2 \
+              -l "large-file,refactor" \
+              --silent
+            echo "   📋 Beads ticket created"
+          else
+            echo "   📋 Ticket already exists"
+          fi
+        fi
       fi
     fi
   done
+
+# ── Next.js 16 conventions ──────────────────────────────────
+NEXTJS_FAIL=0
+
+# proxy.ts, not middleware.ts
+if git diff --cached --name-only | grep -q '^middleware\.\(ts\|js\)$'; then
+  echo "❌ Next.js 16 uses proxy.ts, not middleware.ts"
+  echo "   Rename: git mv middleware.ts proxy.ts"
+  echo "   Export:  export function proxy(request) {}"
+  echo "   Verify: context7 nextjs proxy.ts file convention"
+  NEXTJS_FAIL=1
+fi
+
+# Catch 'export function middleware' in proxy.ts
+if git diff --cached --name-only | grep -q '^proxy\.\(ts\|js\)$'; then
+  if git diff --cached -U0 proxy.ts 2>/dev/null | grep -q '+.*export.*function middleware'; then
+    echo "❌ proxy.ts must export 'proxy', not 'middleware'"
+    NEXTJS_FAIL=1
+  fi
+fi
+
+# No pages router — this project uses app router only
+if git diff --cached --name-only --diff-filter=A | grep -q '^pages/'; then
+  echo "❌ This project uses app/ router only — do not add files to pages/"
+  NEXTJS_FAIL=1
+fi
+
+if [ "$NEXTJS_FAIL" -ne 0 ]; then
+  echo ""
+  echo "See: https://nextjs.org/docs/app/guides/upgrading/version-16"
+  exit 1
+fi
 
 npx --no-install lint-staged

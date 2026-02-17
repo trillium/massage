@@ -40,7 +40,6 @@ export function AdminAuthProvider({ children }: AdminAuthProviderProps) {
         } = await supabase.auth.getUser()
 
         if (userError || !user) {
-          console.log('[Admin Auth] No authenticated user:', userError?.message)
           setAuthState({
             isAuthenticated: false,
             isLoading: false,
@@ -49,8 +48,6 @@ export function AdminAuthProvider({ children }: AdminAuthProviderProps) {
           })
           return
         }
-
-        console.log('[Admin Auth] User authenticated:', user.email)
 
         const { data: profile, error: profileError } = await supabase
           .from('profiles')
@@ -70,7 +67,6 @@ export function AdminAuthProvider({ children }: AdminAuthProviderProps) {
         }
 
         if (profile.role !== 'admin') {
-          console.log('[Admin Auth] User is not admin:', profile.role)
           setAuthState({
             isAuthenticated: false,
             isLoading: false,
@@ -79,8 +75,6 @@ export function AdminAuthProvider({ children }: AdminAuthProviderProps) {
           })
           return
         }
-
-        console.log('[Admin Auth] Admin access granted:', user.email)
         await identifyAuthenticatedUser(user.email!, 'admin_session')
 
         setAuthState({

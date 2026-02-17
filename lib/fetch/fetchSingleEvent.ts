@@ -30,7 +30,6 @@ export async function fetchSingleEvent(eventId: string): Promise<GoogleCalendarV
 
     if (!response.ok) {
       if (response.status === 404) {
-        console.log(`Event with ID ${eventId} not found`)
         return null
       }
 

@@ -68,4 +68,8 @@ export type SlugConfigurationType = {
   nextEventFound?: boolean
   currentEvent?: GoogleCalendarV3Event
   targetDate?: string
+  prefillFirstName?: string
+  prefillLastName?: string
+  prefillEmail?: string
+  prefillPhone?: string
 }

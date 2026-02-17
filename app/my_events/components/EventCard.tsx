@@ -6,6 +6,7 @@ import { GoogleCalendarV3Event } from '@/lib/types'
 import Link from '@/components/Link'
 import { ActionButtons } from './ActionButtons'
 import { adminFetch } from '@/lib/adminFetch'
+import { getCleanSummary } from '@/lib/helpers/eventHelpers'
 
 interface EventCardProps {
   event: GoogleCalendarV3Event
@@ -16,6 +17,7 @@ interface EventCardProps {
     button: string
   }
   canEdit?: boolean
+  isPending?: boolean
 }
 
 export function EventCard({
@@ -24,6 +26,7 @@ export function EventCard({
   keyPrefix,
   colorClasses,
   canEdit = false,
+  isPending = false,
 }: EventCardProps) {
   const [isEditingLocation, setIsEditingLocation] = useState(false)
   const [newLocation, setNewLocation] = useState(event.location || '')
@@ -104,6 +107,8 @@ export function EventCard({
     setUpdateLocationSuccess(false)
   }
 
+  const displaySummary = isPending ? getCleanSummary(event) : event.summary || 'Untitled Event'
+
   return (
     <div
       key={event.id || `${keyPrefix}-${index}`}
@@ -111,9 +116,16 @@ export function EventCard({
     >
       <div className="flex items-start justify-between">
         <div className="flex-1">
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-            {event.summary || 'Untitled Event'}
-          </h3>
+          <div className="flex items-center gap-2">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+              {displaySummary}
+            </h3>
+            {isPending && (
+              <span className="rounded-full bg-amber-200 px-2 py-0.5 text-xs font-medium text-amber-800 dark:bg-amber-800 dark:text-amber-200">
+                Pending
+              </span>
+            )}
+          </div>
 
           <div className="mt-2 space-y-1 text-sm text-gray-600 dark:text-gray-400">
             <p>
@@ -200,7 +212,7 @@ export function EventCard({
             )}
           </div>
 
-          {event.description && (
+          {!isPending && event.description && (
             <div className="mt-3">
               <strong className="text-sm text-gray-700 dark:text-gray-300">Description:</strong>
               <div
@@ -216,7 +228,7 @@ export function EventCard({
           )}
         </div>
 
-        <ActionButtons event={event} colorClasses={colorClasses} />
+        <ActionButtons event={event} colorClasses={colorClasses} isPending={isPending} />
       </div>
     </div>
   )

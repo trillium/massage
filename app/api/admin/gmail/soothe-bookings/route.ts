@@ -1,25 +1,16 @@
 import { NextResponse } from 'next/server'
 import { searchSootheEmails } from '@/lib/gmail/searchSootheEmails'
-import { AdminAuthManager } from '@/lib/adminAuth'
+import { requireAdminWithFlag } from '@/lib/adminAuthBridge'
 
 export async function GET(request: Request) {
   try {
-    const auth = AdminAuthManager.requireAdmin(request)
+    const auth = await requireAdminWithFlag(request)
     if (auth instanceof NextResponse) return auth
     const { searchParams } = new URL(request.url)
     const maxResults = parseInt(searchParams.get('maxResults') || '50')
     const daysBack = parseInt(searchParams.get('daysBack') || '1')
 
-    console.log(`Searching for Soothe emails with maxResults: ${maxResults}, daysBack: ${daysBack}`)
-
     const { bookings, failedMessageIds } = await searchSootheEmails(maxResults, daysBack)
-
-    console.log(`Found ${bookings.length} Soothe booking emails`)
-    if (failedMessageIds.length > 0) {
-      console.warn(
-        `Failed to fetch ${failedMessageIds.length} messages: ${failedMessageIds.join(', ')}`
-      )
-    }
 
     return Response.json({
       success: true,

@@ -5,7 +5,7 @@ import { setTimeZone } from '@/redux/slices/availabilitySlice'
 const { groupLookupMap, timeZoneMap } = getTimezoneData()
 
 export default function TimezonePicker() {
-  const dispatchRedux = useAppDispatch()
+  const dispatch = useAppDispatch()
   const { timeZone } = useReduxAvailability()
 
   // In the case we resolve to a timezone that isn’t the representative
@@ -28,7 +28,7 @@ export default function TimezonePicker() {
         name="location"
         className="focus:ring-primary-400 mt-1 block h-9 w-full overflow-x-clip rounded-md border-0 py-1.5 pr-10 pl-3 leading-6 text-gray-900 ring-1 ring-gray-300 ring-inset focus:ring-2 dark:text-gray-100"
         onChange={(e) => {
-          dispatchRedux(setTimeZone(e.currentTarget.value))
+          dispatch(setTimeZone(e.currentTarget.value))
         }}
       >
         {[...timeZoneMap].map(([display, { value }]) => (

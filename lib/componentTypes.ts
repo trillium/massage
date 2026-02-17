@@ -37,8 +37,8 @@ export type DebugInfoType = {
   }
   intermediateResults: Record<
     string,
-    { inputs: Record<string, unknown>; outputs: Record<string, unknown> }
-  > // Flat object keyed by step name, e.g., { resolveConfiguration: { inputs: {...}, outputs: {...} } }
+    { inputs: Record<string, unknown>; outputs: Record<string, unknown> | unknown[] }
+  >
   outputs: Record<string, unknown> // Final return props, e.g., isExpired, slots, etc.
 }
 

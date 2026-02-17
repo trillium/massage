@@ -9,7 +9,9 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
     }
 
     const { configuration } = await resolveConfiguration(slug, {})
-    return NextResponse.json(configuration)
+    return NextResponse.json(configuration, {
+      headers: { 'Cache-Control': 'public, max-age=300, stale-while-revalidate=60' },
+    })
   } catch (error) {
     console.error('Error fetching configuration:', error)
     return NextResponse.json({ error: 'Configuration not found' }, { status: 404 })

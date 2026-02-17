@@ -1,0 +1,78 @@
+import { createHmac, timingSafeEqual } from 'crypto'
+
+const EVENT_TOKEN_SECRET = process.env.GOOGLE_OAUTH_SECRET
+
+interface EventTokenPayload {
+  eventId: string
+  email: string
+  expiresAt: string
+}
+
+const GRACE_PERIOD_DAYS = 7
+
+export function createEventToken(eventId: string, email: string, eventEndTime: string): string {
+  const expiry = new Date(eventEndTime)
+  expiry.setDate(expiry.getDate() + GRACE_PERIOD_DAYS)
+
+  const payload: EventTokenPayload = {
+    eventId,
+    email,
+    expiresAt: expiry.toISOString(),
+  }
+  const data = JSON.stringify(payload)
+  const signature = signPayload(data)
+  return Buffer.from(JSON.stringify({ data, signature })).toString('base64url')
+}
+
+export function verifyEventToken(
+  token: string,
+  eventId: string
+): { valid: true; payload: EventTokenPayload } | { valid: false; error: string } {
+  try {
+    const decoded = JSON.parse(Buffer.from(token, 'base64url').toString())
+    const { data, signature } = decoded
+
+    if (!data || !signature) {
+      return { valid: false, error: 'Malformed token' }
+    }
+
+    const expectedSignature = signPayload(data)
+    const sigBuffer = Buffer.from(signature, 'hex')
+    const expectedBuffer = Buffer.from(expectedSignature, 'hex')
+
+    if (sigBuffer.length !== expectedBuffer.length || !timingSafeEqual(sigBuffer, expectedBuffer)) {
+      return { valid: false, error: 'Invalid token' }
+    }
+
+    const payload: EventTokenPayload = JSON.parse(data)
+
+    if (payload.eventId !== eventId) {
+      return { valid: false, error: 'Token does not match event' }
+    }
+
+    if (new Date(payload.expiresAt) < new Date()) {
+      return { valid: false, error: 'Token expired' }
+    }
+
+    return { valid: true, payload }
+  } catch {
+    return { valid: false, error: 'Invalid token' }
+  }
+}
+
+export function createEventPageUrl(
+  origin: string,
+  eventId: string,
+  email: string,
+  eventEndTime: string
+): string {
+  const token = createEventToken(eventId, email, eventEndTime)
+  return `${origin}/event/${encodeURIComponent(eventId)}?token=${encodeURIComponent(token)}`
+}
+
+function signPayload(data: string): string {
+  if (!EVENT_TOKEN_SECRET) {
+    throw new Error('GOOGLE_OAUTH_SECRET environment variable is required for event tokens')
+  }
+  return createHmac('sha256', EVENT_TOKEN_SECRET).update(data).digest('hex')
+}
