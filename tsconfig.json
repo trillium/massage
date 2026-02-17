@@ -15,18 +15,18 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "react-jsx",
-    "baseUrl": ".",
     "types": ["vitest", "node"],
     "paths": {
-      "@/components/*": ["components/*"],
-      "@/data/*": ["data/*"],
-      "@/layouts/*": ["layouts/*"],
-      "@/css/*": ["css/*"],
-      "@/redux/*": ["redux/*"],
-      "@/lib/*": ["lib/*"],
-      "@/features/*": ["features/*"],
+      "@/components/*": ["./components/*"],
+      "@/data/*": ["./data/*"],
+      "@/layouts/*": ["./layouts/*"],
+      "@/css/*": ["./css/*"],
+      "@/redux/*": ["./redux/*"],
+      "@/lib/*": ["./lib/*"],
+      "@/features/*": ["./features/*"],
       "contentlayer/generated": ["./.contentlayer/generated"],
-      "pliny/*": ["node_modules/pliny/*"]
+      "pliny/*": ["./node_modules/pliny/*"],
+      "*": ["./*"]
     },
     "plugins": [
       {
