@@ -1,12 +1,12 @@
 import { describe, it, expect, vi, beforeEach, afterEach, type Mock, type Mocked } from 'vitest'
-import getAccessToken from '@/lib/availability/getAccessToken'
+import getAccessToken, { clearTokenCache } from '@/lib/availability/getAccessToken'
 
 const originalFetch = global.fetch
 
 describe('getAccessToken', () => {
   beforeEach(() => {
     global.fetch = vi.fn()
-    // Clear environment variables for each test
+    clearTokenCache()
     delete process.env.GOOGLE_OAUTH_SECRET
     delete process.env.GOOGLE_OAUTH_REFRESH
     delete process.env.GOOGLE_OAUTH_CLIENT_ID
