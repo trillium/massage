@@ -43,6 +43,7 @@ if git diff --cached --name-only | grep -q '^middleware\.\(ts\|js\)$'; then
   echo "❌ Next.js 16 uses proxy.ts, not middleware.ts"
   echo "   Rename: git mv middleware.ts proxy.ts"
   echo "   Export:  export function proxy(request) {}"
+  echo "   Verify: context7 nextjs proxy.ts file convention"
   NEXTJS_FAIL=1
 fi
 
