@@ -54,9 +54,10 @@ if git diff --cached --name-only | grep -q '^proxy\.\(ts\|js\)$'; then
   fi
 fi
 
-# Prefer app router — warn on new pages/ files
+# No pages router — this project uses app router only
 if git diff --cached --name-only --diff-filter=A | grep -q '^pages/'; then
-  echo "⚠️  New file in pages/ — prefer app/ router (Next.js 16)"
+  echo "❌ This project uses app/ router only — do not add files to pages/"
+  NEXTJS_FAIL=1
 fi
 
 if [ "$NEXTJS_FAIL" -ne 0 ]; then
