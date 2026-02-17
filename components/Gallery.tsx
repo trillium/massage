@@ -1,8 +1,8 @@
 'use client'
 
-import { useState, Fragment } from 'react'
+import { useState, useEffect, useCallback, Fragment } from 'react'
 import { Dialog, DialogPanel, Transition, TransitionChild } from '@headlessui/react'
-import { IoClose } from 'react-icons/io5'
+import { IoClose, IoChevronBack, IoChevronForward } from 'react-icons/io5'
 import Image from '@/components/Image'
 
 export interface GalleryImage {
@@ -25,6 +25,24 @@ const columnClasses = {
 export default function Gallery({ images, columns = 3 }: GalleryProps) {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
 
+  const goNext = useCallback(() => {
+    setSelectedIndex((i) => (i !== null ? (i + 1) % images.length : null))
+  }, [images.length])
+
+  const goPrev = useCallback(() => {
+    setSelectedIndex((i) => (i !== null ? (i - 1 + images.length) % images.length : null))
+  }, [images.length])
+
+  useEffect(() => {
+    if (selectedIndex === null) return
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowRight') goNext()
+      else if (e.key === 'ArrowLeft') goPrev()
+    }
+    window.addEventListener('keydown', handleKey)
+    return () => window.removeEventListener('keydown', handleKey)
+  }, [selectedIndex, goNext, goPrev])
+
   return (
     <>
       <div className={`${columnClasses[columns]} gap-4`}>
@@ -32,7 +50,7 @@ export default function Gallery({ images, columns = 3 }: GalleryProps) {
           <button
             key={index}
             onClick={() => setSelectedIndex(index)}
-            className="group focus-visible:ring-primary-500 mb-4 block w-full cursor-pointer break-inside-avoid overflow-hidden rounded-lg border-0 bg-transparent p-0 focus:outline-none focus-visible:ring-2"
+            className="group hover:outline-primary-500 focus-visible:outline-primary-500 mb-4 block w-full cursor-pointer break-inside-avoid overflow-hidden rounded-lg border-0 bg-transparent p-0 outline-2 outline-offset-4 outline-transparent transition-[outline-color] duration-200"
           >
             <div className="border-primary-500 relative overflow-hidden rounded-lg border-2">
               <Image
@@ -40,10 +58,9 @@ export default function Gallery({ images, columns = 3 }: GalleryProps) {
                 alt={image.alt}
                 width={600}
                 height={600}
-                className="h-auto w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+                className="h-auto w-full object-cover"
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
               />
-              <div className="absolute inset-0 bg-black/0 transition-colors duration-300 group-hover:bg-black/10" />
               {image.caption && (
                 <div className="absolute right-0 bottom-0 left-0 translate-y-full bg-gradient-to-t from-black/60 to-transparent p-4 transition-transform duration-300 group-hover:translate-y-0">
                   <p className="text-sm font-medium text-white">{image.caption}</p>
@@ -85,6 +102,22 @@ export default function Gallery({ images, columns = 3 }: GalleryProps) {
                   onClick={() => setSelectedIndex(null)}
                 >
                   <IoClose className="h-5 w-5 text-gray-900" />
+                </button>
+
+                <button
+                  type="button"
+                  className="absolute top-1/2 -left-12 -translate-y-1/2 rounded-full bg-white/80 p-2 backdrop-blur-sm transition-colors hover:bg-white max-sm:-left-2 max-sm:bg-white/60"
+                  onClick={goPrev}
+                >
+                  <IoChevronBack className="h-5 w-5 text-gray-900" />
+                </button>
+
+                <button
+                  type="button"
+                  className="absolute top-1/2 -right-12 -translate-y-1/2 rounded-full bg-white/80 p-2 backdrop-blur-sm transition-colors hover:bg-white max-sm:-right-2 max-sm:bg-white/60"
+                  onClick={goNext}
+                >
+                  <IoChevronForward className="h-5 w-5 text-gray-900" />
                 </button>
 
                 {selectedIndex !== null && (
