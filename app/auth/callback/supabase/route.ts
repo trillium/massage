@@ -14,6 +14,7 @@ import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
+import { getCookieOptionsWithDomain } from '@/lib/supabase/cookie-options'
 
 export async function GET(request: NextRequest) {
   const requestUrl = new URL(request.url)
@@ -42,7 +43,7 @@ export async function GET(request: NextRequest) {
           },
           setAll(cookiesToSet) {
             cookiesToSet.forEach(({ name, value, options }) =>
-              cookieStore.set(name, value, options)
+              cookieStore.set(name, value, getCookieOptionsWithDomain(options))
             )
           },
         },

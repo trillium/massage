@@ -20,7 +20,7 @@ function log(...args: unknown[]) {
   }
 }
 
-export default async function proxy(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   log('[Proxy] ==========================================')
   log('[Proxy] Request:', request.nextUrl.pathname)
 

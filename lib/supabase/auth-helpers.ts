@@ -17,10 +17,15 @@ import type { Provider } from '@supabase/supabase-js'
 export async function signInWithMagicLink(email: string, redirectTo?: string) {
   const supabase = getSupabaseBrowserClient()
 
+  const callbackUrl = new URL('/auth/callback/supabase', window.location.origin)
+  if (redirectTo) {
+    callbackUrl.searchParams.set('next', redirectTo)
+  }
+
   const { data, error } = await supabase.auth.signInWithOtp({
     email,
     options: {
-      emailRedirectTo: redirectTo || `${window.location.origin}/auth/callback/supabase`,
+      emailRedirectTo: callbackUrl.toString(),
     },
   })
 
@@ -33,10 +38,15 @@ export async function signInWithMagicLink(email: string, redirectTo?: string) {
 export async function signInWithOAuth(provider: Provider, redirectTo?: string) {
   const supabase = getSupabaseBrowserClient()
 
+  const callbackUrl = new URL('/auth/callback/supabase', window.location.origin)
+  if (redirectTo) {
+    callbackUrl.searchParams.set('next', redirectTo)
+  }
+
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider,
     options: {
-      redirectTo: redirectTo || `${window.location.origin}/auth/callback/supabase`,
+      redirectTo: callbackUrl.toString(),
     },
   })
 
