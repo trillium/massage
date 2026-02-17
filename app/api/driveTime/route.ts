@@ -92,6 +92,45 @@ function calculateDriveTimeMock(location1: string, location2: string): number {
   return 40
 }
 
+async function computeDriveTime(
+  eventId: string | null,
+  destination: string
+): Promise<NextResponse<DriveTimeResponse>> {
+  const targetEventId = eventId || getDefaultEventId()
+  const event = await fetchSingleEvent(targetEventId)
+
+  if (!event) {
+    return NextResponse.json(
+      { success: false, error: `Event not found with ID: ${targetEventId}` } as DriveTimeResponse,
+      { status: 404 }
+    )
+  }
+
+  const eventLocation = event.location
+
+  if (!eventLocation) {
+    return NextResponse.json(
+      {
+        success: false,
+        error: 'Event does not have a location specified',
+        eventLocation: 'Not specified',
+        userLocation: destination,
+      } as DriveTimeResponse,
+      { status: 400 }
+    )
+  }
+
+  const result = await calculateDriveTime(eventLocation, destination)
+
+  return NextResponse.json({
+    success: true,
+    driveTimeMinutes: result.minutes,
+    estimated: result.estimated,
+    eventLocation,
+    userLocation: destination,
+  } as DriveTimeResponse)
+}
+
 export async function POST(request: NextRequest) {
   try {
     const body: DriveTimeRequest = await request.json()
@@ -107,58 +146,15 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Determine which event to use
-    const targetEventId = eventId || getDefaultEventId()
-
-    // Fetch the event to get its location
-    const event = await fetchSingleEvent(targetEventId)
-
-    if (!event) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: `Event not found with ID: ${targetEventId}`,
-        } as DriveTimeResponse,
-        { status: 404 }
-      )
-    }
-
-    const eventLocation = event.location
-
-    if (!eventLocation) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: 'Event does not have a location specified',
-          eventLocation: 'Not specified',
-          userLocation: userLocation || `${userCoordinates?.lat},${userCoordinates?.lng}`,
-        } as DriveTimeResponse,
-        { status: 400 }
-      )
-    }
-
-    // Use coordinates if provided, otherwise use location string
     const destination = userCoordinates
       ? `${userCoordinates.lat},${userCoordinates.lng}`
       : userLocation!
 
-    // Calculate drive time between the two locations
-    const result = await calculateDriveTime(eventLocation, destination)
-
-    return NextResponse.json({
-      success: true,
-      driveTimeMinutes: result.minutes,
-      estimated: result.estimated,
-      eventLocation,
-      userLocation: destination,
-    } as DriveTimeResponse)
+    return await computeDriveTime(eventId ?? null, destination)
   } catch (error) {
     console.error('Error calculating drive time:', error)
     return NextResponse.json(
-      {
-        success: false,
-        error: 'Failed to calculate drive time',
-      } as DriveTimeResponse,
+      { success: false, error: 'Failed to calculate drive time' } as DriveTimeResponse,
       { status: 500 }
     )
   }
@@ -180,52 +176,11 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    // Determine which event to use
-    const targetEventId = eventId || getDefaultEventId()
-
-    // Fetch the event to get its location
-    const event = await fetchSingleEvent(targetEventId)
-
-    if (!event) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: `Event not found with ID: ${targetEventId}`,
-        } as DriveTimeResponse,
-        { status: 404 }
-      )
-    }
-
-    const eventLocation = event.location
-
-    if (!eventLocation) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: 'Event does not have a location specified',
-          eventLocation: 'Not specified',
-          userLocation,
-        } as DriveTimeResponse,
-        { status: 400 }
-      )
-    }
-
-    const result = await calculateDriveTime(eventLocation, userLocation)
-
-    return NextResponse.json({
-      success: true,
-      driveTimeMinutes: result.minutes,
-      estimated: result.estimated,
-      eventLocation,
-      userLocation,
-    } as DriveTimeResponse)
+    return await computeDriveTime(eventId, userLocation)
   } catch (error) {
     console.error('Error calculating drive time:', error)
     return NextResponse.json(
-      {
-        success: false,
-        error: 'Failed to calculate drive time',
-      } as DriveTimeResponse,
+      { success: false, error: 'Failed to calculate drive time' } as DriveTimeResponse,
       { status: 500 }
     )
   }
