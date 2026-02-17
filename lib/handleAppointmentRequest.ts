@@ -204,29 +204,41 @@ export async function handleAppointmentRequest({
     priority: 0,
   })
 
-  await sendMailFn({
-    to: siteMetadata.email ?? '',
-    subject: approveEmail.subject,
-    body: approveEmail.body,
-  })
+  try {
+    await sendMailFn({
+      to: siteMetadata.email ?? '',
+      subject: approveEmail.subject,
+      body: approveEmail.body,
+    })
 
-  // Send client email with cancel link
-  const confirmationEmail = await clientRequestEmailFn({
-    ...data,
-    ...safeData,
-    location: safeLocation,
-    email: data.email,
-    cancelUrl: declineUrl,
-    dateSummary: intervalToHumanString({
-      start,
-      end,
-      timeZone: data.timeZone,
-    }),
-  })
-  await sendMailFn({
-    to: data.email,
-    subject: confirmationEmail.subject,
-    body: confirmationEmail.body,
-  })
+    const confirmationEmail = await clientRequestEmailFn({
+      ...data,
+      ...safeData,
+      location: safeLocation,
+      email: data.email,
+      cancelUrl: declineUrl,
+      dateSummary: intervalToHumanString({
+        start,
+        end,
+        timeZone: data.timeZone,
+      }),
+    })
+    await sendMailFn({
+      to: data.email,
+      subject: confirmationEmail.subject,
+      body: confirmationEmail.body,
+    })
+  } catch (emailError) {
+    console.error('Email send failed after calendar event created:', emailError)
+    return NextResponse.json(
+      {
+        success: false,
+        error: 'Calendar event created but email notification failed',
+        calendarEventId,
+      },
+      { status: 502 }
+    )
+  }
+
   return NextResponse.json({ success: true }, { status: 200 })
 }
