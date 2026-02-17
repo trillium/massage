@@ -37,7 +37,7 @@ describe('URL Parameters vs Server Config Priority System', () => {
 
       // Apply URL parameters to Redux (as InitialUrlUtility would do)
       store.dispatch(setLocation(locationFromUrl))
-      store.dispatch(setForm({ city: locationFromUrl.city, zipCode: locationFromUrl.zip }))
+      store.dispatch(setForm({ location: locationFromUrl }))
 
       const state = store.getState()
       expect(state.config.location).toEqual({
@@ -45,8 +45,8 @@ describe('URL Parameters vs Server Config Priority System', () => {
         city: 'URL City',
         zip: '90210',
       })
-      expect(state.form.city).toBe('URL City')
-      expect(state.form.zipCode).toBe('90210')
+      expect(state.form.location.city).toBe('URL City')
+      expect(state.form.location.zip).toBe('90210')
     })
 
     it('should override URL parameters with server configuration (highest priority)', () => {
@@ -55,12 +55,12 @@ describe('URL Parameters vs Server Config Priority System', () => {
       const locationFromUrl = parseLocationFromParams(urlParams)
 
       store.dispatch(setLocation(locationFromUrl))
-      store.dispatch(setForm({ city: locationFromUrl.city, zipCode: locationFromUrl.zip }))
+      store.dispatch(setForm({ location: locationFromUrl }))
 
       // Verify URL params were applied
       let state = store.getState()
       expect(state.config.location?.city).toBe('URL City')
-      expect(state.form.city).toBe('URL City')
+      expect(state.form.location.city).toBe('URL City')
 
       // Step 2: Apply server configuration (higher priority - should override)
       const serverLocation: LocationObject = {
@@ -103,7 +103,7 @@ describe('URL Parameters vs Server Config Priority System', () => {
 
       // Simulate InitialUrlUtility Step 1: Apply URL params first
       store.dispatch(setLocation(urlLocation))
-      store.dispatch(setForm({ city: urlLocation.city, zipCode: urlLocation.zip }))
+      store.dispatch(setForm({ location: urlLocation }))
 
       let state = store.getState()
       expect(state.config.location?.city).toBe('Wrong City') // Temporarily from URL

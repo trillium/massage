@@ -15,10 +15,6 @@ export const initialBookingFormData: BookingFormData = {
   lastName: '',
   /** Email address of the requester */
   email: '',
-  /** City of the requester */
-  city: '',
-  /** Zip code of the requester */
-  zipCode: '',
   /** Phone number of the requester */
   phone: '',
   /** Payment method of the requester */

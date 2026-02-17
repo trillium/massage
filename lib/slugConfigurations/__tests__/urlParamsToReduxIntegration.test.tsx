@@ -39,25 +39,17 @@ const URLParamsConsumer: React.FC<{ searchParams: URLSearchParams }> = ({ search
       dispatch(setLocation(locationFromParams))
     }
 
-    // Also update form data if city/zip are provided
-    const formUpdates: Partial<{ city: string; zipCode: string }> = {}
-    if (locationFromParams.city) {
-      formUpdates.city = locationFromParams.city
-    }
-    if (locationFromParams.zip) {
-      formUpdates.zipCode = locationFromParams.zip
-    }
-
-    if (Object.keys(formUpdates).length > 0) {
-      dispatch(setForm(formUpdates))
+    // Also update form data with location object
+    if (locationFromParams.street || locationFromParams.city || locationFromParams.zip) {
+      dispatch(setForm({ location: locationFromParams }))
     }
   }, [searchParams, dispatch])
 
   return (
     <div data-testid="url-params-consumer">
       <div data-testid="config-location">{JSON.stringify(configLocation)}</div>
-      <div data-testid="form-city">{formData.city}</div>
-      <div data-testid="form-zip">{formData.zipCode}</div>
+      <div data-testid="form-city">{formData.location?.city}</div>
+      <div data-testid="form-zip">{formData.location?.zip}</div>
     </div>
   )
 }
@@ -101,8 +93,8 @@ describe('URL Search Params to Redux Integration', () => {
       )
 
       const formState = store.getState().form
-      expect(formState.city).toBe('Los Angeles')
-      expect(formState.zipCode).toBe('90210')
+      expect(formState.location.city).toBe('Los Angeles')
+      expect(formState.location.zip).toBe('90210')
     })
 
     it('should handle partial URL parameters', () => {
@@ -122,8 +114,8 @@ describe('URL Search Params to Redux Integration', () => {
         city: 'San Diego',
         zip: '',
       })
-      expect(formState.city).toBe('San Diego')
-      expect(formState.zipCode).toBe('') // Should remain empty
+      expect(formState.location.city).toBe('San Diego')
+      expect(formState.location.zip).toBe('') // Should remain empty
     })
 
     it('should not update Redux when no location params are provided', () => {
@@ -140,8 +132,8 @@ describe('URL Search Params to Redux Integration', () => {
 
       // Should remain at initial state
       expect(configState.location).toBe(configInitialState.location)
-      expect(formState.city).toBe(initialBookingFormData.city)
-      expect(formState.zipCode).toBe(initialBookingFormData.zipCode)
+      expect(formState.location.city).toBe(initialBookingFormData.location?.city)
+      expect(formState.location.zip).toBe(initialBookingFormData.location?.zip)
     })
   })
 
@@ -175,8 +167,8 @@ describe('URL Search Params to Redux Integration', () => {
 
       // Check that form state was updated
       const formState = store.getState().form
-      expect(formState.city).toBe('Playa Vista')
-      expect(formState.zipCode).toBe('90094')
+      expect(formState.location.city).toBe('Playa Vista')
+      expect(formState.location.zip).toBe('90094')
     })
   })
 
@@ -287,7 +279,7 @@ describe('URL Search Params to Redux Integration', () => {
 
       // Check initial state
       expect(store.getState().config.location?.city).toBe('Los Angeles')
-      expect(store.getState().form.city).toBe('Los Angeles')
+      expect(store.getState().form.location.city).toBe('Los Angeles')
 
       // Change URL params
       rerender(
@@ -299,8 +291,8 @@ describe('URL Search Params to Redux Integration', () => {
       // Check updated state
       expect(store.getState().config.location?.city).toBe('San Diego')
       expect(store.getState().config.location?.zip).toBe('92101')
-      expect(store.getState().form.city).toBe('San Diego')
-      expect(store.getState().form.zipCode).toBe('92101')
+      expect(store.getState().form.location.city).toBe('San Diego')
+      expect(store.getState().form.location.zip).toBe('92101')
     })
   })
 
