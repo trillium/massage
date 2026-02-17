@@ -7,6 +7,8 @@ import Link from '@/components/Link'
 import { createBookingUrl } from '@/lib/helpers/createBookingUrl'
 import { extractBookingSlug } from '@/lib/helpers/extractBookingSlug'
 import CancelButton from './CancelButton'
+import EditForm from './EditForm'
+import { parseEditableFields } from '@/lib/helpers/parseEventDescription'
 
 interface EventPageProps {
   params: Promise<{ event_id: string }>
@@ -162,8 +164,17 @@ export default async function EventPage({ params, searchParams }: EventPageProps
           </div>
 
           {status !== 'cancelled' && (
-            <div className="mt-8 flex flex-wrap gap-3">
+            <div className="mt-8 flex flex-wrap items-start gap-3">
               <CancelButton eventId={event_id} token={token} />
+              <EditForm
+                eventId={event_id}
+                token={token}
+                initialValues={
+                  event.description
+                    ? parseEditableFields(event.description)
+                    : { firstName: '', lastName: '', phone: '', location: event.location || '' }
+                }
+              />
             </div>
           )}
 
