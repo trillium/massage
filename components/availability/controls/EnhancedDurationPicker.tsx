@@ -22,10 +22,10 @@ export default function EnhancedDurationPicker({
 }: EnhancedDurationPickerProps) {
   const { pricing: priceRedux, allowedDurations: allowedDurationsRedux } = useReduxConfig()
   const { duration: durationRedux } = useReduxAvailability()
-  const dispatchRedux = useAppDispatch()
+  const dispatch = useAppDispatch()
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    dispatchRedux(setDuration(Number(event.target.value)))
+    dispatch(setDuration(Number(event.target.value)))
   }
 
   const duration = durationRedux || durationProps || DEFAULT_DURATION

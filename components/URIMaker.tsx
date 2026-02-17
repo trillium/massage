@@ -1,17 +1,15 @@
 'use client'
 
 import React, { useState } from 'react'
-import type { FormEvent, Dispatch, SetStateAction } from 'react'
+import type { FormEvent } from 'react'
 
 import Spinner from '@/components/Spinner'
 
 import { setModal } from '@/redux/slices/modalSlice'
 import { useAppDispatch, useReduxModal } from '@/redux/hooks'
-import { encode } from '@/lib/hashServer'
 import { createURI } from '@/lib/uri'
-import DurationPicker from './availability/controls/DurationPicker'
 import type { GoogleCalendarV3Event } from '@/lib/types'
-import { DEFAULT_PRICING } from 'config'
+import { handleURIMakerSubmit } from './URIMaker.handleSubmit'
 
 type URIMakerProps = { events: GoogleCalendarV3Event[] }
 
@@ -24,7 +22,7 @@ export default function URIMaker({ events }: URIMakerProps) {
     start: '',
     end: '',
   })
-  const dispatchRedux = useAppDispatch()
+  const dispatch = useAppDispatch()
 
   let uriEncoded = ''
   if (hash !== '') {
@@ -70,7 +68,7 @@ export default function URIMaker({ events }: URIMakerProps) {
             id="URIMakerForm"
             className={'mt-3 w-full sm:mt-0' + ' ' + 'col-span-12 xl:col-span-7'}
             onSubmit={(event) => {
-              handleSubmit(event, setHash)
+              handleURIMakerSubmit(event, setHash)
             }}
           >
             <div className="flex flex-col space-y-4">
@@ -191,7 +189,7 @@ export default function URIMaker({ events }: URIMakerProps) {
                 type="button"
                 className="hocus:bg-gray-100 mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-base font-semibold text-gray-900 shadow-sm ring-1 ring-gray-300 ring-inset sm:mt-0 sm:w-auto"
                 onClick={() => {
-                  dispatchRedux(setModal({ status: 'closed' }))
+                  dispatch(setModal({ status: 'closed' }))
                 }}
               >
                 Cancel
@@ -239,87 +237,6 @@ export default function URIMaker({ events }: URIMakerProps) {
           Copy
         </button>
       </form>
-      {/* <div className="pt-4">
-        <ul>
-          {events.map((item: GoogleCalendarV3Event) => {
-            return <CalendarEvent key={item.id} {...item} handleSetStartEnd={handleSetStartEnd} />
-          })}
-        </ul>
-      </div> */}
     </>
-  )
-}
-
-/**
- *
- * Handles form submissions by intercepting the native event,
- * passing params to the `/book` endpoint, and redirecting
- * upon success (or showing a failure message).
- *
- */
-async function handleSubmit(
-  event: FormEvent<HTMLFormElement>,
-  setUri: Dispatch<SetStateAction<string>>
-) {
-  event.preventDefault()
-  const jsonData = Object.fromEntries(new FormData(event.currentTarget))
-  const uriData = await encode(jsonData)
-  const { key: hash } = uriData
-  setUri(hash as string)
-  return
-}
-
-type CalendarEventProps = GoogleCalendarV3Event & {
-  handleSetStartEnd: ({ start, end }: { start: string; end: string }) => void
-}
-
-function CalendarEvent({
-  summary,
-  description,
-  start,
-  end,
-  location,
-  handleSetStartEnd,
-}: CalendarEventProps) {
-  // Handle both dateTime and date formats from Google Calendar
-  const startDateTime = start.dateTime
-    ? new Date(start.dateTime).toLocaleString('en-US', {
-        timeZone: start.timeZone,
-      })
-    : start.date
-      ? new Date(start.date).toLocaleDateString('en-US')
-      : 'No start time'
-
-  const endDateTime = end.dateTime
-    ? new Date(end.dateTime).toLocaleString('en-US', {
-        timeZone: end.timeZone,
-      })
-    : end.date
-      ? new Date(end.date).toLocaleDateString('en-US')
-      : 'No end time'
-
-  return (
-    <li className="pb-2">
-      <h3 className="text-primary-400 font-bold">{summary}</h3>
-      <div className="px-4">
-        <p>{startDateTime}</p>
-        <p>{endDateTime}</p>
-        {location && <p>{location}</p>}
-        {description && <p>{description}</p>}
-      </div>
-      <button
-        className="border-primary-400 hover:bg-primary-400 m-4 rounded-md border px-4 py-2 hover:font-bold"
-        onClick={() => {
-          const startTime = start.dateTime || start.date || ''
-          const endTime = end.dateTime || end.date || ''
-          if (startTime && endTime) {
-            handleSetStartEnd({ start: startTime, end: endTime })
-          }
-        }}
-        disabled={!start.dateTime && !start.date}
-      >
-        Set Start/End
-      </button>
-    </li>
   )
 }

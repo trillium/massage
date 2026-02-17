@@ -9,9 +9,9 @@ type TimeListProps = {
   availability: DateTimeInterval[]
 }
 export default function TimeList() {
-  const dispatchRedux = useAppDispatch()
+  const dispatch = useAppDispatch()
   useEffect(() => {
-    dispatchRedux(setReady({ TimeList: true }))
+    dispatch(setReady({ TimeList: true }))
     // eslint-disable-next-line
   }, [])
 

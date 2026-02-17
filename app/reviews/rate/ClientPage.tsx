@@ -15,7 +15,7 @@ type PageProps = {
 
 export default function ClientPage(props: PageProps) {
   const { date, error, start, end, firstName, lastName } = props
-  const dispatchRedux = useAppDispatch()
+  const dispatch = useAppDispatch()
   const formData = useReduxFormData()
   const newFormData = {
     ...formData,
@@ -24,7 +24,7 @@ export default function ClientPage(props: PageProps) {
   }
 
   useEffect(() => {
-    dispatchRedux(setForm(newFormData))
+    dispatch(setForm(newFormData))
     // eslint-disable-next-line
   }, [])
 

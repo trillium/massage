@@ -35,17 +35,17 @@ export function ConfigurationUtility({
 }: {
   configObject: SlugConfigurationType | null
 }) {
-  const dispatchRedux = useAppDispatch()
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
     if (configObject) {
-      dispatchRedux(setBulkConfigSliceState(configObject))
+      dispatch(setBulkConfigSliceState(configObject))
       if (configObject.location) {
-        dispatchRedux(setLocation(configObject.location))
+        dispatch(setLocation(configObject.location))
       }
-      dispatchRedux(setLocationReadOnly(configObject.locationIsReadOnly ?? false))
+      dispatch(setLocationReadOnly(configObject.locationIsReadOnly ?? false))
     }
-  }, [configObject, dispatchRedux])
+  }, [configObject, dispatch])
 
   return <></>
 }
@@ -61,7 +61,7 @@ export function InitializationUtility({
   initialDuration?: number
 }) {
   const { selectedDate: selectedDateRedux, duration: durationRedux } = useReduxAvailability()
-  const dispatchRedux = useAppDispatch()
+  const dispatch = useAppDispatch()
   const initializedRef = useRef(false)
 
   useEffect(() => {
@@ -69,17 +69,17 @@ export function InitializationUtility({
 
     // Set initial slots
     if (initialSlots && initialSlots.length > 0) {
-      dispatchRedux(setSlots(initialSlots))
+      dispatch(setSlots(initialSlots))
     }
 
     // Set initial selected date
     if (initialSelectedDate && !selectedDateRedux) {
-      dispatchRedux(setSelectedDate(initialSelectedDate))
+      dispatch(setSelectedDate(initialSelectedDate))
     }
 
     // Set initial duration
     if (initialDuration && !durationRedux) {
-      dispatchRedux(setDuration(initialDuration))
+      dispatch(setDuration(initialDuration))
     }
 
     initializedRef.current = true
@@ -87,7 +87,7 @@ export function InitializationUtility({
     initialSlots,
     initialSelectedDate,
     initialDuration,
-    dispatchRedux,
+    dispatch,
     selectedDateRedux,
     durationRedux,
   ])
@@ -118,7 +118,7 @@ export function SlotGenerationUtility(
 ) {
   const { duration: durationRedux, selectedDate: selectedDateRedux } = useReduxAvailability()
   const { leadTimeMinimum: leadTime } = useReduxConfig()
-  const dispatchRedux = useAppDispatch()
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
     let newSlots: StringDateTimeIntervalAndLocation[] = []
@@ -140,14 +140,14 @@ export function SlotGenerationUtility(
       })
     }
 
-    dispatchRedux(setSlots(newSlots))
+    dispatch(setSlots(newSlots))
 
     // Auto-select first available date if none selected and slots are available
     if (props.shouldAutoSelectFirstDate && !selectedDateRedux && newSlots.length > 0) {
       const firstAvail = format(new Date(newSlots[0].start), 'yyyy-MM-dd')
-      dispatchRedux(setSelectedDate(firstAvail))
+      dispatch(setSelectedDate(firstAvail))
     }
-  }, [durationRedux, leadTime, props, dispatchRedux, selectedDateRedux])
+  }, [durationRedux, leadTime, props, dispatch, selectedDateRedux])
 
   return <></>
 }

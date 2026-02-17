@@ -39,7 +39,7 @@ export default function BookingForm({
   acceptingPayment = true,
   onSubmit,
 }: BookingFormProps) {
-  const dispatchRedux = useAppDispatch()
+  const dispatch = useAppDispatch()
   const formData = useReduxFormData()
   const eventContainers = useReduxEventContainers()
   const config = useReduxConfig()
@@ -86,7 +86,7 @@ export default function BookingForm({
     <Modal
       open={modal !== 'closed'}
       setOpen={(open) => {
-        dispatchRedux(setModal({ status: open ? 'open' : 'closed' }))
+        dispatch(setModal({ status: open ? 'open' : 'closed' }))
       }}
     >
       {!selectedTime || !timeZone ? (

@@ -65,11 +65,11 @@ vi.mock('@/redux/hooks', () => ({
 global.fetch = vi.fn()
 
 describe('BookingForm', () => {
-  let dispatchRedux: Mock
+  let dispatch: Mock
   let router: ReturnType<typeof useRouter>
 
   beforeEach(() => {
-    dispatchRedux = vi.fn()
+    dispatch = vi.fn()
     router = {
       push: vi.fn(),
       replace: vi.fn(),

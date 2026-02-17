@@ -14,16 +14,16 @@ type UseBookingSubmitParams = {
 }
 
 export function useBookingSubmit({ additionalData, endPoint, onSubmit }: UseBookingSubmitParams) {
-  const dispatchRedux = useAppDispatch()
+  const dispatch = useAppDispatch()
   const config = useReduxConfig()
   const router = useRouter()
 
   return async (values: BookingFormValues, formikHelpers: FormikHelpers<BookingFormValues>) => {
     try {
-      dispatchRedux(setModal({ status: 'busy' }))
+      dispatch(setModal({ status: 'busy' }))
       const locationString = flattenLocation(values.location)
 
-      dispatchRedux(
+      dispatch(
         setForm({
           firstName: values.firstName,
           lastName: values.lastName,
@@ -79,18 +79,18 @@ export function useBookingSubmit({ additionalData, endPoint, onSubmit }: UseBook
           const json = await response.json()
 
           if (json.success && response.ok) {
-            dispatchRedux(setModal({ status: 'closed' }))
+            dispatch(setModal({ status: 'closed' }))
             if (json.instantConfirm) {
               router.push('/instantConfirm')
             } else {
               router.push('/confirmation')
             }
           } else {
-            dispatchRedux(setModal({ status: 'error' }))
+            dispatch(setModal({ status: 'error' }))
           }
         } catch (error) {
           console.error('❌ [BookingForm] API call failed:', error)
-          dispatchRedux(setModal({ status: 'error' }))
+          dispatch(setModal({ status: 'error' }))
         }
       }
     } catch (error) {

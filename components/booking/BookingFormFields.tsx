@@ -48,7 +48,7 @@ export default function BookingFormFields({
   showParkingField,
   showNotesField,
 }: BookingFormFieldsProps) {
-  const dispatchRedux = useAppDispatch()
+  const dispatch = useAppDispatch()
 
   return (
     <div className="flex flex-col space-y-4">
@@ -90,7 +90,7 @@ export default function BookingFormFields({
               ...values.location,
               [locationField]: e.target.value,
             }
-            dispatchRedux(setForm({ location: updatedLocation }))
+            dispatch(setForm({ location: updatedLocation }))
           }}
           onBlur={(e) => {
             const locationField = LOCATION_FIELD_MAP[e.target.name]

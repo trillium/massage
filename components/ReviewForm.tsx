@@ -1,12 +1,10 @@
 import React from 'react'
 import { useRouter } from 'next/navigation'
-import type { FormEvent } from 'react'
 
 import Spinner from '@/components/Spinner'
 import { formatLocalDate, formatLocalTime } from '@/lib/availability/helpers'
 
 import { setForm } from '@/redux/slices/formSlice'
-import type { AppDispatch } from '@/redux/store'
 import { setModal } from '@/redux/slices/modalSlice'
 import {
   useAppDispatch,
@@ -15,9 +13,7 @@ import {
   useReduxModal,
 } from '@/redux/hooks'
 import { ReviewSnippet, Star } from './ReviewCard'
-import type { RatingType, RatingTypeStrict } from '@/lib/types'
-
-import type { ReviewFormData } from '@/lib/types'
+import { handleReviewSubmit } from './ReviewForm.handleSubmit'
 
 export default function ReviewForm({
   error,
@@ -28,7 +24,7 @@ export default function ReviewForm({
   start: string
   end: string
 }) {
-  const dispatchRedux = useAppDispatch()
+  const dispatch = useAppDispatch()
   const formData = useReduxFormData()
   const { firstName, lastName, rating, text } = formData
   const { status: modal } = useReduxModal()
@@ -40,7 +36,7 @@ export default function ReviewForm({
     event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>
   ) => {
     const target = event.target as HTMLInputElement
-    dispatchRedux(setForm({ ...formData, [target.name]: target.value }))
+    dispatch(setForm({ ...formData, [target.name]: target.value }))
   }
 
   return (
@@ -49,7 +45,7 @@ export default function ReviewForm({
         <form
           className={'mt-3 w-full sm:mt-0' + ' ' + 'col-span-12 xl:col-span-7'}
           onSubmit={(event) => {
-            handleSubmit(event, dispatchRedux, router)
+            handleReviewSubmit(event, dispatch, router)
           }}
         >
           <div className="border-l-primary-400 bg-primary-100/30 dark:bg-primary-50/10 mt-3 mb-4 rounded-md border-l-4 p-3">
@@ -218,7 +214,7 @@ export default function ReviewForm({
               type="button"
               className="hocus:bg-gray-100 mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-base font-semibold text-gray-900 shadow-sm ring-1 ring-gray-300 ring-inset sm:mt-0 sm:w-auto"
               onClick={() => {
-                dispatchRedux(setModal({ status: 'closed' }))
+                dispatch(setModal({ status: 'closed' }))
               }}
             >
               Cancel
@@ -249,40 +245,4 @@ export default function ReviewForm({
       </div>
     </div>
   )
-}
-
-/**
- *
- * Handles form submissions by intercepting the native event,
- * passing params to the `/book` endpoint, and redirecting
- * upon success (or showing a failure message).
- *
- */
-function handleSubmit(
-  event: FormEvent<HTMLFormElement>,
-  dispatchRedux: AppDispatch,
-  router: ReturnType<typeof useRouter>
-) {
-  event.preventDefault()
-  dispatchRedux(setModal({ status: 'busy' }))
-  const jsonData = Object.fromEntries(new FormData(event.currentTarget))
-  fetch(`/api/review/create`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(jsonData),
-  })
-    .then(async (data) => {
-      const json = await data.json()
-      if (json.success) {
-        dispatchRedux(setModal({ status: 'closed' }))
-        router.push('/reviews/submitted')
-      } else {
-        dispatchRedux(setModal({ status: 'error' }))
-      }
-    })
-    .catch(() => {
-      dispatchRedux(setModal({ status: 'error' }))
-    })
 }

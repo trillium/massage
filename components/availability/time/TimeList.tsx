@@ -16,7 +16,7 @@ import { format } from 'date-fns-tz'
 export default function TimeList({}) {
   const { slots: slotsRedux, selectedDate } = useReduxAvailability()
   const { selectedTime, timeZone } = useReduxAvailability()
-  const dispatchRedux = useAppDispatch()
+  const dispatch = useAppDispatch()
 
   const slots = slotsRedux || []
 
@@ -44,7 +44,7 @@ export default function TimeList({}) {
   const availability = selectedDate ? availabilityByDate[selectedDate.toString()] : []
 
   const handleTimeButtonClick = (time: StringDateTimeInterval, location?: LocationObject) => {
-    dispatchRedux(
+    dispatch(
       setSelectedTime({
         start: time.start,
         end: time.end,
@@ -52,12 +52,12 @@ export default function TimeList({}) {
     )
     if (location) {
       // Set the location in eventContainers - don't convert to empty string
-      dispatchRedux(setEventContainers({ location: location }))
+      dispatch(setEventContainers({ location: location }))
     } else {
       // Don't clear all eventContainers, just clear the location field
-      dispatchRedux(setEventContainers({ location: undefined }))
+      dispatch(setEventContainers({ location: undefined }))
     }
-    dispatchRedux(setModal({ status: 'open' }))
+    dispatch(setModal({ status: 'open' }))
   }
 
   return (
