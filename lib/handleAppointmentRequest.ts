@@ -75,7 +75,11 @@ export async function handleAppointmentRequest({
     timeZone: escapeHtml(data.timeZone),
   }
 
-  const origin = headers.get('origin') ?? '?'
+  const origin =
+    headers.get('origin') ||
+    (headers.get('host') ? `https://${headers.get('host')}` : null) ||
+    process.env.NEXT_PUBLIC_SITE_URL ||
+    'https://trilliummassage.la'
 
   // Check if instantConfirm is true
   if (data.instantConfirm) {

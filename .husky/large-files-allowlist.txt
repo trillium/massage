@@ -4,6 +4,7 @@ pnpm-lock.yaml
 app/admin/gmail-events/page.tsx
 lib/gmail/searchSootheEmails.ts
 app/api/driveTime/route.ts
+lib/handleAppointmentRequest.ts
 css/tailwind.css
 public/static/images/avatar.jpg
 public/static/images/gallery/005994cb32463dd19f5e74544748843b-large.jpg
