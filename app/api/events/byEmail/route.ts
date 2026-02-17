@@ -1,7 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getEventsBySearchQuery } from '@/lib/availability/getEventsBySearchQuery'
+import { AdminAuthManager } from '@/lib/adminAuth'
 
 export async function GET(request: NextRequest) {
+  const auth = AdminAuthManager.requireAdmin(request)
+  if (auth instanceof NextResponse) return auth
+
   try {
     const { searchParams } = new URL(request.url)
     const email = searchParams.get('email')

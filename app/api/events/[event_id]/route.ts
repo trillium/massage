@@ -1,10 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { fetchSingleEvent } from 'lib/fetch/fetchSingleEvent'
+import { AdminAuthManager } from '@/lib/adminAuth'
 
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ event_id: string }> }
 ) {
+  const auth = AdminAuthManager.requireAdmin(request)
+  if (auth instanceof NextResponse) return auth
+
   try {
     const { event_id } = await params
 
