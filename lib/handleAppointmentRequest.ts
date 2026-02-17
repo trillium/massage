@@ -110,12 +110,15 @@ export async function handleAppointmentRequest({
       priority: 0,
     })
 
+    const calendarData = await calendarResponse.json()
+    const eventPageUrl = createEventPageUrl(origin, calendarData.id, data.email, data.end)
+
     // Send confirmation email directly
     const confirmationEmail = await clientConfirmEmailFn({
       ...data,
       ...safeData,
       location: safeLocation,
-      email: data.email, // Explicitly pass the email
+      eventPageUrl,
       dateSummary: intervalToHumanString({
         start,
         end,
@@ -127,9 +130,6 @@ export async function handleAppointmentRequest({
       subject: confirmationEmail.subject,
       body: confirmationEmail.body,
     })
-
-    const calendarData = await calendarResponse.json()
-    const eventPageUrl = createEventPageUrl(origin, calendarData.id, data.email, data.end)
 
     return NextResponse.json({ success: true, instantConfirm: true, eventPageUrl }, { status: 200 })
   }
@@ -209,6 +209,8 @@ export async function handleAppointmentRequest({
     priority: 0,
   })
 
+  const eventPageUrl = createEventPageUrl(origin, calendarEventId, data.email, data.end)
+
   try {
     await sendMailFn({
       to: siteMetadata.email ?? '',
@@ -220,8 +222,7 @@ export async function handleAppointmentRequest({
       ...data,
       ...safeData,
       location: safeLocation,
-      email: data.email,
-      cancelUrl: declineUrl,
+      eventPageUrl,
       dateSummary: intervalToHumanString({
         start,
         end,
@@ -245,6 +246,5 @@ export async function handleAppointmentRequest({
     )
   }
 
-  const eventPageUrl = createEventPageUrl(origin, calendarEventId, data.email, data.end)
   return NextResponse.json({ success: true, eventPageUrl }, { status: 200 })
 }

@@ -191,10 +191,10 @@ describe('handleAppointmentRequest', () => {
       })
     )
 
-    // Assert: client email receives cancelUrl
+    // Assert: client email receives eventPageUrl
     expect(mockClientRequestEmail).toHaveBeenCalledWith(
       expect.objectContaining({
-        cancelUrl: expect.stringContaining('/api/decline'),
+        eventPageUrl: expect.stringContaining('/event/test-event-id'),
       })
     )
   })

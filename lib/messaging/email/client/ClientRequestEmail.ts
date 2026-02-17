@@ -1,6 +1,5 @@
 import { EmailProps } from '@/lib/types'
 import { parts as signatureParts } from '@/lib/messaging/utilities/signature'
-import { generateSecureMyEventsUrlServer } from '@/lib/generateSecureMyEventsUrl'
 
 const LINE_PREFIX = `<div class="gmail_default" style="font-family:arial,sans-serif">`
 const LINE_SUFFIX = `</div>`
@@ -13,20 +12,9 @@ export default async function ClientRequestEmail({
   location,
   bookingUrl,
   promo,
-  email,
-  cancelUrl,
-}: Omit<EmailProps, 'approveUrl'> & { email: string; cancelUrl?: string }) {
+  eventPageUrl,
+}: Omit<EmailProps, 'approveUrl'> & { eventPageUrl?: string }) {
   const SUBJECT = `Massage Session Request $${price}, ${duration} minutes`
-
-  // Generate secure my_events URL
-  let myEventsUrl = ''
-  try {
-    // Use a fallback host if needed - this should be set from the calling context
-    const host = process.env.NEXT_PUBLIC_SITE_URL || 'https://trilliummassage.la'
-    myEventsUrl = await generateSecureMyEventsUrlServer(email, host)
-  } catch (error) {
-    console.error('Error generating secure my_events URL:', error)
-  }
 
   let body = `<div dir="ltr">`
   body += [
@@ -43,8 +31,7 @@ export default async function ClientRequestEmail({
     `<br>`,
     `I'll review it as soon as I can and get back to you with a confirmation.`,
     `<br>`,
-    myEventsUrl ? `<b><a href="${myEventsUrl}">View your appointments</a></b>` : '',
-    cancelUrl ? `<b><a href="${cancelUrl}">Cancel this request</a></b>` : '',
+    eventPageUrl ? `<b><a href="${eventPageUrl}">View or manage your appointment</a></b>` : '',
     `<br>`,
     `Thanks!`,
     `<br>`,
