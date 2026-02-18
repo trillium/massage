@@ -30,11 +30,11 @@ export type NavItem = NavItemWithHref | NavItemWithChildren
 
 export const NavOptions = () => {
   return (
-    <>
+    <div className="hidden items-center space-x-4 sm:flex sm:space-x-6">
       {headerNavLinks.map((link) => (
         <RenderNavLink navItem={link} key={link.title} />
       ))}
-    </>
+    </div>
   )
 }
 
