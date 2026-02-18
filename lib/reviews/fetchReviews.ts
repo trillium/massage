@@ -4,7 +4,10 @@ import type { ReviewType } from '@/lib/types'
 export async function fetchReviews(): Promise<ReviewType[]> {
   const supabase = getSupabaseAdminClient()
 
-  const { data, error } = await supabase.from('reviews').select('*').order('date', { ascending: false })
+  const { data, error } = await supabase
+    .from('reviews')
+    .select('*')
+    .order('date', { ascending: false })
 
   if (error) {
     throw new Error(`Failed to fetch reviews: ${error.message}`)
