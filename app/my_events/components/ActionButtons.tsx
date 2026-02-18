@@ -85,15 +85,6 @@ export function ActionButtons({
       >
         View Details
       </Link>
-      <button
-        onClick={() => {}}
-        className={clsx(
-          'rounded px-3 py-1 text-center text-sm text-white transition-colors',
-          colorClasses.button
-        )}
-      >
-        Rebook
-      </button>
     </div>
   )
 }

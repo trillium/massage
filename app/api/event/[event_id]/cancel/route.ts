@@ -13,14 +13,14 @@ export async function POST(
 ) {
   const { event_id } = await params
 
-  let body: { token?: string }
+  let body: { token?: string; reason?: string }
   try {
     body = await req.json()
   } catch {
     return NextResponse.json({ error: 'Invalid request body' }, { status: 400 })
   }
 
-  const { token } = body
+  const { token, reason } = body
   if (!token) {
     return NextResponse.json({ error: 'Token required' }, { status: 401 })
   }
@@ -47,9 +47,10 @@ export async function POST(
   }
 
   const summary = getCleanSummary(event)
+  const isReschedule = reason === 'reschedule'
   pushoverSendMessage({
-    title: 'Client Cancelled',
-    message: `${summary}\nCancelled by ${result.payload.email}`,
+    title: isReschedule ? 'Client Rescheduled' : 'Client Cancelled',
+    message: `${summary}\n${isReschedule ? 'Rescheduled' : 'Cancelled'} by ${result.payload.email}`,
     priority: 0,
   }).catch(() => {})
 

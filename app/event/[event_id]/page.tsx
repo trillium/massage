@@ -7,6 +7,7 @@ import Link from '@/components/Link'
 import { createBookingUrl } from '@/lib/helpers/createBookingUrl'
 import { extractBookingSlug } from '@/lib/helpers/extractBookingSlug'
 import CancelButton from './CancelButton'
+import RescheduleButton from './RescheduleButton'
 import EditForm from './EditForm'
 import { parseEditableFields } from '@/lib/helpers/parseEventDescription'
 
@@ -172,6 +173,7 @@ export default async function EventPage({ params, searchParams }: EventPageProps
           {status !== 'cancelled' && (
             <div className="mt-8 flex flex-wrap items-start gap-3">
               <CancelButton eventId={event_id} token={token} />
+              <RescheduleButton eventId={event_id} token={token} bookingUrl={bookingUrl} />
               <EditForm
                 eventId={event_id}
                 token={token}
