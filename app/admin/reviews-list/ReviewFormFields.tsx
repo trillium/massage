@@ -19,8 +19,8 @@ function StarOptions() {
     <>
       {[5, 4, 3, 2, 1].map((n) => (
         <option key={n} value={n}>
-          {'★'.repeat(n)}
-          {'☆'.repeat(5 - n)} ({n})
+          {'\u2605'.repeat(n)}
+          {'\u2606'.repeat(5 - n)} ({n})
         </option>
       ))}
     </>

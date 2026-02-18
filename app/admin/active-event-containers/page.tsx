@@ -4,6 +4,7 @@ import { fetchSlugConfigurationData } from '@/lib/slugConfigurations/fetchSlugCo
 import Day from '@/lib/day'
 import { GoogleCalendarV3Event } from '@/lib/types'
 import SectionContainer from '@/components/SectionContainer'
+import { FaSearch } from 'react-icons/fa'
 
 // Force this route to be dynamic since it fetches live data from Google Calendar
 export const dynamic = 'force-dynamic'
@@ -262,8 +263,8 @@ export default async function ActiveEventContainersPage() {
                 {group.allEvents.length > 0 && (
                   <div className="mb-6 rounded-lg bg-blue-50 p-4 dark:bg-blue-900/20">
                     <h4 className="mb-2 text-sm font-medium text-blue-900 dark:text-blue-100">
-                      🔍 Debug: All Events Found by Search Query "{group.searchQuery}" (
-                      {group.allEvents.length})
+                      <FaSearch className="mr-1 inline" /> Debug: All Events Found by Search Query "
+                      {group.searchQuery}" ({group.allEvents.length})
                     </h4>
                     <div className="max-h-40 overflow-y-auto">
                       {group.allEvents.map((event) => (

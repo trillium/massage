@@ -20,7 +20,7 @@ git diff --cached --name-only --diff-filter=ACM | \
         if command -v bd &> /dev/null; then
           existing=$(bd query "status:open label:large-file" 2>/dev/null | grep "$file" || true)
           if [ -z "$existing" ]; then
-            desc=$(sed "s/{LINE_LIMIT}/$LINE_LIMIT/g; s/{LINES}/$lines/g; s/{FILE}/$file/g" "$TICKET_TEMPLATE")
+            desc=$(sed "s|{LINE_LIMIT}|$LINE_LIMIT|g; s|{LINES}|$lines|g; s|{FILE}|$file|g" "$TICKET_TEMPLATE")
             bd create "Refactor $file ($lines lines)" \
               -d "$desc" \
               -p 2 \
@@ -64,6 +64,28 @@ fi
 if [ "$NEXTJS_FAIL" -ne 0 ]; then
   echo ""
   echo "See: https://nextjs.org/docs/app/guides/upgrading/version-16"
+  exit 1
+fi
+
+# ── No literal emojis in TSX — use react-icons instead ────
+EMOJI_FAIL=0
+STAGED_TSX=$(git diff --cached --name-only --diff-filter=ACM | grep '\.tsx$' || true)
+for file in $STAGED_TSX; do
+  EMOJI_LINES=$(git diff --cached -U0 "$file" | grep '^+' | grep -Pn '[\x{1F300}-\x{1F9FF}\x{2600}-\x{27BF}\x{FE00}-\x{FE0F}\x{1FA00}-\x{1FAFF}\x{200D}\x{2702}-\x{27B0}\x{1F600}-\x{1F64F}\x{1F680}-\x{1F6FF}\x{1F900}-\x{1F9FF}]' || true)
+  if [ -n "$EMOJI_LINES" ]; then
+    if [ "$EMOJI_FAIL" -eq 0 ]; then
+      echo "❌ Literal emojis in TSX — use react-icons instead"
+      echo ""
+    fi
+    echo "   $file:"
+    echo "$EMOJI_LINES" | sed 's/^/      /'
+    EMOJI_FAIL=1
+  fi
+done
+
+if [ "$EMOJI_FAIL" -ne 0 ]; then
+  echo ""
+  echo "   Use unicode escapes (\\u23f3) or react-icons components."
   exit 1
 fi
 

@@ -1,3 +1,4 @@
+import { FaStar, FaRegStar } from 'react-icons/fa'
 import { ReviewFormFields, type ReviewFormData } from './ReviewFormFields'
 
 interface Review {
@@ -59,9 +60,13 @@ export function ReviewCard({
           <div className="flex items-center gap-2">
             <span className="font-semibold text-gray-800 dark:text-gray-200">{review.name}</span>
             <span className="text-xs text-gray-500 dark:text-gray-400">{review.source}</span>
-            <span className="text-sm text-yellow-500">
-              {'★'.repeat(review.rating)}
-              {'☆'.repeat(5 - review.rating)}
+            <span className="flex text-sm text-yellow-500">
+              {Array.from({ length: review.rating }, (_, i) => (
+                <FaStar key={`filled-${i}`} />
+              ))}
+              {Array.from({ length: 5 - review.rating }, (_, i) => (
+                <FaRegStar key={`empty-${i}`} />
+              ))}
             </span>
           </div>
           <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">{review.date}</p>

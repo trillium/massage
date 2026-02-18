@@ -1,6 +1,7 @@
 'use client'
 
 import React from 'react'
+import { FaCheck } from 'react-icons/fa'
 import { AppointmentProps } from '@/lib/types'
 import eventSummary from '@/lib/messaging/templates/events/eventSummary'
 import eventDescription from '@/lib/messaging/templates/events/eventDescription'
@@ -89,8 +90,8 @@ export default function Step5EventObjectDetails({
 
       <div className="mb-6 rounded-lg bg-green-50 p-4 dark:bg-green-900/20">
         <p className="text-sm text-green-800 dark:text-green-200">
-          ✅ This shows the calendar event that would be created in Google Calendar using the same
-          backend functions and templates.
+          <FaCheck className="mr-1 inline text-green-600" /> This shows the calendar event that
+          would be created in Google Calendar using the same backend functions and templates.
         </p>
       </div>
 

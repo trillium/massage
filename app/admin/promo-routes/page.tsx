@@ -3,6 +3,7 @@ import { fetchSlugConfigurationData } from '@/lib/slugConfigurations/fetchSlugCo
 import Template from '@/components/Template'
 import { isPromoExpired } from '@/lib/utilities/promoValidation'
 import SectionContainer from '@/components/SectionContainer'
+import { FaCrosshairs, FaDollarSign, FaTimes, FaClock, FaClipboardList } from 'react-icons/fa'
 
 export default async function PromoRoutesPage() {
   const slugConfigurations = await fetchSlugConfigurationData()
@@ -33,7 +34,7 @@ export default async function PromoRoutesPage() {
             {/* Promotional Routes Section */}
             <section className="rounded-lg bg-white p-6 shadow-md dark:bg-gray-800">
               <h2 className="mb-4 text-2xl font-bold text-gray-900 dark:text-white">
-                <span className="emoji">🎯</span> Promotional Routes ({promoRoutes.length})
+                <FaCrosshairs className="inline" /> Promotional Routes ({promoRoutes.length})
               </h2>
               <div className="space-y-4">
                 {promoRoutes.map(([slug, config]) => (
@@ -54,7 +55,7 @@ export default async function PromoRoutesPage() {
                         <p className="text-sm text-gray-600 dark:text-gray-300">{config.title}</p>
                         {config.discount && (
                           <p className="text-sm font-medium text-green-600 dark:text-green-400">
-                            <span className="emoji">💰</span>{' '}
+                            <FaDollarSign className="inline" />{' '}
                             {config.discount.type === 'percent'
                               ? `${config.discount.amountPercent! * 100}% off`
                               : `$${config.discount.amountDollars} off`}
@@ -68,10 +69,16 @@ export default async function PromoRoutesPage() {
                                 : 'text-orange-600 dark:text-orange-400'
                             }`}
                           >
-                            <span className="emoji">
-                              {isPromoExpired(config.promoEndDate)
-                                ? '❌ Expired:'
-                                : '⏰ Expires:'}{' '}
+                            <span>
+                              {isPromoExpired(config.promoEndDate) ? (
+                                <>
+                                  <FaTimes className="inline" /> Expired:
+                                </>
+                              ) : (
+                                <>
+                                  <FaClock className="inline" /> Expires:
+                                </>
+                              )}{' '}
                             </span>
                             {config.promoEndDate}
                           </p>
@@ -104,7 +111,7 @@ export default async function PromoRoutesPage() {
             {/* All Routes Section */}
             <section className="rounded-lg bg-white p-6 shadow-md dark:bg-gray-800">
               <h2 className="mb-4 text-2xl font-bold text-gray-900 dark:text-white">
-                <span className="emoji">📋</span> All Available Routes ({allRoutes.length})
+                <FaClipboardList className="inline" /> All Available Routes ({allRoutes.length})
               </h2>
               <div className="grid gap-3 md:grid-cols-2">
                 {allRoutes.map(([slug, config]) => (
@@ -136,7 +143,7 @@ export default async function PromoRoutesPage() {
                         </span>
                         {config.discount && (
                           <span className="text-xs text-green-600 dark:text-green-400">
-                            🎯 PROMO
+                            <FaCrosshairs className="mr-1 inline" /> PROMO
                           </span>
                         )}
                       </div>

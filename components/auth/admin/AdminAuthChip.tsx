@@ -6,6 +6,7 @@ import authHeaderNavLinks from '@/data/authHeaderNavLinks'
 import { useEffect, useState } from 'react'
 import { getSupabaseBrowserClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
+import { FaCheck, FaChevronDown } from 'react-icons/fa'
 
 interface AdminAuthChipProps {
   adminEmail?: string | null
@@ -83,8 +84,12 @@ export function AdminAuthChip({ adminEmail, onLogout }: AdminAuthChipProps) {
       <Menu as="div">
         <MenuButton className="rounded-br-3xl border-b border-l bg-blue-50 px-4 py-2 text-sm transition-colors hover:bg-blue-100 dark:bg-blue-900/20 dark:hover:bg-blue-900/30">
           <div className="flex items-center justify-between">
-            <span className="text-blue-800 dark:text-blue-200">✓ Admin {displayEmail}</span>
-            <span className="pl-2 text-blue-600 dark:text-blue-300">▼</span>
+            <span className="flex items-center text-blue-800 dark:text-blue-200">
+              <FaCheck className="mr-1" /> Admin {displayEmail}
+            </span>
+            <span className="pl-2 text-blue-600 dark:text-blue-300">
+              <FaChevronDown />
+            </span>
           </div>
         </MenuButton>
         <MenuItems className="ring-opacity-5 absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black focus:outline-none dark:divide-gray-700 dark:bg-gray-800">

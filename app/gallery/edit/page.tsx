@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Image from '@/components/Image'
 import SectionContainer from '@/components/SectionContainer'
+import { IoClose } from 'react-icons/io5'
 
 interface GalleryImage {
   src: string
@@ -223,7 +224,7 @@ export default function Page() {
                 onClick={() => toggleHide(image.src)}
                 className="rounded bg-red-600/80 px-3 py-2 text-xs font-bold text-white backdrop-blur-sm"
               >
-                ✕
+                <IoClose />
               </button>
             </div>
             <div className="absolute bottom-0 left-0 bg-black/50 px-2 py-1 text-xs text-white">

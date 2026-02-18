@@ -145,7 +145,7 @@ describe('AdminAuthProvider', () => {
       )
 
       await waitFor(() => {
-        expect(screen.getByText('✓ Admin admin@example.com')).toBeInTheDocument()
+        expect(screen.getByText(/Admin admin@example.com/)).toBeInTheDocument()
       })
     })
 

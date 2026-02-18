@@ -1,11 +1,12 @@
 import SectionContainer from '@/components/SectionContainer'
+import { FaCheck, FaTimes, FaStar } from 'react-icons/fa'
 
-const Check = () => <span className="text-lg text-emerald-600 dark:text-emerald-400">✓</span>
-const Cross = () => <span className="text-lg text-gray-300 dark:text-gray-600">✗</span>
+const Check = () => <FaCheck className="text-lg text-emerald-600 dark:text-emerald-400" />
+const Cross = () => <FaTimes className="text-lg text-gray-300 dark:text-gray-600" />
 const Soon = () => (
   <span className="text-xs font-medium text-amber-600 dark:text-amber-400">Soon</span>
 )
-const Star = () => <span className="text-lg text-amber-500">★</span>
+const Star = () => <FaStar className="text-lg text-amber-500" />
 
 type CellValue = 'yes' | 'no' | 'soon'
 type Platform = { name: string; category: string; price: string; features: CellValue[] }

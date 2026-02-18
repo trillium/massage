@@ -10,6 +10,7 @@ import {
 } from '@/data/authHeaderNavLinks'
 import type { AuthNavLink } from '@/lib/types'
 import AdminNavItem from './AdminNavItem'
+import { FaHome, FaCog, FaWrench, FaFlask } from 'react-icons/fa'
 
 interface AdminNavProps {
   showCategories?: boolean
@@ -26,11 +27,11 @@ export default function AdminNav({
 }: AdminNavProps) {
   const pathname = usePathname()
 
-  const renderNavSection = (title: string, routes: AuthNavLink[], icon?: string) => (
+  const renderNavSection = (title: string, routes: AuthNavLink[], icon?: React.ReactNode) => (
     <div key={title} className="space-y-3">
       {showCategories && (
         <h3 className="text-sm font-medium tracking-wide text-gray-500 uppercase dark:text-gray-400">
-          {icon && <span className="mr-2">{icon}</span>}
+          {icon && <span className="mr-2 inline-block align-middle">{icon}</span>}
           {title}
         </h3>
       )}
@@ -55,10 +56,10 @@ export default function AdminNav({
         </div>
 
         <div className="space-y-8">
-          {renderNavSection('Dashboard', primaryAdminRoutes, '🏠')}
-          {renderNavSection('Management', managementRoutes, '⚙️')}
-          {renderNavSection('Tools', toolsRoutes, '🔧')}
-          {renderNavSection('Testing', testingRoutes, '🧪')}
+          {renderNavSection('Dashboard', primaryAdminRoutes, <FaHome />)}
+          {renderNavSection('Management', managementRoutes, <FaCog />)}
+          {renderNavSection('Tools', toolsRoutes, <FaWrench />)}
+          {renderNavSection('Testing', testingRoutes, <FaFlask />)}
         </div>
       </div>
     </nav>

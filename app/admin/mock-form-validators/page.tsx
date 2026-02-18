@@ -2,6 +2,7 @@
 
 import React from 'react'
 import SectionContainer from '@/components/SectionContainer'
+import { FaCheck, FaFolder } from 'react-icons/fa'
 
 export default function MockFormValidatorsPage() {
   return (
@@ -26,7 +27,8 @@ export default function MockFormValidatorsPage() {
 
               <div className="rounded-lg bg-green-50 p-4 dark:bg-green-900/20">
                 <h3 className="font-medium text-green-800 dark:text-green-200">
-                  ✅ BookingForm Updated Successfully
+                  <FaCheck className="mr-1 inline text-green-600" /> BookingForm Updated
+                  Successfully
                 </h3>
                 <p className="mt-2 text-sm text-green-700 dark:text-green-300">
                   The BookingForm now uses Formik + Zod while maintaining compatibility with all
@@ -114,9 +116,17 @@ const validationSchema = toFormikValidationSchema(
                 Updated Files
               </h3>
               <div className="rounded-lg bg-gray-900 p-4 font-mono text-sm text-green-400">
-                <p>📁 components/booking/BookingForm.tsx (✅ Updated with Formik + Zod)</p>
-                <p>📁 components/booking/fields/validations/locationValidation.ts</p>
-                <p>📁 docs/FORMIK_ZOD_GUIDE.md</p>
+                <p>
+                  <FaFolder className="mr-1 inline" /> components/booking/BookingForm.tsx (
+                  <FaCheck className="mr-1 inline" /> Updated with Formik + Zod)
+                </p>
+                <p>
+                  <FaFolder className="mr-1 inline" />{' '}
+                  components/booking/fields/validations/locationValidation.ts
+                </p>
+                <p>
+                  <FaFolder className="mr-1 inline" /> docs/FORMIK_ZOD_GUIDE.md
+                </p>
               </div>
 
               <div className="mt-4 rounded-lg bg-gray-50 p-4 dark:bg-gray-800">

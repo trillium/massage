@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react'
 import { fetchSlugConfigurationData } from '@/lib/slugConfigurations/fetchSlugConfigurationData'
 import { SlugConfigurationType } from '@/lib/types'
+import { FaExclamationTriangle } from 'react-icons/fa'
 import { useAppDispatch } from '@/redux/hooks'
 import {
   setBulkConfigSliceState,
@@ -246,7 +247,10 @@ export default function ConfigurationTester({ onConfigurationChange }: Configura
                         ? `CITY: ${selectedConfig.locationWarning.city}`
                         : `ZIP: ${selectedConfig.locationWarning.zip}`}
                     </span>
-                    <span>⚠️ {selectedConfig.locationWarning.message}</span>
+                    <span>
+                      <FaExclamationTriangle className="mr-1 inline text-amber-500" />{' '}
+                      {selectedConfig.locationWarning.message}
+                    </span>
                   </div>
                 </div>
               </div>
