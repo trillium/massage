@@ -30,6 +30,7 @@
     "generate-static-map": "ts-node scripts/generate-la-map-auto.ts",
     "cspell:ignore": "./scripts/cspell-ignore-and-prettier.sh",
     "convert-images": "bash ./scripts/convert_and_resize_images.sh",
+    "db:backup": "tsx scripts/backup-db.ts",
     "admin:generate-link": "tsx scripts/generate-admin-link.ts --emailEnv",
     "user:generate-link": "tsx scripts/generate-user-link.ts",
     "push:send-test-message": "tsx scripts/send-test-pushover.ts",
