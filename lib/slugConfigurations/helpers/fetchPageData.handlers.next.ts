@@ -101,5 +101,6 @@ export async function fetchNextNoEventFallback(
     busy: generalData.busy,
     nextEventFound: false,
     targetDate: targetDateString,
+    isTargetToday: targetDateString === todayStr,
   }
 }

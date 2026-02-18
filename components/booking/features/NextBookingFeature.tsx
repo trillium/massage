@@ -32,6 +32,7 @@ interface NextBookingFeatureProps {
     eventCoordinates?: { latitude: number; longitude: number }
     nextEventFound?: boolean
     targetDate?: string
+    isTargetToday?: boolean
   }
   start: DayWithStartEnd
   end: DayWithStartEnd
@@ -63,7 +64,7 @@ export default function NextBookingFeature({
       <NextBookingHeader
         foundNextEvent={foundNextEvent}
         currentEvent={currentEvent}
-        targetDate={data.targetDate}
+        isTargetToday={data.isTargetToday ?? true}
       />
 
       <div className="mb-8 flex flex-col gap-6 overflow-hidden rounded-lg bg-gray-100 shadow-lg dark:bg-gray-950">
@@ -92,10 +93,14 @@ export default function NextBookingFeature({
 interface NextBookingHeaderProps {
   foundNextEvent: boolean
   currentEvent: GoogleCalendarV3Event | null
-  targetDate?: string
+  isTargetToday: boolean
 }
 
-function NextBookingHeader({ foundNextEvent, currentEvent, targetDate }: NextBookingHeaderProps) {
+function NextBookingHeader({
+  foundNextEvent,
+  currentEvent,
+  isTargetToday,
+}: NextBookingHeaderProps) {
   let displayTitle: string
   let displayText: string
 
@@ -106,12 +111,10 @@ function NextBookingHeader({ foundNextEvent, currentEvent, targetDate }: NextBoo
     displayTitle = `Book After Current Session`
     displayText = `Finishing a session ${locationArea} at ${endTime}`
   } else {
-    const today = new Date().toISOString().split('T')[0]
-    const isShowingToday = targetDate === today
-    const timeLabel = isShowingToday ? 'Today' : 'Tomorrow'
+    const timeLabel = isTargetToday ? 'Today' : 'Tomorrow'
 
     displayTitle = `Book Next Available - ${timeLabel}`
-    displayText = `Book your next available appointment ${isShowingToday ? 'today' : 'tomorrow'}.`
+    displayText = `Book your next available appointment ${isTargetToday ? 'today' : 'tomorrow'}.`
   }
 
   return <Template title={displayTitle} text={displayText} />

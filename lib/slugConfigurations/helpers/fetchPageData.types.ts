@@ -24,6 +24,7 @@ export type FetchPageDataReturnType = {
   eventCoordinates?: { latitude: number; longitude: number }
   nextEventFound: boolean
   targetDate?: string
+  isTargetToday?: boolean
   debugInfo?: {
     pathTaken: string
     inputs: Record<string, unknown>
