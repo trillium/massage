@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import clsx from 'clsx'
+import DOMPurify from 'dompurify'
 import { useSandbox } from '../SandboxProvider'
 import { formatLocalDate, formatLocalTime } from '@/lib/availability/helpers'
 import { flattenLocation } from '@/lib/helpers/locationHelpers'
@@ -124,7 +125,7 @@ function EmailCard({ email }: { email: SandboxEmail }) {
         <div className="border-t border-gray-200 p-3 dark:border-gray-700">
           <div
             className="prose prose-sm dark:prose-invert max-w-none text-sm"
-            dangerouslySetInnerHTML={{ __html: email.body }}
+            dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(email.body) }}
           />
         </div>
       )}
