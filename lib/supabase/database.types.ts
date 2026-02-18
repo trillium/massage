@@ -8,6 +8,10 @@
 export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[]
 
 export type UserRole = 'user' | 'admin'
+export type AppointmentStatus = 'pending' | 'confirmed' | 'cancelled' | 'completed' | 'no_show'
+export type ReminderChannel = 'email' | 'sms' | 'push' | 'whatsapp'
+export type ReminderStatus = 'scheduled' | 'sent' | 'failed' | 'cancelled'
+export type ReminderType = '24h_before' | '2h_before' | 'follow_up' | 'custom'
 
 export interface Database {
   public: {
@@ -121,6 +125,164 @@ export interface Database {
         }
         Relationships: []
       }
+      appointments: {
+        Row: {
+          id: string
+          calendar_event_id: string | null
+          client_email: string
+          client_phone: string | null
+          client_first_name: string
+          client_last_name: string
+          start_time: string
+          end_time: string
+          duration_minutes: number
+          timezone: string
+          location: string | null
+          price: number | null
+          status: AppointmentStatus
+          promo: string | null
+          booking_url: string | null
+          slug_config: Json | null
+          source: string | null
+          instant_confirm: boolean
+          created_at: string
+          updated_at: string
+          confirmed_at: string | null
+          cancelled_at: string | null
+        }
+        Insert: {
+          id?: string
+          calendar_event_id?: string | null
+          client_email: string
+          client_phone?: string | null
+          client_first_name: string
+          client_last_name: string
+          start_time: string
+          end_time: string
+          duration_minutes: number
+          timezone?: string
+          location?: string | null
+          price?: number | null
+          status?: AppointmentStatus
+          promo?: string | null
+          booking_url?: string | null
+          slug_config?: Json | null
+          source?: string | null
+          instant_confirm?: boolean
+          created_at?: string
+          updated_at?: string
+          confirmed_at?: string | null
+          cancelled_at?: string | null
+        }
+        Update: {
+          id?: string
+          calendar_event_id?: string | null
+          client_email?: string
+          client_phone?: string | null
+          client_first_name?: string
+          client_last_name?: string
+          start_time?: string
+          end_time?: string
+          duration_minutes?: number
+          timezone?: string
+          location?: string | null
+          price?: number | null
+          status?: AppointmentStatus
+          promo?: string | null
+          booking_url?: string | null
+          slug_config?: Json | null
+          source?: string | null
+          instant_confirm?: boolean
+          created_at?: string
+          updated_at?: string
+          confirmed_at?: string | null
+          cancelled_at?: string | null
+        }
+        Relationships: []
+      }
+      reminders: {
+        Row: {
+          id: string
+          appointment_id: string
+          channel: ReminderChannel
+          reminder_type: ReminderType
+          status: ReminderStatus
+          scheduled_for: string
+          sent_at: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          appointment_id: string
+          channel: ReminderChannel
+          reminder_type: ReminderType
+          status?: ReminderStatus
+          scheduled_for: string
+          sent_at?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          appointment_id?: string
+          channel?: ReminderChannel
+          reminder_type?: ReminderType
+          status?: ReminderStatus
+          scheduled_for?: string
+          sent_at?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'reminders_appointment_id_fkey'
+            columns: ['appointment_id']
+            referencedRelation: 'appointments'
+            referencedColumns: ['id']
+          },
+        ]
+      }
+      reminder_logs: {
+        Row: {
+          id: string
+          reminder_id: string
+          channel: ReminderChannel
+          recipient: string
+          status: string
+          error_message: string | null
+          response_data: Json | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          reminder_id: string
+          channel: ReminderChannel
+          recipient: string
+          status: string
+          error_message?: string | null
+          response_data?: Json | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          reminder_id?: string
+          channel?: ReminderChannel
+          recipient?: string
+          status?: string
+          error_message?: string | null
+          response_data?: Json | null
+          created_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'reminder_logs_reminder_id_fkey'
+            columns: ['reminder_id']
+            referencedRelation: 'reminders'
+            referencedColumns: ['id']
+          },
+        ]
+      }
     }
     Views: {}
     Functions: {
@@ -197,6 +359,10 @@ export interface Database {
     }
     Enums: {
       user_role: UserRole
+      appointment_status: AppointmentStatus
+      reminder_channel: ReminderChannel
+      reminder_status: ReminderStatus
+      reminder_type: ReminderType
     }
   }
 }
@@ -208,6 +374,16 @@ export type ProfileUpdate = Database['public']['Tables']['profiles']['Update']
 
 export type AdminEmail = Database['public']['Tables']['admin_emails']['Row']
 export type AdminEmailInsert = Database['public']['Tables']['admin_emails']['Insert']
+
+export type Appointment = Database['public']['Tables']['appointments']['Row']
+export type AppointmentInsert = Database['public']['Tables']['appointments']['Insert']
+export type AppointmentUpdate = Database['public']['Tables']['appointments']['Update']
+
+export type Reminder = Database['public']['Tables']['reminders']['Row']
+export type ReminderInsert = Database['public']['Tables']['reminders']['Insert']
+
+export type ReminderLog = Database['public']['Tables']['reminder_logs']['Row']
+export type ReminderLogInsert = Database['public']['Tables']['reminder_logs']['Insert']
 
 // Auth user type (from Supabase Auth)
 export interface AuthUser {
