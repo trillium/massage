@@ -20,9 +20,9 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     return NextResponse.json({ error: 'Invalid or missing sessionId' }, { status: 400 })
   }
 
-  const clonedBody = await req.text()
+  const body = await req.json()
 
-  const preValidation = AppointmentRequestSchema.safeParse(JSON.parse(clonedBody))
+  const preValidation = AppointmentRequestSchema.safeParse(body)
   if (!preValidation.success) {
     return NextResponse.json({ error: 'Invalid request data' }, { status: 400 })
   }
@@ -31,7 +31,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
   const wrappedReq = new NextRequest(req.url, {
     method: 'POST',
     headers: req.headers,
-    body: clonedBody,
+    body: JSON.stringify(body),
   })
 
   const fakeCalendarEventId = `sandbox-evt-${randomUUID().slice(0, 8)}`

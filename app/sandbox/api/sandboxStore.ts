@@ -32,12 +32,6 @@ export function validateSessionId(sessionId: string): boolean {
   return UUID_REGEX.test(sessionId)
 }
 
-function assertValidSessionId(sessionId: string) {
-  if (!validateSessionId(sessionId)) {
-    throw new Error('Invalid session ID: must be a UUID')
-  }
-}
-
 function truncateEmailBody(body: string): string {
   return body.length > MAX_EMAIL_BODY_LENGTH ? body.slice(0, MAX_EMAIL_BODY_LENGTH) : body
 }
@@ -84,7 +78,6 @@ async function upsertSession(sessionId: string, events: SandboxEvent[], emails: 
 }
 
 export async function addEvent(sessionId: string, event: SandboxEvent) {
-  assertValidSessionId(sessionId)
   await cleanupExpired()
 
   const session = await getSession(sessionId)
@@ -100,7 +93,6 @@ export async function updateEventInStore(
   calendarEventId: string,
   updates: Partial<SandboxEvent>
 ) {
-  assertValidSessionId(sessionId)
   const session = await getSession(sessionId)
   const event = session.events.find((e) => e.calendarEventId === calendarEventId)
   if (event) {
@@ -110,7 +102,6 @@ export async function updateEventInStore(
 }
 
 export async function addEmail(sessionId: string, email: SandboxEmail) {
-  assertValidSessionId(sessionId)
   const session = await getSession(sessionId)
   if (session.emails.length >= MAX_EMAILS_PER_SESSION) {
     return
@@ -125,7 +116,6 @@ export async function addEmail(sessionId: string, email: SandboxEmail) {
 }
 
 export async function approveEvent(sessionId: string, calendarEventId: string) {
-  assertValidSessionId(sessionId)
   const session = await getSession(sessionId)
   const event = session.events.find((e) => e.calendarEventId === calendarEventId)
   if (event) {
@@ -136,7 +126,6 @@ export async function approveEvent(sessionId: string, calendarEventId: string) {
 }
 
 export async function declineEvent(sessionId: string, calendarEventId: string) {
-  assertValidSessionId(sessionId)
   const session = await getSession(sessionId)
   const event = session.events.find((e) => e.calendarEventId === calendarEventId)
   if (event) {
@@ -147,12 +136,10 @@ export async function declineEvent(sessionId: string, calendarEventId: string) {
 }
 
 export async function getSessionState(sessionId: string) {
-  assertValidSessionId(sessionId)
   return getSession(sessionId)
 }
 
 export async function resetSession(sessionId: string) {
-  assertValidSessionId(sessionId)
   const supabase = getClient()
   await supabase.from('sandbox_sessions').delete().eq('session_id', sessionId)
 }

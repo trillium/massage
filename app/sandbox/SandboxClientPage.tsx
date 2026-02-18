@@ -1,6 +1,5 @@
 'use client'
 
-import { useState } from 'react'
 import clsx from 'clsx'
 import type { PageConfigurationReturnType } from '@/lib/componentTypes'
 import SandboxProvider, { useSandbox } from './SandboxProvider'
@@ -10,6 +9,7 @@ import AdminView from './components/AdminView'
 function TabBar() {
   const { state, dispatch, resetSession } = useSandbox()
   const { activeTab } = state
+  const pendingCount = state.events.filter((e) => e.status === 'pending').length
 
   const handleReset = async () => {
     await resetSession()
@@ -31,9 +31,9 @@ function TabBar() {
             )}
           >
             {tab === 'user' ? 'Book a Massage' : 'Therapist Dashboard'}
-            {tab === 'admin' && state.events.filter((e) => e.status === 'pending').length > 0 && (
+            {tab === 'admin' && pendingCount > 0 && (
               <span className="ml-2 inline-flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs text-white">
-                {state.events.filter((e) => e.status === 'pending').length}
+                {pendingCount}
               </span>
             )}
           </button>
