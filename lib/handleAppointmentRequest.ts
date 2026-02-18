@@ -23,6 +23,7 @@ import { escapeHtml } from './messaging/escapeHtml'
 import { createEventPageUrl, verifyEventToken } from './eventToken'
 import { getOriginFromHeaders } from './helpers/getOriginFromHeaders'
 import { formatLocalDate, formatLocalTime } from './availability/helpers'
+import { createAppointmentRecord } from './appointments/createAppointmentRecord'
 
 export type AppointmentRequestValidationResult =
   | { success: true; data: z.output<typeof AppointmentRequestSchema> }
@@ -140,6 +141,7 @@ export async function handleAppointmentRequest({
     })
 
     const calendarData = await calendarResponse.json()
+    createAppointmentRecord(calendarData.id, data, 'confirmed').catch(() => {})
     const eventPageUrl = createEventPageUrl(origin, calendarData.id, data.email, data.end)
 
     // Send confirmation email directly
@@ -176,6 +178,7 @@ export async function handleAppointmentRequest({
     location: flattenLocation(data.locationObject || data.locationString || ''),
   })
   const calendarEventId = calendarResponse.id
+  createAppointmentRecord(calendarEventId, data, 'pending').catch(() => {})
 
   // Phase 2: Build accept/decline URLs using the calendarEventId
   const acceptUrl = createConfirmUrl(origin, calendarEventId, data, getHashFn)

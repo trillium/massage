@@ -4,6 +4,7 @@ import { fetchSingleEvent } from '@/lib/fetch/fetchSingleEvent'
 import updateCalendarEvent from '@/lib/availability/updateCalendarEvent'
 import { pushoverSendMessage } from '@/lib/messaging/push/admin/pushover'
 import { getCleanSummary } from '@/lib/helpers/eventHelpers'
+import { updateAppointmentStatus } from '@/lib/appointments/updateAppointmentStatus'
 
 export const dynamic = 'force-dynamic'
 
@@ -41,6 +42,7 @@ export async function POST(
 
   try {
     await updateCalendarEvent(event_id, { status: 'cancelled' })
+    updateAppointmentStatus(event_id, 'cancelled').catch(() => {})
   } catch (error) {
     console.error('Failed to cancel event:', error)
     return NextResponse.json({ error: 'Failed to cancel appointment' }, { status: 500 })

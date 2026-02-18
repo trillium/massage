@@ -10,6 +10,7 @@ import {
   buildBookedRedirect,
   NO_STORE_HEADERS,
 } from '@/lib/api/confirmHelpers'
+import { createAppointmentRecord } from '@/lib/appointments/createAppointmentRecord'
 
 export const dynamic = 'force-dynamic'
 
@@ -61,6 +62,7 @@ export async function GET(req: NextRequest) {
   }
 
   const details = await response.json()
+  createAppointmentRecord(details.id, validObject, 'confirmed').catch(() => {})
 
   const redirect = buildBookedRedirect({ req, validObject, locationObject, details })
   if (redirect) return redirect

@@ -12,6 +12,7 @@ import {
   buildBookedRedirect,
   NO_STORE_HEADERS,
 } from '@/lib/api/confirmHelpers'
+import { updateAppointmentStatus } from '@/lib/appointments/updateAppointmentStatus'
 
 export const dynamic = 'force-dynamic'
 
@@ -91,6 +92,8 @@ export async function GET(req: NextRequest) {
       )
     }
   }
+
+  updateAppointmentStatus(calendarEventId as string, 'confirmed').catch(() => {})
 
   const redirect = buildBookedRedirect({ req, validObject, locationObject, details })
   if (redirect) return redirect

@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { type NextRequest } from 'next/server'
 import deleteCalendarEvent from 'lib/availability/deleteCalendarEvent'
 import { verifyHashedData, NO_STORE_HEADERS } from '@/lib/api/confirmHelpers'
+import { updateAppointmentStatus } from '@/lib/appointments/updateAppointmentStatus'
 
 export const dynamic = 'force-dynamic'
 
@@ -20,6 +21,7 @@ export async function GET(req: NextRequest) {
 
   try {
     await deleteCalendarEvent(calendarEventId as string)
+    updateAppointmentStatus(calendarEventId as string, 'cancelled').catch(() => {})
     return NextResponse.json(
       { success: true, message: 'Appointment declined' },
       { headers: NO_STORE_HEADERS }
