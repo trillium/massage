@@ -31,6 +31,7 @@ interface GeneralBookingFeatureProps {
   }
   start: DayWithStartEnd
   end: DayWithStartEnd
+  bookingEndPoint?: string
 }
 
 export default function GeneralBookingFeature({
@@ -42,6 +43,7 @@ export default function GeneralBookingFeature({
   data,
   start,
   end,
+  bookingEndPoint,
 }: GeneralBookingFeatureProps) {
   return (
     <SectionContainer>
@@ -49,7 +51,10 @@ export default function GeneralBookingFeature({
         title={configuration.title || 'Book a massage with Trillium :)'}
         text={configuration.text ?? undefined}
       />
-      <BookingForm acceptingPayment={configuration.acceptingPayment ?? true} />
+      <BookingForm
+        acceptingPayment={configuration.acceptingPayment ?? true}
+        endPoint={bookingEndPoint}
+      />
 
       <div className="flex flex-col space-y-8">
         <DurationPicker {...durationProps} />

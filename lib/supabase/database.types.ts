@@ -97,6 +97,30 @@ export interface Database {
         }
         Relationships: []
       }
+      sandbox_sessions: {
+        Row: {
+          session_id: string
+          events: Json
+          emails: Json
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          session_id: string
+          events?: Json
+          emails?: Json
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          session_id?: string
+          events?: Json
+          emails?: Json
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {}
     Functions: {
