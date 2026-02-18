@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import type { LocationObject } from '@/lib/locationTypes'
 
 interface EditFormProps {
   eventId: string
@@ -10,7 +11,7 @@ interface EditFormProps {
     firstName: string
     lastName: string
     phone: string
-    location: string
+    location: LocationObject
   }
 }
 
@@ -25,11 +26,14 @@ export default function EditForm({ eventId, token, initialValues }: EditFormProp
     setLoading(true)
     setError(null)
 
-    const changed: Record<string, string> = {}
-    for (const key of Object.keys(values) as (keyof typeof values)[]) {
-      if (values[key] !== initialValues[key]) {
-        changed[key] = values[key]
-      }
+    const changed: Record<string, unknown> = {}
+    if (values.firstName !== initialValues.firstName) changed.firstName = values.firstName
+    if (values.lastName !== initialValues.lastName) changed.lastName = values.lastName
+    if (values.phone !== initialValues.phone) changed.phone = values.phone
+    const loc = values.location
+    const initLoc = initialValues.location
+    if (loc.street !== initLoc.street || loc.city !== initLoc.city || loc.zip !== initLoc.zip) {
+      changed.location = loc
     }
 
     if (Object.keys(changed).length === 0) {
@@ -106,14 +110,43 @@ export default function EditForm({ eventId, token, initialValues }: EditFormProp
       </label>
 
       <label className="block">
-        <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Location</span>
+        <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Street</span>
         <input
           type="text"
-          value={values.location}
-          onChange={(e) => setValues({ ...values, location: e.target.value })}
+          value={values.location.street}
+          onChange={(e) =>
+            setValues({ ...values, location: { ...values.location, street: e.target.value } })
+          }
           className="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
         />
       </label>
+
+      <div className="grid gap-4 sm:grid-cols-2">
+        <label className="block">
+          <span className="text-sm font-medium text-gray-700 dark:text-gray-300">City</span>
+          <input
+            type="text"
+            value={values.location.city}
+            onChange={(e) =>
+              setValues({ ...values, location: { ...values.location, city: e.target.value } })
+            }
+            className="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+          />
+        </label>
+        <label className="block">
+          <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Zip Code</span>
+          <input
+            type="text"
+            inputMode="numeric"
+            maxLength={10}
+            value={values.location.zip}
+            onChange={(e) =>
+              setValues({ ...values, location: { ...values.location, zip: e.target.value } })
+            }
+            className="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+          />
+        </label>
+      </div>
 
       {error && <p className="text-sm text-red-600 dark:text-red-400">{error}</p>}
 

@@ -13,6 +13,7 @@ import {
   REQUEST_PREFIX,
 } from '@/lib/helpers/eventHelpers'
 import { escapeHtml } from '@/lib/messaging/escapeHtml'
+import { flattenLocation } from '@/lib/helpers/locationHelpers'
 
 export const dynamic = 'force-dynamic'
 
@@ -55,7 +56,13 @@ export async function POST(
   if (fields.firstName !== undefined) sanitized.firstName = escapeHtml(fields.firstName)
   if (fields.lastName !== undefined) sanitized.lastName = escapeHtml(fields.lastName)
   if (fields.phone !== undefined) sanitized.phone = escapeHtml(fields.phone)
-  if (fields.location !== undefined) sanitized.location = escapeHtml(fields.location)
+  if (fields.location !== undefined) {
+    sanitized.location = {
+      street: escapeHtml(fields.location.street || ''),
+      city: escapeHtml(fields.location.city || ''),
+      zip: escapeHtml(fields.location.zip || ''),
+    }
+  }
 
   const updateData: Record<string, unknown> = {}
 
@@ -72,7 +79,7 @@ export async function POST(
   }
 
   if (sanitized.location !== undefined) {
-    updateData.location = sanitized.location
+    updateData.location = flattenLocation(sanitized.location)
   }
 
   try {

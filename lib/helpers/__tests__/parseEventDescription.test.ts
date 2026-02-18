@@ -20,7 +20,7 @@ describe('parseEditableFields', () => {
     expect(result.firstName).toBe('Jane')
     expect(result.lastName).toBe('Doe')
     expect(result.phone).toBe('555-1234')
-    expect(result.location).toBe('123 Main St, Los Angeles, 90001')
+    expect(result.location).toEqual({ street: '123 Main St', city: 'Los Angeles', zip: '90001' })
   })
 
   it('handles missing fields gracefully', () => {
@@ -28,7 +28,7 @@ describe('parseEditableFields', () => {
     expect(result.firstName).toBe('')
     expect(result.lastName).toBe('')
     expect(result.phone).toBe('')
-    expect(result.location).toBe('')
+    expect(result.location).toEqual({ street: '', city: '', zip: '' })
   })
 })
 
@@ -49,8 +49,10 @@ describe('updateDescriptionFields', () => {
   })
 
   it('updates location in description', () => {
-    const updated = updateDescriptionFields(sampleDescription, { location: '456 Oak Ave' })
-    expect(updated).toContain('<b>Location</b>: 456 Oak Ave')
+    const updated = updateDescriptionFields(sampleDescription, {
+      location: { street: '456 Oak Ave', city: 'Venice', zip: '90291' },
+    })
+    expect(updated).toContain('<b>Location</b>: 456 Oak Ave, Venice, 90291')
   })
 
   it('preserves unmodified fields', () => {

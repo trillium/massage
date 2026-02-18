@@ -1,8 +1,12 @@
+import { LocationObject } from '@/lib/types'
+import { stringToLocationObject } from '@/lib/slugConfigurations/helpers/parseLocationFromSlug'
+import { flattenLocation } from '@/lib/helpers/locationHelpers'
+
 export interface EditableEventFields {
   firstName: string
   lastName: string
   phone: string
-  location: string
+  location: LocationObject
 }
 
 const FIELD_PATTERN = /<b>(\w[\w\s]*)<\/b>:\s*(.+)/g
@@ -21,7 +25,7 @@ export function parseEditableFields(description: string): EditableEventFields {
     firstName,
     lastName,
     phone: fields['Phone'] || '',
-    location: fields['Location'] || '',
+    location: stringToLocationObject(fields['Location'] || ''),
   }
 }
 
@@ -43,7 +47,7 @@ export function updateDescriptionFields(
   }
 
   if (updates.location !== undefined) {
-    result = result.replace(/(<b>Location<\/b>:\s*).+/, `$1${updates.location}`)
+    result = result.replace(/(<b>Location<\/b>:\s*).+/, `$1${flattenLocation(updates.location)}`)
   }
 
   return result
