@@ -43,6 +43,8 @@ const BaseRequestSchema = z
     bookingUrl: z.string().optional(),
     promo: z.string().optional(),
     slugConfiguration: z.any().optional(), // Full slug configuration object
+    rescheduleEventId: z.string().optional(),
+    rescheduleToken: z.string().optional(),
   })
   .strict() // Disallow unknown keys
   .refine((data) => data.locationObject !== undefined || data.locationString !== undefined, {

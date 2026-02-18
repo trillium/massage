@@ -63,6 +63,8 @@ export function useBookingSubmit({ additionalData, endPoint, onSubmit }: UseBook
           bookingUrl: values.bookingUrl || undefined,
           promo: values.promo || undefined,
           instantConfirm: config.instantConfirm || false,
+          rescheduleEventId: values.rescheduleEventId || undefined,
+          rescheduleToken: values.rescheduleToken || undefined,
           slugConfiguration: config,
           ...additionalData,
         }

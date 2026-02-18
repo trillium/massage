@@ -29,6 +29,8 @@ export const createBookingFormSchema = (config?: { cities?: string[]; zipCodes?:
     bookingUrl: z.string().optional(),
     promo: z.string().optional(),
     instantConfirm: z.boolean().optional(),
+    rescheduleEventId: z.string().optional(),
+    rescheduleToken: z.string().optional(),
   })
 }
 

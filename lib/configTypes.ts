@@ -72,4 +72,6 @@ export type SlugConfigurationType = {
   prefillLastName?: string
   prefillEmail?: string
   prefillPhone?: string
+  rescheduleEventId?: string
+  rescheduleToken?: string
 }

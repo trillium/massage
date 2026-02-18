@@ -72,6 +72,8 @@ export function useBookingInitialValues({
           ? `${(config.discount.amountPercent || 0) * 100}% off`
           : `$${config.discount.amountDollars || 0} off`
         : undefined,
+      rescheduleEventId: config?.rescheduleEventId,
+      rescheduleToken: config?.rescheduleToken,
     }),
     [formData, eventContainers, config, selectedTime, timeZone, duration, acceptingPayment, price]
   )

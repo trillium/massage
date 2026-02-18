@@ -21,7 +21,6 @@ import { POST } from '../route'
 import { createEventToken } from '@/lib/eventToken'
 import { fetchSingleEvent } from '@/lib/fetch/fetchSingleEvent'
 import updateCalendarEvent from 'lib/availability/updateCalendarEvent'
-import { pushoverSendMessage } from '@/lib/messaging/push/admin/pushover'
 
 const eventId = 'cal-event-123'
 const email = 'client@example.com'
@@ -93,36 +92,5 @@ describe('POST /api/event/[event_id]/cancel', () => {
       params: Promise.resolve({ event_id: eventId }),
     })
     expect(res.status).toBe(404)
-  })
-
-  it('cancels with reason: reschedule and sends reschedule notification', async () => {
-    const token = createEventToken(eventId, email, futureDate)
-    const res = await POST(makeRequest({ token, reason: 'reschedule' }), {
-      params: Promise.resolve({ event_id: eventId }),
-    })
-    const data = await res.json()
-
-    expect(data.success).toBe(true)
-    expect(updateCalendarEvent).toHaveBeenCalledWith(eventId, { status: 'cancelled' })
-    expect(pushoverSendMessage).toHaveBeenCalledWith(
-      expect.objectContaining({
-        title: 'Client Rescheduled',
-        message: expect.stringContaining('Rescheduled by'),
-      })
-    )
-  })
-
-  it('sends cancel notification when no reason provided', async () => {
-    const token = createEventToken(eventId, email, futureDate)
-    await POST(makeRequest({ token }), {
-      params: Promise.resolve({ event_id: eventId }),
-    })
-
-    expect(pushoverSendMessage).toHaveBeenCalledWith(
-      expect.objectContaining({
-        title: 'Client Cancelled',
-        message: expect.stringContaining('Cancelled by'),
-      })
-    )
   })
 })

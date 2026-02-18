@@ -10,6 +10,7 @@ import CancelButton from './CancelButton'
 import RescheduleButton from './RescheduleButton'
 import EditForm from './EditForm'
 import { parseEditableFields } from '@/lib/helpers/parseEventDescription'
+import { stringToLocationObject } from '@/lib/slugConfigurations/helpers/parseLocationFromSlug'
 
 interface EventPageProps {
   params: Promise<{ event_id: string }>
@@ -125,11 +126,16 @@ export default async function EventPage({ params, searchParams }: EventPageProps
 
   const bookingSlug = extractBookingSlug(event)
   const editableFields = event.description ? parseEditableFields(event.description) : null
-  const bookingUrl = createBookingUrl(bookingSlug, event.location, {
+  const clientInfo = {
     firstName: editableFields?.firstName,
     lastName: editableFields?.lastName,
     email: result.payload.email,
     phone: editableFields?.phone,
+  }
+  const bookingUrl = createBookingUrl(bookingSlug, event.location, clientInfo)
+  const rescheduleUrl = createBookingUrl(bookingSlug, event.location, clientInfo, {
+    eventId: event_id,
+    token,
   })
 
   return (
@@ -173,7 +179,7 @@ export default async function EventPage({ params, searchParams }: EventPageProps
           {status !== 'cancelled' && (
             <div className="mt-8 flex flex-wrap items-start gap-3">
               <CancelButton eventId={event_id} token={token} />
-              <RescheduleButton eventId={event_id} token={token} bookingUrl={bookingUrl} />
+              <RescheduleButton rescheduleUrl={rescheduleUrl} />
               <EditForm
                 eventId={event_id}
                 token={token}
@@ -182,7 +188,7 @@ export default async function EventPage({ params, searchParams }: EventPageProps
                     firstName: '',
                     lastName: '',
                     phone: '',
-                    location: event.location || '',
+                    location: stringToLocationObject(event.location || ''),
                   }
                 }
               />

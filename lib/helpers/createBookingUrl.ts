@@ -5,10 +5,16 @@ interface ClientInfo {
   phone?: string
 }
 
+interface RescheduleInfo {
+  eventId: string
+  token: string
+}
+
 export function createBookingUrl(
   bookingSlug: string | null,
   location?: string,
-  clientInfo?: ClientInfo
+  clientInfo?: ClientInfo,
+  reschedule?: RescheduleInfo
 ): string {
   const baseUrl = bookingSlug ? `/${bookingSlug}` : '/book'
   const params = new URLSearchParams()
@@ -36,6 +42,11 @@ export function createBookingUrl(
     if (clientInfo.lastName) params.set('lastName', clientInfo.lastName)
     if (clientInfo.email) params.set('email', clientInfo.email)
     if (clientInfo.phone) params.set('phone', clientInfo.phone)
+  }
+
+  if (reschedule) {
+    params.set('rescheduleEventId', reschedule.eventId)
+    params.set('rescheduleToken', reschedule.token)
   }
 
   const queryString = params.toString()

@@ -20,8 +20,9 @@ import requestEventSummary from './messaging/templates/events/requestEventSummar
 import requestEventDescription from './messaging/templates/events/requestEventDescription'
 import { flattenLocation } from './helpers/locationHelpers'
 import { escapeHtml } from './messaging/escapeHtml'
-import { createEventPageUrl } from './eventToken'
+import { createEventPageUrl, verifyEventToken } from './eventToken'
 import { getOriginFromHeaders } from './helpers/getOriginFromHeaders'
+import { formatLocalDate, formatLocalTime } from './availability/helpers'
 
 export type AppointmentRequestValidationResult =
   | { success: true; data: z.output<typeof AppointmentRequestSchema> }
@@ -77,6 +78,33 @@ export async function handleAppointmentRequest({
   }
 
   const origin = getOriginFromHeaders(headers)
+
+  if (data.rescheduleEventId && data.rescheduleToken) {
+    const tokenResult = verifyEventToken(data.rescheduleToken, data.rescheduleEventId)
+    if (!tokenResult.valid) {
+      return NextResponse.json({ error: tokenResult.error }, { status: 403 })
+    }
+
+    try {
+      await updateCalendarEvent(data.rescheduleEventId, {
+        start: { dateTime: data.start, timeZone: data.timeZone },
+        end: { dateTime: data.end, timeZone: data.timeZone },
+      })
+    } catch (error) {
+      console.error('Failed to reschedule event:', error)
+      return NextResponse.json({ error: 'Failed to reschedule appointment' }, { status: 500 })
+    }
+
+    const eventPageUrl = createEventPageUrl(origin, data.rescheduleEventId, data.email, data.end)
+
+    pushoverSendMessage({
+      title: 'Client Rescheduled',
+      message: `${safeData.firstName} ${safeData.lastName} rescheduled to ${formatLocalDate(data.start)} ${formatLocalTime(data.start)}`,
+      priority: 0,
+    }).catch(() => {})
+
+    return NextResponse.json({ success: true, eventPageUrl }, { status: 200 })
+  }
 
   // Check if instantConfirm is true
   if (data.instantConfirm) {

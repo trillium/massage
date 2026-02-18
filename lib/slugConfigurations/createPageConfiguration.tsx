@@ -16,6 +16,7 @@ import { calculateEndDate } from './helpers/calculateEndDate'
 import { generateContainerStrings } from './helpers/generateContainerStrings'
 import { buildDurationProps } from './helpers/buildDurationProps'
 import { getNullPageConfiguration } from './helpers/getNullPageConfiguration'
+import { fetchSingleEvent } from '@/lib/fetch/fetchSingleEvent'
 
 import type {
   createPageConfigurationProps,
@@ -74,6 +75,10 @@ export async function createPageConfiguration({
       configuration.prefillLastName = resolvedParams.lastName
     if (typeof resolvedParams.email === 'string') configuration.prefillEmail = resolvedParams.email
     if (typeof resolvedParams.phone === 'string') configuration.prefillPhone = resolvedParams.phone
+    if (typeof resolvedParams.rescheduleEventId === 'string')
+      configuration.rescheduleEventId = resolvedParams.rescheduleEventId
+    if (typeof resolvedParams.rescheduleToken === 'string')
+      configuration.rescheduleToken = resolvedParams.rescheduleToken
   }
 
   // If configuration type is null, this is an invalid slug
@@ -128,6 +133,19 @@ export async function createPageConfiguration({
   // 5. Calculate lead time and create slots
   const leadTime = configuration?.leadTimeMinimum ?? LEAD_TIME
 
+  // If rescheduling, remove the existing event's time from busy list so the slot is available
+  let busy = data.busy
+  if (configuration.rescheduleEventId) {
+    const rescheduleEvent = await fetchSingleEvent(configuration.rescheduleEventId)
+    if (rescheduleEvent?.start?.dateTime && rescheduleEvent?.end?.dateTime) {
+      const evtStart = new Date(rescheduleEvent.start.dateTime).getTime()
+      const evtEnd = new Date(rescheduleEvent.end.dateTime).getTime()
+      busy = busy.filter(
+        (b) => new Date(b.start).getTime() !== evtStart || new Date(b.end).getTime() !== evtEnd
+      )
+    }
+  }
+
   // Use multi-duration slots if available (for 'next' type), otherwise create regular slots
   let slots
   if (data.multiDurationSlots) {
@@ -136,7 +154,7 @@ export async function createPageConfiguration({
     const createSlotsParams = {
       start,
       end,
-      busy: data.busy,
+      busy,
       duration,
       leadTime,
       containers: data.containers,
