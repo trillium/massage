@@ -13,6 +13,7 @@ interface ActionButtonsProps {
   }
   onRewriteDescription?: () => void
   isPending?: boolean
+  token?: string
 }
 
 export function ActionButtons({
@@ -20,6 +21,7 @@ export function ActionButtons({
   colorClasses,
   onRewriteDescription,
   isPending = false,
+  token,
 }: ActionButtonsProps) {
   const [cancelState, setCancelState] = useState<'idle' | 'loading' | 'cancelled' | 'error'>('idle')
 
@@ -77,7 +79,9 @@ export function ActionButtons({
   return (
     <div className="ml-4 flex flex-col space-y-2">
       <Link
-        href={`/event/${event.id}`}
+        href={
+          token ? `/event/${event.id}?token=${encodeURIComponent(token)}` : `/event/${event.id}`
+        }
         className={clsx(
           'inline-block rounded px-3 py-1 text-center text-sm text-white transition-colors',
           colorClasses.button

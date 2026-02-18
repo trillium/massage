@@ -1,6 +1,7 @@
 import { redirect } from 'next/navigation'
 import { getUser } from '@/lib/supabase/server'
 import { getEventsBySearchQuery } from '@/lib/availability/getEventsBySearchQuery'
+import { createEventToken } from '@/lib/eventToken'
 import { CategorizedEventList } from './components/EventComponents'
 
 export default async function MyEventsPage() {
@@ -27,6 +28,14 @@ export default async function MyEventsPage() {
     return dateB.getTime() - dateA.getTime()
   })
 
+  const eventTokens: Record<string, string> = {}
+  for (const event of sortedEvents) {
+    if (!event.id) continue
+    const endTime = event.end?.dateTime || event.end?.date
+    if (!endTime) continue
+    eventTokens[event.id] = createEventToken(event.id, user.email, endTime)
+  }
+
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900">
       <div className="container mx-auto px-4 py-8">
@@ -41,7 +50,7 @@ export default async function MyEventsPage() {
               <p className="text-gray-600 dark:text-gray-400">No appointments found.</p>
             </div>
           ) : (
-            <CategorizedEventList events={sortedEvents} />
+            <CategorizedEventList events={sortedEvents} eventTokens={eventTokens} />
           )}
         </div>
       </div>

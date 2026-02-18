@@ -18,6 +18,7 @@ interface EventCardProps {
   }
   canEdit?: boolean
   isPending?: boolean
+  token?: string
 }
 
 export function EventCard({
@@ -27,6 +28,7 @@ export function EventCard({
   colorClasses,
   canEdit = false,
   isPending = false,
+  token,
 }: EventCardProps) {
   const [isEditingLocation, setIsEditingLocation] = useState(false)
   const [newLocation, setNewLocation] = useState(event.location || '')
@@ -228,7 +230,12 @@ export function EventCard({
           )}
         </div>
 
-        <ActionButtons event={event} colorClasses={colorClasses} isPending={isPending} />
+        <ActionButtons
+          event={event}
+          colorClasses={colorClasses}
+          isPending={isPending}
+          token={token}
+        />
       </div>
     </div>
   )

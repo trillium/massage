@@ -9,9 +9,11 @@ import { EventCard } from './EventCard'
 export function CategorizedEventList({
   events,
   isAdmin = false,
+  eventTokens = {},
 }: {
   events: GoogleCalendarV3Event[]
   isAdmin?: boolean
+  eventTokens?: Record<string, string>
 }) {
   const { pendingEvents, futureEvents, todayEvents, pastEvents } = categorizeEvents(events)
 
@@ -57,6 +59,7 @@ export function CategorizedEventList({
                 button: 'bg-amber-600 hover:bg-amber-700 dark:bg-amber-500 dark:hover:bg-amber-600',
               }}
               isPending
+              token={event.id ? eventTokens[event.id] : undefined}
             />
           ))}
         </>
@@ -79,6 +82,7 @@ export function CategorizedEventList({
                 container: 'border-green-500 bg-green-50 dark:bg-green-900/20',
                 button: 'bg-green-600 hover:bg-green-700 dark:bg-green-500 dark:hover:bg-green-600',
               }}
+              token={event.id ? eventTokens[event.id] : undefined}
             />
           ))}
         </>
@@ -101,6 +105,7 @@ export function CategorizedEventList({
                 container: 'border-blue-500 bg-blue-50 dark:bg-blue-900/20',
                 button: 'bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600',
               }}
+              token={event.id ? eventTokens[event.id] : undefined}
             />
           ))}
         </>
@@ -123,6 +128,7 @@ export function CategorizedEventList({
                 container: 'border-gray-400 bg-gray-50 dark:bg-gray-800/50',
                 button: 'bg-gray-500 hover:bg-gray-600 dark:bg-gray-600 dark:hover:bg-gray-700',
               }}
+              token={event.id ? eventTokens[event.id] : undefined}
             />
           ))}
         </>
