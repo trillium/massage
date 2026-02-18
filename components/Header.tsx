@@ -31,7 +31,7 @@ const Header = () => {
           {typeof siteMetadata.headerTitle === 'string' ? (
             <div
               className={clsx(
-                'hidden border-b-[3px] text-2xl leading-6 font-semibold sm:block',
+                'border-b-[3px] text-2xl leading-6 font-semibold',
                 { 'border-primary-500': pathName === '/' },
                 { 'border-transparent': pathName !== '/' }
               )}
