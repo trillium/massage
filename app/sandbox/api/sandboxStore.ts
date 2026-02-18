@@ -78,11 +78,11 @@ async function upsertSession(sessionId: string, events: SandboxEvent[], emails: 
 }
 
 export async function addEvent(sessionId: string, event: SandboxEvent) {
-  await cleanupExpired()
+  if (Math.random() < 0.1) cleanupExpired()
 
   const session = await getSession(sessionId)
   if (session.events.length >= MAX_EVENTS_PER_SESSION) {
-    throw new Error('Session event limit reached')
+    return
   }
   session.events.push(event)
   await upsertSession(sessionId, session.events, session.emails)

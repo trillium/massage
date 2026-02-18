@@ -63,7 +63,6 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     return { id: eventId, ...updateData }
   }
 
-  let emailIndex = 0
   const fakeSendMail = async ({
     to,
     subject,
@@ -79,9 +78,8 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       subject,
       body,
       timestamp: Date.now(),
-      type: emailIndex === 0 && isAdminEmail ? 'admin-approval' : 'client-request',
+      type: isAdminEmail ? 'admin-approval' : 'client-request',
     })
-    emailIndex++
   }
 
   const fakeRateLimiter = () => false
