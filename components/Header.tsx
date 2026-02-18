@@ -11,6 +11,7 @@ import SearchButton from './SearchButton'
 import { AdminAuthChip } from './auth/admin/AdminAuthChip'
 import clsx from 'clsx'
 import { NavOptions } from './NavOptions'
+import { KBarNavActions } from './KBarNavActions'
 
 const Header = () => {
   let headerClass = 'flex items-center w-full bg-white dark:bg-gray-950 justify-between py-10'
@@ -22,6 +23,7 @@ const Header = () => {
 
   return (
     <header className={headerClass}>
+      <KBarNavActions />
       <AdminAuthChip />
       <Link href="/" aria-label={siteMetadata.headerTitle}>
         <div className="flex items-center justify-between">
