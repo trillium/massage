@@ -162,6 +162,38 @@ export interface Database {
         }
         Returns: void
       }
+      sandbox_add_event: {
+        Args: {
+          p_session_id: string
+          p_event: Json
+          p_max_events?: number
+        }
+        Returns: void
+      }
+      sandbox_add_email: {
+        Args: {
+          p_session_id: string
+          p_email: Json
+          p_max_emails?: number
+        }
+        Returns: void
+      }
+      sandbox_update_event_status: {
+        Args: {
+          p_session_id: string
+          p_calendar_event_id: string
+          p_status: string
+        }
+        Returns: Json
+      }
+      sandbox_update_event_description: {
+        Args: {
+          p_session_id: string
+          p_calendar_event_id: string
+          p_description: string
+        }
+        Returns: void
+      }
     }
     Enums: {
       user_role: UserRole

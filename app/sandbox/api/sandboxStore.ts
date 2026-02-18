@@ -32,60 +32,28 @@ export function validateSessionId(sessionId: string): boolean {
   return UUID_REGEX.test(sessionId)
 }
 
-function truncateEmailBody(body: string): string {
-  return body.length > MAX_EMAIL_BODY_LENGTH ? body.slice(0, MAX_EMAIL_BODY_LENGTH) : body
-}
-
 function getClient() {
   return getSupabaseAdminClient()
 }
 
-async function cleanupExpired() {
+function cleanupExpired() {
   const supabase = getClient()
-  await supabase
+  supabase
     .from('sandbox_sessions')
     .delete()
     .lt('created_at', new Date(Date.now() - SESSION_TTL_HOURS * 60 * 60 * 1000).toISOString())
-}
-
-async function getSession(
-  sessionId: string
-): Promise<{ events: SandboxEvent[]; emails: SandboxEmail[] }> {
-  const supabase = getClient()
-  const { data } = await supabase
-    .from('sandbox_sessions')
-    .select('events, emails')
-    .eq('session_id', sessionId)
-    .single()
-
-  if (!data) return { events: [], emails: [] }
-  return {
-    events: (data.events as SandboxEvent[]) || [],
-    emails: (data.emails as SandboxEmail[]) || [],
-  }
-}
-
-async function upsertSession(sessionId: string, events: SandboxEvent[], emails: SandboxEmail[]) {
-  const supabase = getClient()
-  await supabase.from('sandbox_sessions').upsert(
-    {
-      session_id: sessionId,
-      events: JSON.parse(JSON.stringify(events)),
-      emails: JSON.parse(JSON.stringify(emails)),
-    },
-    { onConflict: 'session_id' }
-  )
+    .then(() => {})
 }
 
 export async function addEvent(sessionId: string, event: SandboxEvent) {
   if (Math.random() < 0.1) cleanupExpired()
 
-  const session = await getSession(sessionId)
-  if (session.events.length >= MAX_EVENTS_PER_SESSION) {
-    return
-  }
-  session.events.push(event)
-  await upsertSession(sessionId, session.events, session.emails)
+  const supabase = getClient()
+  await supabase.rpc('sandbox_add_event', {
+    p_session_id: sessionId,
+    p_event: event,
+    p_max_events: MAX_EVENTS_PER_SESSION,
+  })
 }
 
 export async function updateEventInStore(
@@ -93,50 +61,74 @@ export async function updateEventInStore(
   calendarEventId: string,
   updates: Partial<SandboxEvent>
 ) {
-  const session = await getSession(sessionId)
-  const event = session.events.find((e) => e.calendarEventId === calendarEventId)
-  if (event) {
-    Object.assign(event, updates)
-    await upsertSession(sessionId, session.events, session.emails)
+  if (updates.description) {
+    const supabase = getClient()
+    await supabase.rpc('sandbox_update_event_description', {
+      p_session_id: sessionId,
+      p_calendar_event_id: calendarEventId,
+      p_description: updates.description,
+    })
   }
 }
 
 export async function addEmail(sessionId: string, email: SandboxEmail) {
-  const session = await getSession(sessionId)
-  if (session.emails.length >= MAX_EMAILS_PER_SESSION) {
-    return
-  }
-  session.emails.push({
+  const sanitizedEmail = {
     ...email,
-    body: truncateEmailBody(email.body),
+    body:
+      email.body.length > MAX_EMAIL_BODY_LENGTH
+        ? email.body.slice(0, MAX_EMAIL_BODY_LENGTH)
+        : email.body,
     subject: email.subject.slice(0, 500),
     to: email.to.slice(0, 254),
+  }
+
+  const supabase = getClient()
+  await supabase.rpc('sandbox_add_email', {
+    p_session_id: sessionId,
+    p_email: sanitizedEmail,
+    p_max_emails: MAX_EMAILS_PER_SESSION,
   })
-  await upsertSession(sessionId, session.events, session.emails)
 }
 
-export async function approveEvent(sessionId: string, calendarEventId: string) {
-  const session = await getSession(sessionId)
-  const event = session.events.find((e) => e.calendarEventId === calendarEventId)
-  if (event) {
-    event.status = 'confirmed'
-    await upsertSession(sessionId, session.events, session.emails)
-  }
-  return event
+export async function approveEvent(
+  sessionId: string,
+  calendarEventId: string
+): Promise<SandboxEvent | undefined> {
+  const supabase = getClient()
+  const { data } = await supabase.rpc('sandbox_update_event_status', {
+    p_session_id: sessionId,
+    p_calendar_event_id: calendarEventId,
+    p_status: 'confirmed',
+  })
+  return (data as SandboxEvent) || undefined
 }
 
-export async function declineEvent(sessionId: string, calendarEventId: string) {
-  const session = await getSession(sessionId)
-  const event = session.events.find((e) => e.calendarEventId === calendarEventId)
-  if (event) {
-    event.status = 'declined'
-    await upsertSession(sessionId, session.events, session.emails)
-  }
-  return event
+export async function declineEvent(
+  sessionId: string,
+  calendarEventId: string
+): Promise<SandboxEvent | undefined> {
+  const supabase = getClient()
+  const { data } = await supabase.rpc('sandbox_update_event_status', {
+    p_session_id: sessionId,
+    p_calendar_event_id: calendarEventId,
+    p_status: 'declined',
+  })
+  return (data as SandboxEvent) || undefined
 }
 
 export async function getSessionState(sessionId: string) {
-  return getSession(sessionId)
+  const supabase = getClient()
+  const { data } = await supabase
+    .from('sandbox_sessions')
+    .select('events, emails')
+    .eq('session_id', sessionId)
+    .single()
+
+  if (!data) return { events: [] as SandboxEvent[], emails: [] as SandboxEmail[] }
+  return {
+    events: (data.events as SandboxEvent[]) || [],
+    emails: (data.emails as SandboxEmail[]) || [],
+  }
 }
 
 export async function resetSession(sessionId: string) {
