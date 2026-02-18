@@ -1,0 +1,6 @@
+packages:
+  - '.'
+
+shamefullyHoist: true
+autoInstallPeers: true
+strictPeerDependencies: false
