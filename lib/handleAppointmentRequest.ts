@@ -25,6 +25,15 @@ import { getOriginFromHeaders } from './helpers/getOriginFromHeaders'
 import { formatLocalDate, formatLocalTime } from './availability/helpers'
 import { createAppointmentRecord } from './appointments/createAppointmentRecord'
 
+function withTimeout<T>(promise: Promise<T>, ms: number, label: string): Promise<T> {
+  return Promise.race([
+    promise,
+    new Promise<never>((_, reject) =>
+      setTimeout(() => reject(new Error(`${label} timed out after ${ms}ms`)), ms)
+    ),
+  ])
+}
+
 export type AppointmentRequestValidationResult =
   | { success: true; data: z.output<typeof AppointmentRequestSchema> }
   | { success: false; error: z.ZodError<z.input<typeof AppointmentRequestSchema>> }
@@ -87,13 +96,24 @@ export async function handleAppointmentRequest({
     }
 
     try {
-      await updateCalendarEvent(data.rescheduleEventId, {
-        start: { dateTime: data.start, timeZone: data.timeZone },
-        end: { dateTime: data.end, timeZone: data.timeZone },
-      })
+      await withTimeout(
+        updateCalendarEvent(data.rescheduleEventId, {
+          start: { dateTime: data.start, timeZone: data.timeZone },
+          end: { dateTime: data.end, timeZone: data.timeZone },
+        }),
+        15_000,
+        'Reschedule calendar update'
+      )
     } catch (error) {
       console.error('Failed to reschedule event:', error)
-      return NextResponse.json({ error: 'Failed to reschedule appointment' }, { status: 500 })
+      return NextResponse.json(
+        {
+          success: false,
+          error: 'Failed to reschedule appointment',
+          errorType: 'retryable',
+        },
+        { status: 500 }
+      )
     }
 
     const eventPageUrl = createEventPageUrl(origin, data.rescheduleEventId, data.email, data.end)
@@ -107,60 +127,102 @@ export async function handleAppointmentRequest({
     return NextResponse.json({ success: true, eventPageUrl }, { status: 200 })
   }
 
-  // Check if instantConfirm is true
   if (data.instantConfirm) {
     const start = new Date(data.start)
     const end = new Date(data.end)
 
-    // Create the calendar appointment directly
     const location = data.locationObject || { street: '', city: data.locationString || '', zip: '' }
     const requestId = getHashFn(JSON.stringify(data))
 
-    const calendarResponse = await createCalendarAppointment({
-      ...data,
-      location,
-      requestId,
-      summary:
-        eventSummary({
-          duration: data.duration,
-          clientName: `${data.firstName} ${data.lastName}`,
-        }) || 'Instant Confirm Appointment',
-    })
-
-    if (!calendarResponse.ok) {
-      return NextResponse.json({ error: 'Failed to create calendar appointment' }, { status: 502 })
+    let calendarResponse: Response
+    try {
+      calendarResponse = await withTimeout(
+        createCalendarAppointment({
+          ...data,
+          location,
+          requestId,
+          summary:
+            eventSummary({
+              duration: data.duration,
+              clientName: `${data.firstName} ${data.lastName}`,
+            }) || 'Instant Confirm Appointment',
+        }),
+        15_000,
+        'Instant confirm calendar create'
+      )
+    } catch (error) {
+      console.error('Instant confirm calendar create failed:', error)
+      return NextResponse.json(
+        {
+          success: false,
+          error: 'Failed to create calendar appointment',
+          errorType: 'retryable',
+        },
+        { status: 502 }
+      )
     }
 
-    // Send pushover notification for instant confirm
-    const pushover = AppointmentPushoverInstantConfirm(data, ownerTimeZone)
+    if (!calendarResponse.ok) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: 'Failed to create calendar appointment',
+          errorType: 'retryable',
+        },
+        { status: 502 }
+      )
+    }
 
+    const pushover = AppointmentPushoverInstantConfirm(data, ownerTimeZone)
     pushoverSendMessage({
       message: pushover.message,
       title: pushover.title,
       priority: 0,
-    })
+    }).catch(() => {})
 
     const calendarData = await calendarResponse.json()
     createAppointmentRecord(calendarData.id, data, 'confirmed').catch(() => {})
     const eventPageUrl = createEventPageUrl(origin, calendarData.id, data.email, data.end)
 
-    // Send confirmation email directly
-    const confirmationEmail = await clientConfirmEmailFn({
-      ...data,
-      ...safeData,
-      location: safeLocation,
-      eventPageUrl,
-      dateSummary: intervalToHumanString({
-        start,
-        end,
-        timeZone: data.timeZone,
-      }),
-    })
-    await sendMailFn({
-      to: data.email,
-      subject: confirmationEmail.subject,
-      body: confirmationEmail.body,
-    })
+    try {
+      const confirmationEmail = await clientConfirmEmailFn({
+        ...data,
+        ...safeData,
+        location: safeLocation,
+        eventPageUrl,
+        dateSummary: intervalToHumanString({
+          start,
+          end,
+          timeZone: data.timeZone,
+        }),
+      })
+      await withTimeout(
+        sendMailFn({
+          to: data.email,
+          subject: confirmationEmail.subject,
+          body: confirmationEmail.body,
+        }),
+        15_000,
+        'Instant confirm email send'
+      )
+    } catch (emailError) {
+      console.error('Instant confirm email failed:', emailError)
+      pushoverSendMessage({
+        title: 'Email Failed - Instant Confirm',
+        message: `Confirmation email to ${data.email} failed. Calendar event created: ${calendarData.id}`,
+        priority: 1,
+      }).catch(() => {})
+      return NextResponse.json(
+        {
+          success: true,
+          instantConfirm: true,
+          eventPageUrl,
+          error: 'Calendar event created but confirmation email failed',
+          errorType: 'partial_success',
+        },
+        { status: 200 }
+      )
+    }
 
     return NextResponse.json({ success: true, instantConfirm: true, eventPageUrl }, { status: 200 })
   }
@@ -169,40 +231,63 @@ export async function handleAppointmentRequest({
   const end = new Date(data.end)
   const clientName = `${data.firstName} ${data.lastName}`
 
-  // Phase 1: Create REQUEST calendar event with placeholder description
-  const calendarResponse = await createRequestCalendarEvent({
-    start: data.start,
-    end: data.end,
-    summary: requestEventSummary({ clientName, duration: data.duration }),
-    description: 'Pending — links loading...',
-    location: flattenLocation(data.locationObject || data.locationString || ''),
-  })
-  const calendarEventId = calendarResponse.id
+  let calendarEventId: string
+  try {
+    const calendarResponse = await withTimeout(
+      createRequestCalendarEvent({
+        start: data.start,
+        end: data.end,
+        summary: requestEventSummary({ clientName, duration: data.duration }),
+        description: 'Pending — links loading...',
+        location: flattenLocation(data.locationObject || data.locationString || ''),
+      }),
+      15_000,
+      'Standard request calendar create'
+    )
+    calendarEventId = calendarResponse.id
+  } catch (error) {
+    console.error('Standard request calendar create failed:', error)
+    return NextResponse.json(
+      {
+        success: false,
+        error: 'Failed to create calendar event',
+        errorType: 'retryable',
+      },
+      { status: 502 }
+    )
+  }
+
   createAppointmentRecord(calendarEventId, data, 'pending').catch(() => {})
 
-  // Phase 2: Build accept/decline URLs using the calendarEventId
   const acceptUrl = createConfirmUrl(origin, calendarEventId, data, getHashFn)
   const declineUrl = createDeclineUrl(origin, calendarEventId, getHashFn)
 
-  // Phase 3: Patch the calendar event with real description containing links
-  await updateCalendarEvent(calendarEventId, {
-    description: requestEventDescription({
-      firstName: data.firstName,
-      lastName: data.lastName,
-      email: data.email,
-      phone: data.phone,
-      start: data.start,
-      end: data.end,
-      duration: data.duration,
-      location: flattenLocation(data.locationObject || data.locationString || ''),
-      price: data.price,
-      promo: data.promo,
-      timeZone: data.timeZone,
-      ownerTimeZone,
-      acceptUrl,
-      declineUrl,
-    }),
-  })
+  try {
+    await withTimeout(
+      updateCalendarEvent(calendarEventId, {
+        description: requestEventDescription({
+          firstName: data.firstName,
+          lastName: data.lastName,
+          email: data.email,
+          phone: data.phone,
+          start: data.start,
+          end: data.end,
+          duration: data.duration,
+          location: flattenLocation(data.locationObject || data.locationString || ''),
+          price: data.price,
+          promo: data.promo,
+          timeZone: data.timeZone,
+          ownerTimeZone,
+          acceptUrl,
+          declineUrl,
+        }),
+      }),
+      15_000,
+      'Standard request calendar update'
+    )
+  } catch (error) {
+    console.error('Calendar event update with links failed (non-fatal):', error)
+  }
 
   const safeExtraFields = {
     hotelRoomNumber: data.hotelRoomNumber ? escapeHtml(data.hotelRoomNumber) : data.hotelRoomNumber,
@@ -212,7 +297,6 @@ export async function handleAppointmentRequest({
     additionalNotes: data.additionalNotes ? escapeHtml(data.additionalNotes) : data.additionalNotes,
   }
 
-  // Send admin approval email with accept + decline links
   const approveEmail = approvalEmailFn({
     ...data,
     ...safeData,
@@ -232,23 +316,25 @@ export async function handleAppointmentRequest({
     },
   })
 
-  // Send pushover with accept + decline links
   const pushover = AppointmentPushover(data, ownerTimeZone, acceptUrl, declineUrl)
-
   pushoverSendMessage({
     message: pushover.message,
     title: pushover.title,
     priority: 0,
-  })
+  }).catch(() => {})
 
   const eventPageUrl = createEventPageUrl(origin, calendarEventId, data.email, data.end)
 
   try {
-    await sendMailFn({
-      to: siteMetadata.email ?? '',
-      subject: approveEmail.subject,
-      body: approveEmail.body,
-    })
+    await withTimeout(
+      sendMailFn({
+        to: siteMetadata.email ?? '',
+        subject: approveEmail.subject,
+        body: approveEmail.body,
+      }),
+      15_000,
+      'Admin approval email'
+    )
 
     const confirmationEmail = await clientRequestEmailFn({
       ...data,
@@ -261,20 +347,30 @@ export async function handleAppointmentRequest({
         timeZone: data.timeZone,
       }),
     })
-    await sendMailFn({
-      to: data.email,
-      subject: confirmationEmail.subject,
-      body: confirmationEmail.body,
-    })
+    await withTimeout(
+      sendMailFn({
+        to: data.email,
+        subject: confirmationEmail.subject,
+        body: confirmationEmail.body,
+      }),
+      15_000,
+      'Client confirmation email'
+    )
   } catch (emailError) {
     console.error('Email send failed after calendar event created:', emailError)
+    pushoverSendMessage({
+      title: 'Email Failed - Appointment Request',
+      message: `Email to ${data.email} failed. Calendar event: ${calendarEventId}`,
+      priority: 1,
+    }).catch(() => {})
     return NextResponse.json(
       {
-        success: false,
+        success: true,
+        eventPageUrl,
         error: 'Calendar event created but email notification failed',
-        calendarEventId,
+        errorType: 'partial_success',
       },
-      { status: 502 }
+      { status: 200 }
     )
   }
 

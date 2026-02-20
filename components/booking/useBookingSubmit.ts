@@ -76,6 +76,7 @@ export function useBookingSubmit({ additionalData, endPoint, onSubmit }: UseBook
               'Content-Type': 'application/json',
             },
             body: JSON.stringify(payload),
+            signal: AbortSignal.timeout(30_000),
           })
 
           const json = await response.json()
@@ -90,11 +91,27 @@ export function useBookingSubmit({ additionalData, endPoint, onSubmit }: UseBook
               router.push('/confirmation')
             }
           } else {
-            dispatch(setModal({ status: 'error' }))
+            dispatch(
+              setModal({
+                status: 'error',
+                errorMessage: json.error,
+                errorType: json.errorType,
+                eventPageUrl: json.eventPageUrl,
+              })
+            )
           }
         } catch (error) {
           console.error('❌ [BookingForm] API call failed:', error)
-          dispatch(setModal({ status: 'error' }))
+          const isTimeout = error instanceof DOMException && error.name === 'TimeoutError'
+          dispatch(
+            setModal({
+              status: 'error',
+              errorMessage: isTimeout
+                ? 'The request timed out. Please check your connection and try again.'
+                : 'Something went wrong. Please try again.',
+              errorType: 'retryable',
+            })
+          )
         }
       }
     } catch (error) {

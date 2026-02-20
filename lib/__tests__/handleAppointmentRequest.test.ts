@@ -5,13 +5,12 @@ import { handleAppointmentRequest } from '../handleAppointmentRequest'
 import { AppointmentRequestType } from '@/lib/types'
 import { AppointmentRequestSchema } from '../schema'
 import { z } from 'zod'
+import { pushoverSendMessage } from '../messaging/push/admin/pushover'
 
-// Mock Pushover to prevent environment variable errors
 vi.mock('../messaging/push/admin/pushover', () => ({
   pushoverSendMessage: vi.fn(() => Promise.resolve()),
 }))
 
-// Mock createCalendarAppointment
 vi.mock('../availability/createCalendarAppointment', () => ({
   default: vi.fn(() => Promise.resolve()),
 }))
@@ -226,6 +225,223 @@ describe('handleAppointmentRequest', () => {
     expect(response.error).toBe('Rate limit exceeded')
     expect(mockSendMail).not.toHaveBeenCalled()
     expect(mockCreateRequestCalendarEvent).not.toHaveBeenCalled()
+  })
+
+  describe('instant confirm error handling', () => {
+    const instantConfirmData = {
+      firstName: 'John',
+      lastName: 'Doe',
+      email: 'john@example.com',
+      start: '2024-01-01T10:00:00Z',
+      end: '2024-01-01T11:00:00Z',
+      timeZone: 'UTC',
+      duration: '60',
+      phone: '555-5555',
+      eventBaseString: 'base',
+      instantConfirm: true,
+    }
+
+    const mockCreateCalendarAppointment = async () => {
+      const { default: fn } = await import('../availability/createCalendarAppointment')
+      return fn as ReturnType<typeof vi.fn>
+    }
+
+    it('should return 502 retryable when calendar create throws', async () => {
+      mockRateLimiter.mockReturnValue(false)
+      vi.spyOn(AppointmentRequestSchema, 'safeParse').mockImplementation(() => ({
+        success: true,
+        data: instantConfirmData,
+      }))
+      mockGetHash.mockReturnValue('test-hash')
+      const createCalFn = await mockCreateCalendarAppointment()
+      createCalFn.mockRejectedValueOnce(new Error('Calendar API down'))
+      vi.spyOn(console, 'error').mockImplementation(() => {})
+
+      const result = await handleAppointmentRequest({
+        req: mockReq,
+        headers: mockHeaders,
+        sendMailFn: mockSendMail,
+        siteMetadata: { email: 'owner@example.com' },
+        ownerTimeZone: 'UTC',
+        approvalEmailFn: mockApprovalEmail,
+        clientRequestEmailFn: mockClientRequestEmail,
+        clientConfirmEmailFn: mockClientConfirmEmail,
+        getHashFn: mockGetHash,
+        rateLimiter: mockRateLimiter,
+        schema: AppointmentRequestSchema,
+        createRequestCalendarEvent: mockCreateRequestCalendarEvent,
+        updateCalendarEvent: mockUpdateCalendarEvent,
+      })
+
+      const response = await result.json()
+      expect(result.status).toBe(502)
+      expect(response.errorType).toBe('retryable')
+      expect(mockSendMail).not.toHaveBeenCalled()
+    })
+
+    it('should return 200 partial_success when email throws + pushover fallback', async () => {
+      mockRateLimiter.mockReturnValue(false)
+      vi.spyOn(AppointmentRequestSchema, 'safeParse').mockImplementation(() => ({
+        success: true,
+        data: instantConfirmData,
+      }))
+      mockGetHash.mockReturnValue('test-hash')
+      const createCalFn = await mockCreateCalendarAppointment()
+      createCalFn.mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve({ id: 'ic-event-id' }),
+      })
+      mockClientConfirmEmail.mockResolvedValue({ subject: 'Confirmed', body: 'Confirmed' })
+      mockSendMail.mockRejectedValueOnce(new Error('SMTP down'))
+      vi.spyOn(console, 'error').mockImplementation(() => {})
+
+      const result = await handleAppointmentRequest({
+        req: mockReq,
+        headers: mockHeaders,
+        sendMailFn: mockSendMail,
+        siteMetadata: { email: 'owner@example.com' },
+        ownerTimeZone: 'UTC',
+        approvalEmailFn: mockApprovalEmail,
+        clientRequestEmailFn: mockClientRequestEmail,
+        clientConfirmEmailFn: mockClientConfirmEmail,
+        getHashFn: mockGetHash,
+        rateLimiter: mockRateLimiter,
+        schema: AppointmentRequestSchema,
+        createRequestCalendarEvent: mockCreateRequestCalendarEvent,
+        updateCalendarEvent: mockUpdateCalendarEvent,
+      })
+
+      const response = await result.json()
+      expect(result.status).toBe(200)
+      expect(response.errorType).toBe('partial_success')
+      expect(response.eventPageUrl).toBeTruthy()
+      expect(pushoverSendMessage).toHaveBeenCalledWith(
+        expect.objectContaining({
+          title: 'Email Failed - Instant Confirm',
+          priority: 1,
+        })
+      )
+    })
+  })
+
+  describe('standard request error handling', () => {
+    const standardData = {
+      firstName: 'Jane',
+      lastName: 'Smith',
+      email: 'jane@example.com',
+      start: '2024-01-01T10:00:00Z',
+      end: '2024-01-01T11:00:00Z',
+      timeZone: 'UTC',
+      duration: '60',
+      phone: '555-1234',
+      eventBaseString: 'base',
+    }
+
+    it('should return 502 retryable when calendar create throws', async () => {
+      mockRateLimiter.mockReturnValue(false)
+      vi.spyOn(AppointmentRequestSchema, 'safeParse').mockImplementation(() => ({
+        success: true,
+        data: standardData,
+      }))
+      mockCreateRequestCalendarEvent.mockRejectedValueOnce(new Error('Calendar API down'))
+      vi.spyOn(console, 'error').mockImplementation(() => {})
+
+      const result = await handleAppointmentRequest({
+        req: mockReq,
+        headers: mockHeaders,
+        sendMailFn: mockSendMail,
+        siteMetadata: { email: 'owner@example.com' },
+        ownerTimeZone: 'UTC',
+        approvalEmailFn: mockApprovalEmail,
+        clientRequestEmailFn: mockClientRequestEmail,
+        clientConfirmEmailFn: mockClientConfirmEmail,
+        getHashFn: mockGetHash,
+        rateLimiter: mockRateLimiter,
+        schema: AppointmentRequestSchema,
+        createRequestCalendarEvent: mockCreateRequestCalendarEvent,
+        updateCalendarEvent: mockUpdateCalendarEvent,
+      })
+
+      const response = await result.json()
+      expect(result.status).toBe(502)
+      expect(response.errorType).toBe('retryable')
+      expect(mockSendMail).not.toHaveBeenCalled()
+    })
+
+    it('should still return 200 success when calendar update throws (non-fatal)', async () => {
+      mockRateLimiter.mockReturnValue(false)
+      vi.spyOn(AppointmentRequestSchema, 'safeParse').mockImplementation(() => ({
+        success: true,
+        data: standardData,
+      }))
+      mockGetHash.mockReturnValue('test-hash')
+      mockCreateRequestCalendarEvent.mockResolvedValueOnce({ id: 'test-event-id' })
+      mockUpdateCalendarEvent.mockRejectedValueOnce(new Error('Calendar patch failed'))
+      mockApprovalEmail.mockReturnValue({ subject: 'Test', body: 'Test' })
+      mockClientRequestEmail.mockResolvedValue({ subject: 'Test', body: 'Test' })
+      vi.spyOn(console, 'error').mockImplementation(() => {})
+
+      const result = await handleAppointmentRequest({
+        req: mockReq,
+        headers: mockHeaders,
+        sendMailFn: mockSendMail,
+        siteMetadata: { email: 'owner@example.com' },
+        ownerTimeZone: 'UTC',
+        approvalEmailFn: mockApprovalEmail,
+        clientRequestEmailFn: mockClientRequestEmail,
+        clientConfirmEmailFn: mockClientConfirmEmail,
+        getHashFn: mockGetHash,
+        rateLimiter: mockRateLimiter,
+        schema: AppointmentRequestSchema,
+        createRequestCalendarEvent: mockCreateRequestCalendarEvent,
+        updateCalendarEvent: mockUpdateCalendarEvent,
+      })
+
+      const response = await result.json()
+      expect(result.status).toBe(200)
+      expect(response.success).toBe(true)
+      expect(mockSendMail).toHaveBeenCalledTimes(2)
+    })
+
+    it('should return 200 partial_success when email throws + pushover fallback', async () => {
+      mockRateLimiter.mockReturnValue(false)
+      vi.spyOn(AppointmentRequestSchema, 'safeParse').mockImplementation(() => ({
+        success: true,
+        data: standardData,
+      }))
+      mockGetHash.mockReturnValue('test-hash')
+      mockCreateRequestCalendarEvent.mockResolvedValueOnce({ id: 'test-event-id' })
+      mockApprovalEmail.mockReturnValue({ subject: 'Test', body: 'Test' })
+      mockSendMail.mockRejectedValueOnce(new Error('SMTP down'))
+      vi.spyOn(console, 'error').mockImplementation(() => {})
+
+      const result = await handleAppointmentRequest({
+        req: mockReq,
+        headers: mockHeaders,
+        sendMailFn: mockSendMail,
+        siteMetadata: { email: 'owner@example.com' },
+        ownerTimeZone: 'UTC',
+        approvalEmailFn: mockApprovalEmail,
+        clientRequestEmailFn: mockClientRequestEmail,
+        clientConfirmEmailFn: mockClientConfirmEmail,
+        getHashFn: mockGetHash,
+        rateLimiter: mockRateLimiter,
+        schema: AppointmentRequestSchema,
+        createRequestCalendarEvent: mockCreateRequestCalendarEvent,
+        updateCalendarEvent: mockUpdateCalendarEvent,
+      })
+
+      const response = await result.json()
+      expect(result.status).toBe(200)
+      expect(response.errorType).toBe('partial_success')
+      expect(response.eventPageUrl).toBeTruthy()
+      expect(pushoverSendMessage).toHaveBeenCalledWith(
+        expect.objectContaining({
+          title: 'Email Failed - Appointment Request',
+          priority: 1,
+        })
+      )
+    })
   })
 
   it('should return 400 when validation fails', async () => {

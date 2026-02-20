@@ -43,7 +43,7 @@ export default function BookingForm({
   const formData = useReduxFormData()
   const eventContainers = useReduxEventContainers()
   const config = useReduxConfig()
-  const { status: modal } = useReduxModal()
+  const { status: modal, errorMessage, errorType, eventPageUrl } = useReduxModal()
   const { selectedTime, timeZone, duration } = useReduxAvailability()
   const price =
     duration && config.pricing ? config.pricing[duration] : DEFAULT_PRICING[duration] || 'null'
@@ -146,9 +146,27 @@ export default function BookingForm({
                   showNotesField={showNotesField}
                 />
 
-                {modal === 'error' && (
+                {modal === 'error' && errorType === 'partial_success' && (
+                  <div className="mt-4 rounded-md bg-amber-50 p-3 text-amber-800">
+                    <p className="font-medium">Your appointment was received.</p>
+                    <p className="mt-1 text-sm">
+                      We hit a snag sending your confirmation email, but your booking is safe. No
+                      need to resubmit.
+                    </p>
+                    {eventPageUrl && (
+                      <a
+                        href={eventPageUrl}
+                        className="mt-2 inline-block text-sm font-medium text-amber-700 underline"
+                      >
+                        View your appointment
+                      </a>
+                    )}
+                  </div>
+                )}
+
+                {modal === 'error' && errorType !== 'partial_success' && (
                   <div className="mt-4 rounded-md bg-red-50 p-3 text-red-600">
-                    There was an error submitting your request.
+                    {errorMessage || 'There was an error submitting your request.'}
                   </div>
                 )}
 
