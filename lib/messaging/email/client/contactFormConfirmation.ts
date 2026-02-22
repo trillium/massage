@@ -1,22 +1,20 @@
 import { ContactFormType } from '@/lib/types'
+import { siteConfig } from '@/lib/siteConfig'
 
-/**
- * Creates a confirmation email body for users who submit the contact form.
- *
- * @function
- * @returns {string} Returns the confirmation email body string.
- */
 function contactFormConfirmation({ name, message }: ContactFormType) {
+  const domain = siteConfig.domain.siteUrl.replace(/\/$/, '')
+  const domainDisplay = domain.replace(/^https?:\/\//, '')
+
   const output = `
-    <h2>Thank you for contacting Trillium Massage</h2>
+    <h2>Thank you for contacting ${siteConfig.business.name}</h2>
     <p>Hi ${name},</p>
     <p>We've received your message and will get back to you within 24 hours.</p>
     <p><strong>Your message:</strong></p>
     <p>${message}</p>
     <br>
     <p>Best regards,</p>
-    <p>Trillium Smith, LMT<br>
-    <a href="https://trilliummassage.la/">www.trilliummassage.la</a></p>
+    <p>${siteConfig.business.ownerName}, LMT<br>
+    <a href="${domain}/">www.${domainDisplay}</a></p>
   `
 
   return output

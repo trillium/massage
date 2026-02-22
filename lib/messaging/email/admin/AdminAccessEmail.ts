@@ -1,4 +1,5 @@
 import { parts as signatureParts } from '@/lib/messaging/utilities/signature'
+import { siteConfig } from '@/lib/siteConfig'
 
 interface AdminAccessEmailProps {
   email: string
@@ -16,10 +17,11 @@ function renderSignature(): string {
       .join('')
   } catch (error) {
     // Fallback signature if there are any import issues
+    const domain = siteConfig.domain.siteUrl.replace(/\/$/, '')
     return `
-      <div style="font-family:arial,sans-serif">Trillium Smith</div>
-      <div style="font-family:arial,sans-serif">Trillium Massage</div>
-      <div style="font-family:arial,sans-serif"><a href="https://trilliummassage.la">trilliummassage.la</a></div>
+      <div style="font-family:arial,sans-serif">${siteConfig.business.ownerName}</div>
+      <div style="font-family:arial,sans-serif">${siteConfig.business.name}</div>
+      <div style="font-family:arial,sans-serif"><a href="${domain}">${domain.replace(/^https?:\/\//, '')}</a></div>
     `
   }
 }
