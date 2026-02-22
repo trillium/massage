@@ -13,6 +13,7 @@ export default function DurationPicker({
   price: priceProps,
   duration: durationProps,
   configuration,
+  showPrice: showPriceProps = true,
 }: durationPropsType) {
   const { pricing: priceRedux, allowedDurations: allowedDurationsRedux } = useReduxConfig()
   const { duration: durationRedux } = useReduxAvailability()
@@ -32,7 +33,7 @@ export default function DurationPicker({
       <legend className="block pb-2 text-sm leading-0 font-medium text-gray-900 dark:text-gray-100">
         {/* {`${duration || 90} minute session - $${sessionCost}`} */}
         <span>{`${duration || 90} minute session`} </span>
-        <GeneratePrice price={sessionCost} discount={configuration?.discount} />
+        {showPriceProps && <GeneratePrice price={sessionCost} discount={configuration?.discount} />}
       </legend>
       <div className="focus-within:ring-primary-500 active:ring-primary-500 isolate mt-1 inline-flex h-9 rounded-md shadow-sm focus-within:ring-2 active:ring-2">
         {allowedDurations.map((theDuration, i) => (

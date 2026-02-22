@@ -9,6 +9,7 @@ export type durationPropsType = {
   price: PricingType
   allowedDurations: number[]
   configuration: SlugConfigurationType | null
+  showPrice?: boolean
 }
 
 export type createPageConfigurationProps = {
