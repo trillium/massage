@@ -42,7 +42,7 @@ export default function TimeButton({
       {...props}
     >
       {formatLocalTime(start, { timeZone })} – {formatLocalTime(end, { timeZone })}
-      {presenceCount && presenceCount > 0 ? (
+      {presenceCount != null && presenceCount > 0 ? (
         <span className="absolute -top-1.5 -right-1.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-amber-500 px-1 text-xs font-bold text-white">
           {presenceCount}
         </span>
