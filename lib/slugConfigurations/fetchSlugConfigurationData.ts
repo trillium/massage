@@ -202,6 +202,24 @@ const slugConfigurations: SlugConfigurationType[] = [
   },
   {
     ...initialStateWithoutType,
+    bookingSlug: ['scale23x'],
+    type: 'fixed-location',
+    title: 'SCaLE 23x — Book a Session!',
+    text: "Quick chair massage at SCaLE 23x. Pick a time and we'll get you in!",
+    location: createLocationObject(
+      'Pasadena Convention Center, 300 E Green St',
+      'Pasadena',
+      '91101'
+    ),
+    locationIsReadOnly: true,
+    eventContainer: 'scale23x',
+    allowedDurations: [5, 10, 15, 20, 25, 30],
+    leadTimeMinimum: 0,
+    instantConfirm: true,
+    acceptingPayment: false,
+  },
+  {
+    ...initialStateWithoutType,
     bookingSlug: ['chat-with-me'],
     type: 'fixed-location',
     title: 'Psyche! Not a Massage, Just a Phone Call',
