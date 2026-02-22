@@ -160,6 +160,7 @@ export default makeSource({
     'package.json',
     'tsconfig.json',
     'gallery-order.json',
+    'siteConfig.json',
   ],
   documentTypes: [Blog, Authors],
   mdx: {

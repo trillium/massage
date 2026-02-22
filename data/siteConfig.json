@@ -1,0 +1,83 @@
+{
+  "business": {
+    "name": "Trillium Massage",
+    "ownerName": "Trillium Smith",
+    "occupation": "Massage Therapist",
+    "tagline": "Let the spa come to you",
+    "description": "Let the spa come to you. Providing in-home massage therapy and wellness to the LA Metro Area"
+  },
+  "contact": {
+    "email": "trilliummassagela@gmail.com",
+    "instagram": "https://www.instagram.com/trilliummassage"
+  },
+  "domain": {
+    "siteUrl": "https://trilliummassage.la/",
+    "siteRepo": "https://github.com/Spiteless/www-massage/"
+  },
+  "location": {
+    "city": "Los Angeles",
+    "state": "CA",
+    "display": "Los Angeles, CA",
+    "neighborhood": "Westchester",
+    "serviceArea": "Serving the LA Metro Area",
+    "mapLatitude": 33.99,
+    "mapLongitude": -118.4
+  },
+  "scheduling": {
+    "timezone": "America/Los_Angeles",
+    "leadTimeMinutes": 180,
+    "appointmentIntervalMinutes": 30,
+    "slotPadding": 0,
+    "defaultDuration": 90,
+    "allowedDurations": [60, 90, 120, 150],
+    "validDurations": [5, 10, 15, 20, 25, 30, 45, 60, 90, 120, 150, 180, 210, 240],
+    "workdays": {
+      "0": { "startHour": 10, "endHour": 23 },
+      "1": { "startHour": 10, "endHour": 23 },
+      "2": { "startHour": 10, "endHour": 23 },
+      "3": { "startHour": 10, "endHour": 23 },
+      "4": { "startHour": 10, "endHour": 23 },
+      "5": { "startHour": 10, "endHour": 23 },
+      "6": { "startHour": 10, "endHour": 23 }
+    }
+  },
+  "pricing": {
+    "baseHourlyRate": 140
+  },
+  "calendars": ["primary", "trillium@hatsfabulous.com", "trillium@trilliumsmith.com"],
+  "payments": [
+    {
+      "name": "Cash",
+      "value": "cash",
+      "hint": "Having exact change helps a lot :)"
+    },
+    {
+      "name": "Venmo",
+      "value": "venmo",
+      "hint": "Venmo name is @TrilliumSmith, last 4 phone number -5344"
+    },
+    {
+      "name": "CashApp",
+      "value": "cashapp",
+      "hint": "CashApp name is $trilliummassage"
+    },
+    {
+      "name": "Credit Card",
+      "value": "creditCard",
+      "hint": "Chip cards preferred, reduces fees"
+    },
+    {
+      "name": "Invoice",
+      "value": "invoice",
+      "hint": "Invoice sent via email"
+    }
+  ],
+  "branding": {
+    "siteLogo": "/static/images/logo.svg",
+    "socialBanner": "/static/images/twitter-card.jpg",
+    "avatar": "/static/images/avatar.jpg"
+  },
+  "locale": "en-US",
+  "language": "en-us",
+  "eventBaseString": "__EVENT__"
+}
