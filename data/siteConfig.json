@@ -72,6 +72,26 @@
       "hint": "Invoice sent via email"
     }
   ],
+  "content": {
+    "hero": {
+      "headline": "Relax, Restore, Rejuvenate",
+      "gradientWord": "Rejuvenate",
+      "subheading": "Let the spa come to you",
+      "description": "Spa level massage therapy in your home, at your convenience."
+    },
+    "about": {
+      "bio": "Trillium is a massage therapist with 10 years of experience. Working in the LA Metro Area, Trillium found success in specializing in In-Home mobile massage therapy, working solo and through platforms like Soothe and Zeel since 2016.",
+      "focus": "Combining relaxation and pain relief techniques, Trillium provides you with effective massage therapy from the comfort of your own home.",
+      "stats": "With more than 3,000 in-home massage therapy sessions, Trillium has maintained a",
+      "rating": "4.9-star rating",
+      "statsClose": ", reflecting the quality and care he puts into his work."
+    },
+    "footer": {
+      "blurb": "Providing professional massage therapy services to help you relax, rejuvenate, and restore your body and mind.",
+      "locationLine1": "Westchester Area by LAX,",
+      "locationLine2": "Los Angeles"
+    }
+  },
   "branding": {
     "siteLogo": "/static/images/logo.svg",
     "socialBanner": "/static/images/twitter-card.jpg",

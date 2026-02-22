@@ -3,6 +3,10 @@ import ContactForm from '@/components/ContactForm'
 import { FaMapMarkerAlt, FaPhoneAlt } from 'react-icons/fa'
 import { createContactUrl } from '@/lib/helpers'
 import Link from '@/components/Link'
+import { siteConfig } from '@/lib/siteConfig'
+
+const { name } = siteConfig.business
+const { mapLatitude, mapLongitude, serviceArea } = siteConfig.location
 
 export default function ContactSection() {
   return (
@@ -15,12 +19,10 @@ export default function ContactSection() {
           <div className="mb-8 grid grid-cols-1 gap-8 md:grid-cols-2">
             <ContactForm />
             <div className="flex flex-col justify-center space-y-4">
-              <h2 className="text-center text-3xl font-bold md:text-4xl dark:text-white">
-                Trillium Massage
-              </h2>
+              <h2 className="text-center text-3xl font-bold md:text-4xl dark:text-white">{name}</h2>
               <CachedTileMap
-                latitude={33.99}
-                longitude={-118.4}
+                latitude={mapLatitude}
+                longitude={mapLongitude}
                 zoom={10}
                 className="border-primary-500"
                 style={{ width: '100%', height: '400px' }}
@@ -29,7 +31,7 @@ export default function ContactSection() {
               <div>
                 <div className="flex items-center gap-4">
                   <FaMapMarkerAlt className="text-primary-600 dark:text-primary-400 h-6 w-6" />
-                  <span className="dark:text-gray-200">Serving the LA Metro Area</span>
+                  <span className="dark:text-gray-200">{serviceArea}</span>
                 </div>
               </div>
               <div className="flex items-center gap-4">
