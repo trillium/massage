@@ -3,7 +3,10 @@
     "massage-tracker": {
       "type": "stdio",
       "command": "bash",
-      "args": ["-c", "set -a; source .env.local; set +a; npx tsx mcp-server.ts"],
+      "args": [
+        "-c",
+        "cd /Users/trilliumsmith/code/massage && set -a; source .env.local; set +a; npx tsx mcp-server.ts"
+      ],
       "env": {}
     }
   }
