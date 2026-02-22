@@ -1,4 +1,5 @@
 import clsx from 'clsx'
+import { siteConfig } from '@/lib/siteConfig'
 
 export function BookedCard({
   dateString,
@@ -51,8 +52,9 @@ export function BookedCard({
           {
             title: 'Source',
             text:
-              (typeof window !== 'undefined' ? window.location.host : 'trilliummassage.la') +
-              bookingUrl,
+              (typeof window !== 'undefined'
+                ? window.location.host
+                : new URL(siteConfig.domain.siteUrl).hostname) + bookingUrl,
             emphasize: false,
           },
         ]

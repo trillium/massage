@@ -1,16 +1,17 @@
-// app/providers.js
 'use client'
 import { ReactNode } from 'react'
 import posthog from 'posthog-js'
 import { PostHogProvider } from 'posthog-js/react'
+import { siteConfig } from '@/lib/siteConfig'
 
 if (typeof window !== 'undefined') {
   const hostname = window.location.hostname
+  const baseDomain = new URL(siteConfig.domain.siteUrl).hostname
   const isDevSubdomain =
-    hostname === 'test.trilliummassage.la' ||
-    hostname === 'admin.trilliummassage.la' ||
-    hostname === 'dev.trilliummassage.la'
-  const isProdDomain = hostname.endsWith('trilliummassage.la') && !isDevSubdomain
+    hostname === `test.${baseDomain}` ||
+    hostname === `admin.${baseDomain}` ||
+    hostname === `dev.${baseDomain}`
+  const isProdDomain = hostname.endsWith(baseDomain) && !isDevSubdomain
 
   const posthogKey = isProdDomain
     ? process.env.NEXT_PUBLIC_POSTHOG_KEY_PROD
