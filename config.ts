@@ -1,10 +1,14 @@
 import type { AvailabilitySlotsMap, PricingType } from './lib/types'
 
 export const ALLOWED_DURATIONS = [60, 90, 120, 150]
-export const VALID_DURATIONS = [5, 10, 15, 30, 45, 60, 90, 120, 150, 180, 210, 240]
+export const VALID_DURATIONS = [5, 10, 15, 20, 25, 30, 45, 60, 90, 120, 150, 180, 210, 240]
 const default_price = 140
 export const DEFAULT_PRICING: PricingType = {
+  5: (default_price * 1) / 12,
+  10: (default_price * 2) / 12,
   15: (default_price * 1) / 4,
+  20: (default_price * 4) / 12,
+  25: (default_price * 5) / 12,
   30: (default_price * 2) / 4,
   45: (default_price * 3) / 4,
   60: (default_price * 4) / 4,
