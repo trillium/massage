@@ -10,6 +10,7 @@ type TimeProps = {
   timeZone: string
   location?: LocationObject
   className?: string
+  presenceCount?: number
   onTimeSelect: (time: StringDateTimeInterval, location?: LocationObject) => void
 } & Omit<DetailedHTMLProps<HTMLAttributes<HTMLButtonElement>, HTMLButtonElement>, 'onClick'>
 
@@ -19,6 +20,7 @@ export default function TimeButton({
   timeZone,
   location,
   className,
+  presenceCount,
   onTimeSelect,
   ...props
 }: TimeProps) {
@@ -26,7 +28,7 @@ export default function TimeButton({
     <button
       type="button"
       className={clsx(
-        'rounded-md border border-slate-300 px-3 py-2 shadow-sm transition-all',
+        'relative rounded-md border border-slate-300 px-3 py-2 shadow-sm transition-all',
         'text-sm text-gray-900',
         'hocus:bg-primary-50/20 hocus:shadow-sm hocus:shadow-primary-100 hocus:border-primary-500 dark:hocus:text-gray-200 cursor-pointer',
         'outline-primary-600 active:mt-0.5 active:-mb-0.5',
@@ -40,6 +42,11 @@ export default function TimeButton({
       {...props}
     >
       {formatLocalTime(start, { timeZone })} – {formatLocalTime(end, { timeZone })}
+      {presenceCount && presenceCount > 0 ? (
+        <span className="absolute -top-1.5 -right-1.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-amber-500 px-1 text-xs font-bold text-white">
+          {presenceCount}
+        </span>
+      ) : null}
     </button>
   )
 }
