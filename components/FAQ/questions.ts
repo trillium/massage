@@ -1,3 +1,5 @@
+import { siteConfig } from '@/lib/siteConfig'
+
 type ContentItem = {
   type: 'text' | 'image' | 'list' | 'link' | 'imageMosaic'
   content?: string
@@ -80,7 +82,7 @@ export const questions: FAQItem[] = [
   {
     id: 'service_areas',
     q: 'What areas do you service for in-home massages?',
-    a: "I serve the greater Los Angeles Area, based out of Westchester by LAX. Feel free to contact me if you're unsure.",
+    a: `I serve the greater ${siteConfig.location.city} Area, based out of ${siteConfig.location.neighborhood}. Feel free to contact me if you're unsure.`,
   },
   {
     id: 'types_of_massage',
