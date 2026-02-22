@@ -78,7 +78,7 @@ const ENV_VARS: EnvVar[] = [
   {
     name: 'NEXT_PUBLIC_SITE_URL',
     required: false,
-    description: 'Public site URL (falls back to https://trilliummassage.la)',
+    description: 'Public site URL (falls back to siteConfig.domain.siteUrl)',
   },
 
   // Optional Features
