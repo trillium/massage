@@ -3,6 +3,7 @@
 import { useMemo } from 'react'
 import { useReduxAvailability, useAppDispatch } from '@/redux/hooks'
 import { setSelectedTime } from '@/redux/slices/availabilitySlice'
+import { setModal } from '@/redux/slices/modalSlice'
 import TimeButton from '@/components/availability/time/TimeButton'
 import type {
   StringDateTimeIntervalAndLocation,
@@ -39,6 +40,7 @@ export default function DisplayTimeList({ presenceCounts, onSlotHover }: Display
 
   const handleTimeSelect = (time: StringDateTimeInterval, _location?: LocationObject) => {
     dispatch(setSelectedTime({ start: time.start, end: time.end }))
+    dispatch(setModal({ status: 'open' }))
   }
 
   return (
