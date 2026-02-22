@@ -1,9 +1,11 @@
-import siteMetadata from '@/data/siteMetadata'
 import Image from 'next/image'
 import Link from '@/components/Link'
 import { GradientText } from '@/components/ui/GradientText'
+import { siteConfig } from '@/lib/siteConfig'
 
-const { avatar } = siteMetadata
+const { name } = siteConfig.business
+const { avatar } = siteConfig.branding
+const { about } = siteConfig.content
 
 export default function AboutSection() {
   return (
@@ -20,24 +22,20 @@ export default function AboutSection() {
         </div>
         <div className="flex h-full flex-col justify-center space-y-4 text-left">
           <h2 className="text-left text-4xl font-bold tracking-tight md:text-5xl lg:text-6xl">
-            About <GradientText classes="whitespace-nowrap">Trillium Massage</GradientText>
+            About <GradientText classes="whitespace-nowrap">{name}</GradientText>
           </h2>
           <p className="mt-4 w-full text-left text-lg text-gray-600 md:mx-0 dark:text-gray-300">
-            Trillium is a massage therapist with 10 years of experience. Working in the LA Metro
-            Area, Trillium found success in specializing in In-Home mobile massage therapy, working
-            solo and through platforms like Soothe and Zeel since 2016.
+            {about.bio}
           </p>
           <p className="text-lg text-gray-600 dark:text-gray-300">
-            Combining relaxation and pain relief techniques, Trillium provides you with effective
-            massage therapy from the comfort of your own home. With more than 3,000 in-home massage
-            therapy sessions, Trillium has maintained a{' '}
+            {about.focus} {about.stats}{' '}
             <Link
               className="text-primary-500 dark:text-primary-400 font-bold underline-offset-0 transition-transform duration-300 hover:scale-105 hover:underline"
               href={'/reviews'}
             >
-              4.9-star rating
+              {about.rating}
             </Link>
-            , reflecting the quality and care he puts into his work.
+            {about.statsClose}
           </p>
         </div>
       </div>

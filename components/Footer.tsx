@@ -7,6 +7,7 @@ import Logo from '@/components/Logo'
 import { FaMapMarkerAlt, FaPhoneAlt, FaEnvelope, FaClock, FaRegCalendarAlt } from 'react-icons/fa'
 import { servicesLinks } from '@/data/servicesData'
 import { createContactUrl } from '@/lib/helpers'
+import { siteConfig } from '@/lib/siteConfig'
 
 export default function Footer() {
   return (
@@ -153,10 +154,7 @@ function LogoAndBlurb({ displayClasses }: { displayClasses: string }) {
           </div>
         </div>
       </Link>
-      <p className="text-gray-400">
-        Providing professional massage therapy services to help you relax, rejuvenate, and restore
-        your body and mind.
-      </p>
+      <p className="text-gray-400">{siteConfig.content.footer.blurb}</p>
       <Socials />
     </div>
   )
@@ -199,8 +197,8 @@ const contactItems = [
     icon: <FaMapMarkerAlt />,
     content: (
       <>
-        <span className="block whitespace-nowrap">Westchester Area by LAX,</span>{' '}
-        <span className="block whitespace-nowrap">Los Angeles</span>
+        <span className="block whitespace-nowrap">{siteConfig.content.footer.locationLine1}</span>{' '}
+        <span className="block whitespace-nowrap">{siteConfig.content.footer.locationLine2}</span>
       </>
     ),
   },

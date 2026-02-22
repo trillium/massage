@@ -49,6 +49,26 @@ export const SiteConfigSchema = z.object({
   pricing: z.object({
     baseHourlyRate: z.number(),
   }),
+  content: z.object({
+    hero: z.object({
+      headline: z.string(),
+      gradientWord: z.string(),
+      subheading: z.string(),
+      description: z.string(),
+    }),
+    about: z.object({
+      bio: z.string(),
+      focus: z.string(),
+      stats: z.string(),
+      rating: z.string(),
+      statsClose: z.string(),
+    }),
+    footer: z.object({
+      blurb: z.string(),
+      locationLine1: z.string(),
+      locationLine2: z.string(),
+    }),
+  }),
   calendars: z.array(z.string()),
   payments: z.array(PaymentMethodSchema),
   branding: z.object({

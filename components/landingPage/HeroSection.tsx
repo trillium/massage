@@ -5,6 +5,10 @@ import { FaCar, FaRegClock } from 'react-icons/fa'
 import { FiMapPin } from 'react-icons/fi'
 import { HiSparkles } from 'react-icons/hi2'
 import { GradientText } from '@/components/ui/GradientText'
+import { siteConfig } from '@/lib/siteConfig'
+
+const { hero } = siteConfig.content
+const { neighborhood, serviceArea } = siteConfig.location
 
 export default function HeroSection() {
   return (
@@ -21,6 +25,7 @@ export default function HeroSection() {
 }
 
 function TextContent({ positionClasses }: { positionClasses?: string }) {
+  const headlineParts = hero.headline.split(hero.gradientWord)
   return (
     <div
       className={clsx(
@@ -30,13 +35,15 @@ function TextContent({ positionClasses }: { positionClasses?: string }) {
     >
       <div>
         <h1 className="text-4xl font-bold tracking-tight md:text-5xl lg:text-6xl">
-          Relax, Restore, <GradientText>Rejuvenate</GradientText>
+          {headlineParts[0]}
+          <GradientText>{hero.gradientWord}</GradientText>
+          {headlineParts[1]}
         </h1>
         <h2 className="mx-auto mt-4 max-w-lg text-3xl font-semibold text-gray-600 md:mx-0 dark:text-gray-300">
-          Let the spa come to you
+          {hero.subheading}
         </h2>
         <p className="mx-auto mt-4 max-w-lg text-xl text-gray-600 md:mx-0 dark:text-gray-300">
-          Spa level massage therapy in your home, at your convenience.
+          {hero.description}
         </p>
       </div>
     </div>
@@ -96,11 +103,11 @@ function ButtonContent({ positionClasses }: { positionClasses?: string }) {
           </div>
           <div className="flex items-center gap-2">
             <FiMapPin className="h-5 w-5 text-teal-600" />
-            <span className="text-sm whitespace-nowrap">Westchester Based</span>
+            <span className="text-sm whitespace-nowrap">{neighborhood} Based</span>
           </div>
           <div className="flex items-center gap-2">
             <FaCar className="h-5 w-5 text-teal-600" />
-            <span className="text-sm whitespace-nowrap">Serving the LA Metro Area</span>
+            <span className="text-sm whitespace-nowrap">{serviceArea}</span>
           </div>
         </div>
       </div>
