@@ -1,8 +1,9 @@
 'use client'
 
 import DurationPicker from '@/components/availability/controls/DurationPicker'
+import Calendar from '@/components/availability/date/Calendar'
 import DisplayTimeList from './DisplayTimeList'
-import EventBookingForm from './EventBookingForm'
+import BookingForm from '@/components/booking/BookingForm'
 import { useSmartRefresh } from 'hooks/useSmartRefresh'
 import { useSlotPresence } from 'hooks/useSlotPresence'
 import { useReduxAvailability } from '@/redux/hooks'
@@ -25,10 +26,11 @@ export default function DisplayClient({ durationProps, start, end }: DisplayClie
   })
 
   return (
-    <div className="flex flex-col space-y-6">
+    <div className="flex flex-col space-y-8">
       <DurationPicker {...durationProps} showPrice={false} />
+      <Calendar />
       <DisplayTimeList presenceCounts={presenceCounts} onSlotHover={trackSlot} />
-      <EventBookingForm />
+      <BookingForm acceptingPayment={false} endPoint="api/event-booking" />
     </div>
   )
 }
