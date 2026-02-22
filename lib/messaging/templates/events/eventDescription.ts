@@ -1,5 +1,6 @@
 import { AppointmentProps } from '@/lib/types'
 import { flattenLocation } from '@/lib/helpers/locationHelpers'
+import { siteConfig } from '@/lib/siteConfig'
 
 function eventDescription({
   start,
@@ -22,9 +23,9 @@ function eventDescription({
   let output = 'Thanks for booking!'
   output += '\n\n'
   output += `<b>Name</b>: ${firstName} ${lastName}\n`
-  output += `<b>Date</b>: ${new Date(start || '').toLocaleDateString('en-US', { timeZone: 'America/Los_Angeles' })}\n`
-  output += `<b>Start</b>: ${new Date(start || '').toLocaleTimeString('en-US', { timeZone: 'America/Los_Angeles' })}\n`
-  output += `<b>End</b>: ${new Date(end || '').toLocaleTimeString('en-US', { timeZone: 'America/Los_Angeles' })}\n`
+  output += `<b>Date</b>: ${new Date(start || '').toLocaleDateString('en-US', { timeZone: siteConfig.scheduling.timezone })}\n`
+  output += `<b>Start</b>: ${new Date(start || '').toLocaleTimeString('en-US', { timeZone: siteConfig.scheduling.timezone })}\n`
+  output += `<b>End</b>: ${new Date(end || '').toLocaleTimeString('en-US', { timeZone: siteConfig.scheduling.timezone })}\n`
   output += `<b>Duration</b>: ${duration}\n`
   if (email) {
     output += `<b>Email</b>: ${email}\n`
@@ -72,13 +73,15 @@ function eventDescription({
     }
   }
 
-  const host = origin || process.env.NEXT_PUBLIC_SITE_URL || 'https://trilliummassage.la'
+  const domain = siteConfig.domain.siteUrl.replace(/\/$/, '')
+  const domainDisplay = domain.replace(/^https?:\/\//, '')
+  const host = origin || process.env.NEXT_PUBLIC_SITE_URL || domain
   output += `<b>My Events</b>: <a href="${host}/my_events">View My Events</a>\n`
 
   output += '\n\n'
-  output += 'Trillium Smith, LMT'
+  output += `${siteConfig.business.ownerName}, LMT`
   output += '\n'
-  output += `<a href="https://trilliummassage.la/">www.trilliummassage.la</a>\n`
+  output += `<a href="${domain}/">www.${domainDisplay}</a>\n`
 
   if (eventBaseString) {
     output += '\n'

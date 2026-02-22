@@ -10,6 +10,7 @@ import contactFormConfirmation from './messaging/email/client/contactFormConfirm
 import { ContactPushover } from './messaging/push/admin/ContactPushover'
 import { pushoverSendMessage } from './messaging/push/admin/pushover'
 import { escapeHtml } from './messaging/escapeHtml'
+import { siteConfig } from '@/lib/siteConfig'
 
 export type ContactRequestValidationResult =
   | { success: true; data: z.output<typeof ContactFormSchema> }
@@ -75,7 +76,7 @@ export async function handleContactRequest({
   // Send confirmation email to user
   await sendMailFn({
     to: data.email,
-    subject: 'Thank you for contacting Trillium Massage',
+    subject: `Thank you for contacting ${siteConfig.business.name}`,
     body: userEmailBody,
   })
 

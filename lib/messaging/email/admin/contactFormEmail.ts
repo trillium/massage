@@ -1,12 +1,10 @@
 import { ContactFormType } from '@/lib/types'
+import { siteConfig } from '@/lib/siteConfig'
 
-/**
- * Creates an email body for contact form submissions.
- *
- * @function
- * @returns {string} Returns the email body string for a contact form submission.
- */
 function contactFormEmail({ subject, name, email, phone, message }: ContactFormType) {
+  const domain = siteConfig.domain.siteUrl.replace(/\/$/, '')
+  const domainDisplay = domain.replace(/^https?:\/\//, '')
+
   let output = 'New Contact Form Submission'
   output += '<br><br>'
   output += `<b>Subject</b>: ${subject}<br>`
@@ -18,9 +16,9 @@ function contactFormEmail({ subject, name, email, phone, message }: ContactFormT
   output += '<br><br>'
   output += `Submitted on: ${new Date().toLocaleString()}`
   output += '<br><br>'
-  output += 'Trillium Smith, LMT'
+  output += `${siteConfig.business.ownerName}, LMT`
   output += '<br>'
-  output += `<a href="https://trilliummassage.la/">www.trilliummassage.la</a><br>`
+  output += `<a href="${domain}/">www.${domainDisplay}</a><br>`
 
   return output
 }
