@@ -5,7 +5,11 @@ export const ALLOWED_DURATIONS = siteConfig.scheduling.allowedDurations
 export const VALID_DURATIONS = siteConfig.scheduling.validDurations
 const default_price = siteConfig.pricing.baseHourlyRate
 export const DEFAULT_PRICING: PricingType = {
+  5: (default_price * 1) / 12,
+  10: (default_price * 2) / 12,
   15: (default_price * 1) / 4,
+  20: (default_price * 4) / 12,
+  25: (default_price * 5) / 12,
   30: (default_price * 2) / 4,
   45: (default_price * 3) / 4,
   60: (default_price * 4) / 4,
