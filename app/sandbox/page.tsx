@@ -19,6 +19,7 @@ export default async function SandboxPage({
 
   const result = await createPageConfiguration({
     resolvedParams: { duration: resolvedParams.duration || DEFAULT_DURATION.toString() },
+    overrides: { type: 'area-wide' },
     mocked: mockData,
   })
 
