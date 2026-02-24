@@ -129,26 +129,6 @@ export const Blog = defineDocumentType(() => ({
   },
 }))
 
-export const ClientSlug = defineDocumentType(() => ({
-  name: 'ClientSlug',
-  filePathPattern: 'clientSlugs/**/*.mdx',
-  contentType: 'mdx',
-  fields: {
-    title: { type: 'string', required: true },
-    clientName: { type: 'string' },
-    propertyName: { type: 'string' },
-    airbnbLink: { type: 'string' },
-    metaDescription: { type: 'string' },
-    location: { type: 'json' },
-  },
-  computedFields: {
-    slug: {
-      type: 'string',
-      resolve: (doc) => doc._raw.flattenedPath.replace(/^.+?(\/)/, ''),
-    },
-  },
-}))
-
 export const Authors = defineDocumentType(() => ({
   name: 'Authors',
   filePathPattern: 'authors/**/*.mdx',
@@ -170,7 +150,6 @@ export const Authors = defineDocumentType(() => ({
 
 export default makeSource({
   contentDirPath: 'data',
-<<<<<<< HEAD
   contentDirExclude: [
     'node_modules',
     '.git',
@@ -183,7 +162,7 @@ export default makeSource({
     'gallery-order.json',
     'siteConfig.json',
   ],
-  documentTypes: [Blog, Authors, ClientSlug],
+  documentTypes: [Blog, Authors],
   mdx: {
     cwd: process.cwd(),
     remarkPlugins: [
