@@ -1,0 +1,19 @@
+COMMIT_MSG_FILE="$1"
+MSG=$(head -1 "$COMMIT_MSG_FILE")
+
+# Block default merge commit messages — require semantic format
+# Allows: git merge --squash + git commit -m "feat(scope): ..."
+# Blocks: git merge (which creates "Merge branch 'x'" messages)
+if echo "$MSG" | grep -qE '^Merge (branch|remote-tracking branch|pull request)'; then
+  echo "❌ Default merge commit messages are not allowed."
+  echo ""
+  echo "   Use squash merge instead:"
+  echo "     git merge --squash <branch>"
+  echo "     git commit -m \"feat(scope): description\""
+  echo ""
+  echo "   Or provide a semantic message:"
+  echo "     git merge <branch> -m \"chore(scope): merge description\""
+  echo ""
+  echo "   Bypass (rare): git commit --no-verify"
+  exit 1
+fi
