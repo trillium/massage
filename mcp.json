@@ -1,9 +1,0 @@
-{
-  "mcpServers": {
-    "massage-tracker": {
-      "command": "node",
-      "args": ["mcp-server.ts"],
-      "env": {}
-    }
-  }
-}
