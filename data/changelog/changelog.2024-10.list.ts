@@ -15,7 +15,7 @@ const data: RawMonthData = {
     'feat: Drop in props from topContainer (pricing, leadTime)',
     'feat: Use event description if exists in [bookingSlug] ClientPage',
     'wip: Put up /onsite despite work in progress status',
-    'Merge branch \\'main\\' into prod (ts.onsite changes)',
+    "Merge branch \'main\' into prod (ts.onsite changes)",
     'feat: Add additional email to track',
     'feat: WIP, onsite radio, checkbox, appearance',
     'feat: Add phone number to initial booking form email',

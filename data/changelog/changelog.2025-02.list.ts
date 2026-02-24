@@ -11,7 +11,7 @@ const data: RawMonthData = {
     'chore: Remove unused imports from configSlice',
     'refactor: Allow null on non-boolean slug type props',
     'refactor: Allow all eventContainersSlice props to be undefined',
-    'feat: Return NotFound if bookingSlug isn\\'t in slugs list',
+    "feat: Return NotFound if bookingSlug isn\'t in slugs list",
     'feat: Use utlity file to update configSlice state',
     'feat: Pass initial state to updating utility                                      (HEAD)',
     'refactor: Update logic for BookingForm location and read only state',

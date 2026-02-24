@@ -55,7 +55,7 @@ const data: RawMonthData = {
     'feat(auth): display admin chip on all pages using Supabase auth',
     'chore(git): add pre-push hook to validate builds',
     'fix(build): allow test-login page to build with runtime production check',
-    'Merge remote-tracking branch \\'origin/trilliumsmith/supabase-auth\\'',
+    "Merge remote-tracking branch \'origin/trilliumsmith/supabase-auth\'",
     'feat(blog): add Airbnb 50% off promo post for Dec 4th deadline',
     'fix(blog): clarify promo rate is ~/hour after discount and add shorter duration option',
   ],
