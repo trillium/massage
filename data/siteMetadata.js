@@ -1,4 +1,4 @@
-import config from './siteConfig.json'
+import config from './siteConfig.json' with { type: 'json' }
 
 /** @type {import("pliny/config").PlinyConfig } */
 const siteMetadata = {
