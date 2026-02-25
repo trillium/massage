@@ -22,7 +22,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<Sea
         title={configuration.title ?? 'Book a Session'}
         text={configuration.text ?? undefined}
       />
-      <DisplayClient durationProps={durationProps} start={start} end={end} />
+      <DisplayClient durationProps={durationProps} />
 
       <InitialUrlUtility
         configObject={configuration}
