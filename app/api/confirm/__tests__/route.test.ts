@@ -22,8 +22,17 @@ vi.mock('@/data/siteMetadata', () => ({
   default: { email: 'admin@test.com' },
 }))
 
+vi.mock('@/lib/appointments/getAppointmentByCalendarEventId', () => ({
+  getAppointmentByCalendarEventId: vi.fn(),
+}))
+
+vi.mock('@/lib/appointments/updateAppointmentStatus', () => ({
+  updateAppointmentStatus: vi.fn(() => Promise.resolve()),
+}))
+
 import updateCalendarEvent from 'lib/availability/updateCalendarEvent'
 import { getHash } from 'lib/hash'
+import { getAppointmentByCalendarEventId } from '@/lib/appointments/getAppointmentByCalendarEventId'
 
 const validAppointment = {
   calendarEventId: 'cal-event-123',
@@ -178,5 +187,73 @@ describe('/api/confirm', () => {
 
     expect(res.status).toBe(500)
     expect(json.error).toContain('Error trying to confirm')
+  })
+
+  it('redirects with already_confirmed=true when appointment already confirmed', async () => {
+    vi.mocked(getAppointmentByCalendarEventId).mockResolvedValue({
+      id: 'appt-1',
+      calendar_event_id: 'cal-event-123',
+      status: 'confirmed',
+      client_email: 'jane@example.com',
+      client_phone: '555-1234',
+      client_first_name: 'Jane',
+      client_last_name: 'Doe',
+      location: '123 Main St',
+      timezone: 'America/Los_Angeles',
+      start_time: '2026-03-15T10:00:00-07:00',
+      end_time: '2026-03-15T11:00:00-07:00',
+      duration_minutes: 60,
+      price: null,
+      promo: null,
+      booking_url: null,
+      slug_config: null,
+      source: null,
+      instant_confirm: false,
+      created_at: '2026-03-01T00:00:00Z',
+      updated_at: '2026-03-01T01:00:00Z',
+      confirmed_at: '2026-03-01T01:00:00Z',
+      cancelled_at: null,
+    })
+
+    const res = await GET(confirmUrl(validAppointment, 'valid-hash'))
+
+    expect(res.status).toBe(307)
+    const location = res.headers.get('location')!
+    expect(location).toContain('/admin/booked')
+    expect(location).toContain('already_confirmed=true')
+    expect(updateCalendarEvent).not.toHaveBeenCalled()
+  })
+
+  it('returns 410 when appointment already cancelled', async () => {
+    vi.mocked(getAppointmentByCalendarEventId).mockResolvedValue({
+      id: 'appt-2',
+      calendar_event_id: 'cal-event-123',
+      status: 'cancelled',
+      client_email: 'jane@example.com',
+      client_phone: '555-1234',
+      client_first_name: 'Jane',
+      client_last_name: 'Doe',
+      location: '123 Main St',
+      timezone: 'America/Los_Angeles',
+      start_time: '2026-03-15T10:00:00-07:00',
+      end_time: '2026-03-15T11:00:00-07:00',
+      duration_minutes: 60,
+      price: null,
+      promo: null,
+      booking_url: null,
+      slug_config: null,
+      source: null,
+      instant_confirm: false,
+      created_at: '2026-03-01T00:00:00Z',
+      updated_at: '2026-03-01T00:00:00Z',
+      confirmed_at: null,
+      cancelled_at: '2026-03-01T01:00:00Z',
+    })
+
+    const res = await GET(confirmUrl(validAppointment, 'valid-hash'))
+    const json = await res.json()
+
+    expect(res.status).toBe(410)
+    expect(json.error).toContain('cancelled')
   })
 })
