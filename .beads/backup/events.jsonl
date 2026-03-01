@@ -306,6 +306,7 @@
 {"actor":"Trillium Smith","comment":"","created_at":"2026-03-01T10:55:12Z","event_type":"created","id":261,"issue_id":"hq-9cr","new_value":"","old_value":""}
 {"actor":"Trillium Smith","comment":null,"created_at":"2026-03-01T12:36:02Z","event_type":"created","id":262,"issue_id":"massage-9z3","new_value":"","old_value":""}
 {"actor":"Trillium Smith","comment":"","created_at":"2026-03-01T10:55:12Z","event_type":"created","id":262,"issue_id":"hq-9hst","new_value":"","old_value":""}
+{"actor":"unknown","comment":null,"created_at":"2026-03-01T12:52:13Z","event_type":"created","id":263,"issue_id":"massage-2mq","new_value":"","old_value":""}
 {"actor":"Trillium Smith","comment":"","created_at":"2026-03-01T10:55:12Z","event_type":"created","id":263,"issue_id":"hq-9pv","new_value":"","old_value":""}
 {"actor":"Trillium Smith","comment":"","created_at":"2026-03-01T10:55:12Z","event_type":"created","id":264,"issue_id":"hq-9s6g","new_value":"","old_value":""}
 {"actor":"Trillium Smith","comment":"","created_at":"2026-03-01T10:55:12Z","event_type":"created","id":265,"issue_id":"hq-9vm","new_value":"","old_value":""}
@@ -925,3 +926,5 @@
 {"actor":"deacon","comment":"","created_at":"2026-03-01T12:22:37Z","event_type":"closed","id":879,"issue_id":"massage-wisp-wiah","new_value":"Closed","old_value":""}
 {"actor":"deacon/","comment":"","created_at":"2026-03-01T12:30:58Z","event_type":"created","id":880,"issue_id":"massage-wisp-oz6x","new_value":"","old_value":""}
 {"actor":"deacon","comment":"","created_at":"2026-03-01T12:31:31Z","event_type":"closed","id":881,"issue_id":"massage-wisp-oz6x","new_value":"Closed","old_value":""}
+{"actor":"deacon/","comment":"","created_at":"2026-03-01T12:37:24Z","event_type":"created","id":882,"issue_id":"massage-wisp-wx7i","new_value":"","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T12:37:53Z","event_type":"closed","id":883,"issue_id":"massage-wisp-wx7i","new_value":"Closed","old_value":""}
