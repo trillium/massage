@@ -12,6 +12,7 @@ import {
   buildBookedRedirect,
   NO_STORE_HEADERS,
 } from '@/lib/api/confirmHelpers'
+import { getAppointmentByCalendarEventId } from '@/lib/appointments/getAppointmentByCalendarEventId'
 import { updateAppointmentStatus } from '@/lib/appointments/updateAppointmentStatus'
 
 export const dynamic = 'force-dynamic'
@@ -29,6 +30,31 @@ export async function GET(req: NextRequest) {
     return NextResponse.json(
       { error: 'Missing calendarEventId' },
       { status: 400, headers: NO_STORE_HEADERS }
+    )
+  }
+
+  const existing = await getAppointmentByCalendarEventId(calendarEventId as string)
+
+  if (existing?.status === 'confirmed') {
+    const bookedData = {
+      ...appointmentData,
+      locationString: existing.location || '',
+      timeZone: existing.timezone,
+      dateTime: existing.start_time,
+      start: { dateTime: existing.start_time, timeZone: existing.timezone },
+      end: { dateTime: existing.end_time, timeZone: existing.timezone },
+      attendees: [{ email: existing.client_email, name: existing.client_first_name }],
+    }
+    const encodedDetails = encodeURIComponent(JSON.stringify(bookedData))
+    return NextResponse.redirect(
+      `${new URL(req.url).origin}/admin/booked?data=${encodedDetails}&already_confirmed=true`
+    )
+  }
+
+  if (existing?.status === 'cancelled') {
+    return NextResponse.json(
+      { error: 'This appointment has been cancelled.' },
+      { status: 410, headers: NO_STORE_HEADERS }
     )
   }
 
