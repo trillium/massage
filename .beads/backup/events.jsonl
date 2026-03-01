@@ -560,15 +560,25 @@
 {"actor":"Trillium Smith","comment":"","created_at":"2026-03-01T10:55:14Z","event_type":"created","id":388,"issue_id":"hq-m88","new_value":"","old_value":""}
 {"actor":"deacon","comment":null,"created_at":"2026-03-01T14:01:23Z","event_type":"closed","id":389,"issue_id":"massage-qbr","new_value":"Closed","old_value":""}
 {"actor":"Trillium Smith","comment":"","created_at":"2026-03-01T10:55:14Z","event_type":"created","id":389,"issue_id":"hq-mbf4","new_value":"","old_value":""}
+{"actor":"deacon/","comment":null,"created_at":"2026-03-01T14:08:55Z","event_type":"created","id":390,"issue_id":"massage-nja","new_value":"","old_value":""}
 {"actor":"Trillium Smith","comment":"","created_at":"2026-03-01T10:55:14Z","event_type":"created","id":390,"issue_id":"hq-me81","new_value":"","old_value":""}
+{"actor":"deacon/","comment":"Added label: from:deacon/","created_at":"2026-03-01T14:08:55Z","event_type":"label_added","id":391,"issue_id":"massage-nja","new_value":null,"old_value":null}
 {"actor":"Trillium Smith","comment":"","created_at":"2026-03-01T10:55:14Z","event_type":"created","id":391,"issue_id":"hq-mflf","new_value":"","old_value":""}
+{"actor":"deacon/","comment":"Added label: gt:message","created_at":"2026-03-01T14:08:55Z","event_type":"label_added","id":392,"issue_id":"massage-nja","new_value":null,"old_value":null}
 {"actor":"Trillium Smith","comment":"","created_at":"2026-03-01T10:55:14Z","event_type":"created","id":392,"issue_id":"hq-mlaq","new_value":"","old_value":""}
+{"actor":"deacon","comment":null,"created_at":"2026-03-01T14:08:55Z","event_type":"status_changed","id":393,"issue_id":"massage-nja","new_value":"{\"assignee\":\"deacon/\",\"status\":\"hooked\"}","old_value":"{\"id\":\"massage-nja\",\"title\":\"🤝 HANDOFF: Routine cycle\",\"description\":\"Completed 20 patrols, no incidents. No rigs configured, no mail received. All cycles clean.\",\"status\":\"open\",\"priority\":1,\"issue_type\":\"task\",\"assignee\":\"deacon/\",\"owner\":\"trillium@trilliumsmith.com\",\"created_at\":\"2026-03-01T22:08:56Z\",\"created_by\":\"deacon/\",\"updated_at\":\"2026-03-01T22:08:56Z\"}"}
 {"actor":"Trillium Smith","comment":"","created_at":"2026-03-01T10:55:14Z","event_type":"created","id":393,"issue_id":"hq-mnem","new_value":"","old_value":""}
+{"actor":"deacon","comment":null,"created_at":"2026-03-01T14:09:33Z","event_type":"closed","id":394,"issue_id":"massage-nja","new_value":"Closed","old_value":""}
 {"actor":"Trillium Smith","comment":"","created_at":"2026-03-01T10:55:14Z","event_type":"created","id":394,"issue_id":"hq-mvfo","new_value":"","old_value":""}
+{"actor":"deacon/","comment":null,"created_at":"2026-03-01T14:14:02Z","event_type":"created","id":395,"issue_id":"massage-6iq","new_value":"","old_value":""}
 {"actor":"Trillium Smith","comment":"","created_at":"2026-03-01T10:55:14Z","event_type":"created","id":395,"issue_id":"hq-nbb","new_value":"","old_value":""}
+{"actor":"deacon/","comment":"Added label: from:deacon/","created_at":"2026-03-01T14:14:02Z","event_type":"label_added","id":396,"issue_id":"massage-6iq","new_value":null,"old_value":null}
 {"actor":"Trillium Smith","comment":"","created_at":"2026-03-01T10:55:14Z","event_type":"created","id":396,"issue_id":"hq-ng3","new_value":"","old_value":""}
+{"actor":"deacon/","comment":"Added label: gt:message","created_at":"2026-03-01T14:14:02Z","event_type":"label_added","id":397,"issue_id":"massage-6iq","new_value":null,"old_value":null}
 {"actor":"Trillium Smith","comment":"","created_at":"2026-03-01T10:55:14Z","event_type":"created","id":397,"issue_id":"hq-nj0j","new_value":"","old_value":""}
+{"actor":"deacon","comment":null,"created_at":"2026-03-01T14:14:02Z","event_type":"status_changed","id":398,"issue_id":"massage-6iq","new_value":"{\"assignee\":\"deacon/\",\"status\":\"hooked\"}","old_value":"{\"id\":\"massage-6iq\",\"title\":\"🤝 HANDOFF: Routine cycle\",\"description\":\"Completed 20 patrols, no incidents. No rigs configured, no mail received. All cycles clean.\",\"status\":\"open\",\"priority\":1,\"issue_type\":\"task\",\"assignee\":\"deacon/\",\"owner\":\"trillium@trilliumsmith.com\",\"created_at\":\"2026-03-01T22:14:03Z\",\"created_by\":\"deacon/\",\"updated_at\":\"2026-03-01T22:14:03Z\"}"}
 {"actor":"Trillium Smith","comment":"","created_at":"2026-03-01T10:55:14Z","event_type":"created","id":398,"issue_id":"hq-nkdh","new_value":"","old_value":""}
+{"actor":"deacon","comment":null,"created_at":"2026-03-01T14:14:37Z","event_type":"closed","id":399,"issue_id":"massage-6iq","new_value":"Closed","old_value":""}
 {"actor":"Trillium Smith","comment":"","created_at":"2026-03-01T10:55:14Z","event_type":"created","id":399,"issue_id":"hq-nsbr","new_value":"","old_value":""}
 {"actor":"Trillium Smith","comment":"","created_at":"2026-03-01T10:55:14Z","event_type":"created","id":400,"issue_id":"hq-nz6w","new_value":"","old_value":""}
 {"actor":"Trillium Smith","comment":"","created_at":"2026-03-01T10:55:14Z","event_type":"created","id":401,"issue_id":"hq-o15q","new_value":"","old_value":""}
@@ -1095,3 +1105,5 @@
 {"actor":"massage/witness","comment":"","created_at":"2026-03-01T13:58:06Z","event_type":"closed","id":922,"issue_id":"massage-wisp-al5d","new_value":"patrol cycle complete: Cycle 6: quiet. All systems nominal. 0 polecats. No mail. Backing off to 3min.","old_value":""}
 {"actor":"massage/witness","comment":"","created_at":"2026-03-01T14:01:17Z","event_type":"closed","id":923,"issue_id":"massage-wisp-skzt","new_value":"patrol cycle complete: Cycle 7: quiet. All systems nominal. 0 polecats. No mail.","old_value":""}
 {"actor":"massage/witness","comment":"","created_at":"2026-03-01T14:05:27Z","event_type":"closed","id":924,"issue_id":"massage-wisp-m97p","new_value":"patrol cycle complete: Cycle 8: quiet. All systems nominal. 0 polecats. No mail. Max backoff 5min.","old_value":""}
+{"actor":"massage/witness","comment":"","created_at":"2026-03-01T14:10:38Z","event_type":"closed","id":925,"issue_id":"massage-wisp-hchi","new_value":"patrol cycle complete: Cycle 9: quiet. All systems nominal. 0 polecats. No mail.","old_value":""}
+{"actor":"massage/witness","comment":"","created_at":"2026-03-01T14:15:49Z","event_type":"closed","id":926,"issue_id":"massage-wisp-pxlh","new_value":"patrol cycle complete: Cycle 10: quiet. All systems nominal. 0 polecats. No mail.","old_value":""}
