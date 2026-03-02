@@ -10,14 +10,23 @@
 {"actor":"deacon","comment":"","created_at":"2026-03-01T23:31:47Z","event_type":"closed","id":5,"issue_id":"hq-wisp-0k6r","new_value":"no test pollution detected","old_value":""}
 {"actor":"deacon","comment":null,"created_at":"2026-03-01T23:30:46Z","event_type":"closed","id":6,"issue_id":"hq-5xg","new_value":"Closed","old_value":""}
 {"actor":"deacon","comment":"","created_at":"2026-03-01T23:31:52Z","event_type":"closed","id":6,"issue_id":"hq-wisp-vlqk","new_value":"no pending gates","old_value":""}
+{"actor":"massage/witness","comment":null,"created_at":"2026-03-01T23:48:07Z","event_type":"created","id":7,"issue_id":"hq-ww3","new_value":"","old_value":""}
 {"actor":"deacon","comment":"","created_at":"2026-03-01T23:31:58Z","event_type":"closed","id":7,"issue_id":"hq-wisp-i2w2","new_value":"no molecules with resolved gates","old_value":""}
+{"actor":"massage/witness","comment":"Added label: from:massage/witness","created_at":"2026-03-01T23:48:07Z","event_type":"label_added","id":8,"issue_id":"hq-ww3","new_value":null,"old_value":null}
 {"actor":"deacon","comment":"","created_at":"2026-03-01T23:32:20Z","event_type":"closed","id":8,"issue_id":"hq-wisp-xpgh","new_value":"no active convoys","old_value":""}
+{"actor":"massage/witness","comment":"Added label: gt:message","created_at":"2026-03-01T23:48:07Z","event_type":"label_added","id":9,"issue_id":"hq-ww3","new_value":null,"old_value":null}
 {"actor":"deacon","comment":"","created_at":"2026-03-01T23:32:25Z","event_type":"closed","id":9,"issue_id":"hq-wisp-yp2u","new_value":"no external dependencies to resolve","old_value":""}
+{"actor":"massage/witness","comment":null,"created_at":"2026-03-01T23:48:07Z","event_type":"status_changed","id":10,"issue_id":"hq-ww3","new_value":"{\"assignee\":\"massage/witness\",\"status\":\"hooked\"}","old_value":"{\"id\":\"hq-ww3\",\"title\":\"🤝 HANDOFF: Witness cycle\",\"description\":\"Completed 15 patrol cycles, no incidents. Rig idle entire session — no polecats, no mail. Deacon and refinery healthy throughout.\",\"status\":\"open\",\"priority\":1,\"issue_type\":\"task\",\"assignee\":\"massage/witness\",\"owner\":\"trillium@trilliumsmith.com\",\"created_at\":\"2026-03-02T07:48:07Z\",\"created_by\":\"massage/witness\",\"updated_at\":\"2026-03-02T07:48:07Z\"}"}
 {"actor":"deacon","comment":"","created_at":"2026-03-01T23:32:30Z","event_type":"closed","id":10,"issue_id":"hq-wisp-ilv4","new_value":"no events requiring notification","old_value":""}
+{"actor":"deacon/","comment":null,"created_at":"2026-03-01T23:54:14Z","event_type":"created","id":11,"issue_id":"hq-2fb","new_value":"","old_value":""}
 {"actor":"deacon","comment":"","created_at":"2026-03-01T23:32:36Z","event_type":"closed","id":11,"issue_id":"hq-wisp-iup1","new_value":"heartbeat refreshed","old_value":""}
+{"actor":"deacon/","comment":"Added label: from:deacon/","created_at":"2026-03-01T23:54:14Z","event_type":"label_added","id":12,"issue_id":"hq-2fb","new_value":null,"old_value":null}
 {"actor":"deacon","comment":"","created_at":"2026-03-01T23:32:51Z","event_type":"closed","id":12,"issue_id":"hq-wisp-79tf","new_value":"no rigs configured","old_value":""}
+{"actor":"deacon/","comment":"Added label: gt:message","created_at":"2026-03-01T23:54:14Z","event_type":"label_added","id":13,"issue_id":"hq-2fb","new_value":null,"old_value":null}
 {"actor":"deacon","comment":"","created_at":"2026-03-01T23:32:56Z","event_type":"closed","id":13,"issue_id":"hq-wisp-vwaq","new_value":"no rigs, no polecats to check","old_value":""}
+{"actor":"deacon","comment":null,"created_at":"2026-03-01T23:54:14Z","event_type":"status_changed","id":14,"issue_id":"hq-2fb","new_value":"{\"assignee\":\"deacon/\",\"status\":\"hooked\"}","old_value":"{\"id\":\"hq-2fb\",\"title\":\"🤝 HANDOFF: Routine cycle\",\"description\":\"Completed 20 patrols, no incidents. Bare infrastructure: no rigs, no plugins, no dogs. All 500 patrol steps (25x20) passed clean. No mail received, no extraordinary actions.\",\"status\":\"open\",\"priority\":1,\"issue_type\":\"task\",\"assignee\":\"deacon/\",\"owner\":\"trillium@trilliumsmith.com\",\"created_at\":\"2026-03-02T07:54:15Z\",\"created_by\":\"deacon/\",\"updated_at\":\"2026-03-02T07:54:15Z\"}"}
 {"actor":"deacon","comment":"","created_at":"2026-03-01T23:33:10Z","event_type":"closed","id":14,"issue_id":"hq-wisp-fpw5","new_value":"no plugins registered","old_value":""}
+{"actor":"deacon","comment":null,"created_at":"2026-03-01T23:55:53Z","event_type":"closed","id":15,"issue_id":"hq-2fb","new_value":"Closed","old_value":""}
 {"actor":"deacon","comment":"","created_at":"2026-03-01T23:33:17Z","event_type":"closed","id":15,"issue_id":"hq-wisp-2bln","new_value":"no dog pool configured","old_value":""}
 {"actor":"deacon","comment":"","created_at":"2026-03-01T23:33:23Z","event_type":"closed","id":16,"issue_id":"hq-wisp-ph1q","new_value":"no dogs to check","old_value":""}
 {"actor":"deacon","comment":"","created_at":"2026-03-01T23:33:30Z","event_type":"closed","id":17,"issue_id":"hq-wisp-nblk","new_value":"no abandoned work detected","old_value":""}
@@ -238,3 +247,292 @@
 {"actor":"deacon","comment":"","created_at":"2026-03-01T23:41:46Z","event_type":"closed","id":232,"issue_id":"hq-wisp-9d109","new_value":"bare infrastructure, all clean","old_value":""}
 {"actor":"deacon","comment":"","created_at":"2026-03-01T23:41:48Z","event_type":"closed","id":233,"issue_id":"hq-wisp-oajzm","new_value":"bare infrastructure, all clean","old_value":""}
 {"actor":"deacon","comment":"","created_at":"2026-03-01T23:41:54Z","event_type":"closed","id":234,"issue_id":"hq-wisp-r8sn9","new_value":"looping, patrol_count=9","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:41:56Z","event_type":"closed","id":235,"issue_id":"hq-wisp-1g6r2","new_value":"all steps complete","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:42:19Z","event_type":"closed","id":236,"issue_id":"hq-wisp-v0pnl","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:42:20Z","event_type":"closed","id":237,"issue_id":"hq-wisp-tok7r","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:42:22Z","event_type":"closed","id":238,"issue_id":"hq-wisp-pnwi6","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:42:23Z","event_type":"closed","id":239,"issue_id":"hq-wisp-n6kvp","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:42:24Z","event_type":"closed","id":240,"issue_id":"hq-wisp-e3m3i","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:42:25Z","event_type":"closed","id":241,"issue_id":"hq-wisp-k6th5","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:42:27Z","event_type":"closed","id":242,"issue_id":"hq-wisp-tjttd","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:42:28Z","event_type":"closed","id":243,"issue_id":"hq-wisp-poacd","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:42:29Z","event_type":"closed","id":244,"issue_id":"hq-wisp-8o8w6","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:42:30Z","event_type":"closed","id":245,"issue_id":"hq-wisp-9xs4x","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:42:32Z","event_type":"closed","id":246,"issue_id":"hq-wisp-se14x","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:42:33Z","event_type":"closed","id":247,"issue_id":"hq-wisp-5uoyz","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:42:34Z","event_type":"closed","id":248,"issue_id":"hq-wisp-trs9l","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:42:36Z","event_type":"closed","id":249,"issue_id":"hq-wisp-l7u49","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:42:37Z","event_type":"closed","id":250,"issue_id":"hq-wisp-rd8k0","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:42:38Z","event_type":"closed","id":251,"issue_id":"hq-wisp-hwbvb","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:42:39Z","event_type":"closed","id":252,"issue_id":"hq-wisp-b4ioi","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:42:41Z","event_type":"closed","id":253,"issue_id":"hq-wisp-rcgc1","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:42:42Z","event_type":"closed","id":254,"issue_id":"hq-wisp-podj8","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:42:43Z","event_type":"closed","id":255,"issue_id":"hq-wisp-sa1qj","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:42:44Z","event_type":"closed","id":256,"issue_id":"hq-wisp-sujqq","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:42:46Z","event_type":"closed","id":257,"issue_id":"hq-wisp-u8vec","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:42:47Z","event_type":"closed","id":258,"issue_id":"hq-wisp-qhsjg","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:42:48Z","event_type":"closed","id":259,"issue_id":"hq-wisp-vlf7b","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:42:56Z","event_type":"closed","id":260,"issue_id":"hq-wisp-ie6s2","new_value":"looping, patrol_count=10","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:42:57Z","event_type":"closed","id":261,"issue_id":"hq-wisp-t894q","new_value":"all steps complete","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:43:14Z","event_type":"closed","id":262,"issue_id":"hq-wisp-wzhb1","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:43:15Z","event_type":"closed","id":263,"issue_id":"hq-wisp-zsc9j","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:43:16Z","event_type":"closed","id":264,"issue_id":"hq-wisp-gigpq","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:43:18Z","event_type":"closed","id":265,"issue_id":"hq-wisp-albwe","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:43:19Z","event_type":"closed","id":266,"issue_id":"hq-wisp-ti6gn","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:43:20Z","event_type":"closed","id":267,"issue_id":"hq-wisp-grfwe","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:43:22Z","event_type":"closed","id":268,"issue_id":"hq-wisp-axdx0","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:43:23Z","event_type":"closed","id":269,"issue_id":"hq-wisp-ovjqo","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:43:24Z","event_type":"closed","id":270,"issue_id":"hq-wisp-u8iwp","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:43:26Z","event_type":"closed","id":271,"issue_id":"hq-wisp-xsvmi","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:43:27Z","event_type":"closed","id":272,"issue_id":"hq-wisp-xj54f","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:43:28Z","event_type":"closed","id":273,"issue_id":"hq-wisp-pmqn4","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:43:30Z","event_type":"closed","id":274,"issue_id":"hq-wisp-uvjww","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:43:31Z","event_type":"closed","id":275,"issue_id":"hq-wisp-k39sq","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:43:32Z","event_type":"closed","id":276,"issue_id":"hq-wisp-38we1","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:43:34Z","event_type":"closed","id":277,"issue_id":"hq-wisp-4xmp4","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:43:35Z","event_type":"closed","id":278,"issue_id":"hq-wisp-nsa3s","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:43:36Z","event_type":"closed","id":279,"issue_id":"hq-wisp-r5c5n","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:43:38Z","event_type":"closed","id":280,"issue_id":"hq-wisp-cgtwv","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:43:39Z","event_type":"closed","id":281,"issue_id":"hq-wisp-jhqlz","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:43:40Z","event_type":"closed","id":282,"issue_id":"hq-wisp-6cyv9","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:43:42Z","event_type":"closed","id":283,"issue_id":"hq-wisp-bazrj","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:43:43Z","event_type":"closed","id":284,"issue_id":"hq-wisp-k6jnp","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:43:44Z","event_type":"closed","id":285,"issue_id":"hq-wisp-2pl8x","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:43:52Z","event_type":"closed","id":286,"issue_id":"hq-wisp-kvosm","new_value":"looping, patrol_count=11","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:43:54Z","event_type":"closed","id":287,"issue_id":"hq-wisp-9gb5p","new_value":"all steps complete","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:44:12Z","event_type":"closed","id":288,"issue_id":"hq-wisp-olqj6","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:44:13Z","event_type":"closed","id":289,"issue_id":"hq-wisp-cbdrn","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:44:14Z","event_type":"closed","id":290,"issue_id":"hq-wisp-4xp5u","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:44:16Z","event_type":"closed","id":291,"issue_id":"hq-wisp-dvw7i","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:44:17Z","event_type":"closed","id":292,"issue_id":"hq-wisp-immm6","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:44:19Z","event_type":"closed","id":293,"issue_id":"hq-wisp-niu3d","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:44:20Z","event_type":"closed","id":294,"issue_id":"hq-wisp-eu4or","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:44:21Z","event_type":"closed","id":295,"issue_id":"hq-wisp-jh0qd","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:44:23Z","event_type":"closed","id":296,"issue_id":"hq-wisp-3mmmh","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:44:24Z","event_type":"closed","id":297,"issue_id":"hq-wisp-ptwmx","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:44:25Z","event_type":"closed","id":298,"issue_id":"hq-wisp-12koy","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:44:27Z","event_type":"closed","id":299,"issue_id":"hq-wisp-sgony","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:44:28Z","event_type":"closed","id":300,"issue_id":"hq-wisp-udgk7","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:44:30Z","event_type":"closed","id":301,"issue_id":"hq-wisp-b0ho2","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:44:31Z","event_type":"closed","id":302,"issue_id":"hq-wisp-ql3md","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:44:33Z","event_type":"closed","id":303,"issue_id":"hq-wisp-4e678","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:44:35Z","event_type":"closed","id":304,"issue_id":"hq-wisp-vnbe4","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:44:36Z","event_type":"closed","id":305,"issue_id":"hq-wisp-ubslx","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:44:38Z","event_type":"closed","id":306,"issue_id":"hq-wisp-vh9d1","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:44:39Z","event_type":"closed","id":307,"issue_id":"hq-wisp-bhq5t","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:44:41Z","event_type":"closed","id":308,"issue_id":"hq-wisp-rdo9u","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:44:43Z","event_type":"closed","id":309,"issue_id":"hq-wisp-k0wp9","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:44:44Z","event_type":"closed","id":310,"issue_id":"hq-wisp-ye2rw","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:44:46Z","event_type":"closed","id":311,"issue_id":"hq-wisp-05f2i","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:44:53Z","event_type":"closed","id":312,"issue_id":"hq-wisp-dnw9o","new_value":"looping, patrol_count=12","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:44:54Z","event_type":"closed","id":313,"issue_id":"hq-wisp-b9bew","new_value":"all steps complete","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:45:10Z","event_type":"closed","id":314,"issue_id":"hq-wisp-gcqdn","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:45:11Z","event_type":"closed","id":315,"issue_id":"hq-wisp-jyi3m","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:45:13Z","event_type":"closed","id":316,"issue_id":"hq-wisp-6mjgf","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:45:14Z","event_type":"closed","id":317,"issue_id":"hq-wisp-34j33","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:45:16Z","event_type":"closed","id":318,"issue_id":"hq-wisp-ea0g7","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:45:17Z","event_type":"closed","id":319,"issue_id":"hq-wisp-cgmtx","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:45:19Z","event_type":"closed","id":320,"issue_id":"hq-wisp-3zduz","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:45:20Z","event_type":"closed","id":321,"issue_id":"hq-wisp-v0642","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:45:22Z","event_type":"closed","id":322,"issue_id":"hq-wisp-e82cs","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:45:23Z","event_type":"closed","id":323,"issue_id":"hq-wisp-tgaew","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:45:24Z","event_type":"closed","id":324,"issue_id":"hq-wisp-g1708","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:45:26Z","event_type":"closed","id":325,"issue_id":"hq-wisp-w06n9","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:45:27Z","event_type":"closed","id":326,"issue_id":"hq-wisp-687t7","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:45:29Z","event_type":"closed","id":327,"issue_id":"hq-wisp-w9lp1","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:45:30Z","event_type":"closed","id":328,"issue_id":"hq-wisp-lkkpu","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:45:32Z","event_type":"closed","id":329,"issue_id":"hq-wisp-vi4ub","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:45:33Z","event_type":"closed","id":330,"issue_id":"hq-wisp-4xitv","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:45:35Z","event_type":"closed","id":331,"issue_id":"hq-wisp-oj420","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:45:36Z","event_type":"closed","id":332,"issue_id":"hq-wisp-ngczc","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:45:38Z","event_type":"closed","id":333,"issue_id":"hq-wisp-c5ehk","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:45:39Z","event_type":"closed","id":334,"issue_id":"hq-wisp-eng13","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:45:41Z","event_type":"closed","id":335,"issue_id":"hq-wisp-lr35v","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:45:42Z","event_type":"closed","id":336,"issue_id":"hq-wisp-9uz5d","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:45:44Z","event_type":"closed","id":337,"issue_id":"hq-wisp-dw2wp","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:45:51Z","event_type":"closed","id":338,"issue_id":"hq-wisp-rddgg","new_value":"looping, patrol_count=13","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:45:53Z","event_type":"closed","id":339,"issue_id":"hq-wisp-x9xkz","new_value":"all steps complete","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:46:11Z","event_type":"closed","id":340,"issue_id":"hq-wisp-6gkm4","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:46:12Z","event_type":"closed","id":341,"issue_id":"hq-wisp-3qs34","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:46:14Z","event_type":"closed","id":342,"issue_id":"hq-wisp-4z27t","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:46:15Z","event_type":"closed","id":343,"issue_id":"hq-wisp-dmnwo","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:46:17Z","event_type":"closed","id":344,"issue_id":"hq-wisp-1sp6v","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:46:18Z","event_type":"closed","id":345,"issue_id":"hq-wisp-bg0t2","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:46:20Z","event_type":"closed","id":346,"issue_id":"hq-wisp-1q4eq","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:46:22Z","event_type":"closed","id":347,"issue_id":"hq-wisp-u462l","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:46:23Z","event_type":"closed","id":348,"issue_id":"hq-wisp-5tyg1","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:46:25Z","event_type":"closed","id":349,"issue_id":"hq-wisp-pj4wp","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:46:26Z","event_type":"closed","id":350,"issue_id":"hq-wisp-mwrgg","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:46:28Z","event_type":"closed","id":351,"issue_id":"hq-wisp-l935b","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:46:29Z","event_type":"closed","id":352,"issue_id":"hq-wisp-j81nh","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:46:31Z","event_type":"closed","id":353,"issue_id":"hq-wisp-mg7oy","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:46:33Z","event_type":"closed","id":354,"issue_id":"hq-wisp-rin3v","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:46:34Z","event_type":"closed","id":355,"issue_id":"hq-wisp-vw47p","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:46:36Z","event_type":"closed","id":356,"issue_id":"hq-wisp-evsm8","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:46:37Z","event_type":"closed","id":357,"issue_id":"hq-wisp-bfwds","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:46:39Z","event_type":"closed","id":358,"issue_id":"hq-wisp-hu2x6","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:46:40Z","event_type":"closed","id":359,"issue_id":"hq-wisp-ou16c","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:46:42Z","event_type":"closed","id":360,"issue_id":"hq-wisp-23aei","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:46:44Z","event_type":"closed","id":361,"issue_id":"hq-wisp-lbl5w","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:46:45Z","event_type":"closed","id":362,"issue_id":"hq-wisp-w97ap","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:46:47Z","event_type":"closed","id":363,"issue_id":"hq-wisp-k7wa3","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:46:57Z","event_type":"closed","id":364,"issue_id":"hq-wisp-ucx7m","new_value":"looping, patrol_count=14","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:46:58Z","event_type":"closed","id":365,"issue_id":"hq-wisp-89ylt","new_value":"all steps complete","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:47:14Z","event_type":"closed","id":366,"issue_id":"hq-wisp-zk7db","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:47:16Z","event_type":"closed","id":367,"issue_id":"hq-wisp-lyoku","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:47:18Z","event_type":"closed","id":368,"issue_id":"hq-wisp-tr7yq","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:47:19Z","event_type":"closed","id":369,"issue_id":"hq-wisp-d5sne","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:47:21Z","event_type":"closed","id":370,"issue_id":"hq-wisp-nk1pb","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:47:23Z","event_type":"closed","id":371,"issue_id":"hq-wisp-1v0m8","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:47:24Z","event_type":"closed","id":372,"issue_id":"hq-wisp-insrs","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:47:26Z","event_type":"closed","id":373,"issue_id":"hq-wisp-cngw9","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:47:28Z","event_type":"closed","id":374,"issue_id":"hq-wisp-wytmw","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:47:29Z","event_type":"closed","id":375,"issue_id":"hq-wisp-64lnr","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:47:31Z","event_type":"closed","id":376,"issue_id":"hq-wisp-y7jyx","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:47:33Z","event_type":"closed","id":377,"issue_id":"hq-wisp-xxufv","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:47:34Z","event_type":"closed","id":378,"issue_id":"hq-wisp-y6unw","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:47:36Z","event_type":"closed","id":379,"issue_id":"hq-wisp-lfli9","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:47:38Z","event_type":"closed","id":380,"issue_id":"hq-wisp-q1z23","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:47:39Z","event_type":"closed","id":381,"issue_id":"hq-wisp-g0gia","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:47:41Z","event_type":"closed","id":382,"issue_id":"hq-wisp-xmawo","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:47:43Z","event_type":"closed","id":383,"issue_id":"hq-wisp-008xd","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:47:45Z","event_type":"closed","id":384,"issue_id":"hq-wisp-cshq0","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:47:47Z","event_type":"closed","id":385,"issue_id":"hq-wisp-hehea","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:47:49Z","event_type":"closed","id":386,"issue_id":"hq-wisp-7f89h","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:47:51Z","event_type":"closed","id":387,"issue_id":"hq-wisp-9d33o","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:47:53Z","event_type":"closed","id":388,"issue_id":"hq-wisp-tk85p","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:47:54Z","event_type":"closed","id":389,"issue_id":"hq-wisp-esok0","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:48:01Z","event_type":"closed","id":390,"issue_id":"hq-wisp-and8b","new_value":"looping, patrol_count=15","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:48:03Z","event_type":"closed","id":391,"issue_id":"hq-wisp-7kiyp","new_value":"all steps complete","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:48:19Z","event_type":"closed","id":392,"issue_id":"hq-wisp-q0r70","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:48:21Z","event_type":"closed","id":393,"issue_id":"hq-wisp-7ny4q","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:48:23Z","event_type":"closed","id":394,"issue_id":"hq-wisp-u67h4","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:48:24Z","event_type":"closed","id":395,"issue_id":"hq-wisp-4d7ra","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:48:27Z","event_type":"closed","id":396,"issue_id":"hq-wisp-fjmif","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:48:29Z","event_type":"closed","id":397,"issue_id":"hq-wisp-bplmo","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:48:30Z","event_type":"closed","id":398,"issue_id":"hq-wisp-6mrso","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:48:32Z","event_type":"closed","id":399,"issue_id":"hq-wisp-uwazd","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:48:34Z","event_type":"closed","id":400,"issue_id":"hq-wisp-dtk3e","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:48:36Z","event_type":"closed","id":401,"issue_id":"hq-wisp-azxlj","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:48:38Z","event_type":"closed","id":402,"issue_id":"hq-wisp-kwi6o","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:48:39Z","event_type":"closed","id":403,"issue_id":"hq-wisp-fw1d2","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:48:41Z","event_type":"closed","id":404,"issue_id":"hq-wisp-siil9","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:48:43Z","event_type":"closed","id":405,"issue_id":"hq-wisp-gvi6t","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:48:45Z","event_type":"closed","id":406,"issue_id":"hq-wisp-itiz4","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:48:47Z","event_type":"closed","id":407,"issue_id":"hq-wisp-oel1q","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:48:49Z","event_type":"closed","id":408,"issue_id":"hq-wisp-jq7la","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:48:50Z","event_type":"closed","id":409,"issue_id":"hq-wisp-k9wbj","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:48:52Z","event_type":"closed","id":410,"issue_id":"hq-wisp-yiqu3","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:48:54Z","event_type":"closed","id":411,"issue_id":"hq-wisp-aicvs","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:48:56Z","event_type":"closed","id":412,"issue_id":"hq-wisp-vtgeg","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:48:58Z","event_type":"closed","id":413,"issue_id":"hq-wisp-3gg1o","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:49:00Z","event_type":"closed","id":414,"issue_id":"hq-wisp-w8agw","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:49:01Z","event_type":"closed","id":415,"issue_id":"hq-wisp-lynhx","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:49:09Z","event_type":"closed","id":416,"issue_id":"hq-wisp-fvfic","new_value":"looping, patrol_count=16","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:49:11Z","event_type":"closed","id":417,"issue_id":"hq-wisp-ryhxb","new_value":"all steps complete","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:49:27Z","event_type":"closed","id":418,"issue_id":"hq-wisp-zp5ye","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:49:29Z","event_type":"closed","id":419,"issue_id":"hq-wisp-5fmeq","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:49:31Z","event_type":"closed","id":420,"issue_id":"hq-wisp-n6k60","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:49:33Z","event_type":"closed","id":421,"issue_id":"hq-wisp-dz34l","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:49:35Z","event_type":"closed","id":422,"issue_id":"hq-wisp-6ehfb","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:49:37Z","event_type":"closed","id":423,"issue_id":"hq-wisp-3zgyz","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:49:38Z","event_type":"closed","id":424,"issue_id":"hq-wisp-9lzrb","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:49:40Z","event_type":"closed","id":425,"issue_id":"hq-wisp-rarfc","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:49:42Z","event_type":"closed","id":426,"issue_id":"hq-wisp-jvfvs","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:49:44Z","event_type":"closed","id":427,"issue_id":"hq-wisp-wh7by","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:49:46Z","event_type":"closed","id":428,"issue_id":"hq-wisp-zqba5","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:49:48Z","event_type":"closed","id":429,"issue_id":"hq-wisp-omlaq","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:49:50Z","event_type":"closed","id":430,"issue_id":"hq-wisp-9zd2a","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:49:52Z","event_type":"closed","id":431,"issue_id":"hq-wisp-6fxa5","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:49:53Z","event_type":"closed","id":432,"issue_id":"hq-wisp-z9ygw","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:49:55Z","event_type":"closed","id":433,"issue_id":"hq-wisp-x0mia","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:49:57Z","event_type":"closed","id":434,"issue_id":"hq-wisp-77ubh","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:49:59Z","event_type":"closed","id":435,"issue_id":"hq-wisp-t0zk7","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:50:01Z","event_type":"closed","id":436,"issue_id":"hq-wisp-hc2mi","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:50:03Z","event_type":"closed","id":437,"issue_id":"hq-wisp-0vujz","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:50:04Z","event_type":"closed","id":438,"issue_id":"hq-wisp-a91fl","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:50:06Z","event_type":"closed","id":439,"issue_id":"hq-wisp-6vty5","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:50:08Z","event_type":"closed","id":440,"issue_id":"hq-wisp-ejqdt","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:50:10Z","event_type":"closed","id":441,"issue_id":"hq-wisp-bk314","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:50:18Z","event_type":"closed","id":442,"issue_id":"hq-wisp-gujbu","new_value":"looping, patrol_count=17","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:50:20Z","event_type":"closed","id":443,"issue_id":"hq-wisp-8tghj","new_value":"all steps complete","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:50:38Z","event_type":"closed","id":444,"issue_id":"hq-wisp-gy5h8","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:50:40Z","event_type":"closed","id":445,"issue_id":"hq-wisp-11wpv","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:50:42Z","event_type":"closed","id":446,"issue_id":"hq-wisp-s467c","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:50:44Z","event_type":"closed","id":447,"issue_id":"hq-wisp-wbq5r","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:50:46Z","event_type":"closed","id":448,"issue_id":"hq-wisp-tvojv","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:50:48Z","event_type":"closed","id":449,"issue_id":"hq-wisp-nqx71","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:50:50Z","event_type":"closed","id":450,"issue_id":"hq-wisp-jxan7","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:50:52Z","event_type":"closed","id":451,"issue_id":"hq-wisp-2pb1j","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:50:54Z","event_type":"closed","id":452,"issue_id":"hq-wisp-ho0um","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:50:56Z","event_type":"closed","id":453,"issue_id":"hq-wisp-9sv29","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:50:58Z","event_type":"closed","id":454,"issue_id":"hq-wisp-p4tij","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:51:00Z","event_type":"closed","id":455,"issue_id":"hq-wisp-jpzkj","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:51:02Z","event_type":"closed","id":456,"issue_id":"hq-wisp-q507g","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:51:05Z","event_type":"closed","id":457,"issue_id":"hq-wisp-1q4x9","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:51:07Z","event_type":"closed","id":458,"issue_id":"hq-wisp-3og5n","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:51:09Z","event_type":"closed","id":459,"issue_id":"hq-wisp-4bnht","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:51:11Z","event_type":"closed","id":460,"issue_id":"hq-wisp-zl4mf","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:51:13Z","event_type":"closed","id":461,"issue_id":"hq-wisp-fxw7k","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:51:15Z","event_type":"closed","id":462,"issue_id":"hq-wisp-054fp","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:51:17Z","event_type":"closed","id":463,"issue_id":"hq-wisp-f7v5t","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:51:19Z","event_type":"closed","id":464,"issue_id":"hq-wisp-eykk0","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:51:21Z","event_type":"closed","id":465,"issue_id":"hq-wisp-kvbxl","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:51:23Z","event_type":"closed","id":466,"issue_id":"hq-wisp-vwb2f","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:51:25Z","event_type":"closed","id":467,"issue_id":"hq-wisp-doixf","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:51:32Z","event_type":"closed","id":468,"issue_id":"hq-wisp-wvgws","new_value":"looping, patrol_count=18","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:51:34Z","event_type":"closed","id":469,"issue_id":"hq-wisp-0u2gk","new_value":"all steps complete","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:51:53Z","event_type":"closed","id":470,"issue_id":"hq-wisp-onh9x","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:51:55Z","event_type":"closed","id":471,"issue_id":"hq-wisp-vl19q","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:51:57Z","event_type":"closed","id":472,"issue_id":"hq-wisp-zwm59","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:51:59Z","event_type":"closed","id":473,"issue_id":"hq-wisp-7tec9","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:52:01Z","event_type":"closed","id":474,"issue_id":"hq-wisp-mckid","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:52:03Z","event_type":"closed","id":475,"issue_id":"hq-wisp-n2qhv","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:52:05Z","event_type":"closed","id":476,"issue_id":"hq-wisp-d8x4q","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:52:07Z","event_type":"closed","id":477,"issue_id":"hq-wisp-ayap8","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:52:09Z","event_type":"closed","id":478,"issue_id":"hq-wisp-9e0ed","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:52:11Z","event_type":"closed","id":479,"issue_id":"hq-wisp-r1d9x","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:52:13Z","event_type":"closed","id":480,"issue_id":"hq-wisp-9ldu5","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:52:15Z","event_type":"closed","id":481,"issue_id":"hq-wisp-6ou2s","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:52:17Z","event_type":"closed","id":482,"issue_id":"hq-wisp-0rpa0","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:52:19Z","event_type":"closed","id":483,"issue_id":"hq-wisp-a3a65","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:52:21Z","event_type":"closed","id":484,"issue_id":"hq-wisp-rorg5","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:52:23Z","event_type":"closed","id":485,"issue_id":"hq-wisp-rsy8n","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:52:25Z","event_type":"closed","id":486,"issue_id":"hq-wisp-mw4qx","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:52:27Z","event_type":"closed","id":487,"issue_id":"hq-wisp-bijco","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:52:29Z","event_type":"closed","id":488,"issue_id":"hq-wisp-yeufj","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:52:31Z","event_type":"closed","id":489,"issue_id":"hq-wisp-8wffo","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:52:33Z","event_type":"closed","id":490,"issue_id":"hq-wisp-4qa58","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:52:35Z","event_type":"closed","id":491,"issue_id":"hq-wisp-ag93k","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:52:37Z","event_type":"closed","id":492,"issue_id":"hq-wisp-4pmth","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:52:39Z","event_type":"closed","id":493,"issue_id":"hq-wisp-kn8bh","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:52:46Z","event_type":"closed","id":494,"issue_id":"hq-wisp-awbe9","new_value":"looping, patrol_count=19","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:52:48Z","event_type":"closed","id":495,"issue_id":"hq-wisp-xri2p","new_value":"all steps complete","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:53:07Z","event_type":"closed","id":496,"issue_id":"hq-wisp-rrexq","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:53:09Z","event_type":"closed","id":497,"issue_id":"hq-wisp-ic2p5","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:53:11Z","event_type":"closed","id":498,"issue_id":"hq-wisp-ut1x1","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:53:13Z","event_type":"closed","id":499,"issue_id":"hq-wisp-7lu4r","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:53:15Z","event_type":"closed","id":500,"issue_id":"hq-wisp-pclai","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:53:17Z","event_type":"closed","id":501,"issue_id":"hq-wisp-pcqj6","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:53:19Z","event_type":"closed","id":502,"issue_id":"hq-wisp-ousoy","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:53:21Z","event_type":"closed","id":503,"issue_id":"hq-wisp-60u0b","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:53:23Z","event_type":"closed","id":504,"issue_id":"hq-wisp-505zv","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:53:25Z","event_type":"closed","id":505,"issue_id":"hq-wisp-keoci","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:53:27Z","event_type":"closed","id":506,"issue_id":"hq-wisp-sey1t","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:53:29Z","event_type":"closed","id":507,"issue_id":"hq-wisp-40azi","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:53:31Z","event_type":"closed","id":508,"issue_id":"hq-wisp-kq8j2","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:53:34Z","event_type":"closed","id":509,"issue_id":"hq-wisp-1ih9o","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:53:36Z","event_type":"closed","id":510,"issue_id":"hq-wisp-jjroa","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:53:38Z","event_type":"closed","id":511,"issue_id":"hq-wisp-8codv","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:53:40Z","event_type":"closed","id":512,"issue_id":"hq-wisp-tw8t9","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:53:42Z","event_type":"closed","id":513,"issue_id":"hq-wisp-e5shw","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:53:44Z","event_type":"closed","id":514,"issue_id":"hq-wisp-1mhfv","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:53:46Z","event_type":"closed","id":515,"issue_id":"hq-wisp-lh22q","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:53:48Z","event_type":"closed","id":516,"issue_id":"hq-wisp-z3sym","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:53:50Z","event_type":"closed","id":517,"issue_id":"hq-wisp-j3nnu","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:53:52Z","event_type":"closed","id":518,"issue_id":"hq-wisp-0f2vt","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:53:54Z","event_type":"closed","id":519,"issue_id":"hq-wisp-k8d8i","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:54:02Z","event_type":"closed","id":520,"issue_id":"hq-wisp-7yi19","new_value":"handoff threshold reached, patrol_count=20","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:54:06Z","event_type":"closed","id":521,"issue_id":"hq-wisp-t15ng","new_value":"all steps complete","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:56:30Z","event_type":"closed","id":522,"issue_id":"hq-wisp-3wgxp","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-01T23:56:43Z","event_type":"closed","id":523,"issue_id":"hq-wisp-9fs9e","new_value":"Closed","old_value":""}
