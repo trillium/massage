@@ -52,11 +52,17 @@
 {"actor":"deacon","comment":"","created_at":"2026-03-01T23:34:33Z","event_type":"closed","id":26,"issue_id":"hq-wisp-3m0n","new_value":"looping, patrol_count=1, no extraordinary action","old_value":""}
 {"actor":"deacon/","comment":"Added label: gt:message","created_at":"2026-03-02T01:29:13Z","event_type":"label_added","id":27,"issue_id":"hq-6ll","new_value":null,"old_value":null}
 {"actor":"deacon","comment":"","created_at":"2026-03-01T23:34:34Z","event_type":"closed","id":27,"issue_id":"hq-wisp-1gt6","new_value":"all steps complete","old_value":""}
+{"actor":"deacon","comment":null,"created_at":"2026-03-02T01:29:13Z","event_type":"status_changed","id":28,"issue_id":"hq-6ll","new_value":"{\"assignee\":\"deacon/\",\"status\":\"hooked\"}","old_value":"{\"id\":\"hq-6ll\",\"title\":\"🤝 HANDOFF: Routine cycle\",\"description\":\"Completed 20 patrols, no incidents. Bare infrastructure: no rigs, no plugins, no dogs. All 500 patrol steps (25x20) passed clean. No mail received, no extraordinary actions.\",\"status\":\"open\",\"priority\":1,\"issue_type\":\"task\",\"assignee\":\"deacon/\",\"owner\":\"trillium@trilliumsmith.com\",\"created_at\":\"2026-03-02T09:29:13Z\",\"created_by\":\"deacon/\",\"updated_at\":\"2026-03-02T09:29:13Z\"}"}
 {"actor":"deacon","comment":"","created_at":"2026-03-01T23:35:04Z","event_type":"closed","id":28,"issue_id":"hq-wisp-6n2p","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"deacon","comment":null,"created_at":"2026-03-02T01:30:48Z","event_type":"closed","id":29,"issue_id":"hq-6ll","new_value":"Closed","old_value":""}
 {"actor":"deacon","comment":"","created_at":"2026-03-01T23:35:05Z","event_type":"closed","id":29,"issue_id":"hq-wisp-cihy","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"massage/witness","comment":null,"created_at":"2026-03-02T01:42:43Z","event_type":"created","id":30,"issue_id":"hq-qdj","new_value":"","old_value":""}
 {"actor":"deacon","comment":"","created_at":"2026-03-01T23:35:06Z","event_type":"closed","id":30,"issue_id":"hq-wisp-g8q9","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"massage/witness","comment":"Added label: from:massage/witness","created_at":"2026-03-02T01:42:43Z","event_type":"label_added","id":31,"issue_id":"hq-qdj","new_value":null,"old_value":null}
 {"actor":"deacon","comment":"","created_at":"2026-03-01T23:35:07Z","event_type":"closed","id":31,"issue_id":"hq-wisp-0bv7","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"massage/witness","comment":"Added label: gt:message","created_at":"2026-03-02T01:42:43Z","event_type":"label_added","id":32,"issue_id":"hq-qdj","new_value":null,"old_value":null}
 {"actor":"deacon","comment":"","created_at":"2026-03-01T23:35:08Z","event_type":"closed","id":32,"issue_id":"hq-wisp-1ot5","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"massage/witness","comment":null,"created_at":"2026-03-02T01:42:43Z","event_type":"status_changed","id":33,"issue_id":"hq-qdj","new_value":"{\"assignee\":\"massage/witness\",\"status\":\"hooked\"}","old_value":"{\"id\":\"hq-qdj\",\"title\":\"🤝 HANDOFF: Witness cycle\",\"description\":\"Completed 15 patrols, no incidents. Rig idle entire session — no polecats, no mail. Deacon and refinery healthy throughout.\",\"status\":\"open\",\"priority\":1,\"issue_type\":\"task\",\"assignee\":\"massage/witness\",\"owner\":\"trillium@trilliumsmith.com\",\"created_at\":\"2026-03-02T09:42:43Z\",\"created_by\":\"massage/witness\",\"updated_at\":\"2026-03-02T09:42:43Z\"}"}
 {"actor":"deacon","comment":"","created_at":"2026-03-01T23:35:09Z","event_type":"closed","id":33,"issue_id":"hq-wisp-q428","new_value":"bare infrastructure, all clean","old_value":""}
 {"actor":"deacon","comment":"","created_at":"2026-03-01T23:35:09Z","event_type":"closed","id":34,"issue_id":"hq-wisp-aqx9","new_value":"bare infrastructure, all clean","old_value":""}
 {"actor":"deacon","comment":"","created_at":"2026-03-01T23:35:10Z","event_type":"closed","id":35,"issue_id":"hq-wisp-fot0","new_value":"bare infrastructure, all clean","old_value":""}
@@ -1066,3 +1072,111 @@
 {"actor":"deacon","comment":"","created_at":"2026-03-02T00:32:51Z","event_type":"closed","id":1039,"issue_id":"hq-wisp-ykftn3","new_value":"Closed","old_value":""}
 {"actor":"deacon","comment":"","created_at":"2026-03-02T00:32:55Z","event_type":"closed","id":1040,"issue_id":"hq-wisp-zo1lho","new_value":"Closed","old_value":""}
 {"actor":"deacon","comment":"","created_at":"2026-03-02T00:32:59Z","event_type":"closed","id":1041,"issue_id":"hq-wisp-cnp02g","new_value":"all steps complete","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:31:43Z","event_type":"closed","id":1562,"issue_id":"hq-wisp-b9b88m","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:31:56Z","event_type":"closed","id":1563,"issue_id":"hq-wisp-k8mkfc","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:32:57Z","event_type":"closed","id":1564,"issue_id":"hq-wisp-haq040","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:33:23Z","event_type":"closed","id":1565,"issue_id":"hq-wisp-3y1qrl","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:33:34Z","event_type":"closed","id":1566,"issue_id":"hq-wisp-cma6ps","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:33:38Z","event_type":"closed","id":1567,"issue_id":"hq-wisp-rrtxth","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:33:50Z","event_type":"closed","id":1568,"issue_id":"hq-wisp-z4615n","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:33:53Z","event_type":"closed","id":1569,"issue_id":"hq-wisp-ylmsnx","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:33:57Z","event_type":"closed","id":1570,"issue_id":"hq-wisp-hjo8pw","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:34:10Z","event_type":"closed","id":1571,"issue_id":"hq-wisp-4g3pqa","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:34:23Z","event_type":"closed","id":1572,"issue_id":"hq-wisp-hlpmsx","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:34:27Z","event_type":"closed","id":1573,"issue_id":"hq-wisp-3x8xwa","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:34:31Z","event_type":"closed","id":1574,"issue_id":"hq-wisp-pq47nv","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:34:43Z","event_type":"closed","id":1575,"issue_id":"hq-wisp-6di3q4","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:34:47Z","event_type":"closed","id":1576,"issue_id":"hq-wisp-ms0c64","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:34:51Z","event_type":"closed","id":1577,"issue_id":"hq-wisp-b4u80b","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:34:55Z","event_type":"closed","id":1578,"issue_id":"hq-wisp-tywl7c","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:35:07Z","event_type":"closed","id":1579,"issue_id":"hq-wisp-sn7kbc","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:35:11Z","event_type":"closed","id":1580,"issue_id":"hq-wisp-qgf48n","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:35:15Z","event_type":"closed","id":1581,"issue_id":"hq-wisp-d75iik","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:35:19Z","event_type":"closed","id":1582,"issue_id":"hq-wisp-saly3l","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:35:38Z","event_type":"closed","id":1583,"issue_id":"hq-wisp-m85sdu","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:35:54Z","event_type":"closed","id":1584,"issue_id":"hq-wisp-17xgey","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:36:04Z","event_type":"closed","id":1585,"issue_id":"hq-wisp-1bgadl","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:36:19Z","event_type":"closed","id":1586,"issue_id":"hq-wisp-sg0f0h","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:36:22Z","event_type":"closed","id":1587,"issue_id":"hq-wisp-0anm3a","new_value":"all steps complete","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:36:34Z","event_type":"closed","id":1588,"issue_id":"hq-wisp-wdf366","new_value":"patrol cycle complete: Cycle 1: 25/25 clean. No rigs, no dogs, no gates. Noted dolt.log 335MB.","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:37:01Z","event_type":"closed","id":1589,"issue_id":"hq-wisp-99emcx","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:37:05Z","event_type":"closed","id":1590,"issue_id":"hq-wisp-3yom9q","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:37:09Z","event_type":"closed","id":1591,"issue_id":"hq-wisp-8ans4o","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:37:14Z","event_type":"closed","id":1592,"issue_id":"hq-wisp-5xdhng","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:37:18Z","event_type":"closed","id":1593,"issue_id":"hq-wisp-prgsx3","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:37:22Z","event_type":"closed","id":1594,"issue_id":"hq-wisp-4z8lao","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:37:25Z","event_type":"closed","id":1595,"issue_id":"hq-wisp-vd76n0","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:37:29Z","event_type":"closed","id":1596,"issue_id":"hq-wisp-ubwohb","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:37:34Z","event_type":"closed","id":1597,"issue_id":"hq-wisp-g0sa5y","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:37:47Z","event_type":"closed","id":1598,"issue_id":"hq-wisp-5a08em","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:37:51Z","event_type":"closed","id":1599,"issue_id":"hq-wisp-s50qpb","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:37:54Z","event_type":"closed","id":1600,"issue_id":"hq-wisp-ux7sw3","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:37:58Z","event_type":"closed","id":1601,"issue_id":"hq-wisp-9uhlat","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:38:02Z","event_type":"closed","id":1602,"issue_id":"hq-wisp-koo8ek","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:38:06Z","event_type":"closed","id":1603,"issue_id":"hq-wisp-f0fyei","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:38:10Z","event_type":"closed","id":1604,"issue_id":"hq-wisp-49sxvq","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:38:14Z","event_type":"closed","id":1605,"issue_id":"hq-wisp-k6dtrj","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:38:18Z","event_type":"closed","id":1606,"issue_id":"hq-wisp-q7ooyy","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:38:22Z","event_type":"closed","id":1607,"issue_id":"hq-wisp-hn7lj6","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:38:26Z","event_type":"closed","id":1608,"issue_id":"hq-wisp-yq3svn","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:38:30Z","event_type":"closed","id":1609,"issue_id":"hq-wisp-nwh4ui","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:38:35Z","event_type":"closed","id":1610,"issue_id":"hq-wisp-4sld3l","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:38:45Z","event_type":"closed","id":1611,"issue_id":"hq-wisp-otpbiv","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:38:49Z","event_type":"closed","id":1612,"issue_id":"hq-wisp-h0piga","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:39:05Z","event_type":"closed","id":1613,"issue_id":"hq-wisp-9h288s","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:39:09Z","event_type":"closed","id":1614,"issue_id":"hq-wisp-2qiwrg","new_value":"all steps complete","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:39:14Z","event_type":"closed","id":1615,"issue_id":"hq-wisp-ltiuih","new_value":"patrol cycle complete: Cycle 2: 25/25 clean. Bare infrastructure, no incidents.","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:39:44Z","event_type":"closed","id":1616,"issue_id":"hq-wisp-14quvn","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:39:48Z","event_type":"closed","id":1617,"issue_id":"hq-wisp-2lbuuk","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:39:52Z","event_type":"closed","id":1618,"issue_id":"hq-wisp-2mv82b","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:39:56Z","event_type":"closed","id":1619,"issue_id":"hq-wisp-45dn75","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:40:00Z","event_type":"closed","id":1620,"issue_id":"hq-wisp-6u7z3s","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:40:04Z","event_type":"closed","id":1621,"issue_id":"hq-wisp-7o38fj","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:40:08Z","event_type":"closed","id":1622,"issue_id":"hq-wisp-90kcwp","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:40:12Z","event_type":"closed","id":1623,"issue_id":"hq-wisp-bhmdk8","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:40:16Z","event_type":"closed","id":1624,"issue_id":"hq-wisp-hatvdy","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:40:20Z","event_type":"closed","id":1625,"issue_id":"hq-wisp-iupkz0","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:40:24Z","event_type":"closed","id":1626,"issue_id":"hq-wisp-jxpszy","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:40:28Z","event_type":"closed","id":1627,"issue_id":"hq-wisp-k5s0cw","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:40:32Z","event_type":"closed","id":1628,"issue_id":"hq-wisp-k7m7dv","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:40:36Z","event_type":"closed","id":1629,"issue_id":"hq-wisp-kdtf32","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:40:40Z","event_type":"closed","id":1630,"issue_id":"hq-wisp-kpdd1a","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:40:44Z","event_type":"closed","id":1631,"issue_id":"hq-wisp-m9mkhj","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:40:48Z","event_type":"closed","id":1632,"issue_id":"hq-wisp-mhgqwv","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:40:52Z","event_type":"closed","id":1633,"issue_id":"hq-wisp-nbo3po","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:40:56Z","event_type":"closed","id":1634,"issue_id":"hq-wisp-o3nsz4","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:41:00Z","event_type":"closed","id":1635,"issue_id":"hq-wisp-oillux","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:41:04Z","event_type":"closed","id":1636,"issue_id":"hq-wisp-q8uk98","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:41:08Z","event_type":"closed","id":1637,"issue_id":"hq-wisp-qhnjva","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:41:12Z","event_type":"closed","id":1638,"issue_id":"hq-wisp-sjk1cb","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:41:16Z","event_type":"closed","id":1639,"issue_id":"hq-wisp-wsw7oa","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:41:20Z","event_type":"closed","id":1640,"issue_id":"hq-wisp-zol728","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:41:24Z","event_type":"closed","id":1641,"issue_id":"hq-wisp-ld8lqd","new_value":"all steps complete","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:41:43Z","event_type":"closed","id":1642,"issue_id":"hq-wisp-83csmg","new_value":"patrol cycle complete: Cycle 3: 25/25 clean. Bare infrastructure, no incidents.","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:42:06Z","event_type":"closed","id":1643,"issue_id":"hq-wisp-0je8hu","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:42:11Z","event_type":"closed","id":1644,"issue_id":"hq-wisp-2la7lz","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:42:15Z","event_type":"closed","id":1645,"issue_id":"hq-wisp-3u52i1","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:42:19Z","event_type":"closed","id":1646,"issue_id":"hq-wisp-4o3u7m","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:42:23Z","event_type":"closed","id":1647,"issue_id":"hq-wisp-56osjk","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:42:27Z","event_type":"closed","id":1648,"issue_id":"hq-wisp-5eyneg","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:42:31Z","event_type":"closed","id":1649,"issue_id":"hq-wisp-5wtk7k","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:42:35Z","event_type":"closed","id":1650,"issue_id":"hq-wisp-80t3ja","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:42:40Z","event_type":"closed","id":1651,"issue_id":"hq-wisp-9jmu5n","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:42:44Z","event_type":"closed","id":1652,"issue_id":"hq-wisp-b1cljk","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:42:48Z","event_type":"closed","id":1653,"issue_id":"hq-wisp-bfjxrs","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:42:52Z","event_type":"closed","id":1654,"issue_id":"hq-wisp-cpw8yj","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:42:57Z","event_type":"closed","id":1655,"issue_id":"hq-wisp-dlo3xv","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:43:01Z","event_type":"closed","id":1656,"issue_id":"hq-wisp-f2q72t","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:43:05Z","event_type":"closed","id":1657,"issue_id":"hq-wisp-g4g3g6","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:43:10Z","event_type":"closed","id":1658,"issue_id":"hq-wisp-h3qa5u","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:43:14Z","event_type":"closed","id":1659,"issue_id":"hq-wisp-iflk6z","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:43:18Z","event_type":"closed","id":1660,"issue_id":"hq-wisp-ik0a6r","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:43:22Z","event_type":"closed","id":1661,"issue_id":"hq-wisp-ir1wuj","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:43:26Z","event_type":"closed","id":1662,"issue_id":"hq-wisp-j1yd6s","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:43:30Z","event_type":"closed","id":1663,"issue_id":"hq-wisp-ktquu4","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:43:35Z","event_type":"closed","id":1664,"issue_id":"hq-wisp-lj1vpk","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:43:39Z","event_type":"closed","id":1665,"issue_id":"hq-wisp-romzzs","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:43:43Z","event_type":"closed","id":1666,"issue_id":"hq-wisp-v7dqqo","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:43:47Z","event_type":"closed","id":1667,"issue_id":"hq-wisp-y7gita","new_value":"Closed","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:43:51Z","event_type":"closed","id":1668,"issue_id":"hq-wisp-rszvi1","new_value":"all steps complete","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T01:44:00Z","event_type":"closed","id":1669,"issue_id":"hq-wisp-jp7ism","new_value":"patrol cycle complete: Cycle 4: 25/25 clean. Bare infrastructure, no incidents.","old_value":""}
