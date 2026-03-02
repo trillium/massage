@@ -48,7 +48,12 @@ export const Gallery = ({ images, columns = 3 }: GalleryProps) => {
         ))}
       </div>
 
-      <Dialog open={selectedIndex !== null} onOpenChange={() => setSelectedIndex(null)} maxWidth="max-w-4xl" transparent>
+      <Dialog
+        open={selectedIndex !== null}
+        onOpenChange={() => setSelectedIndex(null)}
+        maxWidth="max-w-4xl"
+        transparent
+      >
         {selectedIndex !== null && (
           <div className="relative">
             <DialogCloseButton onClick={() => setSelectedIndex(null)} transparent />

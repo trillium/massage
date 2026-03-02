@@ -1,5 +1,10 @@
 import React, { Fragment } from 'react'
-import { Dialog as HeadlessDialog, DialogPanel, Transition, TransitionChild } from '@headlessui/react'
+import {
+  Dialog as HeadlessDialog,
+  DialogPanel,
+  Transition,
+  TransitionChild,
+} from '@headlessui/react'
 import { MdClose } from 'react-icons/md'
 
 interface DialogProps {
@@ -29,7 +34,13 @@ export const Dialog = ({
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className={transparent ? 'fixed inset-0 bg-black/50' : 'fixed inset-0 bg-black/80 transition-opacity'} />
+          <div
+            className={
+              transparent
+                ? 'fixed inset-0 bg-black/50'
+                : 'fixed inset-0 bg-black/80 transition-opacity'
+            }
+          />
         </TransitionChild>
 
         <div className="fixed inset-0 z-10 overflow-y-auto flex items-center justify-center p-4">
@@ -42,7 +53,9 @@ export const Dialog = ({
             leaveFrom="opacity-100 scale-100"
             leaveTo="opacity-0 scale-95"
           >
-            <DialogPanel className={`w-full ${maxWidth} ${transparent ? 'bg-transparent' : 'bg-white rounded-lg shadow-lg dark:bg-gray-900'}`}>
+            <DialogPanel
+              className={`w-full ${maxWidth} ${transparent ? 'bg-transparent' : 'bg-white rounded-lg shadow-lg dark:bg-gray-900'}`}
+            >
               {children}
             </DialogPanel>
           </TransitionChild>
@@ -61,7 +74,9 @@ export const DialogCloseButton = ({ onClick, transparent = false }: DialogCloseB
   <button
     onClick={onClick}
     className={`absolute -top-10 right-0 p-1 rounded-full transition-colors ${
-      transparent ? 'bg-white/10 hover:bg-white/20 text-white' : 'bg-gray-200 hover:bg-gray-300 text-gray-900 dark:bg-gray-700 dark:hover:bg-gray-600'
+      transparent
+        ? 'bg-white/10 hover:bg-white/20 text-white'
+        : 'bg-gray-200 hover:bg-gray-300 text-gray-900 dark:bg-gray-700 dark:hover:bg-gray-600'
     }`}
   >
     <MdClose className="w-5 h-5" />

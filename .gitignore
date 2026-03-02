@@ -98,3 +98,7 @@ playground/
 
 # Exploratory/playground code
 /playground
+
+# Dolt database files (added by bd init)
+.dolt/
+*.db

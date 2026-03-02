@@ -37,7 +37,10 @@ export function AboutLayout({
             {title} <GradientText classes="whitespace-nowrap">{titleGradient}</GradientText>
           </h2>
           {paragraphs.map((paragraph, idx) => (
-            <p key={idx} className={`text-lg text-gray-600 dark:text-gray-300 ${idx === 0 ? 'mt-4' : ''}`}>
+            <p
+              key={idx}
+              className={`text-lg text-gray-600 dark:text-gray-300 ${idx === 0 ? 'mt-4' : ''}`}
+            >
               {paragraph}
             </p>
           ))}
@@ -60,20 +63,18 @@ export default function AboutSection() {
       titleGradient="Trillium Massage"
       paragraphs={[
         'Trillium is a massage therapist with 10 years of experience. Working in the LA Metro Area, Trillium found success in specializing in In-Home mobile massage therapy, working solo and through platforms like Soothe and Zeel since 2016.',
-        (
-          <>
-            Combining relaxation and pain relief techniques, Trillium provides you with effective
-            massage therapy from the comfort of your own home. With more than 3,000 in-home massage
-            therapy sessions, Trillium has maintained a{' '}
-            <Link
-              className="text-primary-500 dark:text-primary-400 font-bold underline-offset-0 transition-transform duration-300 hover:scale-105 hover:underline"
-              href={'/reviews'}
-            >
-              4.9-star rating
-            </Link>
-            , reflecting the quality and care he puts into his work.
-          </>
-        ),
+        <>
+          Combining relaxation and pain relief techniques, Trillium provides you with effective
+          massage therapy from the comfort of your own home. With more than 3,000 in-home massage
+          therapy sessions, Trillium has maintained a{' '}
+          <Link
+            className="text-primary-500 dark:text-primary-400 font-bold underline-offset-0 transition-transform duration-300 hover:scale-105 hover:underline"
+            href={'/reviews'}
+          >
+            4.9-star rating
+          </Link>
+          , reflecting the quality and care he puts into his work.
+        </>,
       ]}
     />
   )

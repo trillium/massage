@@ -1,12 +1,7 @@
 'use client'
 
 import SectionContainer from '@/components/SectionContainer'
-import {
-  Disclosure,
-  DisclosureButton,
-  DisclosurePanel,
-  Transition,
-} from '@headlessui/react'
+import { Disclosure, DisclosureButton, DisclosurePanel, Transition } from '@headlessui/react'
 import { ChevronUpIcon } from '@heroicons/react/20/solid'
 import {
   FaCalendarCheck,
@@ -42,7 +37,13 @@ const firstDate = new Date(`${changelog[changelog.length - 1].date}-15`)
 const lastDate = new Date(`${changelog[0].date}-15`)
 const dateRange = `${firstDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })} \u2013 ${lastDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}`
 
-function ConnectedBlock({ highlights, categories }: { highlights: string[]; categories: ChangelogCategory[] }) {
+function ConnectedBlock({
+  highlights,
+  categories,
+}: {
+  highlights: string[]
+  categories: ChangelogCategory[]
+}) {
   return (
     <div>
       <div className="rounded-t-lg border border-primary-200 bg-primary-50/50 p-4 dark:border-primary-800 dark:bg-primary-950/20">
@@ -68,10 +69,7 @@ function ConnectedBlock({ highlights, categories }: { highlights: string[]; cate
           </h3>
           <ul className="space-y-1.5">
             {cat.items.map((item) => (
-              <li
-                key={item}
-                className="text-sm leading-relaxed text-gray-600 dark:text-gray-400"
-              >
+              <li key={item} className="text-sm leading-relaxed text-gray-600 dark:text-gray-400">
                 &bull; {item}
               </li>
             ))}
@@ -82,7 +80,13 @@ function ConnectedBlock({ highlights, categories }: { highlights: string[]; cate
   )
 }
 
-function QuarterSection({ quarter, defaultOpen }: { quarter: QuarterGroup; defaultOpen?: boolean }) {
+function QuarterSection({
+  quarter,
+  defaultOpen,
+}: {
+  quarter: QuarterGroup
+  defaultOpen?: boolean
+}) {
   return (
     <section id={quarter.label.replace(/\s/g, '-')}>
       <Disclosure as="div" defaultOpen={defaultOpen}>
@@ -92,9 +96,7 @@ function QuarterSection({ quarter, defaultOpen }: { quarter: QuarterGroup; defau
               <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
                 {quarter.label}
               </h2>
-              <span className="text-sm text-gray-500 dark:text-gray-400">
-                {quarter.dateRange}
-              </span>
+              <span className="text-sm text-gray-500 dark:text-gray-400">{quarter.dateRange}</span>
               <span className="text-xs text-gray-400 dark:text-gray-600">
                 {quarter.commitCount} commits
               </span>
@@ -141,10 +143,7 @@ function QuarterSection({ quarter, defaultOpen }: { quarter: QuarterGroup; defau
                     ))}
                   </div>
                 ) : (
-                  <ConnectedBlock
-                    highlights={quarter.highlights}
-                    categories={quarter.categories}
-                  />
+                  <ConnectedBlock highlights={quarter.highlights} categories={quarter.categories} />
                 )}
               </DisclosurePanel>
             </Transition>
