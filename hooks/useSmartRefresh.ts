@@ -1,54 +1,22 @@
 'use client'
 
 import { useCallback, useEffect, useRef } from 'react'
-import { useAppDispatch } from '@/redux/hooks'
-import { setSlots } from '@/redux/slices/availabilitySlice'
-import { createSlots } from '@/lib/availability/createSlots'
-import { LEAD_TIME } from 'config'
-import type { DayWithStartEnd, StringInterval } from '@/lib/types'
+import { useRouter } from 'next/navigation'
 
 const COOLDOWN_MS = 15_000
 const BACKGROUND_INTERVAL_MS = 30_000
 
-type SmartRefreshConfig = {
-  start: DayWithStartEnd
-  end: DayWithStartEnd
-  duration: number
-  leadTime?: number
-}
-
-async function fetchBusyTimes(): Promise<StringInterval[] | null> {
-  try {
-    const res = await fetch('/api/availability')
-    if (!res.ok) return null
-    const data: { busy: StringInterval[] } = await res.json()
-    return data.busy
-  } catch {
-    return null
-  }
-}
-
-export function useSmartRefresh({
-  start,
-  end,
-  duration,
-  leadTime = LEAD_TIME,
-}: SmartRefreshConfig) {
-  const dispatch = useAppDispatch()
-  const lastFetchRef = useRef<number>(0)
+export function useSmartRefresh() {
+  const router = useRouter()
+  const lastRefreshRef = useRef<number>(0)
   const intervalRef = useRef<ReturnType<typeof setInterval>>(undefined)
 
-  const refresh = useCallback(async () => {
+  const refresh = useCallback(() => {
     const now = Date.now()
-    if (now - lastFetchRef.current < COOLDOWN_MS) return
-    lastFetchRef.current = now
-
-    const busy = await fetchBusyTimes()
-    if (!busy) return
-
-    const newSlots = createSlots({ duration, leadTime, start, end, busy })
-    dispatch(setSlots(newSlots))
-  }, [dispatch, duration, leadTime, start, end])
+    if (now - lastRefreshRef.current < COOLDOWN_MS) return
+    lastRefreshRef.current = now
+    router.refresh()
+  }, [router])
 
   useEffect(() => {
     const onVisibilityChange = () => {

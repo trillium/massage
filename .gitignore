@@ -6,6 +6,9 @@ dead-code-report.md
 # worktrees (local agent worktrees)
 /worktrees
 
+# beads runtime
+.beads/
+
 # dependencies
 /node_modules
 /.pnp

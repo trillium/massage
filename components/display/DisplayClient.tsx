@@ -6,24 +6,16 @@ import DisplayTimeList from './DisplayTimeList'
 import BookingForm from '@/components/booking/BookingForm'
 import { useSmartRefresh } from 'hooks/useSmartRefresh'
 import { useSlotPresence } from 'hooks/useSlotPresence'
-import { useReduxAvailability } from '@/redux/hooks'
-import type { durationPropsType, DayWithStartEnd } from '@/lib/types'
+import type { durationPropsType } from '@/lib/types'
 
 type DisplayClientProps = {
   durationProps: durationPropsType
-  start: DayWithStartEnd
-  end: DayWithStartEnd
 }
 
-export default function DisplayClient({ durationProps, start, end }: DisplayClientProps) {
-  const { duration } = useReduxAvailability()
+export default function DisplayClient({ durationProps }: DisplayClientProps) {
   const { presenceCounts, trackSlot } = useSlotPresence('display-event')
 
-  useSmartRefresh({
-    start,
-    end,
-    duration: duration || durationProps.duration,
-  })
+  useSmartRefresh()
 
   return (
     <div className="flex flex-col space-y-8">
