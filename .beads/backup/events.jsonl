@@ -630,25 +630,45 @@
 {"actor":"Trillium Smith","comment":"","created_at":"2026-03-01T10:55:14Z","event_type":"created","id":423,"issue_id":"hq-pyd9","new_value":"","old_value":""}
 {"actor":"deacon","comment":null,"created_at":"2026-03-01T21:58:23Z","event_type":"closed","id":424,"issue_id":"massage-6qg","new_value":"Closed","old_value":""}
 {"actor":"Trillium Smith","comment":"","created_at":"2026-03-01T10:55:14Z","event_type":"created","id":424,"issue_id":"hq-pz56","new_value":"","old_value":""}
+{"actor":"Trillium Smith","comment":null,"created_at":"2026-03-01T22:00:23Z","event_type":"created","id":425,"issue_id":"massage-enn","new_value":"","old_value":""}
 {"actor":"Trillium Smith","comment":"","created_at":"2026-03-01T10:55:14Z","event_type":"created","id":425,"issue_id":"hq-q0eo","new_value":"","old_value":""}
+{"actor":"Trillium Smith","comment":null,"created_at":"2026-03-01T22:00:55Z","event_type":"closed","id":426,"issue_id":"massage-enn","new_value":"Wrong rig — belongs in ops/gastown, not massage","old_value":""}
 {"actor":"Trillium Smith","comment":"","created_at":"2026-03-01T10:55:14Z","event_type":"created","id":426,"issue_id":"hq-q49","new_value":"","old_value":""}
+{"actor":"Trillium Smith","comment":null,"created_at":"2026-03-01T22:01:55Z","event_type":"created","id":427,"issue_id":"massage-elp","new_value":"","old_value":""}
 {"actor":"Trillium Smith","comment":"","created_at":"2026-03-01T10:55:14Z","event_type":"created","id":427,"issue_id":"hq-qbgq","new_value":"","old_value":""}
+{"actor":"Trillium Smith","comment":null,"created_at":"2026-03-01T22:01:55Z","event_type":"created","id":428,"issue_id":"massage-re1","new_value":"","old_value":""}
 {"actor":"Trillium Smith","comment":"","created_at":"2026-03-01T10:55:14Z","event_type":"created","id":428,"issue_id":"hq-qeq","new_value":"","old_value":""}
+{"actor":"Trillium Smith","comment":null,"created_at":"2026-03-01T22:01:55Z","event_type":"created","id":429,"issue_id":"massage-86z","new_value":"","old_value":""}
 {"actor":"Trillium Smith","comment":"","created_at":"2026-03-01T10:55:14Z","event_type":"created","id":429,"issue_id":"hq-qr33","new_value":"","old_value":""}
+{"actor":"Trillium Smith","comment":null,"created_at":"2026-03-01T22:01:55Z","event_type":"created","id":430,"issue_id":"massage-mn3","new_value":"","old_value":""}
 {"actor":"Trillium Smith","comment":"","created_at":"2026-03-01T10:55:14Z","event_type":"created","id":430,"issue_id":"hq-qrm2","new_value":"","old_value":""}
+{"actor":"deacon/","comment":null,"created_at":"2026-03-01T22:05:12Z","event_type":"created","id":431,"issue_id":"massage-i8j","new_value":"","old_value":""}
 {"actor":"Trillium Smith","comment":"","created_at":"2026-03-01T10:55:14Z","event_type":"created","id":431,"issue_id":"hq-qu09","new_value":"","old_value":""}
+{"actor":"deacon/","comment":"Added label: from:deacon/","created_at":"2026-03-01T22:05:12Z","event_type":"label_added","id":432,"issue_id":"massage-i8j","new_value":null,"old_value":null}
 {"actor":"Trillium Smith","comment":"","created_at":"2026-03-01T10:55:14Z","event_type":"created","id":432,"issue_id":"hq-qx3","new_value":"","old_value":""}
+{"actor":"deacon/","comment":"Added label: gt:message","created_at":"2026-03-01T22:05:12Z","event_type":"label_added","id":433,"issue_id":"massage-i8j","new_value":null,"old_value":null}
 {"actor":"Trillium Smith","comment":"","created_at":"2026-03-01T10:55:14Z","event_type":"created","id":433,"issue_id":"hq-r1l1","new_value":"","old_value":""}
+{"actor":"deacon","comment":null,"created_at":"2026-03-01T22:05:12Z","event_type":"status_changed","id":434,"issue_id":"massage-i8j","new_value":"{\"assignee\":\"deacon/\",\"status\":\"hooked\"}","old_value":"{\"id\":\"massage-i8j\",\"title\":\"🤝 HANDOFF: Routine cycle\",\"description\":\"Completed 20 patrols, no incidents. No rigs registered, no convoys, no plugins, inbox clean throughout. bd upgraded from v0.49.3 to v0.57.0 during this session — routing verified clean. All quiet.\",\"status\":\"open\",\"priority\":1,\"issue_type\":\"task\",\"assignee\":\"deacon/\",\"owner\":\"trillium@trilliumsmith.com\",\"created_at\":\"2026-03-02T06:05:12Z\",\"created_by\":\"deacon/\",\"updated_at\":\"2026-03-02T06:05:12Z\"}"}
 {"actor":"Trillium Smith","comment":"","created_at":"2026-03-01T10:55:14Z","event_type":"created","id":434,"issue_id":"hq-r3lr","new_value":"","old_value":""}
+{"actor":"deacon","comment":null,"created_at":"2026-03-01T22:05:54Z","event_type":"closed","id":435,"issue_id":"massage-i8j","new_value":"Closed","old_value":""}
 {"actor":"Trillium Smith","comment":"","created_at":"2026-03-01T10:55:14Z","event_type":"created","id":435,"issue_id":"hq-r5s","new_value":"","old_value":""}
+{"actor":"deacon/","comment":null,"created_at":"2026-03-01T22:09:31Z","event_type":"created","id":436,"issue_id":"massage-km2","new_value":"","old_value":""}
 {"actor":"Trillium Smith","comment":"","created_at":"2026-03-01T10:55:14Z","event_type":"created","id":436,"issue_id":"hq-rfst","new_value":"","old_value":""}
+{"actor":"deacon/","comment":"Added label: from:deacon/","created_at":"2026-03-01T22:09:31Z","event_type":"label_added","id":437,"issue_id":"massage-km2","new_value":null,"old_value":null}
 {"actor":"Trillium Smith","comment":"","created_at":"2026-03-01T10:55:14Z","event_type":"created","id":437,"issue_id":"hq-rhx","new_value":"","old_value":""}
+{"actor":"deacon/","comment":"Added label: gt:message","created_at":"2026-03-01T22:09:31Z","event_type":"label_added","id":438,"issue_id":"massage-km2","new_value":null,"old_value":null}
 {"actor":"Trillium Smith","comment":"","created_at":"2026-03-01T10:55:14Z","event_type":"created","id":438,"issue_id":"hq-rjo8","new_value":"","old_value":""}
+{"actor":"deacon","comment":null,"created_at":"2026-03-01T22:09:31Z","event_type":"status_changed","id":439,"issue_id":"massage-km2","new_value":"{\"assignee\":\"deacon/\",\"status\":\"hooked\"}","old_value":"{\"id\":\"massage-km2\",\"title\":\"🤝 HANDOFF: Routine cycle\",\"description\":\"Completed 20 patrols, no incidents. No rigs registered, no convoys, no dogs, no wisps. Daemon running with expected convoy scan warnings (no rigs configured). Inbox clean throughout. All quiet.\",\"status\":\"open\",\"priority\":1,\"issue_type\":\"task\",\"assignee\":\"deacon/\",\"owner\":\"trillium@trilliumsmith.com\",\"created_at\":\"2026-03-02T06:09:32Z\",\"created_by\":\"deacon/\",\"updated_at\":\"2026-03-02T06:09:32Z\"}"}
 {"actor":"Trillium Smith","comment":"","created_at":"2026-03-01T10:55:14Z","event_type":"created","id":439,"issue_id":"hq-rkjo","new_value":"","old_value":""}
+{"actor":"deacon","comment":null,"created_at":"2026-03-01T22:10:11Z","event_type":"closed","id":440,"issue_id":"massage-km2","new_value":"Closed","old_value":""}
 {"actor":"Trillium Smith","comment":"","created_at":"2026-03-01T10:55:14Z","event_type":"created","id":440,"issue_id":"hq-rqh","new_value":"","old_value":""}
+{"actor":"deacon/","comment":null,"created_at":"2026-03-01T22:13:49Z","event_type":"created","id":441,"issue_id":"massage-69b","new_value":"","old_value":""}
 {"actor":"Trillium Smith","comment":"","created_at":"2026-03-01T10:55:14Z","event_type":"created","id":441,"issue_id":"hq-s1hv","new_value":"","old_value":""}
+{"actor":"deacon/","comment":"Added label: from:deacon/","created_at":"2026-03-01T22:13:49Z","event_type":"label_added","id":442,"issue_id":"massage-69b","new_value":null,"old_value":null}
 {"actor":"Trillium Smith","comment":"","created_at":"2026-03-01T10:55:14Z","event_type":"created","id":442,"issue_id":"hq-s1q","new_value":"","old_value":""}
+{"actor":"deacon/","comment":"Added label: gt:message","created_at":"2026-03-01T22:13:49Z","event_type":"label_added","id":443,"issue_id":"massage-69b","new_value":null,"old_value":null}
 {"actor":"Trillium Smith","comment":"","created_at":"2026-03-01T10:55:14Z","event_type":"created","id":443,"issue_id":"hq-s3is","new_value":"","old_value":""}
+{"actor":"deacon","comment":null,"created_at":"2026-03-01T22:13:49Z","event_type":"status_changed","id":444,"issue_id":"massage-69b","new_value":"{\"assignee\":\"deacon/\",\"status\":\"hooked\"}","old_value":"{\"id\":\"massage-69b\",\"title\":\"🤝 HANDOFF: Routine cycle\",\"description\":\"Completed 20 patrols, no incidents. No rigs registered, no convoys, no dogs, no wisps. Inbox clean throughout. All quiet.\",\"status\":\"open\",\"priority\":1,\"issue_type\":\"task\",\"assignee\":\"deacon/\",\"owner\":\"trillium@trilliumsmith.com\",\"created_at\":\"2026-03-02T06:13:49Z\",\"created_by\":\"deacon/\",\"updated_at\":\"2026-03-02T06:13:49Z\"}"}
 {"actor":"Trillium Smith","comment":"","created_at":"2026-03-01T10:55:14Z","event_type":"created","id":444,"issue_id":"hq-s6j0","new_value":"","old_value":""}
 {"actor":"Trillium Smith","comment":"","created_at":"2026-03-01T10:55:14Z","event_type":"created","id":445,"issue_id":"hq-sdtn","new_value":"","old_value":""}
 {"actor":"Trillium Smith","comment":"","created_at":"2026-03-01T10:55:14Z","event_type":"created","id":446,"issue_id":"hq-sfk","new_value":"","old_value":""}
