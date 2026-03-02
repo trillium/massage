@@ -84,9 +84,13 @@
 {"actor":"deacon","comment":"","created_at":"2026-03-01T23:35:21Z","event_type":"closed","id":42,"issue_id":"hq-wisp-qati","new_value":"bare infrastructure, all clean","old_value":""}
 {"actor":"deacon","comment":null,"created_at":"2026-03-02T02:39:21Z","event_type":"closed","id":43,"issue_id":"hq-l94","new_value":"Closed","old_value":""}
 {"actor":"deacon","comment":"","created_at":"2026-03-01T23:35:21Z","event_type":"closed","id":43,"issue_id":"hq-wisp-qjm5","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"massage/witness","comment":null,"created_at":"2026-03-02T02:45:26Z","event_type":"created","id":44,"issue_id":"hq-unp","new_value":"","old_value":""}
 {"actor":"deacon","comment":"","created_at":"2026-03-01T23:35:22Z","event_type":"closed","id":44,"issue_id":"hq-wisp-kctt","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"massage/witness","comment":"Added label: from:massage/witness","created_at":"2026-03-02T02:45:26Z","event_type":"label_added","id":45,"issue_id":"hq-unp","new_value":null,"old_value":null}
 {"actor":"deacon","comment":"","created_at":"2026-03-01T23:35:23Z","event_type":"closed","id":45,"issue_id":"hq-wisp-1eq6","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"massage/witness","comment":"Added label: gt:message","created_at":"2026-03-02T02:45:26Z","event_type":"label_added","id":46,"issue_id":"hq-unp","new_value":null,"old_value":null}
 {"actor":"deacon","comment":"","created_at":"2026-03-01T23:35:23Z","event_type":"closed","id":46,"issue_id":"hq-wisp-s2wi","new_value":"bare infrastructure, all clean","old_value":""}
+{"actor":"massage/witness","comment":null,"created_at":"2026-03-02T02:45:27Z","event_type":"status_changed","id":47,"issue_id":"hq-unp","new_value":"{\"assignee\":\"massage/witness\",\"status\":\"hooked\"}","old_value":"{\"id\":\"hq-unp\",\"title\":\"🤝 HANDOFF: Witness cycle\",\"description\":\"Completed 15 patrols, no incidents. Rig idle entire session — no polecats, no mail. Deacon and refinery healthy throughout.\",\"status\":\"open\",\"priority\":1,\"issue_type\":\"task\",\"assignee\":\"massage/witness\",\"owner\":\"trillium@trilliumsmith.com\",\"created_at\":\"2026-03-02T10:45:27Z\",\"created_by\":\"massage/witness\",\"updated_at\":\"2026-03-02T10:45:27Z\"}"}
 {"actor":"deacon","comment":"","created_at":"2026-03-01T23:35:24Z","event_type":"closed","id":47,"issue_id":"hq-wisp-j7vg","new_value":"bare infrastructure, all clean","old_value":""}
 {"actor":"deacon","comment":"","created_at":"2026-03-01T23:35:25Z","event_type":"closed","id":48,"issue_id":"hq-wisp-yrsn","new_value":"bare infrastructure, all clean","old_value":""}
 {"actor":"deacon","comment":"","created_at":"2026-03-01T23:35:25Z","event_type":"closed","id":49,"issue_id":"hq-wisp-7c59","new_value":"bare infrastructure, all clean","old_value":""}
@@ -1644,6 +1648,18 @@
 {"actor":"deacon","comment":"","created_at":"2026-03-02T02:37:07Z","event_type":"closed","id":2121,"issue_id":"hq-wisp-gcj9qb","new_value":"patrol cycle complete: Cycle 19: All clean. Bare infrastructure. Inbox empty.","old_value":""}
 {"actor":"deacon","comment":"","created_at":"2026-03-02T02:37:32Z","event_type":"closed","id":2122,"issue_id":"hq-wisp-pr28xu","new_value":"patrol cycle complete: Cycle 20: All clean. Bare infrastructure. Inbox empty. Handing off at cycle 20.","old_value":""}
 {"actor":"deacon","comment":"","created_at":"2026-03-02T02:37:38Z","event_type":"closed","id":2123,"issue_id":"hq-wisp-9662x0","new_value":"Handoff - closing final wisp before session end","old_value":""}
-{"actor":"deacon","comment":"","created_at":"2026-03-02T02:40:57Z","event_type":"closed","id":2124,"issue_id":"hq-wisp-ftgbgh","new_value":"heartbeat sent","old_value":""}
-{"actor":"deacon","comment":"","created_at":"2026-03-02T02:41:22Z","event_type":"closed","id":2125,"issue_id":"hq-wisp-kamk26","new_value":"no callbacks, no stale wisps","old_value":""}
-{"actor":"deacon","comment":"","created_at":"2026-03-02T02:41:43Z","event_type":"closed","id":2126,"issue_id":"hq-wisp-0p2jn2","new_value":"no orphaned subagents","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T02:55:13Z","event_type":"closed","id":2176,"issue_id":"hq-wisp-7xxa8e","new_value":"pass-through","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T02:55:19Z","event_type":"closed","id":2177,"issue_id":"hq-wisp-5iy790","new_value":"pass-through","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T02:55:25Z","event_type":"closed","id":2178,"issue_id":"hq-wisp-9ontzv","new_value":"pass-through","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T02:55:32Z","event_type":"closed","id":2179,"issue_id":"hq-wisp-4nxwqf","new_value":"pass-through","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T02:55:38Z","event_type":"closed","id":2180,"issue_id":"hq-wisp-vnt2m1","new_value":"pass-through","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T02:55:44Z","event_type":"closed","id":2181,"issue_id":"hq-wisp-omz792","new_value":"pass-through","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T02:55:50Z","event_type":"closed","id":2182,"issue_id":"hq-wisp-sx3hkr","new_value":"pass-through","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T02:55:56Z","event_type":"closed","id":2183,"issue_id":"hq-wisp-cizpa7","new_value":"pass-through","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T02:56:02Z","event_type":"closed","id":2184,"issue_id":"hq-wisp-e7etm2","new_value":"pass-through","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T02:56:24Z","event_type":"closed","id":2185,"issue_id":"hq-wisp-9epsr1","new_value":"pass-through, all agents healthy","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T02:56:31Z","event_type":"closed","id":2186,"issue_id":"hq-wisp-xsbotu","new_value":"pass-through, all agents healthy","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T02:56:37Z","event_type":"closed","id":2187,"issue_id":"hq-wisp-j3soxn","new_value":"pass-through, all agents healthy","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T02:56:43Z","event_type":"closed","id":2188,"issue_id":"hq-wisp-8sgafb","new_value":"pass-through, all agents healthy","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T02:56:49Z","event_type":"closed","id":2189,"issue_id":"hq-wisp-qdjatp","new_value":"pass-through, all agents healthy","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T02:56:55Z","event_type":"closed","id":2190,"issue_id":"hq-wisp-6efrm1","new_value":"pass-through, all agents healthy","old_value":""}
