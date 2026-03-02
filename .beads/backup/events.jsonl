@@ -1652,27 +1652,9 @@
 {"actor":"deacon","comment":"","created_at":"2026-03-02T02:37:07Z","event_type":"closed","id":2121,"issue_id":"hq-wisp-gcj9qb","new_value":"patrol cycle complete: Cycle 19: All clean. Bare infrastructure. Inbox empty.","old_value":""}
 {"actor":"deacon","comment":"","created_at":"2026-03-02T02:37:32Z","event_type":"closed","id":2122,"issue_id":"hq-wisp-pr28xu","new_value":"patrol cycle complete: Cycle 20: All clean. Bare infrastructure. Inbox empty. Handing off at cycle 20.","old_value":""}
 {"actor":"deacon","comment":"","created_at":"2026-03-02T02:37:38Z","event_type":"closed","id":2123,"issue_id":"hq-wisp-9662x0","new_value":"Handoff - closing final wisp before session end","old_value":""}
-{"actor":"deacon","comment":"","created_at":"2026-03-02T03:33:24Z","event_type":"closed","id":2462,"issue_id":"hq-wisp-b615n8","new_value":"pass-through","old_value":""}
-{"actor":"deacon","comment":"","created_at":"2026-03-02T03:33:30Z","event_type":"closed","id":2463,"issue_id":"hq-wisp-iaj0sg","new_value":"pass-through","old_value":""}
-{"actor":"deacon","comment":"","created_at":"2026-03-02T03:33:36Z","event_type":"closed","id":2464,"issue_id":"hq-wisp-6th3j0","new_value":"pass-through","old_value":""}
-{"actor":"deacon","comment":"","created_at":"2026-03-02T03:33:42Z","event_type":"closed","id":2465,"issue_id":"hq-wisp-6s4jl5","new_value":"pass-through","old_value":""}
-{"actor":"deacon","comment":"","created_at":"2026-03-02T03:33:48Z","event_type":"closed","id":2466,"issue_id":"hq-wisp-02tzpn","new_value":"pass-through","old_value":""}
-{"actor":"deacon","comment":"","created_at":"2026-03-02T03:33:55Z","event_type":"closed","id":2467,"issue_id":"hq-wisp-nlcgu9","new_value":"pass-through","old_value":""}
-{"actor":"deacon","comment":"","created_at":"2026-03-02T03:34:01Z","event_type":"closed","id":2468,"issue_id":"hq-wisp-3j80rx","new_value":"pass-through","old_value":""}
-{"actor":"deacon","comment":"","created_at":"2026-03-02T03:34:07Z","event_type":"closed","id":2469,"issue_id":"hq-wisp-wvnviv","new_value":"pass-through","old_value":""}
-{"actor":"deacon","comment":"","created_at":"2026-03-02T03:34:13Z","event_type":"closed","id":2470,"issue_id":"hq-wisp-v2k7zf","new_value":"pass-through","old_value":""}
-{"actor":"deacon","comment":"","created_at":"2026-03-02T03:34:34Z","event_type":"closed","id":2471,"issue_id":"hq-wisp-y7x78q","new_value":"pass-through, all agents healthy","old_value":""}
-{"actor":"deacon","comment":"","created_at":"2026-03-02T03:34:40Z","event_type":"closed","id":2472,"issue_id":"hq-wisp-36zp3n","new_value":"pass-through, all agents healthy","old_value":""}
-{"actor":"deacon","comment":"","created_at":"2026-03-02T03:34:46Z","event_type":"closed","id":2473,"issue_id":"hq-wisp-gxhpud","new_value":"pass-through, all agents healthy","old_value":""}
-{"actor":"deacon","comment":"","created_at":"2026-03-02T03:34:52Z","event_type":"closed","id":2474,"issue_id":"hq-wisp-58qbl4","new_value":"pass-through, all agents healthy","old_value":""}
-{"actor":"deacon","comment":"","created_at":"2026-03-02T03:34:58Z","event_type":"closed","id":2475,"issue_id":"hq-wisp-ma4jfi","new_value":"pass-through, all agents healthy","old_value":""}
-{"actor":"deacon","comment":"","created_at":"2026-03-02T03:35:05Z","event_type":"closed","id":2476,"issue_id":"hq-wisp-2dld9p","new_value":"pass-through, all agents healthy","old_value":""}
-{"actor":"deacon","comment":"","created_at":"2026-03-02T03:35:11Z","event_type":"closed","id":2477,"issue_id":"hq-wisp-afjc8o","new_value":"pass-through, all agents healthy","old_value":""}
-{"actor":"deacon","comment":"","created_at":"2026-03-02T03:35:17Z","event_type":"closed","id":2478,"issue_id":"hq-wisp-2u0dis","new_value":"pass-through, all agents healthy","old_value":""}
-{"actor":"deacon","comment":"","created_at":"2026-03-02T03:35:23Z","event_type":"closed","id":2479,"issue_id":"hq-wisp-xtjb2h","new_value":"pass-through, all agents healthy","old_value":""}
-{"actor":"deacon","comment":"","created_at":"2026-03-02T03:35:29Z","event_type":"closed","id":2480,"issue_id":"hq-wisp-9wfuca","new_value":"pass-through, all agents healthy","old_value":""}
-{"actor":"deacon","comment":"","created_at":"2026-03-02T03:35:36Z","event_type":"closed","id":2481,"issue_id":"hq-wisp-pvm10z","new_value":"pass-through, all agents healthy","old_value":""}
-{"actor":"deacon","comment":"","created_at":"2026-03-02T03:35:43Z","event_type":"closed","id":2482,"issue_id":"hq-wisp-2tmybr","new_value":"pass-through, all agents healthy","old_value":""}
-{"actor":"deacon","comment":"","created_at":"2026-03-02T03:35:49Z","event_type":"closed","id":2483,"issue_id":"hq-wisp-s5ij2s","new_value":"pass-through, all agents healthy","old_value":""}
-{"actor":"deacon","comment":"","created_at":"2026-03-02T03:35:56Z","event_type":"closed","id":2484,"issue_id":"hq-wisp-97akz2","new_value":"pass-through, all agents healthy","old_value":""}
-{"actor":"deacon","comment":"","created_at":"2026-03-02T03:36:03Z","event_type":"closed","id":2485,"issue_id":"hq-wisp-197zyp","new_value":"pass-through, all agents healthy","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T03:50:41Z","event_type":"closed","id":2592,"issue_id":"hq-wisp-wg9w8a","new_value":"pass-through","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T03:50:47Z","event_type":"closed","id":2593,"issue_id":"hq-wisp-jz9rjt","new_value":"pass-through","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T03:50:53Z","event_type":"closed","id":2594,"issue_id":"hq-wisp-xssx7r","new_value":"pass-through","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T03:50:59Z","event_type":"closed","id":2595,"issue_id":"hq-wisp-wj1nyz","new_value":"pass-through","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T03:51:05Z","event_type":"closed","id":2596,"issue_id":"hq-wisp-751ll8","new_value":"pass-through","old_value":""}
+{"actor":"deacon","comment":"","created_at":"2026-03-02T03:51:11Z","event_type":"closed","id":2597,"issue_id":"hq-wisp-egkoqg","new_value":"pass-through","old_value":""}
