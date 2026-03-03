@@ -1,4 +1,4 @@
-import { createHash, createHmac } from 'crypto'
+import { createHash, createHmac } from 'node:crypto'
 /**
  * Generates a hash for the given data.
  *

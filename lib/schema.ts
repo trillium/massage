@@ -23,12 +23,12 @@ const BaseRequestSchema = z
     timeZone: z.string(),
     locationObject: LocationSchema.optional(),
     locationString: z.string().optional(),
-    duration: z.string().refine((value) => !Number.isNaN(Number.parseInt(value)), {
+    duration: z.string().refine((value) => !Number.isNaN(Number.parseInt(value, 10)), {
       message: 'Duration must be a valid integer.',
     }),
     price: z
       .string()
-      .refine((value) => !Number.isNaN(Number.parseInt(value)), {
+      .refine((value) => !Number.isNaN(Number.parseInt(value, 10)), {
         message: 'Price must be a valid integer.',
       })
       .optional(),

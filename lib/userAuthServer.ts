@@ -29,7 +29,7 @@ export class UserAuthServerManager {
       const expectedSig = hashHmac(payload, this.TOKEN_SECRET)
       if (signature !== expectedSig) return false
       const [tokenEmail, expires] = payload.split(':')
-      return tokenEmail === email && Date.now() < parseInt(expires)
+      return tokenEmail === email && Date.now() < parseInt(expires, 10)
     } catch {
       return false
     }

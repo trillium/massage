@@ -9,8 +9,8 @@ const CustomLink = ({
   classes,
   ...rest
 }: LinkProps & AnchorHTMLAttributes<HTMLAnchorElement> & { classes?: string }) => {
-  const isInternalLink = href && href.startsWith('/')
-  const isAnchorLink = href && href.startsWith('#')
+  const isInternalLink = href?.startsWith('/')
+  const isAnchorLink = href?.startsWith('#')
 
   if (isInternalLink) {
     return <Link className={clsx('break-words', classes)} href={href} {...rest} />

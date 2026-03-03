@@ -73,21 +73,15 @@ export function filterEventsForQuery(allEvents: GoogleCalendarV3Event[], query: 
 
   // Filter events that match this specific query
   const events = allEvents.filter((e: GoogleCalendarV3Event) => {
-    return e.summary.includes(searchQuery) || (e.description && e.description.includes(searchQuery))
+    return e.summary.includes(searchQuery) || e.description?.includes(searchQuery)
   })
 
   const members = events.filter((e: GoogleCalendarV3Event) => {
-    return (
-      e.summary.includes(eventMemberString) ||
-      (e.description && e.description.includes(eventMemberString))
-    )
+    return e.summary.includes(eventMemberString) || e.description?.includes(eventMemberString)
   })
 
   const containers = events.filter((e: GoogleCalendarV3Event) => {
-    return (
-      e.summary.includes(eventContainerString) ||
-      (e.description && e.description.includes(eventContainerString))
-    )
+    return e.summary.includes(eventContainerString) || e.description?.includes(eventContainerString)
   })
 
   const busyQuery = members.map((e: GoogleCalendarV3Event) => {
@@ -122,18 +116,12 @@ export function filterEventsForGeneralBlocking(allEvents: GoogleCalendarV3Event[
 
   // All events that contain __EVENT__MEMBER__ (event-based bookings)
   const eventMembers = allEvents.filter((e: GoogleCalendarV3Event) => {
-    return (
-      e.summary.includes('__EVENT__MEMBER__') ||
-      (e.description && e.description.includes('__EVENT__MEMBER__'))
-    )
+    return e.summary.includes('__EVENT__MEMBER__') || e.description?.includes('__EVENT__MEMBER__')
   })
 
   // All events that DON'T contain __EVENT__ (regular calendar events)
   const regularEvents = allEvents.filter((e: GoogleCalendarV3Event) => {
-    return !(
-      e.summary.includes('__EVENT__') ||
-      (e.description && e.description.includes('__EVENT__'))
-    )
+    return !(e.summary.includes('__EVENT__') || e.description?.includes('__EVENT__'))
   })
 
   // Combine both types for blocking
@@ -178,10 +166,7 @@ export async function fetchContainerSpecific({
   })
 
   const members = events.filter((e: GoogleCalendarV3Event) => {
-    return (
-      e.summary.includes(eventMemberString) ||
-      (e.description && e.description.includes(eventMemberString))
-    )
+    return e.summary.includes(eventMemberString) || e.description?.includes(eventMemberString)
   })
 
   const busyQuery = members.map((e: GoogleCalendarV3Event) => {
@@ -189,10 +174,7 @@ export async function fetchContainerSpecific({
   })
 
   const containers = events.filter((e: GoogleCalendarV3Event) => {
-    return (
-      e.summary.includes(eventContainerString) ||
-      (e.description && e.description.includes(eventContainerString))
-    )
+    return e.summary.includes(eventContainerString) || e.description?.includes(eventContainerString)
   })
 
   return {

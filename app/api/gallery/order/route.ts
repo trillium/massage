@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { writeFile } from 'fs/promises'
-import { join } from 'path'
+import { writeFile } from 'node:fs/promises'
+import { join } from 'node:path'
 import { requireAdminWithFlag } from '@/lib/adminAuthBridge'
 
 export async function POST(request: NextRequest) {

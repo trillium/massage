@@ -1,4 +1,4 @@
-import { createHmac, timingSafeEqual } from 'crypto'
+import { createHmac, timingSafeEqual } from 'node:crypto'
 
 const EVENT_TOKEN_SECRET = process.env.GOOGLE_OAUTH_SECRET
 

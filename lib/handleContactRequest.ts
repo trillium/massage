@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { IncomingMessage } from 'http'
+import { IncomingMessage } from 'node:http'
 import sendMail from './email'
 import { getHash } from './hash'
 import { ContactFormSchema } from './schema'

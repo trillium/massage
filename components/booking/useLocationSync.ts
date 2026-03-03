@@ -38,7 +38,7 @@ export function useLocationSync(
         pendingLocation.current = config.location
       }
     }
-  }, [config.location])
+  }, [config.location, setFormikLocation])
 
   useEffect(() => {
     if (eventContainers?.location) {
@@ -48,7 +48,7 @@ export function useLocationSync(
         pendingLocation.current = eventContainers.location
       }
     }
-  }, [eventContainers?.location])
+  }, [eventContainers?.location, setFormikLocation])
 
   const processPendingUpdates = (setFieldValue: (field: string, value: unknown) => void) => {
     formikRef.current = { setFieldValue }

@@ -79,8 +79,8 @@ export async function searchSootheEmails(
 
   // Sort messages by date (most recent first)
   messages.sort((a, b) => {
-    const dateA = parseInt(a.internalDate)
-    const dateB = parseInt(b.internalDate)
+    const dateA = parseInt(a.internalDate, 10)
+    const dateB = parseInt(b.internalDate, 10)
     return dateB - dateA // Descending order (newest first)
   })
 
@@ -198,7 +198,7 @@ function extractClientName(content: string, subject: string, from: string): stri
   // Updated: Look for "for [Name]" pattern, capturing everything after "for" up to a line break or end of string
   const sessionForPattern = /(?:massage|therapy|treatment)\s+for\s+([^\n\r]+)/i
   const sessionMatch = text.match(sessionForPattern)
-  if (sessionMatch && sessionMatch[1]) {
+  if (sessionMatch?.[1]) {
     return sessionMatch[1].trim()
   } else {
     return 'Unknown'
@@ -271,7 +271,7 @@ function extractSessionInfo(content: string): {
     const durationPattern = /(\d+)\s+min/i
     const durationMatch = content.match(durationPattern)
     if (durationMatch) {
-      result.duration = parseInt(durationMatch[1])
+      result.duration = parseInt(durationMatch[1], 10)
     }
 
     // Look for service types in broader context
@@ -357,7 +357,7 @@ function extractLocation(content: string): string | undefined {
 
   for (const pattern of patterns) {
     const match = content.match(pattern)
-    if (match && match[1]) {
+    if (match?.[1]) {
       return match[1].trim()
     }
   }
@@ -379,7 +379,7 @@ function extractNotes(content: string): string | undefined {
 
   for (const pattern of patterns) {
     const match = content.match(pattern)
-    if (match && match[1]) {
+    if (match?.[1]) {
       return match[1].trim()
     }
   }

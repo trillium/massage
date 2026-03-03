@@ -14,7 +14,7 @@ export default function IsTestUserPage() {
     const distinctId = getDistinctId()
     setDistinctId(distinctId)
     setUserId(distinctId || '')
-  }, [refreshKey])
+  }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()

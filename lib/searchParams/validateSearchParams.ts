@@ -36,9 +36,9 @@ export function validateSearchParams({
       .optional(),
   })
 
-  let duration: number | undefined = undefined
-  let timeZone: string | undefined = undefined
-  let selectedDate: string | undefined = undefined
+  let duration: number | undefined
+  let timeZone: string | undefined
+  let selectedDate: string | undefined
 
   try {
     const parsedParams = schema.parse(searchParams)
@@ -63,7 +63,7 @@ export function validateSearchParams({
     console.error('Failed to parse searchParams:', error)
   }
 
-  if (duration == undefined) {
+  if (duration === undefined) {
     // if validation fails
     duration = defaultDuration
   }

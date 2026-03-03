@@ -12,7 +12,7 @@ export const createBookingFormSchema = (config?: { cities?: string[]; zipCodes?:
     phone: z
       .string()
       .min(1, 'Phone number is required')
-      .regex(/^[\+]?[(]?[\d\s\-\(\)]{10,}$/, 'Please enter a valid phone number'),
+      .regex(/^[+]?[(]?[\d\s\-()]{10,}$/, 'Please enter a valid phone number'),
     email: z.string().min(1, 'Email is required').email('Please enter a valid email address'),
     location: createLocationSchema(config),
     paymentMethod: z.enum(paymentMethodValues),

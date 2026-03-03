@@ -13,7 +13,7 @@ export default function TimeList() {
   useEffect(() => {
     dispatch(setReady({ TimeList: true }))
     // eslint-disable-next-line
-  }, [])
+  }, [dispatch])
 
   return (
     <div className="grid grid-cols-2 gap-2">

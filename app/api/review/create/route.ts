@@ -28,7 +28,7 @@ const CreateReviewSchema = z.object({
     (value) => {
       let parsedValue
       if (typeof value === 'string') {
-        parsedValue = Number.parseInt(value)
+        parsedValue = Number.parseInt(value, 10)
       } else {
         parsedValue = value
       }
@@ -40,7 +40,7 @@ const CreateReviewSchema = z.object({
   ),
   price: z
     .string()
-    .refine((value) => !Number.isNaN(Number.parseInt(value)), {
+    .refine((value) => !Number.isNaN(Number.parseInt(value, 10)), {
       message: 'Rating must be a valid integer 1 - 5.',
     })
     .optional(),

@@ -18,14 +18,14 @@ export function parseEditableFields(description: string): EditableEventFields {
     fields[match[1].trim()] = match[2].trim()
   }
 
-  const [firstName = '', ...lastParts] = (fields['Name'] || '').split(' ')
+  const [firstName = '', ...lastParts] = (fields.Name || '').split(' ')
   const lastName = lastParts.join(' ')
 
   return {
     firstName,
     lastName,
-    phone: fields['Phone'] || '',
-    location: stringToLocationObject(fields['Location'] || ''),
+    phone: fields.Phone || '',
+    location: stringToLocationObject(fields.Location || ''),
   }
 }
 

@@ -26,8 +26,7 @@ export const generateTimeSlots = ({
 
   const zonedBaseDate = toZonedTime(baseDate, timeZone)
 
-  const durationMinutes =
-    selectedBooking && selectedBooking.duration ? parseInt(selectedBooking.duration, 10) : 15
+  const durationMinutes = selectedBooking?.duration ? parseInt(selectedBooking.duration, 10) : 15
 
   for (let hour = 8; hour < 23; hour++) {
     for (let minute = 0; minute < 60; minute += 15) {

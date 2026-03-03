@@ -90,7 +90,7 @@ describe('Event Container Functionality', () => {
     vi.spyOn(await import('@/lib/fetch/fetchData'), 'fetchData').mockImplementation(mockFetchData)
 
     const configData = await fetchSlugConfigurationData()
-    const regularConfig = configData['foo'] // This doesn't have eventContainer
+    const regularConfig = configData.foo // This doesn't have eventContainer
 
     const data = await fetchPageData(regularConfig, {}, 'foo')
 

@@ -136,7 +136,7 @@ export async function identifyAuthenticatedUser(
       return { success: false, message: 'PostHog not loaded' }
     }
 
-    if (posthog._isIdentified && posthog._isIdentified()) {
+    if (posthog._isIdentified?.()) {
       return { success: true, message: 'User already identified' }
     }
 

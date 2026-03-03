@@ -7,8 +7,8 @@ export async function GET(request: Request) {
     const auth = await requireAdminWithFlag(request)
     if (auth instanceof NextResponse) return auth
     const { searchParams } = new URL(request.url)
-    const maxResults = parseInt(searchParams.get('maxResults') || '50')
-    const daysBack = parseInt(searchParams.get('daysBack') || '1')
+    const maxResults = parseInt(searchParams.get('maxResults') || '50', 10)
+    const daysBack = parseInt(searchParams.get('daysBack') || '1', 10)
 
     const { bookings, failedMessageIds } = await searchSootheEmails(maxResults, daysBack)
 
@@ -28,7 +28,7 @@ export async function GET(request: Request) {
         notes: booking.notes,
         extraServices: booking.extraServices,
         messageId: booking.rawMessage.id,
-        date: new Date(parseInt(booking.rawMessage.internalDate)).toISOString(),
+        date: new Date(parseInt(booking.rawMessage.internalDate, 10)).toISOString(),
         subject: booking.rawMessage.payload.headers.find((h) => h.name === 'Subject')?.value || '',
       })),
     })

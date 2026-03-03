@@ -67,8 +67,7 @@ export default function BookingForm({
     additionalData?.showParkingField || config?.customFields?.showParkingField
   )
   const showNotesField = !!(additionalData?.showNotesField || config?.customFields?.showNotesField)
-  const locationReadOnly =
-    !!(eventContainers && eventContainers.location) || config.locationIsReadOnly
+  const locationReadOnly = !!eventContainers?.location || config.locationIsReadOnly
 
   const dateString =
     selectedTime && timeZone ? formatLocalDate(selectedTime.start, { timeZone }) : ''

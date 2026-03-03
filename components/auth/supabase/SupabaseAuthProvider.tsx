@@ -83,7 +83,7 @@ export function SupabaseAuthProvider({ children }: { children: React.ReactNode }
     return () => {
       subscription.unsubscribe()
     }
-  }, [])
+  }, [fetchProfile])
 
   const handleSignOut = async () => {
     await supabase.auth.signOut()

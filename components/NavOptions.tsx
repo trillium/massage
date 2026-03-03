@@ -84,21 +84,20 @@ const RenderNavLink = ({ navItem }: { navItem: NavItem }) => {
         >
           <MenuItems className="ring-opacity-5 absolute right-0 mt-2 w-32 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black focus:outline-none dark:bg-gray-800">
             <div className="p-1">
-              {navItem.children &&
-                navItem.children.map((link: NavItemChild) => (
-                  <Menu.Item key={link.title}>
-                    {({ focus }) => (
-                      <Link
-                        href={link.href}
-                        className={`${
-                          focus ? 'bg-primary-600 text-white' : ''
-                        } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
-                      >
-                        {link.title}
-                      </Link>
-                    )}
-                  </Menu.Item>
-                ))}
+              {navItem.children?.map((link: NavItemChild) => (
+                <Menu.Item key={link.title}>
+                  {({ focus }) => (
+                    <Link
+                      href={link.href}
+                      className={`${
+                        focus ? 'bg-primary-600 text-white' : ''
+                      } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                    >
+                      {link.title}
+                    </Link>
+                  )}
+                </Menu.Item>
+              ))}
             </div>
           </MenuItems>
         </Transition>

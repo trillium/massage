@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { NextRequest, NextResponse } from 'next/server'
-import { IncomingMessage } from 'http'
+import { IncomingMessage } from 'node:http'
 import { handleAppointmentRequest } from '../handleAppointmentRequest'
 import { AppointmentRequestType } from '@/lib/types'
 import { AppointmentRequestSchema } from '../schema'

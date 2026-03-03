@@ -11,7 +11,7 @@
  *   node scripts/capture-test-data.mjs --port=3000        # Use custom port
  */
 
-import readline from 'readline'
+import readline from 'node:readline'
 
 const DEFAULT_PORT = 9876
 
@@ -103,7 +103,7 @@ async function interactiveMode() {
   })
 
   const choice = await question('\nSelect configuration type (1-4): ')
-  const configIndex = parseInt(choice) - 1
+  const configIndex = parseInt(choice, 10) - 1
 
   if (configIndex < 0 || configIndex >= configs.length) {
     console.log('Invalid choice')
@@ -123,7 +123,7 @@ async function interactiveMode() {
 
   const duration = await question('Duration in minutes (default: 60): ')
   if (duration) {
-    params.duration = parseInt(duration)
+    params.duration = parseInt(duration, 10)
   }
 
   const date = await question('Date (YYYY-MM-DD format, optional): ')
@@ -152,7 +152,7 @@ async function main() {
     const params = {
       type: options.type,
       bookingSlug: options.slug,
-      duration: options.duration ? parseInt(options.duration) : 60,
+      duration: options.duration ? parseInt(options.duration, 10) : 60,
       date: options.date,
       eventId: options.eventId,
       captureMode: 'full',

@@ -130,7 +130,6 @@ export function TestimonialsCarousel({ reviews }: { reviews: ReviewType[] }) {
       <div className="flex w-full items-center justify-between">
         {/* Review body: first in DOM, visually in the center */}
         <div
-          tabIndex={0} // eslint-disable-line jsx-a11y/no-noninteractive-tabindex
           id="review-body"
           aria-label="Review content - use arrow keys to navigate"
           className="focus:ring-primary-500 relative order-2 flex min-h-80 w-full flex-1 flex-col items-center justify-between rounded-lg bg-gray-50 p-6 text-center shadow transition-all duration-300 focus:ring-2 focus:outline-none dark:bg-gray-800"

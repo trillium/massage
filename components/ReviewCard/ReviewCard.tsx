@@ -113,7 +113,7 @@ const OtherCard = ({
                   <ScoreDisplay
                     test={
                       numberOfReviewsSorted.average >= numberOfReviews.average ||
-                      numberOfReviewsSorted.averageStr == numberOfReviews.averageStr
+                      numberOfReviewsSorted.averageStr === numberOfReviews.averageStr
                     }
                     averageStr={numberOfReviewsSorted.averageStr}
                     text={`${slice_size} Most Recent`}

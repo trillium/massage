@@ -56,7 +56,7 @@ export default function NextBookingFeature({
     longitude: data.eventCoordinates?.longitude ?? DEFAULT_VIEW.longitude,
     zoom: data.eventCoordinates ? 12 : DEFAULT_VIEW.zoom,
     style: { width: '100%', height: '400px' },
-    showMarker: data.eventCoordinates ? true : false,
+    showMarker: !!data.eventCoordinates,
   }
 
   return (

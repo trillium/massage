@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { randomUUID } from 'crypto'
+import { randomUUID } from 'node:crypto'
 
 import { OWNER_TIMEZONE } from 'config'
 import { handleAppointmentRequest } from '@/lib/handleAppointmentRequest'

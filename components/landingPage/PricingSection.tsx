@@ -68,13 +68,11 @@ export default function PricingSection() {
                 )}
               >
                 {option.mostPopular && (
-                  <>
-                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 transform">
-                      <span className="bg-primary-500 rounded-full px-3 py-1 text-sm font-medium whitespace-nowrap text-white">
-                        Most Popular
-                      </span>
-                    </div>
-                  </>
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 transform">
+                    <span className="bg-primary-500 rounded-full px-3 py-1 text-sm font-medium whitespace-nowrap text-white">
+                      Most Popular
+                    </span>
+                  </div>
                 )}
                 <h3 className="mb-2 text-xl font-semibold dark:text-white">{option.title}</h3>
                 <div className="text-primary-600 dark:text-primary-400 mb-4 text-3xl font-bold">

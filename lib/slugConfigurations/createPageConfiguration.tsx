@@ -212,7 +212,7 @@ export async function createPageConfiguration({
   }
 
   // 9. Check if promo is expired
-  if (configuration && configuration.promoEndDate && isPromoExpired(configuration.promoEndDate)) {
+  if (configuration?.promoEndDate && isPromoExpired(configuration.promoEndDate)) {
     returnObj.isExpired = true
   }
 

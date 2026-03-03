@@ -23,7 +23,7 @@ const BookingFormActions: React.FC<BookingFormActionsProps> = ({ onSubmitLabel =
             Submitting ... <Spinner className="ml-2" />
           </>
         ) : (
-          <>{onSubmitLabel}</>
+          onSubmitLabel
         )}
       </button>
       <button

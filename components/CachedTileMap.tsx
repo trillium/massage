@@ -19,13 +19,13 @@ function calculateTileData(
   containerSize: { width: number; height: number }
 ) {
   // Calculate tile coordinates
-  const tileX = ((longitude + 180) / 360) * Math.pow(2, zoom)
+  const tileX = ((longitude + 180) / 360) * 2 ** zoom
   const tileY =
     ((1 -
       Math.log(Math.tan((latitude * Math.PI) / 180) + 1 / Math.cos((latitude * Math.PI) / 180)) /
         Math.PI) /
       2) *
-    Math.pow(2, zoom)
+    2 ** zoom
 
   const centerTileX = Math.floor(tileX)
   const centerTileY = Math.floor(tileY)
@@ -126,7 +126,7 @@ export function Tiles({ tileData, containerSize, zoom }: TilesProps) {
         const tileYCoord = centerTileY + dy
 
         // Skip tiles outside valid range
-        const maxTile = Math.pow(2, zoom) - 1
+        const maxTile = 2 ** zoom - 1
         if (tileXCoord < 0 || tileXCoord > maxTile || tileYCoord < 0 || tileYCoord > maxTile) {
           continue
         }

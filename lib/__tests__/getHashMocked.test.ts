@@ -15,7 +15,7 @@ vi.mock('crypto', () => ({
 
 // Import after mocking
 import { getHash } from '@/lib/hash'
-import { createHash } from 'crypto'
+import { createHash } from 'node:crypto'
 
 describe('getHash', () => {
   beforeEach(() => {

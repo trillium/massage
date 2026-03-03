@@ -54,9 +54,9 @@ export default function GmailTestPage() {
     }
   }, [bookings])
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: run once on mount
   useEffect(() => {
     searchSootheEmails()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   // Handler functions for selections
@@ -189,7 +189,7 @@ export default function GmailTestPage() {
                 id="maxResults"
                 type="number"
                 value={maxResults}
-                onChange={(e) => setMaxResults(parseInt(e.target.value) || 25)}
+                onChange={(e) => setMaxResults(parseInt(e.target.value, 10) || 25)}
                 min="1"
                 max="100"
                 className="w-full rounded-md border border-blue-300 px-3 py-2 text-sm dark:border-blue-600 dark:bg-blue-900/20 dark:text-blue-100"
@@ -206,7 +206,7 @@ export default function GmailTestPage() {
                 id="daysBack"
                 type="number"
                 value={daysBack}
-                onChange={(e) => setDaysBack(parseInt(e.target.value) || 1)}
+                onChange={(e) => setDaysBack(parseInt(e.target.value, 10) || 1)}
                 min="1"
                 max="30"
                 className="w-full rounded-md border border-blue-300 px-3 py-2 text-sm dark:border-blue-600 dark:bg-blue-900/20 dark:text-blue-100"
@@ -367,7 +367,7 @@ function BookingItem({
           <div>
             <div className="flex flex-wrap gap-1 text-xs sm:gap-2 sm:text-sm">
               <span className="font-semibold text-gray-900 dark:text-gray-100">
-                Total: ${parseInt(booking.payout || '0') + parseInt(booking.tip || '0')}
+                Total: ${parseInt(booking.payout || '0', 10) + parseInt(booking.tip || '0', 10)}
               </span>
               <span className="font-semibold text-gray-900 dark:text-gray-100">-</span>
               <span className="font-semibold text-gray-900 dark:text-gray-100">

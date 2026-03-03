@@ -62,7 +62,7 @@ describe('Custom Fields Integration', () => {
   describe('other configurations', () => {
     it('should not have custom fields for configurations that do not specify them', async () => {
       const slugConfigurations = await fetchSlugConfigurationData()
-      const fooConfig = slugConfigurations['foo']
+      const fooConfig = slugConfigurations.foo
 
       expect(fooConfig).toBeDefined()
       expect(fooConfig.customFields).toBeUndefined()
