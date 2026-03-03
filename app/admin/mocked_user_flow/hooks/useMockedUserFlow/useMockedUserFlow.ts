@@ -6,7 +6,7 @@ import { FormikHelpers } from 'formik'
 import { z } from 'zod'
 
 import { DEFAULT_PRICING, ALLOWED_DURATIONS, DEFAULT_DURATION } from 'config'
-import { getHash } from '@/lib/hash'
+import { getHashAction } from '@/lib/hashActions'
 import type { SearchParamsType } from '@/lib/types'
 import { useAppDispatch, useReduxAvailability } from '@/redux/hooks'
 import { setModal } from '@/redux/slices/modalSlice'
@@ -154,7 +154,7 @@ export function useMockedUserFlow() {
     const origin = window.location.origin
     const confirmUrl = `${origin}/api/confirm/?data=${encodeURIComponent(
       JSON.stringify(data)
-    )}&key=${getHash(JSON.stringify(data))}`
+    )}&key=${await getHashAction(JSON.stringify(data))}`
     setApproveUrl(confirmUrl)
 
     // Generate emails using actual form data
