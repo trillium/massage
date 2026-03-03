@@ -1,0 +1,33 @@
+export default {
+  entry: [
+    'app/**/page.tsx',
+    'app/**/layout.tsx',
+    'app/**/route.ts',
+    'app/**/loading.tsx',
+    'app/**/error.tsx',
+    'app/**/not-found.tsx',
+    'proxy.ts',
+    'contentlayer.config.ts',
+    'next.config.js',
+    'vitest.config.ts',
+    'vitest.setup.ts',
+    'scripts/*.{ts,mjs,js}',
+    'mcp-server.ts',
+    'src/lib/mcp/**/*.ts',
+    'data/**/*.mdx',
+  ],
+  project: ['**/*.{ts,tsx,js,jsx,mjs,mdx}'],
+  ignore: ['**/__tests__/**', 'tests/**', 'playground/**', '.contentlayer/**'],
+  ignoreDependencies: [
+    'autoprefixer',
+    '@svgr/webpack',
+    'ignore-loader',
+    'lint-staged',
+    'dictionary-en',
+    'nspell',
+    'eslint-config-next',
+  ],
+  compilers: {
+    mdx: true,
+  },
+}
