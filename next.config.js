@@ -1,5 +1,6 @@
 import { withContentlayer } from 'next-contentlayer2'
 import bundleAnalyzer from '@next/bundle-analyzer'
+import { withSentryConfig } from '@sentry/nextjs'
 
 const withBundleAnalyzer = bundleAnalyzer({
   enabled: process.env.ANALYZE === 'true',
@@ -12,7 +13,7 @@ const ContentSecurityPolicy = `
   style-src 'self' 'unsafe-inline';
   img-src * blob: data:;
   media-src *.s3.amazonaws.com;
-  connect-src 'self' https://qrvuazoacpolbojkimyu.supabase.co;
+  connect-src 'self' https://qrvuazoacpolbojkimyu.supabase.co https://*.ingest.sentry.io;
   font-src 'self';
   frame-src 'self';
   worker-src 'self' blob:;
@@ -66,7 +67,7 @@ const unoptimized = process.env.UNOPTIMIZED ? true : undefined
 const plugins = [withContentlayer, withBundleAnalyzer]
 
 /* eslint import/no-anonymous-default-export: [2, {"allowArrowFunction": true}] */
-export default () => {
+const nextConfig = () => {
   return plugins.reduce((acc, next) => next(acc), {
     output,
     basePath,
@@ -130,3 +131,8 @@ export default () => {
     },
   })
 }
+
+export default withSentryConfig(nextConfig, {
+  silent: !process.env.CI,
+  telemetry: false,
+})

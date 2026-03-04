@@ -154,7 +154,9 @@
     "Geospacial",
     "worktrees",
     "worktree",
-    "agentic"
+    "agentic",
+    "Sentry",
+    "sentry"
   ],
   "dictionaries": ["typescript", "node", "npm", "html", "css", "bash"],
   "languageSettings": [
