@@ -213,6 +213,7 @@ const slugConfigurations: SlugConfigurationType[] = [
     ),
     locationIsReadOnly: true,
     eventContainer: 'scale23x',
+    blockingScope: 'general',
     allowedDurations: [5, 10, 15, 20, 30],
     pricing: { 5: 0, 10: 0, 15: 0, 20: 0, 30: 0 },
     pricingLabels: {
