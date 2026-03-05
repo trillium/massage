@@ -207,6 +207,17 @@ def main():
     print("  Right col: 270° (head → center)")
     print("  Print duplex, flip on long edge — backs align after cut")
 
+    # Post-generation QR validation
+    import subprocess
+    print("\n── Validating QR renders ──\n")
+    result = subprocess.run(
+        [sys.executable, str(Path(__file__).parent / "validate-print-qr.py"),
+         "--sheet", str(OUT_PATH), "--save-crops"],
+    )
+    if result.returncode:
+        print("\n⚠ QR validation failed — check print/qc/ for failed crops")
+        sys.exit(1)
+
 
 if __name__ == "__main__":
     main()
