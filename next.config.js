@@ -117,7 +117,7 @@ const nextConfig = () => {
     },
     async redirects() {
       const redirectsPath = join(process.cwd(), 'redirects.jsonl')
-      const lines = readFileSync(redirectsPath, 'utf-8').trim().split('\n')
+      const lines = readFileSync(redirectsPath, 'utf-8').trim().split('\n').filter(Boolean)
       return lines.map((line) => JSON.parse(line))
     },
     async rewrites() {
