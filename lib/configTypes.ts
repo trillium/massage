@@ -60,6 +60,7 @@ export type SlugConfigurationType = {
   promoEndDate?: string | null // Format: YYYY-MM-DD
   pricing: PricingType | null
   pricingLabels?: { [key: number]: string }
+  durationBonus?: number
   discount: DiscountType | null
   leadTimeMinimum: number | null // in minutes
   instantConfirm?: boolean

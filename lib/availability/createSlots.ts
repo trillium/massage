@@ -16,6 +16,7 @@ type CreateSlotsType = {
   busy: StringInterval[]
   leadTime: number
   duration: number
+  durationBonus?: number
   containers?: GoogleCalendarV3Event[]
 }
 
@@ -25,6 +26,7 @@ export function createSlots({
   busy,
   leadTime = LEAD_TIME,
   duration,
+  durationBonus = 0,
   containers,
 }: CreateSlotsType): StringDateTimeIntervalAndLocation[] {
   const startOfInterval = start.start
@@ -33,7 +35,7 @@ export function createSlots({
   const potential = getPotentialTimes({
     start,
     end,
-    duration: duration,
+    duration: duration + durationBonus,
     availabilitySlots: OWNER_AVAILABILITY,
     containers: containers,
   })

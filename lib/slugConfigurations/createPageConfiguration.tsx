@@ -156,6 +156,7 @@ export async function createPageConfiguration({
       end,
       busy,
       duration,
+      durationBonus: configuration?.durationBonus ?? 0,
       leadTime,
       containers: data.containers,
     }

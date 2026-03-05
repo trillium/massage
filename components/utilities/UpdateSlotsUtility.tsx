@@ -117,7 +117,7 @@ export function SlotGenerationUtility(
   )
 ) {
   const { duration: durationRedux, selectedDate: selectedDateRedux } = useReduxAvailability()
-  const { leadTimeMinimum: leadTime } = useReduxConfig()
+  const { leadTimeMinimum: leadTime, durationBonus } = useReduxConfig()
   const dispatch = useAppDispatch()
 
   useEffect(() => {
@@ -132,6 +132,7 @@ export function SlotGenerationUtility(
       // Regular page: generate slots
       newSlots = createSlots({
         duration: durationRedux || DEFAULT_DURATION,
+        durationBonus: durationBonus ?? 0,
         leadTime: leadTime ?? LEAD_TIME,
         start: props.start,
         end: props.end,
