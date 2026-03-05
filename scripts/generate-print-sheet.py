@@ -57,11 +57,11 @@ WHITE_MARGIN_PTS = 70          # measured from source page
 WHITE_STRIP      = WHITE_MARGIN_PTS * SCALE   # ≈ 27 pts
 
 # Column rotations
-COL_ROTATE = {0: 90, 1: 270}
+COL_ROTATE = {0: 270, 1: 90}
 
 # For duplex (long-edge flip = swap columns + swap rotations)
-BACK_COL    = {0: 1,   1: 0}
-BACK_ROTATE = {0: 270, 1: 90}
+BACK_COL    = {0: 1,  1: 0}
+BACK_ROTATE = {0: 90, 1: 270}
 
 
 def cell_rect(col: int, row: int) -> fitz.Rect:
