@@ -103,3 +103,8 @@ playground/
 # Dolt database files (added by bd init)
 .dolt/
 *.db
+
+# Generated print assets — tracked via redirects.jsonl, not committed
+print/qr/
+print/sheet.pdf
+print/index.html
