@@ -37,6 +37,16 @@ DEFAULT_PDF = Path.home() / "Downloads" / "CC BEV (2).pdf"
 # Green square: where the QR code goes on page 1 (top-left origin, pts)
 GREEN = fitz.Rect(343, 402, 579, 637.5)
 
+# QR frame: teal outer + inner border, 2 pt each with 2 pt gap between
+TEAL        = (45/255, 212/255, 191/255)   # #2dd4bf
+BORDER_W    = 2    # pt — both outer and inner stroke width
+BORDER_GAP  = 2    # pt — gap between outer and inner border
+QR_INSET    = BORDER_W + BORDER_GAP + BORDER_W   # 6 pt total inset for QR image
+QR_RECT     = fitz.Rect(
+    GREEN.x0 + QR_INSET, GREEN.y0 + QR_INSET,
+    GREEN.x1 - QR_INSET, GREEN.y1 - QR_INSET,
+)
+
 # Sheet — US Letter portrait
 PAGE_W, PAGE_H = 612, 792
 COLS, ROWS     = 2, 3
@@ -73,12 +83,24 @@ def cell_rect(col: int, row: int) -> fitz.Rect:
 
 
 def make_front(template: fitz.Document, qr_path: Path) -> fitz.Document:
-    """Copy template page 0, overlay QR SVG (as vector PDF) over the green square."""
+    """Copy template page 0, overlay QR SVG with teal double-border over the green square."""
     doc = fitz.open()
     doc.insert_pdf(template, from_page=0, to_page=0)
+    page = doc[0]
+
+    # 1. Flood-fill the placeholder with teal — kills any green bleed at the edges
+    page.draw_rect(GREEN, color=TEAL, fill=TEAL, width=0)
+
+    # 2. Place QR image inset inside the frame area
     svg_doc = fitz.open("svg", qr_path.read_bytes())
     qr_pdf  = fitz.open("pdf", svg_doc.convert_to_pdf())
-    doc[0].show_pdf_page(GREEN, qr_pdf, 0, keep_proportion=False)
+    page.show_pdf_page(QR_RECT, qr_pdf, 0, keep_proportion=False)
+
+    # 3. Outer border: teal stroke around the full placeholder
+    page.draw_rect(GREEN,   color=TEAL, fill=None, width=BORDER_W)
+    # 4. Inner border: teal stroke around the QR image
+    page.draw_rect(QR_RECT, color=TEAL, fill=None, width=BORDER_W)
+
     return doc
 
 
