@@ -92,18 +92,24 @@ def draw_url(page: fitz.Page, col: int, row: int, url: str) -> None:
     text_color = (0.45, 0.45, 0.45)
     cell_y0    = row * CELL_H
 
-    # Vertical center of the card content (excluding Y_PAD)
-    y_center = cell_y0 + CELL_H / 2
+    # Center text along the card height.
+    # insert_text anchors at the START of the baseline, so offset by half the
+    # text length so the string is truly centered in the card.
+    text_len = fitz.get_text_length(url, fontsize=fontsize)
+    card_v_center = cell_y0 + Y_PAD + CARD_H / 2
 
+    # x: 4 pts inside the content edge (closer to image, not buried in margin)
     if col == 0:
-        # Left col: white margin (feet) is at the LEFT edge of the cell
-        x = COL_X[0] + WHITE_STRIP / 2
-        page.insert_text(fitz.Point(x, y_center), url,
+        # Left col: white strip on LEFT; content starts at x ≈ WHITE_STRIP
+        x = COL_X[0] + WHITE_STRIP - 4
+        # rotate=90 → text goes upward from anchor, so shift anchor down by half
+        page.insert_text(fitz.Point(x, card_v_center + text_len / 2), url,
                          fontsize=fontsize, color=text_color, rotate=90)
     else:
-        # Right col: white margin (feet) is at the RIGHT edge of the cell
-        x = COL_X[1] + CARD_W - WHITE_STRIP / 2
-        page.insert_text(fitz.Point(x, y_center), url,
+        # Right col: white strip on RIGHT; content ends at x ≈ COL_X[1] + CARD_W - WHITE_STRIP
+        x = COL_X[1] + CARD_W - WHITE_STRIP + 4
+        # rotate=270 → text goes downward from anchor, so shift anchor up by half
+        page.insert_text(fitz.Point(x, card_v_center - text_len / 2), url,
                          fontsize=fontsize, color=text_color, rotate=270)
 
 
