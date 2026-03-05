@@ -2,13 +2,17 @@
 """
 generate-print-sheet.py
 
-Builds a print-ready 6-up PDF from the handbill design.
+6-up print sheet for duplex handbills.
 
-Layout (US Letter, 2 cols × 3 rows):
-  - Row 0: rotated 180° — white margin (bottom) points toward TOP edge
-  - Rows 1–2: normal — white margin points toward BOTTOM edge
-  - URL printed in the white margin strip of each front card
-  - Back page: same rotation, columns mirrored for long-edge duplex
+Orientation:
+  LEFT  column — rotated 90°  (head faces CENTER, feet/white margin face LEFT edge)
+  RIGHT column — rotated 270° (head faces CENTER, feet/white margin face RIGHT edge)
+
+Duplex (long-edge flip = flip left↔right):
+  Front left col (90°)  → Back right col (270°)
+  Front right col (270°) → Back left col  (90°)
+
+URL printed rotated in the white-margin strip of each front card.
 
 Usage:
   python3 scripts/generate-print-sheet.py
@@ -23,102 +27,105 @@ from pathlib import Path
 try:
     import fitz
 except ImportError:
-    sys.exit("pymupdf not installed. Run: pip3 install pymupdf")
+    sys.exit("pymupdf not installed.  Run: pip3 install pymupdf")
 
-REPO_ROOT = Path(__file__).parent.parent
-QR_DIR    = REPO_ROOT / "print" / "qr"
-OUT_PATH  = REPO_ROOT / "print" / "sheet.pdf"
-
+REPO_ROOT   = Path(__file__).parent.parent
+QR_DIR      = REPO_ROOT / "print" / "qr"
+OUT_PATH    = REPO_ROOT / "print" / "sheet.pdf"
 DEFAULT_PDF = Path.home() / "Downloads" / "CC BEV (2).pdf"
 
-# Green square in PDF coords (top-left origin, pts)
+# Green square: where the QR code goes on page 1 (top-left origin, pts)
 GREEN = fitz.Rect(343, 402, 579, 637.5)
 
-# Source page / sheet dimensions
-PAGE_W, PAGE_H = 612, 792   # US Letter (matches source PDF)
+# Sheet — US Letter portrait
+PAGE_W, PAGE_H = 612, 792
 COLS, ROWS     = 2, 3
-CELL_W = PAGE_W / COLS      # 306
-CELL_H = PAGE_H / ROWS      # 264
+CELL_W = PAGE_W / COLS   # 306
+CELL_H = PAGE_H / ROWS   # 264
 
-# Scale source page to fit cell, maintaining aspect ratio
-SCALE  = min(CELL_W / PAGE_W, CELL_H / PAGE_H)   # 0.3333
-CARD_W = PAGE_W * SCALE                           # 204
-CARD_H = PAGE_H * SCALE                           # 264
-X_PAD  = (CELL_W - CARD_W) / 2                   # 51 — center horizontally
+# Source card is 612×792 portrait.  Rotated 90/270 it becomes 792×612 landscape.
+# Scale to fit cell (306×264):  min(306/792, 264/612) = 0.3864
+SCALE  = min(CELL_W / PAGE_H, CELL_H / PAGE_W)   # landscape dims vs cell
+CARD_W = PAGE_H * SCALE   # 306  (fills full cell width)
+CARD_H = PAGE_W * SCALE   # 236.5
+Y_PAD  = (CELL_H - CARD_H) / 2   # ~13.75 — vertical centering
 
-# White margin at bottom of source page (measured: 70 pts → 23.3 pts scaled)
-WHITE_BOTTOM = 70 * SCALE   # ≈ 23 pts — URL strip lives here
+# White margin at feet of source card: 70 pts → scaled = 27 pts wide in the cell.
+# Left col:  this strip is at the LEFT edge of the cell  (x = 0 … 27)
+# Right col: this strip is at the RIGHT edge of the cell (x = 279 … 306)
+WHITE_MARGIN_PTS = 70          # measured from source page
+WHITE_STRIP      = WHITE_MARGIN_PTS * SCALE   # ≈ 27 pts
 
-# Row 0 is rotated — rows 1+ are normal
-def is_rotated(row: int) -> bool:
-    return row == 0
+# Column rotations
+COL_ROTATE = {0: 90, 1: 270}
+
+# For duplex (long-edge flip = swap columns + swap rotations)
+BACK_COL    = {0: 1,   1: 0}
+BACK_ROTATE = {0: 270, 1: 90}
 
 
-def card_rect(col: int, row: int) -> fitz.Rect:
-    """Rect for placing a card on the sheet (same for rotated and normal)."""
-    x0 = col * CELL_W + X_PAD
-    y0 = row * CELL_H
+def cell_rect(col: int, row: int) -> fitz.Rect:
+    x0 = col * CELL_W
+    y0 = row * CELL_H + Y_PAD
     return fitz.Rect(x0, y0, x0 + CARD_W, y0 + CARD_H)
 
 
-def url_text_point(col: int, row: int) -> tuple[float, float]:
-    """
-    Center point for URL text within the card's white margin strip.
-    Rotated row 0: margin is now at top of cell.
-    Normal rows: margin is at bottom of cell.
-    """
-    x_center = col * CELL_W + CELL_W / 2
-    cell_top  = row * CELL_H
-    if is_rotated(row):
-        # White margin landed at top after 180° rotation
-        y = cell_top + WHITE_BOTTOM / 2
-    else:
-        # White margin is at bottom of card
-        y = cell_top + CARD_H - WHITE_BOTTOM / 2
-    return x_center, y
-
-
 def make_front(template: fitz.Document, qr_path: Path) -> fitz.Document:
-    """Copy template page 0 and overlay QR code (vector) over the green square."""
+    """Copy template page 0, overlay QR SVG (as vector PDF) over the green square."""
     doc = fitz.open()
     doc.insert_pdf(template, from_page=0, to_page=0)
-    page = doc[0]
-
     svg_doc = fitz.open("svg", qr_path.read_bytes())
     qr_pdf  = fitz.open("pdf", svg_doc.convert_to_pdf())
-    page.show_pdf_page(GREEN, qr_pdf, 0, keep_proportion=False)
+    doc[0].show_pdf_page(GREEN, qr_pdf, 0, keep_proportion=False)
     return doc
 
 
-def slug_from_path(qr_path: Path) -> str:
-    return qr_path.stem   # e.g. "handbill_fbad6739"
+def draw_url(page: fitz.Page, col: int, row: int, url: str) -> None:
+    """
+    Print the URL rotated in the white-margin strip.
+    Left col:  strip at left edge, text reads bottom→top  (rotate=90)
+    Right col: strip at right edge, text reads top→bottom (rotate=270)
+    """
+    fontsize   = 6.5
+    text_color = (0.45, 0.45, 0.45)
+    cell_y0    = row * CELL_H
 
+    # Vertical center of the card content (excluding Y_PAD)
+    y_center = cell_y0 + CELL_H / 2
 
-def redirect_url(slug: str) -> str:
-    return f"trilliummassage.la/redirect/{slug}"
+    if col == 0:
+        # Left column: margin strip is at x = 0…WHITE_STRIP
+        # Text reads bottom→top, anchor at (x, y_center)
+        x = WHITE_STRIP / 2
+        page.insert_text(
+            fitz.Point(x, y_center),
+            url,
+            fontsize=fontsize,
+            color=text_color,
+            rotate=90,
+        )
+    else:
+        # Right column: margin strip is at x = (PAGE_W - WHITE_STRIP)…PAGE_W
+        x = PAGE_W - WHITE_STRIP / 2
+        page.insert_text(
+            fitz.Point(x, y_center),
+            url,
+            fontsize=fontsize,
+            color=text_color,
+            rotate=270,
+        )
 
 
 def draw_cut_lines(page: fitz.Page) -> None:
     shape = page.new_shape()
-    for c in range(1, COLS):
-        shape.draw_line(fitz.Point(c * CELL_W, 0), fitz.Point(c * CELL_W, PAGE_H))
+    # Vertical center line
+    shape.draw_line(fitz.Point(CELL_W, 0), fitz.Point(CELL_W, PAGE_H))
+    # Horizontal row lines
     for r in range(1, ROWS):
-        shape.draw_line(fitz.Point(0, r * CELL_H), fitz.Point(PAGE_W, r * CELL_H))
+        y = r * CELL_H
+        shape.draw_line(fitz.Point(0, y), fitz.Point(PAGE_W, y))
     shape.finish(color=(0.7, 0.7, 0.7), width=0.5)
     shape.commit()
-
-
-def draw_url(page: fitz.Page, col: int, row: int, url: str) -> None:
-    x, y = url_text_point(col, row)
-    fontsize = 6.5
-    # insert_text anchors at baseline; measure text width to center manually
-    text_w = fitz.get_text_length(url, fontsize=fontsize)
-    page.insert_text(
-        fitz.Point(x - text_w / 2, y + fontsize / 2),
-        url,
-        fontsize=fontsize,
-        color=(0.4, 0.4, 0.4),
-    )
 
 
 def main():
@@ -132,15 +139,15 @@ def main():
 
     qr_files = sorted(QR_DIR.glob("handbill_*.svg"))
     if not qr_files:
-        sys.exit(f"No handbill SVGs in {QR_DIR} — run generate-handbills.ts first")
+        sys.exit(f"No SVGs in {QR_DIR} — run generate-handbills.ts first")
 
     template = fitz.open(str(pdf_path))
     if template.page_count < 2:
         sys.exit("PDF needs 2 pages (front + back)")
 
-    out = fitz.open()
-
+    out    = fitz.open()
     sheets = 0
+
     for offset in range(0, len(qr_files), COLS * ROWS):
         batch  = qr_files[offset : offset + COLS * ROWS]
         sheets += 1
@@ -151,20 +158,22 @@ def main():
 
         for i, (fdoc, qr_path) in enumerate(zip(front_docs, batch)):
             col, row = i % COLS, i // COLS
-            rotate = 180 if is_rotated(row) else 0
-            front.show_pdf_page(card_rect(col, row), fdoc, 0, rotate=rotate)
-            draw_url(front, col, row, redirect_url(slug_from_path(qr_path)))
+            front.show_pdf_page(cell_rect(col, row), fdoc, 0,
+                                rotate=COL_ROTATE[col])
+            url = f"trilliummassage.la/redirect/{qr_path.stem}"
+            draw_url(front, col, row, url)
 
         draw_cut_lines(front)
 
-        # ── Back (columns mirrored, same rotation) ────────────────────────────
+        # ── Back (swap cols + swap rotations for long-edge duplex) ────────────
         back = out.new_page(width=PAGE_W, height=PAGE_H)
 
         for i in range(len(batch)):
-            col, row = i % COLS, i // COLS
-            mirrored_col = (COLS - 1) - col
-            rotate = 180 if is_rotated(row) else 0
-            back.show_pdf_page(card_rect(mirrored_col, row), template, 1, rotate=rotate)
+            col, row   = i % COLS, i // COLS
+            b_col      = BACK_COL[col]
+            b_rotate   = BACK_ROTATE[col]
+            back.show_pdf_page(cell_rect(b_col, row), template, 1,
+                               rotate=b_rotate)
 
         draw_cut_lines(back)
 
@@ -174,9 +183,9 @@ def main():
     print(f"✓ {len(qr_files)} handbills · {sheets} sheet(s) · {out.page_count} pages")
     print(f"  {OUT_PATH}")
     print()
-    print("  Print: duplex, flip on long edge, 100% / actual size")
-    print("  Row 0 rotated 180° — white margins face outward on all rows")
-    print("  URL printed in white margin of each front card")
+    print("  Left col: 90°  (head → center)")
+    print("  Right col: 270° (head → center)")
+    print("  Print duplex, flip on long edge — backs align after cut")
 
 
 if __name__ == "__main__":
