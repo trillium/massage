@@ -1,6 +1,7 @@
 import { GoogleCalendarV3Event, SearchParamsType, SlugConfigurationType } from '@/lib/types'
 import {
   fetchContainersByQuery,
+  fetchContainerGeneric,
   fetchAllCalendarEvents,
   filterEventsForQuery,
   filterEventsForGeneralBlocking,
@@ -76,7 +77,17 @@ export async function fetchContainerResult(
       containers: querySpecific.containers,
     }
   } else {
-    containerData = await fetchContainersByQuery({ searchParams: resolvedParams, query })
+    // Fetch ALL calendar events then filter locally for this query.
+    // Google Calendar q= search has unreliable tokenization and indexing
+    // delays for newly created events — only an unfiltered list is reliable.
+    const allEventsData = await fetchAllCalendarEvents({ searchParams: resolvedParams })
+    const querySpecific = filterEventsForQuery(allEventsData.allEvents, query)
+    containerData = {
+      start: allEventsData.start,
+      end: allEventsData.end,
+      busy: querySpecific.busyQuery,
+      containers: querySpecific.containers,
+    }
   }
 
   const busyConverted = containerData.busy
