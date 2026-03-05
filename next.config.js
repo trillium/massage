@@ -1,6 +1,8 @@
 import { withContentlayer } from 'next-contentlayer2'
 import bundleAnalyzer from '@next/bundle-analyzer'
 import { withSentryConfig } from '@sentry/nextjs'
+import { readFileSync } from 'fs'
+import { join } from 'path'
 
 const withBundleAnalyzer = bundleAnalyzer({
   enabled: process.env.ANALYZE === 'true',
@@ -112,6 +114,11 @@ const nextConfig = () => {
       }
 
       return config
+    },
+    async redirects() {
+      const redirectsPath = join(process.cwd(), 'redirects.jsonl')
+      const lines = readFileSync(redirectsPath, 'utf-8').trim().split('\n')
+      return lines.map((line) => JSON.parse(line))
     },
     async rewrites() {
       return [
