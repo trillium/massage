@@ -92,6 +92,7 @@ playground/
 
 # Generated files (QR codes, etc.)
 /generated
+/public/qr
 
 # TypeScript build cache
 *.tsbuildinfo
