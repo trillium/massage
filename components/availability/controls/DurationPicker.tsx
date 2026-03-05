@@ -27,13 +27,17 @@ export default function DurationPicker({
   const allowedDurations = allowedDurationsRedux || allowedDurationsProps || ALLOWED_DURATIONS
   const price = priceRedux || priceProps || DEFAULT_PRICING
   const sessionCost = price[duration || DEFAULT_DURATION] ?? ''
+  const pricingLabel = configuration?.pricingLabels?.[duration || DEFAULT_DURATION]
 
   return (
     <fieldset>
       <legend className="block pb-2 text-sm leading-0 font-medium text-gray-900 dark:text-gray-100">
-        {/* {`${duration || 90} minute session - $${sessionCost}`} */}
-        <span>{`${duration || 90} minute session`} </span>
-        {showPrice && <GeneratePrice price={sessionCost} discount={configuration?.discount} />}
+        <span>{`${duration || 90} minute session${pricingLabel ? ',' : ''}`} </span>
+        {pricingLabel ? (
+          <span className="text-primary-600 dark:text-primary-400">{pricingLabel}</span>
+        ) : (
+          showPrice && <GeneratePrice price={sessionCost} discount={configuration?.discount} />
+        )}
       </legend>
       <div className="focus-within:ring-primary-500 active:ring-primary-500 isolate mt-1 inline-flex h-9 rounded-md shadow-sm focus-within:ring-2 active:ring-2">
         {allowedDurations.map((theDuration, i) => (

@@ -58,14 +58,6 @@ export default function QuicklinksPage() {
   return (
     <SectionContainer>
       <div className="flex min-h-[60vh] flex-col items-center py-12">
-        <p className="mb-2 text-sm font-semibold tracking-widest text-primary-600 uppercase dark:text-primary-400">
-          Trillium Massage
-        </p>
-        <h1 className="mb-2 text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-100">
-          Quick Links
-        </h1>
-        <p className="mb-10 text-gray-600 dark:text-gray-400">Pay, book, or get in touch</p>
-
         <div className="flex w-full max-w-md flex-col gap-4">
           {links.map((link) => (
             <Link
@@ -81,10 +73,6 @@ export default function QuicklinksPage() {
             </Link>
           ))}
         </div>
-
-        <p className="mt-12 text-center text-xs text-gray-400 dark:text-gray-600">
-          Serving the LA Metro Area &middot; 7 days a week
-        </p>
       </div>
     </SectionContainer>
   )

@@ -19,8 +19,8 @@ export default function DisplayClient({ durationProps }: DisplayClientProps) {
 
   return (
     <div className="flex flex-col space-y-8">
-      <DurationPicker {...durationProps} showPrice={false} />
-      <Calendar />
+      <DurationPicker {...durationProps} />
+      <Calendar weeksDisplayOverride={2} />
       <DisplayTimeList presenceCounts={presenceCounts} onSlotHover={trackSlot} />
       <BookingForm acceptingPayment={false} endPoint="api/event-booking" />
     </div>
