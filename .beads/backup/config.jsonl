@@ -8,5 +8,8 @@
 {"key":"compact_tier2_dep_levels","value":"5"}
 {"key":"compaction_enabled","value":"false"}
 {"key":"issue_prefix","value":"me"}
+{"key":"kv.memory.wasteland-poll","value":"Wasteland hourly poll: launchd job com.trillium.wasteland-poll (~/Library/LaunchAgents/). Script: ~/.hop/wasteland-poll.sh. Toggle: touch ~/.hop/wasteland-poll.enabled (on) / rm (off). Notify-only — never auto-claims. Logs: ~/gt/logs/wasteland-poll.log. Seen state: ~/.hop/wasteland-poll.seen."}
+{"key":"kv.memory.wasteland-poll-toggle","value":"wasteland poll toggle"}
 {"key":"schema_version","value":"6"}
+{"key":"status.custom","value":"staged_ready,staged_warnings,status.custom (not set)"}
 {"key":"types.custom","value":"agent,role,rig,convoy,slot,queue,event,message,molecule,gate,merge-request"}
