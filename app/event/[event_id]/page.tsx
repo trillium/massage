@@ -11,6 +11,7 @@ import RescheduleButton from './RescheduleButton'
 import EditForm from './EditForm'
 import { parseEditableFields } from '@/lib/helpers/parseEventDescription'
 import { stringToLocationObject } from '@/lib/slugConfigurations/helpers/parseLocationFromSlug'
+import { FaHourglassHalf, FaCheckCircle, FaTimesCircle } from 'react-icons/fa'
 
 interface EventPageProps {
   params: Promise<{ event_id: string }>
@@ -21,21 +22,21 @@ function StatusBadge({ status }: { status: 'pending' | 'confirmed' | 'cancelled'
   const config = {
     pending: {
       label: 'Pending Request',
-      icon: '\u23f3',
+      icon: <FaHourglassHalf className="h-4 w-4" />,
       bg: 'bg-yellow-100 dark:bg-yellow-900/30',
       text: 'text-yellow-800 dark:text-yellow-200',
       border: 'border-yellow-300 dark:border-yellow-700',
     },
     confirmed: {
       label: 'Confirmed',
-      icon: '\u2705',
+      icon: <FaCheckCircle className="h-4 w-4" />,
       bg: 'bg-green-100 dark:bg-green-900/30',
       text: 'text-green-800 dark:text-green-200',
       border: 'border-green-300 dark:border-green-700',
     },
     cancelled: {
       label: 'Cancelled',
-      icon: '\u274c',
+      icon: <FaTimesCircle className="h-4 w-4" />,
       bg: 'bg-red-100 dark:bg-red-900/30',
       text: 'text-red-800 dark:text-red-200',
       border: 'border-red-300 dark:border-red-700',
@@ -47,7 +48,7 @@ function StatusBadge({ status }: { status: 'pending' | 'confirmed' | 'cancelled'
     <span
       className={`inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-sm font-semibold ${c.bg} ${c.text} ${c.border}`}
     >
-      <span>{c.icon}</span>
+      {c.icon}
       {c.label}
     </span>
   )

@@ -1,5 +1,6 @@
 import Template from '@/components/Template'
 import Link from '@/components/Link'
+import { FaClock } from 'react-icons/fa'
 
 interface ExpiredPromoPageProps {
   title: string
@@ -24,7 +25,7 @@ export default function ExpiredPromoPage({
       <div className="mx-auto max-w-2xl px-4 text-center">
         <div className="mb-8">
           <div className="mx-auto mb-6 flex h-24 w-24 items-center justify-center rounded-full bg-orange-100 dark:bg-orange-900/20">
-            <span className="text-4xl">⏰</span>
+            <FaClock className="text-4xl" />
           </div>
 
           <h1 className="mb-4 text-3xl font-bold text-gray-900 dark:text-white">
