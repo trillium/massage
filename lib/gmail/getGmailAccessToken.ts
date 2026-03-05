@@ -1,5 +1,3 @@
-import { google } from 'googleapis'
-
 /**
  * Retrieves an access token from Google with Gmail scope using a refresh token.
  * This extends the existing calendar token functionality to include Gmail access.
