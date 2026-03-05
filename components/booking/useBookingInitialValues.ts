@@ -62,7 +62,7 @@ export function useBookingInitialValues({
       duration: duration || 0,
       price: acceptingPayment ? price : undefined,
       timeZone: timeZone || '',
-      eventBaseString: eventBaseString,
+      eventBaseString: eventContainers?.eventBaseString || eventBaseString,
       eventMemberString: eventContainers?.eventMemberString,
       bookingUrl: config?.bookingSlug
         ? `/${Array.isArray(config.bookingSlug) ? config.bookingSlug[0] : config.bookingSlug}`
