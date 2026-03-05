@@ -40,21 +40,23 @@ GREEN = fitz.Rect(343, 402, 579, 637.5)
 # Sheet — US Letter portrait
 PAGE_W, PAGE_H = 612, 792
 COLS, ROWS     = 2, 3
-CELL_W = PAGE_W / COLS   # 306
-CELL_H = PAGE_H / ROWS   # 264
+GUTTER         = 24           # pts between the two heads (~0.33 in)
+CELL_W = (PAGE_W - GUTTER) / COLS   # 294
+CELL_H = PAGE_H / ROWS               # 264
+
+# Col x-origins (left col starts at 0, right col starts after gutter)
+COL_X = {0: 0, 1: CELL_W + GUTTER}
 
 # Source card is 612×792 portrait.  Rotated 90/270 it becomes 792×612 landscape.
-# Scale to fit cell (306×264):  min(306/792, 264/612) = 0.3864
-SCALE  = min(CELL_W / PAGE_H, CELL_H / PAGE_W)   # landscape dims vs cell
-CARD_W = PAGE_H * SCALE   # 306  (fills full cell width)
-CARD_H = PAGE_W * SCALE   # 236.5
-Y_PAD  = (CELL_H - CARD_H) / 2   # ~13.75 — vertical centering
+# Scale to fit cell (294×264):  min(294/792, 264/612) = 0.3712
+SCALE  = min(CELL_W / PAGE_H, CELL_H / PAGE_W)
+CARD_W = PAGE_H * SCALE   # fills cell width
+CARD_H = PAGE_W * SCALE
+Y_PAD  = (CELL_H - CARD_H) / 2
 
-# White margin at feet of source card: 70 pts → scaled = 27 pts wide in the cell.
-# Left col:  this strip is at the LEFT edge of the cell  (x = 0 … 27)
-# Right col: this strip is at the RIGHT edge of the cell (x = 279 … 306)
-WHITE_MARGIN_PTS = 70          # measured from source page
-WHITE_STRIP      = WHITE_MARGIN_PTS * SCALE   # ≈ 27 pts
+# White margin at feet of source card: 70 pts scaled to cell width
+WHITE_MARGIN_PTS = 70
+WHITE_STRIP      = WHITE_MARGIN_PTS * SCALE
 
 # Column rotations
 COL_ROTATE = {0: 270, 1: 90}
@@ -65,7 +67,7 @@ BACK_ROTATE = {0: 90, 1: 270}
 
 
 def cell_rect(col: int, row: int) -> fitz.Rect:
-    x0 = col * CELL_W
+    x0 = COL_X[col]
     y0 = row * CELL_H + Y_PAD
     return fitz.Rect(x0, y0, x0 + CARD_W, y0 + CARD_H)
 
@@ -94,32 +96,22 @@ def draw_url(page: fitz.Page, col: int, row: int, url: str) -> None:
     y_center = cell_y0 + CELL_H / 2
 
     if col == 0:
-        # Left column: margin strip is at x = 0…WHITE_STRIP
-        # Text reads bottom→top, anchor at (x, y_center)
-        x = WHITE_STRIP / 2
-        page.insert_text(
-            fitz.Point(x, y_center),
-            url,
-            fontsize=fontsize,
-            color=text_color,
-            rotate=90,
-        )
+        # Left col: white margin (feet) is at the LEFT edge of the cell
+        x = COL_X[0] + WHITE_STRIP / 2
+        page.insert_text(fitz.Point(x, y_center), url,
+                         fontsize=fontsize, color=text_color, rotate=90)
     else:
-        # Right column: margin strip is at x = (PAGE_W - WHITE_STRIP)…PAGE_W
-        x = PAGE_W - WHITE_STRIP / 2
-        page.insert_text(
-            fitz.Point(x, y_center),
-            url,
-            fontsize=fontsize,
-            color=text_color,
-            rotate=270,
-        )
+        # Right col: white margin (feet) is at the RIGHT edge of the cell
+        x = COL_X[1] + CARD_W - WHITE_STRIP / 2
+        page.insert_text(fitz.Point(x, y_center), url,
+                         fontsize=fontsize, color=text_color, rotate=270)
 
 
 def draw_cut_lines(page: fitz.Page) -> None:
     shape = page.new_shape()
-    # Vertical center line
-    shape.draw_line(fitz.Point(CELL_W, 0), fitz.Point(CELL_W, PAGE_H))
+    # Gutter edges (two lines around the center gap)
+    shape.draw_line(fitz.Point(CELL_W, 0),          fitz.Point(CELL_W, PAGE_H))
+    shape.draw_line(fitz.Point(CELL_W + GUTTER, 0), fitz.Point(CELL_W + GUTTER, PAGE_H))
     # Horizontal row lines
     for r in range(1, ROWS):
         y = r * CELL_H
