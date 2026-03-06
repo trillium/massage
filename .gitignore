@@ -107,5 +107,6 @@ playground/
 # Generated print assets — tracked via redirects.jsonl, not committed
 print/qr/
 print/sheet.pdf
+print/sheet.html
 print/index.html
 print/qc/
