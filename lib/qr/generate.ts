@@ -1,8 +1,14 @@
+/**
+ * @deprecated Use lib/qr/generate-native.ts instead.
+ * This module uses qr-code-styling (basic shapes, no eyelet/adjacency rendering).
+ * The native generator produces the correct branded QR style.
+ */
 import { JSDOM } from 'jsdom'
 import QRCodeStyling from 'qr-code-styling'
 import type { QRColorPreset } from './colors'
 import { buildQROptions } from './config'
 
+/** @deprecated Use generateNativeQRSvg from lib/qr/generate-native.ts */
 export async function generateQRSvg(data: string, preset: QRColorPreset = 'default') {
   const options = buildQROptions(data, preset)
 

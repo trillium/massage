@@ -21,7 +21,7 @@ export function buildQROptions(
       color: scheme.body,
     },
     cornersSquareOptions: {
-      type: 'extra-rounded',
+      type: 'square',
       color: scheme.eyeFrame,
     },
     cornersDotOptions: {
