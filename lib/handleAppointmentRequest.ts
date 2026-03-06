@@ -86,7 +86,7 @@ export async function handleAppointmentRequest({
         )
       }
     } catch {
-      // fail-open: allow booking if availability check itself throws
+      return NextResponse.json({ error: 'Unable to verify availability' }, { status: 503 })
     }
   }
 

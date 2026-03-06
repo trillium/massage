@@ -442,7 +442,7 @@ describe('handleAppointmentRequest', () => {
       )
     })
 
-    it('proceeds normally if checkSlotAvailability throws (fail-open)', async () => {
+    it('rejects booking if checkSlotAvailability throws (fail-closed)', async () => {
       mockCheckSlotAvailability.mockRejectedValue(new Error('check failed'))
 
       const result = await handleAppointmentRequest({
@@ -462,8 +462,8 @@ describe('handleAppointmentRequest', () => {
         checkSlotAvailability: mockCheckSlotAvailability,
       })
 
-      expect(result.status).toBe(200)
-      expect(mockCreateRequestCalendarEvent).toHaveBeenCalled()
+      expect(result.status).toBe(503)
+      expect(mockCreateRequestCalendarEvent).not.toHaveBeenCalled()
     })
   })
 })

@@ -65,8 +65,8 @@ export async function checkSlotAvailability({
 
     return { available: true }
   } catch (error) {
-    console.error('Availability check failed, allowing booking (fail-open):', error)
-    return { available: true }
+    console.error('Availability check failed, rejecting booking (fail-closed):', error)
+    return { available: false }
   }
 }
 

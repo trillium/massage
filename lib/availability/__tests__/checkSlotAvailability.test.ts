@@ -158,16 +158,16 @@ describe('checkSlotAvailability', () => {
     })
   })
 
-  describe('error handling (fail-open)', () => {
-    it('returns available if getBusyTimes throws', async () => {
+  describe('error handling (fail-closed)', () => {
+    it('returns unavailable if getBusyTimes throws', async () => {
       mockGetBusyTimes.mockRejectedValue(new Error('API down'))
 
       const result = await checkSlotAvailability(baseParams)
 
-      expect(result).toEqual({ available: true })
+      expect(result).toEqual({ available: false })
     })
 
-    it('returns available if getEventsBySearchQuery throws', async () => {
+    it('returns unavailable if getEventsBySearchQuery throws', async () => {
       mockGetEventsBySearchQuery.mockRejectedValue(new Error('API down'))
 
       const result = await checkSlotAvailability({
@@ -175,7 +175,7 @@ describe('checkSlotAvailability', () => {
         eventBaseString: 'scale23x',
       })
 
-      expect(result).toEqual({ available: true })
+      expect(result).toEqual({ available: false })
     })
   })
 })
