@@ -4,6 +4,7 @@ import { parseEventSummary } from '@/lib/helpers/parseEventSummary'
 import { formatLocalDate, formatLocalTime } from '@/lib/availability/helpers'
 import SectionContainer from '@/components/SectionContainer'
 import Link from '@/components/Link'
+import { OWNER_TIMEZONE } from 'config'
 import { createBookingUrl } from '@/lib/helpers/createBookingUrl'
 import { extractBookingSlug } from '@/lib/helpers/extractBookingSlug'
 import CancelButton from './CancelButton'
@@ -121,9 +122,12 @@ export default async function EventPage({ params, searchParams }: EventPageProps
   const startTime = event.start?.dateTime
   const endTime = event.end?.dateTime
 
-  const dateString = startTime ? formatLocalDate(startTime) : null
-  const startString = startTime ? formatLocalTime(startTime) : null
-  const endString = endTime ? formatLocalTime(endTime, { timeZoneName: 'shortGeneric' }) : null
+  const tz = { timeZone: OWNER_TIMEZONE }
+  const dateString = startTime ? formatLocalDate(startTime, tz) : null
+  const startString = startTime ? formatLocalTime(startTime, tz) : null
+  const endString = endTime
+    ? formatLocalTime(endTime, { ...tz, timeZoneName: 'shortGeneric' })
+    : null
 
   const bookingSlug = extractBookingSlug(event)
   const editableFields = event.description ? parseEditableFields(event.description) : null
