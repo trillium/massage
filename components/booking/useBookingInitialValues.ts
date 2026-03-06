@@ -6,6 +6,7 @@ import { SlugConfigurationType } from 'lib/configTypes'
 import { EventContainerType } from '@/redux/slices/eventContainersSlice'
 import type { BookingFormData } from '@/lib/types'
 import siteMetadata from 'data/siteMetadata'
+import { generateContainerStrings } from '@/lib/slugConfigurations/helpers/generateContainerStrings'
 
 const { eventBaseString } = siteMetadata
 
@@ -30,8 +31,12 @@ export function useBookingInitialValues({
   acceptingPayment,
   price,
 }: UseBookingInitialValuesParams): BookingFormValues {
-  return useMemo(
-    () => ({
+  return useMemo(() => {
+    const configStrings = config.eventContainer
+      ? generateContainerStrings(undefined, config)
+      : undefined
+
+    return {
       firstName: formData.firstName || config.prefillFirstName || '',
       lastName: formData.lastName || config.prefillLastName || '',
       phone: formData.phone || config.prefillPhone || '',
@@ -62,8 +67,9 @@ export function useBookingInitialValues({
       duration: duration || 0,
       price: acceptingPayment ? price : undefined,
       timeZone: timeZone || '',
-      eventBaseString: eventContainers?.eventBaseString || eventBaseString,
-      eventMemberString: eventContainers?.eventMemberString,
+      eventBaseString:
+        eventContainers?.eventBaseString || configStrings?.eventBaseString || eventBaseString,
+      eventMemberString: eventContainers?.eventMemberString || configStrings?.eventMemberString,
       bookingUrl: config?.bookingSlug
         ? `/${Array.isArray(config.bookingSlug) ? config.bookingSlug[0] : config.bookingSlug}`
         : undefined,
@@ -74,7 +80,6 @@ export function useBookingInitialValues({
         : undefined,
       rescheduleEventId: config?.rescheduleEventId,
       rescheduleToken: config?.rescheduleToken,
-    }),
-    [formData, eventContainers, config, selectedTime, timeZone, duration, acceptingPayment, price]
-  )
+    }
+  }, [formData, eventContainers, config, selectedTime, timeZone, duration, acceptingPayment, price])
 }

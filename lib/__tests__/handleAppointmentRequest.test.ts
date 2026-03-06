@@ -12,8 +12,9 @@ vi.mock('../messaging/push/admin/pushover', () => ({
 }))
 
 // Mock createCalendarAppointment
+const mockCreateCalendarAppointment = vi.fn()
 vi.mock('../availability/createCalendarAppointment', () => ({
-  default: vi.fn(() => Promise.resolve()),
+  default: (props: unknown) => mockCreateCalendarAppointment(props),
 }))
 
 // Mock eventSummary
@@ -70,6 +71,10 @@ describe('handleAppointmentRequest', () => {
     mockCreateRequestCalendarEvent.mockResolvedValue({ id: 'test-event-id' })
     mockUpdateCalendarEvent.mockResolvedValue({})
     mockCheckSlotAvailability.mockResolvedValue({ available: true })
+    mockCreateCalendarAppointment.mockResolvedValue({
+      ok: true,
+      json: () => Promise.resolve({ id: 'instant-event-id' }),
+    })
   })
 
   it('should handle successful appointment request', async () => {
@@ -397,6 +402,44 @@ describe('handleAppointmentRequest', () => {
 
       expect(result.status).toBe(200)
       expect(mockCreateRequestCalendarEvent).toHaveBeenCalled()
+    })
+
+    it('passes eventMemberString to createCalendarAppointment on instant confirm', async () => {
+      mockCheckSlotAvailability.mockResolvedValue({ available: true })
+      const instantData = {
+        ...validData,
+        instantConfirm: true,
+        eventMemberString: 'scale23x__EVENT__MEMBER__',
+        locationString: 'Test Location',
+      }
+      vi.spyOn(AppointmentRequestSchema, 'safeParse').mockImplementation(() => ({
+        success: true,
+        data: instantData,
+      }))
+      mockClientConfirmEmail.mockResolvedValue({ subject: 'Test', body: 'Test' })
+
+      await handleAppointmentRequest({
+        req: mockReq,
+        headers: mockHeaders,
+        sendMailFn: mockSendMail,
+        siteMetadata: { email: 'owner@example.com' },
+        ownerTimeZone: 'UTC',
+        approvalEmailFn: mockApprovalEmail,
+        clientRequestEmailFn: mockClientRequestEmail,
+        clientConfirmEmailFn: mockClientConfirmEmail,
+        getHashFn: mockGetHash,
+        rateLimiter: mockRateLimiter,
+        schema: AppointmentRequestSchema,
+        createRequestCalendarEvent: mockCreateRequestCalendarEvent,
+        updateCalendarEvent: mockUpdateCalendarEvent,
+        checkSlotAvailability: mockCheckSlotAvailability,
+      })
+
+      expect(mockCreateCalendarAppointment).toHaveBeenCalledWith(
+        expect.objectContaining({
+          eventMemberString: 'scale23x__EVENT__MEMBER__',
+        })
+      )
     })
 
     it('proceeds normally if checkSlotAvailability throws (fail-open)', async () => {
