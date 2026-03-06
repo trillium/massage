@@ -2076,3 +2076,47 @@
 {"actor":"Trillium Smith","comment":null,"created_at":"2026-03-05T16:38:58Z","event_type":"created","id":2022,"issue_id":"me-36vk","new_value":"","old_value":""}
 {"actor":"Trillium Smith","comment":"Added label: large-file","created_at":"2026-03-05T16:38:58Z","event_type":"label_added","id":2023,"issue_id":"me-36vk","new_value":null,"old_value":null}
 {"actor":"Trillium Smith","comment":"Added label: refactor","created_at":"2026-03-05T16:38:58Z","event_type":"label_added","id":2024,"issue_id":"me-36vk","new_value":null,"old_value":null}
+{"actor":"Trillium Smith","comment":null,"created_at":"2026-03-05T16:38:59Z","event_type":"created","id":2025,"issue_id":"me-r9uj","new_value":"","old_value":""}
+{"actor":"Trillium Smith","comment":"Added label: large-file","created_at":"2026-03-05T16:38:59Z","event_type":"label_added","id":2026,"issue_id":"me-r9uj","new_value":null,"old_value":null}
+{"actor":"Trillium Smith","comment":"Added label: refactor","created_at":"2026-03-05T16:38:59Z","event_type":"label_added","id":2027,"issue_id":"me-r9uj","new_value":null,"old_value":null}
+{"actor":"Trillium Smith","comment":null,"created_at":"2026-03-05T16:38:59Z","event_type":"created","id":2028,"issue_id":"me-ztrq","new_value":"","old_value":""}
+{"actor":"Trillium Smith","comment":"Added label: large-file","created_at":"2026-03-05T16:38:59Z","event_type":"label_added","id":2029,"issue_id":"me-ztrq","new_value":null,"old_value":null}
+{"actor":"Trillium Smith","comment":"Added label: refactor","created_at":"2026-03-05T16:38:59Z","event_type":"label_added","id":2030,"issue_id":"me-ztrq","new_value":null,"old_value":null}
+{"actor":"Trillium Smith","comment":null,"created_at":"2026-03-05T16:38:59Z","event_type":"created","id":2031,"issue_id":"me-75ad","new_value":"","old_value":""}
+{"actor":"Trillium Smith","comment":"Added label: large-file","created_at":"2026-03-05T16:38:59Z","event_type":"label_added","id":2032,"issue_id":"me-75ad","new_value":null,"old_value":null}
+{"actor":"Trillium Smith","comment":"Added label: refactor","created_at":"2026-03-05T16:38:59Z","event_type":"label_added","id":2033,"issue_id":"me-75ad","new_value":null,"old_value":null}
+{"actor":"Trillium Smith","comment":null,"created_at":"2026-03-05T16:38:59Z","event_type":"created","id":2034,"issue_id":"me-sh9a","new_value":"","old_value":""}
+{"actor":"Trillium Smith","comment":"Added label: large-file","created_at":"2026-03-05T16:38:59Z","event_type":"label_added","id":2035,"issue_id":"me-sh9a","new_value":null,"old_value":null}
+{"actor":"Trillium Smith","comment":"Added label: refactor","created_at":"2026-03-05T16:38:59Z","event_type":"label_added","id":2036,"issue_id":"me-sh9a","new_value":null,"old_value":null}
+{"actor":"Trillium Smith","comment":null,"created_at":"2026-03-05T16:43:18Z","event_type":"created","id":2037,"issue_id":"me-1cpn","new_value":"","old_value":""}
+{"actor":"Trillium Smith","comment":"Added label: large-file","created_at":"2026-03-05T16:43:18Z","event_type":"label_added","id":2038,"issue_id":"me-1cpn","new_value":null,"old_value":null}
+{"actor":"Trillium Smith","comment":"Added label: refactor","created_at":"2026-03-05T16:43:18Z","event_type":"label_added","id":2039,"issue_id":"me-1cpn","new_value":null,"old_value":null}
+{"actor":"Trillium Smith","comment":null,"created_at":"2026-03-05T16:43:19Z","event_type":"created","id":2040,"issue_id":"me-4ntw","new_value":"","old_value":""}
+{"actor":"Trillium Smith","comment":"Added label: large-file","created_at":"2026-03-05T16:43:19Z","event_type":"label_added","id":2041,"issue_id":"me-4ntw","new_value":null,"old_value":null}
+{"actor":"Trillium Smith","comment":"Added label: refactor","created_at":"2026-03-05T16:43:19Z","event_type":"label_added","id":2042,"issue_id":"me-4ntw","new_value":null,"old_value":null}
+{"actor":"Trillium Smith","comment":null,"created_at":"2026-03-05T16:43:19Z","event_type":"created","id":2043,"issue_id":"me-bxka","new_value":"","old_value":""}
+{"actor":"Trillium Smith","comment":"Added label: large-file","created_at":"2026-03-05T16:43:19Z","event_type":"label_added","id":2044,"issue_id":"me-bxka","new_value":null,"old_value":null}
+{"actor":"Trillium Smith","comment":"Added label: refactor","created_at":"2026-03-05T16:43:19Z","event_type":"label_added","id":2045,"issue_id":"me-bxka","new_value":null,"old_value":null}
+{"actor":"Trillium Smith","comment":null,"created_at":"2026-03-05T16:43:19Z","event_type":"created","id":2046,"issue_id":"me-zie6","new_value":"","old_value":""}
+{"actor":"Trillium Smith","comment":"Added label: large-file","created_at":"2026-03-05T16:43:19Z","event_type":"label_added","id":2047,"issue_id":"me-zie6","new_value":null,"old_value":null}
+{"actor":"Trillium Smith","comment":"Added label: refactor","created_at":"2026-03-05T16:43:19Z","event_type":"label_added","id":2048,"issue_id":"me-zie6","new_value":null,"old_value":null}
+{"actor":"chrote/refinery","comment":null,"created_at":"2026-03-05T16:47:01Z","event_type":"created","id":2049,"issue_id":"me-rg9i","new_value":"","old_value":""}
+{"actor":"chrote/refinery","comment":"Added label: from:chrote/refinery","created_at":"2026-03-05T16:47:01Z","event_type":"label_added","id":2050,"issue_id":"me-rg9i","new_value":null,"old_value":null}
+{"actor":"chrote/refinery","comment":"Added label: gt:message","created_at":"2026-03-05T16:47:01Z","event_type":"label_added","id":2051,"issue_id":"me-rg9i","new_value":null,"old_value":null}
+{"actor":"chrote/refinery","comment":null,"created_at":"2026-03-05T16:47:01Z","event_type":"status_changed","id":2052,"issue_id":"me-rg9i","new_value":"{\"assignee\":\"chrote/refinery\",\"status\":\"hooked\"}","old_value":"{\"id\":\"me-rg9i\",\"title\":\"🤝 HANDOFF: Refinery patrol\",\"description\":\"Two cycles: queue empty both times, inbox clear. RSS 3MB. No branches processed. Patrol rig-wisp-1cm5 active.\",\"status\":\"open\",\"priority\":1,\"issue_type\":\"task\",\"assignee\":\"chrote/refinery\",\"owner\":\"trillium@trilliumsmith.com\",\"created_at\":\"2026-03-06T00:47:01Z\",\"created_by\":\"chrote/refinery\",\"updated_at\":\"2026-03-06T00:47:01Z\"}"}
+{"actor":"chrote/refinery","comment":null,"created_at":"2026-03-05T16:49:53Z","event_type":"closed","id":2053,"issue_id":"me-rg9i","new_value":"Closed","old_value":""}
+{"actor":"Trillium Smith","comment":null,"created_at":"2026-03-05T16:58:23Z","event_type":"created","id":2054,"issue_id":"me-5v80","new_value":"","old_value":""}
+{"actor":"Trillium Smith","comment":"Added label: large-file","created_at":"2026-03-05T16:58:23Z","event_type":"label_added","id":2055,"issue_id":"me-5v80","new_value":null,"old_value":null}
+{"actor":"Trillium Smith","comment":"Added label: refactor","created_at":"2026-03-05T16:58:23Z","event_type":"label_added","id":2056,"issue_id":"me-5v80","new_value":null,"old_value":null}
+{"actor":"Trillium Smith","comment":null,"created_at":"2026-03-05T16:58:23Z","event_type":"created","id":2057,"issue_id":"me-zoqj","new_value":"","old_value":""}
+{"actor":"Trillium Smith","comment":"Added label: large-file","created_at":"2026-03-05T16:58:23Z","event_type":"label_added","id":2058,"issue_id":"me-zoqj","new_value":null,"old_value":null}
+{"actor":"Trillium Smith","comment":"Added label: refactor","created_at":"2026-03-05T16:58:23Z","event_type":"label_added","id":2059,"issue_id":"me-zoqj","new_value":null,"old_value":null}
+{"actor":"Trillium Smith","comment":null,"created_at":"2026-03-05T16:58:23Z","event_type":"created","id":2060,"issue_id":"me-xfrd","new_value":"","old_value":""}
+{"actor":"Trillium Smith","comment":"Added label: large-file","created_at":"2026-03-05T16:58:23Z","event_type":"label_added","id":2061,"issue_id":"me-xfrd","new_value":null,"old_value":null}
+{"actor":"Trillium Smith","comment":"Added label: refactor","created_at":"2026-03-05T16:58:23Z","event_type":"label_added","id":2062,"issue_id":"me-xfrd","new_value":null,"old_value":null}
+{"actor":"Trillium Smith","comment":null,"created_at":"2026-03-05T16:58:23Z","event_type":"created","id":2063,"issue_id":"me-68xt","new_value":"","old_value":""}
+{"actor":"Trillium Smith","comment":"Added label: large-file","created_at":"2026-03-05T16:58:23Z","event_type":"label_added","id":2064,"issue_id":"me-68xt","new_value":null,"old_value":null}
+{"actor":"Trillium Smith","comment":"Added label: refactor","created_at":"2026-03-05T16:58:23Z","event_type":"label_added","id":2065,"issue_id":"me-68xt","new_value":null,"old_value":null}
+{"actor":"Trillium Smith","comment":null,"created_at":"2026-03-05T17:00:23Z","event_type":"created","id":2066,"issue_id":"me-5bks","new_value":"","old_value":""}
+{"actor":"Trillium Smith","comment":"Added label: large-file","created_at":"2026-03-05T17:00:23Z","event_type":"label_added","id":2067,"issue_id":"me-5bks","new_value":null,"old_value":null}
+{"actor":"Trillium Smith","comment":"Added label: refactor","created_at":"2026-03-05T17:00:23Z","event_type":"label_added","id":2068,"issue_id":"me-5bks","new_value":null,"old_value":null}
