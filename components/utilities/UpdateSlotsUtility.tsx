@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useRef } from 'react'
+import { startTransition, useCallback, useEffect, useRef } from 'react'
 import { useAppDispatch, useReduxAvailability, useReduxConfig } from '@/redux/hooks'
 import { setSlots, setSelectedDate, setDuration } from '@/redux/slices/availabilitySlice'
 import {
@@ -141,13 +141,15 @@ export function SlotGenerationUtility(
       })
     }
 
-    dispatch(setSlots(newSlots))
+    startTransition(() => {
+      dispatch(setSlots(newSlots))
 
-    // Auto-select first available date if none selected and slots are available
-    if (props.shouldAutoSelectFirstDate && !selectedDateRedux && newSlots.length > 0) {
-      const firstAvail = format(new Date(newSlots[0].start), 'yyyy-MM-dd')
-      dispatch(setSelectedDate(firstAvail))
-    }
+      // Auto-select first available date if none selected and slots are available
+      if (props.shouldAutoSelectFirstDate && !selectedDateRedux && newSlots.length > 0) {
+        const firstAvail = format(new Date(newSlots[0].start), 'yyyy-MM-dd')
+        dispatch(setSelectedDate(firstAvail))
+      }
+    })
   }, [durationRedux, leadTime, props, dispatch, selectedDateRedux])
 
   return <></>
