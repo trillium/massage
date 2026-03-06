@@ -190,7 +190,7 @@ const slugConfigurations: SlugConfigurationType[] = [
     bookingSlug: ['airbnb-host-promo-2026-03'],
     type: 'area-wide',
     title: 'Airbnb Hosts: Get a Free 30-Minute Upgrade',
-    text: 'Book a massage and get 30 minutes added to your session, on the house. Thanks for hosting!',
+    text: 'Book a massage and get 30 minutes added to your session, on the house. Thanks for hosting! Questions? Call or text 818.738.5344',
     durationBonus: 30,
     pricingLabels: {
       60: '+30 min free! (90 min session)',
