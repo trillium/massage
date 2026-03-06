@@ -280,6 +280,9 @@ const slugConfigurations: SlugConfigurationType[] = [
     leadTimeMinimum: 0,
     instantConfirm: true,
     acceptingPayment: false,
+    customFields: {
+      showNotesField: true,
+    },
   },
   {
     ...initialStateWithoutType,

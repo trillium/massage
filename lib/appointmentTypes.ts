@@ -38,6 +38,7 @@ export type AppointmentProps = {
   /** Full slug configuration object */
   slugConfiguration?: SlugConfigurationType
   source?: string
+  additionalNotes?: string
 }
 
 export type EmailProps = {

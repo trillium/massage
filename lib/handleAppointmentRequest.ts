@@ -219,6 +219,7 @@ export async function handleAppointmentRequest({
       location: flattenLocation(data.locationObject || data.locationString || ''),
       price: data.price,
       promo: data.promo,
+      additionalNotes: data.additionalNotes,
       timeZone: data.timeZone,
       ownerTimeZone,
       acceptUrl,
