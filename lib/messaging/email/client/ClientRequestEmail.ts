@@ -14,7 +14,7 @@ export default function ClientRequestEmail({
   promo,
   eventPageUrl,
 }: Omit<EmailProps, 'approveUrl'> & { eventPageUrl?: string }) {
-  const SUBJECT = `Massage Session Request $${price}, ${duration} minutes`
+  const SUBJECT = `Massage Session Request${price ? ` $${price},` : ','} ${duration} minutes`
 
   let body = `<div dir="ltr">`
   body += [
