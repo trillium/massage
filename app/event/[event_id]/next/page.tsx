@@ -6,6 +6,7 @@ import {
 } from '@/lib/types'
 import Calendar from '@/components/availability/date/Calendar'
 import BookingForm from '@/components/booking/BookingForm'
+import SlotTakenAlert from '@/components/booking/SlotTakenAlert'
 import { format } from 'date-fns'
 import { DEFAULT_PRICING, ALLOWED_DURATIONS, DEFAULT_DURATION } from 'config'
 import Link from '@/components/Link'
@@ -111,6 +112,7 @@ export default async function NextBookingPage({ params, searchParams }: NextBook
       />
       {/* Manage slot updates when duration changes */}
       <DurationSlotManager multiDurationSlots={multiDurationSlots} />
+      <SlotTakenAlert />
       <div className="container mx-auto px-4 py-8">
         <div className="mx-auto max-w-6xl">
           <div className="mb-8">

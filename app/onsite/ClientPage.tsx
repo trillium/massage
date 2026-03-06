@@ -13,6 +13,7 @@ import { z } from 'zod'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
 import BookingForm from '@/components/booking/BookingForm'
+import SlotTakenAlert from '@/components/booking/SlotTakenAlert'
 import Calendar from '@/components/availability/date/Calendar'
 import TimeList from '@/components/availability/time/TimeList'
 import DurationPicker from '@/components/availability/controls/DurationPicker'
@@ -115,6 +116,7 @@ function ClientPage({ duration, children }: { duration: number; children?: React
 
   return (
     <>
+      <SlotTakenAlert />
       <div className="flex w-full items-center justify-center align-middle">
         <h2 className="text-primary-500 dark:text-primary-400 py-2 text-lg font-bold">
           Your link: {pathString}

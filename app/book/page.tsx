@@ -1,6 +1,7 @@
 import type { InferGetServerSidePropsType } from 'next'
 
 import Template from '@/components/Template'
+import SlotTakenAlert from '@/components/booking/SlotTakenAlert'
 import { fetchData } from 'lib/fetch/fetchData'
 import { SearchParamsType, SlugConfigurationType } from '@/lib/types'
 import BookingForm from '@/components/booking/BookingForm'
@@ -35,6 +36,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<Sea
 
   return (
     <SectionContainer>
+      <SlotTakenAlert />
       <Template title="Book a massage with Trillium :)" />
       <BookingForm />
       <div className="flex flex-col space-y-8">

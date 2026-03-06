@@ -19,6 +19,16 @@ import { handleAppointmentRequest } from 'lib/handleAppointmentRequest'
 import { checkRateLimitFactory } from 'lib/checkRateLimitFactory'
 import createRequestCalendarEvent from 'lib/availability/createRequestCalendarEvent'
 import updateCalendarEvent from 'lib/availability/updateCalendarEvent'
+import { createCheckSlotAvailability } from 'lib/availability/checkSlotAvailability'
+import getBusyTimes from 'lib/availability/getBusyTimes'
+import { getEventsBySearchQuery } from 'lib/availability/getEventsBySearchQuery'
+import { SLOT_PADDING } from 'config'
+
+const checkSlotAvailability = createCheckSlotAvailability({
+  padding: SLOT_PADDING,
+  getBusyTimesFn: getBusyTimes,
+  getEventsBySearchQueryFn: getEventsBySearchQuery,
+})
 
 // Define the rate limiter
 const rateLimitLRU = new LRUCache({
@@ -44,5 +54,6 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     schema: AppointmentRequestSchema,
     createRequestCalendarEvent,
     updateCalendarEvent,
+    checkSlotAvailability,
   })
 }

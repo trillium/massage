@@ -1,5 +1,6 @@
 import Template from '@/components/Template'
 import BookingForm from '@/components/booking/BookingForm'
+import SlotTakenAlert from '@/components/booking/SlotTakenAlert'
 import DurationPicker from '@/components/availability/controls/DurationPicker'
 import Calendar from '@/components/availability/date/Calendar'
 import TimeList from '@/components/availability/time/TimeList'
@@ -47,6 +48,7 @@ export default function GeneralBookingFeature({
 }: GeneralBookingFeatureProps) {
   return (
     <SectionContainer>
+      <SlotTakenAlert />
       <Template
         title={configuration.title || 'Book a massage with Trillium :)'}
         text={configuration.text ?? undefined}
