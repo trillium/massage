@@ -13,6 +13,7 @@ import EditForm from './EditForm'
 import { parseEditableFields } from '@/lib/helpers/parseEventDescription'
 import { stringToLocationObject } from '@/lib/slugConfigurations/helpers/parseLocationFromSlug'
 import { FaHourglassHalf, FaCheckCircle, FaTimesCircle } from 'react-icons/fa'
+import { gratuityLinks } from '@/data/paymentLinks'
 
 interface EventPageProps {
   params: Promise<{ event_id: string }>
@@ -197,6 +198,35 @@ export default async function EventPage({ params, searchParams }: EventPageProps
                   }
                 }
               />
+            </div>
+          )}
+
+          {status !== 'cancelled' && (
+            <div className="mt-8">
+              <div className="mb-3 flex items-center gap-3">
+                <div className="h-px flex-1 bg-gray-200 dark:bg-gray-700" />
+                <span className="text-sm font-medium text-gray-500 dark:text-gray-400">
+                  Show Appreciation
+                </span>
+                <div className="h-px flex-1 bg-gray-200 dark:bg-gray-700" />
+              </div>
+              <div className="flex flex-col gap-3">
+                {gratuityLinks.map((link) => (
+                  <Link
+                    key={link.label}
+                    href={link.href}
+                    classes={`flex items-center gap-4 rounded-2xl border-2 ${link.accent} bg-white p-4 transition-all hover:shadow-md hover:-translate-y-0.5 dark:bg-gray-900`}
+                  >
+                    <link.icon className={`shrink-0 text-2xl ${link.iconColor}`} />
+                    <div>
+                      <span className="font-semibold text-gray-900 dark:text-gray-100">
+                        {link.label}
+                      </span>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">{link.description}</p>
+                    </div>
+                  </Link>
+                ))}
+              </div>
             </div>
           )}
 
