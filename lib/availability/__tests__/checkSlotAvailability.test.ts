@@ -109,13 +109,13 @@ describe('checkSlotAvailability', () => {
       eventBaseString: 'scale23x',
     }
 
-    it('calls getEventsBySearchQuery with MEMBER string', async () => {
+    it('fetches all events with empty query for local filtering', async () => {
       mockGetEventsBySearchQuery.mockResolvedValue([])
 
       await checkSlotAvailability(containerParams)
 
       expect(mockGetEventsBySearchQuery).toHaveBeenCalledWith({
-        query: 'scale23x__EVENT__MEMBER__',
+        query: '',
         start: '2024-06-15T10:00:00Z',
         end: '2024-06-15T11:00:00Z',
       })
@@ -124,6 +124,7 @@ describe('checkSlotAvailability', () => {
     it('returns available when no member events overlap', async () => {
       mockGetEventsBySearchQuery.mockResolvedValue([
         calendarEvent('scale23x__EVENT__MEMBER__', '2024-06-15T08:00:00Z', '2024-06-15T09:00:00Z'),
+        calendarEvent('other__EVENT__MEMBER__', '2024-06-15T10:30:00Z', '2024-06-15T11:30:00Z'),
       ])
 
       const result = await checkSlotAvailability(containerParams)
@@ -134,6 +135,7 @@ describe('checkSlotAvailability', () => {
     it('returns unavailable when member event overlaps', async () => {
       mockGetEventsBySearchQuery.mockResolvedValue([
         calendarEvent('scale23x__EVENT__MEMBER__', '2024-06-15T10:15:00Z', '2024-06-15T11:15:00Z'),
+        calendarEvent('other__EVENT__MEMBER__', '2024-06-15T08:00:00Z', '2024-06-15T09:00:00Z'),
       ])
 
       const result = await checkSlotAvailability(containerParams)
@@ -141,10 +143,26 @@ describe('checkSlotAvailability', () => {
       expect(result).toEqual({ available: false })
     })
 
-    it('also checks general busy times when blockingScope is general', async () => {
-      mockGetEventsBySearchQuery.mockResolvedValue([])
-      mockGetBusyTimes.mockResolvedValue([
-        busyInterval('2024-06-15T10:30:00Z', '2024-06-15T11:30:00Z'),
+    it('filters matching members from mixed results', async () => {
+      mockGetEventsBySearchQuery.mockResolvedValue([
+        calendarEvent('scale23x__EVENT__MEMBER__', '2024-06-15T10:15:00Z', '2024-06-15T11:15:00Z'),
+        calendarEvent('other__EVENT__MEMBER__', '2024-06-15T10:15:00Z', '2024-06-15T11:15:00Z'),
+        calendarEvent(
+          'scale23x__EVENT__CONTAINER__',
+          '2024-06-15T09:00:00Z',
+          '2024-06-15T17:00:00Z'
+        ),
+        calendarEvent('Team Lunch', '2024-06-15T12:00:00Z', '2024-06-15T13:00:00Z'),
+      ])
+
+      const result = await checkSlotAvailability(containerParams)
+
+      expect(result).toEqual({ available: false })
+    })
+
+    it('uses local filtering instead of getBusyTimes when blockingScope is general', async () => {
+      mockGetEventsBySearchQuery.mockResolvedValue([
+        calendarEvent('Team Lunch', '2024-06-15T10:30:00Z', '2024-06-15T11:30:00Z'),
       ])
 
       const result = await checkSlotAvailability({
@@ -154,7 +172,7 @@ describe('checkSlotAvailability', () => {
 
       expect(result).toEqual({ available: false })
       expect(mockGetEventsBySearchQuery).toHaveBeenCalled()
-      expect(mockGetBusyTimes).toHaveBeenCalled()
+      expect(mockGetBusyTimes).not.toHaveBeenCalled()
     })
   })
 

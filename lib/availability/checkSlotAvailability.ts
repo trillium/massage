@@ -1,6 +1,10 @@
 import { add, areIntervalsOverlapping, sub } from 'date-fns'
 import type { DateTimeInterval } from '@/lib/types'
 import type { GoogleCalendarV3Event } from '@/lib/calendarTypes'
+import {
+  filterEventsForQuery,
+  filterEventsForGeneralBlocking,
+} from '@/lib/fetch/fetchContainersByQuery'
 
 type CheckSlotAvailabilityParams = {
   start: string
@@ -38,19 +42,21 @@ export async function checkSlotAvailability({
     const slotInterval = { start: new Date(start), end: new Date(end) }
 
     if (eventBaseString) {
-      const memberEvents = await getEventsBySearchQueryFn({
-        query: `${eventBaseString}__EVENT__MEMBER__`,
+      const allEvents = await getEventsBySearchQueryFn({
+        query: '',
         start,
         end,
       })
+
+      const { members: memberEvents } = filterEventsForQuery(allEvents, eventBaseString)
 
       if (hasOverlap(slotInterval, memberEventsToIntervals(memberEvents), padding)) {
         return { available: false }
       }
 
       if (blockingScope === 'general') {
-        const busyTimes = await getBusyTimesFn(slotInterval)
-        if (hasOverlap(slotInterval, busyTimes, padding)) {
+        const { blockingEvents } = filterEventsForGeneralBlocking(allEvents)
+        if (hasOverlap(slotInterval, memberEventsToIntervals(blockingEvents ?? []), padding)) {
           return { available: false }
         }
       }
