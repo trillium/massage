@@ -15,6 +15,7 @@ import { createConfirmUrl, createDeclineUrl } from './messaging/utilities/create
 import createCalendarAppointment from './availability/createCalendarAppointment'
 import type createRequestCalendarEventFn from './availability/createRequestCalendarEvent'
 import type updateCalendarEventFn from './availability/updateCalendarEvent'
+import type { CheckSlotAvailabilityFn } from './availability/checkSlotAvailability'
 import eventSummary from './messaging/templates/events/eventSummary'
 import requestEventSummary from './messaging/templates/events/requestEventSummary'
 import requestEventDescription from './messaging/templates/events/requestEventDescription'
@@ -43,6 +44,7 @@ export async function handleAppointmentRequest({
   schema,
   createRequestCalendarEvent,
   updateCalendarEvent,
+  checkSlotAvailability,
 }: {
   req: NextRequest
   headers: Headers
@@ -57,6 +59,7 @@ export async function handleAppointmentRequest({
   schema: typeof AppointmentRequestSchema
   createRequestCalendarEvent: typeof createRequestCalendarEventFn
   updateCalendarEvent: typeof updateCalendarEventFn
+  checkSlotAvailability: CheckSlotAvailabilityFn
 }) {
   const jsonData = await req.json()
   if (rateLimiter(req, headers)) {
@@ -67,6 +70,25 @@ export async function handleAppointmentRequest({
     return NextResponse.json(validationResult.error.message, { status: 400 })
   }
   const { data } = validationResult
+
+  if (!data.rescheduleEventId) {
+    try {
+      const availability = await checkSlotAvailability({
+        start: data.start,
+        end: data.end,
+        eventBaseString: data.eventBaseString,
+        blockingScope: data.slugConfiguration?.blockingScope,
+      })
+      if (!availability.available) {
+        return NextResponse.json(
+          { error: 'slot_unavailable', bookingUrl: data.bookingUrl },
+          { status: 409 }
+        )
+      }
+    } catch {
+      return NextResponse.json({ error: 'Unable to verify availability' }, { status: 503 })
+    }
+  }
 
   const safeLocation = escapeHtml(flattenLocation(data.locationObject || data.locationString || ''))
   const safeData = {
@@ -197,6 +219,7 @@ export async function handleAppointmentRequest({
       location: flattenLocation(data.locationObject || data.locationString || ''),
       price: data.price,
       promo: data.promo,
+      additionalNotes: data.additionalNotes,
       timeZone: data.timeZone,
       ownerTimeZone,
       acceptUrl,

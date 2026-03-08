@@ -1,8 +1,8 @@
 import { withContentlayer } from 'next-contentlayer2'
 import bundleAnalyzer from '@next/bundle-analyzer'
 import { withSentryConfig } from '@sentry/nextjs'
-import { readFileSync } from 'fs'
-import { join } from 'path'
+import { readFileSync } from 'node:fs'
+import { join } from 'node:path'
 
 const withBundleAnalyzer = bundleAnalyzer({
   enabled: process.env.ANALYZE === 'true',
@@ -138,12 +138,21 @@ const nextConfig = () => {
           source: '/hostpog/decide',
           destination: 'https://us.i.posthog.com/decide',
         },
+        {
+          source: '/monitoring/:path*',
+          destination: 'https://us.sentry.io/api/:path*',
+        },
       ]
     },
   })
 }
 
 export default withSentryConfig(nextConfig, {
+  org: 'ts-consulting',
+  project: 'javascript-nextjs',
   silent: !process.env.CI,
   telemetry: false,
+  widenClientFileUpload: true,
+  tunnelRoute: '/monitoring',
+  automaticVercelMonitors: true,
 })

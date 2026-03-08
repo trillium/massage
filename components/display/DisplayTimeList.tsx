@@ -5,6 +5,7 @@ import { useReduxAvailability, useAppDispatch } from '@/redux/hooks'
 import { setSelectedTime } from '@/redux/slices/availabilitySlice'
 import { setModal } from '@/redux/slices/modalSlice'
 import TimeButton from '@/components/availability/time/TimeButton'
+import { DataFreshnessPill } from '@/components/availability/time/DataFreshnessPill'
 import type {
   StringDateTimeIntervalAndLocation,
   StringDateTimeInterval,
@@ -44,28 +45,31 @@ export default function DisplayTimeList({ presenceCounts, onSlotHover }: Display
   }
 
   return (
-    <div className="grid grid-cols-2 gap-2">
-      {availability?.map(({ start, end, location, className }) => {
-        const slotKey = start + end
-        const isActive = selectedTime ? slotKey === timeSignature : false
-        const count = presenceCounts?.[slotKey] ?? 0
+    <div className="relative pt-2">
+      <DataFreshnessPill />
+      <div className="grid grid-cols-2 gap-2">
+        {availability?.map(({ start, end, location, className }) => {
+          const slotKey = start + end
+          const isActive = selectedTime ? slotKey === timeSignature : false
+          const count = presenceCounts?.[slotKey] ?? 0
 
-        return (
-          <TimeButton
-            key={slotKey}
-            active={isActive}
-            time={{ start, end }}
-            timeZone={timeZone}
-            location={location}
-            className={className}
-            presenceCount={count}
-            onTimeSelect={handleTimeSelect}
-            onMouseEnter={() => onSlotHover?.(slotKey)}
-            onMouseLeave={() => onSlotHover?.(null)}
-            onTouchStart={() => onSlotHover?.(slotKey)}
-          />
-        )
-      })}
+          return (
+            <TimeButton
+              key={slotKey}
+              active={isActive}
+              time={{ start, end }}
+              timeZone={timeZone}
+              location={location}
+              className={className}
+              presenceCount={count}
+              onTimeSelect={handleTimeSelect}
+              onMouseEnter={() => onSlotHover?.(slotKey)}
+              onMouseLeave={() => onSlotHover?.(null)}
+              onTouchStart={() => onSlotHover?.(slotKey)}
+            />
+          )
+        })}
+      </div>
     </div>
   )
 }

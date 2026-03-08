@@ -34,7 +34,8 @@ async function buildEventBody({
   eventBaseString,
   eventMemberString,
   eventContainerString,
-  customDescription, // Add support for custom description
+  additionalNotes,
+  customDescription,
 }: AppointmentProps & { customDescription?: string }) {
   // Use custom description if provided, otherwise generate standard description
   const description =
@@ -52,6 +53,7 @@ async function buildEventBody({
       eventBaseString,
       eventMemberString,
       eventContainerString,
+      additionalNotes,
     }))
 
   // For admin-created events, the attendee should be the admin with their correct name

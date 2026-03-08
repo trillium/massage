@@ -214,6 +214,9 @@ const slugConfigurations: SlugConfigurationType[] = [
     },
     allowedDurations: [60, 90, 120],
     promoEndDate: '2026-04-01',
+    customFields: {
+      showNotesField: true,
+    },
   },
   {
     ...initialStateWithoutType,
@@ -232,6 +235,9 @@ const slugConfigurations: SlugConfigurationType[] = [
     },
     allowedDurations: [60, 90, 120],
     promoEndDate: '2026-04-01',
+    customFields: {
+      showNotesField: true,
+    },
   },
   {
     ...initialStateWithoutType,
@@ -261,6 +267,7 @@ const slugConfigurations: SlugConfigurationType[] = [
     ),
     locationIsReadOnly: true,
     eventContainer: 'scale23x',
+    defaultDuration: 5,
     allowedDurations: [5, 10, 15, 20, 30],
     pricing: { 5: 0, 10: 0, 15: 0, 20: 0, 30: 0 },
     pricingLabels: {
@@ -273,6 +280,9 @@ const slugConfigurations: SlugConfigurationType[] = [
     leadTimeMinimum: 0,
     instantConfirm: true,
     acceptingPayment: false,
+    customFields: {
+      showNotesField: true,
+    },
   },
   {
     ...initialStateWithoutType,

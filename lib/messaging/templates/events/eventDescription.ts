@@ -17,6 +17,7 @@ function eventDescription({
   bookingUrl,
   promo,
   source,
+  additionalNotes,
   slugConfiguration,
   origin,
 }: Partial<AppointmentProps> & { origin?: string }) {
@@ -42,6 +43,10 @@ function eventDescription({
     locationString = flattenLocation(location)
   }
   output += `<b>Location</b>: ${locationString}\n`
+
+  if (additionalNotes) {
+    output += `<b>Notes</b>: ${additionalNotes}\n`
+  }
 
   if (promo) {
     output += `<b>Promo</b>: ${promo}\n`

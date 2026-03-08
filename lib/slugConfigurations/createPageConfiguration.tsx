@@ -117,6 +117,7 @@ export async function createPageConfiguration({
   const validateSearchParamsResult = validateSearchParams({
     searchParams: resolvedParams,
     allowedDurations: configuration?.allowedDurations ?? undefined,
+    defaultDuration: configuration?.defaultDuration,
   })
   const { duration, selectedDate } = validateSearchParamsResult
   if (debugInfo) {

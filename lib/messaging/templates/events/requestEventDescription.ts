@@ -14,6 +14,7 @@ export default function requestEventDescription({
   promo,
   timeZone,
   ownerTimeZone,
+  additionalNotes,
   acceptUrl,
   declineUrl,
 }: {
@@ -29,6 +30,7 @@ export default function requestEventDescription({
   promo?: string
   timeZone: string
   ownerTimeZone: string
+  additionalNotes?: string
   acceptUrl: string
   declineUrl: string
 }) {
@@ -46,6 +48,7 @@ export default function requestEventDescription({
   output += `<b>Phone</b>: ${phone}\n`
   output += `<b>Location</b>: ${location}\n`
   output += `<b>Client Timezone</b>: ${timeZone}\n`
+  if (additionalNotes) output += `<b>Notes</b>: ${additionalNotes}\n`
   if (price) output += `<b>Price</b>: $${price}\n`
   if (promo) output += `<b>Promo</b>: ${promo}\n`
   output += `\n`

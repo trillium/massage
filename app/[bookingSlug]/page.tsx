@@ -4,6 +4,8 @@ import { createPageConfiguration } from '@/lib/slugConfigurations/createPageConf
 import ExpiredPromoPage from '@/components/ExpiredPromoPage'
 import GeneralBookingFeature from '@/components/booking/features/GeneralBookingFeature'
 
+export const dynamic = 'force-dynamic'
+
 export default async function Page({
   searchParams,
   params,

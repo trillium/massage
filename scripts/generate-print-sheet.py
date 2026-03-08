@@ -31,7 +31,7 @@ except ImportError:
 
 REPO_ROOT   = Path(__file__).parent.parent
 QR_DIR      = REPO_ROOT / "print" / "qr"
-OUT_PATH    = REPO_ROOT / "print" / "sheet.pdf"
+DEFAULT_OUT = REPO_ROOT / "print" / "sheet.pdf"
 DEFAULT_PDF = Path.home() / "Downloads" / "CC BEV (2).pdf"
 
 # Green square: where the QR code goes on page 1 (top-left origin, pts)
@@ -151,15 +151,21 @@ def draw_cut_lines(page: fitz.Page) -> None:
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--pdf", default=str(DEFAULT_PDF))
+    parser.add_argument("--prefix", default="handbill_",
+                        help="SVG filename prefix to match (default: handbill_)")
+    parser.add_argument("--out", default=None,
+                        help="Output PDF path (default: print/sheet.pdf)")
     args = parser.parse_args()
 
     pdf_path = Path(args.pdf)
     if not pdf_path.exists():
         sys.exit(f"PDF not found: {pdf_path}")
 
-    qr_files = sorted(QR_DIR.glob("handbill_*.svg"))
+    out_path = Path(args.out) if args.out else DEFAULT_OUT
+
+    qr_files = sorted(QR_DIR.glob(f"{args.prefix}*.svg"))
     if not qr_files:
-        sys.exit(f"No SVGs in {QR_DIR} — run generate-handbills.ts first")
+        sys.exit(f"No {args.prefix}*.svg in {QR_DIR}")
 
     template = fitz.open(str(pdf_path))
     if template.page_count < 2:
@@ -197,11 +203,11 @@ def main():
 
         draw_cut_lines(back)
 
-    OUT_PATH.parent.mkdir(parents=True, exist_ok=True)
-    out.save(str(OUT_PATH), deflate=True, garbage=4)
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    out.save(str(out_path), deflate=True, garbage=4)
 
     print(f"✓ {len(qr_files)} handbills · {sheets} sheet(s) · {out.page_count} pages")
-    print(f"  {OUT_PATH}")
+    print(f"  {out_path}")
     print()
     print("  Left col: 90°  (head → center)")
     print("  Right col: 270° (head → center)")
@@ -212,7 +218,7 @@ def main():
     print("\n── Validating QR renders ──\n")
     result = subprocess.run(
         [sys.executable, str(Path(__file__).parent / "validate-print-qr.py"),
-         "--sheet", str(OUT_PATH), "--save-crops"],
+         "--sheet", str(out_path), "--save-crops"],
     )
     if result.returncode:
         print("\n⚠ QR validation failed — check print/qc/ for failed crops")

@@ -65,6 +65,7 @@ export type SlugConfigurationType = {
   leadTimeMinimum: number | null // in minutes
   instantConfirm?: boolean
   acceptingPayment?: boolean
+  defaultDuration?: number
   allowedDurations: AllowedDurationsType | null
   customFields?: CustomFieldsType
   nextEventFound?: boolean
