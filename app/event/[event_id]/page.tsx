@@ -4,6 +4,7 @@ import { parseEventSummary } from '@/lib/helpers/parseEventSummary'
 import { formatLocalDate, formatLocalTime } from '@/lib/availability/helpers'
 import SectionContainer from '@/components/SectionContainer'
 import Link from '@/components/Link'
+import { OWNER_TIMEZONE } from 'config'
 import { createBookingUrl } from '@/lib/helpers/createBookingUrl'
 import { extractBookingSlug } from '@/lib/helpers/extractBookingSlug'
 import CancelButton from './CancelButton'
@@ -11,6 +12,8 @@ import RescheduleButton from './RescheduleButton'
 import EditForm from './EditForm'
 import { parseEditableFields } from '@/lib/helpers/parseEventDescription'
 import { stringToLocationObject } from '@/lib/slugConfigurations/helpers/parseLocationFromSlug'
+import { FaHourglassHalf, FaCheckCircle, FaTimesCircle } from 'react-icons/fa'
+import { gratuityLinks } from '@/data/paymentLinks'
 
 interface EventPageProps {
   params: Promise<{ event_id: string }>
@@ -21,21 +24,21 @@ function StatusBadge({ status }: { status: 'pending' | 'confirmed' | 'cancelled'
   const config = {
     pending: {
       label: 'Pending Request',
-      icon: '\u23f3',
+      icon: <FaHourglassHalf className="h-4 w-4" />,
       bg: 'bg-yellow-100 dark:bg-yellow-900/30',
       text: 'text-yellow-800 dark:text-yellow-200',
       border: 'border-yellow-300 dark:border-yellow-700',
     },
     confirmed: {
       label: 'Confirmed',
-      icon: '\u2705',
+      icon: <FaCheckCircle className="h-4 w-4" />,
       bg: 'bg-green-100 dark:bg-green-900/30',
       text: 'text-green-800 dark:text-green-200',
       border: 'border-green-300 dark:border-green-700',
     },
     cancelled: {
       label: 'Cancelled',
-      icon: '\u274c',
+      icon: <FaTimesCircle className="h-4 w-4" />,
       bg: 'bg-red-100 dark:bg-red-900/30',
       text: 'text-red-800 dark:text-red-200',
       border: 'border-red-300 dark:border-red-700',
@@ -47,7 +50,7 @@ function StatusBadge({ status }: { status: 'pending' | 'confirmed' | 'cancelled'
     <span
       className={`inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-sm font-semibold ${c.bg} ${c.text} ${c.border}`}
     >
-      <span>{c.icon}</span>
+      {c.icon}
       {c.label}
     </span>
   )
@@ -120,9 +123,12 @@ export default async function EventPage({ params, searchParams }: EventPageProps
   const startTime = event.start?.dateTime
   const endTime = event.end?.dateTime
 
-  const dateString = startTime ? formatLocalDate(startTime) : null
-  const startString = startTime ? formatLocalTime(startTime) : null
-  const endString = endTime ? formatLocalTime(endTime, { timeZoneName: 'shortGeneric' }) : null
+  const tz = { timeZone: OWNER_TIMEZONE }
+  const dateString = startTime ? formatLocalDate(startTime, tz) : null
+  const startString = startTime ? formatLocalTime(startTime, tz) : null
+  const endString = endTime
+    ? formatLocalTime(endTime, { ...tz, timeZoneName: 'shortGeneric' })
+    : null
 
   const bookingSlug = extractBookingSlug(event)
   const editableFields = event.description ? parseEditableFields(event.description) : null
@@ -192,6 +198,35 @@ export default async function EventPage({ params, searchParams }: EventPageProps
                   }
                 }
               />
+            </div>
+          )}
+
+          {status !== 'cancelled' && (
+            <div className="mt-8">
+              <div className="mb-3 flex items-center gap-3">
+                <div className="h-px flex-1 bg-gray-200 dark:bg-gray-700" />
+                <span className="text-sm font-medium text-gray-500 dark:text-gray-400">
+                  Show Appreciation
+                </span>
+                <div className="h-px flex-1 bg-gray-200 dark:bg-gray-700" />
+              </div>
+              <div className="flex flex-col gap-3">
+                {gratuityLinks.map((link) => (
+                  <Link
+                    key={link.label}
+                    href={link.href}
+                    classes={`flex items-center gap-4 rounded-2xl border-2 ${link.accent} bg-white p-4 transition-all hover:shadow-md hover:-translate-y-0.5 dark:bg-gray-900`}
+                  >
+                    <link.icon className={`shrink-0 text-2xl ${link.iconColor}`} />
+                    <div>
+                      <span className="font-semibold text-gray-900 dark:text-gray-100">
+                        {link.label}
+                      </span>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">{link.description}</p>
+                    </div>
+                  </Link>
+                ))}
+              </div>
             </div>
           )}
 

@@ -1,6 +1,7 @@
 'use client'
 
-import { useCallback, useEffect, useRef } from 'react'
+import { startTransition, useCallback, useEffect, useRef } from 'react'
+import { useSmartRefresh } from 'hooks/useSmartRefresh'
 import { useAppDispatch, useReduxAvailability, useReduxConfig } from '@/redux/hooks'
 import { setSlots, setSelectedDate, setDuration } from '@/redux/slices/availabilitySlice'
 import {
@@ -117,7 +118,7 @@ export function SlotGenerationUtility(
   )
 ) {
   const { duration: durationRedux, selectedDate: selectedDateRedux } = useReduxAvailability()
-  const { leadTimeMinimum: leadTime } = useReduxConfig()
+  const { leadTimeMinimum: leadTime, durationBonus } = useReduxConfig()
   const dispatch = useAppDispatch()
 
   useEffect(() => {
@@ -132,6 +133,7 @@ export function SlotGenerationUtility(
       // Regular page: generate slots
       newSlots = createSlots({
         duration: durationRedux || DEFAULT_DURATION,
+        durationBonus: durationBonus ?? 0,
         leadTime: leadTime ?? LEAD_TIME,
         start: props.start,
         end: props.end,
@@ -140,13 +142,15 @@ export function SlotGenerationUtility(
       })
     }
 
-    dispatch(setSlots(newSlots))
+    startTransition(() => {
+      dispatch(setSlots(newSlots))
 
-    // Auto-select first available date if none selected and slots are available
-    if (props.shouldAutoSelectFirstDate && !selectedDateRedux && newSlots.length > 0) {
-      const firstAvail = format(new Date(newSlots[0].start), 'yyyy-MM-dd')
-      dispatch(setSelectedDate(firstAvail))
-    }
+      // Auto-select first available date if none selected and slots are available
+      if (props.shouldAutoSelectFirstDate && !selectedDateRedux && newSlots.length > 0) {
+        const firstAvail = format(new Date(newSlots[0].start), 'yyyy-MM-dd')
+        dispatch(setSelectedDate(firstAvail))
+      }
+    })
   }, [durationRedux, leadTime, props, dispatch, selectedDateRedux])
 
   return <></>
@@ -186,6 +190,7 @@ export function UpdateSlotsUtility(props: {
   end: DayWithStartEnd
   configObject: SlugConfigurationType | null
 }) {
+  useSmartRefresh()
   return (
     <>
       <ConfigurationUtility configObject={props.configObject} />
@@ -210,6 +215,7 @@ export function NextSlotUpdateUtility(props: {
   configObject: SlugConfigurationType | null
   nextSlotMultiDurations: NextSlotMultiDurationsType
 }) {
+  useSmartRefresh()
   return (
     <>
       <ConfigurationUtility configObject={props.configObject} />

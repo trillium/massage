@@ -11,14 +11,19 @@ import { SearchParamsType } from '@/lib/types'
 export function validateSearchParams({
   searchParams,
   allowedDurations,
+  defaultDuration: slugDefault,
 }: {
   searchParams: SearchParamsType
   allowedDurations?: number[]
+  defaultDuration?: number
 }) {
   const durationsToValidate = allowedDurations || VALID_DURATIONS
-  const defaultDuration = durationsToValidate.includes(DEFAULT_DURATION)
-    ? DEFAULT_DURATION
-    : durationsToValidate[Math.floor(durationsToValidate.length / 2)] || DEFAULT_DURATION
+  const defaultDuration =
+    slugDefault && durationsToValidate.includes(slugDefault)
+      ? slugDefault
+      : durationsToValidate.includes(DEFAULT_DURATION)
+        ? DEFAULT_DURATION
+        : durationsToValidate[Math.floor(durationsToValidate.length / 2)] || DEFAULT_DURATION
 
   const schema = z.object({
     duration: z

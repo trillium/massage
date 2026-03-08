@@ -23,7 +23,7 @@ export function ApprovalEmail({
   slugConfiguration,
   data,
 }: EmailProps & { data?: z.output<typeof AppointmentRequestSchema> }) {
-  const SUBJECT = `REQUEST: ${firstName} ${lastName}, ${duration} minutes, $${price}`
+  const SUBJECT = `REQUEST: ${firstName} ${lastName}, ${duration} minutes${price ? `, $${price}` : ''}`
 
   let body = `<div dir="ltr">`
   body += [

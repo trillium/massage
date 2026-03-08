@@ -59,10 +59,13 @@ export type SlugConfigurationType = {
   blockingScope?: 'event' | 'general' // 'event' blocks only this event type, 'general' blocks all availability
   promoEndDate?: string | null // Format: YYYY-MM-DD
   pricing: PricingType | null
+  pricingLabels?: { [key: number]: string }
+  durationBonus?: number
   discount: DiscountType | null
   leadTimeMinimum: number | null // in minutes
   instantConfirm?: boolean
   acceptingPayment?: boolean
+  defaultDuration?: number
   allowedDurations: AllowedDurationsType | null
   customFields?: CustomFieldsType
   nextEventFound?: boolean

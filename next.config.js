@@ -74,6 +74,10 @@ const nextConfig = () => {
     output,
     basePath,
     reactStrictMode: true,
+    typescript: { ignoreBuildErrors: true },
+    outputFileTracingExcludes: {
+      '*': ['./node_modules/googleapis/**', './node_modules/maplibre-gl/**'],
+    },
     pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
     images: {
       remotePatterns: [

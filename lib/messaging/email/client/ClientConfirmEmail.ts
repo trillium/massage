@@ -14,7 +14,7 @@ export default function ClientConfirmEmail({
   promo,
   eventPageUrl,
 }: Omit<EmailProps, 'approveUrl'> & { eventPageUrl?: string }) {
-  const SUBJECT = `Massage Session Confirmed $${price}, ${duration} minutes`
+  const SUBJECT = `Massage Session Confirmed${price ? ` $${price},` : ','} ${duration} minutes`
 
   let body = `<div dir="ltr">`
   body += [

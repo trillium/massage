@@ -80,6 +80,13 @@ export function useBookingSubmit({ additionalData, endPoint, onSubmit }: UseBook
 
           const json = await response.json()
 
+          if (response.status === 409 && json.error === 'slot_unavailable') {
+            dispatch(setModal({ status: 'closed' }))
+            const bookingUrl = json.bookingUrl || values.bookingUrl || '/'
+            router.push(`${bookingUrl}?slotTaken=1`)
+            return
+          }
+
           if (json.success && response.ok) {
             dispatch(setModal({ status: 'closed' }))
             if (json.eventPageUrl) {

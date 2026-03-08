@@ -25,7 +25,7 @@ export default function OnSiteRequestEmail({
   paymentOptions,
   leadTime,
 }: AppprovalEmailProps) {
-  const SUBJECT = `REQUEST: ${firstName} ${lastName}, ${duration} minutes, $${price}`
+  const SUBJECT = `REQUEST: ${firstName} ${lastName}, ${duration} minutes${price ? `, $${price}` : ''}`
 
   const declineUrl = `mailto:${encodeURI(email)}?subject=${encodeURIComponent(
     `Re: Massage appointment request`
