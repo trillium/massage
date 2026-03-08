@@ -1,6 +1,7 @@
 'use client'
 
 import { startTransition, useCallback, useEffect, useRef } from 'react'
+import { useSmartRefresh } from 'hooks/useSmartRefresh'
 import { useAppDispatch, useReduxAvailability, useReduxConfig } from '@/redux/hooks'
 import { setSlots, setSelectedDate, setDuration } from '@/redux/slices/availabilitySlice'
 import {
@@ -189,6 +190,7 @@ export function UpdateSlotsUtility(props: {
   end: DayWithStartEnd
   configObject: SlugConfigurationType | null
 }) {
+  useSmartRefresh()
   return (
     <>
       <ConfigurationUtility configObject={props.configObject} />
@@ -213,6 +215,7 @@ export function NextSlotUpdateUtility(props: {
   configObject: SlugConfigurationType | null
   nextSlotMultiDurations: NextSlotMultiDurationsType
 }) {
+  useSmartRefresh()
   return (
     <>
       <ConfigurationUtility configObject={props.configObject} />
