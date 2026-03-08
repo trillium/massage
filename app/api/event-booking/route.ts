@@ -23,8 +23,8 @@ const checkRateLimit = checkRateLimitFactory(rateLimitLRU, 5)
 
 const checkSlotAvailability = createCheckSlotAvailability({
   padding: SLOT_PADDING,
-  getBusyTimesFn: getBusyTimes,
-  getEventsBySearchQueryFn: getEventsBySearchQuery,
+  getBusyTimesFn: (interval) => getBusyTimes({ ...interval, noCache: true }),
+  getEventsBySearchQueryFn: (args) => getEventsBySearchQuery({ ...args, noCache: true }),
 })
 
 export async function POST(req: NextRequest): Promise<NextResponse> {

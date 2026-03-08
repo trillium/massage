@@ -6,10 +6,12 @@ export async function getEventsBySearchQuery({
   start,
   end,
   query,
+  noCache = false,
 }: {
   query: string
   start?: string | Date
   end?: string | Date
+  noCache?: boolean
 }) {
   const accessToken = await getAccessToken()
   const calendarId = 'primary' // Use 'primary' for the primary calendar or specify another calendar ID
@@ -53,7 +55,7 @@ export async function getEventsBySearchQuery({
       Authorization: `Bearer ${accessToken}`,
       'Content-Type': 'application/json',
     },
-    next: { revalidate: 1 },
+    ...(noCache ? { cache: 'no-store' as const } : { next: { revalidate: 1 } }),
   })
 
   if (!response.ok) {

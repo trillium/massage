@@ -26,8 +26,8 @@ import { SLOT_PADDING } from 'config'
 
 const checkSlotAvailability = createCheckSlotAvailability({
   padding: SLOT_PADDING,
-  getBusyTimesFn: getBusyTimes,
-  getEventsBySearchQueryFn: getEventsBySearchQuery,
+  getBusyTimesFn: (interval) => getBusyTimes({ ...interval, noCache: true }),
+  getEventsBySearchQueryFn: (args) => getEventsBySearchQuery({ ...args, noCache: true }),
 })
 
 // Define the rate limiter

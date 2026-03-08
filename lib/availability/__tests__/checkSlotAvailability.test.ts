@@ -27,10 +27,16 @@ function busyInterval(start: string, end: string): DateTimeInterval {
   return { start: new Date(start), end: new Date(end) }
 }
 
-function calendarEvent(summary: string, start: string, end: string): GoogleCalendarV3Event {
+function calendarEvent(
+  summary: string,
+  start: string,
+  end: string,
+  description?: string
+): GoogleCalendarV3Event {
   return {
     id: `evt-${Math.random()}`,
     summary,
+    description,
     start: { dateTime: start },
     end: { dateTime: end },
     kind: 'calendar#event',
@@ -173,6 +179,56 @@ describe('checkSlotAvailability', () => {
       expect(result).toEqual({ available: false })
       expect(mockGetEventsBySearchQuery).toHaveBeenCalled()
       expect(mockGetBusyTimes).not.toHaveBeenCalled()
+    })
+  })
+
+  describe('SCaLE 23x double-booking scenario', () => {
+    const scale23xParams = {
+      ...baseParams,
+      start: '2026-03-08T17:40:00Z',
+      end: '2026-03-08T17:45:00Z',
+      padding: 0,
+      eventBaseString: 'scale23x',
+    }
+
+    it('rejects a second booking when a confirmed member event exists at the same time', async () => {
+      mockGetEventsBySearchQuery.mockResolvedValue([
+        calendarEvent(
+          'scale23x__EVENT__CONTAINER__',
+          '2026-03-08T17:30:00Z',
+          '2026-03-09T00:30:00Z'
+        ),
+        calendarEvent(
+          '5 minute massage with Test Test - TrilliumMassage',
+          '2026-03-08T17:40:00Z',
+          '2026-03-08T17:45:00Z',
+          'scale23x__EVENT__MEMBER__'
+        ),
+      ])
+
+      const result = await checkSlotAvailability(scale23xParams)
+
+      expect(result).toEqual({ available: false })
+    })
+
+    it('allows booking when no member events overlap', async () => {
+      mockGetEventsBySearchQuery.mockResolvedValue([
+        calendarEvent(
+          'scale23x__EVENT__CONTAINER__',
+          '2026-03-08T17:30:00Z',
+          '2026-03-09T00:30:00Z'
+        ),
+        calendarEvent(
+          '5 minute massage with Earlier Client - TrilliumMassage',
+          '2026-03-08T17:30:00Z',
+          '2026-03-08T17:35:00Z',
+          'scale23x__EVENT__MEMBER__'
+        ),
+      ])
+
+      const result = await checkSlotAvailability(scale23xParams)
+
+      expect(result).toEqual({ available: true })
     })
   })
 

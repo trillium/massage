@@ -5,7 +5,11 @@ import type { DateTimeInterval } from '@/lib/types'
 import getAccessToken from './getAccessToken'
 import { formatDatetimeToString } from '@/lib/helpers'
 
-export default async function getBusyTimes({ start, end }: DateTimeInterval) {
+export default async function getBusyTimes({
+  start,
+  end,
+  noCache = false,
+}: DateTimeInterval & { noCache?: boolean }) {
   if (process.env.USE_MOCK_CALENDAR_DATA === 'true') {
     return []
   }
@@ -16,7 +20,7 @@ export default async function getBusyTimes({ start, end }: DateTimeInterval) {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${await getAccessToken()}`,
     },
-    next: { revalidate: 1 },
+    ...(noCache ? { cache: 'no-store' as const } : { next: { revalidate: 1 } }),
     body: JSON.stringify({
       timeMin: formatDatetimeToString(start),
       timeMax: formatDatetimeToString(end),
