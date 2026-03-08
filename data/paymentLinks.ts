@@ -43,7 +43,7 @@ export const quickLinks: QuickLink[] = [
     label: 'SCaLE 23x After Hours',
     href: '/scale23x-after-hours',
     icon: FaCalendarAlt,
-    description: 'Book a session after the expo floor closes',
+    description: 'For exhibitors — book after the expo floor closes',
     accent: 'border-violet-400 dark:border-violet-600',
     iconColor: 'text-violet-600 dark:text-violet-400',
   },
