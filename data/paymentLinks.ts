@@ -39,6 +39,14 @@ export const quickLinks: QuickLink[] = [
     accent: 'border-primary-400 dark:border-primary-600',
     iconColor: 'text-primary-600 dark:text-primary-400',
   },
+  {
+    label: 'SCaLE 23x After Hours',
+    href: '/scale23x-after-hours',
+    icon: FaCalendarAlt,
+    description: 'Book a session after the expo floor closes',
+    accent: 'border-violet-400 dark:border-violet-600',
+    iconColor: 'text-violet-600 dark:text-violet-400',
+  },
   ...gratuityLinks,
   {
     label: 'Pricing',
