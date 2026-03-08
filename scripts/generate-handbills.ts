@@ -9,14 +9,16 @@
  * - Writes print/index.html grid of all codes
  *
  * Usage:
- *   pnpm tsx scripts/generate-handbills.ts            # generate 17
- *   pnpm tsx scripts/generate-handbills.ts --count=85 # generate N more
+ *   pnpm tsx scripts/generate-handbills.ts                          # 17 handbill_ codes
+ *   pnpm tsx scripts/generate-handbills.ts --count=85               # generate N more
+ *   pnpm tsx scripts/generate-handbills.ts --prefix=mbc_ --count=10 # 10 business card codes
+ *   pnpm tsx scripts/generate-handbills.ts --prefix=mbc_ --count=10 --destination=https://trilliummassage.la
  */
 import crypto from 'node:crypto'
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { generateQRSvg } from '../lib/qr/generate'
+import { generateNativeQRSvg } from '../lib/qr/generate-native'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const REPO_ROOT = path.join(__dirname, '..')
@@ -24,17 +26,22 @@ const REDIRECTS_PATH = path.join(REPO_ROOT, 'redirects.jsonl')
 const PRINT_DIR = path.join(REPO_ROOT, 'print')
 const QR_DIR = path.join(PRINT_DIR, 'qr')
 
-const DESTINATION = 'https://trilliummassage.la/blog/airbnb-host-promo-2026-03'
+const DEFAULT_DESTINATION = 'https://trilliummassage.la/blog/airbnb-host-promo-2026-03'
 const BASE_URL = 'https://trilliummassage.la/redirect'
 
-// --count=N  (default 17)
 const countArg = process.argv.find((a) => a.startsWith('--count='))
 const COUNT = countArg ? parseInt(countArg.split('=')[1], 10) : 17
+
+const prefixArg = process.argv.find((a) => a.startsWith('--prefix='))
+const PREFIX = prefixArg ? prefixArg.split('=')[1] : 'handbill_'
+
+const destArg = process.argv.find((a) => a.startsWith('--destination='))
+const DESTINATION = destArg ? destArg.split('=')[1] : DEFAULT_DESTINATION
 
 // ─── Slug tracking ───────────────────────────────────────────────────────────
 
 function randomSlug(): string {
-  return 'handbill_' + crypto.randomBytes(4).toString('hex')
+  return PREFIX + crypto.randomBytes(4).toString('hex')
 }
 
 /** All slugs recorded in redirects.jsonl — the canonical used-hash ledger */
@@ -88,7 +95,7 @@ async function main() {
 
     const url = `${BASE_URL}/${slug}`
     process.stdout.write(`  [${i + 1}/${slugs.length}] ${slug}… `)
-    const svg = await generateQRSvg(url, 'default')
+    const svg = await generateNativeQRSvg(url)
     fs.writeFileSync(file, svg)
     results.push({ slug })
     process.stdout.write('✓\n')
@@ -99,7 +106,7 @@ async function main() {
   // Update index.html with ALL handbill SVGs in print/qr/
   const allSlugs = fs
     .readdirSync(QR_DIR)
-    .filter((f) => f.startsWith('handbill_') && f.endsWith('.svg'))
+    .filter((f) => f.startsWith(PREFIX) && f.endsWith('.svg'))
     .map((f) => f.replace('.svg', ''))
     .sort()
 

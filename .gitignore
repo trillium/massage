@@ -110,3 +110,5 @@ print/sheet.pdf
 print/sheet.html
 print/index.html
 print/qc/
+print/business-cards/print-sheet.*
+print/business-cards/.tmp/
