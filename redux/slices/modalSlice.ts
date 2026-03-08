@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import type { PayloadAction, Slice } from '@reduxjs/toolkit'
+import type { PayloadAction, Slice, Reducer } from '@reduxjs/toolkit'
 import type { RootState } from '@/redux/store'
 
 type ModalStateType = { status: 'open' | 'busy' | 'error' | 'closed' }
@@ -21,4 +21,4 @@ export const { setModal } = modalSlice.actions
 // Other code such as selectors can use the imported `RootState` type
 export const selectModal = (state: RootState) => state.modal
 
-export default modalSlice.reducer
+export default modalSlice.reducer as Reducer<ModalStateType>

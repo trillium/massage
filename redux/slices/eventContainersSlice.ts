@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import type { PayloadAction, Slice } from '@reduxjs/toolkit'
+import type { PayloadAction, Slice, Reducer } from '@reduxjs/toolkit'
 import type { RootState } from '@/redux/store'
 import type { LocationObject } from 'lib/types'
 
@@ -47,4 +47,4 @@ export const { setEventContainers, clearEventContainers } = eventContainersSlice
 
 export const selectEventContainers = (state: RootState) => state.eventContainers
 
-export default eventContainersSlice.reducer
+export default eventContainersSlice.reducer as Reducer<EventContainerType>

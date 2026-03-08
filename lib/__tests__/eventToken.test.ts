@@ -1,8 +1,17 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { describe, it, expect, vi, beforeAll } from 'vitest'
 
 vi.stubEnv('GOOGLE_OAUTH_SECRET', 'test-secret-key-for-testing')
 
-const { createEventToken, verifyEventToken, createEventPageUrl } = await import('../eventToken')
+let createEventToken: typeof import('../eventToken').createEventToken
+let verifyEventToken: typeof import('../eventToken').verifyEventToken
+let createEventPageUrl: typeof import('../eventToken').createEventPageUrl
+
+beforeAll(async () => {
+  const mod = await import('../eventToken')
+  createEventToken = mod.createEventToken
+  verifyEventToken = mod.verifyEventToken
+  createEventPageUrl = mod.createEventPageUrl
+})
 
 describe('Event Token System', () => {
   const eventId = 'cal-event-123'

@@ -8,6 +8,7 @@
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import type { Database } from './database.types'
+import type { User, Session } from '@supabase/supabase-js'
 import { getCookieOptionsWithDomain } from './cookie-options'
 
 export async function getSupabaseServerClient() {
@@ -41,7 +42,7 @@ export async function getSupabaseServerClient() {
  * Get current user from server
  * Returns null if not authenticated
  */
-export async function getUser() {
+export async function getUser(): Promise<User | null> {
   const supabase = await getSupabaseServerClient()
   const {
     data: { user },
@@ -53,7 +54,7 @@ export async function getUser() {
  * Get current user session from server
  * Returns null if no active session
  */
-export async function getSession() {
+export async function getSession(): Promise<Session | null> {
   const supabase = await getSupabaseServerClient()
   const {
     data: { session },
