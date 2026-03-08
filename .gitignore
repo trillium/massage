@@ -108,3 +108,6 @@ playground/
 print/qr/
 print/sheet.pdf
 print/index.html
+
+# Sentry Config File
+.env.sentry-build-plugin
