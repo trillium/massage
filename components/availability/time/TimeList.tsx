@@ -6,6 +6,7 @@ import { setSelectedTime } from '@/redux/slices/availabilitySlice'
 import { setModal } from '@/redux/slices/modalSlice'
 import { setEventContainers } from '@/redux/slices/eventContainersSlice'
 import TimeButton from './TimeButton'
+import { DataFreshnessPill } from './DataFreshnessPill'
 import type {
   StringDateTimeIntervalAndLocation,
   StringDateTimeInterval,
@@ -55,22 +56,25 @@ export default function TimeList({}) {
   }
 
   return (
-    <div className="grid grid-cols-2 gap-2">
-      {availability?.map(({ start, end, location, className }) => {
-        const isActive = selectedTime ? start + end === timeSignature : false
+    <div className="relative pt-2">
+      <DataFreshnessPill />
+      <div className="grid grid-cols-2 gap-2">
+        {availability?.map(({ start, end, location, className }) => {
+          const isActive = selectedTime ? start + end === timeSignature : false
 
-        return (
-          <TimeButton
-            key={start + end}
-            active={isActive}
-            time={{ start, end }}
-            timeZone={timeZone}
-            location={location}
-            className={className}
-            onTimeSelect={handleTimeButtonClick}
-          />
-        )
-      })}
+          return (
+            <TimeButton
+              key={start + end}
+              active={isActive}
+              time={{ start, end }}
+              timeZone={timeZone}
+              location={location}
+              className={className}
+              onTimeSelect={handleTimeButtonClick}
+            />
+          )
+        })}
+      </div>
     </div>
   )
 }
