@@ -200,9 +200,11 @@ def main():
     if not template_path.exists():
         sys.exit(f"Template not found: {template_path}")
 
-    qr_files = sorted(QR_DIR.glob("businessCard_*.svg"))
+    qr_files = sorted(QR_DIR.glob("BC-*.svg"))
     if not qr_files:
-        sys.exit(f"No businessCard_*.svg in {QR_DIR} — run generate-handbills.ts first")
+        qr_files = sorted(QR_DIR.glob("businessCard_*.svg"))
+    if not qr_files:
+        sys.exit(f"No BC-*.svg or businessCard_*.svg in {QR_DIR} — run generate-handbills.ts first")
 
     # Determine scope for filename
     scope = args.scope if args.scope else get_scope_from_redirects(qr_files)
