@@ -35,14 +35,19 @@ DEFAULT_TEMPLATE = REPO_ROOT / "print" / "business-cards" / "template-v3.pdf"
 COLORS_PATH = REPO_ROOT / "lib" / "qr" / "print-colors.json"
 
 GREEN_PX = {"x": 664, "y": 176, "size": 326}
+CARD_PX = {"w": 1050, "h": 600}
 PX_TO_PT = 72 / 300
-GREEN = fitz.Rect(
-    GREEN_PX["x"] * PX_TO_PT,
-    GREEN_PX["y"] * PX_TO_PT,
-    (GREEN_PX["x"] + GREEN_PX["size"]) * PX_TO_PT,
-    (GREEN_PX["y"] + GREEN_PX["size"]) * PX_TO_PT,
-)
-QR_RECT = fitz.Rect(GREEN.x0, GREEN.y0, GREEN.x1, GREEN.y1)
+
+
+def compute_green_rect(template_page):
+    bleed_x = (template_page.rect.width - CARD_PX["w"] * PX_TO_PT) / 2
+    bleed_y = (template_page.rect.height - CARD_PX["h"] * PX_TO_PT) / 2
+    return fitz.Rect(
+        GREEN_PX["x"] * PX_TO_PT + bleed_x,
+        GREEN_PX["y"] * PX_TO_PT + bleed_y,
+        (GREEN_PX["x"] + GREEN_PX["size"]) * PX_TO_PT + bleed_x,
+        (GREEN_PX["y"] + GREEN_PX["size"]) * PX_TO_PT + bleed_y,
+    )
 
 
 def hex_to_rgb(h):
@@ -75,16 +80,19 @@ def make_back(template: fitz.Document, qr_path: Path, colors: dict) -> fitz.Docu
     doc.insert_pdf(template, from_page=1, to_page=1)
     page = doc[0]
 
+    green = compute_green_rect(page)
+    qr_rect = fitz.Rect(green)
+
     border_rect = fitz.Rect(
-        GREEN.x0 - BORDER_PT,
-        GREEN.y0 - BORDER_PT,
-        GREEN.x1 + BORDER_PT,
-        GREEN.y1 + BORDER_PT,
+        green.x0 - BORDER_PT,
+        green.y0 - BORDER_PT,
+        green.x1 + BORDER_PT,
+        green.y1 + BORDER_PT,
     )
     page.draw_rect(border_rect, color=colors["containerBg"], fill=colors["containerBg"], width=0)
 
     qr_pdf = svg_to_vector_pdf(qr_path)
-    page.show_pdf_page(QR_RECT, qr_pdf, 0, keep_proportion=False)
+    page.show_pdf_page(qr_rect, qr_pdf, 0, keep_proportion=False)
 
     return doc
 
