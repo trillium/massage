@@ -137,7 +137,7 @@ export async function generateNativeQRSvg(
 
   return `<?xml version="1.0" encoding="utf-8"?>
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-width="${canvasSize}px" height="${canvasSize}px" viewBox="0 0 ${canvasSize} ${canvasSize}">
+width="${canvasSize}px" height="${canvasSize}px" viewBox="0 0 ${canvasSize} ${canvasSize}" data-url="${url}">
 <rect x="0" y="0" width="${canvasSize}" height="${canvasSize}" fill="${colors.containerBg}" />
 <rect x="0" y="0" width="${canvasSize}" height="${canvasSize}" rx="${radius}" ry="${radius}" fill="${colors.background}" />
 <g transform="translate(${padding},${padding})">

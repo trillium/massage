@@ -10,12 +10,19 @@ const QR_DIR = path.join(__dirname, '..', '..', 'print', 'qr')
 interface VerifyResult {
   scope: string
   verifiedAt: string
+  encodedUrl: string | null
   destination: string | null
   total: number
   unique: number
   duplicates: Array<{ slug: string; duplicateOf: string }>
   empty: string[]
+  urlMismatches: Array<{ slug: string; expected: string; found: string }>
   passed: boolean
+}
+
+function extractDataUrl(svg: string): string | null {
+  const match = svg.match(/data-url="([^"]+)"/)
+  return match ? match[1] : null
 }
 
 export function verifySvgs(scope: string): VerifyResult {
@@ -27,6 +34,8 @@ export function verifySvgs(scope: string): VerifyResult {
   const hashes = new Map<string, string>()
   const duplicates: VerifyResult['duplicates'] = []
   const empty: string[] = []
+  const urlMismatches: VerifyResult['urlMismatches'] = []
+  let sampleUrl: string | null = null
 
   for (const file of files) {
     const slug = file.replace('.svg', '')
@@ -35,6 +44,15 @@ export function verifySvgs(scope: string): VerifyResult {
     if (content.trim().length === 0) {
       empty.push(slug)
       continue
+    }
+
+    const dataUrl = extractDataUrl(content)
+    if (dataUrl) {
+      if (!sampleUrl) sampleUrl = dataUrl
+      const expected = `https://trilliummassage.la/rd/${slug}`
+      if (dataUrl !== expected) {
+        urlMismatches.push({ slug, expected, found: dataUrl })
+      }
     }
 
     const hash = crypto.createHash('sha256').update(content).digest('hex').slice(0, 16)
@@ -46,15 +64,19 @@ export function verifySvgs(scope: string): VerifyResult {
     }
   }
 
+  const passed = duplicates.length === 0 && empty.length === 0 && urlMismatches.length === 0
+
   const result: VerifyResult = {
     scope,
     verifiedAt: new Date().toISOString(),
+    encodedUrl: sampleUrl ? sampleUrl.replace(/[A-F0-9]{8}$/, '{hash}') : null,
     destination: SCOPE_DEFAULTS[scope] ?? null,
     total: files.length,
     unique: hashes.size,
     duplicates,
     empty,
-    passed: duplicates.length === 0 && empty.length === 0,
+    urlMismatches,
+    passed,
   }
 
   const outPath = path.join(QR_DIR, `_qr_verification_${scope}.json`)
