@@ -68,12 +68,20 @@ def svg_to_vector_pdf(svg_path: Path) -> fitz.Document:
     return doc
 
 
+BORDER_PT = 1.8
+
 def make_back(template: fitz.Document, qr_path: Path, colors: dict) -> fitz.Document:
     doc = fitz.open()
     doc.insert_pdf(template, from_page=1, to_page=1)
     page = doc[0]
 
-    page.draw_rect(GREEN, color=colors["containerBg"], fill=colors["containerBg"], width=0)
+    border_rect = fitz.Rect(
+        GREEN.x0 - BORDER_PT,
+        GREEN.y0 - BORDER_PT,
+        GREEN.x1 + BORDER_PT,
+        GREEN.y1 + BORDER_PT,
+    )
+    page.draw_rect(border_rect, color=colors["containerBg"], fill=colors["containerBg"], width=0)
 
     qr_pdf = svg_to_vector_pdf(qr_path)
     page.show_pdf_page(QR_RECT, qr_pdf, 0, keep_proportion=False)
