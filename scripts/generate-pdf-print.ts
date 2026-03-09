@@ -62,7 +62,7 @@ export function parseArgs(defaults: PrintConfig): PrintConfig {
 function scopeSlug(prefix: string): string {
   const scope = prefix.replace(/-$/, '')
   const hash = crypto.randomBytes(4).toString('hex').toUpperCase()
-  return `${scope}_${hash}`
+  return `${scope}-${hash}`
 }
 
 function existingSlugs(): Set<string> {
@@ -94,13 +94,13 @@ export async function generatePrint(config: PrintConfig) {
   const newSlugs = generateSlugs(count, prefix, used)
 
   console.log(
-    `Generated ${newSlugs.length} new ${scope}_* slugs (no redirects.jsonl — using catch-all /rd/ route)`
+    `Generated ${newSlugs.length} new ${scope}-* slugs (no redirects.jsonl — using catch-all /rd/ route)`
   )
 
   const toRender: string[] = [...newSlugs]
 
   if (regen) {
-    const existing = [...used].filter((s) => s.startsWith(`${scope}_`))
+    const existing = [...used].filter((s) => s.startsWith(`${scope}-`) || s.startsWith(`${scope}_`))
     const missing = existing.filter((s) => !fs.existsSync(path.join(QR_DIR, `${s}.svg`)))
     toRender.push(...missing.filter((s) => !toRender.includes(s)))
     if (missing.length) console.log(`Regenerating ${missing.length} missing SVGs`)
@@ -126,7 +126,7 @@ export async function generatePrint(config: PrintConfig) {
   }
 
   if (skipped) console.log(`  (${skipped} already existed, skipped)`)
-  console.log(`\n✓ ${generated} generated · ${scope}_* → ${BASE_URL}/${scope}_…`)
+  console.log(`\n✓ ${generated} generated · ${scope}-* → ${BASE_URL}/${scope}_…`)
 
   console.log('\n── Verifying QR uniqueness ──\n')
   const result = verifySvgs(scope)

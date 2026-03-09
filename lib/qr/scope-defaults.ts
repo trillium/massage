@@ -4,8 +4,8 @@ export const SCOPE_DEFAULTS: Record<string, string> = {
 }
 
 export function scopeFromCode(code: string): string | null {
-  const idx = code.indexOf('_')
-  return idx > 0 ? code.substring(0, idx) : null
+  const match = code.match(/^([A-Z]+\d+)[-_]/)
+  return match ? match[1] : null
 }
 
 export function destinationForCode(code: string): string | null {

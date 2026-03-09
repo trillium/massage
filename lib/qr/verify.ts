@@ -28,7 +28,7 @@ function extractDataUrl(svg: string): string | null {
 export function verifySvgs(scope: string): VerifyResult {
   const files = fs
     .readdirSync(QR_DIR)
-    .filter((f) => f.startsWith(`${scope}_`) && f.endsWith('.svg'))
+    .filter((f) => (f.startsWith(`${scope}-`) || f.startsWith(`${scope}_`)) && f.endsWith('.svg'))
     .sort()
 
   const hashes = new Map<string, string>()
