@@ -17,7 +17,10 @@ Usage:
 """
 
 import argparse
+import json
+import subprocess
 import sys
+import tempfile
 from datetime import date
 from pathlib import Path
 
@@ -29,6 +32,7 @@ except ImportError:
 REPO_ROOT = Path(__file__).parent.parent
 QR_DIR = REPO_ROOT / "print" / "qr"
 DEFAULT_TEMPLATE = REPO_ROOT / "print" / "business-cards" / "template-v3.pdf"
+COLORS_PATH = REPO_ROOT / "lib" / "qr" / "print-colors.json"
 
 GREEN_PX = {"x": 664, "y": 176, "size": 326}
 PX_TO_PT = 72 / 300
@@ -38,32 +42,41 @@ GREEN = fitz.Rect(
     (GREEN_PX["x"] + GREEN_PX["size"]) * PX_TO_PT,
     (GREEN_PX["y"] + GREEN_PX["size"]) * PX_TO_PT,
 )
-
-TEAL = (45 / 255, 212 / 255, 191 / 255)
-BORDER_W = 1.5
-BORDER_GAP = 1.5
-QR_INSET = 0
-QR_RECT = fitz.Rect(
-    GREEN.x0 + QR_INSET,
-    GREEN.y0 + QR_INSET,
-    GREEN.x1 - QR_INSET,
-    GREEN.y1 - QR_INSET,
-)
+QR_RECT = fitz.Rect(GREEN.x0, GREEN.y0, GREEN.x1, GREEN.y1)
 
 
-def make_back(template: fitz.Document, qr_path: Path) -> fitz.Document:
+def hex_to_rgb(h):
+    h = h.lstrip("#")
+    return tuple(int(h[i : i + 2], 16) / 255 for i in (0, 2, 4))
+
+
+def load_colors():
+    with open(COLORS_PATH) as f:
+        raw = json.load(f)
+    return {k: hex_to_rgb(v) for k, v in raw.items()}
+
+
+def svg_to_vector_pdf(svg_path: Path) -> fitz.Document:
+    with tempfile.NamedTemporaryFile(suffix=".pdf", delete=False) as tmp:
+        tmp_path = tmp.name
+    subprocess.run(
+        ["rsvg-convert", "-f", "pdf", "-o", tmp_path, str(svg_path)],
+        check=True,
+    )
+    doc = fitz.open(tmp_path)
+    Path(tmp_path).unlink()
+    return doc
+
+
+def make_back(template: fitz.Document, qr_path: Path, colors: dict) -> fitz.Document:
     doc = fitz.open()
     doc.insert_pdf(template, from_page=1, to_page=1)
     page = doc[0]
 
-    page.draw_rect(GREEN, color=TEAL, fill=TEAL, width=0)
+    page.draw_rect(GREEN, color=colors["containerBg"], fill=colors["containerBg"], width=0)
 
-    svg_doc = fitz.open("svg", qr_path.read_bytes())
-    qr_pdf = fitz.open("pdf", svg_doc.convert_to_pdf())
+    qr_pdf = svg_to_vector_pdf(qr_path)
     page.show_pdf_page(QR_RECT, qr_pdf, 0, keep_proportion=False)
-
-    page.draw_rect(GREEN, color=TEAL, fill=None, width=BORDER_W)
-    page.draw_rect(QR_RECT, color=TEAL, fill=None, width=BORDER_W)
 
     return doc
 
@@ -79,6 +92,8 @@ def main():
     template_path = Path(args.template)
     if not template_path.exists():
         sys.exit(f"Template not found: {template_path}")
+
+    colors = load_colors()
 
     template = fitz.open(str(template_path))
     if template.page_count < 2:
@@ -106,7 +121,7 @@ def main():
         front_page = card.new_page(width=page_w, height=page_h)
         front_page.show_pdf_page(front_page.rect, template, 0)
 
-        back_doc = make_back(template, qr_path)
+        back_doc = make_back(template, qr_path, colors)
         card.insert_pdf(back_doc)
 
         card.save(str(out_path), deflate=True, garbage=4)

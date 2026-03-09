@@ -2,13 +2,13 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import QRCode from 'qrcode'
+import type { QRColorScheme } from './colors'
+import { colorPresets } from './colors'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const TEMPLATE_PATH = path.join(__dirname, 'eyelet-template.svg')
 
 const STEP = 19
-const COLOR_TEAL = 'rgb(45, 212, 191)'
-const TEAL_STYLE = `style="fill: ${COLOR_TEAL}; stroke: ${COLOR_TEAL}; stroke-width: 1;" vector-effect="non-scaling-stroke"`
 
 // Eyelet (finder pattern) regions to exclude from data dots — template draws these
 // QR finder patterns are 7x7, but need 1 module separator, so exclude 8x8
@@ -64,7 +64,8 @@ function getModules(url: string): { on: Set<string>; moduleCount: number } {
   return { on, moduleCount: size }
 }
 
-function renderDots(on: Set<string>): string {
+function renderDots(on: Set<string>, bodyColor: string): string {
+  const style = `style="fill: ${bodyColor}; stroke: ${bodyColor}; stroke-width: 1;" vector-effect="non-scaling-stroke"`
   const parts: string[] = []
   for (const key of on) {
     const [col, row] = key.split(',').map(Number)
@@ -75,15 +76,16 @@ function renderDots(on: Set<string>): string {
     const shape = SHAPES[`${T}${R}${B}${L}`]
     if (!shape) throw new Error(`Unknown mask: ${T}${R}${B}${L}`)
     parts.push(
-      `<g transform="translate(${col * STEP},${row * STEP}) scale(0.19,0.19)"><g transform="" ${TEAL_STYLE}>\n${shape}\n</g></g>`
+      `<g transform="translate(${col * STEP},${row * STEP}) scale(0.19,0.19)"><g transform="" ${style}>\n${shape}\n</g></g>`
     )
   }
   return parts.join('\n')
 }
 
-function renderEyelets(moduleCount: number): string {
+function renderEyelets(moduleCount: number, eyeFrame: string, eyeBall: string): string {
   const topRight = (moduleCount - 7) * STEP
   const bottomLeft = (moduleCount - 7) * STEP
+  const frameStyle = `style="fill: ${eyeFrame}; stroke: ${eyeFrame}; stroke-width: 1;" vector-effect="non-scaling-stroke"`
 
   const eyeletOuter = `<g>
 </g>
@@ -101,30 +103,33 @@ function renderEyelets(moduleCount: number): string {
 	c14.971,0,27.138-12.397,27.138-27.63V27.625v-0.014l0.168-27.617C100.05-0.006,82.107-0.021,72.744-0.021z"/>`
 
   return `
-<g transform="translate(0,0) scale(1.33, 1.33)"><g transform=" translate(0,100) scale(1,-1) " ${TEAL_STYLE}>
+<g transform="translate(0,0) scale(1.33, 1.33)"><g transform=" translate(0,100) scale(1,-1) " ${frameStyle}>
 ${eyeletOuter}
 </g></g>
-<g transform="translate(${topRight},0) scale(1.33, 1.33)"><g transform="" ${TEAL_STYLE}>
+<g transform="translate(${topRight},0) scale(1.33, 1.33)"><g transform="" ${frameStyle}>
 ${eyeletOuter}
 </g></g>
-<g transform="translate(0,${bottomLeft}) scale(1.33, 1.33)"><g transform="" ${TEAL_STYLE}>
+<g transform="translate(0,${bottomLeft}) scale(1.33, 1.33)"><g transform="" ${frameStyle}>
 ${eyeletOuter}
 </g></g>
-<g transform="translate(38,38) scale(0.57, 0.57)"><g transform=" translate(0,100) scale(1,-1) " style="fill: rgb(255, 189, 74);">
+<g transform="translate(38,38) scale(0.57, 0.57)"><g transform=" translate(0,100) scale(1,-1) " style="fill: ${eyeBall};">
 ${eyeletInner}
 </g></g>
-<g transform="translate(${topRight + 38},38) scale(0.57, 0.57)"><g transform="" style="fill: rgb(255, 189, 74);">
+<g transform="translate(${topRight + 38},38) scale(0.57, 0.57)"><g transform="" style="fill: ${eyeBall};">
 ${eyeletInner}
 </g></g>
-<g transform="translate(38,${bottomLeft + 38}) scale(0.57, 0.57)"><g transform="" style="fill: rgb(255, 189, 74);">
+<g transform="translate(38,${bottomLeft + 38}) scale(0.57, 0.57)"><g transform="" style="fill: ${eyeBall};">
 ${eyeletInner}
 </g></g>`
 }
 
-export async function generateNativeQRSvg(url: string): Promise<string> {
+export async function generateNativeQRSvg(
+  url: string,
+  colors: QRColorScheme = colorPresets.default
+): Promise<string> {
   const { on, moduleCount } = getModules(url)
-  const dots = renderDots(on)
-  const eyelets = renderEyelets(moduleCount)
+  const dots = renderDots(on, colors.body)
+  const eyelets = renderEyelets(moduleCount, colors.eyeFrame, colors.eyeBall)
 
   const padding = 46
   const canvasSize = padding + moduleCount * STEP + padding
@@ -133,15 +138,10 @@ export async function generateNativeQRSvg(url: string): Promise<string> {
   return `<?xml version="1.0" encoding="utf-8"?>
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
 width="${canvasSize}px" height="${canvasSize}px" viewBox="0 0 ${canvasSize} ${canvasSize}">
-<defs>
-  <clipPath id="rounded"><rect width="${canvasSize}" height="${canvasSize}" rx="${radius}" ry="${radius}"/></clipPath>
-</defs>
-<g clip-path="url(#rounded)">
-<rect x="0" y="0" width="${canvasSize}" height="${canvasSize}" rx="${radius}" ry="${radius}" fill="rgb(31,31,31)" />
+<rect x="0" y="0" width="${canvasSize}" height="${canvasSize}" rx="${radius}" ry="${radius}" fill="${colors.background}" />
 <g transform="translate(${padding},${padding})">
 ${eyelets}
 ${dots}
-</g>
 </g>
 </svg>`
 }

@@ -12,6 +12,7 @@ export interface QRColorScheme {
   background: string
   eyeFrame: string
   eyeBall: string
+  containerBg: string
 }
 
 export const colorPresets: Record<QRColorPreset, QRColorScheme> = {
@@ -20,17 +21,20 @@ export const colorPresets: Record<QRColorPreset, QRColorScheme> = {
     background: qrColors.slate,
     eyeFrame: qrColors.teal,
     eyeBall: qrColors.golden,
+    containerBg: qrColors.teal,
   },
   light: {
     body: qrColors.slate,
     background: qrColors.white,
     eyeFrame: qrColors.slate,
     eyeBall: qrColors.slate,
+    containerBg: qrColors.white,
   },
   dark: {
     body: qrColors.white,
     background: qrColors.slate,
     eyeFrame: qrColors.white,
     eyeBall: qrColors.white,
+    containerBg: qrColors.slate,
   },
 }
