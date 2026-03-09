@@ -1,7 +1,7 @@
 import { generatePrint, parseArgs } from './generate-pdf-print'
 
 const config = parseArgs({
-  prefix: 'BC-',
+  prefix: '',
   destination: 'https://trilliummassage.la',
   count: 10,
   regen: false,

@@ -23,8 +23,14 @@ export function parseArgs(defaults: PrintConfig): PrintConfig {
     return found ? found.split('=').slice(1).join('=') : fallback
   }
 
+  const prefix = arg('prefix', '')
+  if (!prefix) {
+    console.error('Error: --prefix is required (e.g. --prefix=BC01-)')
+    process.exit(1)
+  }
+
   return {
-    prefix: arg('prefix', defaults.prefix),
+    prefix,
     destination: arg('dest', defaults.destination).replace(/^\//, 'https://trilliummassage.la/'),
     count: parseInt(arg('count', String(defaults.count)), 10),
     regen: process.argv.includes('--regen'),
