@@ -4,6 +4,7 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { generateNativeQRSvg } from '../lib/qr/generate-native'
 import { SCOPE_DEFAULTS } from '../lib/qr/scope-defaults'
+import { verifySvgs } from '../lib/qr/verify'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const REPO_ROOT = path.join(__dirname, '..')
@@ -126,4 +127,14 @@ export async function generatePrint(config: PrintConfig) {
 
   if (skipped) console.log(`  (${skipped} already existed, skipped)`)
   console.log(`\n✓ ${generated} generated · ${scope}_* → ${BASE_URL}/${scope}_…`)
+
+  console.log('\n── Verifying QR uniqueness ──\n')
+  const result = verifySvgs(scope)
+  console.log(`  ${result.unique}/${result.total} unique SVGs`)
+  if (!result.passed) {
+    if (result.duplicates.length) console.error(`  ✗ ${result.duplicates.length} duplicates found`)
+    if (result.empty.length) console.error(`  ✗ ${result.empty.length} empty files`)
+    process.exit(1)
+  }
+  console.log('  ✓ All unique, none empty')
 }
