@@ -2,12 +2,15 @@ import crypto from 'node:crypto'
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { SCOPE_DEFAULTS } from './scope-defaults'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const QR_DIR = path.join(__dirname, '..', '..', 'print', 'qr')
 
 interface VerifyResult {
   scope: string
+  verifiedAt: string
+  destination: string | null
   total: number
   unique: number
   duplicates: Array<{ slug: string; duplicateOf: string }>
@@ -43,14 +46,21 @@ export function verifySvgs(scope: string): VerifyResult {
     }
   }
 
-  return {
+  const result: VerifyResult = {
     scope,
+    verifiedAt: new Date().toISOString(),
+    destination: SCOPE_DEFAULTS[scope] ?? null,
     total: files.length,
     unique: hashes.size,
     duplicates,
     empty,
     passed: duplicates.length === 0 && empty.length === 0,
   }
+
+  const outPath = path.join(QR_DIR, `_qr_verification_${scope}.json`)
+  fs.writeFileSync(outPath, JSON.stringify(result, null, 2) + '\n')
+
+  return result
 }
 
 if (
