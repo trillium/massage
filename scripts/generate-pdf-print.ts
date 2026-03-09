@@ -8,7 +8,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const REPO_ROOT = path.join(__dirname, '..')
 const REDIRECTS_PATH = path.join(REPO_ROOT, 'redirects.jsonl')
 const QR_DIR = path.join(REPO_ROOT, 'print', 'qr')
-const BASE_URL = 'https://trilliummassage.la/redirect'
+const BASE_URL = 'https://trilliummassage.la/rd'
 
 export interface PrintConfig {
   prefix: string
@@ -46,7 +46,7 @@ function readRedirects(): Array<{ source: string; destination: string }> {
 }
 
 function usedSlugs(redirects: Array<{ source: string }>): Set<string> {
-  return new Set(redirects.map((r) => r.source.replace('/redirect/', '')))
+  return new Set(redirects.map((r) => r.source.replace(/^\/(redirect|rd)\//, '')))
 }
 
 function generateSlugs(n: number, prefix: string, used: Set<string>): string[] {
@@ -69,7 +69,7 @@ export async function generatePrint(config: PrintConfig) {
   const newSlugs = generateSlugs(count, prefix, used)
   if (newSlugs.length > 0) {
     const newLines = newSlugs.map((slug) =>
-      JSON.stringify({ source: `/redirect/${slug}`, destination, permanent: false })
+      JSON.stringify({ source: `/rd/${slug}`, destination, permanent: false })
     )
     fs.appendFileSync(REDIRECTS_PATH, '\n' + newLines.join('\n') + '\n')
     console.log(`Recorded ${newSlugs.length} new ${prefix}* slugs in redirects.jsonl`)
@@ -80,7 +80,7 @@ export async function generatePrint(config: PrintConfig) {
   if (regen) {
     const existingSlugs = redirects
       .filter((r) => r.source.includes(`/${prefix}`))
-      .map((r) => r.source.replace('/redirect/', ''))
+      .map((r) => r.source.replace(/^\/(redirect|rd)\//, ''))
       .filter((slug) => !fs.existsSync(path.join(QR_DIR, `${slug}.svg`)))
     toRender.push(...existingSlugs.filter((s) => !toRender.includes(s)))
     if (existingSlugs.length) console.log(`Regenerating ${existingSlugs.length} missing SVGs`)
