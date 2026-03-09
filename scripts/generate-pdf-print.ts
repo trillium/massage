@@ -28,6 +28,9 @@ export function parseArgs(defaults: PrintConfig): PrintConfig {
     console.error('Error: --prefix is required (e.g. --prefix=BC01-)')
     process.exit(1)
   }
+  if (!/^[A-Z]+\d+-$/.test(prefix)) {
+    console.warn(`⚠ Prefix "${prefix}" doesn't match recommended format {ALPHA}{NUM}- (e.g. BC01-)`)
+  }
 
   return {
     prefix,
