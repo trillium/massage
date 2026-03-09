@@ -3,12 +3,12 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { generateNativeQRSvg } from '../lib/qr/generate-native'
+import { SCOPE_DEFAULTS } from '../lib/qr/scope-defaults'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const REPO_ROOT = path.join(__dirname, '..')
-const REDIRECTS_PATH = path.join(REPO_ROOT, 'redirects.jsonl')
 const QR_DIR = path.join(REPO_ROOT, 'print', 'qr')
-const BASE_URL = 'https://trilliummassage.la/redirect'
+const BASE_URL = 'https://trilliummassage.la/rd'
 
 export interface PrintConfig {
   prefix: string
@@ -32,67 +32,77 @@ export function parseArgs(defaults: PrintConfig): PrintConfig {
     console.warn(`⚠ Prefix "${prefix}" doesn't match recommended format {ALPHA}{NUM}- (e.g. BC01-)`)
   }
 
+  const scope = prefix.replace(/-$/, '')
+  const registered = SCOPE_DEFAULTS[scope]
+  if (!registered) {
+    console.warn(
+      `⚠ Scope "${scope}" not registered in lib/qr/scope-defaults.ts — QR codes won't redirect until added`
+    )
+  }
+
+  const destination = arg('dest', defaults.destination).replace(
+    /^\//,
+    'https://trilliummassage.la/'
+  )
+  if (registered && destination !== registered) {
+    console.warn(
+      `⚠ --dest=${destination} differs from scope default (${registered}). Scope default wins at redirect time.`
+    )
+  }
+
   return {
     prefix,
-    destination: arg('dest', defaults.destination).replace(/^\//, 'https://trilliummassage.la/'),
+    destination,
     count: parseInt(arg('count', String(defaults.count)), 10),
     regen: process.argv.includes('--regen'),
   }
 }
 
-function randomSlug(prefix: string): string {
-  return prefix + crypto.randomBytes(4).toString('hex').toUpperCase()
+function scopeSlug(prefix: string): string {
+  const scope = prefix.replace(/-$/, '')
+  const hash = crypto.randomBytes(4).toString('hex').toUpperCase()
+  return `${scope}_${hash}`
 }
 
-function readRedirects(): Array<{ source: string; destination: string }> {
-  if (!fs.existsSync(REDIRECTS_PATH)) return []
-  return fs
-    .readFileSync(REDIRECTS_PATH, 'utf-8')
-    .trim()
-    .split('\n')
-    .filter(Boolean)
-    .map((l) => JSON.parse(l))
-}
-
-function usedSlugs(redirects: Array<{ source: string }>): Set<string> {
-  return new Set(redirects.map((r) => r.source.replace('/redirect/', '')))
+function existingSlugs(): Set<string> {
+  if (!fs.existsSync(QR_DIR)) return new Set()
+  return new Set(
+    fs
+      .readdirSync(QR_DIR)
+      .filter((f) => f.endsWith('.svg'))
+      .map((f) => f.replace('.svg', ''))
+  )
 }
 
 function generateSlugs(n: number, prefix: string, used: Set<string>): string[] {
   const slugs: string[] = []
   while (slugs.length < n) {
-    const s = randomSlug(prefix)
+    const s = scopeSlug(prefix)
     if (!used.has(s) && !slugs.includes(s)) slugs.push(s)
   }
   return slugs
 }
 
 export async function generatePrint(config: PrintConfig) {
-  const { prefix, destination, count, regen } = config
+  const { prefix, count, regen } = config
+  const scope = prefix.replace(/-$/, '')
 
   fs.mkdirSync(QR_DIR, { recursive: true })
 
-  const redirects = readRedirects()
-  const used = usedSlugs(redirects)
-
+  const used = existingSlugs()
   const newSlugs = generateSlugs(count, prefix, used)
-  if (newSlugs.length > 0) {
-    const newLines = newSlugs.map((slug) =>
-      JSON.stringify({ source: `/redirect/${slug}`, destination, permanent: false })
-    )
-    fs.appendFileSync(REDIRECTS_PATH, '\n' + newLines.join('\n') + '\n')
-    console.log(`Recorded ${newSlugs.length} new ${prefix}* slugs in redirects.jsonl`)
-  }
+
+  console.log(
+    `Generated ${newSlugs.length} new ${scope}_* slugs (no redirects.jsonl — using catch-all /rd/ route)`
+  )
 
   const toRender: string[] = [...newSlugs]
 
   if (regen) {
-    const existingSlugs = redirects
-      .filter((r) => r.source.includes(`/${prefix}`))
-      .map((r) => r.source.replace('/redirect/', ''))
-      .filter((slug) => !fs.existsSync(path.join(QR_DIR, `${slug}.svg`)))
-    toRender.push(...existingSlugs.filter((s) => !toRender.includes(s)))
-    if (existingSlugs.length) console.log(`Regenerating ${existingSlugs.length} missing SVGs`)
+    const existing = [...used].filter((s) => s.startsWith(`${scope}_`))
+    const missing = existing.filter((s) => !fs.existsSync(path.join(QR_DIR, `${s}.svg`)))
+    toRender.push(...missing.filter((s) => !toRender.includes(s)))
+    if (missing.length) console.log(`Regenerating ${missing.length} missing SVGs`)
   }
 
   let generated = 0
@@ -115,5 +125,5 @@ export async function generatePrint(config: PrintConfig) {
   }
 
   if (skipped) console.log(`  (${skipped} already existed, skipped)`)
-  console.log(`\n✓ ${generated} generated · ${prefix}* → ${destination}`)
+  console.log(`\n✓ ${generated} generated · ${scope}_* → ${BASE_URL}/${scope}_…`)
 }

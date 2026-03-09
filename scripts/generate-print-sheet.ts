@@ -16,21 +16,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const REPO_ROOT = path.join(__dirname, '..')
 const QR_DIR = path.join(REPO_ROOT, 'print/qr')
 const OUT_PATH = path.join(REPO_ROOT, 'print/sheet.html')
-const REDIRECTS_PATH = path.join(REPO_ROOT, 'redirects.jsonl')
-const BASE_URL = 'https://trilliummassage.la/redirect'
-
-// Load redirect destinations for each slug
-function loadRedirects(): Map<string, string> {
-  const map = new Map<string, string>()
-  if (!fs.existsSync(REDIRECTS_PATH)) return map
-  for (const line of fs.readFileSync(REDIRECTS_PATH, 'utf-8').trim().split('\n')) {
-    if (!line.trim()) continue
-    const { source, destination } = JSON.parse(line)
-    const slug = source.replace('/redirect/', '')
-    map.set(slug, destination)
-  }
-  return map
-}
+const BASE_URL = 'https://trilliummassage.la/rd'
 
 function inlineSvg(filePath: string): string {
   return fs.readFileSync(filePath, 'utf-8')
@@ -46,8 +32,6 @@ function main() {
     console.error('No handbill SVGs found in print/qr/. Run generate-handbills.ts first.')
     process.exit(1)
   }
-
-  const redirects = loadRedirects()
 
   // Build handbill card HTML — each card is one cell in the 6-up grid
   const cards = svgFiles.map((file) => {

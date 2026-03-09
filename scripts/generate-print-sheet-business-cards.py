@@ -20,7 +20,6 @@ Output: print/business-cards/sheet.pdf
 """
 
 import argparse
-import json
 import sys
 from pathlib import Path
 
@@ -31,7 +30,6 @@ except ImportError:
 
 REPO_ROOT = Path(__file__).parent.parent
 QR_DIR = REPO_ROOT / "print" / "qr"
-REDIRECTS_PATH = REPO_ROOT / "redirects.jsonl"
 DEFAULT_TEMPLATE = REPO_ROOT / "print" / "business-cards" / "template.png"
 
 # Business card dimensions in pixels (300 DPI): 3.5" × 2" = 1050 × 600 px
@@ -153,38 +151,13 @@ def draw_cut_lines(page: fitz.Page) -> None:
     shape.commit()
 
 
-def get_scope_from_redirects(qr_files):
-    """Extract scope from the destination URL of the first QR code."""
-    if not REDIRECTS_PATH.exists():
-        return "default"
-
-    # Get the slug from the first QR file
-    first_slug = qr_files[0].stem
-
-    # Find the redirect entry for this slug
-    with open(REDIRECTS_PATH) as f:
-        for line in f:
-            if not line.strip():
-                continue
-            entry = json.loads(line)
-            if entry["source"].endswith(first_slug):
-                # Extract scope from destination URL
-                dest = entry["destination"]
-                # Examples:
-                #   https://trilliummassage.la/blog/airbnb-host-promo-2026-03 → airbnb-host-promo-2026-03
-                #   https://trilliummassage.la → trilliummassage
-                if "/blog/" in dest:
-                    scope = dest.split("/blog/")[-1].rstrip("/")
-                else:
-                    # Use the domain name
-                    scope = (
-                        dest.replace("https://", "")
-                        .replace("http://", "")
-                        .split("/")[0]
-                        .split(".")[0]
-                    )
-                return scope
-
+def get_scope_from_filename(qr_files):
+    """Extract scope from first QR filename (e.g. BC01_AABB → BC01)."""
+    stem = qr_files[0].stem
+    if "_" in stem:
+        return stem.split("_")[0]
+    if "-" in stem:
+        return stem.rsplit("-", 1)[0]
     return "default"
 
 
@@ -207,7 +180,7 @@ def main():
         sys.exit(f"No BC-*.svg or businessCard_*.svg in {QR_DIR} — run generate-handbills.ts first")
 
     # Determine scope for filename
-    scope = args.scope if args.scope else get_scope_from_redirects(qr_files)
+    scope = args.scope if args.scope else get_scope_from_filename(qr_files)
     out_path = REPO_ROOT / "print" / "business-cards" / f"{scope}_sheet.pdf"
 
     out = fitz.open()
@@ -224,7 +197,7 @@ def main():
         for i, (fdoc, qr_path) in enumerate(zip(front_docs, batch)):
             col, row = i % COLS, i // COLS
             front.show_pdf_page(cell_rect(col, row), fdoc, 0)
-            url = f"trilliummassage.la/redirect/{qr_path.stem}"
+            url = f"trilliummassage.la/rd/{qr_path.stem}"
             draw_url(front, col, row, url)
 
         draw_cut_lines(front)
