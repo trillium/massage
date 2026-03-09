@@ -48,7 +48,7 @@ const SHAPES: Record<string, string> = {
 }
 
 function getModules(url: string): { on: Set<string>; moduleCount: number } {
-  const qr = QRCode.create(url, { errorCorrectionLevel: 'H' })
+  const qr = QRCode.create(url, { errorCorrectionLevel: 'M' })
   const { modules } = qr
   const size = modules.size
   const on = new Set<string>()
@@ -126,16 +126,22 @@ export async function generateNativeQRSvg(url: string): Promise<string> {
   const dots = renderDots(on)
   const eyelets = renderEyelets(moduleCount)
 
-  // Create SVG with dynamic size
-  const canvasSize = 38 + moduleCount * STEP + 38
+  const padding = 46
+  const canvasSize = padding + moduleCount * STEP + padding
+  const radius = 36
 
   return `<?xml version="1.0" encoding="utf-8"?>
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
 width="${canvasSize}px" height="${canvasSize}px" viewBox="0 0 ${canvasSize} ${canvasSize}">
-<rect x="0" y="0" width="${canvasSize}" height="${canvasSize}" fill="rgb(31,31,31)" />
-<g transform="translate(38,38)">
+<defs>
+  <clipPath id="rounded"><rect width="${canvasSize}" height="${canvasSize}" rx="${radius}" ry="${radius}"/></clipPath>
+</defs>
+<g clip-path="url(#rounded)">
+<rect x="0" y="0" width="${canvasSize}" height="${canvasSize}" rx="${radius}" ry="${radius}" fill="rgb(31,31,31)" />
+<g transform="translate(${padding},${padding})">
 ${eyelets}
 ${dots}
+</g>
 </g>
 </svg>`
 }

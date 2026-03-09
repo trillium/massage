@@ -32,7 +32,7 @@ export function buildQROptions(
       color: scheme.background,
     },
     qrOptions: {
-      errorCorrectionLevel: 'H',
+      errorCorrectionLevel: 'M',
     },
     ...overrides,
   }
