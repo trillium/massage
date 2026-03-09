@@ -1,18 +1,3 @@
-/**
- * generate-handbills.ts
- *
- * Generates unique QR codes for print using the native renderer (eyelet shapes).
- *
- * - Slugs are recorded in redirects.jsonl (source of truth for used hashes)
- * - Skips any slug that already has a SVG in print/qr/ (safe to re-run)
- * - Also regenerates SVGs for existing redirects with missing files (--regen)
- *
- * Usage:
- *   pnpm tsx scripts/generate-handbills.ts                                          # 6 handbill_ → airbnb promo
- *   pnpm tsx scripts/generate-handbills.ts --prefix=handbiz_ --dest=/quicklinks      # 6 handbiz_ → quicklinks
- *   pnpm tsx scripts/generate-handbills.ts --prefix=handbiz_ --count=0 --regen       # regenerate missing SVGs only
- *   pnpm tsx scripts/generate-handbills.ts --count=20                                # generate 20
- */
 import crypto from 'node:crypto'
 import fs from 'node:fs'
 import path from 'node:path'
@@ -22,25 +7,32 @@ import { generateNativeQRSvg } from '../lib/qr/generate-native'
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const REPO_ROOT = path.join(__dirname, '..')
 const REDIRECTS_PATH = path.join(REPO_ROOT, 'redirects.jsonl')
-const PRINT_DIR = path.join(REPO_ROOT, 'print')
-const QR_DIR = path.join(PRINT_DIR, 'qr')
+const QR_DIR = path.join(REPO_ROOT, 'print', 'qr')
 const BASE_URL = 'https://trilliummassage.la/redirect'
 
-function arg(name: string, fallback: string): string {
-  const found = process.argv.find((a) => a.startsWith(`--${name}=`))
-  return found ? found.split('=').slice(1).join('=') : fallback
+export interface PrintConfig {
+  prefix: string
+  destination: string
+  count: number
+  regen: boolean
 }
 
-const PREFIX = arg('prefix', 'HB-')
-const DESTINATION = arg(
-  'dest',
-  'https://trilliummassage.la/blog/airbnb-host-promo-2026-03'
-).replace(/^\//, 'https://trilliummassage.la/')
-const COUNT = parseInt(arg('count', '6'), 10)
-const REGEN = process.argv.includes('--regen')
+export function parseArgs(defaults: PrintConfig): PrintConfig {
+  function arg(name: string, fallback: string): string {
+    const found = process.argv.find((a) => a.startsWith(`--${name}=`))
+    return found ? found.split('=').slice(1).join('=') : fallback
+  }
 
-function randomSlug(): string {
-  return PREFIX + crypto.randomBytes(4).toString('hex').toUpperCase()
+  return {
+    prefix: arg('prefix', defaults.prefix),
+    destination: arg('dest', defaults.destination).replace(/^\//, 'https://trilliummassage.la/'),
+    count: parseInt(arg('count', String(defaults.count)), 10),
+    regen: process.argv.includes('--regen'),
+  }
+}
+
+function randomSlug(prefix: string): string {
+  return prefix + crypto.randomBytes(4).toString('hex').toUpperCase()
 }
 
 function readRedirects(): Array<{ source: string; destination: string }> {
@@ -57,37 +49,37 @@ function usedSlugs(redirects: Array<{ source: string }>): Set<string> {
   return new Set(redirects.map((r) => r.source.replace('/redirect/', '')))
 }
 
-function generateSlugs(n: number, used: Set<string>): string[] {
+function generateSlugs(n: number, prefix: string, used: Set<string>): string[] {
   const slugs: string[] = []
   while (slugs.length < n) {
-    const s = randomSlug()
+    const s = randomSlug(prefix)
     if (!used.has(s) && !slugs.includes(s)) slugs.push(s)
   }
   return slugs
 }
 
-async function main() {
+export async function generatePrint(config: PrintConfig) {
+  const { prefix, destination, count, regen } = config
+
   fs.mkdirSync(QR_DIR, { recursive: true })
 
   const redirects = readRedirects()
   const used = usedSlugs(redirects)
 
-  // Generate new slugs
-  const newSlugs = generateSlugs(COUNT, used)
+  const newSlugs = generateSlugs(count, prefix, used)
   if (newSlugs.length > 0) {
     const newLines = newSlugs.map((slug) =>
-      JSON.stringify({ source: `/redirect/${slug}`, destination: DESTINATION, permanent: false })
+      JSON.stringify({ source: `/redirect/${slug}`, destination, permanent: false })
     )
     fs.appendFileSync(REDIRECTS_PATH, '\n' + newLines.join('\n') + '\n')
-    console.log(`Recorded ${newSlugs.length} new ${PREFIX}* slugs in redirects.jsonl`)
+    console.log(`Recorded ${newSlugs.length} new ${prefix}* slugs in redirects.jsonl`)
   }
 
-  // Collect all slugs that need SVGs (new + existing with missing files if --regen)
   const toRender: string[] = [...newSlugs]
 
-  if (REGEN) {
+  if (regen) {
     const existingSlugs = redirects
-      .filter((r) => r.source.includes(`/${PREFIX}`))
+      .filter((r) => r.source.includes(`/${prefix}`))
       .map((r) => r.source.replace('/redirect/', ''))
       .filter((slug) => !fs.existsSync(path.join(QR_DIR, `${slug}.svg`)))
     toRender.push(...existingSlugs.filter((s) => !toRender.includes(s)))
@@ -114,7 +106,5 @@ async function main() {
   }
 
   if (skipped) console.log(`  (${skipped} already existed, skipped)`)
-  console.log(`\n✓ ${generated} generated · ${PREFIX}* → ${DESTINATION}`)
+  console.log(`\n✓ ${generated} generated · ${prefix}* → ${destination}`)
 }
-
-main()
