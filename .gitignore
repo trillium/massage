@@ -115,3 +115,6 @@ print/business-cards/.tmp/
 
 # Sentry Config File
 .env.sentry-build-plugin
+
+# Gas Town (added by gt)
+__pycache__/
