@@ -6,18 +6,26 @@ import {
   filterEventsForGeneralBlocking,
 } from '@/lib/fetch/fetchContainersByQuery'
 
+type GetActiveHoldsFn = (
+  start: string,
+  end: string,
+  excludeSessionId?: string
+) => Promise<DateTimeInterval[]>
+
 type CheckSlotAvailabilityParams = {
   start: string
   end: string
   padding: number
   eventBaseString?: string
   blockingScope?: 'event' | 'general'
+  sessionId?: string
   getBusyTimesFn: (args: DateTimeInterval) => Promise<DateTimeInterval[]>
   getEventsBySearchQueryFn: (args: {
     query: string
     start?: string | Date
     end?: string | Date
   }) => Promise<GoogleCalendarV3Event[]>
+  getActiveHoldsFn?: GetActiveHoldsFn
 }
 
 export type SlotCheckParams = {
@@ -25,6 +33,7 @@ export type SlotCheckParams = {
   end: string
   eventBaseString?: string
   blockingScope?: 'event' | 'general'
+  sessionId?: string
 }
 
 export type CheckSlotAvailabilityFn = (params: SlotCheckParams) => Promise<{ available: boolean }>
@@ -35,8 +44,10 @@ export async function checkSlotAvailability({
   padding,
   eventBaseString,
   blockingScope,
+  sessionId,
   getBusyTimesFn,
   getEventsBySearchQueryFn,
+  getActiveHoldsFn,
 }: CheckSlotAvailabilityParams): Promise<{ available: boolean }> {
   try {
     const slotInterval = { start: new Date(start), end: new Date(end) }
@@ -60,13 +71,18 @@ export async function checkSlotAvailability({
           return { available: false }
         }
       }
-
-      return { available: true }
+    } else {
+      const busyTimes = await getBusyTimesFn(slotInterval)
+      if (hasOverlap(slotInterval, busyTimes, padding)) {
+        return { available: false }
+      }
     }
 
-    const busyTimes = await getBusyTimesFn(slotInterval)
-    if (hasOverlap(slotInterval, busyTimes, padding)) {
-      return { available: false }
+    if (getActiveHoldsFn) {
+      const activeHolds = await getActiveHoldsFn(start, end, sessionId)
+      if (hasOverlap(slotInterval, activeHolds, 0)) {
+        return { available: false }
+      }
     }
 
     return { available: true }
@@ -80,10 +96,12 @@ export function createCheckSlotAvailability({
   padding,
   getBusyTimesFn,
   getEventsBySearchQueryFn,
+  getActiveHoldsFn,
 }: {
   padding: number
   getBusyTimesFn: CheckSlotAvailabilityParams['getBusyTimesFn']
   getEventsBySearchQueryFn: CheckSlotAvailabilityParams['getEventsBySearchQueryFn']
+  getActiveHoldsFn?: GetActiveHoldsFn
 }): CheckSlotAvailabilityFn {
   return (params) =>
     checkSlotAvailability({
@@ -91,6 +109,7 @@ export function createCheckSlotAvailability({
       padding,
       getBusyTimesFn,
       getEventsBySearchQueryFn,
+      getActiveHoldsFn,
     })
 }
 

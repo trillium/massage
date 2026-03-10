@@ -243,6 +243,33 @@ export interface Database {
           },
         ]
       }
+      slot_holds: {
+        Row: {
+          id: string
+          session_id: string
+          start_time: string
+          end_time: string
+          expires_at: string
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          session_id: string
+          start_time: string
+          end_time: string
+          expires_at?: string
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          session_id?: string
+          start_time?: string
+          end_time?: string
+          expires_at?: string
+          created_at?: string
+        }
+        Relationships: []
+      }
       reminder_logs: {
         Row: {
           id: string
@@ -356,6 +383,20 @@ export interface Database {
         }
         Returns: void
       }
+      claim_slot_hold: {
+        Args: {
+          p_session_id: string
+          p_start: string
+          p_end: string
+        }
+        Returns: Json
+      }
+      release_slot_hold: {
+        Args: {
+          p_session_id: string
+        }
+        Returns: void
+      }
     }
     Enums: {
       user_role: UserRole
@@ -384,6 +425,9 @@ export type ReminderInsert = Database['public']['Tables']['reminders']['Insert']
 
 export type ReminderLog = Database['public']['Tables']['reminder_logs']['Row']
 export type ReminderLogInsert = Database['public']['Tables']['reminder_logs']['Insert']
+
+export type SlotHold = Database['public']['Tables']['slot_holds']['Row']
+export type SlotHoldInsert = Database['public']['Tables']['slot_holds']['Insert']
 
 // Auth user type (from Supabase Auth)
 export interface AuthUser {

@@ -5,6 +5,7 @@ import { setModal } from '@/redux/slices/modalSlice'
 import { setForm } from '@/redux/slices/formSlice'
 import { flattenLocation } from '@/lib/helpers/locationHelpers'
 import { BookingFormValues } from '@/lib/bookingFormSchema'
+import { useSlotHoldContext } from 'hooks/SlotHoldContext'
 import { ChairAppointmentBlockProps } from 'lib/types'
 
 type UseBookingSubmitParams = {
@@ -17,6 +18,7 @@ export function useBookingSubmit({ additionalData, endPoint, onSubmit }: UseBook
   const dispatch = useAppDispatch()
   const config = useReduxConfig()
   const router = useRouter()
+  const { sessionId } = useSlotHoldContext()
 
   return async (values: BookingFormValues, formikHelpers: FormikHelpers<BookingFormValues>) => {
     try {
@@ -65,6 +67,7 @@ export function useBookingSubmit({ additionalData, endPoint, onSubmit }: UseBook
           instantConfirm: config.instantConfirm || false,
           rescheduleEventId: values.rescheduleEventId || undefined,
           rescheduleToken: values.rescheduleToken || undefined,
+          sessionId,
           slugConfiguration: config,
           ...additionalData,
         }

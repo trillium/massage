@@ -1,10 +1,11 @@
 'use client'
 
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { useReduxAvailability, useAppDispatch } from '@/redux/hooks'
 import { setSelectedTime } from '@/redux/slices/availabilitySlice'
 import { setModal } from '@/redux/slices/modalSlice'
 import { setEventContainers } from '@/redux/slices/eventContainersSlice'
+import { useSlotHoldContext } from 'hooks/SlotHoldContext'
 import TimeButton from './TimeButton'
 import { DataFreshnessPill } from './DataFreshnessPill'
 import type {
@@ -18,6 +19,8 @@ import { format } from 'date-fns-tz'
 export default function TimeList({}) {
   const { slots: slotsRedux, selectedDate, selectedTime, timeZone } = useReduxAvailability()
   const dispatch = useAppDispatch()
+  const { claimHold, claiming } = useSlotHoldContext()
+  const [claimingSlot, setClaimingSlot] = useState<string | null>(null)
 
   const slots = slotsRedux || []
 
@@ -38,18 +41,19 @@ export default function TimeList({}) {
 
   const availability = selectedDate ? availabilityByDate[selectedDate.toString()] : []
 
-  const handleTimeButtonClick = (time: StringDateTimeInterval, location?: LocationObject) => {
-    dispatch(
-      setSelectedTime({
-        start: time.start,
-        end: time.end,
-      })
-    )
+  const handleTimeButtonClick = async (time: StringDateTimeInterval, location?: LocationObject) => {
+    const slotKey = time.start + time.end
+    setClaimingSlot(slotKey)
+
+    const held = await claimHold(time.start, time.end)
+    setClaimingSlot(null)
+
+    if (!held) return
+
+    dispatch(setSelectedTime({ start: time.start, end: time.end }))
     if (location) {
-      // Set the location in eventContainers - don't convert to empty string
       dispatch(setEventContainers({ location: location }))
     } else {
-      // Don't clear all eventContainers, just clear the location field
       dispatch(setEventContainers({ location: undefined }))
     }
     dispatch(setModal({ status: 'open' }))
@@ -60,16 +64,20 @@ export default function TimeList({}) {
       <DataFreshnessPill />
       <div className="grid grid-cols-2 gap-2">
         {availability?.map(({ start, end, location, className }) => {
-          const isActive = selectedTime ? start + end === timeSignature : false
+          const slotKey = start + end
+          const isActive = selectedTime ? slotKey === timeSignature : false
+          const isLoading = claiming && claimingSlot === slotKey
 
           return (
             <TimeButton
-              key={start + end}
+              key={slotKey}
               active={isActive}
               time={{ start, end }}
               timeZone={timeZone}
               location={location}
               className={className}
+              disabled={claiming}
+              loading={isLoading}
               onTimeSelect={handleTimeButtonClick}
             />
           )

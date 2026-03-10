@@ -25,6 +25,7 @@ import { createEventPageUrl, verifyEventToken } from './eventToken'
 import { getOriginFromHeaders } from './helpers/getOriginFromHeaders'
 import { formatLocalDate, formatLocalTime } from './availability/helpers'
 import { createAppointmentRecord } from './appointments/createAppointmentRecord'
+import { releaseSlotHold } from './holds/releaseSlotHold'
 
 export type AppointmentRequestValidationResult =
   | { success: true; data: z.output<typeof AppointmentRequestSchema> }
@@ -78,6 +79,7 @@ export async function handleAppointmentRequest({
         end: data.end,
         eventBaseString: data.eventBaseString,
         blockingScope: data.slugConfiguration?.blockingScope,
+        sessionId: data.sessionId,
       })
       if (!availability.available) {
         return NextResponse.json(
@@ -164,6 +166,7 @@ export async function handleAppointmentRequest({
 
     const calendarData = await calendarResponse.json()
     createAppointmentRecord(calendarData.id, data, 'confirmed').catch(() => {})
+    if (data.sessionId) releaseSlotHold(data.sessionId).catch(() => {})
     const eventPageUrl = createEventPageUrl(origin, calendarData.id, data.email, data.end)
 
     // Send confirmation email directly
@@ -201,6 +204,7 @@ export async function handleAppointmentRequest({
   })
   const calendarEventId = calendarResponse.id
   createAppointmentRecord(calendarEventId, data, 'pending').catch(() => {})
+  if (data.sessionId) releaseSlotHold(data.sessionId).catch(() => {})
 
   // Phase 2: Build accept/decline URLs using the calendarEventId
   const acceptUrl = createConfirmUrl(origin, calendarEventId, data, getHashFn)

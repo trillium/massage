@@ -1,9 +1,10 @@
 'use client'
 
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { useReduxAvailability, useAppDispatch } from '@/redux/hooks'
 import { setSelectedTime } from '@/redux/slices/availabilitySlice'
 import { setModal } from '@/redux/slices/modalSlice'
+import { useSlotHoldContext } from 'hooks/SlotHoldContext'
 import TimeButton from '@/components/availability/time/TimeButton'
 import { DataFreshnessPill } from '@/components/availability/time/DataFreshnessPill'
 import type {
@@ -21,6 +22,8 @@ type DisplayTimeListProps = {
 export default function DisplayTimeList({ presenceCounts, onSlotHover }: DisplayTimeListProps) {
   const { slots: slotsRedux, selectedDate, selectedTime, timeZone } = useReduxAvailability()
   const dispatch = useAppDispatch()
+  const { claimHold, claiming } = useSlotHoldContext()
+  const [claimingSlot, setClaimingSlot] = useState<string | null>(null)
 
   const slots = slotsRedux || []
 
@@ -39,7 +42,15 @@ export default function DisplayTimeList({ presenceCounts, onSlotHover }: Display
 
   const availability = selectedDate ? availabilityByDate[selectedDate.toString()] : []
 
-  const handleTimeSelect = (time: StringDateTimeInterval, _location?: LocationObject) => {
+  const handleTimeSelect = async (time: StringDateTimeInterval, _location?: LocationObject) => {
+    const slotKey = time.start + time.end
+    setClaimingSlot(slotKey)
+
+    const held = await claimHold(time.start, time.end)
+    setClaimingSlot(null)
+
+    if (!held) return
+
     dispatch(setSelectedTime({ start: time.start, end: time.end }))
     dispatch(setModal({ status: 'open' }))
   }
@@ -52,6 +63,7 @@ export default function DisplayTimeList({ presenceCounts, onSlotHover }: Display
           const slotKey = start + end
           const isActive = selectedTime ? slotKey === timeSignature : false
           const count = presenceCounts?.[slotKey] ?? 0
+          const isLoading = claiming && claimingSlot === slotKey
 
           return (
             <TimeButton
@@ -62,6 +74,8 @@ export default function DisplayTimeList({ presenceCounts, onSlotHover }: Display
               location={location}
               className={className}
               presenceCount={count}
+              disabled={claiming}
+              loading={isLoading}
               onTimeSelect={handleTimeSelect}
               onMouseEnter={() => onSlotHover?.(slotKey)}
               onMouseLeave={() => onSlotHover?.(null)}

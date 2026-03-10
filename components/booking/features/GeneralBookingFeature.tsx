@@ -6,6 +6,7 @@ import Calendar from '@/components/availability/date/Calendar'
 import TimeList from '@/components/availability/time/TimeList'
 import { InitialUrlUtility, UpdateSlotsUtility } from '@/components/utilities/UpdateSlotsUtility'
 import SectionContainer from '@/components/SectionContainer'
+import { SlotHoldProvider } from 'hooks/SlotHoldContext'
 import { buildDurationProps } from '@/lib/slugConfigurations/helpers/buildDurationProps'
 import {
   SlugConfigurationType,
@@ -53,16 +54,18 @@ export default function GeneralBookingFeature({
         title={configuration.title || 'Book a massage with Trillium :)'}
         text={configuration.text ?? undefined}
       />
-      <BookingForm
-        acceptingPayment={configuration.acceptingPayment ?? true}
-        endPoint={bookingEndPoint}
-      />
+      <SlotHoldProvider>
+        <BookingForm
+          acceptingPayment={configuration.acceptingPayment ?? true}
+          endPoint={bookingEndPoint}
+        />
 
-      <div className="flex flex-col space-y-8">
-        <DurationPicker {...durationProps} />
-        <Calendar />
-        <TimeList />
-      </div>
+        <div className="flex flex-col space-y-8">
+          <DurationPicker {...durationProps} />
+          <Calendar />
+          <TimeList />
+        </div>
+      </SlotHoldProvider>
 
       <InitialUrlUtility
         configObject={configuration}

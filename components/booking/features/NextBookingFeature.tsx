@@ -6,6 +6,7 @@ import Calendar from '@/components/availability/date/Calendar'
 import TimeList from '@/components/availability/time/TimeList'
 import { InitialUrlUtility, UpdateSlotsUtility } from '@/components/utilities/UpdateSlotsUtility'
 import SectionContainer from '@/components/SectionContainer'
+import { SlotHoldProvider } from 'hooks/SlotHoldContext'
 import CachedTileMap from '@/components/CachedTileMap'
 import DriveTimeCalculator from '@/components/booking/features/DriveTimeCalculator'
 import { DEFAULT_VIEW } from '@/lib/mapConfig'
@@ -74,12 +75,14 @@ export default function NextBookingFeature({
         {currentEvent && <DriveTimeCalculator currentEvent={currentEvent} />}
       </div>
 
-      <BookingForm />
-      <div className="flex flex-col space-y-8">
-        <DurationPicker {...durationProps} />
-        <Calendar weeksDisplayOverride={1} />
-        <TimeList />
-      </div>
+      <SlotHoldProvider>
+        <BookingForm />
+        <div className="flex flex-col space-y-8">
+          <DurationPicker {...durationProps} />
+          <Calendar weeksDisplayOverride={1} />
+          <TimeList />
+        </div>
+      </SlotHoldProvider>
 
       <InitialUrlUtility
         configObject={configuration}

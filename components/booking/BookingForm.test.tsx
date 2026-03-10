@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation'
 import { AppDispatch } from '@/redux/store'
 import { ChairAppointmentBlockProps } from '@/lib/types'
 import StoreProvider from 'app/StoreProvider'
+import { SlotHoldProvider } from 'hooks/SlotHoldContext'
 
 // Mock dependencies
 vi.mock('next/navigation', () => ({
@@ -86,7 +87,9 @@ describe('BookingForm', () => {
 
     const { getByText, getByLabelText } = render(
       <StoreProvider>
-        <BookingForm endPoint={endPoint} />
+        <SlotHoldProvider>
+          <BookingForm endPoint={endPoint} />
+        </SlotHoldProvider>
       </StoreProvider>
     )
 
@@ -108,7 +111,9 @@ describe('BookingForm', () => {
 
     const { getByLabelText, getByText } = render(
       <StoreProvider>
-        <BookingForm endPoint={endPoint} />
+        <SlotHoldProvider>
+          <BookingForm endPoint={endPoint} />
+        </SlotHoldProvider>
       </StoreProvider>
     )
 

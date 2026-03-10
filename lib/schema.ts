@@ -45,6 +45,7 @@ const BaseRequestSchema = z
     slugConfiguration: z.any().optional(), // Full slug configuration object
     rescheduleEventId: z.string().optional(),
     rescheduleToken: z.string().optional(),
+    sessionId: z.string().uuid().optional(),
   })
   .strict() // Disallow unknown keys
   .refine((data) => data.locationObject !== undefined || data.locationString !== undefined, {

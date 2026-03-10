@@ -25,6 +25,7 @@ import { useLocationSync } from './useLocationSync'
 import { useBookingValidation } from './useBookingValidation'
 import { useBookingInitialValues } from './useBookingInitialValues'
 import { useBookingSubmit } from './useBookingSubmit'
+import { useSlotHoldContext } from 'hooks/SlotHoldContext'
 
 type BookingFormProps = {
   additionalData?: Partial<ChairAppointmentBlockProps>
@@ -40,6 +41,7 @@ export default function BookingForm({
   onSubmit,
 }: BookingFormProps) {
   const dispatch = useAppDispatch()
+  const { releaseHold } = useSlotHoldContext()
   const formData = useReduxFormData()
   const eventContainers = useReduxEventContainers()
   const config = useReduxConfig()
@@ -85,6 +87,7 @@ export default function BookingForm({
     <Modal
       open={modal !== 'closed'}
       setOpen={(open) => {
+        if (!open) releaseHold()
         dispatch(setModal({ status: open ? 'open' : 'closed' }))
       }}
     >

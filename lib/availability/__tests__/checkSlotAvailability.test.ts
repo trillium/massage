@@ -232,6 +232,94 @@ describe('checkSlotAvailability', () => {
     })
   })
 
+  describe('with active holds', () => {
+    const mockGetActiveHolds =
+      vi.fn<
+        (start: string, end: string, excludeSessionId?: string) => Promise<DateTimeInterval[]>
+      >()
+
+    const holdParams = {
+      ...baseParams,
+      getActiveHoldsFn: mockGetActiveHolds,
+    }
+
+    beforeEach(() => {
+      mockGetBusyTimes.mockResolvedValue([])
+    })
+
+    it('returns available when no active holds overlap', async () => {
+      mockGetActiveHolds.mockResolvedValue([])
+
+      const result = await checkSlotAvailability(holdParams)
+
+      expect(result).toEqual({ available: true })
+    })
+
+    it('returns unavailable when an active hold overlaps', async () => {
+      mockGetActiveHolds.mockResolvedValue([
+        busyInterval('2024-06-15T10:00:00Z', '2024-06-15T11:00:00Z'),
+      ])
+
+      const result = await checkSlotAvailability(holdParams)
+
+      expect(result).toEqual({ available: false })
+    })
+
+    it('passes sessionId to getActiveHoldsFn for exclusion', async () => {
+      mockGetActiveHolds.mockResolvedValue([])
+      const sessionId = 'abc-123'
+
+      await checkSlotAvailability({ ...holdParams, sessionId })
+
+      expect(mockGetActiveHolds).toHaveBeenCalledWith(
+        '2024-06-15T10:00:00Z',
+        '2024-06-15T11:00:00Z',
+        sessionId
+      )
+    })
+
+    it('checks holds with zero padding (no buffer on holds)', async () => {
+      mockGetActiveHolds.mockResolvedValue([
+        busyInterval('2024-06-15T11:00:00Z', '2024-06-15T12:00:00Z'),
+      ])
+
+      const result = await checkSlotAvailability(holdParams)
+
+      expect(result).toEqual({ available: true })
+    })
+
+    it('rejects if calendar is clear but hold exists', async () => {
+      mockGetActiveHolds.mockResolvedValue([
+        busyInterval('2024-06-15T10:30:00Z', '2024-06-15T11:30:00Z'),
+      ])
+
+      const result = await checkSlotAvailability(holdParams)
+
+      expect(result).toEqual({ available: false })
+    })
+
+    it('works with event containers and holds together', async () => {
+      mockGetEventsBySearchQuery.mockResolvedValue([])
+      mockGetActiveHolds.mockResolvedValue([
+        busyInterval('2024-06-15T10:15:00Z', '2024-06-15T10:45:00Z'),
+      ])
+
+      const result = await checkSlotAvailability({
+        ...holdParams,
+        eventBaseString: 'scale23x',
+      })
+
+      expect(result).toEqual({ available: false })
+    })
+
+    it('skips hold check when getActiveHoldsFn is not provided', async () => {
+      const result = await checkSlotAvailability(baseParams)
+
+      expect(result).toEqual({ available: true })
+      expect(mockGetActiveHolds).not.toHaveBeenCalled()
+    })
+  })
+
   describe('error handling (fail-closed)', () => {
     it('returns unavailable if getBusyTimes throws', async () => {
       mockGetBusyTimes.mockRejectedValue(new Error('API down'))
@@ -247,6 +335,18 @@ describe('checkSlotAvailability', () => {
       const result = await checkSlotAvailability({
         ...baseParams,
         eventBaseString: 'scale23x',
+      })
+
+      expect(result).toEqual({ available: false })
+    })
+
+    it('returns unavailable if getActiveHoldsFn throws', async () => {
+      const mockGetActiveHolds = vi.fn().mockRejectedValue(new Error('DB down'))
+      mockGetBusyTimes.mockResolvedValue([])
+
+      const result = await checkSlotAvailability({
+        ...baseParams,
+        getActiveHoldsFn: mockGetActiveHolds,
       })
 
       expect(result).toEqual({ available: false })
