@@ -1,2 +1,2 @@
-export const HOLD_TTL_SECONDS = 20
-export const HOLD_EXTEND_THROTTLE_MS = 10_000
+export const HOLD_TTL_SECONDS = 55
+export const HOLD_EXTEND_THROTTLE_MS = 40_000

@@ -1,15 +1,17 @@
 'use client'
 
-import { useMemo } from 'react'
+import { useState } from 'react'
 
 export function useSessionId(): string {
-  return useMemo(() => {
+  const [id] = useState(() => {
+    if (typeof sessionStorage === 'undefined') return ''
     const key = 'booking_session_id'
-    let id = sessionStorage.getItem(key)
-    if (!id) {
-      id = crypto.randomUUID()
-      sessionStorage.setItem(key, id)
+    let stored = sessionStorage.getItem(key)
+    if (!stored) {
+      stored = crypto.randomUUID()
+      sessionStorage.setItem(key, stored)
     }
-    return id
-  }, [])
+    return stored
+  })
+  return id
 }

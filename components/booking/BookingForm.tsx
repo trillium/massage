@@ -117,12 +117,17 @@ export default function BookingForm({
                   handleSubmit()
                 }}
               >
-                <DialogTitle
-                  as="h3"
-                  className="text-base leading-6 font-semibold text-gray-900 dark:text-gray-100"
-                >
-                  Request appointment
-                </DialogTitle>
+                <div className="flex items-center justify-between">
+                  <DialogTitle
+                    as="h3"
+                    className="text-base leading-6 font-semibold text-gray-900 dark:text-gray-100"
+                  >
+                    Request appointment
+                  </DialogTitle>
+                  {holdExpired && (
+                    <span className="text-xs text-amber-600">Slot no longer reserved</span>
+                  )}
+                </div>
 
                 <BookingSummary
                   dateString={dateString}
@@ -154,13 +159,7 @@ export default function BookingForm({
                   </div>
                 )}
 
-                {holdExpired && (
-                  <div className="mt-4 rounded-md bg-amber-50 p-3 text-amber-700">
-                    Your hold on this time slot has expired. Please select the time again.
-                  </div>
-                )}
-
-                <BookingFormActions disabled={holdExpired} />
+                <BookingFormActions />
               </Form>
             )
           }}
