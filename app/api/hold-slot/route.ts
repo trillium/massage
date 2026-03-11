@@ -4,8 +4,8 @@ import { claimSlotHold } from '@/lib/holds/claimSlotHold'
 
 const HoldSlotSchema = z.object({
   sessionId: z.string().uuid(),
-  start: z.string().datetime(),
-  end: z.string().datetime(),
+  start: z.string().datetime({ offset: true }),
+  end: z.string().datetime({ offset: true }),
 })
 
 export async function POST(req: NextRequest) {

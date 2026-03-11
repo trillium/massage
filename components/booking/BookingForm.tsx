@@ -41,7 +41,7 @@ export default function BookingForm({
   onSubmit,
 }: BookingFormProps) {
   const dispatch = useAppDispatch()
-  const { releaseHold } = useSlotHoldContext()
+  const { releaseHold, holdExpired } = useSlotHoldContext()
   const formData = useReduxFormData()
   const eventContainers = useReduxEventContainers()
   const config = useReduxConfig()
@@ -87,7 +87,7 @@ export default function BookingForm({
     <Modal
       open={modal !== 'closed'}
       setOpen={(open) => {
-        if (!open) releaseHold()
+        // if (!open) releaseHold()
         dispatch(setModal({ status: open ? 'open' : 'closed' }))
       }}
     >
@@ -154,7 +154,13 @@ export default function BookingForm({
                   </div>
                 )}
 
-                <BookingFormActions />
+                {holdExpired && (
+                  <div className="mt-4 rounded-md bg-amber-50 p-3 text-amber-700">
+                    Your hold on this time slot has expired. Please select the time again.
+                  </div>
+                )}
+
+                <BookingFormActions disabled={holdExpired} />
               </Form>
             )
           }}

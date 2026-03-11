@@ -30,6 +30,16 @@ vi.mock('posthog-js', () => ({
   },
 }))
 
+vi.mock('hooks/SlotHoldContext', () => ({
+  useSlotHoldContext: () => ({
+    sessionId: 'test-session-id',
+    holdId: null,
+    claiming: false,
+    claimHold: vi.fn(),
+    releaseHold: vi.fn(),
+  }),
+}))
+
 // Integration test for BookingForm
 describe('BookingForm Integration Tests', () => {
   let store: ReturnType<typeof makeStore>

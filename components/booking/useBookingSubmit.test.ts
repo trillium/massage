@@ -24,6 +24,16 @@ vi.mock('@/redux/slices/formSlice', () => ({
   setForm: vi.fn((payload) => ({ type: 'form/setForm', payload })),
 }))
 
+vi.mock('hooks/SlotHoldContext', () => ({
+  useSlotHoldContext: () => ({
+    sessionId: 'test-session-id',
+    holdId: null,
+    claiming: false,
+    claimHold: vi.fn(),
+    releaseHold: vi.fn(),
+  }),
+}))
+
 const baseValues = {
   firstName: 'John',
   lastName: 'Doe',
