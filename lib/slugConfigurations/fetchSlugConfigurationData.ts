@@ -256,6 +256,36 @@ const slugConfigurations: SlugConfigurationType[] = [
   },
   {
     ...initialStateWithoutType,
+    bookingSlug: ['100Devs'],
+    type: 'fixed-location',
+    title: 'SCaLE 23x — Book a Session!',
+    text: "Testing platform. Pick a time and we'll get you in!",
+    location: createLocationObject(
+      'Pasadena Convention Center, 300 E Green St',
+      'Pasadena',
+      '91101'
+    ),
+    locationIsReadOnly: true,
+    eventContainer: '100Devs',
+    defaultDuration: 5,
+    allowedDurations: [5, 10, 15, 20, 30],
+    pricing: { 5: 0, 10: 0, 15: 0, 20: 0, 30: 0 },
+    pricingLabels: {
+      5: 'Free!',
+      10: 'Please tip for time above 5m',
+      15: 'Please tip for time above 5m',
+      20: 'Please tip for time above 5m',
+      30: 'Please tip for time above 5m',
+    },
+    leadTimeMinimum: 0,
+    instantConfirm: true,
+    acceptingPayment: false,
+    customFields: {
+      showNotesField: true,
+    },
+  },
+  {
+    ...initialStateWithoutType,
     bookingSlug: ['scale23x'],
     type: 'fixed-location',
     title: 'SCaLE 23x — Book a Session!',
