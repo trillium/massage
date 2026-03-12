@@ -7,13 +7,13 @@
  *         proposals/coderabbit-miami-2026/template.hbs
  * Output: proposals/coderabbit-miami-2026/output/proposal.html
  *
- * Logo handling:
- *   If `logos.trillium` and/or `logos.coderabbit` are set in the YAML,
- *   the script resolves those paths relative to the proposal directory,
- *   reads the files, and injects base64 data URIs into `logos_b64.*` so
- *   the template can render <img src="{{logos_b64.trillium}}"> without
- *   depending on external file references in the output HTML.
- *   Missing logo files are silently skipped (the key is left undefined).
+ * Image handling:
+ *   Any flat string-map under `logos` or `photos` in the YAML is resolved
+ *   relative to the proposal directory, read from disk, and injected as a
+ *   base64 data URI into `logos_b64.*` / `photos_b64.*` respectively.
+ *   The template then renders <img src="{{photos_b64.cover}}"> etc. without
+ *   any external file references in the output HTML.
+ *   Missing files are silently skipped (the key is left undefined).
  *
  * Usage: pnpm run render:proposal
  */
@@ -54,27 +54,32 @@ function toDataUri(filePath: string): string | undefined {
   return `data:${mime};base64,${buf.toString('base64')}`
 }
 
+function inlineImageMap(
+  map: Record<string, string> | undefined,
+  label: string
+): Record<string, string | undefined> {
+  const out: Record<string, string | undefined> = {}
+  if (!map) return out
+  for (const [key, relPath] of Object.entries(map)) {
+    const absPath = path.resolve(PROPOSAL_DIR, relPath)
+    const uri = toDataUri(absPath)
+    if (uri) {
+      out[key] = uri
+      console.log(`  ${label} [${key}] → inlined (${Math.round(uri.length / 1024)}kb)`)
+    } else {
+      console.warn(`  ${label} [${key}] → file not found at ${absPath}, skipping`)
+    }
+  }
+  return out
+}
+
 function main() {
   console.log('Reading YAML data...')
   const rawYaml = fs.readFileSync(YAML_PATH, 'utf8')
   const data = yaml.load(rawYaml) as Record<string, unknown>
 
-  // Resolve logo paths → base64 data URIs
-  const logos = data.logos as Record<string, string> | undefined
-  if (logos) {
-    const logos_b64: Record<string, string | undefined> = {}
-    for (const [key, relPath] of Object.entries(logos)) {
-      const absPath = path.resolve(PROPOSAL_DIR, relPath)
-      const uri = toDataUri(absPath)
-      if (uri) {
-        logos_b64[key] = uri
-        console.log(`  Logo [${key}] → inlined (${Math.round(uri.length / 1024)}kb)`)
-      } else {
-        console.warn(`  Logo [${key}] → file not found at ${absPath}, skipping`)
-      }
-    }
-    data.logos_b64 = logos_b64
-  }
+  data.logos_b64 = inlineImageMap(data.logos as Record<string, string> | undefined, 'Logo')
+  data.photos_b64 = inlineImageMap(data.photos as Record<string, string> | undefined, 'Photo')
 
   console.log('Reading Handlebars template...')
   const rawTemplate = fs.readFileSync(TEMPLATE_PATH, 'utf8')
