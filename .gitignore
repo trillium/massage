@@ -112,6 +112,10 @@ print/index.html
 print/qc/
 print/business-cards/print-sheet.*
 print/business-cards/.tmp/
+print/reference/
+
+# Proposals (private working docs)
+proposals/
 
 # Sentry Config File
 .env.sentry-build-plugin
