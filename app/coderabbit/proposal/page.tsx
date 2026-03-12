@@ -1,10 +1,13 @@
 import { Metadata } from 'next'
 import Image from 'next/image'
+import { notFound } from 'next/navigation'
 
 export const metadata: Metadata = {
   title: 'Proposal — CodeRabbit Miami 2026',
   robots: { index: false, follow: false },
 }
+
+const PROPOSAL_TOKEN = 'cr-miami-2026'
 
 function Section({ children, className = '' }: { children: React.ReactNode; className?: string }) {
   return <section className={`mb-10 ${className}`}>{children}</section>
@@ -23,12 +26,13 @@ function Table({ headers, rows }: { headers: string[]; rows: (string | React.Rea
     <table className="w-full border-collapse text-sm">
       <thead>
         <tr>
-          {headers.map((h) => (
+          {headers.map((h, i) => (
             <th
-              key={h}
+              key={`${i}-${h || 'detail'}`}
+              scope="col"
               className="border border-gray-200 bg-teal-50 px-4 py-2 text-left font-semibold text-teal-800"
             >
-              {h}
+              {h || <span className="sr-only">Detail</span>}
             </th>
           ))}
         </tr>
@@ -36,11 +40,21 @@ function Table({ headers, rows }: { headers: string[]; rows: (string | React.Rea
       <tbody>
         {rows.map((row, i) => (
           <tr key={i} className={i % 2 === 1 ? 'bg-gray-50' : ''}>
-            {row.map((cell, j) => (
-              <td key={j} className="border border-gray-200 px-4 py-2">
-                {cell}
-              </td>
-            ))}
+            {row.map((cell, j) =>
+              j === 0 ? (
+                <th
+                  key={j}
+                  scope="row"
+                  className="border border-gray-200 px-4 py-2 text-left font-semibold"
+                >
+                  {cell}
+                </th>
+              ) : (
+                <td key={j} className="border border-gray-200 px-4 py-2">
+                  {cell}
+                </td>
+              )
+            )}
           </tr>
         ))}
       </tbody>
@@ -48,7 +62,14 @@ function Table({ headers, rows }: { headers: string[]; rows: (string | React.Rea
   )
 }
 
-export default function ProposalPage() {
+export default async function ProposalPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ token?: string }>
+}) {
+  const { token } = await searchParams
+  if (token !== PROPOSAL_TOKEN) notFound()
+
   return (
     <div className="mx-auto max-w-3xl px-6 py-12 font-sans text-gray-800 print:max-w-none print:px-0 print:py-0">
       {/* Header */}
@@ -71,7 +92,7 @@ export default function ProposalPage() {
       </header>
 
       {/* Meta */}
-      <div className="mb-10 grid grid-cols-2 gap-4 rounded-lg bg-gray-50 p-6 text-sm print:bg-white print:border print:border-gray-200">
+      <div className="mb-10 grid grid-cols-1 gap-4 rounded-lg bg-gray-50 p-6 text-sm print:border print:border-gray-200 print:bg-white sm:grid-cols-2">
         <div>
           <span className="font-semibold text-gray-500">Prepared for</span>
           <p className="text-gray-900">Theresa Ensminger & Team</p>
@@ -146,7 +167,7 @@ export default function ProposalPage() {
       </Section>
 
       {/* Photo Break */}
-      <div className="my-8 grid grid-cols-3 gap-3 print:hidden">
+      <div className="my-8 grid grid-cols-1 gap-3 print:hidden sm:grid-cols-3">
         <Image
           src="/static/images/gallery/massage_chair_smiling.jpg"
           alt="Chair massage"
@@ -173,7 +194,7 @@ export default function ProposalPage() {
       {/* Value Prop */}
       <Section>
         <SectionTitle>Why This Works for CodeRabbit</SectionTitle>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           {[
             {
               title: 'Booth Traffic',
@@ -207,9 +228,9 @@ export default function ProposalPage() {
       <Section>
         <SectionTitle>Proof of Concept: SCaLE 23x</SectionTitle>
         <p className="mb-4 leading-relaxed">
-          At SCaLE earlier this month, I delivered{' '}
-          <strong className="text-teal-700">50+ massage sessions</strong> across 3 days — 12 hours
-          of total massage time.
+          At SCaLE 23x in March 2026, I delivered{' '}
+          <strong className="text-teal-700">50 massage sessions</strong> over 3 days — 12 hours of
+          total massage time.
         </p>
         <Table
           headers={['Day', 'Sessions', 'Notes']}
@@ -272,8 +293,8 @@ export default function ProposalPage() {
       <Section>
         <SectionTitle>Next Steps</SectionTitle>
         <p className="leading-relaxed">
-          I&apos;d love to hop on a quick call <strong>Monday or Tuesday</strong> to talk through
-          any questions and get the details locked in. Let me know what works for you both.
+          I&apos;d love to hop on a quick call <strong>the week of March 17</strong> to talk through
+          any questions and get the details locked in. Let me know what works for you.
         </p>
         <p className="mt-4 leading-relaxed">Looking forward to it.</p>
       </Section>
