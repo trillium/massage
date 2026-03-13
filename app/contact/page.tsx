@@ -17,7 +17,7 @@ export default async function ContactPage({
       <div className="mb-8 grid grid-cols-1 gap-8 md:grid-cols-2">
         <ContactForm defaultSubject={defaultSubject} />
         <div className="flex flex-col justify-center space-y-4">
-          <div className="border-primary-500 flex w-full items-center justify-center rounded border-2 bg-gray-200 text-center text-gray-500">
+          <div className="border-primary-500 flex w-full items-center justify-center rounded border-2 bg-surface-200 text-center text-accent-500">
             <Image
               src="/static/images/service-area.jpg"
               alt="Los Angeles map"

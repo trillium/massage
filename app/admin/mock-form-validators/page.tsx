@@ -9,17 +9,17 @@ export default function MockFormValidatorsPage() {
     <SectionContainer>
       <div className="container mx-auto px-4 py-8">
         <div className="mx-auto max-w-4xl">
-          <h1 className="mb-8 text-3xl font-bold text-gray-900 dark:text-gray-100">
+          <h1 className="mb-8 text-3xl font-bold text-accent-900 dark:text-accent-100">
             Form Validation Examples
           </h1>
 
           <div className="space-y-12">
             {/* Updated BookingForm */}
             <section>
-              <h2 className="mb-4 text-2xl font-semibold text-gray-800 dark:text-gray-200">
+              <h2 className="mb-4 text-2xl font-semibold text-accent-800 dark:text-accent-200">
                 BookingForm with Formik + Zod Integration
               </h2>
-              <p className="mb-6 text-gray-600 dark:text-gray-400">
+              <p className="mb-6 text-accent-600 dark:text-accent-400">
                 The existing BookingForm component has been updated to use Formik for form state
                 management and Zod for validation. This provides type-safe form handling with
                 real-time validation while keeping all existing field components unchanged.
@@ -39,17 +39,17 @@ export default function MockFormValidatorsPage() {
             </section>
 
             {/* Implementation Notes */}
-            <section className="rounded-lg bg-gray-50 p-6 dark:bg-gray-800">
-              <h3 className="mb-4 text-xl font-semibold text-gray-800 dark:text-gray-200">
+            <section className="rounded-lg bg-surface-100 p-6 dark:bg-surface-800">
+              <h3 className="mb-4 text-xl font-semibold text-accent-800 dark:text-accent-200">
                 Implementation Highlights
               </h3>
 
               <div className="grid gap-6 md:grid-cols-2">
                 <div>
-                  <h4 className="mb-2 font-medium text-gray-700 dark:text-gray-300">
+                  <h4 className="mb-2 font-medium text-accent-700 dark:text-accent-300">
                     Zod Schema Benefits
                   </h4>
-                  <ul className="space-y-1 text-sm text-gray-600 dark:text-gray-400">
+                  <ul className="space-y-1 text-sm text-accent-600 dark:text-accent-400">
                     <li>• Automatic TypeScript type generation</li>
                     <li>• Rich validation rules (regex, min/max, custom)</li>
                     <li>• Composable and reusable schemas</li>
@@ -59,10 +59,10 @@ export default function MockFormValidatorsPage() {
                 </div>
 
                 <div>
-                  <h4 className="mb-2 font-medium text-gray-700 dark:text-gray-300">
+                  <h4 className="mb-2 font-medium text-accent-700 dark:text-accent-300">
                     Formik Integration Benefits
                   </h4>
-                  <ul className="space-y-1 text-sm text-gray-600 dark:text-gray-400">
+                  <ul className="space-y-1 text-sm text-accent-600 dark:text-accent-400">
                     <li>• Seamless form state management</li>
                     <li>• Real-time validation feedback</li>
                     <li>• Touch/blur/change event handling</li>
@@ -112,10 +112,10 @@ const validationSchema = toFormikValidationSchema(
 
             {/* Code Example */}
             <section>
-              <h3 className="mb-4 text-xl font-semibold text-gray-800 dark:text-gray-200">
+              <h3 className="mb-4 text-xl font-semibold text-accent-800 dark:text-accent-200">
                 Updated Files
               </h3>
-              <div className="rounded-lg bg-gray-900 p-4 font-mono text-sm text-green-400">
+              <div className="rounded-lg bg-surface-900 p-4 font-mono text-sm text-green-400">
                 <p>
                   <FaFolder className="mr-1 inline" /> components/booking/BookingForm.tsx (
                   <FaCheck className="mr-1 inline" /> Updated with Formik + Zod)
@@ -129,9 +129,11 @@ const validationSchema = toFormikValidationSchema(
                 </p>
               </div>
 
-              <div className="mt-4 rounded-lg bg-gray-50 p-4 dark:bg-gray-800">
-                <h4 className="mb-2 font-medium text-gray-700 dark:text-gray-300">What Changed:</h4>
-                <ul className="space-y-1 text-sm text-gray-600 dark:text-gray-400">
+              <div className="mt-4 rounded-lg bg-surface-100 p-4 dark:bg-surface-800">
+                <h4 className="mb-2 font-medium text-accent-700 dark:text-accent-300">
+                  What Changed:
+                </h4>
+                <ul className="space-y-1 text-sm text-accent-600 dark:text-accent-400">
                   <li>• Added Formik for form state management</li>
                   <li>• Added Zod schema validation with type safety</li>
                   <li>• Real-time validation with error display</li>

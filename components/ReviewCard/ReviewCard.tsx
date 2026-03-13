@@ -80,15 +80,17 @@ const OtherCard = ({
             <div className="box mx-auto flex w-full flex-col gap-y-4 max-xl:max-w-3xl">
               {[5, 4, 3, 2, 1].map((num) => (
                 <div key={'num' + num} className="text-primary-400 flex w-full items-center">
-                  <p className="mr-2 py-1 text-lg font-medium text-black dark:text-white">{num}</p>
+                  <p className="mr-2 py-1 text-lg font-medium text-accent-950 dark:text-white">
+                    {num}
+                  </p>
                   <LittleStar />
-                  <p className="mr-3 ml-5 h-2 w-full rounded-3xl bg-gray-200 sm:min-w-72">
+                  <p className="mr-3 ml-5 h-2 w-full rounded-3xl bg-surface-200 sm:min-w-72">
                     <span
                       style={{ width: `${ratingPercent[num]}%` }}
                       className={`bg-primary-500 flex h-full rounded-3xl`}
                     ></span>
                   </p>
-                  <p className="mr-2 w-5 py-1 text-lg font-medium text-black dark:text-white">
+                  <p className="mr-2 w-5 py-1 text-lg font-medium text-accent-950 dark:text-white">
                     {reviews[num]}
                   </p>
                 </div>
@@ -99,7 +101,7 @@ const OtherCard = ({
             <div
               className={clsx(
                 'flex h-full w-full items-center justify-center rounded-3xl max-xl:mx-auto max-xl:max-w-3xl max-lg:py-8',
-                'border-primary-400 border-2 bg-gray-100 dark:bg-slate-900'
+                'border-primary-400 border-2 bg-surface-200 dark:bg-surface-900'
               )}
             >
               <div className="flex w-full items-center justify-between">
@@ -144,11 +146,11 @@ const ScoreDisplay = ({
   return (
     <div
       className={clsx(
-        'flex flex-col items-center justify-center border-gray-200 pt-6 sm:pt-0',
+        'flex flex-col items-center justify-center border-accent-200 pt-6 sm:pt-0',
         'last:border-t first:sm:pr-3 last:sm:border-t-0 last:sm:border-l last:sm:pl-3'
       )}
     >
-      <h2 className="mb-4 text-center text-5xl font-bold text-black dark:text-gray-200">
+      <h2 className="mb-4 text-center text-5xl font-bold text-accent-950 dark:text-accent-200">
         {averageStr}
       </h2>
       <div className="text-primary-400 mb-4 flex items-center gap-3">
@@ -158,7 +160,7 @@ const ScoreDisplay = ({
         <Star />
         <Star percent={0.6 / 5} />
       </div>
-      <p className="text-lg leading-8 font-normal text-gray-400">{text}</p>
+      <p className="text-lg leading-8 font-normal text-accent-400">{text}</p>
     </div>
   )
 }

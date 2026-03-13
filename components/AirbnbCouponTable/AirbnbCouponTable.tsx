@@ -36,10 +36,10 @@ export default function AirbnbCouponTable() {
 
   return (
     <div className="my-6 overflow-x-auto rounded-md">
-      <table className="min-w-full border-collapse rounded-md border border-gray-300 text-sm dark:border-gray-700">
+      <table className="min-w-full border-collapse rounded-md border border-accent-300 text-sm dark:border-accent-700">
         <thead>
-          <tr className="bg-gray-100 dark:bg-gray-800">
-            <th className="border border-gray-300 px-3 py-2 text-left dark:border-gray-700">
+          <tr className="bg-surface-200 dark:bg-surface-800">
+            <th className="border border-accent-300 px-3 py-2 text-left dark:border-accent-700">
               Discount
             </th>
             {servicesAirbnb.map((service) => {
@@ -47,7 +47,7 @@ export default function AirbnbCouponTable() {
               return (
                 <th
                   key={`${service.duration}-${service.name}`}
-                  className="border border-gray-300 px-3 py-2 text-left dark:border-gray-700"
+                  className="border border-accent-300 px-3 py-2 text-left dark:border-accent-700"
                 >
                   <div className="font-semibold">{service.name}</div>
                   {directPrice > 0 && (
@@ -63,9 +63,9 @@ export default function AirbnbCouponTable() {
           {coupons.map((coupon, couponIndex) => (
             <tr
               key={couponIndex}
-              className={couponIndex % 2 === 1 ? 'bg-gray-50 dark:bg-gray-900' : ''}
+              className={couponIndex % 2 === 1 ? 'bg-surface-100 dark:bg-surface-900' : ''}
             >
-              <td className="border border-gray-300 px-3 py-2 font-medium dark:border-gray-700">
+              <td className="border border-accent-300 px-3 py-2 font-medium dark:border-accent-700">
                 {coupon.discount}
               </td>
               {servicesAirbnb.map((service) => {
@@ -80,7 +80,7 @@ export default function AirbnbCouponTable() {
                 return (
                   <td
                     key={`${service.duration}-${service.name}`}
-                    className="border border-gray-300 px-3 py-2 dark:border-gray-700"
+                    className="border border-accent-300 px-3 py-2 dark:border-accent-700"
                   >
                     <div className="font-semibold">${afterCoupon}</div>
                     {directPrice > 0 && (
@@ -99,7 +99,7 @@ export default function AirbnbCouponTable() {
             </tr>
           ))}
           <tr className="bg-blue-50 font-medium dark:bg-blue-950">
-            <td className="border border-gray-300 px-3 py-2 dark:border-gray-700">
+            <td className="border border-accent-300 px-3 py-2 dark:border-accent-700">
               My Compensation from Airbnb
             </td>
             {servicesAirbnb.map((service) => {
@@ -108,10 +108,10 @@ export default function AirbnbCouponTable() {
               return (
                 <td
                   key={`${service.duration}-${service.name}-compensation`}
-                  className="border border-gray-300 px-3 py-2 dark:border-gray-700"
+                  className="border border-accent-300 px-3 py-2 dark:border-accent-700"
                 >
                   <div className="font-semibold">${myCompensation}</div>
-                  <div className="text-xs text-gray-600 dark:text-gray-400">
+                  <div className="text-xs text-accent-600 dark:text-accent-400">
                     (85% of ${service.price})
                   </div>
                 </td>

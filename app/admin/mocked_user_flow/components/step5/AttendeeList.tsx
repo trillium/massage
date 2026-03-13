@@ -8,15 +8,15 @@ interface Attendee {
 export default function AttendeeList({ attendees }: { attendees: Attendee[] }) {
   return (
     <div>
-      <h3 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">Attendees</h3>
+      <h3 className="mb-2 text-lg font-semibold text-accent-900 dark:text-white">Attendees</h3>
       <div className="space-y-2">
         {attendees.map((attendee, index) => (
           <div
             key={index}
-            className="flex items-center justify-between rounded bg-gray-100 p-3 dark:bg-gray-700"
+            className="flex items-center justify-between rounded bg-surface-200 p-3 dark:bg-surface-700"
           >
             <div>
-              <p className="font-medium text-gray-900 dark:text-white">
+              <p className="font-medium text-accent-900 dark:text-white">
                 {attendee.displayName}
                 {attendee.organizer && (
                   <span className="ml-2 rounded bg-blue-100 px-2 py-1 text-xs text-blue-800 dark:bg-blue-900 dark:text-blue-200">
@@ -24,7 +24,7 @@ export default function AttendeeList({ attendees }: { attendees: Attendee[] }) {
                   </span>
                 )}
               </p>
-              <p className="text-sm text-gray-600 dark:text-gray-400">{attendee.email}</p>
+              <p className="text-sm text-accent-600 dark:text-accent-400">{attendee.email}</p>
             </div>
             <span
               className={`rounded px-2 py-1 text-xs font-medium ${

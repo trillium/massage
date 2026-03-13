@@ -34,8 +34,8 @@ export function TimelineBlock({ block, isPast, isInProgress }: Props) {
       <div
         className={`flex min-h-[44px] items-center justify-between rounded-md border border-dashed px-3 py-2 ${
           isPast
-            ? 'border-gray-200 bg-gray-50 text-gray-400 opacity-40 dark:border-gray-700 dark:bg-gray-800/30 dark:text-gray-600'
-            : 'border-gray-300 bg-gray-50 text-gray-500 dark:border-gray-600 dark:bg-gray-800/50 dark:text-gray-400'
+            ? 'border-accent-200 bg-surface-100 text-accent-400 opacity-40 dark:border-accent-700 dark:bg-surface-800/30 dark:text-accent-600'
+            : 'border-accent-300 bg-surface-100 text-accent-500 dark:border-accent-600 dark:bg-surface-800/50 dark:text-accent-400'
         }`}
       >
         <span className="text-sm">{block.durationMinutes} min open</span>
@@ -52,17 +52,17 @@ export function TimelineBlock({ block, isPast, isInProgress }: Props) {
         isInProgress
           ? 'border-l-blue-500 bg-blue-50 ring-2 ring-blue-500 dark:bg-blue-900/30 dark:ring-blue-400'
           : isPast
-            ? 'border-l-gray-300 bg-gray-100 opacity-50 dark:border-l-gray-600 dark:bg-gray-800'
-            : 'border-l-green-500 bg-white shadow-sm dark:bg-gray-700'
+            ? 'border-l-accent-300 bg-surface-200 opacity-50 dark:border-l-accent-600 dark:bg-surface-800'
+            : 'border-l-green-500 bg-surface-50 shadow-sm dark:bg-surface-700'
       }`}
     >
       <div className="flex items-center justify-between">
-        <span className="font-medium text-gray-900 dark:text-gray-100">{name}</span>
-        <span className="text-xs text-gray-500 dark:text-gray-400">{duration}</span>
+        <span className="font-medium text-accent-900 dark:text-accent-100">{name}</span>
+        <span className="text-xs text-accent-500 dark:text-accent-400">{duration}</span>
       </div>
-      <div className="mt-1 text-sm text-gray-600 dark:text-gray-300">{timeLabel}</div>
+      <div className="mt-1 text-sm text-accent-600 dark:text-accent-300">{timeLabel}</div>
       {block.event?.location && (
-        <div className="mt-0.5 text-xs text-gray-400 dark:text-gray-500">
+        <div className="mt-0.5 text-xs text-accent-400 dark:text-accent-500">
           {block.event.location}
         </div>
       )}

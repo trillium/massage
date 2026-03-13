@@ -14,7 +14,8 @@ import { NavOptions } from './NavOptions'
 import { KBarNavActions } from './KBarNavActions'
 
 const Header = () => {
-  let headerClass = 'flex items-center w-full bg-white dark:bg-gray-950 justify-between py-10'
+  let headerClass =
+    'flex items-center w-full bg-surface-50 dark:bg-surface-950 justify-between py-10'
   if (siteMetadata.stickyNav) {
     headerClass += ' sticky top-0 z-50'
   }
@@ -56,7 +57,7 @@ const Header = () => {
                   key={link.title}
                   href={link.href}
                   className={clsx(
-                    'hover:text-primary-500 dark:hover:text-primary-400 m-1 box-border block border-b-[3px] font-medium text-gray-900 transition dark:text-gray-100',
+                    'hover:text-primary-500 dark:hover:text-primary-400 m-1 box-border block border-b-[3px] font-medium text-accent-900 transition dark:text-accent-100',
                     { 'border-primary-500': active },
                     { 'border-transparent': !active }
                   )}

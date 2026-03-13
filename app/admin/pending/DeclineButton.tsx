@@ -21,7 +21,7 @@ export function DeclineButton({ declineUrl }: { declineUrl: string }) {
   }
 
   if (state === 'declined') {
-    return <span className="text-sm font-medium text-gray-500">Declined</span>
+    return <span className="text-sm font-medium text-accent-500">Declined</span>
   }
 
   return (
@@ -31,7 +31,7 @@ export function DeclineButton({ declineUrl }: { declineUrl: string }) {
         disabled={state === 'loading'}
         className={
           state === 'loading'
-            ? 'cursor-not-allowed rounded bg-gray-400 px-4 py-2 text-sm font-medium text-white'
+            ? 'cursor-not-allowed rounded bg-surface-400 px-4 py-2 text-sm font-medium text-white'
             : 'rounded bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700'
         }
       >

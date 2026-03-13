@@ -39,10 +39,10 @@ function TextContent({ positionClasses }: { positionClasses?: string }) {
           <GradientText>{hero.gradientWord}</GradientText>
           {headlineParts[1]}
         </h1>
-        <h2 className="mx-auto mt-4 max-w-lg text-3xl font-semibold text-gray-600 md:mx-0 dark:text-gray-300">
+        <h2 className="mx-auto mt-4 max-w-lg text-3xl font-semibold text-accent-600 md:mx-0 dark:text-accent-300">
           {hero.subheading}
         </h2>
-        <p className="mx-auto mt-4 max-w-lg text-xl text-gray-600 md:mx-0 dark:text-gray-300">
+        <p className="mx-auto mt-4 max-w-lg text-xl text-accent-600 md:mx-0 dark:text-accent-300">
           {hero.description}
         </p>
       </div>
@@ -91,7 +91,7 @@ function ButtonContent({ positionClasses }: { positionClasses?: string }) {
 
           <Link
             href="/services"
-            className="text-md border-primary-500 text-primary-600 mt-auto inline-block w-full rounded border-2 bg-white px-4 py-2 text-center font-semibold transition-colors hover:bg-gray-200"
+            className="text-md border-primary-500 text-primary-600 mt-auto inline-block w-full rounded border-2 bg-surface-50 px-4 py-2 text-center font-semibold transition-colors hover:bg-surface-200"
           >
             Explore Services
           </Link>

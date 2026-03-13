@@ -16,13 +16,13 @@ export default function GlobalError({
   }, [error])
   return (
     <div className="flex flex-col items-center justify-center px-4 py-24 text-center">
-      <h1 className="text-6xl font-extrabold tracking-tight text-gray-900 dark:text-gray-100">
+      <h1 className="text-6xl font-extrabold tracking-tight text-accent-900 dark:text-accent-100">
         Oops
       </h1>
-      <p className="mt-4 text-xl font-bold text-gray-700 dark:text-gray-300">
+      <p className="mt-4 text-xl font-bold text-accent-700 dark:text-accent-300">
         Something went wrong.
       </p>
-      <p className="mt-2 text-gray-500 dark:text-gray-400">
+      <p className="mt-2 text-accent-500 dark:text-accent-400">
         We hit an unexpected error. You can try again or head back to the homepage.
       </p>
       <div className="mt-8 flex gap-4">
@@ -34,7 +34,7 @@ export default function GlobalError({
         </button>
         <Link
           href="/"
-          className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-100 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-800"
+          className="rounded-lg border border-accent-300 px-4 py-2 text-sm font-medium text-accent-700 transition-colors hover:bg-surface-200 dark:border-accent-600 dark:text-accent-300 dark:hover:bg-surface-800"
         >
           Back to homepage
         </Link>

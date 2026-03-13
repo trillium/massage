@@ -29,7 +29,7 @@ type ContentItem = {
 
 const renderContent = (content: string | ContentItem[]) => {
   if (typeof content === 'string') {
-    return <p className="text-gray-700 dark:text-gray-300">{content}</p>
+    return <p className="text-accent-700 dark:text-accent-300">{content}</p>
   }
 
   // Find first image or imageMosaic index
@@ -53,7 +53,7 @@ const renderContent = (content: string | ContentItem[]) => {
           switch (item.type) {
             case 'text':
               return (
-                <p key={index} className="text-gray-700 dark:text-gray-300">
+                <p key={index} className="text-accent-700 dark:text-accent-300">
                   {item.content}
                 </p>
               )
@@ -61,7 +61,7 @@ const renderContent = (content: string | ContentItem[]) => {
               return (
                 <ul
                   key={index}
-                  className="list-inside list-disc space-y-1 text-gray-700 dark:text-gray-300"
+                  className="list-inside list-disc space-y-1 text-accent-700 dark:text-accent-300"
                 >
                   {item.items?.map((listItem, listIndex) => (
                     <li key={listIndex}>{listItem}</li>
@@ -70,7 +70,7 @@ const renderContent = (content: string | ContentItem[]) => {
               )
             case 'link':
               return (
-                <p key={index} className="text-gray-700 dark:text-gray-300">
+                <p key={index} className="text-accent-700 dark:text-accent-300">
                   <Link
                     href={item.href!}
                     className="text-primary-600 hover:text-primary-800 dark:text-primary-400 dark:hover:text-primary-300 underline"
@@ -87,7 +87,7 @@ const renderContent = (content: string | ContentItem[]) => {
           switch (item.type) {
             case 'text':
               return (
-                <p key={index + before.length} className="text-gray-700 dark:text-gray-300">
+                <p key={index + before.length} className="text-accent-700 dark:text-accent-300">
                   {item.content}
                 </p>
               )
@@ -95,7 +95,7 @@ const renderContent = (content: string | ContentItem[]) => {
               return (
                 <ul
                   key={index + before.length}
-                  className="list-inside list-disc space-y-1 text-gray-700 dark:text-gray-300"
+                  className="list-inside list-disc space-y-1 text-accent-700 dark:text-accent-300"
                 >
                   {item.items?.map((listItem, listIndex) => (
                     <li key={listIndex}>{listItem}</li>
@@ -104,7 +104,7 @@ const renderContent = (content: string | ContentItem[]) => {
               )
             case 'link':
               return (
-                <p key={index + before.length} className="text-gray-700 dark:text-gray-300">
+                <p key={index + before.length} className="text-accent-700 dark:text-accent-300">
                   <Link
                     href={item.href!}
                     className="text-primary-600 hover:text-primary-800 dark:text-primary-400 dark:hover:text-primary-300 underline"
@@ -164,7 +164,7 @@ const renderContent = (content: string | ContentItem[]) => {
         switch (item.type) {
           case 'text':
             return (
-              <p key={index} className="text-gray-700 dark:text-gray-300">
+              <p key={index} className="text-accent-700 dark:text-accent-300">
                 {item.content}
               </p>
             )
@@ -172,7 +172,7 @@ const renderContent = (content: string | ContentItem[]) => {
             return (
               <ul
                 key={index}
-                className="list-inside list-disc space-y-1 text-gray-700 dark:text-gray-300"
+                className="list-inside list-disc space-y-1 text-accent-700 dark:text-accent-300"
               >
                 {item.items?.map((listItem, listIndex) => (
                   <li key={listIndex}>{listItem}</li>
@@ -181,7 +181,7 @@ const renderContent = (content: string | ContentItem[]) => {
             )
           case 'link':
             return (
-              <p key={index} className="text-gray-700 dark:text-gray-300">
+              <p key={index} className="text-accent-700 dark:text-accent-300">
                 <Link
                   href={item.href!}
                   className="text-primary-600 hover:text-primary-800 dark:text-primary-400 dark:hover:text-primary-300 underline"
@@ -214,7 +214,7 @@ const FAQCard = ({ questions: questionsProp }: FAQCardProps) => {
               <>
                 <DisclosureButton
                   id={item.id}
-                  className="hover:bg-primary-200 focus-visible:ring-primary-500/75 dark:border-primary-400 flex w-full justify-between rounded-lg border bg-none px-4 py-2 text-left font-medium text-gray-900 focus:outline-none focus-visible:ring dark:text-white hover:dark:text-gray-900"
+                  className="hover:bg-primary-200 focus-visible:ring-primary-500/75 dark:border-primary-400 flex w-full justify-between rounded-lg border bg-none px-4 py-2 text-left font-medium text-accent-900 focus:outline-none focus-visible:ring dark:text-white hover:dark:text-accent-900"
                 >
                   <span>{item.q}</span>
                   <ChevronUpIcon

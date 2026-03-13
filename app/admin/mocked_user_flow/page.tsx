@@ -28,20 +28,20 @@ export default function MockedUserFlowPage() {
 
   return (
     <SectionContainer>
-      <div className="min-h-screen bg-gray-50 py-8 dark:bg-gray-900">
+      <div className="min-h-screen bg-surface-100 py-8 dark:bg-surface-900">
         <div className="mx-auto max-w-4xl px-4">
-          <nav className="sticky top-0 z-20 mb-8 flex items-center justify-between rounded bg-gray-100 px-6 py-4 shadow dark:bg-gray-800">
+          <nav className="sticky top-0 z-20 mb-8 flex items-center justify-between rounded bg-surface-200 px-6 py-4 shadow dark:bg-surface-800">
             <div className="flex items-center gap-4">
-              <span className="text-xl font-bold text-gray-900 dark:text-gray-100">
+              <span className="text-xl font-bold text-accent-900 dark:text-accent-100">
                 Mocked User Flow - Admin
               </span>
-              <span className="hidden text-sm text-gray-600 md:inline dark:text-gray-400">
+              <span className="hidden text-sm text-accent-600 md:inline dark:text-accent-400">
                 Simulates the entire booking flow (no emails or calendar events)
               </span>
             </div>
             <button
               onClick={handleReset}
-              className="rounded bg-gray-600 px-4 py-2 text-sm font-medium whitespace-nowrap text-white hover:bg-gray-700 dark:bg-gray-700 dark:hover:bg-gray-600"
+              className="rounded bg-surface-600 px-4 py-2 text-sm font-medium whitespace-nowrap text-white hover:bg-surface-700 dark:bg-surface-700 dark:hover:bg-surface-600"
             >
               Reset Flow
             </button>

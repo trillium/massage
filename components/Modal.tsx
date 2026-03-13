@@ -20,7 +20,7 @@ export default function Modal({ open, setOpen, children }: PropsWithChildren<Mod
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="bg-opacity-75 fixed inset-0 bg-gray-500/75 transition-opacity" />
+          <div className="fixed inset-0 bg-surface-900/75 transition-opacity" />
         </TransitionChild>
 
         <div className="fixed inset-0 z-10 overflow-y-auto">
@@ -34,7 +34,7 @@ export default function Modal({ open, setOpen, children }: PropsWithChildren<Mod
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <DialogPanel className="border-primary-600 dark:border-primary-500 relative flex-grow transform overflow-hidden rounded-lg border bg-slate-100 px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6 dark:bg-slate-800">
+              <DialogPanel className="border-primary-600 dark:border-primary-500 relative flex-grow transform overflow-hidden rounded-lg border bg-surface-200 px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6 dark:bg-surface-800">
                 {children}
               </DialogPanel>
             </TransitionChild>

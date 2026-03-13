@@ -64,7 +64,7 @@ export function BookedCard({
     <div
       className={clsx(
         'flex h-full w-full items-center justify-center rounded-3xl max-xl:mx-auto max-xl:max-w-3xl max-lg:py-0',
-        'border-primary-400 border-2 bg-gray-100 dark:bg-slate-900'
+        'border-primary-400 border-2 bg-surface-200 dark:bg-surface-900'
       )}
     >
       <div className="relative h-full w-full flex-grow p-2">
@@ -101,7 +101,7 @@ function CardItem({
   emphasize?: boolean
 }) {
   return (
-    <p className="flex flex-row items-baseline bg-none pl-4 text-lg font-semibold text-gray-700 dark:text-gray-300">
+    <p className="flex flex-row items-baseline bg-none pl-4 text-lg font-semibold text-accent-700 dark:text-accent-300">
       <span
         className={clsx(
           'text-primary-500 dark:text-primary-400 inline-block min-w-24 text-sm tracking-wide uppercase',

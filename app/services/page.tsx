@@ -31,28 +31,28 @@ function ServiceItem({
   contactHref,
 }: ServiceTypePriced) {
   return (
-    <div id={id} className="rounded-lg border bg-white p-6 shadow-md dark:bg-gray-900">
+    <div id={id} className="rounded-lg border bg-surface-50 p-6 shadow-md dark:bg-surface-900">
       <div className="mb-4">
         <div className="relative aspect-square w-full overflow-hidden rounded-md">
           <Image src={image} alt={name} fill className="object-cover" />
         </div>
       </div>
       <h2 className="text-primary-600 dark:text-primary-400 mb-2 text-xl font-semibold">{name}</h2>
-      <p className="mb-2 text-gray-700 dark:text-gray-300">{description}</p>
-      <div className="mb-2 text-gray-600 dark:text-gray-400">
+      <p className="mb-2 text-accent-700 dark:text-accent-300">{description}</p>
+      <div className="mb-2 text-accent-600 dark:text-accent-400">
         <span className="font-medium">Duration:</span> {duration.join(' / ')} min
       </div>
-      <div className="mb-4 text-gray-600 dark:text-gray-400">
+      <div className="mb-4 text-accent-600 dark:text-accent-400">
         <span className="font-medium">Price:</span> ${price.join(' / $')}{' '}
         {type === 'split-chair' && <span className="font-medium">per participant</span>}
       </div>
       {type === 'split-chair' && (
-        <div className="mb-4 text-gray-600 dark:text-gray-400">
+        <div className="mb-4 text-accent-600 dark:text-accent-400">
           <span className="font-medium">Booked in 30 minute blocks from 1h - 4h</span>
         </div>
       )}
       {type === 'back-to-back' && (
-        <div className="mb-4 text-gray-600 dark:text-gray-400">
+        <div className="mb-4 text-accent-600 dark:text-accent-400">
           <span className="font-medium">Price and duration is per person</span>
         </div>
       )}

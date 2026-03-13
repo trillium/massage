@@ -22,12 +22,12 @@ export default async function PendingPage() {
   return (
     <SectionContainer>
       <div className="mx-auto max-w-7xl px-4 py-8">
-        <h1 className="mb-6 text-2xl font-bold text-gray-900 dark:text-white">
+        <h1 className="mb-6 text-2xl font-bold text-accent-900 dark:text-white">
           Pending Requests ({pendingEvents.length})
         </h1>
 
         {pendingEvents.length === 0 && (
-          <p className="text-gray-500 dark:text-gray-400">No pending requests.</p>
+          <p className="text-accent-500 dark:text-accent-400">No pending requests.</p>
         )}
 
         <div className="space-y-4">
@@ -38,11 +38,11 @@ export default async function PendingPage() {
                 key={event.id}
                 className="rounded-lg border border-amber-300 bg-amber-50 p-4 dark:border-amber-700 dark:bg-amber-900/20"
               >
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                <h3 className="text-lg font-semibold text-accent-900 dark:text-white">
                   {getCleanSummary(event)}
                 </h3>
 
-                <div className="mt-2 space-y-1 text-sm text-gray-600 dark:text-gray-400">
+                <div className="mt-2 space-y-1 text-sm text-accent-600 dark:text-accent-400">
                   <p>
                     <strong>Start:</strong> {formatDate(event.start?.dateTime, event.start?.date)}
                   </p>
@@ -59,7 +59,7 @@ export default async function PendingPage() {
                 {event.description && (
                   <div className="mt-3">
                     <div
-                      className="text-sm whitespace-pre-wrap text-gray-600 dark:text-gray-400"
+                      className="text-sm whitespace-pre-wrap text-accent-600 dark:text-accent-400"
                       dangerouslySetInnerHTML={{
                         __html:
                           event.description.length > 400

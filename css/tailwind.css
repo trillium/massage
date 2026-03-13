@@ -10,7 +10,7 @@
   input[type="checkbox"],
   select,
   textarea {
-    @apply bg-white dark:bg-slate-700;
+    @apply bg-surface-50 dark:bg-surface-700;
   }
 }
 
@@ -49,29 +49,31 @@
   --color-primary-950: hsl(195, 65%, 27%); /* fallback */
   --color-primary-950: oklch(27.7% 0.046 192.524);
 
-  /* Gray colors - Using Tailwind's default gray palette */
-  --color-gray-50: hsl(210, 20%, 98%); /* fallback */
-  --color-gray-50: oklch(98.5% 0.002 247.839);
-  --color-gray-100: hsl(210, 15%, 96%); /* fallback */
-  --color-gray-100: oklch(96.7% 0.003 264.542);
-  --color-gray-200: hsl(214, 14%, 93%); /* fallback */
-  --color-gray-200: oklch(92.8% 0.006 264.531);
-  --color-gray-300: hsl(213, 13%, 88%); /* fallback */
-  --color-gray-300: oklch(87.2% 0.01 258.338);
-  --color-gray-400: hsl(215, 14%, 83%); /* fallback */
-  --color-gray-400: oklch(70.7% 0.022 261.325);
-  --color-gray-500: hsl(215, 16%, 67%); /* fallback */
-  --color-gray-500: oklch(55.1% 0.027 264.364);
-  --color-gray-600: hsl(215, 19%, 53%); /* fallback */
-  --color-gray-600: oklch(44.6% 0.03 256.802);
-  --color-gray-700: hsl(217, 19%, 46%); /* fallback */
-  --color-gray-700: oklch(37.3% 0.034 259.733);
-  --color-gray-800: hsl(215, 25%, 37%); /* fallback */
-  --color-gray-800: oklch(27.8% 0.033 256.848);
-  --color-gray-900: hsl(215, 28%, 27%); /* fallback */
-  --color-gray-900: oklch(21% 0.034 264.665);
-  --color-gray-950: hsl(217, 33%, 17%); /* fallback */
-  --color-gray-950: oklch(13% 0.028 261.692);
+  /* Surface — page/card/panel backgrounds (downstream forks override for theming) */
+  --color-surface-50: #ffffff;
+  --color-surface-100: #f9fafb;
+  --color-surface-200: #f3f4f6;
+  --color-surface-300: #e5e7eb;
+  --color-surface-400: #d1d5db;
+  --color-surface-500: #9ca3af;
+  --color-surface-600: #6b7280;
+  --color-surface-700: #4b5563;
+  --color-surface-800: #374151;
+  --color-surface-900: #1f2937;
+  --color-surface-950: #030712;
+
+  /* Accent — text, borders, dividers, structural neutrals (downstream forks override for theming) */
+  --color-accent-50: #f9fafb;
+  --color-accent-100: #f3f4f6;
+  --color-accent-200: #e5e7eb;
+  --color-accent-300: #d1d5db;
+  --color-accent-400: #9ca3af;
+  --color-accent-500: #6b7280;
+  --color-accent-600: #4b5563;
+  --color-accent-700: #374151;
+  --color-accent-800: #1f2937;
+  --color-accent-900: #111827;
+  --color-accent-950: #030712;
 
   /* Colors - Using Tailwind's blue palette for secondary */
   --color-secondary-50: hsl(214, 32%, 98%); /* fallback */
@@ -123,7 +125,7 @@
   ::before,
   ::backdrop,
   ::file-selector-button {
-    border-color: var(--color-gray-200, currentColor);
+    border-color: var(--color-accent-200, currentColor);
   }
 
   a,
@@ -173,7 +175,7 @@
       }
     }
     & :where(h1, h2, h3, h4, h5, h6) {
-      color: var(--color-gray-100);
+      color: var(--color-accent-100);
     }
   }
 
@@ -282,7 +284,7 @@
 }
 
 .footnotes {
-  @apply mt-12 border-t border-gray-200 pt-8 dark:border-gray-700;
+  @apply mt-12 border-t border-accent-200 pt-8 dark:border-accent-700;
 }
 
 .data-footnote-backref {

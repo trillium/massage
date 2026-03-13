@@ -54,12 +54,12 @@ export default function Step1BookingSelection({
   }
 
   return (
-    <div className="mb-12 rounded-lg bg-white p-6 shadow dark:bg-gray-800">
-      <h2 className="mb-4 text-xl font-semibold text-gray-800 dark:text-gray-200">
+    <div className="mb-12 rounded-lg bg-surface-50 p-6 shadow dark:bg-surface-800">
+      <h2 className="mb-4 text-xl font-semibold text-accent-800 dark:text-accent-200">
         Step 1: Booking Form
       </h2>
       <div className="space-y-4">
-        <p className="text-gray-600 dark:text-gray-400">
+        <p className="text-accent-600 dark:text-accent-400">
           Fill out the form below to simulate a booking request:
         </p>
 

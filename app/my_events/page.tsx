@@ -37,17 +37,17 @@ export default async function MyEventsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900">
+    <div className="min-h-screen bg-surface-50 dark:bg-surface-900">
       <div className="container mx-auto px-4 py-8">
         <div className="mx-auto max-w-4xl">
-          <h1 className="mb-2 text-3xl font-bold text-gray-900 dark:text-white">My Events</h1>
-          <p className="mb-8 text-sm text-gray-600 dark:text-gray-400">
+          <h1 className="mb-2 text-3xl font-bold text-accent-900 dark:text-white">My Events</h1>
+          <p className="mb-8 text-sm text-accent-600 dark:text-accent-400">
             Showing appointments for {user.email}
           </p>
 
           {sortedEvents.length === 0 ? (
-            <div className="rounded-lg bg-gray-50 p-8 text-center dark:bg-gray-800">
-              <p className="text-gray-600 dark:text-gray-400">No appointments found.</p>
+            <div className="rounded-lg bg-surface-100 p-8 text-center dark:bg-surface-800">
+              <p className="text-accent-600 dark:text-accent-400">No appointments found.</p>
             </div>
           ) : (
             <CategorizedEventList events={sortedEvents} eventTokens={eventTokens} />

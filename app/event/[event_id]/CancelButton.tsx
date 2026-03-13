@@ -66,11 +66,11 @@ export default function CancelButton({ eventId, token }: { eventId: string; toke
             if (e.target === e.currentTarget) setOpen(false)
           }}
         >
-          <div className="w-full max-w-md rounded-2xl bg-white p-6 shadow-xl dark:bg-gray-800">
-            <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+          <div className="w-full max-w-md rounded-2xl bg-surface-50 p-6 shadow-xl dark:bg-surface-800">
+            <h2 className="text-lg font-semibold text-accent-900 dark:text-white">
               Cancel Appointment
             </h2>
-            <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+            <p className="mt-2 text-sm text-accent-600 dark:text-accent-400">
               This action cannot be undone. Type <strong>cancel</strong> to confirm.
             </p>
 
@@ -84,7 +84,7 @@ export default function CancelButton({ eventId, token }: { eventId: string; toke
                 if (e.key === 'Escape') setOpen(false)
               }}
               placeholder="Type cancel"
-              className="mt-4 block w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 placeholder:text-gray-400 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-500"
+              className="mt-4 block w-full rounded-lg border border-accent-300 px-3 py-2 text-accent-900 placeholder:text-accent-400 dark:border-accent-600 dark:bg-surface-700 dark:text-white dark:placeholder:text-accent-500"
             />
 
             {error && <p className="mt-2 text-sm text-red-600 dark:text-red-400">{error}</p>}
@@ -93,7 +93,7 @@ export default function CancelButton({ eventId, token }: { eventId: string; toke
               <button
                 onClick={() => setOpen(false)}
                 disabled={loading}
-                className="rounded-lg px-4 py-2 text-sm font-medium text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200"
+                className="rounded-lg px-4 py-2 text-sm font-medium text-accent-600 hover:text-accent-800 dark:text-accent-400 dark:hover:text-accent-200"
               >
                 Never mind
               </button>

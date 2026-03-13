@@ -119,7 +119,7 @@ export function EventCard({
       <div className="flex items-start justify-between">
         <div className="flex-1">
           <div className="flex items-center gap-2">
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+            <h3 className="text-lg font-semibold text-accent-900 dark:text-white">
               {displaySummary}
             </h3>
             {isPending && (
@@ -129,7 +129,7 @@ export function EventCard({
             )}
           </div>
 
-          <div className="mt-2 space-y-1 text-sm text-gray-600 dark:text-gray-400">
+          <div className="mt-2 space-y-1 text-sm text-accent-600 dark:text-accent-400">
             <p>
               <strong>Start:</strong> {formatDate(event.start?.dateTime, event.start?.date)}
             </p>
@@ -158,7 +158,7 @@ export function EventCard({
                     type="text"
                     value={newLocation}
                     onChange={(e) => setNewLocation(e.target.value)}
-                    className="block w-full rounded border border-gray-300 px-2 py-1 text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                    className="block w-full rounded border border-accent-300 px-2 py-1 text-sm dark:border-accent-600 dark:bg-surface-700 dark:text-white"
                     placeholder="Enter new location..."
                   />
                   <div className="flex space-x-2">
@@ -168,7 +168,7 @@ export function EventCard({
                       className={clsx(
                         'rounded px-2 py-1 text-xs text-white transition-colors',
                         updateLocationLoading
-                          ? 'cursor-not-allowed bg-gray-400'
+                          ? 'cursor-not-allowed bg-surface-400'
                           : 'bg-green-600 hover:bg-green-700'
                       )}
                     >
@@ -176,7 +176,7 @@ export function EventCard({
                     </button>
                     <button
                       onClick={handleCancelLocationEdit}
-                      className="rounded bg-gray-400 px-2 py-1 text-xs text-white hover:bg-gray-500"
+                      className="rounded bg-surface-400 px-2 py-1 text-xs text-white hover:bg-surface-950"
                     >
                       Cancel
                     </button>
@@ -216,9 +216,9 @@ export function EventCard({
 
           {!isPending && event.description && (
             <div className="mt-3">
-              <strong className="text-sm text-gray-700 dark:text-gray-300">Description:</strong>
+              <strong className="text-sm text-accent-700 dark:text-accent-300">Description:</strong>
               <div
-                className="mt-1 text-sm whitespace-pre-wrap text-gray-600 dark:text-gray-400"
+                className="mt-1 text-sm whitespace-pre-wrap text-accent-600 dark:text-accent-400"
                 dangerouslySetInnerHTML={{
                   __html:
                     event.description.length > 200

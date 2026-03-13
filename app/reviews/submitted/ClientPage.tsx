@@ -13,7 +13,7 @@ export default function About() {
       <Template title="Thanks! Your review has been received!" />
       <div
         className={
-          'border-primary-400 w-full max-w-lg rounded-xl border-2 bg-slate-100 dark:bg-slate-900 ' +
+          'border-primary-400 w-full max-w-lg rounded-xl border-2 bg-surface-200 dark:bg-surface-900 ' +
           'mt-8 ml-0 p-8 xl:mt-0 xl:ml-8' +
           ''
         }

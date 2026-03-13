@@ -54,14 +54,14 @@ export default function MockCalendarEventJson({
 
   return (
     <div>
-      <h3 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">
+      <h3 className="mb-2 text-lg font-semibold text-accent-900 dark:text-white">
         Mock Calendar Event Object
       </h3>
-      <details className="rounded bg-gray-100 dark:bg-gray-700">
-        <summary className="cursor-pointer p-3 text-sm font-medium text-gray-700 hover:bg-gray-200 dark:text-gray-300 dark:hover:bg-gray-600">
+      <details className="rounded bg-surface-200 dark:bg-surface-700">
+        <summary className="cursor-pointer p-3 text-sm font-medium text-accent-700 hover:bg-surface-300 dark:text-accent-300 dark:hover:bg-surface-600">
           View Raw Event Data (Click to expand)
         </summary>
-        <pre className="overflow-auto p-3 text-xs text-gray-600 dark:text-gray-400">
+        <pre className="overflow-auto p-3 text-xs text-accent-600 dark:text-accent-400">
           {JSON.stringify(mockEvent, null, 2)}
         </pre>
       </details>

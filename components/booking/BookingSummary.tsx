@@ -33,7 +33,7 @@ const BookingSummary: React.FC<BookingSummaryProps> = ({
   const location = formData?.location ? flattenLocation(formData.location) : ''
 
   return (
-    <div className="border-l-primary-400 dark:bg-primary-50/10 mt-3 mb-4 rounded-md border-l-4 bg-white p-3">
+    <div className="border-l-primary-400 dark:bg-primary-50/10 mt-3 mb-4 rounded-md border-l-4 bg-surface-50 p-3">
       <div className="flex items-start justify-between">
         <div>
           <p className="text-primary-800 dark:text-primary-400 text-sm font-semibold md:text-base">
@@ -49,19 +49,21 @@ const BookingSummary: React.FC<BookingSummaryProps> = ({
           </div>
         )}
       </div>
-      <div className="mt-1 flex items-start text-xs text-gray-700 md:text-sm dark:text-gray-300">
+      <div className="mt-1 flex items-start text-xs text-accent-700 md:text-sm dark:text-accent-300">
         <span className="w-18 shrink-0 font-medium">Client:&nbsp;</span>
         <span className="break-words">
           {clientName || (
-            <span className="text-gray-400 italic dark:text-gray-500">(enter name below)</span>
+            <span className="text-accent-400 italic dark:text-accent-500">(enter name below)</span>
           )}
         </span>
       </div>
-      <div className="flex items-start text-xs text-gray-700 md:text-sm dark:text-gray-300">
+      <div className="flex items-start text-xs text-accent-700 md:text-sm dark:text-accent-300">
         <span className="w-18 shrink-0 font-medium">Location:&nbsp;</span>
         <span className="break-words">
           {location || (
-            <span className="text-gray-400 italic dark:text-gray-500">(enter location below)</span>
+            <span className="text-accent-400 italic dark:text-accent-500">
+              (enter location below)
+            </span>
           )}
           {formData?.hotelRoomNumber && <span>, Room: #{formData.hotelRoomNumber}</span>}
         </span>

@@ -15,7 +15,7 @@ export default function PricingPage() {
       <h1 className="mb-4 text-3xl font-bold">Pricing</h1>
       <p className="mb-6">Transparent pricing for all our massage sessions. No hidden fees.</p>
       <table className="mb-6 w-full table-auto border-collapse overflow-hidden rounded-lg">
-        <thead className="bg-primary-500 dark:bg-primary-600 text-gray-100">
+        <thead className="bg-primary-500 dark:bg-primary-600 text-accent-100">
           <tr>
             <th className="px-4 py-2 text-left">Session Duration (min)</th>
             <th className="px-4 py-2 text-left">Price (USD)</th>
@@ -30,7 +30,7 @@ export default function PricingPage() {
           ))}
         </tbody>
       </table>
-      <div className="mb-4 text-gray-700 dark:text-gray-300">
+      <div className="mb-4 text-accent-700 dark:text-accent-300">
         <ul className="list-disc pl-6">
           <li>Westchester/LAX area based.</li>
           <li>

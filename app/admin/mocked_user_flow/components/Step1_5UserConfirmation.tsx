@@ -34,16 +34,16 @@ export default function Step1_5UserConfirmation({ submittedData }: Step1_5UserCo
   }
 
   return (
-    <div className="mb-12 rounded-lg bg-white p-6 shadow dark:bg-gray-800">
-      <h2 className="mb-4 text-xl font-semibold text-gray-800 dark:text-gray-200">
+    <div className="mb-12 rounded-lg bg-surface-50 p-6 shadow dark:bg-surface-800">
+      <h2 className="mb-4 text-xl font-semibold text-accent-800 dark:text-accent-200">
         Step 1.5: User Confirmation Page
       </h2>
-      <p className="mb-4 text-gray-600 dark:text-gray-400">
+      <p className="mb-4 text-accent-600 dark:text-accent-400">
         This is what the user sees immediately after submitting their booking request:
       </p>
 
       {/* Simulated confirmation page content */}
-      <div className="rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 p-6 dark:border-gray-600 dark:bg-gray-900">
+      <div className="rounded-lg border-2 border-dashed border-accent-300 bg-surface-100 p-6 dark:border-accent-600 dark:bg-surface-900">
         <ClientConfirmationFeature />
       </div>
     </div>

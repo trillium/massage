@@ -8,7 +8,7 @@ export default async function SchedulePage() {
 
   return (
     <div>
-      <h1 className="mb-4 text-2xl font-bold text-gray-900 dark:text-gray-100">Schedule</h1>
+      <h1 className="mb-4 text-2xl font-bold text-accent-900 dark:text-accent-100">Schedule</h1>
       <SchedulePanel queryGroups={queryGroups} />
     </div>
   )

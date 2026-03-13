@@ -17,7 +17,7 @@ function TabBar() {
   }
 
   return (
-    <nav className="sticky top-0 z-20 mb-6 flex items-center justify-between rounded-lg bg-white px-4 py-3 shadow-md dark:bg-gray-800">
+    <nav className="sticky top-0 z-20 mb-6 flex items-center justify-between rounded-lg bg-surface-50 px-4 py-3 shadow-md dark:bg-surface-800">
       <div className="flex gap-1">
         {(['user', 'admin'] as const).map((tab) => (
           <button
@@ -27,7 +27,7 @@ function TabBar() {
               'rounded-md px-4 py-2 text-sm font-medium transition-colors',
               activeTab === tab
                 ? 'bg-primary-600 text-white'
-                : 'text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700'
+                : 'text-accent-600 hover:bg-surface-200 dark:text-accent-300 dark:hover:bg-surface-700'
             )}
           >
             {tab === 'user' ? 'Book a Massage' : 'Therapist Dashboard'}
@@ -40,10 +40,10 @@ function TabBar() {
         ))}
       </div>
       <div className="flex items-center gap-3">
-        <span className="hidden text-xs text-gray-400 sm:inline">Sandbox Mode</span>
+        <span className="hidden text-xs text-accent-400 sm:inline">Sandbox Mode</span>
         <button
           onClick={handleReset}
-          className="rounded-md bg-gray-200 px-3 py-1.5 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
+          className="rounded-md bg-surface-200 px-3 py-1.5 text-sm font-medium text-accent-700 transition-colors hover:bg-surface-300 dark:bg-surface-700 dark:text-accent-300 dark:hover:bg-surface-600"
         >
           Reset
         </button>

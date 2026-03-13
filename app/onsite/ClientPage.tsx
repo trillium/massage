@@ -126,7 +126,7 @@ function ClientPage({ duration, children }: { duration: number; children?: React
         <ol>
           <label
             htmlFor="eventName"
-            className="block text-xl font-semibold text-gray-900 dark:text-gray-100"
+            className="block text-xl font-semibold text-accent-900 dark:text-accent-100"
           >
             Let&rsquo;s pick a name for your booking:
           </label>
@@ -137,7 +137,7 @@ function ClientPage({ duration, children }: { duration: number; children?: React
             id="eventName"
             value={formik.values.eventName}
             onChange={formik.handleChange}
-            className="focus:border-primary-500 focus:ring-primary-500 mb-1 block w-full rounded-md border-2 border-slate-100 p-0 py-1 pl-2 text-gray-900 placeholder:text-gray-400 focus:ring-2 sm:text-base sm:leading-6 dark:border-white dark:text-gray-100"
+            className="focus:border-primary-500 focus:ring-primary-500 mb-1 block w-full rounded-md border-2 border-accent-100 p-0 py-1 pl-2 text-accent-900 placeholder:text-accent-400 focus:ring-2 sm:text-base sm:leading-6 dark:border-white dark:text-accent-100"
             placeholder="e.g., WeWork Playa Vista"
             maxLength={60}
             required
@@ -149,7 +149,7 @@ function ClientPage({ duration, children }: { duration: number; children?: React
 
           <label
             htmlFor="sessionDuration"
-            className="block pt-4 text-xl font-semibold text-gray-900 dark:text-gray-100"
+            className="block pt-4 text-xl font-semibold text-accent-900 dark:text-accent-100"
           >
             How long should sessions be?
           </label>
@@ -162,7 +162,7 @@ function ClientPage({ duration, children }: { duration: number; children?: React
                     id={`checked-checkbox-${duration}`}
                     type="checkbox"
                     value={duration}
-                    className="focus:ring-primary-500 dark:focus:ring-primary-400 h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800"
+                    className="focus:ring-primary-500 dark:focus:ring-primary-400 h-4 w-4 rounded border-accent-300 bg-surface-200 text-blue-600 focus:ring dark:border-accent-600 dark:bg-surface-700 dark:ring-offset-accent-800"
                     onChange={formCheckboxOnChange}
                     required
                     aria-required
@@ -180,7 +180,7 @@ function ClientPage({ duration, children }: { duration: number; children?: React
 
           <label
             htmlFor="sessionDuration"
-            className="block pt-4 text-xl font-semibold text-gray-900 dark:text-gray-100"
+            className="block pt-4 text-xl font-semibold text-accent-900 dark:text-accent-100"
           >
             Payment options
           </label>
@@ -192,7 +192,7 @@ function ClientPage({ duration, children }: { duration: number; children?: React
                   type="radio"
                   name="paymentOptions"
                   value={option}
-                  className="focus:ring-primary-500 dark:focus:ring-primary-400 h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800"
+                  className="focus:ring-primary-500 dark:focus:ring-primary-400 h-4 w-4 rounded border-accent-300 bg-surface-200 text-blue-600 focus:ring-2 dark:border-accent-600 dark:bg-surface-700 dark:ring-offset-accent-800"
                   onChange={formik.handleChange}
                   required
                 />

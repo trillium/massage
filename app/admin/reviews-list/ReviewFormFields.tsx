@@ -12,9 +12,9 @@ export interface ReviewFormData {
 }
 
 const inputClass =
-  'rounded-md border border-gray-300 px-3 py-2 text-sm dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100'
+  'rounded-md border border-accent-300 px-3 py-2 text-sm dark:border-accent-600 dark:bg-surface-800 dark:text-accent-100'
 const inputClassDark =
-  'rounded-md border border-gray-300 px-3 py-2 text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100'
+  'rounded-md border border-accent-300 px-3 py-2 text-sm dark:border-accent-600 dark:bg-surface-700 dark:text-accent-100'
 
 function StarOptions() {
   return (

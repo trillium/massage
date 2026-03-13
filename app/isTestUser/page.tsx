@@ -38,15 +38,15 @@ export default function IsTestUserPage() {
   }
 
   return (
-    <div className="mx-auto mt-10 max-w-md rounded bg-white p-6 shadow dark:bg-gray-800">
-      <h1 className="mb-4 text-2xl font-bold text-gray-900 dark:text-gray-100">
+    <div className="mx-auto mt-10 max-w-md rounded bg-surface-50 p-6 shadow dark:bg-surface-800">
+      <h1 className="mb-4 text-2xl font-bold text-accent-900 dark:text-accent-100">
         PostHog User Management
       </h1>
-      <div className="mb-4 text-sm text-gray-700 dark:text-gray-300">
+      <div className="mb-4 text-sm text-accent-700 dark:text-accent-300">
         <strong>PostHog Distinct ID:</strong> {distinctId || 'Loading...'}
         <button
           type="button"
-          className="ml-4 rounded bg-gray-200 px-2 py-1 text-xs text-gray-700 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
+          className="ml-4 rounded bg-surface-200 px-2 py-1 text-xs text-accent-700 hover:bg-surface-300 dark:bg-surface-700 dark:text-accent-300 dark:hover:bg-surface-600"
           onClick={() => setRefreshKey((k) => k + 1)}
         >
           Try Again
@@ -54,7 +54,7 @@ export default function IsTestUserPage() {
       </div>
 
       <div className="mb-4">
-        <div className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
+        <div className="mb-2 block text-sm font-medium text-accent-700 dark:text-accent-300">
           Action:
         </div>
         <div className="space-y-2">
@@ -67,7 +67,7 @@ export default function IsTestUserPage() {
               onChange={(e) => setAction(e.target.value as 'identify' | 'testUser')}
               className="mr-2"
             />
-            <span className="text-gray-700 dark:text-gray-300">
+            <span className="text-accent-700 dark:text-accent-300">
               Identify User (userId or email)
             </span>
           </label>
@@ -80,7 +80,7 @@ export default function IsTestUserPage() {
               onChange={(e) => setAction(e.target.value as 'identify' | 'testUser')}
               className="mr-2"
             />
-            <span className="text-gray-700 dark:text-gray-300">Mark as Test User</span>
+            <span className="text-accent-700 dark:text-accent-300">Mark as Test User</span>
           </label>
         </div>
       </div>
@@ -88,7 +88,7 @@ export default function IsTestUserPage() {
       <form onSubmit={handleSubmit} className="space-y-4">
         <input
           type="text"
-          className="w-full rounded border border-gray-300 p-2 text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
+          className="w-full rounded border border-accent-300 p-2 text-accent-900 dark:border-accent-600 dark:bg-surface-700 dark:text-accent-100"
           placeholder={action === 'identify' ? 'Enter User ID or Email' : 'Enter User ID'}
           value={userId}
           onChange={(e) => setUserId(e.target.value)}
@@ -108,7 +108,9 @@ export default function IsTestUserPage() {
               : 'Mark as Test User'}
         </button>
       </form>
-      {result && <div className="mt-4 text-center text-gray-700 dark:text-gray-300">{result}</div>}
+      {result && (
+        <div className="mt-4 text-center text-accent-700 dark:text-accent-300">{result}</div>
+      )}
     </div>
   )
 }

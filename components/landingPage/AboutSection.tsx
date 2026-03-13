@@ -39,7 +39,7 @@ export function AboutLayout({
           {paragraphs.map((paragraph, idx) => (
             <p
               key={idx}
-              className={`text-lg text-gray-600 dark:text-gray-300 ${idx === 0 ? 'mt-4' : ''}`}
+              className={`text-lg text-accent-600 dark:text-accent-300 ${idx === 0 ? 'mt-4' : ''}`}
             >
               {paragraph}
             </p>

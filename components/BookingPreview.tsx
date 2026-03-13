@@ -13,7 +13,7 @@ const durationProps = buildDurationProps(DEFAULT_DURATION, null)
 
 export default function BookingPreview({ title = 'Select Your Session' }: BookingPreviewProps) {
   return (
-    <div className="rounded-lg border border-gray-200 bg-gray-50 p-6 dark:border-gray-700 dark:bg-gray-900">
+    <div className="rounded-lg border border-accent-200 bg-surface-100 p-6 dark:border-accent-700 dark:bg-surface-900">
       {title && <h3 className="mb-6 text-2xl font-bold dark:text-white">{title}</h3>}
 
       <div className="space-y-8">
@@ -22,7 +22,7 @@ export default function BookingPreview({ title = 'Select Your Session' }: Bookin
         </div>
 
         <div>
-          <h4 className="mb-4 text-lg font-semibold dark:text-gray-100">Choose a Date</h4>
+          <h4 className="mb-4 text-lg font-semibold dark:text-accent-100">Choose a Date</h4>
           <Calendar weeksDisplayOverride={6} />
         </div>
       </div>

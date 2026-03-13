@@ -120,7 +120,7 @@ export default function BookingForm({
                 <div className="flex items-center justify-between">
                   <DialogTitle
                     as="h3"
-                    className="text-base leading-6 font-semibold text-gray-900 dark:text-gray-100"
+                    className="text-base leading-6 font-semibold text-accent-900 dark:text-accent-100"
                   >
                     Request appointment
                   </DialogTitle>

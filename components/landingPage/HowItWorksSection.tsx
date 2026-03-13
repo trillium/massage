@@ -29,7 +29,7 @@ export default function HowItWorksSection() {
   ]
 
   return (
-    <section className="bg-gray-white dark:dark:bg-gray-950">
+    <section className="bg-surface-50 dark:bg-surface-950">
       <div className="container">
         <h2 className="mb-8 text-center text-3xl font-bold md:text-4xl dark:text-white">
           How it Works
@@ -38,11 +38,11 @@ export default function HowItWorksSection() {
           {steps.map((step, index) => (
             <div
               key={index}
-              className="flex flex-col items-center rounded-lg bg-white p-6 text-center shadow dark:bg-gray-800 dark:text-gray-100"
+              className="flex flex-col items-center rounded-lg bg-surface-50 p-6 text-center shadow dark:bg-surface-800 dark:text-accent-100"
             >
               <step.icon className="mb-4 h-10 w-10 text-teal-600 dark:text-teal-400" />
               <h3 className="mb-2 text-xl font-semibold dark:text-white">{step.title}</h3>
-              <p className="mt-auto text-center text-gray-600 dark:text-gray-300">
+              <p className="mt-auto text-center text-accent-600 dark:text-accent-300">
                 {step.description}
               </p>
             </div>
