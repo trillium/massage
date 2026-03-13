@@ -60,7 +60,9 @@ export function SchedulePanel({ queryGroups }: Props) {
   const nowMs = now.getTime()
 
   if (queryGroups.length === 0 || !queryGroups.some((g) => g.containers.length > 0)) {
-    return <p className="text-sm text-gray-500 dark:text-gray-400">No active containers found.</p>
+    return (
+      <p className="text-sm text-accent-500 dark:text-accent-400">No active containers found.</p>
+    )
   }
 
   const containerStart = container ? new Date(container.start.dateTime!).getTime() : 0
@@ -83,7 +85,7 @@ export function SchedulePanel({ queryGroups }: Props) {
       />
 
       {!container ? (
-        <p className="text-sm text-gray-500 dark:text-gray-400">Select a container above.</p>
+        <p className="text-sm text-accent-500 dark:text-accent-400">Select a container above.</p>
       ) : (
         <div className="relative space-y-1.5">
           {blocks.map((block, i) => {

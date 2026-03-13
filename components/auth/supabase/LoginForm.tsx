@@ -68,7 +68,7 @@ export function LoginForm({ redirectTo: rawRedirectTo, onSuccess, onError }: Log
       <button
         onClick={handleGoogle}
         disabled={loading}
-        className="flex w-full items-center justify-center gap-3 rounded-md border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 shadow-sm transition-colors hover:bg-gray-50 disabled:opacity-50 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600"
+        className="flex w-full items-center justify-center gap-3 rounded-md border border-accent-300 bg-surface-50 px-4 py-2.5 text-sm font-medium text-accent-700 shadow-sm transition-colors hover:bg-surface-100 disabled:opacity-50 dark:border-accent-600 dark:bg-surface-700 dark:text-accent-200 dark:hover:bg-surface-600"
       >
         <svg className="h-5 w-5" viewBox="0 0 24 24">
           <path
@@ -99,10 +99,10 @@ export function LoginForm({ redirectTo: rawRedirectTo, onSuccess, onError }: Log
 
       <div className="relative">
         <div className="absolute inset-0 flex items-center">
-          <div className="w-full border-t border-gray-300 dark:border-gray-600" />
+          <div className="w-full border-t border-accent-300 dark:border-accent-600" />
         </div>
         <div className="relative flex justify-center text-sm">
-          <span className="bg-white px-2 text-gray-500 dark:bg-gray-800 dark:text-gray-400">
+          <span className="bg-surface-50 px-2 text-accent-500 dark:bg-surface-800 dark:text-accent-400">
             or
           </span>
         </div>
@@ -116,7 +116,7 @@ export function LoginForm({ redirectTo: rawRedirectTo, onSuccess, onError }: Log
             onChange={(e) => setEmail(e.target.value)}
             required
             disabled={loading}
-            className="block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 disabled:opacity-50 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+            className="block w-full rounded-md border border-accent-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 disabled:opacity-50 dark:border-accent-600 dark:bg-surface-700 dark:text-white"
             placeholder="you@example.com"
           />
           <button
@@ -130,7 +130,7 @@ export function LoginForm({ redirectTo: rawRedirectTo, onSuccess, onError }: Log
       ) : (
         <button
           onClick={() => setShowEmail(true)}
-          className="w-full text-center text-sm text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+          className="w-full text-center text-sm text-accent-500 hover:text-accent-700 dark:text-accent-400 dark:hover:text-accent-200"
         >
           Sign in with email instead
         </button>

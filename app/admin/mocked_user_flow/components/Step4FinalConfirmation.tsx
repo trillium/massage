@@ -29,11 +29,14 @@ export default function Step4FinalConfirmation({
     : null
 
   return (
-    <div id="confirmation-section" className="rounded-lg bg-white p-6 shadow dark:bg-gray-800">
-      <h2 className="mb-4 text-xl font-semibold text-gray-800 dark:text-gray-200">
+    <div
+      id="confirmation-section"
+      className="rounded-lg bg-surface-50 p-6 shadow dark:bg-surface-800"
+    >
+      <h2 className="mb-4 text-xl font-semibold text-accent-800 dark:text-accent-200">
         Step 4: Booking Confirmed
       </h2>
-      <p className="mb-4 text-gray-600 dark:text-gray-400">
+      <p className="mb-4 text-accent-600 dark:text-accent-400">
         After approval, the user would see a confirmation page like this:
       </p>
       <MockedConfirmationPage data={transformedData} />

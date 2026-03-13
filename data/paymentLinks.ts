@@ -69,7 +69,7 @@ export const quickLinks: QuickLink[] = [
     href: 'mailto:trilliummassagela@gmail.com',
     icon: FaEnvelope,
     description: 'trilliummassagela@gmail.com',
-    accent: 'border-gray-400 dark:border-gray-600',
-    iconColor: 'text-gray-600 dark:text-gray-400',
+    accent: 'border-accent-400 dark:border-accent-600',
+    iconColor: 'text-accent-600 dark:text-accent-400',
   },
 ]

@@ -36,7 +36,7 @@ function EventCard({
   return (
     <div className={clsx('rounded-lg border-2 p-4', statusColors[status])}>
       <div className="mb-3 flex items-center justify-between">
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+        <h3 className="text-lg font-semibold text-accent-900 dark:text-accent-100">
           {data.firstName} {data.lastName}
         </h3>
         <span
@@ -50,7 +50,7 @@ function EventCard({
         </span>
       </div>
 
-      <div className="space-y-1 text-sm text-gray-700 dark:text-gray-300">
+      <div className="space-y-1 text-sm text-accent-700 dark:text-accent-300">
         <p>
           <span className="font-medium">Date:</span> {formatLocalDate(data.start, { timeZone })}
         </p>
@@ -107,22 +107,22 @@ function EmailCard({ email }: { email: SandboxEmail }) {
   }
 
   return (
-    <div className="rounded-lg border border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-900">
+    <div className="rounded-lg border border-accent-200 bg-surface-50 dark:border-accent-700 dark:bg-surface-900">
       <button
         onClick={() => setExpanded(!expanded)}
         className="flex w-full items-center justify-between p-3 text-left"
       >
         <div>
-          <span className="text-xs font-medium uppercase text-gray-500 dark:text-gray-400">
+          <span className="text-xs font-medium uppercase text-accent-500 dark:text-accent-400">
             {typeLabels[email.type]}
           </span>
-          <p className="text-sm font-medium text-gray-900 dark:text-gray-100">To: {email.to}</p>
-          <p className="text-sm text-gray-600 dark:text-gray-300">{email.subject}</p>
+          <p className="text-sm font-medium text-accent-900 dark:text-accent-100">To: {email.to}</p>
+          <p className="text-sm text-accent-600 dark:text-accent-300">{email.subject}</p>
         </div>
-        <span className="text-gray-400">{expanded ? '\u25B2' : '\u25BC'}</span>
+        <span className="text-accent-400">{expanded ? '\u25B2' : '\u25BC'}</span>
       </button>
       {expanded && (
-        <div className="border-t border-gray-200 p-3 dark:border-gray-700">
+        <div className="border-t border-accent-200 p-3 dark:border-accent-700">
           <div
             className="prose prose-sm dark:prose-invert max-w-none text-sm"
             dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(email.body) }}
@@ -146,8 +146,8 @@ export default function AdminView() {
   return (
     <div className="space-y-8">
       {!hasEvents && !hasEmails && (
-        <div className="rounded-lg border-2 border-dashed border-gray-300 p-12 text-center dark:border-gray-600">
-          <p className="text-lg text-gray-500 dark:text-gray-400">
+        <div className="rounded-lg border-2 border-dashed border-accent-300 p-12 text-center dark:border-accent-600">
+          <p className="text-lg text-accent-500 dark:text-accent-400">
             No appointments yet. Switch to &quot;Book a Massage&quot; to create one.
           </p>
         </div>
@@ -155,7 +155,7 @@ export default function AdminView() {
 
       {pendingEvents.length > 0 && (
         <section>
-          <h2 className="mb-3 text-xl font-bold text-gray-900 dark:text-gray-100">
+          <h2 className="mb-3 text-xl font-bold text-accent-900 dark:text-accent-100">
             Pending Requests ({pendingEvents.length})
           </h2>
           <div className="space-y-3">
@@ -173,7 +173,7 @@ export default function AdminView() {
 
       {confirmedEvents.length > 0 && (
         <section>
-          <h2 className="mb-3 text-xl font-bold text-gray-900 dark:text-gray-100">
+          <h2 className="mb-3 text-xl font-bold text-accent-900 dark:text-accent-100">
             Confirmed ({confirmedEvents.length})
           </h2>
           <div className="space-y-3">
@@ -186,7 +186,7 @@ export default function AdminView() {
 
       {declinedEvents.length > 0 && (
         <section>
-          <h2 className="mb-3 text-xl font-bold text-gray-900 dark:text-gray-100">
+          <h2 className="mb-3 text-xl font-bold text-accent-900 dark:text-accent-100">
             Declined ({declinedEvents.length})
           </h2>
           <div className="space-y-3">
@@ -199,7 +199,7 @@ export default function AdminView() {
 
       {hasEmails && (
         <section>
-          <h2 className="mb-3 text-xl font-bold text-gray-900 dark:text-gray-100">
+          <h2 className="mb-3 text-xl font-bold text-accent-900 dark:text-accent-100">
             Captured Emails ({state.emails.length})
           </h2>
           <div className="space-y-2">

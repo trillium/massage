@@ -117,14 +117,14 @@ export function ReviewsClient({ initialReviews }: { initialReviews: Review[] }) 
         <button
           onClick={handleCreate}
           disabled={saving || !form.name || !form.date}
-          className="mt-3 rounded-md bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700 disabled:bg-gray-300"
+          className="mt-3 rounded-md bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700 disabled:bg-surface-300"
         >
           {saving ? 'Saving...' : 'Add Review'}
         </button>
       </div>
 
       <div className="space-y-4">
-        <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+        <h2 className="text-lg font-semibold text-accent-900 dark:text-accent-100">
           {sourceFilter ? `${sourceFilter} Reviews` : 'All Reviews'} ({filtered.length})
         </h2>
         {filtered.map((review) => (
@@ -171,11 +171,11 @@ function SourceFilterBar({
               className={`rounded-md border p-2 text-left text-sm transition-colors ${
                 sourceFilter === source
                   ? 'border-blue-500 bg-blue-100 dark:border-blue-400 dark:bg-blue-800/40'
-                  : 'border-gray-200 bg-white hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700'
+                  : 'border-accent-200 bg-surface-50 hover:bg-surface-100 dark:border-accent-700 dark:bg-surface-800 dark:hover:bg-surface-700'
               }`}
             >
-              <div className="font-medium text-gray-900 dark:text-gray-100">{source}</div>
-              <div className="text-xs text-gray-500 dark:text-gray-400">
+              <div className="font-medium text-accent-900 dark:text-accent-100">{source}</div>
+              <div className="text-xs text-accent-500 dark:text-accent-400">
                 {r.date} — {r.name}
               </div>
             </button>

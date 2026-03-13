@@ -62,7 +62,7 @@ function DetailRow({ label, value }: { label: string; value: string }) {
       <span className="text-primary-500 dark:text-primary-400 min-w-24 text-sm font-medium tracking-wide uppercase">
         {label}
       </span>
-      <span className="text-lg text-gray-800 dark:text-gray-200">{value}</span>
+      <span className="text-lg text-accent-800 dark:text-accent-200">{value}</span>
     </div>
   )
 }
@@ -75,8 +75,8 @@ export default async function EventPage({ params, searchParams }: EventPageProps
     return (
       <SectionContainer>
         <div className="py-16 text-center">
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Access Denied</h1>
-          <p className="mt-2 text-gray-600 dark:text-gray-400">
+          <h1 className="text-2xl font-bold text-accent-900 dark:text-white">Access Denied</h1>
+          <p className="mt-2 text-accent-600 dark:text-accent-400">
             A valid token is required to view this appointment.
           </p>
         </div>
@@ -90,8 +90,8 @@ export default async function EventPage({ params, searchParams }: EventPageProps
     return (
       <SectionContainer>
         <div className="py-16 text-center">
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Invalid Link</h1>
-          <p className="mt-2 text-gray-600 dark:text-gray-400">
+          <h1 className="text-2xl font-bold text-accent-900 dark:text-white">Invalid Link</h1>
+          <p className="mt-2 text-accent-600 dark:text-accent-400">
             {result.error === 'Token expired'
               ? 'This link has expired. The appointment may have already passed.'
               : 'This link is not valid. Please check the link from your email.'}
@@ -107,10 +107,10 @@ export default async function EventPage({ params, searchParams }: EventPageProps
     return (
       <SectionContainer>
         <div className="py-16 text-center">
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+          <h1 className="text-2xl font-bold text-accent-900 dark:text-white">
             Appointment Not Found
           </h1>
-          <p className="mt-2 text-gray-600 dark:text-gray-400">
+          <p className="mt-2 text-accent-600 dark:text-accent-400">
             This appointment may have been cancelled or removed.
           </p>
         </div>
@@ -157,20 +157,20 @@ export default async function EventPage({ params, searchParams }: EventPageProps
           </div>
 
           {status === 'pending' && (
-            <p className="mt-4 text-sm text-gray-600 dark:text-gray-400">
+            <p className="mt-4 text-sm text-accent-600 dark:text-accent-400">
               Your request has been received and is awaiting confirmation. You&#39;ll receive an
               email once it&#39;s been reviewed.
             </p>
           )}
 
-          <div className="mt-8 space-y-3 rounded-2xl border-2 border-gray-200 bg-gray-50 p-6 dark:border-gray-700 dark:bg-gray-800/50">
+          <div className="mt-8 space-y-3 rounded-2xl border-2 border-accent-200 bg-surface-100 p-6 dark:border-accent-700 dark:bg-surface-800/50">
             {dateString && duration && (
               <div className="border-l-primary-400 bg-primary-50/30 dark:bg-primary-50/10 mb-4 rounded-md border-l-4 p-3">
                 <p className="text-primary-800 dark:text-primary-400 text-lg font-semibold">
                   {dateString} &mdash; {duration}min Massage
                 </p>
                 {startString && endString && (
-                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                  <p className="text-sm text-accent-600 dark:text-accent-400">
                     {startString} &ndash; {endString}
                   </p>
                 )}
@@ -204,25 +204,27 @@ export default async function EventPage({ params, searchParams }: EventPageProps
           {status !== 'cancelled' && (
             <div className="mt-8">
               <div className="mb-3 flex items-center gap-3">
-                <div className="h-px flex-1 bg-gray-200 dark:bg-gray-700" />
-                <span className="text-sm font-medium text-gray-500 dark:text-gray-400">
+                <div className="h-px flex-1 bg-surface-200 dark:bg-surface-700" />
+                <span className="text-sm font-medium text-accent-500 dark:text-accent-400">
                   Show Appreciation
                 </span>
-                <div className="h-px flex-1 bg-gray-200 dark:bg-gray-700" />
+                <div className="h-px flex-1 bg-surface-200 dark:bg-surface-700" />
               </div>
               <div className="flex flex-col gap-3">
                 {gratuityLinks.map((link) => (
                   <Link
                     key={link.label}
                     href={link.href}
-                    classes={`flex items-center gap-4 rounded-2xl border-2 ${link.accent} bg-white p-4 transition-all hover:shadow-md hover:-translate-y-0.5 dark:bg-gray-900`}
+                    classes={`flex items-center gap-4 rounded-2xl border-2 ${link.accent} bg-surface-50 p-4 transition-all hover:shadow-md hover:-translate-y-0.5 dark:bg-surface-900`}
                   >
                     <link.icon className={`shrink-0 text-2xl ${link.iconColor}`} />
                     <div>
-                      <span className="font-semibold text-gray-900 dark:text-gray-100">
+                      <span className="font-semibold text-accent-900 dark:text-accent-100">
                         {link.label}
                       </span>
-                      <p className="text-sm text-gray-500 dark:text-gray-400">{link.description}</p>
+                      <p className="text-sm text-accent-500 dark:text-accent-400">
+                        {link.description}
+                      </p>
                     </div>
                   </Link>
                 ))}
@@ -231,8 +233,8 @@ export default async function EventPage({ params, searchParams }: EventPageProps
           )}
 
           {status === 'cancelled' && (
-            <div className="mt-8 rounded-2xl border-2 border-gray-200 bg-gray-50 p-6 text-center dark:border-gray-700 dark:bg-gray-800/50">
-              <p className="text-lg font-medium text-gray-800 dark:text-gray-200">
+            <div className="mt-8 rounded-2xl border-2 border-accent-200 bg-surface-100 p-6 text-center dark:border-accent-700 dark:bg-surface-800/50">
+              <p className="text-lg font-medium text-accent-800 dark:text-accent-200">
                 This appointment has been cancelled.
               </p>
               <Link
@@ -244,7 +246,7 @@ export default async function EventPage({ params, searchParams }: EventPageProps
             </div>
           )}
 
-          <div className="mt-12 border-t border-gray-200 pt-8 dark:border-gray-700">
+          <div className="mt-12 border-t border-accent-200 pt-8 dark:border-accent-700">
             <div className="flex flex-col items-center gap-4 text-center">
               {status !== 'cancelled' && (
                 <Link
@@ -254,7 +256,7 @@ export default async function EventPage({ params, searchParams }: EventPageProps
                   Book Another Session
                 </Link>
               )}
-              <p className="text-xs text-gray-500 dark:text-gray-500">
+              <p className="text-xs text-accent-500 dark:text-accent-500">
                 Want to see all your bookings?{' '}
                 <Link
                   href="/auth/login?redirectedFrom=/my_events"

@@ -72,15 +72,15 @@ export default function AdminAccessRequestPage() {
     <SectionContainer>
       <div className="mx-auto max-w-2xl py-16">
         <div className="mb-8 text-center">
-          <h1 className="mb-4 text-3xl font-bold text-gray-900 dark:text-gray-100">
+          <h1 className="mb-4 text-3xl font-bold text-accent-900 dark:text-accent-100">
             Request Admin Access
           </h1>
-          <p className="text-gray-600 dark:text-gray-400">
+          <p className="text-accent-600 dark:text-accent-400">
             Submit your email to receive a secure admin access link
           </p>
         </div>
 
-        <div className="rounded-lg bg-white p-8 shadow-lg dark:bg-gray-800">
+        <div className="rounded-lg bg-surface-50 p-8 shadow-lg dark:bg-surface-800">
           <Formik
             initialValues={{
               email: '',
@@ -94,7 +94,7 @@ export default function AdminAccessRequestPage() {
                 <div>
                   <label
                     htmlFor="email"
-                    className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300"
+                    className="mb-2 block text-sm font-medium text-accent-700 dark:text-accent-300"
                   >
                     Email Address
                   </label>
@@ -102,7 +102,7 @@ export default function AdminAccessRequestPage() {
                     type="email"
                     id="email"
                     name="email"
-                    className="w-full rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-blue-500 focus:ring-blue-500 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
+                    className="w-full rounded-md border border-accent-300 px-3 py-2 placeholder-accent-400 shadow-sm focus:border-blue-500 focus:ring-blue-500 focus:outline-none dark:border-accent-600 dark:bg-surface-700 dark:text-white dark:placeholder-accent-400"
                     placeholder="your.email@example.com"
                     disabled={isSubmitting || submitStatus.type === 'loading'}
                   />
@@ -116,7 +116,7 @@ export default function AdminAccessRequestPage() {
                 <div>
                   <label
                     htmlFor="requestReason"
-                    className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300"
+                    className="mb-2 block text-sm font-medium text-accent-700 dark:text-accent-300"
                   >
                     Reason for Access
                   </label>
@@ -125,7 +125,7 @@ export default function AdminAccessRequestPage() {
                     id="requestReason"
                     name="requestReason"
                     rows={4}
-                    className="w-full rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-blue-500 focus:ring-blue-500 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
+                    className="w-full rounded-md border border-accent-300 px-3 py-2 placeholder-accent-400 shadow-sm focus:border-blue-500 focus:ring-blue-500 focus:outline-none dark:border-accent-600 dark:bg-surface-700 dark:text-white dark:placeholder-accent-400"
                     placeholder="Please describe why you need admin access..."
                     disabled={isSubmitting || submitStatus.type === 'loading'}
                   />
@@ -139,7 +139,7 @@ export default function AdminAccessRequestPage() {
                 <button
                   type="submit"
                   disabled={isSubmitting || submitStatus.type === 'loading'}
-                  className="flex w-full justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:bg-gray-400"
+                  className="flex w-full justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:bg-surface-400"
                 >
                   {submitStatus.type === 'loading' ? (
                     <>

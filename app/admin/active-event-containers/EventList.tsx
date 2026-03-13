@@ -18,7 +18,7 @@ export function EventList({ events, color, label, emptyMessage, patternString }:
 
   return (
     <div>
-      <h4 className="mb-3 flex items-center text-base font-medium text-gray-900 dark:text-white">
+      <h4 className="mb-3 flex items-center text-base font-medium text-accent-900 dark:text-white">
         <div className={`mr-2 h-3 w-3 rounded-full ${dotColor}`}></div>
         {label} ({events.length})
       </h4>
@@ -27,7 +27,7 @@ export function EventList({ events, color, label, emptyMessage, patternString }:
           className={
             color === 'green'
               ? 'rounded-lg bg-yellow-50 p-3 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-200'
-              : 'rounded-lg bg-gray-50 p-3 text-gray-600 dark:bg-gray-700 dark:text-gray-400'
+              : 'rounded-lg bg-surface-100 p-3 text-accent-600 dark:bg-surface-700 dark:text-accent-400'
           }
         >
           {emptyMessage}
@@ -37,12 +37,12 @@ export function EventList({ events, color, label, emptyMessage, patternString }:
         <div className="space-y-2">
           {events.map((event) => (
             <div key={event.id} className={`rounded-md border ${borderColor} p-3 text-sm`}>
-              <div className="font-medium text-gray-900 dark:text-white">{event.summary}</div>
-              <div className="mt-1 text-gray-600 dark:text-gray-400">
+              <div className="font-medium text-accent-900 dark:text-white">{event.summary}</div>
+              <div className="mt-1 text-accent-600 dark:text-accent-400">
                 {formatDateTime(event.start.dateTime)} - {formatDateTime(event.end.dateTime)}
               </div>
               {event.description && (
-                <div className="mt-1 text-xs text-gray-500 dark:text-gray-500">
+                <div className="mt-1 text-xs text-accent-500 dark:text-accent-500">
                   {event.description.substring(0, 100)}
                   {event.description.length > 100 && '...'}
                 </div>

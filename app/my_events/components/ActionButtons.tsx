@@ -50,7 +50,7 @@ export function ActionButtons({
     if (cancelState === 'cancelled') {
       return (
         <div className="ml-4">
-          <span className="text-sm font-medium text-gray-500">Cancelled</span>
+          <span className="text-sm font-medium text-accent-500">Cancelled</span>
         </div>
       )
     }
@@ -63,7 +63,7 @@ export function ActionButtons({
           className={clsx(
             'rounded px-3 py-1 text-center text-sm text-white transition-colors',
             cancelState === 'loading'
-              ? 'cursor-not-allowed bg-gray-400'
+              ? 'cursor-not-allowed bg-surface-400'
               : 'bg-red-600 hover:bg-red-700 dark:bg-red-500 dark:hover:bg-red-600'
           )}
         >

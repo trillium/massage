@@ -132,7 +132,7 @@ export function TestimonialsCarousel({ reviews }: { reviews: ReviewType[] }) {
         <div
           id="review-body"
           aria-label="Review content - use arrow keys to navigate"
-          className="focus:ring-primary-500 relative order-2 flex min-h-80 w-full flex-1 flex-col items-center justify-between rounded-lg bg-gray-50 p-6 text-center shadow transition-all duration-300 focus:ring-2 focus:outline-none dark:bg-gray-800"
+          className="focus:ring-primary-500 relative order-2 flex min-h-80 w-full flex-1 flex-col items-center justify-between rounded-lg bg-surface-100 p-6 text-center shadow transition-all duration-300 focus:ring-2 focus:outline-none dark:bg-surface-800"
         >
           <div className="text-primary-400 mb-4 flex items-center gap-1">
             {Array.from({ length: r.rating }, (_, i) => (
@@ -143,7 +143,7 @@ export function TestimonialsCarousel({ reviews }: { reviews: ReviewType[] }) {
             ))}
           </div>
           {r.comment && (
-            <p className="mb-2 text-sm text-gray-700 italic sm:text-base md:text-lg xl:text-2xl dark:text-gray-200">
+            <p className="mb-2 text-sm text-accent-700 italic sm:text-base md:text-lg xl:text-2xl dark:text-accent-200">
               "{r.spellcheck || r.comment}"
             </p>
           )}
@@ -191,7 +191,7 @@ export function TestimonialsCarousel({ reviews }: { reviews: ReviewType[] }) {
               htmlFor={`review-dot-${idx}`}
               className={clsx('h-2 w-2 cursor-pointer rounded-full transition-all duration-300', {
                 'bg-teal-600 ring-2 ring-teal-400': idx === current,
-                'bg-gray-300 dark:bg-gray-600': idx !== current,
+                'bg-surface-300 dark:bg-surface-600': idx !== current,
               })}
             >
               <span className="sr-only">Go to review {idx + 1}</span>
@@ -224,7 +224,7 @@ function DirectionButton({
       aria-label={ariaLabel}
       onClick={onClick}
       className={clsx(
-        'focus:ring-primary-500 mr-2 flex h-10 w-10 items-center justify-center rounded-full bg-gray-200 p-2 text-gray-600 transition-all duration-300 hover:bg-gray-300 focus:ring-2 focus:outline-none active:bg-gray-400 active:ring-2 active:ring-yellow-500 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600',
+        'focus:ring-primary-500 mr-2 flex h-10 w-10 items-center justify-center rounded-full bg-surface-200 p-2 text-accent-600 transition-all duration-300 hover:bg-surface-300 focus:ring-2 focus:outline-none active:bg-surface-400 active:ring-2 active:ring-yellow-500 dark:bg-surface-700 dark:text-accent-200 dark:hover:bg-surface-600',
         placementClasses
       )}
     >

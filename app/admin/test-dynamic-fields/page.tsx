@@ -27,23 +27,25 @@ export default function TestDynamicFieldsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12">
+    <div className="min-h-screen bg-surface-100 py-12">
       <div className="mx-auto max-w-4xl px-4">
         <div className="mb-8">
-          <h1 className="mb-4 text-3xl font-bold text-gray-900">Dynamic Booking Form Test Page</h1>
-          <p className="text-gray-600">
+          <h1 className="mb-4 text-3xl font-bold text-accent-900">
+            Dynamic Booking Form Test Page
+          </h1>
+          <p className="text-accent-600">
             This page demonstrates the booking form with additional specific fields:
           </p>
-          <ul className="mt-4 space-y-2 text-sm text-gray-600">
+          <ul className="mt-4 space-y-2 text-sm text-accent-600">
             <li>• Hotel Room Number (required text field)</li>
             <li>• Parking Instructions (select dropdown)</li>
             <li>• Additional Notes (textarea)</li>
           </ul>
         </div>
 
-        <div className="rounded-lg bg-white p-6 shadow-lg">
-          <h2 className="mb-4 text-xl font-semibold text-gray-800">Test the Booking Form</h2>
-          <p className="mb-6 text-gray-600">
+        <div className="rounded-lg bg-surface-50 p-6 shadow-lg">
+          <h2 className="mb-4 text-xl font-semibold text-accent-800">Test the Booking Form</h2>
+          <p className="mb-6 text-accent-600">
             Click on any available time slot to open the booking modal and see the dynamic fields in
             action.
           </p>
@@ -141,9 +143,9 @@ export default function TestDynamicFieldsPage() {
             />
 
             {submittedData && (
-              <div className="mt-4 rounded-lg bg-gray-100 p-4">
-                <h3 className="text-lg font-semibold text-gray-800">Submitted Data</h3>
-                <pre className="mt-2 text-sm text-gray-600">
+              <div className="mt-4 rounded-lg bg-surface-200 p-4">
+                <h3 className="text-lg font-semibold text-accent-800">Submitted Data</h3>
+                <pre className="mt-2 text-sm text-accent-600">
                   {JSON.stringify(submittedData, null, 2)}
                 </pre>
               </div>

@@ -34,7 +34,7 @@ export function CategorizedEventList({
         <div className="mb-4 flex justify-end">
           <button
             onClick={handleDownloadJSON}
-            className="rounded bg-gray-800 px-4 py-2 text-sm font-medium text-white shadow hover:bg-gray-700 dark:bg-gray-700 dark:hover:bg-gray-600"
+            className="rounded bg-surface-800 px-4 py-2 text-sm font-medium text-white shadow hover:bg-surface-700 dark:bg-surface-700 dark:hover:bg-surface-600"
           >
             Download All Events (JSON)
           </button>
@@ -116,7 +116,7 @@ export function CategorizedEventList({
           <EventDelimiter
             title="Past Events"
             count={pastEvents.length}
-            color="bg-gray-100 text-gray-700 dark:bg-gray-700/30 dark:text-gray-300"
+            color="bg-surface-200 text-accent-700 dark:bg-surface-700/30 dark:text-accent-300"
           />
           {pastEvents.map((event, index) => (
             <EventCard
@@ -125,8 +125,9 @@ export function CategorizedEventList({
               index={index}
               keyPrefix="past"
               colorClasses={{
-                container: 'border-gray-400 bg-gray-50 dark:bg-gray-800/50',
-                button: 'bg-gray-500 hover:bg-gray-600 dark:bg-gray-600 dark:hover:bg-gray-700',
+                container: 'border-accent-400 bg-surface-100 dark:bg-surface-800/50',
+                button:
+                  'bg-surface-1000 hover:bg-surface-600 dark:bg-surface-600 dark:hover:bg-surface-700',
               }}
               token={event.id ? eventTokens[event.id] : undefined}
             />

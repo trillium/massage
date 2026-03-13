@@ -21,15 +21,15 @@ function AuthTestContent() {
     return (
       <div className="flex min-h-screen items-center justify-center">
         <div className="text-center">
-          <div className="h-8 w-8 animate-spin rounded-full border-4 border-gray-200 border-t-blue-600"></div>
-          <p className="mt-2 text-gray-600">Loading auth state...</p>
+          <div className="h-8 w-8 animate-spin rounded-full border-4 border-accent-200 border-t-blue-600"></div>
+          <p className="mt-2 text-accent-600">Loading auth state...</p>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-8">
+    <div className="min-h-screen bg-surface-100 p-8">
       <div className="mx-auto max-w-4xl">
         <div className="mb-6 flex items-center justify-between">
           <h1 className="text-3xl font-bold">Supabase Auth Test</h1>
@@ -38,20 +38,20 @@ function AuthTestContent() {
 
         <div className="grid gap-6 md:grid-cols-2">
           {!user && (
-            <div className="rounded-lg bg-white p-6 shadow">
+            <div className="rounded-lg bg-surface-50 p-6 shadow">
               <h2 className="mb-4 text-xl font-semibold">Login</h2>
               <LoginForm />
             </div>
           )}
 
-          <div className="rounded-lg bg-white p-6 shadow">
+          <div className="rounded-lg bg-surface-50 p-6 shadow">
             <h2 className="mb-4 text-xl font-semibold">Auth State</h2>
             <div className="space-y-3">
               <div>
                 <span className="font-medium">Status: </span>
                 <span
                   className={`rounded px-2 py-1 text-sm ${
-                    user ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
+                    user ? 'bg-green-100 text-green-800' : 'bg-surface-200 text-accent-800'
                   }`}
                 >
                   {user ? 'Authenticated' : 'Not authenticated'}
@@ -62,38 +62,38 @@ function AuthTestContent() {
                 <>
                   <div>
                     <span className="font-medium">Email: </span>
-                    <span className="text-gray-700">{user.email}</span>
+                    <span className="text-accent-700">{user.email}</span>
                   </div>
                   <div>
                     <span className="font-medium">Role: </span>
-                    <span className="text-gray-700">{profile?.role || 'Loading...'}</span>
+                    <span className="text-accent-700">{profile?.role || 'Loading...'}</span>
                   </div>
                   <div>
                     <span className="font-medium">Is Admin: </span>
-                    <span className="text-gray-700">{isAdmin ? 'Yes' : 'No'}</span>
+                    <span className="text-accent-700">{isAdmin ? 'Yes' : 'No'}</span>
                   </div>
                 </>
               )}
             </div>
           </div>
 
-          <div className="rounded-lg bg-white p-6 shadow">
+          <div className="rounded-lg bg-surface-50 p-6 shadow">
             <h2 className="mb-4 text-xl font-semibold">User Object</h2>
-            <pre className="overflow-auto rounded bg-gray-50 p-3 text-xs">
+            <pre className="overflow-auto rounded bg-surface-100 p-3 text-xs">
               {JSON.stringify(user, null, 2)}
             </pre>
           </div>
 
-          <div className="rounded-lg bg-white p-6 shadow">
+          <div className="rounded-lg bg-surface-50 p-6 shadow">
             <h2 className="mb-4 text-xl font-semibold">Profile Object</h2>
-            <pre className="overflow-auto rounded bg-gray-50 p-3 text-xs">
+            <pre className="overflow-auto rounded bg-surface-100 p-3 text-xs">
               {JSON.stringify(profile, null, 2)}
             </pre>
           </div>
 
-          <div className="md:col-span-2 rounded-lg bg-white p-6 shadow">
+          <div className="md:col-span-2 rounded-lg bg-surface-50 p-6 shadow">
             <h2 className="mb-4 text-xl font-semibold">Session Object</h2>
-            <pre className="overflow-auto rounded bg-gray-50 p-3 text-xs">
+            <pre className="overflow-auto rounded bg-surface-100 p-3 text-xs">
               {JSON.stringify(session, null, 2)}
             </pre>
           </div>

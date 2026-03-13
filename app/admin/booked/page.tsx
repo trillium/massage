@@ -28,7 +28,7 @@ export default async function Page({
       <SectionContainer>
         <div className="mx-auto max-w-xl py-8 sm:py-16">
           <h1 className="text-3xl font-bold text-red-600">Error</h1>
-          <p className="mt-4 text-gray-600">Invalid appointment data. Please try again.</p>
+          <p className="mt-4 text-accent-600">Invalid appointment data. Please try again.</p>
         </div>
       </SectionContainer>
     )
@@ -76,11 +76,11 @@ export default async function Page({
         <h1 className="text-primary-600 dark:text-primary-500 text-3xl font-bold tracking-tight">
           {h1Message}
         </h1>
-        <p className="mt-6 text-xl font-medium text-gray-800 dark:text-gray-200">
+        <p className="mt-6 text-xl font-medium text-accent-800 dark:text-accent-200">
           It's now on your calendar and an invite has been sent to the client's email at:{' '}
           {attendees || 'them'}.
         </p>
-        <p className="mt-6 text-xl font-medium text-gray-800 dark:text-gray-200">
+        <p className="mt-6 text-xl font-medium text-accent-800 dark:text-accent-200">
           <Link
             href={'https://www.google.com/calendar/event?eid=' + url}
             target="_blank"

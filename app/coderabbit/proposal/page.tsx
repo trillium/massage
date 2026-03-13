@@ -30,7 +30,7 @@ function Table({ headers, rows }: { headers: string[]; rows: (string | React.Rea
             <th
               key={`${i}-${h || 'detail'}`}
               scope="col"
-              className="border border-gray-200 bg-teal-50 px-4 py-2 text-left font-semibold text-teal-800"
+              className="border border-accent-200 bg-teal-50 px-4 py-2 text-left font-semibold text-teal-800"
             >
               {h || <span className="sr-only">Detail</span>}
             </th>
@@ -39,18 +39,18 @@ function Table({ headers, rows }: { headers: string[]; rows: (string | React.Rea
       </thead>
       <tbody>
         {rows.map((row, i) => (
-          <tr key={i} className={i % 2 === 1 ? 'bg-gray-50' : ''}>
+          <tr key={i} className={i % 2 === 1 ? 'bg-surface-100' : ''}>
             {row.map((cell, j) =>
               j === 0 ? (
                 <th
                   key={j}
                   scope="row"
-                  className="border border-gray-200 px-4 py-2 text-left font-semibold"
+                  className="border border-accent-200 px-4 py-2 text-left font-semibold"
                 >
                   {cell}
                 </th>
               ) : (
-                <td key={j} className="border border-gray-200 px-4 py-2">
+                <td key={j} className="border border-accent-200 px-4 py-2">
                   {cell}
                 </td>
               )
@@ -71,16 +71,18 @@ export default async function ProposalPage({
   if (token !== PROPOSAL_TOKEN) notFound()
 
   return (
-    <div className="mx-auto max-w-3xl px-6 py-12 font-sans text-gray-800 print:max-w-none print:px-0 print:py-0">
+    <div className="mx-auto max-w-3xl px-6 py-12 font-sans text-accent-800 print:max-w-none print:px-0 print:py-0">
       {/* Header */}
       <header className="mb-12 flex items-start justify-between border-b-4 border-teal-600 pb-8">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 print:text-2xl">
+          <h1 className="text-3xl font-bold text-accent-900 print:text-2xl">
             Chair Massage Services
             <br />
             <span className="text-teal-600">for CodeRabbit</span>
           </h1>
-          <p className="mt-2 text-lg text-gray-500">AI Engineer Miami & React Miami — April 2026</p>
+          <p className="mt-2 text-lg text-accent-500">
+            AI Engineer Miami & React Miami — April 2026
+          </p>
         </div>
         <Image
           src="/static/images/logo.svg"
@@ -92,16 +94,16 @@ export default async function ProposalPage({
       </header>
 
       {/* Meta */}
-      <div className="mb-10 grid grid-cols-1 gap-4 rounded-lg bg-gray-50 p-6 text-sm print:border print:border-gray-200 print:bg-white sm:grid-cols-2">
+      <div className="mb-10 grid grid-cols-1 gap-4 rounded-lg bg-surface-100 p-6 text-sm print:border print:border-accent-200 print:bg-surface-50 sm:grid-cols-2">
         <div>
-          <span className="font-semibold text-gray-500">Prepared for</span>
-          <p className="text-gray-900">Theresa Ensminger & Team</p>
-          <p className="text-gray-500">CodeRabbit</p>
+          <span className="font-semibold text-accent-500">Prepared for</span>
+          <p className="text-accent-900">Theresa Ensminger & Team</p>
+          <p className="text-accent-500">CodeRabbit</p>
         </div>
         <div>
-          <span className="font-semibold text-gray-500">Prepared by</span>
-          <p className="text-gray-900">Trillium Smith, LMT</p>
-          <p className="text-gray-500">March 2026</p>
+          <span className="font-semibold text-accent-500">Prepared by</span>
+          <p className="text-accent-900">Trillium Smith, LMT</p>
+          <p className="text-accent-500">March 2026</p>
         </div>
       </div>
 
@@ -129,7 +131,7 @@ export default async function ProposalPage({
             [<strong key="a">Attendance</strong>, '500+', '~500'],
           ]}
         />
-        <p className="mt-3 text-sm text-gray-500">
+        <p className="mt-3 text-sm text-accent-500">
           Both conferences at the same venue, back-to-back. One trip, seamless coverage across the
           full week.
         </p>
@@ -215,10 +217,10 @@ export default async function ProposalPage({
           ].map((item) => (
             <div
               key={item.title}
-              className="rounded-lg border border-gray-200 p-4 print:border-gray-300"
+              className="rounded-lg border border-accent-200 p-4 print:border-accent-300"
             >
               <p className="mb-1 font-bold text-teal-700">{item.title}</p>
-              <p className="text-sm leading-relaxed text-gray-600">{item.text}</p>
+              <p className="text-sm leading-relaxed text-accent-600">{item.text}</p>
             </div>
           ))}
         </div>
@@ -241,7 +243,7 @@ export default async function ProposalPage({
             [<strong key="t">Total</strong>, <strong key="tv">50</strong>, ''],
           ]}
         />
-        <p className="mt-3 text-sm leading-relaxed text-gray-500">
+        <p className="mt-3 text-sm leading-relaxed text-accent-500">
           Three attendees came back for repeat sessions. The demand was real and it grew organically
           each day.
         </p>
@@ -255,13 +257,13 @@ export default async function ProposalPage({
             <p className="text-lg font-bold">Both Conferences — 4 Days</p>
           </div>
           <div className="p-6">
-            <div className="mb-4 flex items-baseline justify-between border-b border-gray-200 pb-4">
-              <span className="text-gray-600">Daily rate</span>
-              <span className="text-xl font-bold text-gray-900">$1,000/day</span>
+            <div className="mb-4 flex items-baseline justify-between border-b border-accent-200 pb-4">
+              <span className="text-accent-600">Daily rate</span>
+              <span className="text-xl font-bold text-accent-900">$1,000/day</span>
             </div>
-            <div className="mb-4 flex items-baseline justify-between border-b border-gray-200 pb-4">
-              <span className="text-gray-600">Conference days</span>
-              <span className="text-gray-900">4 (April 20–21 + April 23–24)</span>
+            <div className="mb-4 flex items-baseline justify-between border-b border-accent-200 pb-4">
+              <span className="text-accent-600">Conference days</span>
+              <span className="text-accent-900">4 (April 20–21 + April 23–24)</span>
             </div>
             <div className="flex items-baseline justify-between">
               <span className="text-lg font-bold text-teal-700">Total</span>
@@ -270,21 +272,21 @@ export default async function ProposalPage({
           </div>
         </div>
 
-        <p className="mt-4 text-sm leading-relaxed text-gray-600">
+        <p className="mt-4 text-sm leading-relaxed text-accent-600">
           This covers approximately six hours of chair massage service per day, all equipment,
           setup, and teardown.
         </p>
 
-        <div className="mt-6 rounded-lg bg-gray-50 p-5 print:bg-white print:border print:border-gray-200">
-          <p className="mb-2 font-semibold text-gray-700">CodeRabbit arranges:</p>
-          <ul className="space-y-1 text-sm text-gray-600">
+        <div className="mt-6 rounded-lg bg-surface-100 p-5 print:bg-surface-50 print:border print:border-accent-200">
+          <p className="mb-2 font-semibold text-accent-700">CodeRabbit arranges:</p>
+          <ul className="space-y-1 text-sm text-accent-600">
             <li>• Round-trip flight (Los Angeles to Miami)</li>
             <li>• Hotel accommodations (April 19–24)</li>
             <li>• Equipment logistics (getting the massage chair to the venue)</li>
           </ul>
         </div>
 
-        <p className="mt-4 text-sm text-gray-500">
+        <p className="mt-4 text-sm text-accent-500">
           I carry full liability insurance and can provide documentation as needed.
         </p>
       </Section>
@@ -310,8 +312,8 @@ export default async function ProposalPage({
             className="rounded-full object-cover"
           />
           <div>
-            <p className="text-lg font-bold text-gray-900">Trillium Smith, LMT</p>
-            <p className="text-sm text-gray-500">trilliummassagela@gmail.com</p>
+            <p className="text-lg font-bold text-accent-900">Trillium Smith, LMT</p>
+            <p className="text-sm text-accent-500">trilliummassagela@gmail.com</p>
             <p className="text-sm text-teal-600">www.trilliummassage.la</p>
           </div>
         </div>

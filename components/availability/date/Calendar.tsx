@@ -99,14 +99,14 @@ export default function Calendar({
 
   return (
     <div
-      className="focus-within:ring-primary-500 active:ring-primary-500 isolate mt-6 grid grid-cols-7 overflow-hidden rounded-md border-2 border-slate-300 text-xs leading-6 text-gray-500 focus-within:ring-2 active:ring-2 dark:border-slate-700 dark:text-gray-400"
+      className="focus-within:ring-primary-500 active:ring-primary-500 isolate mt-6 grid grid-cols-7 overflow-hidden rounded-md border-2 border-accent-300 text-xs leading-6 text-accent-500 focus-within:ring-2 active:ring-2 dark:border-accent-700 dark:text-accent-400"
       role="grid"
       aria-label="Calendar"
     >
       {weekdays.map((weekday) => (
         <div
           key={weekday}
-          className="flex justify-center text-slate-500"
+          className="flex justify-center text-accent-500"
           role="columnheader"
           aria-label={weekday}
         >

@@ -14,9 +14,9 @@ export default function DebugData({ submittedData, onReset }: DebugDataProps) {
   }
 
   return (
-    <div className="mt-12 rounded-lg bg-gray-100 p-6 dark:bg-gray-700">
+    <div className="mt-12 rounded-lg bg-surface-200 p-6 dark:bg-surface-700">
       <div className="mb-4 flex items-center justify-between">
-        <h3 className="text-lg font-medium text-gray-700 dark:text-gray-300">
+        <h3 className="text-lg font-medium text-accent-700 dark:text-accent-300">
           Debug: Submitted Data
         </h3>
         {onReset && (
@@ -28,7 +28,7 @@ export default function DebugData({ submittedData, onReset }: DebugDataProps) {
           </button>
         )}
       </div>
-      <pre className="overflow-x-auto text-xs text-gray-600 dark:text-gray-400">
+      <pre className="overflow-x-auto text-xs text-accent-600 dark:text-accent-400">
         {JSON.stringify(submittedData, null, 2)}
       </pre>
     </div>

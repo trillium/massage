@@ -24,12 +24,12 @@ function LoginContent({
   const errorDescription = searchParams.error_description
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4 dark:bg-gray-900">
+    <div className="flex min-h-screen items-center justify-center bg-surface-100 px-4 dark:bg-surface-900">
       <div className="w-full max-w-md">
-        <div className="rounded-lg bg-white px-8 py-10 shadow-md dark:bg-gray-800">
+        <div className="rounded-lg bg-surface-50 px-8 py-10 shadow-md dark:bg-surface-800">
           <div className="mb-8 text-center">
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Sign In</h1>
-            <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+            <h1 className="text-3xl font-bold text-accent-900 dark:text-white">Sign In</h1>
+            <p className="mt-2 text-sm text-accent-600 dark:text-accent-400">
               Sign in to manage your account
             </p>
           </div>
@@ -53,7 +53,7 @@ function LoginContent({
           <LoginForm />
         </div>
 
-        <p className="mt-6 text-center text-sm text-gray-600 dark:text-gray-400">
+        <p className="mt-6 text-center text-sm text-accent-600 dark:text-accent-400">
           New to Trillium Massage?{' '}
           <Link
             href="/"
@@ -77,9 +77,9 @@ export default async function LoginPage({
   return (
     <Suspense
       fallback={
-        <div className="flex min-h-screen items-center justify-center bg-gray-50 dark:bg-gray-900">
+        <div className="flex min-h-screen items-center justify-center bg-surface-100 dark:bg-surface-900">
           <div className="text-center">
-            <div className="h-8 w-8 animate-spin rounded-full border-4 border-gray-200 border-t-blue-600 dark:border-gray-700 dark:border-t-blue-400"></div>
+            <div className="h-8 w-8 animate-spin rounded-full border-4 border-accent-200 border-t-blue-600 dark:border-accent-700 dark:border-t-blue-400"></div>
           </div>
         </div>
       }

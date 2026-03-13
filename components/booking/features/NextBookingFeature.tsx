@@ -70,7 +70,7 @@ export default function NextBookingFeature({
         isTargetToday={data.isTargetToday ?? true}
       />
 
-      <div className="mb-8 flex flex-col gap-6 overflow-hidden rounded-lg bg-gray-100 shadow-lg dark:bg-gray-950">
+      <div className="mb-8 flex flex-col gap-6 overflow-hidden rounded-lg bg-surface-200 shadow-lg dark:bg-surface-950">
         <CachedTileMap {...locationProps} />
         {currentEvent && <DriveTimeCalculator currentEvent={currentEvent} />}
       </div>

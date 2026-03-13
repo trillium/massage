@@ -77,7 +77,7 @@ export default function ContactForm({ defaultSubject = '' }: ContactFormProps) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="border500 border-white-500 focus-within:border-primary-500 flex w-full flex-col items-center space-y-4 rounded-lg border-2 bg-white p-6 shadow-md dark:bg-slate-900"
+      className="border500 border-white-500 focus-within:border-primary-500 flex w-full flex-col items-center space-y-4 rounded-lg border-2 bg-surface-50 p-6 shadow-md dark:bg-surface-900"
     >
       {submitStatus === 'success' && (
         <div className="mb-4 rounded border border-green-400 bg-green-100 px-4 py-3 text-green-700">
@@ -160,7 +160,7 @@ export default function ContactForm({ defaultSubject = '' }: ContactFormProps) {
       <button
         type="submit"
         disabled={isSubmitting}
-        className="bg-primary-600 hover:bg-primary-700 border-primary-500 rounded border-2 px-4 py-2 font-semibold text-white transition-colors disabled:cursor-not-allowed disabled:bg-gray-400"
+        className="bg-primary-600 hover:bg-primary-700 border-primary-500 rounded border-2 px-4 py-2 font-semibold text-white transition-colors disabled:cursor-not-allowed disabled:bg-surface-400"
       >
         {isSubmitting ? 'Sending...' : 'Send Message'}
       </button>

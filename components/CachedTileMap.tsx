@@ -93,7 +93,7 @@ export default function CachedTileMap({
     <div
       style={style}
       className={twMerge(
-        'relative overflow-hidden rounded-lg border-2 border-gray-300 bg-transparent dark:border-gray-500',
+        'relative overflow-hidden rounded-lg border-2 border-accent-300 bg-transparent dark:border-accent-500',
         className
       )}
       ref={containerRef}

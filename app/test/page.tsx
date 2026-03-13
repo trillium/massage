@@ -30,7 +30,7 @@ export default function DoubleBookingTestPage() {
   return (
     <div className="mx-auto max-w-2xl px-4 py-12">
       <h1 className="mb-2 text-2xl font-bold">Double Booking Fix Verification</h1>
-      <p className="mb-6 text-gray-500 dark:text-gray-400">
+      <p className="mb-6 text-accent-500 dark:text-accent-400">
         Simulates two users booking the same 11:00 AM slot. User 1 should succeed, User 2 should get
         a 409 conflict.
       </p>
@@ -59,7 +59,7 @@ export default function DoubleBookingTestPage() {
             {result.steps.map((step, i) => (
               <div
                 key={i}
-                className="flex items-start gap-4 rounded-lg border border-gray-200 p-4 dark:border-gray-700"
+                className="flex items-start gap-4 rounded-lg border border-accent-200 p-4 dark:border-accent-700"
               >
                 <div
                   className={`shrink-0 rounded-full px-3 py-1 text-sm font-medium ${
@@ -72,7 +72,7 @@ export default function DoubleBookingTestPage() {
                 </div>
                 <div className="flex-1">
                   <div className="font-medium">{step.action}</div>
-                  <div className="text-sm text-gray-500 dark:text-gray-400">{step.result}</div>
+                  <div className="text-sm text-accent-500 dark:text-accent-400">{step.result}</div>
                 </div>
                 <div
                   className={`shrink-0 rounded px-2 py-1 text-sm font-mono font-bold ${

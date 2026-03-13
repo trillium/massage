@@ -117,27 +117,27 @@ export default async function EventPage({ params }: { params: Promise<{ event_id
 
         {matchingEvent ? (
           <>
-            <div className="mb-8 rounded-lg bg-white p-6 shadow-lg dark:bg-gray-800">
-              <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
+            <div className="mb-8 rounded-lg bg-surface-50 p-6 shadow-lg dark:bg-surface-800">
+              <h2 className="mb-4 text-2xl font-semibold text-accent-900 dark:text-white">
                 {matchingEvent.summary || 'Untitled Event'}
               </h2>
 
               <div className="space-y-4">
                 <div>
-                  <h3 className="text-lg font-medium text-gray-700 dark:text-gray-300">
+                  <h3 className="text-lg font-medium text-accent-700 dark:text-accent-300">
                     Event ID:
                   </h3>
-                  <p className="rounded bg-gray-100 p-2 font-mono text-sm text-gray-900 dark:bg-gray-700 dark:text-white">
+                  <p className="rounded bg-surface-200 p-2 font-mono text-sm text-accent-900 dark:bg-surface-700 dark:text-white">
                     {matchingEvent.id}
                   </p>
                 </div>
 
                 {matchingEvent.description && (
                   <div>
-                    <h3 className="text-lg font-medium text-gray-700 dark:text-gray-300">
+                    <h3 className="text-lg font-medium text-accent-700 dark:text-accent-300">
                       Description:
                     </h3>
-                    <p className="whitespace-pre-wrap text-gray-900 dark:text-white">
+                    <p className="whitespace-pre-wrap text-accent-900 dark:text-white">
                       {matchingEvent.description}
                     </p>
                   </div>
@@ -145,10 +145,10 @@ export default async function EventPage({ params }: { params: Promise<{ event_id
 
                 {(matchingEvent.start?.dateTime || matchingEvent.start?.date) && (
                   <div>
-                    <h3 className="text-lg font-medium text-gray-700 dark:text-gray-300">
+                    <h3 className="text-lg font-medium text-accent-700 dark:text-accent-300">
                       Start Time:
                     </h3>
-                    <p className="text-gray-900 dark:text-white">
+                    <p className="text-accent-900 dark:text-white">
                       {matchingEvent.start.dateTime
                         ? new Date(matchingEvent.start.dateTime).toLocaleString()
                         : matchingEvent.start.date}
@@ -158,10 +158,10 @@ export default async function EventPage({ params }: { params: Promise<{ event_id
 
                 {(matchingEvent.end?.dateTime || matchingEvent.end?.date) && (
                   <div>
-                    <h3 className="text-lg font-medium text-gray-700 dark:text-gray-300">
+                    <h3 className="text-lg font-medium text-accent-700 dark:text-accent-300">
                       End Time:
                     </h3>
-                    <p className="text-gray-900 dark:text-white">
+                    <p className="text-accent-900 dark:text-white">
                       {matchingEvent.end.dateTime
                         ? new Date(matchingEvent.end.dateTime).toLocaleString()
                         : matchingEvent.end.date}
@@ -171,19 +171,19 @@ export default async function EventPage({ params }: { params: Promise<{ event_id
 
                 {matchingEvent.location && (
                   <div>
-                    <h3 className="text-lg font-medium text-gray-700 dark:text-gray-300">
+                    <h3 className="text-lg font-medium text-accent-700 dark:text-accent-300">
                       Location:
                     </h3>
-                    <p className="text-gray-900 dark:text-white">{matchingEvent.location}</p>
+                    <p className="text-accent-900 dark:text-white">{matchingEvent.location}</p>
                   </div>
                 )}
 
                 {matchingEvent.creator && (
                   <div>
-                    <h3 className="text-lg font-medium text-gray-700 dark:text-gray-300">
+                    <h3 className="text-lg font-medium text-accent-700 dark:text-accent-300">
                       Created by:
                     </h3>
-                    <p className="text-gray-900 dark:text-white">
+                    <p className="text-accent-900 dark:text-white">
                       {matchingEvent.creator.displayName || matchingEvent.creator.email}
                     </p>
                   </div>
@@ -191,15 +191,15 @@ export default async function EventPage({ params }: { params: Promise<{ event_id
 
                 {matchingEvent.attendees && matchingEvent.attendees.length > 0 && (
                   <div>
-                    <h3 className="text-lg font-medium text-gray-700 dark:text-gray-300">
+                    <h3 className="text-lg font-medium text-accent-700 dark:text-accent-300">
                       Attendees:
                     </h3>
-                    <ul className="list-inside list-disc text-gray-900 dark:text-white">
+                    <ul className="list-inside list-disc text-accent-900 dark:text-white">
                       {matchingEvent.attendees.map((attendee, index) => (
                         <li key={index}>
                           {attendee.displayName || attendee.email}
                           {attendee.responseStatus && (
-                            <span className="text-sm text-gray-600 dark:text-gray-400">
+                            <span className="text-sm text-accent-600 dark:text-accent-400">
                               ({attendee.responseStatus})
                             </span>
                           )}
@@ -211,10 +211,10 @@ export default async function EventPage({ params }: { params: Promise<{ event_id
 
                 {matchingEvent.status && (
                   <div>
-                    <h3 className="text-lg font-medium text-gray-700 dark:text-gray-300">
+                    <h3 className="text-lg font-medium text-accent-700 dark:text-accent-300">
                       Status:
                     </h3>
-                    <p className="text-gray-900 capitalize dark:text-white">
+                    <p className="text-accent-900 capitalize dark:text-white">
                       {matchingEvent.status}
                     </p>
                   </div>
@@ -222,7 +222,7 @@ export default async function EventPage({ params }: { params: Promise<{ event_id
 
                 {matchingEvent.htmlLink && (
                   <div>
-                    <h3 className="text-lg font-medium text-gray-700 dark:text-gray-300">
+                    <h3 className="text-lg font-medium text-accent-700 dark:text-accent-300">
                       Google Calendar Link:
                     </h3>
                     <Link
@@ -238,7 +238,7 @@ export default async function EventPage({ params }: { params: Promise<{ event_id
 
                 {/* Booking URL Section */}
                 <div className="rounded-lg bg-green-50 p-4 dark:bg-green-900/20">
-                  <h3 className="text-lg font-medium text-gray-700 dark:text-gray-300">
+                  <h3 className="text-lg font-medium text-accent-700 dark:text-accent-300">
                     Book a Similar Session:
                   </h3>
                   <div className="mt-2 space-y-2">
@@ -254,7 +254,7 @@ export default async function EventPage({ params }: { params: Promise<{ event_id
                     >
                       Book New Appointment
                     </Link>
-                    <p className="text-xs text-gray-600 dark:text-gray-400">
+                    <p className="text-xs text-accent-600 dark:text-accent-400">
                       {matchingEvent.location &&
                         'Location information will be pre-filled based on this event'}
                     </p>
@@ -264,11 +264,11 @@ export default async function EventPage({ params }: { params: Promise<{ event_id
             </div>
 
             {/* Debug section showing raw JSON */}
-            <div className="rounded-lg bg-gray-100 p-6 dark:bg-gray-900">
-              <h3 className="mb-4 text-lg font-medium text-gray-700 dark:text-gray-300">
+            <div className="rounded-lg bg-surface-200 p-6 dark:bg-surface-900">
+              <h3 className="mb-4 text-lg font-medium text-accent-700 dark:text-accent-300">
                 Raw Event Data (Debug):
               </h3>
-              <pre className="overflow-auto text-xs text-gray-900 dark:text-white">
+              <pre className="overflow-auto text-xs text-accent-900 dark:text-white">
                 {JSON.stringify(matchingEvent, null, 2)}
               </pre>
             </div>
@@ -289,7 +289,7 @@ export default async function EventPage({ params }: { params: Promise<{ event_id
 
         {/* Search Results for 'massage' */}
         <div className="mt-8 rounded-lg bg-blue-50 p-6 dark:bg-blue-900/20">
-          <h2 className="mb-6 text-2xl font-bold text-gray-900 dark:text-white">
+          <h2 className="mb-6 text-2xl font-bold text-accent-900 dark:text-white">
             Events containing "massage"
           </h2>
           {massageEvents.length > 0 ? (
@@ -297,12 +297,12 @@ export default async function EventPage({ params }: { params: Promise<{ event_id
               {massageEvents.map((event, index) => (
                 <div
                   key={event.id || index}
-                  className="rounded-lg bg-white p-4 shadow-sm dark:bg-gray-800"
+                  className="rounded-lg bg-surface-50 p-4 shadow-sm dark:bg-surface-800"
                 >
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                  <h3 className="text-lg font-semibold text-accent-900 dark:text-white">
                     {event.summary || 'Untitled Event'}
                   </h3>
-                  <div className="mt-2 space-y-1 text-sm text-gray-600 dark:text-gray-400">
+                  <div className="mt-2 space-y-1 text-sm text-accent-600 dark:text-accent-400">
                     <p>
                       <strong>ID:</strong> <span className="font-mono text-xs">{event.id}</span>
                     </p>
@@ -348,7 +348,9 @@ export default async function EventPage({ params }: { params: Promise<{ event_id
               ))}
             </div>
           ) : (
-            <p className="text-gray-600 dark:text-gray-400">No events found containing "massage"</p>
+            <p className="text-accent-600 dark:text-accent-400">
+              No events found containing "massage"
+            </p>
           )}
         </div>
       </div>

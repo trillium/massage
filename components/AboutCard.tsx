@@ -35,9 +35,13 @@ const AuthorCard = () => {
           <h3 className="pt-4 pb-2 text-2xl leading-8 font-bold tracking-tight sm:text-3xl md:text-4xl">
             {author}
           </h3>
-          <div className="md:text-md text-base text-gray-500 dark:text-gray-400">{occupation}</div>
-          <div className="md:text-md text-base text-gray-500 dark:text-gray-400">{company}</div>
-          <div className="md:text-md text-base text-gray-500 dark:text-gray-400">{location}</div>
+          <div className="md:text-md text-base text-accent-500 dark:text-accent-400">
+            {occupation}
+          </div>
+          <div className="md:text-md text-base text-accent-500 dark:text-accent-400">{company}</div>
+          <div className="md:text-md text-base text-accent-500 dark:text-accent-400">
+            {location}
+          </div>
           <div className="flex space-x-3 pt-6">
             <SocialIcon kind="mail" href={`mailto:${email}`} />
             <SocialIcon kind="instagram" href={instagram} />
