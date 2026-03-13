@@ -17,7 +17,7 @@ const Sun = () => (
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 20 20"
     fill="currentColor"
-    className="group:hover:text-accent-100 h-6 w-6"
+    className="group-hover:text-accent-100 h-6 w-6"
   >
     <path
       fillRule="evenodd"
@@ -31,7 +31,7 @@ const Moon = () => (
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 20 20"
     fill="currentColor"
-    className="group:hover:text-accent-100 h-6 w-6"
+    className="group-hover:text-accent-100 h-6 w-6"
   >
     <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
   </svg>
@@ -45,7 +45,7 @@ const Monitor = () => (
     strokeWidth="2"
     strokeLinecap="round"
     strokeLinejoin="round"
-    className="group:hover:text-accent-100 h-6 w-6"
+    className="group-hover:text-accent-100 h-6 w-6"
   >
     <rect x="3" y="3" width="14" height="10" rx="2" ry="2"></rect>
     <line x1="7" y1="17" x2="13" y2="17"></line>

@@ -29,7 +29,7 @@ export default function HowItWorksSection() {
   ]
 
   return (
-    <section className="bg-gray-white dark:dark:bg-surface-950">
+    <section className="bg-surface-50 dark:bg-surface-950">
       <div className="container">
         <h2 className="mb-8 text-center text-3xl font-bold md:text-4xl dark:text-white">
           How it Works

@@ -127,7 +127,7 @@ export function CategorizedEventList({
               colorClasses={{
                 container: 'border-accent-400 bg-surface-100 dark:bg-surface-800/50',
                 button:
-                  'bg-surface-1000 hover:bg-surface-600 dark:bg-surface-600 dark:hover:bg-surface-700',
+                  'bg-surface-600 hover:bg-surface-600 dark:bg-surface-600 dark:hover:bg-surface-700',
               }}
               token={event.id ? eventTokens[event.id] : undefined}
             />

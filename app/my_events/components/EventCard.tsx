@@ -176,7 +176,7 @@ export function EventCard({
                     </button>
                     <button
                       onClick={handleCancelLocationEdit}
-                      className="rounded bg-surface-400 px-2 py-1 text-xs text-white hover:bg-surface-1000"
+                      className="rounded bg-surface-400 px-2 py-1 text-xs text-white hover:bg-surface-950"
                     >
                       Cancel
                     </button>

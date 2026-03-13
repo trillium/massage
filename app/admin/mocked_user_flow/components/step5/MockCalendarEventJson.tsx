@@ -58,7 +58,7 @@ export default function MockCalendarEventJson({
         Mock Calendar Event Object
       </h3>
       <details className="rounded bg-surface-200 dark:bg-surface-700">
-        <summary className="cursor-pointer p-3 text-sm font-medium text-accent-700 hover:bg-surface-200 dark:text-accent-300 dark:hover:bg-surface-600">
+        <summary className="cursor-pointer p-3 text-sm font-medium text-accent-700 hover:bg-surface-300 dark:text-accent-300 dark:hover:bg-surface-600">
           View Raw Event Data (Click to expand)
         </summary>
         <pre className="overflow-auto p-3 text-xs text-accent-600 dark:text-accent-400">

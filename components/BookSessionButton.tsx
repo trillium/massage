@@ -30,7 +30,7 @@ const BookSessionButton: React.FC<BookSessionButtonProps> = ({ href, title }) =>
         </svg>
       </div>
     </div>
-    <span className="text-accent-950-500 z-0 pr-2 text-xl font-bold group-hover:text-white dark:text-white">
+    <span className="text-accent-950 z-0 pr-2 text-xl font-bold group-hover:text-white dark:text-white">
       {title}
     </span>
   </Link>
