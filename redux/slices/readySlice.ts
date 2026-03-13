@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import type { PayloadAction, Slice } from '@reduxjs/toolkit'
+import type { PayloadAction, Slice, Reducer } from '@reduxjs/toolkit'
 import type { RootState } from '@/redux/store'
 
 type ObjReadyType = {
@@ -23,4 +23,4 @@ export const { setReady } = readySlice.actions
 // Other code such as selectors can use the imported `RootState` type
 export const selectReady = (state: RootState) => state.ready
 
-export default readySlice.reducer
+export default readySlice.reducer as Reducer<ObjReadyType>

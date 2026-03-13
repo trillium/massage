@@ -69,8 +69,8 @@ describe('Complete URL Parameters to Redux Workflow', () => {
         city: 'Playa Vista',
         zip: '90094',
       })
-      expect(formState.location.city).toBe('Playa Vista')
-      expect(formState.location.zip).toBe('90094')
+      expect(formState.location!.city).toBe('Playa Vista')
+      expect(formState.location!.zip).toBe('90094')
 
       // Step 5: User modifies location (e.g., adds street address)
       const updatedLocation = createLocationObject('123 Main St', 'Playa Vista', '90094')
@@ -104,8 +104,8 @@ describe('Complete URL Parameters to Redux Workflow', () => {
       // Verify state
       expect(store.getState().config.location?.city).toBe('San Diego')
       expect(store.getState().config.location?.zip).toBe('92101')
-      expect(store.getState().form.location.city).toBe('San Diego')
-      expect(store.getState().form.location.zip).toBe('92101')
+      expect(store.getState().form.location!.city).toBe('San Diego')
+      expect(store.getState().form.location!.zip).toBe('92101')
     })
 
     it('should handle workflow for all planned slug configurations', () => {
@@ -135,8 +135,8 @@ describe('Complete URL Parameters to Redux Workflow', () => {
 
         expect(configState.location?.city).toBe(city)
         expect(configState.location?.zip).toBe(zip)
-        expect(formState.location.city).toBe(city)
-        expect(formState.location.zip).toBe(zip)
+        expect(formState.location!.city).toBe(city)
+        expect(formState.location!.zip).toBe(zip)
       })
     })
   })
@@ -197,8 +197,8 @@ describe('Complete URL Parameters to Redux Workflow', () => {
       const configState = store.getState().config
       const formState = store.getState().form
 
-      expect(configState.location?.city).toBe(formState.location.city)
-      expect(configState.location?.zip).toBe(formState.location.zip)
+      expect(configState.location?.city).toBe(formState.location!.city)
+      expect(configState.location?.zip).toBe(formState.location!.zip)
     })
 
     it('should handle partial updates without breaking synchronization', () => {
@@ -231,8 +231,8 @@ describe('Complete URL Parameters to Redux Workflow', () => {
 
       expect(configState.location?.city).toBe('San Diego')
       expect(configState.location?.zip).toBe('92101')
-      expect(formState.location.city).toBe('San Diego')
-      expect(formState.location.zip).toBe('92101')
+      expect(formState.location!.city).toBe('San Diego')
+      expect(formState.location!.zip).toBe('92101')
 
       // Other form fields should be preserved
       expect(formState.firstName).toBe('John')
@@ -260,8 +260,8 @@ describe('Complete URL Parameters to Redux Workflow', () => {
         const state = store.getState()
         expect(state.config.location?.city).toBe(location.city)
         expect(state.config.location?.zip).toBe(location.zip)
-        expect(state.form.location.city).toBe(location.city)
-        expect(state.form.location.zip).toBe(location.zip)
+        expect(state.form.location!.city).toBe(location.city)
+        expect(state.form.location!.zip).toBe(location.zip)
       })
     })
 

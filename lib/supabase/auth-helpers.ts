@@ -1,20 +1,22 @@
-/**
- * Auth Helper Functions
- *
- * Convenience functions for common auth operations.
- * Use these in your components and API routes.
- */
-
 'use client'
 
 import { getSupabaseBrowserClient } from './client'
-import type { Provider } from '@supabase/supabase-js'
+import type {
+  Provider,
+  AuthOtpResponse,
+  AuthResponse,
+  OAuthResponse,
+  AuthTokenResponsePassword,
+  AuthError,
+  Session,
+  User,
+  UserResponse,
+} from '@supabase/supabase-js'
 
-/**
- * Sign in with magic link (email)
- * Sends a magic link to the user's email
- */
-export async function signInWithMagicLink(email: string, redirectTo?: string) {
+export async function signInWithMagicLink(
+  email: string,
+  redirectTo?: string
+): Promise<AuthOtpResponse> {
   const supabase = getSupabaseBrowserClient()
 
   const callbackUrl = new URL('/auth/callback/supabase', window.location.origin)
@@ -22,20 +24,18 @@ export async function signInWithMagicLink(email: string, redirectTo?: string) {
     callbackUrl.searchParams.set('next', redirectTo)
   }
 
-  const { data, error } = await supabase.auth.signInWithOtp({
+  return supabase.auth.signInWithOtp({
     email,
     options: {
       emailRedirectTo: callbackUrl.toString(),
     },
   })
-
-  return { data, error }
 }
 
-/**
- * Sign in with OAuth provider (Google, GitHub, etc.)
- */
-export async function signInWithOAuth(provider: Provider, redirectTo?: string) {
+export async function signInWithOAuth(
+  provider: Provider,
+  redirectTo?: string
+): Promise<OAuthResponse> {
   const supabase = getSupabaseBrowserClient()
 
   const callbackUrl = new URL('/auth/callback/supabase', window.location.origin)
@@ -43,62 +43,40 @@ export async function signInWithOAuth(provider: Provider, redirectTo?: string) {
     callbackUrl.searchParams.set('next', redirectTo)
   }
 
-  const { data, error } = await supabase.auth.signInWithOAuth({
+  return supabase.auth.signInWithOAuth({
     provider,
     options: {
       redirectTo: callbackUrl.toString(),
     },
   })
-
-  return { data, error }
 }
 
-/**
- * Sign in with email and password
- * Note: Requires password auth to be enabled in Supabase
- */
-export async function signInWithPassword(email: string, password: string) {
+export async function signInWithPassword(
+  email: string,
+  password: string
+): Promise<AuthTokenResponsePassword> {
   const supabase = getSupabaseBrowserClient()
-
-  const { data, error } = await supabase.auth.signInWithPassword({
-    email,
-    password,
-  })
-
-  return { data, error }
+  return supabase.auth.signInWithPassword({ email, password })
 }
 
-/**
- * Sign up with email and password
- * Note: Requires password auth to be enabled in Supabase
- */
-export async function signUpWithPassword(email: string, password: string) {
+export async function signUpWithPassword(email: string, password: string): Promise<AuthResponse> {
   const supabase = getSupabaseBrowserClient()
-
-  const { data, error } = await supabase.auth.signUp({
+  return supabase.auth.signUp({
     email,
     password,
     options: {
       emailRedirectTo: `${window.location.origin}/auth/callback/supabase`,
     },
   })
-
-  return { data, error }
 }
 
-/**
- * Sign out current user
- */
-export async function signOut() {
+export async function signOut(): Promise<{ error: AuthError | null }> {
   const supabase = getSupabaseBrowserClient()
   const { error } = await supabase.auth.signOut()
   return { error }
 }
 
-/**
- * Get current session (client-side)
- */
-export async function getClientSession() {
+export async function getClientSession(): Promise<Session | null> {
   const supabase = getSupabaseBrowserClient()
   const {
     data: { session },
@@ -106,10 +84,7 @@ export async function getClientSession() {
   return session
 }
 
-/**
- * Get current user (client-side)
- */
-export async function getClientUser() {
+export async function getClientUser(): Promise<User | null> {
   const supabase = getSupabaseBrowserClient()
   const {
     data: { user },
@@ -117,9 +92,6 @@ export async function getClientUser() {
   return user
 }
 
-/**
- * Get current user's profile (client-side)
- */
 export async function getClientProfile() {
   const supabase = getSupabaseBrowserClient()
   const user = await getClientUser()
@@ -133,18 +105,11 @@ export async function getClientProfile() {
   return profile
 }
 
-/**
- * Check if current user is admin (client-side)
- */
 export async function isClientAdmin() {
   const profile = await getClientProfile()
   return profile?.role === 'admin'
 }
 
-/**
- * Listen to auth state changes
- * Returns unsubscribe function
- */
 export function onAuthStateChange(callback: (event: string, session: any) => void): () => void {
   const supabase = getSupabaseBrowserClient()
 
@@ -155,31 +120,21 @@ export function onAuthStateChange(callback: (event: string, session: any) => voi
   return () => subscription.unsubscribe()
 }
 
-/**
- * Update user email
- */
-export async function updateEmail(newEmail: string) {
+export async function updateEmail(newEmail: string): Promise<UserResponse> {
   const supabase = getSupabaseBrowserClient()
-  const { data, error } = await supabase.auth.updateUser({ email: newEmail })
-  return { data, error }
+  return supabase.auth.updateUser({ email: newEmail })
 }
 
-/**
- * Update user password
- */
-export async function updatePassword(newPassword: string) {
+export async function updatePassword(newPassword: string): Promise<UserResponse> {
   const supabase = getSupabaseBrowserClient()
-  const { data, error } = await supabase.auth.updateUser({ password: newPassword })
-  return { data, error }
+  return supabase.auth.updateUser({ password: newPassword })
 }
 
-/**
- * Send password reset email
- */
-export async function resetPassword(email: string) {
+export async function resetPassword(
+  email: string
+): Promise<{ data: {} | null; error: AuthError | null }> {
   const supabase = getSupabaseBrowserClient()
-  const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
+  return supabase.auth.resetPasswordForEmail(email, {
     redirectTo: `${window.location.origin}/auth/reset-password`,
   })
-  return { data, error }
 }

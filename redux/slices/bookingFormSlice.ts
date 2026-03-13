@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import type { PayloadAction, Slice } from '@reduxjs/toolkit'
+import type { PayloadAction, Slice, Reducer } from '@reduxjs/toolkit'
 import type { RootState } from '@/redux/store'
 import type { BookingFormData, LocationObject } from '@/lib/types'
 
@@ -36,4 +36,4 @@ export const { setBookingForm } = bookingFormSlice.actions
 
 export const selectBookingFormData = (state: RootState) => state.form
 
-export default bookingFormSlice.reducer
+export default bookingFormSlice.reducer as Reducer<BookingFormData>

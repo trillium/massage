@@ -45,8 +45,8 @@ describe('URL Parameters vs Server Config Priority System', () => {
         city: 'URL City',
         zip: '90210',
       })
-      expect(state.form.location.city).toBe('URL City')
-      expect(state.form.location.zip).toBe('90210')
+      expect(state.form.location!.city).toBe('URL City')
+      expect(state.form.location!.zip).toBe('90210')
     })
 
     it('should override URL parameters with server configuration (highest priority)', () => {
@@ -60,7 +60,7 @@ describe('URL Parameters vs Server Config Priority System', () => {
       // Verify URL params were applied
       let state = store.getState()
       expect(state.config.location?.city).toBe('URL City')
-      expect(state.form.location.city).toBe('URL City')
+      expect(state.form.location!.city).toBe('URL City')
 
       // Step 2: Apply server configuration (higher priority - should override)
       const serverLocation: LocationObject = {
@@ -75,7 +75,7 @@ describe('URL Parameters vs Server Config Priority System', () => {
       // Verify server config overrode URL params
       state = store.getState()
       expect(state.config.location).toEqual(serverLocation)
-      expect(state.form.location).toEqual(serverLocation)
+      expect(state.form.location!).toEqual(serverLocation)
 
       // URL parameters should be completely overridden
       expect(state.config.location?.city).toBe('Server City')
@@ -115,7 +115,7 @@ describe('URL Parameters vs Server Config Priority System', () => {
       // Final state should be entirely from server config
       state = store.getState()
       expect(state.config.location).toEqual(serverLocation)
-      expect(state.form.location).toEqual(serverLocation)
+      expect(state.form.location!).toEqual(serverLocation)
 
       // No traces of URL parameters should remain
       expect(state.config.location?.city).toBe('Playa Vista')

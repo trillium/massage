@@ -248,8 +248,3 @@ export function InitialUrlUtility(props: {
     </>
   )
 }
-
-// URL updating is now built into AvailabilityUtility, but keeping for compatibility
-export function UrlUpdateUtility() {
-  return <UrlSynchronizationUtility />
-}

@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import type { PayloadAction, Slice } from '@reduxjs/toolkit'
+import type { PayloadAction, Slice, Reducer } from '@reduxjs/toolkit'
 import type { RootState } from '@/redux/store'
 import type {
   DiscountType,
@@ -124,4 +124,4 @@ export const {
 // Other code such as selectors can use the imported `RootState` type
 export const selectConfig = (state: RootState) => state.config
 
-export default configSlice.reducer
+export default configSlice.reducer as Reducer<SlugConfigurationType>

@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import type { PayloadAction, Slice } from '@reduxjs/toolkit'
+import type { PayloadAction, Slice, Reducer } from '@reduxjs/toolkit'
 import type { RootState } from '@/redux/store'
 import type { IntervalType, StringDateTimeIntervalAndLocation } from 'lib/types'
 import Day from 'lib/day'
@@ -78,4 +78,4 @@ export const {
 // Other code such as selectors can use the imported `RootState` type
 export const selectAvailability = (state: RootState) => state.availability
 
-export default availabilitySlice.reducer
+export default availabilitySlice.reducer as Reducer<AvailabilityState>
