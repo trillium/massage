@@ -25,7 +25,7 @@ export default function StyledBookButton({
       gradientFrom: 'group-hover:from-primary-400',
       gradientVia: 'group-hover:via-primary-500',
       gradientTo: 'group-hover:to-primary-500',
-      text: 'text-black-500 dark:text-white',
+      text: 'text-accent-950-500 dark:text-white',
       decoration: 'decoration-primary-500 hover:decoration-primary-600',
     },
   }

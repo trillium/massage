@@ -5,15 +5,15 @@ import { formatDateTime } from './formatDateTime'
 
 export function QueryGroupCard({ group }: { group: QueryGroup }) {
   return (
-    <div className="overflow-hidden rounded-lg bg-white shadow dark:bg-gray-800">
-      <div className="bg-gray-50 px-6 py-4 dark:bg-gray-700">
+    <div className="overflow-hidden rounded-lg bg-surface-50 shadow dark:bg-surface-800">
+      <div className="bg-surface-100 px-6 py-4 dark:bg-surface-700">
         <div className="flex items-center justify-between">
           <div>
-            <h3 className="text-lg font-medium text-gray-900 dark:text-white">
+            <h3 className="text-lg font-medium text-accent-900 dark:text-white">
               Query: <code className="text-blue-600 dark:text-blue-400">{group.query}</code>
             </h3>
             <div className="mt-2">
-              <p className="text-sm text-gray-600 dark:text-gray-300">
+              <p className="text-sm text-accent-600 dark:text-accent-300">
                 Used by {group.slugs.length} slug{group.slugs.length !== 1 ? 's' : ''}:
               </p>
               <div className="mt-1 flex flex-wrap gap-2">
@@ -29,21 +29,21 @@ export function QueryGroupCard({ group }: { group: QueryGroup }) {
               </div>
             </div>
             <div className="mt-3 space-y-1">
-              <p className="text-xs text-gray-500 dark:text-gray-400">
+              <p className="text-xs text-accent-500 dark:text-accent-400">
                 Search Query:{' '}
-                <code className="bg-gray-100 px-1 dark:bg-gray-600">__EVENT__ (generic)</code>
+                <code className="bg-surface-200 px-1 dark:bg-surface-600">__EVENT__ (generic)</code>
               </p>
-              <p className="text-xs text-gray-500 dark:text-gray-400">
+              <p className="text-xs text-accent-500 dark:text-accent-400">
                 Local Filter:{' '}
                 <code className="bg-blue-100 px-1 dark:bg-blue-800">{group.searchQuery}</code>
               </p>
-              <p className="text-xs text-gray-500 dark:text-gray-400">
+              <p className="text-xs text-accent-500 dark:text-accent-400">
                 Container Pattern:{' '}
                 <code className="bg-green-100 px-1 dark:bg-green-800">
                   {group.eventContainerString}
                 </code>
               </p>
-              <p className="text-xs text-gray-500 dark:text-gray-400">
+              <p className="text-xs text-accent-500 dark:text-accent-400">
                 Member Pattern:{' '}
                 <code className="bg-orange-100 px-1 dark:bg-orange-800">
                   {group.eventMemberString}
@@ -56,19 +56,19 @@ export function QueryGroupCard({ group }: { group: QueryGroup }) {
               <div className="font-semibold text-green-600 dark:text-green-400">
                 {group.containers.length}
               </div>
-              <div className="text-gray-500 dark:text-gray-400">Containers</div>
+              <div className="text-accent-500 dark:text-accent-400">Containers</div>
             </div>
             <div className="text-center">
               <div className="font-semibold text-orange-600 dark:text-orange-400">
                 {group.members.length}
               </div>
-              <div className="text-gray-500 dark:text-gray-400">Members</div>
+              <div className="text-accent-500 dark:text-accent-400">Members</div>
             </div>
             <div className="text-center">
-              <div className="font-semibold text-gray-600 dark:text-gray-400">
+              <div className="font-semibold text-accent-600 dark:text-accent-400">
                 {group.allEvents.length}
               </div>
-              <div className="text-gray-500 dark:text-gray-400">Total Events</div>
+              <div className="text-accent-500 dark:text-accent-400">Total Events</div>
             </div>
           </div>
         </div>

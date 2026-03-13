@@ -32,10 +32,10 @@ export default function EmailMockComponent({
       : email.body
 
   return (
-    <div className="rounded border border-gray-300 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900">
-      <div className="mb-3 border-b border-gray-200 pb-2 dark:border-gray-700">
-        <div className="text-sm text-gray-600 dark:text-gray-300">Subject:</div>
-        <div className="font-medium text-gray-800 dark:text-gray-100">{email.subject}</div>
+    <div className="rounded border border-accent-300 bg-surface-100 p-4 dark:border-accent-700 dark:bg-surface-900">
+      <div className="mb-3 border-b border-accent-200 pb-2 dark:border-accent-700">
+        <div className="text-sm text-accent-600 dark:text-accent-300">Subject:</div>
+        <div className="font-medium text-accent-800 dark:text-accent-100">{email.subject}</div>
       </div>
 
       <div className="email-body prose prose-sm dark:prose-invert max-w-none">
@@ -57,12 +57,12 @@ export default function EmailMockComponent({
           }}
           role="button"
           tabIndex={0}
-          className={`[&_a] [&_a]:text-blue-600 [&_a]:underline hover:[&_a]:text-blue-700 dark:[&_a]:text-blue-400 dark:hover:[&_a]:text-blue-300 [&_div]:text-gray-800 dark:[&_div]:text-gray-200 [&_p]:mb-2`}
+          className={`[&_a] [&_a]:text-blue-600 [&_a]:underline hover:[&_a]:text-blue-700 dark:[&_a]:text-blue-400 dark:hover:[&_a]:text-blue-300 [&_div]:text-accent-800 dark:[&_div]:text-accent-200 [&_p]:mb-2`}
         />
       </div>
 
       {approveUrl && onApprovalClick && (
-        <div className="mt-4 border-t border-gray-200 pt-3 dark:border-gray-700">
+        <div className="mt-4 border-t border-accent-200 pt-3 dark:border-accent-700">
           <button
             onClick={handleApprovalClick}
             className="rounded bg-blue-600 px-3 py-1 text-sm font-medium text-white hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800"

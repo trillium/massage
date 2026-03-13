@@ -170,15 +170,15 @@ export default function DriveTimeCalculator({ currentEvent }: DriveTimeCalculato
   }
 
   return (
-    <div className="focus-within:border-primary-500 dark:focus-within:border-primary-500 rounded-lg border-2 border-gray-300 bg-slate-100 p-6 dark:border-gray-700 dark:bg-slate-800">
+    <div className="focus-within:border-primary-500 dark:focus-within:border-primary-500 rounded-lg border-2 border-accent-300 bg-surface-200 p-6 dark:border-accent-700 dark:bg-surface-800">
       <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
-        <h3 className="text-base leading-6 font-semibold text-gray-900 dark:text-gray-100">
+        <h3 className="text-base leading-6 font-semibold text-accent-900 dark:text-accent-100">
           Want to be next? Calculate Drive Time
         </h3>
         <button
           onClick={handleUseDeviceLocation}
           disabled={isGettingLocation}
-          className="bg-primary-600 hover:bg-primary-700 focus:ring-primary-500 dark:bg-primary-500 dark:hover:bg-primary-600 rounded-md px-4 py-2 text-sm font-medium whitespace-nowrap text-white shadow-sm focus:ring-2 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:bg-gray-400 disabled:hover:bg-gray-400"
+          className="bg-primary-600 hover:bg-primary-700 focus:ring-primary-500 dark:bg-primary-500 dark:hover:bg-primary-600 rounded-md px-4 py-2 text-sm font-medium whitespace-nowrap text-white shadow-sm focus:ring-2 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:bg-surface-400 disabled:hover:bg-surface-400"
         >
           {isGettingLocation ? 'Getting Location...' : 'Use Device Location'}
         </button>
@@ -222,7 +222,7 @@ export default function DriveTimeCalculator({ currentEvent }: DriveTimeCalculato
             !location.zip ||
             !!validationErrors.zip)
         }
-        className="bg-primary-600 hover:bg-primary-700 focus:ring-primary-500 dark:bg-primary-500 dark:hover:bg-primary-600 mt-4 rounded-md px-4 py-2 text-sm font-medium text-white shadow-sm focus:ring-2 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:bg-gray-400 disabled:hover:bg-gray-400"
+        className="bg-primary-600 hover:bg-primary-700 focus:ring-primary-500 dark:bg-primary-500 dark:hover:bg-primary-600 mt-4 rounded-md px-4 py-2 text-sm font-medium text-white shadow-sm focus:ring-2 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:bg-surface-400 disabled:hover:bg-surface-400"
       >
         {deviceCoordinates
           ? 'Clear and use manual address'
@@ -234,14 +234,14 @@ export default function DriveTimeCalculator({ currentEvent }: DriveTimeCalculato
         <div
           className={
             driveTimeIsStale
-              ? 'mt-4 rounded-md border-2 border-gray-300 bg-gray-100 p-3 dark:border-gray-700 dark:bg-gray-900/50'
+              ? 'mt-4 rounded-md border-2 border-accent-300 bg-surface-200 p-3 dark:border-accent-700 dark:bg-surface-900/50'
               : 'mt-4 rounded-md border-2 border-green-200 bg-green-50 p-3 dark:border-green-800 dark:bg-green-950/50'
           }
         >
           <p
             className={
               driveTimeIsStale
-                ? 'text-sm text-gray-600 dark:text-gray-400'
+                ? 'text-sm text-accent-600 dark:text-accent-400'
                 : 'text-sm text-green-800 dark:text-green-400'
             }
           >

@@ -69,73 +69,75 @@ export default function EditForm({ eventId, token, initialValues }: EditFormProp
     <>
       <button
         onClick={() => setEditing(!editing)}
-        className="rounded-lg border border-gray-300 px-5 py-2.5 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-800"
+        className="rounded-lg border border-accent-300 px-5 py-2.5 text-sm font-medium text-accent-700 transition-colors hover:bg-surface-100 dark:border-accent-600 dark:text-accent-300 dark:hover:bg-surface-800"
       >
         {editing ? 'Close' : 'Edit Info'}
       </button>
       {editing && (
-        <div className="mt-4 basis-full space-y-4 rounded-2xl border-2 border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+        <div className="mt-4 basis-full space-y-4 rounded-2xl border-2 border-accent-200 bg-surface-50 p-6 dark:border-accent-700 dark:bg-surface-800">
           <div className="grid gap-4 sm:grid-cols-2">
             <label className="block">
-              <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+              <span className="text-sm font-medium text-accent-700 dark:text-accent-300">
                 First Name
               </span>
               <input
                 type="text"
                 value={values.firstName}
                 onChange={(e) => setValues({ ...values, firstName: e.target.value })}
-                className="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                className="mt-1 block w-full rounded-lg border border-accent-300 px-3 py-2 text-accent-900 dark:border-accent-600 dark:bg-surface-700 dark:text-white"
               />
             </label>
             <label className="block">
-              <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+              <span className="text-sm font-medium text-accent-700 dark:text-accent-300">
                 Last Name
               </span>
               <input
                 type="text"
                 value={values.lastName}
                 onChange={(e) => setValues({ ...values, lastName: e.target.value })}
-                className="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                className="mt-1 block w-full rounded-lg border border-accent-300 px-3 py-2 text-accent-900 dark:border-accent-600 dark:bg-surface-700 dark:text-white"
               />
             </label>
           </div>
 
           <label className="block">
-            <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Phone</span>
+            <span className="text-sm font-medium text-accent-700 dark:text-accent-300">Phone</span>
             <input
               type="tel"
               value={values.phone}
               onChange={(e) => setValues({ ...values, phone: e.target.value })}
-              className="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+              className="mt-1 block w-full rounded-lg border border-accent-300 px-3 py-2 text-accent-900 dark:border-accent-600 dark:bg-surface-700 dark:text-white"
             />
           </label>
 
           <label className="block">
-            <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Street</span>
+            <span className="text-sm font-medium text-accent-700 dark:text-accent-300">Street</span>
             <input
               type="text"
               value={values.location.street}
               onChange={(e) =>
                 setValues({ ...values, location: { ...values.location, street: e.target.value } })
               }
-              className="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+              className="mt-1 block w-full rounded-lg border border-accent-300 px-3 py-2 text-accent-900 dark:border-accent-600 dark:bg-surface-700 dark:text-white"
             />
           </label>
 
           <div className="grid gap-4 sm:grid-cols-2">
             <label className="block">
-              <span className="text-sm font-medium text-gray-700 dark:text-gray-300">City</span>
+              <span className="text-sm font-medium text-accent-700 dark:text-accent-300">City</span>
               <input
                 type="text"
                 value={values.location.city}
                 onChange={(e) =>
                   setValues({ ...values, location: { ...values.location, city: e.target.value } })
                 }
-                className="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                className="mt-1 block w-full rounded-lg border border-accent-300 px-3 py-2 text-accent-900 dark:border-accent-600 dark:bg-surface-700 dark:text-white"
               />
             </label>
             <label className="block">
-              <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Zip Code</span>
+              <span className="text-sm font-medium text-accent-700 dark:text-accent-300">
+                Zip Code
+              </span>
               <input
                 type="text"
                 inputMode="numeric"
@@ -144,7 +146,7 @@ export default function EditForm({ eventId, token, initialValues }: EditFormProp
                 onChange={(e) =>
                   setValues({ ...values, location: { ...values.location, zip: e.target.value } })
                 }
-                className="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                className="mt-1 block w-full rounded-lg border border-accent-300 px-3 py-2 text-accent-900 dark:border-accent-600 dark:bg-surface-700 dark:text-white"
               />
             </label>
           </div>
@@ -166,7 +168,7 @@ export default function EditForm({ eventId, token, initialValues }: EditFormProp
                 setError(null)
               }}
               disabled={loading}
-              className="rounded-lg border border-gray-300 px-5 py-2.5 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-50 dark:border-gray-600 dark:text-gray-400 dark:hover:bg-gray-800"
+              className="rounded-lg border border-accent-300 px-5 py-2.5 text-sm font-medium text-accent-600 transition-colors hover:bg-surface-100 dark:border-accent-600 dark:text-accent-400 dark:hover:bg-surface-800"
             >
               Cancel
             </button>

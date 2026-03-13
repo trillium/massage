@@ -73,10 +73,10 @@ export default function Confirmation() {
         <h1 className="text-primary-500 dark:text-primary-400 text-3xl font-bold tracking-tight sm:text-5xl">
           Thanks!
         </h1>
-        <p className="mt-6 text-xl font-medium text-gray-800 dark:text-gray-200">
+        <p className="mt-6 text-xl font-medium text-accent-800 dark:text-accent-200">
           Your request has been received!
         </p>
-        <p className="mt-6 text-xl font-medium text-gray-800 dark:text-gray-200">
+        <p className="mt-6 text-xl font-medium text-accent-800 dark:text-accent-200">
           I&apos;ll review the appointment and get back to you shortly!
         </p>
       </div>

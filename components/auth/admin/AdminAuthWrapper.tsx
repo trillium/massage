@@ -13,7 +13,7 @@ function AdminAuthFallback() {
     <div className="flex min-h-screen items-center justify-center">
       <div className="text-center">
         <Spinner />
-        <p className="mt-4 text-gray-600 dark:text-gray-400">Loading admin panel...</p>
+        <p className="mt-4 text-accent-600 dark:text-accent-400">Loading admin panel...</p>
       </div>
     </div>
   )

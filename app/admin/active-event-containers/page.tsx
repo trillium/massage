@@ -20,7 +20,7 @@ export default async function ActiveEventContainersPage() {
     <SectionContainer>
       <div className="mx-auto max-w-6xl px-4 py-8">
         <div className="mb-8">
-          <h1 className="mb-4 text-3xl font-bold text-gray-900 dark:text-white">
+          <h1 className="mb-4 text-3xl font-bold text-accent-900 dark:text-white">
             Active Event Containers
           </h1>
           <div className="rounded-lg bg-blue-50 p-4 dark:bg-blue-900/20">
@@ -54,11 +54,11 @@ export default async function ActiveEventContainersPage() {
           ))}
 
           {queryGroups.length === 0 && (
-            <div className="rounded-lg bg-gray-50 p-8 text-center dark:bg-gray-800">
-              <h3 className="mb-2 text-lg font-medium text-gray-900 dark:text-white">
+            <div className="rounded-lg bg-surface-100 p-8 text-center dark:bg-surface-800">
+              <h3 className="mb-2 text-lg font-medium text-accent-900 dark:text-white">
                 No Event Containers Found
               </h3>
-              <p className="text-gray-600 dark:text-gray-400">
+              <p className="text-accent-600 dark:text-accent-400">
                 No slug configurations with eventContainer property or scheduled-site type were
                 found.
               </p>
@@ -66,11 +66,11 @@ export default async function ActiveEventContainersPage() {
           )}
         </div>
 
-        <div className="mt-8 rounded-lg bg-gray-50 p-6 dark:bg-gray-800">
-          <h3 className="mb-4 text-lg font-medium text-gray-900 dark:text-white">
+        <div className="mt-8 rounded-lg bg-surface-100 p-6 dark:bg-surface-800">
+          <h3 className="mb-4 text-lg font-medium text-accent-900 dark:text-white">
             How Event Containers Work
           </h3>
-          <div className="space-y-3 text-sm text-gray-600 dark:text-gray-400">
+          <div className="space-y-3 text-sm text-accent-600 dark:text-accent-400">
             <p>
               <strong className="text-green-600 dark:text-green-400">Container Events:</strong>{' '}
               Define available time slots. Create Google Calendar events with names containing{' '}
@@ -82,8 +82,9 @@ export default async function ActiveEventContainersPage() {
               users book appointments, with names containing <code>QUERY__EVENT__MEMBER__</code>
             </p>
             <p>
-              <strong className="text-gray-700 dark:text-gray-300">Availability:</strong> The system
-              generates time slots within container events that don't overlap with member events.
+              <strong className="text-accent-700 dark:text-accent-300">Availability:</strong> The
+              system generates time slots within container events that don't overlap with member
+              events.
             </p>
           </div>
         </div>

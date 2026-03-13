@@ -11,7 +11,7 @@ import { siteConfig } from '@/lib/siteConfig'
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-900 p-4">
+    <footer className="bg-surface-900 p-4">
       <div
         className={clsx(
           'items-start gap-8',
@@ -64,7 +64,7 @@ function ListItem({
     <li>
       <Link
         href={href}
-        className={clsx(positionClasses, 'text-gray-400 transition-colors hover:text-white')}
+        className={clsx(positionClasses, 'text-accent-400 transition-colors hover:text-white')}
       >
         {text}
       </Link>
@@ -117,7 +117,7 @@ function Socials() {
 function CopyrightNotice() {
   return (
     <div className="mt-8 flex flex-col items-center">
-      <div className="mb-2 flex flex-row flex-wrap items-center justify-center space-x-2 text-sm text-gray-500 dark:text-gray-400">
+      <div className="mb-2 flex flex-row flex-wrap items-center justify-center space-x-2 text-sm text-accent-500 dark:text-accent-400">
         <div className="whitespace-nowrap">{siteMetadata.author}</div>
         <div>{` • `}</div>
         <div className="whitespace-nowrap">{`© ${new Date().getFullYear()}`}</div>
@@ -126,7 +126,7 @@ function CopyrightNotice() {
           {siteMetadata.title}
         </Link>
       </div>
-      <div className="mb-8 text-sm text-gray-500 dark:text-gray-400"></div>
+      <div className="mb-8 text-sm text-accent-500 dark:text-accent-400"></div>
     </div>
   )
 }
@@ -154,7 +154,7 @@ function LogoAndBlurb({ displayClasses }: { displayClasses: string }) {
           </div>
         </div>
       </Link>
-      <p className="text-gray-400">{siteConfig.content.footer.blurb}</p>
+      <p className="text-accent-400">{siteConfig.content.footer.blurb}</p>
       <Socials />
     </div>
   )
@@ -172,7 +172,7 @@ function ContactItem({
   return (
     <li className="flex items-start gap-3 pl-4">
       <span className={clsx('mt-1 text-lg text-teal-400', iconClass)}>{icon}</span>
-      <span className="text-base text-gray-400">{children}</span>
+      <span className="text-base text-accent-400">{children}</span>
     </li>
   )
 }

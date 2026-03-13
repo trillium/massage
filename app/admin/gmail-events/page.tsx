@@ -172,7 +172,7 @@ export default function GmailTestPage() {
   return (
     <div className="mx-auto flex max-w-6xl flex-col gap-3 p-3 sm:gap-4 sm:p-4 lg:p-6">
       <div>
-        <h1 className="mb-4 text-2xl font-bold text-gray-900 sm:text-3xl dark:text-gray-100">
+        <h1 className="mb-4 text-2xl font-bold text-accent-900 sm:text-3xl dark:text-accent-100">
           Gmail Soothe Booking Search
         </h1>
 
@@ -324,10 +324,10 @@ function BookingItem({
   return (
     <button
       className={clsx(
-        'relative rounded-lg border-2 bg-white p-3 shadow-sm transition-all hover:shadow-md sm:p-4 dark:bg-gray-800',
+        'relative rounded-lg border-2 bg-surface-50 p-3 shadow-sm transition-all hover:shadow-md sm:p-4 dark:bg-surface-800',
         {
           'border-primary-500 dark:border-primary-500 ring-primary-500/20 ring-2': active,
-          'border-gray-200 dark:border-gray-700': !active,
+          'border-accent-200 dark:border-accent-700': !active,
         }
       )}
       onClick={() => setActive(booking)}
@@ -335,7 +335,7 @@ function BookingItem({
       <div className="space-y-2 sm:space-y-3">
         {booking.clientName && (
           <div>
-            <p className="truncate text-sm font-semibold text-gray-900 sm:text-base dark:text-gray-100">
+            <p className="truncate text-sm font-semibold text-accent-900 sm:text-base dark:text-accent-100">
               {booking.clientName}
             </p>
           </div>
@@ -343,7 +343,7 @@ function BookingItem({
 
         {booking.sessionType && (
           <div>
-            <p className="text-sm text-gray-900 dark:text-gray-100">
+            <p className="text-sm text-accent-900 dark:text-accent-100">
               {booking.duration && `${booking.duration}m - `}
               {booking.sessionType}
               {booking.isCouples && (
@@ -357,7 +357,7 @@ function BookingItem({
 
         {booking.location && (
           <div>
-            <p className="line-clamp-2 text-xs whitespace-pre-line text-gray-900 sm:text-sm dark:text-gray-100">
+            <p className="line-clamp-2 text-xs whitespace-pre-line text-accent-900 sm:text-sm dark:text-accent-100">
               {booking.location}
             </p>
           </div>
@@ -366,14 +366,14 @@ function BookingItem({
         {(booking.payout || booking.tip) && (
           <div>
             <div className="flex flex-wrap gap-1 text-xs sm:gap-2 sm:text-sm">
-              <span className="font-semibold text-gray-900 dark:text-gray-100">
+              <span className="font-semibold text-accent-900 dark:text-accent-100">
                 Total: ${parseInt(booking.payout || '0', 10) + parseInt(booking.tip || '0', 10)}
               </span>
-              <span className="font-semibold text-gray-900 dark:text-gray-100">-</span>
-              <span className="font-semibold text-gray-900 dark:text-gray-100">
+              <span className="font-semibold text-accent-900 dark:text-accent-100">-</span>
+              <span className="font-semibold text-accent-900 dark:text-accent-100">
                 ${booking.payout}
               </span>
-              <span className="font-semibold text-gray-900 dark:text-gray-100">+</span>
+              <span className="font-semibold text-accent-900 dark:text-accent-100">+</span>
               <span className="text-green-600 dark:text-green-400">${String(booking.tip)}</span>
             </div>
           </div>
@@ -381,7 +381,7 @@ function BookingItem({
 
         {booking.notes && (
           <div>
-            <p className="line-clamp-2 text-xs text-gray-900 sm:text-sm dark:text-gray-100">
+            <p className="line-clamp-2 text-xs text-accent-900 sm:text-sm dark:text-accent-100">
               {booking.notes}
             </p>
           </div>
@@ -527,7 +527,7 @@ function CurrentSelection(props: {
                 </p>
               </div>
               <button
-                className="bg-primary-500 border-primary-600 w-full cursor-pointer rounded-md border-2 p-2 text-xs font-semibold disabled:cursor-not-allowed disabled:bg-gray-300 sm:w-auto sm:text-sm"
+                className="bg-primary-500 border-primary-600 w-full cursor-pointer rounded-md border-2 p-2 text-xs font-semibold disabled:cursor-not-allowed disabled:bg-surface-300 sm:w-auto sm:text-sm"
                 onClick={handleAppointmentCreation}
                 disabled={loading}
               >

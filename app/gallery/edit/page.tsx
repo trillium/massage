@@ -171,7 +171,7 @@ export default function Page() {
 
   return (
     <SectionContainer>
-      <div className="mb-4 flex items-center gap-4 text-sm text-gray-500">
+      <div className="mb-4 flex items-center gap-4 text-sm text-accent-500">
         <span>
           {saving ? 'Saving...' : `${visibleImages.length} visible, ${hidden.size} hidden`}
         </span>
@@ -182,7 +182,7 @@ export default function Page() {
               setHidden(new Set())
               save(images, new Set())
             }}
-            className="rounded bg-gray-200 px-2 py-1 text-xs dark:bg-gray-700"
+            className="rounded bg-surface-200 px-2 py-1 text-xs dark:bg-surface-700"
           >
             Show all
           </button>
@@ -192,7 +192,7 @@ export default function Page() {
         {visibleImages.map((image, index) => (
           <div
             key={image.src}
-            className="relative overflow-hidden rounded-lg border-2 border-gray-200 dark:border-gray-700"
+            className="relative overflow-hidden rounded-lg border-2 border-accent-200 dark:border-accent-700"
           >
             <Image
               src={image.src}

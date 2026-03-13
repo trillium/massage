@@ -3,7 +3,7 @@ import { FaCheck, FaTimes, FaStar } from 'react-icons/fa'
 import { siteConfig } from '@/lib/siteConfig'
 
 const Check = () => <FaCheck className="text-lg text-emerald-600 dark:text-emerald-400" />
-const Cross = () => <FaTimes className="text-lg text-gray-300 dark:text-gray-600" />
+const Cross = () => <FaTimes className="text-lg text-accent-300 dark:text-accent-600" />
 const Soon = () => (
   <span className="text-xs font-medium text-amber-600 dark:text-amber-400">Soon</span>
 )
@@ -116,7 +116,7 @@ const roadmap = [
 ]
 
 const cellBase = 'px-2 py-2 text-sm'
-const headerCell = `${cellBase} text-left font-medium text-gray-500 dark:text-gray-400`
+const headerCell = `${cellBase} text-left font-medium text-accent-500 dark:text-accent-400`
 const CellIcon = ({ v }: { v: CellValue }) =>
   v === 'yes' ? <Check /> : v === 'soon' ? <Soon /> : <Cross />
 
@@ -128,31 +128,33 @@ export default function Page() {
           <p className="mb-2 text-sm font-semibold tracking-widest text-primary-600 uppercase dark:text-primary-400">
             Platform Comparison
           </p>
-          <h1 className="mb-4 text-4xl font-bold tracking-tight text-gray-900 dark:text-gray-100">
+          <h1 className="mb-4 text-4xl font-bold tracking-tight text-accent-900 dark:text-accent-100">
             How We Compare
           </h1>
-          <p className="mx-auto max-w-2xl text-lg text-gray-600 dark:text-gray-400">
+          <p className="mx-auto max-w-2xl text-lg text-accent-600 dark:text-accent-400">
             An honest look at where we lead, where we&apos;re catching up, and why it matters.
           </p>
         </div>
 
-        <h2 className="mb-4 text-2xl font-bold text-gray-900 dark:text-gray-100">Where We Lead</h2>
+        <h2 className="mb-4 text-2xl font-bold text-accent-900 dark:text-accent-100">
+          Where We Lead
+        </h2>
         <div className="mb-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {advantages.map((a) => (
             <div
               key={a.title}
-              className="rounded-lg border border-gray-200 p-4 dark:border-gray-700"
+              className="rounded-lg border border-accent-200 p-4 dark:border-accent-700"
             >
-              <h3 className="mb-1 font-semibold text-gray-900 dark:text-gray-100">{a.title}</h3>
-              <p className="text-sm text-gray-600 dark:text-gray-400">{a.desc}</p>
+              <h3 className="mb-1 font-semibold text-accent-900 dark:text-accent-100">{a.title}</h3>
+              <p className="text-sm text-accent-600 dark:text-accent-400">{a.desc}</p>
             </div>
           ))}
         </div>
 
-        <h2 className="mb-4 text-2xl font-bold text-gray-900 dark:text-gray-100">
+        <h2 className="mb-4 text-2xl font-bold text-accent-900 dark:text-accent-100">
           Where We&apos;re Catching Up
         </h2>
-        <p className="mb-4 text-sm text-gray-600 dark:text-gray-400">
+        <p className="mb-4 text-sm text-accent-600 dark:text-accent-400">
           We&apos;re a powerful scheduling engine — but scheduling is only one piece. Here&apos;s
           what&apos;s on our roadmap.
         </p>
@@ -162,21 +164,21 @@ export default function Page() {
               key={r.feature}
               className="rounded-lg border border-amber-200 bg-amber-50/50 p-4 dark:border-amber-800 dark:bg-amber-950/20"
             >
-              <h3 className="mb-1 font-semibold text-gray-900 dark:text-gray-100">
+              <h3 className="mb-1 font-semibold text-accent-900 dark:text-accent-100">
                 <Soon /> <span className="ml-1">{r.feature}</span>
               </h3>
-              <p className="text-sm text-gray-600 dark:text-gray-400">{r.desc}</p>
+              <p className="text-sm text-accent-600 dark:text-accent-400">{r.desc}</p>
             </div>
           ))}
         </div>
 
-        <h2 className="mb-4 text-2xl font-bold text-gray-900 dark:text-gray-100">
+        <h2 className="mb-4 text-2xl font-bold text-accent-900 dark:text-accent-100">
           Full Feature Grid
         </h2>
         <div className="-mx-4 overflow-x-auto sm:mx-0">
           <table className="w-full min-w-[720px] border-collapse text-left">
             <thead>
-              <tr className="border-b border-gray-200 dark:border-gray-700">
+              <tr className="border-b border-accent-200 dark:border-accent-700">
                 <th className={headerCell}>Platform</th>
                 <th className={headerCell}>Price</th>
                 {featureLabels.map((f) => (
@@ -193,17 +195,19 @@ export default function Page() {
                 const rowClass = isUs
                   ? 'bg-primary-50/60 dark:bg-primary-950/30 font-medium'
                   : i % 2 === 1
-                    ? 'bg-gray-50/50 dark:bg-gray-800/30'
+                    ? 'bg-surface-100/50 dark:bg-surface-800/30'
                     : ''
                 return (
                   <tr
                     key={p.name}
-                    className={`border-b border-gray-100 dark:border-gray-800 ${rowClass}`}
+                    className={`border-b border-accent-100 dark:border-accent-800 ${rowClass}`}
                   >
-                    <td className={`${cellBase} font-medium text-gray-900 dark:text-gray-100`}>
+                    <td className={`${cellBase} font-medium text-accent-900 dark:text-accent-100`}>
                       {isUs && <Star />} {p.name}
                     </td>
-                    <td className={`${cellBase} text-gray-600 dark:text-gray-400`}>{p.price}</td>
+                    <td className={`${cellBase} text-accent-600 dark:text-accent-400`}>
+                      {p.price}
+                    </td>
                     {p.features.map((v, fi) => (
                       <td key={fi} className={`${cellBase} text-center`}>
                         <CellIcon v={v} />
@@ -216,11 +220,11 @@ export default function Page() {
           </table>
         </div>
 
-        <div className="mt-14 rounded-lg bg-gray-50 p-8 dark:bg-gray-800/50">
-          <h2 className="mb-3 text-xl font-bold text-gray-900 dark:text-gray-100">
+        <div className="mt-14 rounded-lg bg-surface-100 p-8 dark:bg-surface-800/50">
+          <h2 className="mb-3 text-xl font-bold text-accent-900 dark:text-accent-100">
             The Honest Take
           </h2>
-          <div className="space-y-3 text-sm leading-relaxed text-gray-600 dark:text-gray-400">
+          <div className="space-y-3 text-sm leading-relaxed text-accent-600 dark:text-accent-400">
             <p>
               Right now, we&apos;re a best-in-class scheduling engine with real AI — not a full
               business suite. Vagaro at $30/mo gives you payments, reminders, intake forms, gift
@@ -238,7 +242,7 @@ export default function Page() {
           </div>
         </div>
 
-        <p className="mt-8 text-center text-xs text-gray-400 dark:text-gray-600">
+        <p className="mt-8 text-center text-xs text-accent-400 dark:text-accent-600">
           Data sourced from platform websites and independent reviews, February 2026.
         </p>
       </div>

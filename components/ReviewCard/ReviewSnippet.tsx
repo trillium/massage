@@ -31,14 +31,14 @@ export const ReviewSnippet = ({
           ))}
         </div>
         <div className="flex items-center gap-3">
-          <h6 className="text-lg leading-8 font-semibold text-black capitalize dark:text-white">
+          <h6 className="text-lg leading-8 font-semibold text-accent-950 capitalize dark:text-white">
             {displayName}
           </h6>
-          {displayDate && <p className="text-base leading-7 font-medium text-gray-400">{date}</p>}
+          {displayDate && <p className="text-base leading-7 font-medium text-accent-400">{date}</p>}
         </div>
       </div>
 
-      <p className="text-lg leading-8 font-normal text-gray-800 dark:text-gray-400">{text}</p>
+      <p className="text-lg leading-8 font-normal text-accent-800 dark:text-accent-400">{text}</p>
     </div>
   )
 }

@@ -1,6 +1,6 @@
 import clsx from 'clsx'
 
-const defaultGradientColors = 'from-slate-700 via-primary-700 to-primary-500'
+const defaultGradientColors = 'from-accent-700 via-primary-700 to-primary-500'
 const defaultGradientColorsDark = 'dark:from-white dark:via-white dark:to-primary-400'
 const defaultGradientDirection = 'bg-gradient-to-b'
 const defaultDirectionLevels = 'from-10% via-40% to-80%'

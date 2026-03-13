@@ -96,7 +96,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <meta name="theme-color" media="(prefers-color-scheme: light)" content="#fff" />
       <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000" />
       <link rel="alternate" type="application/rss+xml" href={`${basePath}/feed.xml`} />
-      <body className="bg-white text-black antialiased dark:bg-gray-950 dark:text-white">
+      <body className="bg-surface-50 text-accent-950 antialiased dark:bg-surface-950 dark:text-white">
         <ThemeProviders>
           <div className="flex min-h-screen flex-col">
             <Analytics analyticsConfig={siteMetadata.analytics as AnalyticsConfig} />
@@ -106,7 +106,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               </SectionContainer>
               <main className="mb-auto">{children}</main>
             </SearchProvider>
-            <SectionContainer colorClasses="bg-slate-900" positionClasses="mt-12">
+            <SectionContainer colorClasses="bg-surface-900" positionClasses="mt-12">
               <div className="mt-auto">
                 <Footer />
               </div>

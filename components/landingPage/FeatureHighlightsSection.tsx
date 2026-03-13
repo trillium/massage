@@ -55,7 +55,7 @@ function FeatureItem({ icon, title, description }: FeatureItemProps) {
       </div>
       <div>
         <div className="text-lg font-bold sm:text-base">{title}</div>
-        <div className="text-base text-gray-500">{description}</div>
+        <div className="text-base text-accent-500">{description}</div>
       </div>
     </div>
   )

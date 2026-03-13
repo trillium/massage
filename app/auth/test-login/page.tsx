@@ -72,7 +72,7 @@ export default function TestLoginPage() {
     <div className="flex min-h-screen items-center justify-center">
       <div className="w-full max-w-md p-8">
         <h1 className="mb-4 text-2xl font-bold">Test Login</h1>
-        <p className="mb-4 text-sm text-gray-600">For E2E testing only</p>
+        <p className="mb-4 text-sm text-accent-600">For E2E testing only</p>
 
         {error && <div className="mb-4 rounded bg-red-50 p-3 text-sm text-red-800">{error}</div>}
 
@@ -108,7 +108,7 @@ export default function TestLoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 disabled:bg-gray-400"
+            className="w-full rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 disabled:bg-surface-400"
           >
             {loading ? 'Signing in...' : 'Sign in'}
           </button>

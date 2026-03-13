@@ -98,26 +98,26 @@ export default function Gallery({ images, columns = 3 }: GalleryProps) {
               <DialogPanel className="relative w-[95vw] max-w-4xl">
                 <button
                   type="button"
-                  className="absolute -top-10 right-0 rounded-full bg-white/80 p-1 backdrop-blur-sm transition-colors hover:bg-white"
+                  className="absolute -top-10 right-0 rounded-full bg-surface-50/80 p-1 backdrop-blur-sm transition-colors hover:bg-surface-50"
                   onClick={() => setSelectedIndex(null)}
                 >
-                  <IoClose className="h-5 w-5 text-gray-900" />
+                  <IoClose className="h-5 w-5 text-accent-900" />
                 </button>
 
                 <button
                   type="button"
-                  className="absolute top-1/2 -left-12 -translate-y-1/2 rounded-full bg-white/80 p-2 backdrop-blur-sm transition-colors hover:bg-white max-sm:-left-2 max-sm:bg-white/60"
+                  className="absolute top-1/2 -left-12 -translate-y-1/2 rounded-full bg-surface-50/80 p-2 backdrop-blur-sm transition-colors hover:bg-surface-50 max-sm:-left-2 max-sm:bg-surface-50/60"
                   onClick={goPrev}
                 >
-                  <IoChevronBack className="h-5 w-5 text-gray-900" />
+                  <IoChevronBack className="h-5 w-5 text-accent-900" />
                 </button>
 
                 <button
                   type="button"
-                  className="absolute top-1/2 -right-12 -translate-y-1/2 rounded-full bg-white/80 p-2 backdrop-blur-sm transition-colors hover:bg-white max-sm:-right-2 max-sm:bg-white/60"
+                  className="absolute top-1/2 -right-12 -translate-y-1/2 rounded-full bg-surface-50/80 p-2 backdrop-blur-sm transition-colors hover:bg-surface-50 max-sm:-right-2 max-sm:bg-surface-50/60"
                   onClick={goNext}
                 >
-                  <IoChevronForward className="h-5 w-5 text-gray-900" />
+                  <IoChevronForward className="h-5 w-5 text-accent-900" />
                 </button>
 
                 {selectedIndex !== null && (

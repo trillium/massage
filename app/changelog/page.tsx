@@ -23,7 +23,7 @@ const iconMap: Record<ChangelogIcon, React.ReactNode> = {
   shield: <FaShieldAlt className="text-red-500" />,
   bolt: <FaBolt className="text-yellow-500" />,
   paint: <FaPaintBrush className="text-purple-500" />,
-  tools: <FaTools className="text-gray-500" />,
+  tools: <FaTools className="text-accent-500" />,
   bell: <FaBell className="text-amber-500" />,
   map: <FaMapMarkerAlt className="text-blue-500" />,
   images: <FaImages className="text-teal-500" />,
@@ -52,7 +52,7 @@ function ConnectedBlock({
         </p>
         <ul className="space-y-1">
           {highlights.map((h) => (
-            <li key={h} className="text-sm font-medium text-gray-800 dark:text-gray-200">
+            <li key={h} className="text-sm font-medium text-accent-800 dark:text-accent-200">
               &bull; {h}
             </li>
           ))}
@@ -61,15 +61,18 @@ function ConnectedBlock({
       {categories.map((cat) => (
         <div
           key={cat.label}
-          className="border border-t-0 border-gray-200 p-4 last:rounded-b-lg dark:border-gray-700"
+          className="border border-t-0 border-accent-200 p-4 last:rounded-b-lg dark:border-accent-700"
         >
-          <h3 className="mb-3 flex items-center gap-2 font-semibold text-gray-900 dark:text-gray-100">
+          <h3 className="mb-3 flex items-center gap-2 font-semibold text-accent-900 dark:text-accent-100">
             {iconMap[cat.icon]}
             {cat.label}
           </h3>
           <ul className="space-y-1.5">
             {cat.items.map((item) => (
-              <li key={item} className="text-sm leading-relaxed text-gray-600 dark:text-gray-400">
+              <li
+                key={item}
+                className="text-sm leading-relaxed text-accent-600 dark:text-accent-400"
+              >
                 &bull; {item}
               </li>
             ))}
@@ -93,15 +96,17 @@ function QuarterSection({
         {({ open }) => (
           <>
             <DisclosureButton className="flex w-full items-baseline gap-4 text-left">
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+              <h2 className="text-2xl font-bold text-accent-900 dark:text-accent-100">
                 {quarter.label}
               </h2>
-              <span className="text-sm text-gray-500 dark:text-gray-400">{quarter.dateRange}</span>
-              <span className="text-xs text-gray-400 dark:text-gray-600">
+              <span className="text-sm text-accent-500 dark:text-accent-400">
+                {quarter.dateRange}
+              </span>
+              <span className="text-xs text-accent-400 dark:text-accent-600">
                 {quarter.commitCount} commits
               </span>
               <ChevronUpIcon
-                className={`${open ? '' : 'rotate-180'} ml-auto h-5 w-5 text-gray-400 transition-transform`}
+                className={`${open ? '' : 'rotate-180'} ml-auto h-5 w-5 text-accent-400 transition-transform`}
               />
             </DisclosureButton>
 
@@ -115,7 +120,7 @@ function QuarterSection({
             >
               <DisclosurePanel className="mt-6">
                 {quarter.repos.length > 1 && (
-                  <p className="mb-4 text-xs text-gray-400 dark:text-gray-600">
+                  <p className="mb-4 text-xs text-accent-400 dark:text-accent-600">
                     Repos: {quarter.repos.join(', ')}
                   </p>
                 )}
@@ -125,13 +130,13 @@ function QuarterSection({
                     {quarter.months.map((month) => (
                       <div key={month.date}>
                         <div className="mb-4 flex items-baseline gap-3">
-                          <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
+                          <h3 className="text-lg font-semibold text-accent-800 dark:text-accent-200">
                             {new Date(`${month.date}-15`).toLocaleDateString('en-US', {
                               month: 'long',
                               year: 'numeric',
                             })}
                           </h3>
-                          <span className="text-xs text-gray-400 dark:text-gray-600">
+                          <span className="text-xs text-accent-400 dark:text-accent-600">
                             {month.commitCount} commits
                           </span>
                         </div>
@@ -162,10 +167,10 @@ export default function Page() {
           <p className="mb-2 text-sm font-semibold tracking-widest text-primary-600 uppercase dark:text-primary-400">
             What&apos;s New
           </p>
-          <h1 className="mb-4 text-4xl font-bold tracking-tight text-gray-900 dark:text-gray-100">
+          <h1 className="mb-4 text-4xl font-bold tracking-tight text-accent-900 dark:text-accent-100">
             Changelog
           </h1>
-          <p className="mx-auto max-w-2xl text-lg text-gray-600 dark:text-gray-400">
+          <p className="mx-auto max-w-2xl text-lg text-accent-600 dark:text-accent-400">
             A timeline of features, fixes, and improvements to the booking platform.
           </p>
         </div>
@@ -176,7 +181,7 @@ export default function Page() {
           ))}
         </div>
 
-        <p className="mt-16 text-center text-xs text-gray-400 dark:text-gray-600">
+        <p className="mt-16 text-center text-xs text-accent-400 dark:text-accent-600">
           Compiled from {totalCommits.toLocaleString()}+ commits spanning {dateRange}.
         </p>
       </div>

@@ -115,14 +115,14 @@ export default async function AdjacentBookingPage({
       <div className="container mx-auto px-4 py-8">
         <div className="mx-auto max-w-6xl">
           <div className="mb-8">
-            <h1 className="mb-4 text-3xl font-bold text-gray-900 dark:text-white">
+            <h1 className="mb-4 text-3xl font-bold text-accent-900 dark:text-white">
               Book Adjacent Slot
             </h1>
             <div className="rounded-lg bg-blue-50 p-4 dark:bg-blue-900/20">
-              <h2 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">
+              <h2 className="mb-2 text-lg font-semibold text-accent-900 dark:text-white">
                 Current Event: {currentEvent.summary || 'Untitled Event'}
               </h2>
-              <div className="space-y-1 text-sm text-gray-600 dark:text-gray-400">
+              <div className="space-y-1 text-sm text-accent-600 dark:text-accent-400">
                 <p>
                   <strong>Event starts at:</strong> {eventStartTimeStr}
                 </p>
@@ -143,8 +143,8 @@ export default async function AdjacentBookingPage({
 
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
             <div className="space-y-6">
-              <div className="xs:p-6 rounded-lg bg-white p-3 shadow-sm dark:bg-gray-800">
-                <h3 className="mb-4 text-lg font-semibold text-gray-900 dark:text-white">
+              <div className="xs:p-6 rounded-lg bg-surface-50 p-3 shadow-sm dark:bg-surface-800">
+                <h3 className="mb-4 text-lg font-semibold text-accent-900 dark:text-white">
                   Duration
                 </h3>
                 <DurationPicker
@@ -162,7 +162,7 @@ export default async function AdjacentBookingPage({
             <div className="space-y-6">
               <div
                 id="map-container"
-                className="flex h-full min-h-96 w-full items-center justify-center overflow-hidden rounded-lg bg-white p-0 shadow-sm dark:bg-gray-800"
+                className="flex h-full min-h-96 w-full items-center justify-center overflow-hidden rounded-lg bg-surface-50 p-0 shadow-sm dark:bg-surface-800"
               >
                 <MapTile
                   longitude={mapCoordinates.longitude}

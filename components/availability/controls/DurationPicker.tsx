@@ -31,7 +31,7 @@ export default function DurationPicker({
 
   return (
     <fieldset>
-      <legend className="block pb-2 text-sm leading-0 font-medium text-gray-900 dark:text-gray-100">
+      <legend className="block pb-2 text-sm leading-0 font-medium text-accent-900 dark:text-accent-100">
         <span>{`${duration || 90} minute session${pricingLabel ? ',' : ''}`} </span>
         {pricingLabel ? (
           <span className="text-primary-600 dark:text-primary-400">{pricingLabel}</span>
@@ -59,7 +59,7 @@ export default function DurationPicker({
                   'rounded-l-md': i === 0,
                   'rounded-r-md': i === allowedDurations.length - 1,
                   '-ml-px': i > 0,
-                  'bg-white text-gray-900 ring-gray-300 hover:bg-gray-200':
+                  'bg-surface-50 text-accent-900 ring-accent-300 hover:bg-surface-200':
                     theDuration !== duration,
                   'bg-primary-500 shadow-primary-900 ring-primary-400 text-white shadow-inner':
                     theDuration === duration,

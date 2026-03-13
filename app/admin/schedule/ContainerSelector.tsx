@@ -25,7 +25,7 @@ export function ContainerSelector({
     <select
       value={`${selectedQuery}::${selectedContainerId}`}
       onChange={handleChange}
-      className="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 focus:outline-none dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100"
+      className="w-full rounded-md border border-accent-300 bg-surface-50 px-3 py-2 text-sm text-accent-900 focus:border-blue-500 focus:ring-blue-500 focus:outline-none dark:border-accent-600 dark:bg-surface-800 dark:text-accent-100"
     >
       {queryGroups.map((group) =>
         group.containers.map((container) => (

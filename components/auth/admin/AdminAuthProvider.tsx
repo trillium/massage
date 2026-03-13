@@ -106,7 +106,7 @@ export function AdminAuthProvider({ children }: AdminAuthProviderProps) {
       <div className="flex min-h-screen items-center justify-center">
         <div className="text-center">
           <Spinner />
-          <p className="mt-4 text-gray-600 dark:text-gray-400">Verifying admin access...</p>
+          <p className="mt-4 text-accent-600 dark:text-accent-400">Verifying admin access...</p>
         </div>
       </div>
     )
@@ -115,7 +115,7 @@ export function AdminAuthProvider({ children }: AdminAuthProviderProps) {
   if (!authState.isAuthenticated) {
     return (
       <div className="flex items-center justify-center">
-        <div className="max-w-md rounded-lg bg-white p-8 text-center shadow-lg dark:bg-gray-800">
+        <div className="max-w-md rounded-lg bg-surface-50 p-8 text-center shadow-lg dark:bg-surface-800">
           <div className="mb-4 rounded-full bg-red-100 p-3 dark:bg-red-900/20">
             <svg
               className="mx-auto h-6 w-6 text-red-600 dark:text-red-400"
@@ -131,11 +131,11 @@ export function AdminAuthProvider({ children }: AdminAuthProviderProps) {
               />
             </svg>
           </div>
-          <h1 className="mb-2 text-2xl font-bold text-gray-900 dark:text-gray-100">
+          <h1 className="mb-2 text-2xl font-bold text-accent-900 dark:text-accent-100">
             Admin Access Required
           </h1>
-          <p className="mb-4 text-gray-600 dark:text-gray-400">{authState.error}</p>
-          <div className="text-sm text-gray-500 dark:text-gray-400">
+          <p className="mb-4 text-accent-600 dark:text-accent-400">{authState.error}</p>
+          <div className="text-sm text-accent-500 dark:text-accent-400">
             <p>
               Please{' '}
               <Link href="/auth/login" className="text-blue-600 hover:underline">

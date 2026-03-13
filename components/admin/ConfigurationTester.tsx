@@ -86,15 +86,15 @@ export default function ConfigurationTester({ onConfigurationChange }: Configura
   }
 
   return (
-    <div className="rounded-lg border bg-white p-6 shadow-sm dark:bg-gray-800">
-      <h2 className="mb-4 text-xl font-semibold text-gray-900 dark:text-gray-100">
+    <div className="rounded-lg border bg-surface-50 p-6 shadow-sm dark:bg-surface-800">
+      <h2 className="mb-4 text-xl font-semibold text-accent-900 dark:text-accent-100">
         Configuration Tester
       </h2>
 
       <div className="mb-6">
         <label
           htmlFor="config-select"
-          className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300"
+          className="mb-2 block text-sm font-medium text-accent-700 dark:text-accent-300"
         >
           Select Configuration:
         </label>
@@ -102,7 +102,7 @@ export default function ConfigurationTester({ onConfigurationChange }: Configura
           id="config-select"
           value={selectedSlug}
           onChange={(e) => handleConfigurationChange(e.target.value)}
-          className="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
+          className="w-full rounded-md border border-accent-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none dark:border-accent-600 dark:bg-surface-700 dark:text-accent-100"
         >
           <option value="" disabled>
             Select a configuration...

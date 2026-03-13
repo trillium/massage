@@ -41,7 +41,7 @@ const pricingOptions = pricingStart.map((item) => ({
 
 export default function PricingSection() {
   return (
-    <section className="flex w-full flex-col items-center bg-white dark:bg-gray-950">
+    <section className="flex w-full flex-col items-center bg-surface-50 dark:bg-surface-950">
       <div className="container">
         <h2 className="mb-8 text-center text-3xl font-bold md:text-4xl dark:text-white">Pricing</h2>
         <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
@@ -61,7 +61,7 @@ export default function PricingSection() {
               <div
                 className={clsx(
                   positionClassesCardElem,
-                  'z-10 flex h-full flex-col items-center rounded-lg bg-white p-8 text-center shadow dark:bg-gray-800 dark:text-gray-100',
+                  'z-10 flex h-full flex-col items-center rounded-lg bg-surface-50 p-8 text-center shadow dark:bg-surface-800 dark:text-accent-100',
                   {
                     'ring-primary-500 ring-2': option.mostPopular,
                   }
@@ -78,7 +78,7 @@ export default function PricingSection() {
                 <div className="text-primary-600 dark:text-primary-400 mb-4 text-3xl font-bold">
                   ${option.price}
                 </div>
-                <ul className="mb-4 items-start space-y-4 text-left text-gray-600 dark:text-gray-300">
+                <ul className="mb-4 items-start space-y-4 text-left text-accent-600 dark:text-accent-300">
                   {option.features.map((feature, index) => (
                     <li key={index} className="relative list-none pl-6">
                       {feature}

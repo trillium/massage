@@ -33,11 +33,11 @@ export default function Step5EventObjectDetails({
 }: Step5EventObjectDetailsProps) {
   if (!submittedData || !isConfirmed) {
     return (
-      <div className="mb-8 rounded-lg bg-white p-6 shadow-lg dark:bg-gray-800">
-        <h2 className="mb-4 text-2xl font-bold text-gray-900 dark:text-white">
+      <div className="mb-8 rounded-lg bg-surface-50 p-6 shadow-lg dark:bg-surface-800">
+        <h2 className="mb-4 text-2xl font-bold text-accent-900 dark:text-white">
           Step 5: Calendar Event Details
         </h2>
-        <p className="text-gray-600 dark:text-gray-400">
+        <p className="text-accent-600 dark:text-accent-400">
           {!submittedData
             ? 'Complete the booking form to see calendar event details.'
             : 'Waiting for therapist approval to generate calendar event...'}
@@ -83,8 +83,8 @@ export default function Step5EventObjectDetails({
   ]
 
   return (
-    <div className="mb-8 rounded-lg bg-white p-6 shadow-lg dark:bg-gray-800">
-      <h2 className="mb-6 text-2xl font-bold text-gray-900 dark:text-white">
+    <div className="mb-8 rounded-lg bg-surface-50 p-6 shadow-lg dark:bg-surface-800">
+      <h2 className="mb-6 text-2xl font-bold text-accent-900 dark:text-white">
         Step 5: Calendar Event Details
       </h2>
 
@@ -97,28 +97,34 @@ export default function Step5EventObjectDetails({
 
       <div className="space-y-6">
         <div>
-          <h3 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">Event Title</h3>
-          <div className="rounded bg-gray-100 p-3 dark:bg-gray-700">
-            <p className="font-medium text-gray-900 dark:text-white">{summary}</p>
+          <h3 className="mb-2 text-lg font-semibold text-accent-900 dark:text-white">
+            Event Title
+          </h3>
+          <div className="rounded bg-surface-200 p-3 dark:bg-surface-700">
+            <p className="font-medium text-accent-900 dark:text-white">{summary}</p>
           </div>
         </div>
 
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <div>
-            <h3 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">Start Time</h3>
-            <p className="text-gray-700 dark:text-gray-300">
+            <h3 className="mb-2 text-lg font-semibold text-accent-900 dark:text-white">
+              Start Time
+            </h3>
+            <p className="text-accent-700 dark:text-accent-300">
               {formatDateTime(submittedData.start)}
             </p>
           </div>
           <div>
-            <h3 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">End Time</h3>
-            <p className="text-gray-700 dark:text-gray-300">{formatDateTime(submittedData.end)}</p>
+            <h3 className="mb-2 text-lg font-semibold text-accent-900 dark:text-white">End Time</h3>
+            <p className="text-accent-700 dark:text-accent-300">
+              {formatDateTime(submittedData.end)}
+            </p>
           </div>
         </div>
 
         <div>
-          <h3 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">Location</h3>
-          <p className="text-gray-700 dark:text-gray-300">
+          <h3 className="mb-2 text-lg font-semibold text-accent-900 dark:text-white">Location</h3>
+          <p className="text-accent-700 dark:text-accent-300">
             {submittedData.location ? flattenLocation(submittedData.location) : 'Not specified'}
           </p>
         </div>
@@ -126,48 +132,48 @@ export default function Step5EventObjectDetails({
         <AttendeeList attendees={attendees} />
 
         <div>
-          <h3 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">
+          <h3 className="mb-2 text-lg font-semibold text-accent-900 dark:text-white">
             Event Description
           </h3>
-          <div className="rounded bg-gray-100 p-4 dark:bg-gray-700">
+          <div className="rounded bg-surface-200 p-4 dark:bg-surface-700">
             <div
-              className="text-sm whitespace-pre-wrap text-gray-700 dark:text-gray-300"
+              className="text-sm whitespace-pre-wrap text-accent-700 dark:text-accent-300"
               dangerouslySetInnerHTML={{ __html: description }}
             />
           </div>
         </div>
 
         <div>
-          <h3 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">
+          <h3 className="mb-2 text-lg font-semibold text-accent-900 dark:text-white">
             Event Metadata
           </h3>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <div>
-              <h4 className="font-medium text-gray-900 dark:text-white">Event Base String</h4>
-              <p className="font-mono text-sm text-gray-600 dark:text-gray-400">
+              <h4 className="font-medium text-accent-900 dark:text-white">Event Base String</h4>
+              <p className="font-mono text-sm text-accent-600 dark:text-accent-400">
                 {submittedData.eventBaseString || 'N/A'}
               </p>
             </div>
             {submittedData.eventMemberString && (
               <div>
-                <h4 className="font-medium text-gray-900 dark:text-white">Event Member String</h4>
-                <p className="font-mono text-sm text-gray-600 dark:text-gray-400">
+                <h4 className="font-medium text-accent-900 dark:text-white">Event Member String</h4>
+                <p className="font-mono text-sm text-accent-600 dark:text-accent-400">
                   {submittedData.eventMemberString}
                 </p>
               </div>
             )}
             {submittedData.bookingUrl && (
               <div>
-                <h4 className="font-medium text-gray-900 dark:text-white">Booking URL</h4>
-                <p className="font-mono text-sm text-gray-600 dark:text-gray-400">
+                <h4 className="font-medium text-accent-900 dark:text-white">Booking URL</h4>
+                <p className="font-mono text-sm text-accent-600 dark:text-accent-400">
                   {submittedData.bookingUrl}
                 </p>
               </div>
             )}
             {submittedData.promo && (
               <div>
-                <h4 className="font-medium text-gray-900 dark:text-white">Promo Applied</h4>
-                <p className="font-mono text-sm text-gray-600 dark:text-gray-400">
+                <h4 className="font-medium text-accent-900 dark:text-white">Promo Applied</h4>
+                <p className="font-mono text-sm text-accent-600 dark:text-accent-400">
                   {submittedData.promo}
                 </p>
               </div>
