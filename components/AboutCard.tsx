@@ -1,29 +1,20 @@
 import Image from './Image'
-// import SocialIcon from '@/components/social-icons'
 import siteMetadata from '@/data/siteMetadata'
 import SocialIcon from '@/components/social-icons'
 import Link from '@/components/Link'
+import { siteConfig } from '@/lib/siteConfig'
+
+const { bio, focus, stats, rating, statsClose } = siteConfig.content.about
 
 const AuthorCard = () => {
-  const {
-    author,
-    avatar,
-    occupation,
-    company,
-    email,
-    twitter,
-    linkedin,
-    github,
-    location,
-    instagram,
-  } = siteMetadata
+  const { author, avatar, occupation, company, email, location, instagram } = siteMetadata
   return (
     <div>
       <div className="flex flex-row items-center justify-center space-x-2 pb-2">
         {avatar && (
           <div className="pr-2 xl:pr-4">
             <Image
-              src={'/static/images/avatar.jpg'}
+              src={avatar}
               alt="avatar"
               width={224}
               height={224}
@@ -47,23 +38,14 @@ const AuthorCard = () => {
       <div className="flex max-w-full flex-col items-center justify-center">
         <div className="prose dark:prose-invert max-w-full pt-10 pb-8 xl:text-xl">
           <p className="py-2 text-justify">
-            Trillium is a seasoned massage therapist with over a decade of experience, based in Los
-            Angeles. Specializing in combining relaxation and pain relief techniques, Trillium
-            provides you with effective massage therapy from the comfort of your own home. With more
-            than 3,000 in-home massage therapy sessions, Trillium has maintained a{' '}
+            {bio} {focus} {stats}{' '}
             <Link
               className="text-primary-500 dark:text-primary-400 font-bold underline-offset-0 transition-transform duration-300 hover:scale-105 hover:underline"
               href={'/reviews'}
             >
-              4.9-star rating
+              {rating}
             </Link>
-            , reflecting the quality and care he puts into his work.
-          </p>
-
-          <p className="py-2 text-justify">
-            In addition to massage services, Trillium offer Couple&#39;s Massage Workshops upon
-            request. These workshops focus on simple, comfortable, effective ways to provide
-            massage.
+            {statsClose}
           </p>
         </div>
       </div>

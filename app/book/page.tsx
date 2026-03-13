@@ -11,6 +11,7 @@ import TimeList from '@/components/availability/time/TimeList'
 import { InitialUrlUtility, UpdateSlotsUtility } from '@/components/utilities/UpdateSlotsUtility'
 import { createPageConfiguration } from '@/lib/slugConfigurations/createPageConfiguration'
 import SectionContainer from '@/components/SectionContainer'
+import { siteConfig } from '@/lib/siteConfig'
 
 export type PageProps = InferGetServerSidePropsType<typeof fetchData>
 
@@ -37,7 +38,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<Sea
   return (
     <SectionContainer>
       <SlotTakenAlert />
-      <Template title="Book a massage with Trillium :)" />
+      <Template title={siteConfig.content.bookingTitle ?? 'Book a session'} />
       <BookingForm />
       <div className="flex flex-col space-y-8">
         <DurationPicker {...durationProps} />

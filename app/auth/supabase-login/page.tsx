@@ -26,7 +26,7 @@ function LoginContent() {
         </div>
 
         <p className="mt-6 text-center text-sm text-gray-600">
-          New to Trillium Massage?{' '}
+          New here?{' '}
           <a href="/" className="font-medium text-blue-600 hover:text-blue-500">
             Learn more
           </a>

@@ -16,7 +16,7 @@ async function main() {
     process.exit(1)
   }
 
-  const message = 'Test push notification from Trillium Massage'
+  const message = 'Test push notification'
   const title = 'Test Message'
   const priority = 0
 

@@ -1,9 +1,9 @@
 import CachedTileMap from '@/components/CachedTileMap'
 import clsx from 'clsx'
+import { siteConfig } from '@/lib/siteConfig'
 
-const serviceAreaBlurb =
-  'Trillium is based out of Westchester, but happy to travel to the LA area in general. Very close locations include Playa Vista, Mar Vista, Santa Monica, Venice, El Segundo, Torrance, and Culver City.'
-const title = "What's the service area for mobile massage therapy?"
+const serviceAreaBlurb = siteConfig.content.serviceAreaBlurb ?? ''
+const title = "What's the service area?"
 
 export function ServiceAreaSection() {
   return (
@@ -41,8 +41,8 @@ function ServiceArea({ text, imageLeft, imageRight }: ServiceAreaProps) {
         )}
       >
         <CachedTileMap
-          latitude={33.99}
-          longitude={-118.4}
+          latitude={siteConfig.location.mapLatitude}
+          longitude={siteConfig.location.mapLongitude}
           zoom={10}
           className="absolute inset-0 border-0"
           style={{ width: '100%', height: '100%' }}

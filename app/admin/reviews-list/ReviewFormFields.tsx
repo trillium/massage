@@ -1,4 +1,6 @@
-const SOURCES = ['Soothe', 'Airbnb', 'Trillium Massage']
+import { siteConfig } from '@/lib/siteConfig'
+
+const SOURCES = ['Soothe', 'Airbnb', siteConfig.business.name]
 
 export interface ReviewFormData {
   name: string

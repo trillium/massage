@@ -15,6 +15,7 @@ import {
 import { ReviewSnippet } from './ReviewCard/ReviewSnippet'
 import { Star } from './ReviewCard/Stars'
 import { handleReviewSubmit } from './ReviewForm.handleSubmit'
+import { siteConfig } from '@/lib/siteConfig'
 
 export default function ReviewForm({
   error,
@@ -58,7 +59,7 @@ export default function ReviewForm({
             </p>
           </div>
 
-          <input type="hidden" readOnly name="source" value="Trillium Massage" />
+          <input type="hidden" readOnly name="source" value={siteConfig.business.name} />
           <input type="hidden" readOnly name="type" value="table" />
           <input type="hidden" readOnly name="date" value={start} />
           <input type="hidden" readOnly name="error" value={error} />

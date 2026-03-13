@@ -1,5 +1,6 @@
 import SectionContainer from '@/components/SectionContainer'
 import { FaCheck, FaTimes, FaStar } from 'react-icons/fa'
+import { siteConfig } from '@/lib/siteConfig'
 
 const Check = () => <FaCheck className="text-lg text-emerald-600 dark:text-emerald-400" />
 const Cross = () => <FaTimes className="text-lg text-gray-300 dark:text-gray-600" />
@@ -28,7 +29,7 @@ const featureLabels = [
 
 const platforms: Platform[] = [
   {
-    name: 'Trillium',
+    name: siteConfig.business.name,
     category: 'Purpose-Built',
     price: 'Custom',
     features: [

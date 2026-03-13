@@ -10,6 +10,7 @@ import DurationPicker from '@/components/availability/controls/DurationPicker'
 import Calendar from '@/components/availability/date/Calendar'
 import TimeList from '@/components/availability/time/TimeList'
 import SectionContainer from '@/components/SectionContainer'
+import { siteConfig } from '@/lib/siteConfig'
 
 export type PageProps = InferGetServerSidePropsType<typeof fetchData>
 
@@ -38,7 +39,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<Sea
 
   return (
     <SectionContainer>
-      <Template title="Book a session with Trillium :)" />
+      <Template title={siteConfig.content.bookingTitle ?? 'Book a session'} />
       <ClientPage duration={duration}>
         <div className="flex flex-col space-y-8">
           <div className="flex space-x-6">

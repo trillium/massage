@@ -17,6 +17,9 @@ const { ...initialStateWithoutType } = initialState
 
 import { SlugConfigurationType, LocationObject } from '@/lib/types'
 import { createLocationObject, stringToLocationObject } from './helpers/parseLocationFromSlug'
+import { siteConfig } from '@/lib/siteConfig'
+
+const contactPhone = siteConfig.contact.phone ?? ''
 
 const free_thirty: SlugConfigurationType = {
   ...initialStateWithoutType,
@@ -190,7 +193,7 @@ const slugConfigurations: SlugConfigurationType[] = [
     bookingSlug: ['airbnb-host-promo-2026-03'],
     type: 'area-wide',
     title: 'Airbnb Hosts: Get a Free 30-Minute Upgrade',
-    text: 'Book a massage and get 30 minutes added to your session, on the house. Thanks for hosting! Questions? Call or text 818.738.5344',
+    text: `Book a massage and get 30 minutes added to your session, on the house. Thanks for hosting! Questions? Call or text ${contactPhone}`,
     durationBonus: 30,
     pricingLabels: {
       60: '+30 min free! (90 min session)',
@@ -205,7 +208,7 @@ const slugConfigurations: SlugConfigurationType[] = [
     bookingSlug: ['scale-attendees-home'],
     type: 'area-wide',
     title: 'SCaLE 23x Attendees: Free 30-Minute Upgrade',
-    text: 'Book an in-home massage and get 30 minutes added to your session, on the house. Thanks for stopping by at SCaLE! Questions? Call or text 818.738.5344',
+    text: `Book an in-home massage and get 30 minutes added to your session, on the house. Thanks for stopping by at SCaLE! Questions? Call or text ${contactPhone}`,
     durationBonus: 30,
     pricingLabels: {
       60: '+30 min free! (90 min session)',
@@ -225,7 +228,7 @@ const slugConfigurations: SlugConfigurationType[] = [
     title: 'SCaLE 23x: Chair Massage at Your Office',
     text: [
       'Bring chair massage to your office! I can see 1–3 people per 30-minute segment, making it easy to share with your team.',
-      'Book a session and get 30 minutes added free. Thanks for stopping by at SCaLE! Questions? Call or text 818.738.5344',
+      `Book a session and get 30 minutes added free. Thanks for stopping by at SCaLE! Questions? Call or text ${contactPhone}`,
     ],
     durationBonus: 30,
     pricingLabels: {

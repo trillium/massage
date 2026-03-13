@@ -21,6 +21,7 @@ export const SiteConfigSchema = z.object({
   }),
   contact: z.object({
     email: z.string().email(),
+    phone: z.string().optional(),
     instagram: z.string().url().optional(),
   }),
   domain: z.object({
@@ -50,6 +51,8 @@ export const SiteConfigSchema = z.object({
     baseHourlyRate: z.number(),
   }),
   content: z.object({
+    bookingTitle: z.string().optional(),
+    serviceAreaBlurb: z.string().optional(),
     hero: z.object({
       headline: z.string(),
       gradientWord: z.string(),

@@ -8,6 +8,7 @@
   },
   "contact": {
     "email": "trilliummassagela@gmail.com",
+    "phone": "1-818-738-5344",
     "instagram": "https://www.instagram.com/trilliummassage"
   },
   "domain": {
@@ -73,6 +74,8 @@
     }
   ],
   "content": {
+    "bookingTitle": "Book a massage with Trillium :)",
+    "serviceAreaBlurb": "Trillium is based out of Westchester, but happy to travel to the LA area in general. Very close locations include Playa Vista, Mar Vista, Santa Monica, Venice, El Segundo, Torrance, and Culver City.",
     "hero": {
       "headline": "Relax, Restore, Rejuvenate",
       "gradientWord": "Rejuvenate",
