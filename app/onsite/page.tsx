@@ -6,6 +6,7 @@ import { fetchData } from 'lib/fetch/fetchData'
 import { SearchParamsType, SlugConfigurationType } from '@/lib/types'
 import { InitialUrlUtility, UpdateSlotsUtility } from '@/components/utilities/UpdateSlotsUtility'
 import { createPageConfiguration } from '@/lib/slugConfigurations/createPageConfiguration'
+import { SlotHoldProvider } from 'hooks/SlotHoldContext'
 import DurationPicker from '@/components/availability/controls/DurationPicker'
 import Calendar from '@/components/availability/date/Calendar'
 import TimeList from '@/components/availability/time/TimeList'
@@ -40,15 +41,17 @@ export default async function Page({ searchParams }: { searchParams: Promise<Sea
   return (
     <SectionContainer>
       <Template title={siteConfig.content.bookingTitle ?? 'Book a session'} />
-      <ClientPage duration={duration}>
-        <div className="flex flex-col space-y-8">
-          <div className="flex space-x-6">
-            <DurationPicker {...durationProps} />
+      <SlotHoldProvider>
+        <ClientPage duration={duration}>
+          <div className="flex flex-col space-y-8">
+            <div className="flex space-x-6">
+              <DurationPicker {...durationProps} />
+            </div>
+            <Calendar />
+            <TimeList />
           </div>
-          <Calendar />
-          <TimeList />
-        </div>
-      </ClientPage>
+        </ClientPage>
+      </SlotHoldProvider>
 
       <InitialUrlUtility
         configObject={configuration}
