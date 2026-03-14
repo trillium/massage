@@ -13,6 +13,7 @@ import Link from '@/components/Link'
 import MapTile from '@/components/MapTile'
 import { geocodeLocation } from '@/lib/geocode'
 import { IMAGE_CONFIG } from '@/lib/mapConfig'
+import { SlotHoldProvider } from 'hooks/SlotHoldContext'
 import DurationPicker from '@/components/availability/controls/DurationPicker'
 import InitializeBookingState from '@/components/booking/InitializeBookingState'
 import DurationSlotManager from '@/components/booking/DurationSlotManager'
@@ -147,16 +148,18 @@ export default async function AdjacentBookingPage({
                 <h3 className="mb-4 text-lg font-semibold text-gray-900 dark:text-white">
                   Duration
                 </h3>
-                <DurationPicker
-                  title={`${selectedDuration} minute session - $${DEFAULT_PRICING[selectedDuration]}`}
-                  duration={selectedDuration}
-                  price={DEFAULT_PRICING}
-                  allowedDurations={ALLOWED_DURATIONS}
-                  configuration={null}
-                />
-                <Calendar />
-                <DynamicTimeList multiDurationSlots={multiDurationSlots} />
-                <BookingForm />
+                <SlotHoldProvider>
+                  <DurationPicker
+                    title={`${selectedDuration} minute session - $${DEFAULT_PRICING[selectedDuration]}`}
+                    duration={selectedDuration}
+                    price={DEFAULT_PRICING}
+                    allowedDurations={ALLOWED_DURATIONS}
+                    configuration={null}
+                  />
+                  <Calendar />
+                  <DynamicTimeList multiDurationSlots={multiDurationSlots} />
+                  <BookingForm />
+                </SlotHoldProvider>
               </div>
             </div>
             <div className="space-y-6">
