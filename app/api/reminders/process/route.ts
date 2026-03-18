@@ -3,7 +3,7 @@ import { processReminders } from '@/lib/reminders/processReminders'
 
 export const dynamic = 'force-dynamic'
 
-export async function POST(req: NextRequest) {
+export async function POST(req: NextRequest): Promise<NextResponse> {
   const authHeader = req.headers.get('authorization')
   const expectedToken = process.env.REMINDER_CRON_SECRET
 

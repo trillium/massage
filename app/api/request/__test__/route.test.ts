@@ -10,14 +10,11 @@ vi.mock('lib/messaging/push/admin/pushover', () => ({
 }))
 
 // Mocks
+const checkSlotAvailabilityMock = vi.fn().mockResolvedValue({ available: true })
 const sendMailMock = vi.fn(() => Promise.resolve())
 const approvalEmailMock = vi.fn(() => ({ subject: 'Approval', body: 'Approval body' }))
-const clientRequestEmailMock = vi.fn(() =>
-  Promise.resolve({ subject: 'Client', body: 'Client body' })
-)
-const clientConfirmEmailMock = vi.fn(() =>
-  Promise.resolve({ subject: 'Confirmed', body: 'Confirmed body' })
-)
+const clientRequestEmailMock = vi.fn(() => ({ subject: 'Client', body: 'Client body' }))
+const clientConfirmEmailMock = vi.fn(() => ({ subject: 'Confirmed', body: 'Confirmed body' }))
 const getHashMock = vi.fn(() => 'hash')
 const createRequestCalendarEventMock = vi.fn(() => Promise.resolve({ id: 'test-event-id' }))
 const updateCalendarEventMock = vi.fn(() => Promise.resolve({}))
@@ -76,6 +73,7 @@ describe('handleAppointmentRequest', () => {
       schema: AppointmentRequestSchema,
       createRequestCalendarEvent: createRequestCalendarEventMock,
       updateCalendarEvent: updateCalendarEventMock,
+      checkSlotAvailability: checkSlotAvailabilityMock,
     })
     const json = await res.json()
     expect(res.status).toBe(200)
@@ -99,6 +97,7 @@ describe('handleAppointmentRequest', () => {
       schema: AppointmentRequestSchema,
       createRequestCalendarEvent: createRequestCalendarEventMock,
       updateCalendarEvent: updateCalendarEventMock,
+      checkSlotAvailability: checkSlotAvailabilityMock,
     })
     expect(res.status).toBe(400)
   })
@@ -126,6 +125,7 @@ describe('handleAppointmentRequest', () => {
         schema: AppointmentRequestSchema,
         createRequestCalendarEvent: createRequestCalendarEventMock,
         updateCalendarEvent: updateCalendarEventMock,
+        checkSlotAvailability: checkSlotAvailabilityMock,
       })
     }
     const res = await handleAppointmentRequest({
@@ -142,6 +142,7 @@ describe('handleAppointmentRequest', () => {
       schema: AppointmentRequestSchema,
       createRequestCalendarEvent: createRequestCalendarEventMock,
       updateCalendarEvent: updateCalendarEventMock,
+      checkSlotAvailability: checkSlotAvailabilityMock,
     })
     expect(res.status).toBe(429)
   })
@@ -163,6 +164,7 @@ describe('handleAppointmentRequest', () => {
       schema: AppointmentRequestSchema,
       createRequestCalendarEvent: createRequestCalendarEventMock,
       updateCalendarEvent: updateCalendarEventMock,
+      checkSlotAvailability: checkSlotAvailabilityMock,
     })
     expect(sendMailMock).toHaveBeenCalledTimes(2)
   })

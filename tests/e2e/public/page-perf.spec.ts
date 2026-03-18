@@ -1,5 +1,7 @@
 import { test, expect } from '@playwright/test'
 
+type PerfMetrics = { error?: string; longestTask: number; maxFrameGap: number }
+
 const MAX_LONG_TASK_MS = 200
 const MAX_FRAME_GAP_MS = 100
 const SETTLE_TIME = 2000
@@ -92,7 +94,9 @@ test.describe('Page Performance', () => {
 
     for (const dur of durations) {
       test(`switching to ${dur}m has no long tasks`, async ({ page }) => {
-        const metrics = await page.evaluate(perfScript(`label[for="duration-${dur}"]`))
+        const metrics = (await page.evaluate(
+          perfScript(`label[for="duration-${dur}"]`)
+        )) as PerfMetrics
 
         if (metrics.error) {
           test.skip(true, metrics.error)
@@ -116,7 +120,9 @@ test.describe('Page Performance', () => {
 
     for (const dur of durations) {
       test(`switching to ${dur}m has no long tasks`, async ({ page }) => {
-        const metrics = await page.evaluate(perfScript(`label[for="duration-${dur}"]`))
+        const metrics = (await page.evaluate(
+          perfScript(`label[for="duration-${dur}"]`)
+        )) as PerfMetrics
 
         if (metrics.error) {
           test.skip(true, metrics.error)
@@ -135,7 +141,7 @@ test.describe('Page Performance', () => {
       await page.waitForLoadState('networkidle')
       await page.waitForTimeout(1000)
 
-      const labelFor = await page.evaluate(`
+      const labelFor = (await page.evaluate(`
         (() => {
           const labels = [...document.querySelectorAll('label[for^="day-"]')];
           const enabled = labels.find(l => {
@@ -144,14 +150,14 @@ test.describe('Page Performance', () => {
           });
           return enabled ? 'label[for="' + enabled.getAttribute('for') + '"]' : null;
         })()
-      `)
+      `)) as string | null
 
       if (!labelFor) {
         test.skip(true, 'no enabled dates')
         return
       }
 
-      const metrics = await page.evaluate(perfScript(labelFor))
+      const metrics = (await page.evaluate(perfScript(labelFor))) as PerfMetrics
 
       if (metrics.error) {
         test.skip(true, metrics.error)
@@ -175,7 +181,7 @@ test.describe('Page Performance', () => {
         return
       }
 
-      const metrics = await page.evaluate(perfScript('button[aria-expanded]'))
+      const metrics = (await page.evaluate(perfScript('button[aria-expanded]'))) as PerfMetrics
 
       if (metrics.error) {
         test.skip(true, metrics.error)

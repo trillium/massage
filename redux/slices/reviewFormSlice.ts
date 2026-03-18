@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import type { PayloadAction, Slice } from '@reduxjs/toolkit'
+import type { PayloadAction, Slice, Reducer } from '@reduxjs/toolkit'
 import type { RootState } from '@/redux/store'
 import type { ReviewFormData, ReviewSnippetProps } from '@/lib/types'
 
@@ -41,4 +41,4 @@ export const { setReviewForm } = reviewFormSlice.actions
 
 export const selectReviewFormData = (state: RootState) => state.reviewForm
 
-export default reviewFormSlice.reducer
+export default reviewFormSlice.reducer as Reducer<ReviewFormState>

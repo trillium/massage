@@ -105,6 +105,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     updateCalendarEvent: fakeUpdateCalendarEvent as Parameters<
       typeof handleAppointmentRequest
     >[0]['updateCalendarEvent'],
+    checkSlotAvailability: async () => ({ available: true as const }),
   })
 
   const json = await response.json()
