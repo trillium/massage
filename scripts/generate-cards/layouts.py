@@ -1,0 +1,67 @@
+"""Print layout configurations for business card gang sheets."""
+
+CARD_BLEED_W = 270.0  # 3.75" in pt (landscape)
+CARD_BLEED_H = 162.0  # 2.25" in pt (landscape)
+
+LAYOUTS = {
+    "8.5x11_4r2c": {
+        "pw": 8.5 * 72,
+        "ph": 11 * 72,
+        "cols": 2,
+        "rows": 4,
+        "rotate": 0,
+        "cell_w": CARD_BLEED_W,
+        "cell_h": CARD_BLEED_H,
+        "n_up": 8,
+    },
+    "8.5x11_5r2c": {
+        "pw": 8.5 * 72,
+        "ph": 11 * 72,
+        "cols": 2,
+        "rows": 5,
+        "rotate": 0,
+        "cell_w": CARD_BLEED_W,
+        "cell_h": CARD_BLEED_H,
+        "n_up": 10,
+    },
+    "11x17_7r2c": {
+        "pw": 11 * 72,
+        "ph": 17 * 72,
+        "cols": 2,
+        "rows": 7,
+        "rotate": 0,
+        "cell_w": CARD_BLEED_W,
+        "cell_h": CARD_BLEED_H,
+        "n_up": 14,
+    },
+    "11x17_4r4c": {
+        "pw": 11 * 72,
+        "ph": 17 * 72,
+        "cols": 4,
+        "rows": 4,
+        "rotate": 90,
+        "cell_w": CARD_BLEED_H,
+        "cell_h": CARD_BLEED_W,
+        "n_up": 16,
+    },
+    "12x18_8r3c": {
+        "pw": 12 * 72,
+        "ph": 18 * 72,
+        "cols": 3,
+        "rows": 8,
+        "rotate": 0,
+        "cell_w": CARD_BLEED_W,
+        "cell_h": CARD_BLEED_H,
+        "n_up": 24,
+    },
+    "13x19_5r5c": {
+        "pw": 13 * 72,
+        "ph": 19 * 72,
+        "cols": 5,
+        "rows": 5,
+        "rotate": 90,
+        "cell_w": CARD_BLEED_H,
+        "cell_h": CARD_BLEED_W,
+        "n_up": 25,
+    },
+}
