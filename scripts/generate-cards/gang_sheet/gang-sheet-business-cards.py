@@ -48,6 +48,9 @@ def main():
         n = LAYOUTS[p]["n_up"]
         c = math.ceil(base_count / n) * n
         print(f"  {p}: {n}-up × {c // n} sheets = {c} cards")
+        if base_count % n != 0:
+            waste = n - (base_count % n)
+            print(f"    ⚠ {waste} empty slot(s) per sheet (count not optimized for this layout)")
 
     print(f"\n── Ensuring {needed} cards (base: {base_count}) ──\n")
     all_cards = ensure_cards(REPO_ROOT, card_dir, needed)
