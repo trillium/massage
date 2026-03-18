@@ -20,7 +20,7 @@ from pipeline import ensure_cards
 
 REPO_ROOT = Path(__file__).parent.parent.parent.parent
 DEFAULT_CARD_DIR = REPO_ROOT / "print" / "2026-03-09_business-card-bleed"
-OUT_DIR = REPO_ROOT / "print" / datetime.now().strftime("%Y-%m-%dT%H:%M")
+OUT_DIR = REPO_ROOT / "print" / datetime.now().strftime("%Y-%m-%dT%H%M")
 
 
 def main():
