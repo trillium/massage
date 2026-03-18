@@ -5,7 +5,7 @@ from helpers import draw_crop_marks, draw_label, cell_rect
 from layouts import CARD_BLEED_H, CARD_BLEED_W
 
 
-def generate_gang_sheets(all_card_files, papers, base_count, output_dir, layouts):
+def generate_gang_sheets(all_card_files, papers, base_count, output_dir, layouts, single_sheet=False):
     """Generate gang sheets for each paper size."""
     for paper in papers:
         lay = layouts[paper]
@@ -15,7 +15,10 @@ def generate_gang_sheets(all_card_files, papers, base_count, output_dir, layouts
         rot = lay["rotate"]
         n_up = lay["n_up"]
 
-        cards_for_size = (base_count + n_up - 1) // n_up * n_up
+        if single_sheet:
+            cards_for_size = n_up
+        else:
+            cards_for_size = (base_count + n_up - 1) // n_up * n_up
         card_files = all_card_files[:cards_for_size]
 
         mx = (pw - cols * cw) / 2

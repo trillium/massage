@@ -33,17 +33,25 @@ def main():
     )
     parser.add_argument("--count", type=int, default=250, help="Base card count (before padding)")
     parser.add_argument("--output-dir", default=str(OUT_DIR), help="Output directory for PDFs")
+    parser.add_argument("--single-sheet", action="store_true", help="Generate exactly one sheet per paper type")
+    parser.add_argument("--print-all", action="store_true", help="Print all paper types (shorthand for --paper both)")
     args = parser.parse_args()
 
     card_dir = Path(args.cards)
     output_dir = Path(args.output_dir)
+
+    if args.print_all:
+        args.paper = "both"
     papers = list(LAYOUTS.keys()) if args.paper == "both" else [args.paper]
 
     base_count = args.count
-    needed = max(
-        math.ceil(base_count / LAYOUTS[p]["n_up"]) * LAYOUTS[p]["n_up"]
-        for p in papers
-    )
+    if args.single_sheet:
+        needed = max(LAYOUTS[p]["n_up"] for p in papers)
+    else:
+        needed = max(
+            math.ceil(base_count / LAYOUTS[p]["n_up"]) * LAYOUTS[p]["n_up"]
+            for p in papers
+        )
 
     for p in papers:
         n = LAYOUTS[p]["n_up"]
@@ -57,7 +65,7 @@ def main():
     all_cards = ensure_cards(REPO_ROOT, card_dir, needed)
 
     print()
-    generate_gang_sheets(all_cards, papers, base_count, output_dir, LAYOUTS)
+    generate_gang_sheets(all_cards, papers, base_count, output_dir, LAYOUTS, single_sheet=args.single_sheet)
 
     print()
     generate_split(all_cards, output_dir)
