@@ -28,7 +28,7 @@ def main():
     parser.add_argument("--cards", default=str(DEFAULT_CARD_DIR))
     parser.add_argument(
         "--paper",
-        choices=["8.5x11_4r2c", "8.5x11_5r2c", "11x17_7r2c", "11x17_4r4c", "12x18_8r3c", "13x19_5r5c", "both"],
+        choices=["8.5x11_4r2c", "8.5x11_5r2c", "11x17_7r2c", "11x17_4r4c", "12x18_8r3c", "12x18_7r3c", "13x19_5r5c", "both"],
         default="both",
     )
     parser.add_argument("--count", type=int, default=250, help="Base card count (before padding)")

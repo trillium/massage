@@ -54,6 +54,16 @@ LAYOUTS = {
         "cell_h": CARD_BLEED_H,
         "n_up": 24,
     },
+    "12x18_7r3c": {
+        "pw": 12 * 72,
+        "ph": 18 * 72,
+        "cols": 3,
+        "rows": 7,
+        "rotate": 0,
+        "cell_w": CARD_BLEED_W,
+        "cell_h": CARD_BLEED_H,
+        "n_up": 21,
+    },
     "13x19_5r5c": {
         "pw": 13 * 72,
         "ph": 19 * 72,
