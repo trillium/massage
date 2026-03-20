@@ -10,6 +10,7 @@ interface EditFormProps {
   initialValues: {
     firstName: string
     lastName: string
+    email: string
     phone: string
     location: LocationObject
   }
@@ -29,6 +30,7 @@ export default function EditForm({ eventId, token, initialValues }: EditFormProp
     const changed: Record<string, unknown> = {}
     if (values.firstName !== initialValues.firstName) changed.firstName = values.firstName
     if (values.lastName !== initialValues.lastName) changed.lastName = values.lastName
+    if (values.email !== initialValues.email) changed.email = values.email
     if (values.phone !== initialValues.phone) changed.phone = values.phone
     const loc = values.location
     const initLoc = initialValues.location
@@ -99,6 +101,16 @@ export default function EditForm({ eventId, token, initialValues }: EditFormProp
               />
             </label>
           </div>
+
+          <label className="block">
+            <span className="text-sm font-medium text-accent-700 dark:text-accent-300">Email</span>
+            <input
+              type="email"
+              value={values.email}
+              onChange={(e) => setValues({ ...values, email: e.target.value })}
+              className="mt-1 block w-full rounded-lg border border-accent-300 px-3 py-2 text-accent-900 dark:border-accent-600 dark:bg-surface-700 dark:text-white"
+            />
+          </label>
 
           <label className="block">
             <span className="text-sm font-medium text-accent-700 dark:text-accent-300">Phone</span>

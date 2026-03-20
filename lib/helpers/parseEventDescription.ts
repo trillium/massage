@@ -5,6 +5,7 @@ import { flattenLocation } from '@/lib/helpers/locationHelpers'
 export interface EditableEventFields {
   firstName: string
   lastName: string
+  email: string
   phone: string
   location: LocationObject
 }
@@ -24,6 +25,7 @@ export function parseEditableFields(description: string): EditableEventFields {
   return {
     firstName,
     lastName,
+    email: fields.Email || '',
     phone: fields.Phone || '',
     location: stringToLocationObject(fields.Location || ''),
   }
@@ -40,6 +42,14 @@ export function updateDescriptionFields(
     const newFirst = updates.firstName ?? current.firstName
     const newLast = updates.lastName ?? current.lastName
     result = result.replace(/(<b>Name<\/b>:\s*).+/, `$1${newFirst} ${newLast}`)
+  }
+
+  if (updates.email !== undefined) {
+    if (/<b>Email<\/b>/.test(result)) {
+      result = result.replace(/(<b>Email<\/b>:\s*).+/, `$1${updates.email}`)
+    } else {
+      result = result.replace(/(<b>Phone<\/b>)/, `<b>Email</b>: ${updates.email}\n$1`)
+    }
   }
 
   if (updates.phone !== undefined) {

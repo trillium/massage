@@ -55,6 +55,7 @@ export async function POST(
   const sanitized: Partial<EditableEventFields> = {}
   if (fields.firstName !== undefined) sanitized.firstName = escapeHtml(fields.firstName)
   if (fields.lastName !== undefined) sanitized.lastName = escapeHtml(fields.lastName)
+  if (fields.email !== undefined) sanitized.email = escapeHtml(fields.email)
   if (fields.phone !== undefined) sanitized.phone = escapeHtml(fields.phone)
   if (fields.location !== undefined) {
     sanitized.location = {

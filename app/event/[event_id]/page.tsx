@@ -132,6 +132,7 @@ export default async function EventPage({ params, searchParams }: EventPageProps
 
   const bookingSlug = extractBookingSlug(event)
   const editableFields = event.description ? parseEditableFields(event.description) : null
+  const displayEmail = editableFields?.email || result.payload.email
   const clientInfo = {
     firstName: editableFields?.firstName,
     lastName: editableFields?.lastName,
@@ -179,7 +180,7 @@ export default async function EventPage({ params, searchParams }: EventPageProps
 
             {clientName && <DetailRow label="Name" value={clientName} />}
             {event.location && <DetailRow label="Location" value={event.location} />}
-            <DetailRow label="Email" value={result.payload.email} />
+            <DetailRow label="Email" value={displayEmail} />
           </div>
 
           {status !== 'cancelled' && (
@@ -190,12 +191,15 @@ export default async function EventPage({ params, searchParams }: EventPageProps
                 eventId={event_id}
                 token={token}
                 initialValues={
-                  editableFields || {
-                    firstName: '',
-                    lastName: '',
-                    phone: '',
-                    location: stringToLocationObject(event.location || ''),
-                  }
+                  editableFields
+                    ? { ...editableFields, email: displayEmail }
+                    : {
+                        firstName: '',
+                        lastName: '',
+                        email: displayEmail,
+                        phone: '',
+                        location: stringToLocationObject(event.location || ''),
+                      }
                 }
               />
             </div>
