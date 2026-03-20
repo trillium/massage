@@ -14,6 +14,8 @@ import {
 } from '@/lib/api/confirmHelpers'
 import { getAppointmentByCalendarEventId } from '@/lib/appointments/getAppointmentByCalendarEventId'
 import { updateAppointmentStatus } from '@/lib/appointments/updateAppointmentStatus'
+import { fetchSingleEvent } from '@/lib/fetch/fetchSingleEvent'
+import { parseEditableFields } from '@/lib/helpers/parseEventDescription'
 
 export const dynamic = 'force-dynamic'
 
@@ -68,6 +70,16 @@ export async function GET(req: NextRequest) {
   }
 
   const validObject = validationResult.data
+
+  // If the client updated their email via the edit form, the description holds the current value.
+  // Override the baked-in token email so the calendar invite and confirmation go to the right place.
+  const currentEvent = await fetchSingleEvent(calendarEventId as string)
+  if (currentEvent?.description) {
+    const descriptionEmail = parseEditableFields(currentEvent.description).email
+    if (descriptionEmail) {
+      validObject.email = descriptionEmail
+    }
+  }
 
   if (Number.isNaN(Date.parse(validObject.start)) || Number.isNaN(Date.parse(validObject.end))) {
     return NextResponse.json(
