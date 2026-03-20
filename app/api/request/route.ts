@@ -24,6 +24,8 @@ import getBusyTimes from 'lib/availability/getBusyTimes'
 import { getEventsBySearchQuery } from 'lib/availability/getEventsBySearchQuery'
 import { SLOT_PADDING } from 'config'
 import { getActiveHolds } from 'lib/holds/getActiveHolds'
+import { reserveAppointmentSlot } from 'lib/appointments/reserveAppointmentSlot'
+import { linkAppointmentToCalendarEvent } from 'lib/appointments/linkAppointmentToCalendarEvent'
 
 const checkSlotAvailability = createCheckSlotAvailability({
   padding: SLOT_PADDING,
@@ -57,5 +59,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     createRequestCalendarEvent,
     updateCalendarEvent,
     checkSlotAvailability,
+    reserveAppointmentSlot,
+    linkAppointmentToCalendarEvent,
   })
 }

@@ -87,6 +87,13 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
   const fakeHeaders = new Headers(req.headers)
   fakeHeaders.set('origin', req.nextUrl.origin)
 
+  const fakeReserveAppointmentSlot = async () => ({
+    success: true as const,
+    appointmentId: `sandbox-apt-${randomUUID().slice(0, 8)}`,
+  })
+
+  const fakeLinkAppointmentToCalendarEvent = async () => {}
+
   const response = await handleAppointmentRequest({
     req: wrappedReq,
     headers: fakeHeaders,
@@ -105,6 +112,9 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     updateCalendarEvent: fakeUpdateCalendarEvent as Parameters<
       typeof handleAppointmentRequest
     >[0]['updateCalendarEvent'],
+    checkSlotAvailability: async () => ({ available: true }),
+    reserveAppointmentSlot: fakeReserveAppointmentSlot,
+    linkAppointmentToCalendarEvent: fakeLinkAppointmentToCalendarEvent,
   })
 
   const json = await response.json()

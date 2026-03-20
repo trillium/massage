@@ -12,11 +12,11 @@ vi.mock('lib/messaging/push/admin/pushover', () => ({
 // Mocks
 const sendMailMock = vi.fn(() => Promise.resolve())
 const approvalEmailMock = vi.fn(() => ({ subject: 'Approval', body: 'Approval body' }))
-const clientRequestEmailMock = vi.fn(() =>
-  Promise.resolve({ subject: 'Client', body: 'Client body' })
+const clientRequestEmailMock = vi.fn(
+  () => ({ subject: 'Client', body: 'Client body' }) as { subject: string; body: string }
 )
-const clientConfirmEmailMock = vi.fn(() =>
-  Promise.resolve({ subject: 'Confirmed', body: 'Confirmed body' })
+const clientConfirmEmailMock = vi.fn(
+  () => ({ subject: 'Confirmed', body: 'Confirmed body' }) as { subject: string; body: string }
 )
 const getHashMock = vi.fn(() => 'hash')
 const createRequestCalendarEventMock = vi.fn(() => Promise.resolve({ id: 'test-event-id' }))
@@ -76,6 +76,9 @@ describe('handleAppointmentRequest', () => {
       schema: AppointmentRequestSchema,
       createRequestCalendarEvent: createRequestCalendarEventMock,
       updateCalendarEvent: updateCalendarEventMock,
+      checkSlotAvailability: async () => ({ available: true }),
+      reserveAppointmentSlot: async () => ({ success: true as const, appointmentId: 'test-apt' }),
+      linkAppointmentToCalendarEvent: async () => {},
     })
     const json = await res.json()
     expect(res.status).toBe(200)
@@ -99,6 +102,9 @@ describe('handleAppointmentRequest', () => {
       schema: AppointmentRequestSchema,
       createRequestCalendarEvent: createRequestCalendarEventMock,
       updateCalendarEvent: updateCalendarEventMock,
+      checkSlotAvailability: async () => ({ available: true }),
+      reserveAppointmentSlot: async () => ({ success: true as const, appointmentId: 'test-apt' }),
+      linkAppointmentToCalendarEvent: async () => {},
     })
     expect(res.status).toBe(400)
   })
@@ -126,6 +132,9 @@ describe('handleAppointmentRequest', () => {
         schema: AppointmentRequestSchema,
         createRequestCalendarEvent: createRequestCalendarEventMock,
         updateCalendarEvent: updateCalendarEventMock,
+        checkSlotAvailability: async () => ({ available: true }),
+        reserveAppointmentSlot: async () => ({ success: true as const, appointmentId: 'test-apt' }),
+        linkAppointmentToCalendarEvent: async () => {},
       })
     }
     const res = await handleAppointmentRequest({
@@ -142,6 +151,9 @@ describe('handleAppointmentRequest', () => {
       schema: AppointmentRequestSchema,
       createRequestCalendarEvent: createRequestCalendarEventMock,
       updateCalendarEvent: updateCalendarEventMock,
+      checkSlotAvailability: async () => ({ available: true }),
+      reserveAppointmentSlot: async () => ({ success: true as const, appointmentId: 'test-apt' }),
+      linkAppointmentToCalendarEvent: async () => {},
     })
     expect(res.status).toBe(429)
   })
@@ -163,6 +175,9 @@ describe('handleAppointmentRequest', () => {
       schema: AppointmentRequestSchema,
       createRequestCalendarEvent: createRequestCalendarEventMock,
       updateCalendarEvent: updateCalendarEventMock,
+      checkSlotAvailability: async () => ({ available: true }),
+      reserveAppointmentSlot: async () => ({ success: true as const, appointmentId: 'test-apt' }),
+      linkAppointmentToCalendarEvent: async () => {},
     })
     expect(sendMailMock).toHaveBeenCalledTimes(2)
   })

@@ -24,8 +24,9 @@ import { escapeHtml } from './messaging/escapeHtml'
 import { createEventPageUrl, verifyEventToken } from './eventToken'
 import { getOriginFromHeaders } from './helpers/getOriginFromHeaders'
 import { formatLocalDate, formatLocalTime } from './availability/helpers'
-import { createAppointmentRecord } from './appointments/createAppointmentRecord'
 import { releaseSlotHold } from './holds/releaseSlotHold'
+import type { reserveAppointmentSlot as reserveAppointmentSlotFn } from './appointments/reserveAppointmentSlot'
+import type { linkAppointmentToCalendarEvent as linkAppointmentToCalendarEventFn } from './appointments/linkAppointmentToCalendarEvent'
 
 export type AppointmentRequestValidationResult =
   | { success: true; data: z.output<typeof AppointmentRequestSchema> }
@@ -46,6 +47,8 @@ export async function handleAppointmentRequest({
   createRequestCalendarEvent,
   updateCalendarEvent,
   checkSlotAvailability,
+  reserveAppointmentSlot,
+  linkAppointmentToCalendarEvent,
 }: {
   req: NextRequest
   headers: Headers
@@ -61,6 +64,8 @@ export async function handleAppointmentRequest({
   createRequestCalendarEvent: typeof createRequestCalendarEventFn
   updateCalendarEvent: typeof updateCalendarEventFn
   checkSlotAvailability: CheckSlotAvailabilityFn
+  reserveAppointmentSlot: typeof reserveAppointmentSlotFn
+  linkAppointmentToCalendarEvent: typeof linkAppointmentToCalendarEventFn
 }) {
   const jsonData = await req.json()
   if (rateLimiter(req, headers)) {
@@ -136,6 +141,33 @@ export async function handleAppointmentRequest({
     const start = new Date(data.start)
     const end = new Date(data.end)
 
+    const locationString = flattenLocation(data.locationObject || data.locationString || '')
+    const reservation = await reserveAppointmentSlot({
+      start: data.start,
+      end: data.end,
+      clientEmail: data.email,
+      clientPhone: data.phone,
+      clientFirstName: data.firstName,
+      clientLastName: data.lastName,
+      durationMinutes: Number.parseInt(data.duration, 10),
+      timezone: data.timeZone,
+      location: locationString,
+      price: data.price ? Number.parseInt(data.price, 10) : null,
+      status: 'confirmed',
+      promo: data.promo || null,
+      bookingUrl: data.bookingUrl || null,
+      slugConfig: data.slugConfiguration || null,
+      instantConfirm: true,
+      confirmedAt: new Date().toISOString(),
+    })
+
+    if (!reservation.success) {
+      return NextResponse.json(
+        { error: 'slot_unavailable', bookingUrl: data.bookingUrl },
+        { status: 409 }
+      )
+    }
+
     // Create the calendar appointment directly
     const location = data.locationObject || { street: '', city: data.locationString || '', zip: '' }
     const requestId = getHashFn(JSON.stringify(data))
@@ -165,7 +197,7 @@ export async function handleAppointmentRequest({
     })
 
     const calendarData = await calendarResponse.json()
-    createAppointmentRecord(calendarData.id, data, 'confirmed').catch(() => {})
+    linkAppointmentToCalendarEvent(reservation.appointmentId, calendarData.id).catch(() => {})
     if (data.sessionId) releaseSlotHold(data.sessionId).catch(() => {})
     const eventPageUrl = createEventPageUrl(origin, calendarData.id, data.email, data.end)
 
@@ -194,6 +226,32 @@ export async function handleAppointmentRequest({
   const end = new Date(data.end)
   const clientName = `${data.firstName} ${data.lastName}`
 
+  const locationForReservation = flattenLocation(data.locationObject || data.locationString || '')
+  const reservation = await reserveAppointmentSlot({
+    start: data.start,
+    end: data.end,
+    clientEmail: data.email,
+    clientPhone: data.phone,
+    clientFirstName: data.firstName,
+    clientLastName: data.lastName,
+    durationMinutes: Number.parseInt(data.duration, 10),
+    timezone: data.timeZone,
+    location: locationForReservation,
+    price: data.price ? Number.parseInt(data.price, 10) : null,
+    status: 'pending',
+    promo: data.promo || null,
+    bookingUrl: data.bookingUrl || null,
+    slugConfig: data.slugConfiguration || null,
+    instantConfirm: false,
+  })
+
+  if (!reservation.success) {
+    return NextResponse.json(
+      { error: 'slot_unavailable', bookingUrl: data.bookingUrl },
+      { status: 409 }
+    )
+  }
+
   // Phase 1: Create REQUEST calendar event with placeholder description
   const calendarResponse = await createRequestCalendarEvent({
     start: data.start,
@@ -203,7 +261,7 @@ export async function handleAppointmentRequest({
     location: flattenLocation(data.locationObject || data.locationString || ''),
   })
   const calendarEventId = calendarResponse.id
-  createAppointmentRecord(calendarEventId, data, 'pending').catch(() => {})
+  linkAppointmentToCalendarEvent(reservation.appointmentId, calendarEventId).catch(() => {})
   if (data.sessionId) releaseSlotHold(data.sessionId).catch(() => {})
 
   // Phase 2: Build accept/decline URLs using the calendarEventId

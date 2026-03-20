@@ -383,6 +383,28 @@ export interface Database {
         }
         Returns: void
       }
+      reserve_appointment_slot: {
+        Args: {
+          p_start: string
+          p_end: string
+          p_client_email: string
+          p_client_phone?: string | null
+          p_client_first?: string
+          p_client_last?: string
+          p_duration_min?: number
+          p_timezone?: string
+          p_location?: string | null
+          p_price?: number | null
+          p_status?: string
+          p_promo?: string | null
+          p_booking_url?: string | null
+          p_slug_config?: Json | null
+          p_source?: string
+          p_instant?: boolean
+          p_confirmed_at?: string | null
+        }
+        Returns: Json
+      }
       claim_slot_hold: {
         Args: {
           p_session_id: string

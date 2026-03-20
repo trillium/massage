@@ -42,6 +42,8 @@ const mockRateLimiter = vi.fn()
 const mockCreateRequestCalendarEvent = vi.fn()
 const mockUpdateCalendarEvent = vi.fn()
 const mockCheckSlotAvailability = vi.fn()
+const mockReserveAppointmentSlot = vi.fn()
+const mockLinkAppointmentToCalendarEvent = vi.fn()
 type MockAppointmentRequestSchema = { safeParse: ReturnType<typeof vi.fn> }
 const mockAppointmentRequestSchema: MockAppointmentRequestSchema = {
   safeParse: vi.fn(),
@@ -71,6 +73,8 @@ describe('handleAppointmentRequest', () => {
     mockCreateRequestCalendarEvent.mockResolvedValue({ id: 'test-event-id' })
     mockUpdateCalendarEvent.mockResolvedValue({})
     mockCheckSlotAvailability.mockResolvedValue({ available: true })
+    mockReserveAppointmentSlot.mockResolvedValue({ success: true, appointmentId: 'test-apt-id' })
+    mockLinkAppointmentToCalendarEvent.mockResolvedValue(undefined)
     mockCreateCalendarAppointment.mockResolvedValue({
       ok: true,
       json: () => Promise.resolve({ id: 'instant-event-id' }),
@@ -131,6 +135,8 @@ describe('handleAppointmentRequest', () => {
       createRequestCalendarEvent: mockCreateRequestCalendarEvent,
       updateCalendarEvent: mockUpdateCalendarEvent,
       checkSlotAvailability: mockCheckSlotAvailability,
+      reserveAppointmentSlot: mockReserveAppointmentSlot,
+      linkAppointmentToCalendarEvent: mockLinkAppointmentToCalendarEvent,
     })
 
     // Assert
@@ -180,6 +186,8 @@ describe('handleAppointmentRequest', () => {
       createRequestCalendarEvent: mockCreateRequestCalendarEvent,
       updateCalendarEvent: mockUpdateCalendarEvent,
       checkSlotAvailability: mockCheckSlotAvailability,
+      reserveAppointmentSlot: mockReserveAppointmentSlot,
+      linkAppointmentToCalendarEvent: mockLinkAppointmentToCalendarEvent,
     })
 
     // Assert: calendar event created with REQUEST prefix, no attendees
@@ -228,6 +236,8 @@ describe('handleAppointmentRequest', () => {
       createRequestCalendarEvent: mockCreateRequestCalendarEvent,
       updateCalendarEvent: mockUpdateCalendarEvent,
       checkSlotAvailability: mockCheckSlotAvailability,
+      reserveAppointmentSlot: mockReserveAppointmentSlot,
+      linkAppointmentToCalendarEvent: mockLinkAppointmentToCalendarEvent,
     })
 
     // Assert
@@ -266,6 +276,8 @@ describe('handleAppointmentRequest', () => {
       createRequestCalendarEvent: mockCreateRequestCalendarEvent,
       updateCalendarEvent: mockUpdateCalendarEvent,
       checkSlotAvailability: mockCheckSlotAvailability,
+      reserveAppointmentSlot: mockReserveAppointmentSlot,
+      linkAppointmentToCalendarEvent: mockLinkAppointmentToCalendarEvent,
     })
 
     // Assert
@@ -319,6 +331,8 @@ describe('handleAppointmentRequest', () => {
         createRequestCalendarEvent: mockCreateRequestCalendarEvent,
         updateCalendarEvent: mockUpdateCalendarEvent,
         checkSlotAvailability: mockCheckSlotAvailability,
+        reserveAppointmentSlot: mockReserveAppointmentSlot,
+        linkAppointmentToCalendarEvent: mockLinkAppointmentToCalendarEvent,
       })
 
       const response = await result.json()
@@ -345,6 +359,8 @@ describe('handleAppointmentRequest', () => {
         createRequestCalendarEvent: mockCreateRequestCalendarEvent,
         updateCalendarEvent: mockUpdateCalendarEvent,
         checkSlotAvailability: mockCheckSlotAvailability,
+        reserveAppointmentSlot: mockReserveAppointmentSlot,
+        linkAppointmentToCalendarEvent: mockLinkAppointmentToCalendarEvent,
       })
 
       expect(mockCreateRequestCalendarEvent).not.toHaveBeenCalled()
@@ -374,6 +390,8 @@ describe('handleAppointmentRequest', () => {
         createRequestCalendarEvent: mockCreateRequestCalendarEvent,
         updateCalendarEvent: mockUpdateCalendarEvent,
         checkSlotAvailability: mockCheckSlotAvailability,
+        reserveAppointmentSlot: mockReserveAppointmentSlot,
+        linkAppointmentToCalendarEvent: mockLinkAppointmentToCalendarEvent,
       })
 
       expect(result.status).toBe(409)
@@ -398,6 +416,8 @@ describe('handleAppointmentRequest', () => {
         createRequestCalendarEvent: mockCreateRequestCalendarEvent,
         updateCalendarEvent: mockUpdateCalendarEvent,
         checkSlotAvailability: mockCheckSlotAvailability,
+        reserveAppointmentSlot: mockReserveAppointmentSlot,
+        linkAppointmentToCalendarEvent: mockLinkAppointmentToCalendarEvent,
       })
 
       expect(result.status).toBe(200)
@@ -433,6 +453,8 @@ describe('handleAppointmentRequest', () => {
         createRequestCalendarEvent: mockCreateRequestCalendarEvent,
         updateCalendarEvent: mockUpdateCalendarEvent,
         checkSlotAvailability: mockCheckSlotAvailability,
+        reserveAppointmentSlot: mockReserveAppointmentSlot,
+        linkAppointmentToCalendarEvent: mockLinkAppointmentToCalendarEvent,
       })
 
       expect(mockCreateCalendarAppointment).toHaveBeenCalledWith(
@@ -460,6 +482,8 @@ describe('handleAppointmentRequest', () => {
         createRequestCalendarEvent: mockCreateRequestCalendarEvent,
         updateCalendarEvent: mockUpdateCalendarEvent,
         checkSlotAvailability: mockCheckSlotAvailability,
+        reserveAppointmentSlot: mockReserveAppointmentSlot,
+        linkAppointmentToCalendarEvent: mockLinkAppointmentToCalendarEvent,
       })
 
       expect(result.status).toBe(503)
