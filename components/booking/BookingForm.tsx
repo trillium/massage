@@ -41,7 +41,7 @@ export default function BookingForm({
   onSubmit,
 }: BookingFormProps) {
   const dispatch = useAppDispatch()
-  const { releaseHold, holdExpired } = useSlotHoldContext()
+  const { releaseHold, holdExpired, claimHold, claiming } = useSlotHoldContext()
   const formData = useReduxFormData()
   const eventContainers = useReduxEventContainers()
   const config = useReduxConfig()
@@ -125,7 +125,16 @@ export default function BookingForm({
                     Request appointment
                   </DialogTitle>
                   {holdExpired && (
-                    <span className="text-xs text-amber-600">Slot no longer reserved</span>
+                    <button
+                      type="button"
+                      disabled={claiming}
+                      onClick={() => {
+                        if (selectedTime) claimHold(selectedTime.start, selectedTime.end)
+                      }}
+                      className="rounded bg-amber-100 px-2 py-1 text-xs text-amber-700 hover:bg-amber-200 disabled:opacity-50"
+                    >
+                      {claiming ? 'Reserving…' : 'Reserve again'}
+                    </button>
                   )}
                 </div>
 
