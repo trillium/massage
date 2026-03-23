@@ -28,6 +28,10 @@ export default function DurationPicker({
   const price = priceRedux || priceProps || DEFAULT_PRICING
   const sessionCost = price[duration || DEFAULT_DURATION] ?? ''
   const pricingLabel = configuration?.pricingLabels?.[duration || DEFAULT_DURATION]
+  const hidePricing = configuration?.acceptingPayment === false
+
+  const cols = allowedDurations.length <= 4 ? allowedDurations.length : 3
+  const useGrid = allowedDurations.length > 4
 
   return (
     <fieldset>
@@ -36,12 +40,18 @@ export default function DurationPicker({
         {pricingLabel ? (
           <span className="text-primary-600 dark:text-primary-400">{pricingLabel}</span>
         ) : (
+          !hidePricing &&
           showPrice && <GeneratePrice price={sessionCost} discount={configuration?.discount} />
         )}
       </legend>
-      <div className="focus-within:ring-primary-500 active:ring-primary-500 isolate mt-1 inline-flex h-9 rounded-md shadow-sm focus-within:ring-2 active:ring-2">
+      <div
+        className={clsx('isolate mt-1 overflow-hidden rounded-xl border border-accent-300', {
+          'grid grid-cols-3': useGrid,
+          'inline-flex': !useGrid,
+        })}
+      >
         {allowedDurations.map((theDuration, i) => (
-          <div key={theDuration} className="flex items-center rounded-r-md">
+          <div key={theDuration}>
             <input
               id={`duration-${theDuration}`}
               name="duration"
@@ -54,15 +64,18 @@ export default function DurationPicker({
             <label
               htmlFor={`duration-${theDuration}`}
               className={clsx(
-                'outline-primary-600 relative inline-flex items-center px-3 py-2 text-sm font-semibold ring-1 ring-inset focus:z-10',
+                'outline-primary-600 relative flex items-center justify-center px-3 py-2.5 text-sm font-semibold focus:z-10',
+                useGrid
+                  ? {
+                      'border-b border-accent-300': i < allowedDurations.length - cols,
+                      'border-r border-accent-300': (i + 1) % cols !== 0,
+                    }
+                  : {
+                      'border-r border-accent-300': i < allowedDurations.length - 1,
+                    },
                 {
-                  'rounded-l-md': i === 0,
-                  'rounded-r-md': i === allowedDurations.length - 1,
-                  '-ml-px': i > 0,
-                  'bg-surface-50 text-accent-900 ring-accent-300 hover:bg-surface-200':
-                    theDuration !== duration,
-                  'bg-primary-500 shadow-primary-900 ring-primary-400 text-white shadow-inner':
-                    theDuration === duration,
+                  'bg-surface-50 text-accent-900 hover:bg-surface-200': theDuration !== duration,
+                  'bg-primary-500 text-white shadow-inner': theDuration === duration,
                 }
               )}
             >
