@@ -349,7 +349,7 @@ const slugConfigurations: SlugConfigurationType[] = [
   },
   {
     ...initialStateWithoutType,
-    bookingSlug: ['barter', 'free', 'trade'],
+    bookingSlug: ['barter'],
     type: 'area-wide',
     title: 'Free / Barter Session',
     text: 'This session is free or covered by a barter arrangement. Pick a duration that works for you!',
