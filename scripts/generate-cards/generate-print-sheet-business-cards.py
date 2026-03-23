@@ -60,16 +60,26 @@ DEFAULTS = {
     "margin_y": 0.25,
     "col_gap": 0.50,
     "row_gap": 0.125,
+    "nudge_x": 0.0,           # horizontal nudge both sides (positive = right)
+    "nudge_y": 0.0,           # vertical nudge both sides (negative = up)
+    "nudge_front_x": None,    # front-only horizontal nudge (overrides nudge_x for front)
+    "nudge_front_y": None,    # front-only vertical nudge
+    "nudge_back_x": None,     # back-only horizontal nudge (overrides nudge_x for back)
+    "nudge_back_y": None,     # back-only vertical nudge
+    "show_zones": False,  # draw cut zone labels/lines
 }
 
 PAGE_W = PAGE_H = 0
 COLS = ROWS = 0
 MARGIN_X = MARGIN_Y = COL_GAP = ROW_GAP = 0
-COL_X = []
+NUDGE = {"front": (0, 0), "back": (0, 0)}
+SHOW_ZONES = False
+COL_X_BASE = []
 
 
 def apply_layout(cfg: dict) -> None:
-    global PAGE_W, PAGE_H, COLS, ROWS, MARGIN_X, MARGIN_Y, COL_GAP, ROW_GAP, COL_X
+    global PAGE_W, PAGE_H, COLS, ROWS, MARGIN_X, MARGIN_Y, COL_GAP, ROW_GAP
+    global NUDGE, SHOW_ZONES, COL_X_BASE
     PAGE_W = cfg["page_w"] * 72
     PAGE_H = cfg["page_h"] * 72
     COLS = int(cfg["cols"])
@@ -78,18 +88,35 @@ def apply_layout(cfg: dict) -> None:
     MARGIN_Y = cfg["margin_y"] * 72
     COL_GAP = cfg["col_gap"] * 72
     ROW_GAP = cfg["row_gap"] * 72
-    COL_X = [MARGIN_X + c * (CARD_W_PT + COL_GAP) for c in range(COLS)]
+    SHOW_ZONES = cfg["show_zones"]
+
+    base_x = cfg["nudge_x"] * 72
+    base_y = cfg["nudge_y"] * 72
+    front_x = cfg["nudge_front_x"] * 72 if cfg["nudge_front_x"] is not None else base_x
+    front_y = cfg["nudge_front_y"] * 72 if cfg["nudge_front_y"] is not None else base_y
+    back_x = cfg["nudge_back_x"] * 72 if cfg["nudge_back_x"] is not None else base_x
+    back_y = cfg["nudge_back_y"] * 72 if cfg["nudge_back_y"] is not None else base_y
+    NUDGE["front"] = (front_x, front_y)
+    NUDGE["back"] = (back_x, back_y)
+
+    COL_X_BASE = [MARGIN_X + c * (CARD_W_PT + COL_GAP) for c in range(COLS)]
 
 
-def trim_rect(col: int, row: int) -> fitz.Rect:
-    x0 = COL_X[col]
-    y0 = MARGIN_Y + row * (CARD_H_PT + ROW_GAP)
+def trim_rect(col: int, row: int, side: str = "front") -> fitz.Rect:
+    nx, ny = NUDGE[side]
+    x0 = COL_X_BASE[col] + nx
+    y0 = MARGIN_Y + ny + row * (CARD_H_PT + ROW_GAP)
     return fitz.Rect(x0, y0, x0 + CARD_W_PT, y0 + CARD_H_PT)
 
 
-def bleed_rect(col: int, row: int) -> fitz.Rect:
-    tr = trim_rect(col, row)
-    # Vertical bleed clamped to half the row gap so adjacent cards don't overlap
+def clip_rect_for_source() -> fitz.Rect:
+    v_bleed = min(BLEED, ROW_GAP / 2) if ROW_GAP > 0 else BLEED
+    clip_inset = BLEED - v_bleed
+    return fitz.Rect(0, clip_inset, BLEED_W, BLEED_H - clip_inset)
+
+
+def visible_rect(col: int, row: int, side: str = "front") -> fitz.Rect:
+    tr = trim_rect(col, row, side)
     v_bleed = min(BLEED, ROW_GAP / 2) if ROW_GAP > 0 else BLEED
     return fitz.Rect(tr.x0 - BLEED, tr.y0 - v_bleed, tr.x1 + BLEED, tr.y1 + v_bleed)
 
@@ -221,10 +248,19 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--template", default=str(DEFAULT_TEMPLATE))
     parser.add_argument("--scope", help="Scope name for output filename")
+    parser.add_argument("--prefix", default="BC-", help="QR SVG prefix (default: BC-)")
+    parser.add_argument("--count", type=int, default=0, help="Limit cards (0=all)")
     for key, default in DEFAULTS.items():
         flag = f"--{key.replace('_', '-')}"
-        parser.add_argument(flag, type=type(default), default=default,
-                            help=f"(default: {default})")
+        if isinstance(default, bool):
+            parser.add_argument(flag, action="store_true", default=default,
+                                help=f"(default: {default})")
+        elif default is None:
+            parser.add_argument(flag, type=float, default=None,
+                                help=f"(default: inherit from nudge-x/y)")
+        else:
+            parser.add_argument(flag, type=type(default), default=default,
+                                help=f"(default: {default})")
     args = parser.parse_args()
 
     cfg = {k: getattr(args, k) for k in DEFAULTS}
@@ -240,11 +276,11 @@ def main():
 
     colors = load_colors()
 
-    qr_files = sorted(QR_DIR.glob("BC-*.svg"))
+    qr_files = sorted(QR_DIR.glob(f"{args.prefix}*.svg"))
     if not qr_files:
-        qr_files = sorted(QR_DIR.glob("businessCard_*.svg"))
-    if not qr_files:
-        sys.exit(f"No BC-*.svg or businessCard_*.svg in {QR_DIR}")
+        sys.exit(f"No {args.prefix}*.svg in {QR_DIR}")
+    if args.count > 0:
+        qr_files = qr_files[:args.count]
 
     scope = args.scope if args.scope else get_scope_from_filename(qr_files)
     out_path = REPO_ROOT / "print" / "business-cards" / f"{scope}_sheet.pdf"
@@ -260,10 +296,13 @@ def main():
         front = out.new_page(width=PAGE_W, height=PAGE_H)
         for i, qr_path in enumerate(batch):
             col, row = i % COLS, i // COLS
-            # Place front (page 0) at bleed size, centered over trim
-            front.show_pdf_page(bleed_rect(col, row), template, 0)
+            front.show_pdf_page(
+                visible_rect(col, row, "front"), template, 0,
+                clip=clip_rect_for_source(),
+            )
 
-        draw_cc228_zones(front)
+        if SHOW_ZONES:
+            draw_cc228_zones(front)
 
         # ── Back (short-edge duplex = flip rows top↔bottom) ──
         back = out.new_page(width=PAGE_W, height=PAGE_H)
@@ -272,9 +311,13 @@ def main():
             back_row = ROWS - row - 1
 
             back_doc = make_back(template, qr_path, colors)
-            back.show_pdf_page(bleed_rect(col, back_row), back_doc, 0)
+            back.show_pdf_page(
+                visible_rect(col, back_row, "back"), back_doc, 0,
+                clip=clip_rect_for_source(),
+            )
 
-        draw_cc228_zones(back)
+        if SHOW_ZONES:
+            draw_cc228_zones(back)
 
     out_path.parent.mkdir(parents=True, exist_ok=True)
     out.save(str(out_path), deflate=True, garbage=4)
