@@ -349,6 +349,21 @@ const slugConfigurations: SlugConfigurationType[] = [
   },
   {
     ...initialStateWithoutType,
+    bookingSlug: ['barter', 'free', 'trade'],
+    type: 'area-wide',
+    title: 'Free / Barter Session',
+    text: 'This session is free or covered by a barter arrangement. Pick a duration that works for you!',
+    pricing: { 30: 0, 60: 0, 90: 0, 120: 0, 150: 0, 180: 0, 210: 0, 240: 0, 270: 0 },
+    allowedDurations: [30, 60, 90, 120, 150, 180, 210, 240, 270],
+    defaultDuration: 60,
+    leadTimeMinimum: 60,
+    acceptingPayment: false,
+    customFields: {
+      showNotesField: true,
+    },
+  },
+  {
+    ...initialStateWithoutType,
     bookingSlug: ['chat-with-me'],
     type: 'fixed-location',
     title: 'Psyche! Not a Massage, Just a Phone Call',
