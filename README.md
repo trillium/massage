@@ -244,7 +244,7 @@ Live Site: [https://trilliummassage.la/](https://trilliummassage.la/)
 [license-url]: https://github.com/trillium/massage/blob/master/LICENSE
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/trilliumsmith/
-[product-screenshot]: /static/images/twitter-card.jpg
+[product-screenshot]: public/static/images/twitter-card.jpg
 [Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
 [Next-url]: https://nextjs.org/
 [React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
