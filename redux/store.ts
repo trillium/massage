@@ -6,6 +6,7 @@ import { modalSlice } from './slices/modalSlice'
 import { readySlice } from './slices/readySlice'
 import { eventContainersSlice } from './slices/eventContainersSlice'
 import { configSlice } from './slices/configSlice'
+import { contactFormSlice } from './slices/contactFormSlice'
 
 const rootReducer = combineSlices(
   bookingFormSlice,
@@ -14,7 +15,8 @@ const rootReducer = combineSlices(
   modalSlice,
   readySlice,
   eventContainersSlice,
-  configSlice
+  configSlice,
+  contactFormSlice
 )
 
 export const makeStore = () => {
