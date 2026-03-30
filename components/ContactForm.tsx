@@ -1,15 +1,20 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { ContactFormType } from '@/lib/types'
+import { useAppDispatch } from '@/redux/hooks'
+import { setContactForm } from '@/redux/slices/contactFormSlice'
 
 interface ContactFormProps {
   defaultSubject?: string
 }
 
 export default function ContactForm({ defaultSubject = '' }: ContactFormProps) {
+  const router = useRouter()
+  const dispatch = useAppDispatch()
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'error'>('idle')
   const [errorMessage, setErrorMessage] = useState('')
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -41,21 +46,10 @@ export default function ContactForm({ defaultSubject = '' }: ContactFormProps) {
       })
 
       if (response.ok) {
-        const responseData = await response.json()
-
-        setSubmitStatus('success')
-
-        // Reset form using stored reference
-        if (formElement) {
-          formElement.reset()
-          // Reset default subject if it was pre-filled
-          if (defaultSubject) {
-            const subjectInput = formElement.querySelector('#subject') as HTMLInputElement
-            if (subjectInput) {
-              subjectInput.value = defaultSubject
-            }
-          }
-        }
+        const { confirmationId } = await response.json()
+        dispatch(setContactForm(contactData))
+        router.push(`/contact/submitted?ref=${confirmationId}`)
+        return
       } else {
         try {
           const errorData = await response.json()
@@ -79,12 +73,6 @@ export default function ContactForm({ defaultSubject = '' }: ContactFormProps) {
       onSubmit={handleSubmit}
       className="border500 border-white-500 focus-within:border-primary-500 flex w-full flex-col items-center space-y-4 rounded-lg border-2 bg-surface-50 p-6 shadow-md dark:bg-surface-900"
     >
-      {submitStatus === 'success' && (
-        <div className="mb-4 rounded border border-green-400 bg-green-100 px-4 py-3 text-green-700">
-          Thank you! Your message has been sent successfully. We'll shorlty :)
-        </div>
-      )}
-
       {submitStatus === 'error' && (
         <div className="mb-4 rounded border border-red-400 bg-red-100 px-4 py-3 text-red-700">
           {errorMessage}

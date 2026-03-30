@@ -80,10 +80,13 @@ export async function handleContactRequest({
     body: userEmailBody,
   })
 
+  const confirmationId = getHash(`${data.email}:${Date.now()}`).slice(0, 8)
+
   return NextResponse.json(
     {
       message: 'Contact form submitted successfully',
       success: true,
+      confirmationId,
     },
     { status: 200 }
   )
