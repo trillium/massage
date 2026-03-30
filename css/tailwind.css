@@ -304,6 +304,27 @@
   scrollbar-width: none; /* Firefox */
 }
 
+.visible-scrollbar {
+  scrollbar-width: thin; /* Firefox */
+}
+
+.visible-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.visible-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.visible-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--color-surface-400);
+  border-radius: 3px;
+}
+
+.visible-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: var(--color-surface-500);
+}
+
 /* https://stackoverflow.com/questions/61083813/how-to-avoid-internal-autofill-selected-style-to-be-applied */
 input:-webkit-autofill,
 input:-webkit-autofill:focus {
