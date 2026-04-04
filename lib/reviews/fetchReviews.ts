@@ -3,6 +3,7 @@ import type { ReviewType } from '@/lib/types'
 
 export async function fetchReviews(): Promise<ReviewType[]> {
   const supabase = getSupabaseAdminClient()
+  if (!supabase) return []
 
   const { data, error } = await supabase
     .from('reviews')

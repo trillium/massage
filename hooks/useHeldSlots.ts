@@ -16,8 +16,9 @@ export function useHeldSlots() {
 
   useEffect(() => {
     const supabase = getSupabaseBrowserClient()
+    if (!supabase) return
 
-    async function fetchActiveHolds() {
+    const fetchActiveHolds = async () => {
       const { data } = await supabase
         .from('slot_holds')
         .select('start_time, end_time, session_id')

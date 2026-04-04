@@ -9,6 +9,8 @@ export function AuthStateListener() {
   const supabase = getSupabaseBrowserClient()
 
   useEffect(() => {
+    if (!supabase) return
+
     const identifyUser = (email: string, userId: string, provider?: string) => {
       if (!posthog._isIdentified()) {
         posthog.identify(email, {

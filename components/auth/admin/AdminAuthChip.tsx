@@ -26,6 +26,7 @@ export function AdminAuthChip({ adminEmail, onLogout }: AdminAuthChipProps) {
 
   useEffect(() => {
     setIsClient(true)
+    if (!supabase) return
 
     const checkAdminStatus = async () => {
       const {
@@ -66,7 +67,7 @@ export function AdminAuthChip({ adminEmail, onLogout }: AdminAuthChipProps) {
   const handleLogout = async () => {
     if (onLogout) {
       onLogout()
-    } else {
+    } else if (supabase) {
       await supabase.auth.signOut()
       setAdminState({ isAdmin: false, email: null })
       router.push('/auth/login')

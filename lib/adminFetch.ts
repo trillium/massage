@@ -9,6 +9,8 @@ export class AdminFetchError extends Error {
 
 export async function adminFetch(input: RequestInfo | URL, init?: RequestInit): Promise<Response> {
   const supabase = getSupabaseBrowserClient()
+  if (!supabase) throw new AdminFetchError('Supabase not configured')
+
   const {
     data: { session },
   } = await supabase.auth.getSession()
