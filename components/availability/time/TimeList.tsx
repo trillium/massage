@@ -45,18 +45,16 @@ export default function TimeList({}) {
     const slotKey = time.start + time.end
     setClaimingSlot(slotKey)
 
+    dispatch(setSelectedTime({ start: time.start, end: time.end }))
+    dispatch(setEventContainers({ location: location ?? undefined }))
+    dispatch(setModal({ status: 'open' }))
+
     const held = await claimHold(time.start, time.end)
     setClaimingSlot(null)
 
-    if (!held) return
-
-    dispatch(setSelectedTime({ start: time.start, end: time.end }))
-    if (location) {
-      dispatch(setEventContainers({ location: location }))
-    } else {
-      dispatch(setEventContainers({ location: undefined }))
+    if (!held) {
+      dispatch(setModal({ status: 'closed' }))
     }
-    dispatch(setModal({ status: 'open' }))
   }
 
   return (

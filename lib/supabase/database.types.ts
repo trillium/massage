@@ -12,6 +12,17 @@ export type AppointmentStatus = 'pending' | 'confirmed' | 'cancelled' | 'complet
 export type ReminderChannel = 'email' | 'sms' | 'push' | 'whatsapp'
 export type ReminderStatus = 'scheduled' | 'sent' | 'failed' | 'cancelled'
 export type ReminderType = '24h_before' | '2h_before' | 'follow_up' | 'custom'
+export type InvoiceStatus =
+  | 'DRAFT'
+  | 'UNPAID'
+  | 'SCHEDULED'
+  | 'PARTIALLY_PAID'
+  | 'PAID'
+  | 'PARTIALLY_REFUNDED'
+  | 'REFUNDED'
+  | 'CANCELED'
+  | 'FAILED'
+  | 'PAYMENT_PENDING'
 
 export interface Database {
   public: {
@@ -270,6 +281,122 @@ export interface Database {
         }
         Relationships: []
       }
+      invoices: {
+        Row: {
+          id: string
+          booking_id: string
+          square_invoice_id: string
+          square_order_id: string
+          square_customer_id: string
+          status: InvoiceStatus
+          public_url: string | null
+          invoice_number: string | null
+          amount_cents: number
+          currency: string
+          email_sent_to: string | null
+          email_updated_at: string | null
+          created_at: string
+          updated_at: string
+          paid_at: string | null
+          canceled_at: string | null
+        }
+        Insert: {
+          id?: string
+          booking_id: string
+          square_invoice_id: string
+          square_order_id: string
+          square_customer_id: string
+          status?: InvoiceStatus
+          public_url?: string | null
+          invoice_number?: string | null
+          amount_cents: number
+          currency?: string
+          email_sent_to?: string | null
+          email_updated_at?: string | null
+          created_at?: string
+          updated_at?: string
+          paid_at?: string | null
+          canceled_at?: string | null
+        }
+        Update: {
+          id?: string
+          booking_id?: string
+          square_invoice_id?: string
+          square_order_id?: string
+          square_customer_id?: string
+          status?: InvoiceStatus
+          public_url?: string | null
+          invoice_number?: string | null
+          amount_cents?: number
+          currency?: string
+          email_sent_to?: string | null
+          email_updated_at?: string | null
+          created_at?: string
+          updated_at?: string
+          paid_at?: string | null
+          canceled_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'invoices_booking_id_fkey'
+            columns: ['booking_id']
+            referencedRelation: 'appointments'
+            referencedColumns: ['id']
+          },
+        ]
+      }
+      invoice_audit_log: {
+        Row: {
+          id: string
+          booking_id: string
+          square_invoice_id: string | null
+          square_order_id: string | null
+          event_type: string
+          event_source: string
+          status_before: string | null
+          status_after: string | null
+          payload: Json | null
+          error_detail: Json | null
+          idempotency_key: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          booking_id: string
+          square_invoice_id?: string | null
+          square_order_id?: string | null
+          event_type: string
+          event_source: string
+          status_before?: string | null
+          status_after?: string | null
+          payload?: Json | null
+          error_detail?: Json | null
+          idempotency_key?: string | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          booking_id?: string
+          square_invoice_id?: string | null
+          square_order_id?: string | null
+          event_type?: string
+          event_source?: string
+          status_before?: string | null
+          status_after?: string | null
+          payload?: Json | null
+          error_detail?: Json | null
+          idempotency_key?: string | null
+          created_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'invoice_audit_log_booking_id_fkey'
+            columns: ['booking_id']
+            referencedRelation: 'appointments'
+            referencedColumns: ['id']
+          },
+        ]
+      }
       reminder_logs: {
         Row: {
           id: string
@@ -426,6 +553,7 @@ export interface Database {
       reminder_channel: ReminderChannel
       reminder_status: ReminderStatus
       reminder_type: ReminderType
+      invoice_status: InvoiceStatus
     }
   }
 }
@@ -450,6 +578,13 @@ export type ReminderLogInsert = Database['public']['Tables']['reminder_logs']['I
 
 export type SlotHold = Database['public']['Tables']['slot_holds']['Row']
 export type SlotHoldInsert = Database['public']['Tables']['slot_holds']['Insert']
+
+export type Invoice = Database['public']['Tables']['invoices']['Row']
+export type InvoiceInsert = Database['public']['Tables']['invoices']['Insert']
+export type InvoiceUpdate = Database['public']['Tables']['invoices']['Update']
+
+export type InvoiceAuditLog = Database['public']['Tables']['invoice_audit_log']['Row']
+export type InvoiceAuditLogInsert = Database['public']['Tables']['invoice_audit_log']['Insert']
 
 // Auth user type (from Supabase Auth)
 export interface AuthUser {

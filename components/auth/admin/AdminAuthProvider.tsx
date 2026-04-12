@@ -31,6 +31,11 @@ export function AdminAuthProvider({ children }: AdminAuthProviderProps) {
   const supabase = getSupabaseBrowserClient()
 
   useEffect(() => {
+    if (!supabase) {
+      setAuthState({ isAuthenticated: false, isLoading: false, adminEmail: null, error: null })
+      return
+    }
+
     const checkAdminAccess = async () => {
       try {
         const {
@@ -97,7 +102,7 @@ export function AdminAuthProvider({ children }: AdminAuthProviderProps) {
   }, [supabase])
 
   const handleLogout = async () => {
-    await supabase.auth.signOut()
+    await supabase?.auth.signOut()
     router.push('/auth/login')
   }
 

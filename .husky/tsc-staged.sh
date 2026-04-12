@@ -14,7 +14,7 @@ fi
 
 FAIL=0
 for file in $STAGED; do
-  MATCHED=$(echo "$ERRORS" | grep "^${file}" || true)
+  MATCHED=$(echo "$ERRORS" | grep -F "${file}(" || true)
   if [ -n "$MATCHED" ]; then
     if [ "$FAIL" -eq 0 ]; then
       echo "❌ TypeScript errors in staged files:"

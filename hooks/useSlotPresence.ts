@@ -13,6 +13,8 @@ export function useSlotPresence(channelName: string) {
 
   useEffect(() => {
     const supabase = getSupabaseBrowserClient()
+    if (!supabase) return
+
     const channel = supabase.channel(channelName, {
       config: { presence: { key: crypto.randomUUID() } },
     })

@@ -12,6 +12,7 @@ export interface AdminReview {
 
 export async function fetchReviewsAdmin(): Promise<AdminReview[]> {
   const supabase = getSupabaseAdminClient()
+  if (!supabase) return []
 
   const { data, error } = await supabase
     .from('reviews')

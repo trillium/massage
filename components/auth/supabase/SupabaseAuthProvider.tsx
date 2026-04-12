@@ -14,7 +14,7 @@
 
 import { createContext, useContext, useEffect, useState } from 'react'
 import type { User, Session } from '@supabase/supabase-js'
-import { supabase } from '@/lib/supabase/client'
+import { getSupabaseBrowserClient } from '@/lib/supabase/client'
 import type { Profile } from '@/lib/supabase/database.types'
 
 interface AuthContextType {
@@ -35,7 +35,10 @@ export function SupabaseAuthProvider({ children }: { children: React.ReactNode }
   const [session, setSession] = useState<Session | null>(null)
   const [loading, setLoading] = useState(true)
 
+  const supabase = getSupabaseBrowserClient()
+
   const fetchProfile = async (userId: string) => {
+    if (!supabase) return null
     const { data } = await supabase.from('profiles').select('*').eq('id', userId).single()
     setProfile(data)
     return data
@@ -48,6 +51,11 @@ export function SupabaseAuthProvider({ children }: { children: React.ReactNode }
   }
 
   useEffect(() => {
+    if (!supabase) {
+      setLoading(false)
+      return
+    }
+
     const initAuth = async () => {
       const {
         data: { session: initialSession },
@@ -83,9 +91,10 @@ export function SupabaseAuthProvider({ children }: { children: React.ReactNode }
     return () => {
       subscription.unsubscribe()
     }
-  }, [fetchProfile])
+  }, [supabase])
 
   const handleSignOut = async () => {
+    if (!supabase) return
     await supabase.auth.signOut()
     setUser(null)
     setProfile(null)
