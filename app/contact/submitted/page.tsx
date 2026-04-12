@@ -1,11 +1,20 @@
 'use client'
 
+import { Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import SectionContainer from '@/components/SectionContainer'
 import Link from 'next/link'
 import { useReduxContactForm } from '@/redux/hooks'
 
 export default function ContactSubmittedPage() {
+  return (
+    <Suspense>
+      <ContactSubmittedContent />
+    </Suspense>
+  )
+}
+
+function ContactSubmittedContent() {
   const searchParams = useSearchParams()
   const confirmationId = searchParams.get('ref')
   const contactForm = useReduxContactForm()
