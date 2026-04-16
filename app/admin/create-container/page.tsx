@@ -12,6 +12,7 @@ const KNOWN_QUERIES = [
   'scale23x_after_hours',
   'chat',
   'the_kinn',
+  'mr_pasadena',
 ]
 
 export default function CreateContainerPage() {

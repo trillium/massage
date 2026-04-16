@@ -1,5 +1,6 @@
 # Files exempt from the 250-line limit in pre-commit hook
 # Add one file path per line (relative to repo root)
+lib/slugConfigurations/fetchSlugConfigurationData.ts
 pnpm-lock.yaml
 app/admin/gmail-events/page.tsx
 lib/gmail/searchSootheEmails.ts
