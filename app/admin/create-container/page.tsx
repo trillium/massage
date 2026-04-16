@@ -39,17 +39,24 @@ export default function CreateContainerPage() {
       if (!response.ok) throw new Error(result.error || 'Failed to create container')
 
       toast.success(
-        <div>
-          Container created!
-          <br />
-          <a
-            href={result.event.htmlLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-blue-600 underline hover:text-blue-800"
-          >
-            Open in Google Calendar
-          </a>
+        <div className="space-y-1">
+          <div>Container created!</div>
+          <div className="flex gap-3">
+            <a
+              href={result.event.htmlLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-600 underline hover:text-blue-800"
+            >
+              Open in Calendar
+            </a>
+            <a
+              href="/admin/active-event-containers"
+              className="text-blue-600 underline hover:text-blue-800"
+            >
+              View all containers
+            </a>
+          </div>
         </div>
       )
       setDate('')
