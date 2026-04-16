@@ -31,6 +31,12 @@ const authHeaderNavLinks: AuthNavLink[] = [
     category: 'management',
   },
   {
+    href: '/admin/create-container',
+    title: 'Create Container',
+    description: 'Add a new bookable time block to Google Calendar',
+    category: 'management',
+  },
+  {
     href: '/admin/promo-routes',
     title: 'Promo Routes',
     description: 'View all promotional booking routes',
