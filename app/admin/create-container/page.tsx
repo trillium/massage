@@ -4,18 +4,18 @@ import { useState } from 'react'
 import { toast } from 'sonner'
 import { adminFetch } from '@/lib/adminFetch'
 
-const CONTAINER_OPTIONS = [
-  { query: 'free-30', label: 'free-30 (playa-free-30, free-30, westchester-free-30, …)' },
-  { query: 'recharge_chair', label: 'recharge_chair (recharge)' },
-  { query: '100Devs', label: '100Devs' },
-  { query: 'scale23x', label: 'scale23x' },
-  { query: 'scale23x_after_hours', label: 'scale23x_after_hours' },
-  { query: 'chat', label: 'chat (chat-with-me)' },
-  { query: 'the_kinn', label: 'the_kinn' },
+const KNOWN_QUERIES = [
+  'free-30',
+  'recharge_chair',
+  '100Devs',
+  'scale23x',
+  'scale23x_after_hours',
+  'chat',
+  'the_kinn',
 ]
 
 export default function CreateContainerPage() {
-  const [containerQuery, setContainerQuery] = useState(CONTAINER_OPTIONS[0].query)
+  const [containerQuery, setContainerQuery] = useState('')
   const [date, setDate] = useState('')
   const [startTime, setStartTime] = useState('')
   const [endTime, setEndTime] = useState('')
@@ -24,7 +24,7 @@ export default function CreateContainerPage() {
 
   const containerString = `${containerQuery}__EVENT__CONTAINER__`
   const eventTitle = titlePrefix ? `${titlePrefix} ${containerString}` : containerString
-  const canSubmit = date && startTime && endTime && !loading
+  const canSubmit = containerQuery.trim() && date && startTime && endTime && !loading
 
   const handleSubmit = async () => {
     if (!canSubmit) return
@@ -82,20 +82,22 @@ export default function CreateContainerPage() {
             htmlFor="containerQuery"
             className="mb-1 block text-sm font-medium text-accent-700 dark:text-accent-300"
           >
-            Container
+            Container query
           </label>
-          <select
+          <input
             id="containerQuery"
+            type="text"
+            list="known-queries"
             value={containerQuery}
             onChange={(e) => setContainerQuery(e.target.value)}
+            placeholder="e.g. my-new-event"
             className="w-full rounded-md border border-accent-300 px-3 py-2 text-sm dark:border-accent-600 dark:bg-surface-800 dark:text-accent-100"
-          >
-            {CONTAINER_OPTIONS.map((opt) => (
-              <option key={opt.query} value={opt.query}>
-                {opt.label}
-              </option>
+          />
+          <datalist id="known-queries">
+            {KNOWN_QUERIES.map((q) => (
+              <option key={q} value={q} />
             ))}
-          </select>
+          </datalist>
         </div>
 
         <div>
