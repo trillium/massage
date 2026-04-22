@@ -378,7 +378,7 @@ const slugConfigurations: SlugConfigurationType[] = [
     bookingSlug: ['nerdstage-upgrade'],
     type: 'area-wide',
     title: 'Nerdstage Attendees: Free 30-Minute Upgrade',
-    text: `Book an in-home massage and get 30 minutes added to your session, on the house. Thanks for stopping by at Nerdstage! Questions? Call or text ${contactPhone}`,
+    text: `Book a session and get 30 minutes added free. In-home: massage table or chair. In-office: massage chair for up to 12 guests. Thanks for stopping by at Nerdstage! Questions? Call or text ${contactPhone}`,
     durationBonus: 30,
     pricingLabels: {
       60: '+30 min free! (90 min session)',
