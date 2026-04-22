@@ -46,7 +46,7 @@ export default function DurationPicker({
       </legend>
       <div
         className={clsx('isolate mt-1 overflow-hidden rounded-xl border border-accent-300', {
-          'grid grid-cols-3': useGrid,
+          'grid grid-cols-3 max-w-sm': useGrid,
           'inline-flex': !useGrid,
         })}
       >
