@@ -390,6 +390,7 @@ const slugConfigurations: SlugConfigurationType[] = [
       120: '+30 min free! (150 min session)',
     },
     allowedDurations: [60, 90, 120],
+    promoEndDate: '2026-05-25',
     customFields: {
       showNotesField: true,
     },
