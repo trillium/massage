@@ -3,6 +3,7 @@ import NotFound from 'app/not-found'
 import { createPageConfiguration } from '@/lib/slugConfigurations/createPageConfiguration'
 import ExpiredPromoPage from '@/components/ExpiredPromoPage'
 import GeneralBookingFeature from '@/components/booking/features/GeneralBookingFeature'
+import SlugAnalytics from '@/components/SlugAnalytics'
 
 export const dynamic = 'force-dynamic'
 
@@ -47,15 +48,18 @@ export default async function Page({
   } = result
 
   return (
-    <GeneralBookingFeature
-      durationProps={durationProps}
-      configuration={configuration}
-      selectedDate={selectedDate}
-      slots={slots}
-      duration={duration}
-      data={data}
-      start={start}
-      end={end}
-    />
+    <>
+      <SlugAnalytics slug={bookingSlug} />
+      <GeneralBookingFeature
+        durationProps={durationProps}
+        configuration={configuration}
+        selectedDate={selectedDate}
+        slots={slots}
+        duration={duration}
+        data={data}
+        start={start}
+        end={end}
+      />
+    </>
   )
 }
