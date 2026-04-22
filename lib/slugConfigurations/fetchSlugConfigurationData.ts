@@ -379,7 +379,7 @@ const slugConfigurations: SlugConfigurationType[] = [
     type: 'area-wide',
     title: 'Nerdstage Attendees: Free 30-Minute Upgrade',
     text: [
-      'Book a session and get 30 minutes added free.',
+      'Book a session and get 30 minutes added free. Offer expires May 25, 2026.',
       '- In-home: massage table or chair.',
       '- In-office: massage chair for up to 12 guests.',
     ],
