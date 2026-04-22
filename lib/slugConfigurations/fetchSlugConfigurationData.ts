@@ -380,8 +380,8 @@ const slugConfigurations: SlugConfigurationType[] = [
     title: 'Nerdstage Attendees: Free 30-Minute Upgrade',
     text: [
       'Book a session and get 30 minutes added free.',
-      'In-home: massage table or chair. In-office: massage chair for up to 12 guests.',
-      `Thanks for stopping by at Nerdstage! Questions? Call or text ${contactPhone}`,
+      '- In-home: massage table or chair.',
+      '- In-office: massage chair for up to 12 guests.',
     ],
     durationBonus: 30,
     pricingLabels: {
