@@ -375,7 +375,7 @@ const slugConfigurations: SlugConfigurationType[] = [
   },
   {
     ...initialStateWithoutType,
-    bookingSlug: ['nerdstage-upgrade'],
+    bookingSlug: ['nerdstage-upgrade-2026-04'],
     type: 'area-wide',
     title: 'Nerdstage Attendees: Free 30-Minute Upgrade',
     text: [
