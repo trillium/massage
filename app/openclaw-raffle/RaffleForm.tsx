@@ -3,6 +3,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
+import { useAppDispatch } from '@/redux/hooks'
+import { setRaffleConfirmation } from '@/redux/slices/raffleSlice'
 
 const INTERESTED_IN_OPTIONS = [
   { value: 'in_home', label: 'In-home massage' },
@@ -45,6 +47,7 @@ const checkboxClasses = 'h-4 w-4 rounded border-accent-300 text-primary-600 focu
 
 export default function RaffleForm({ raffleId, raffleName, initialEmail = '' }: RaffleFormProps) {
   const router = useRouter()
+  const dispatch = useAppDispatch()
   const [submitError, setSubmitError] = useState<string | null>(null)
   const [lookupMessage, setLookupMessage] = useState<string | null>(null)
 
@@ -91,15 +94,17 @@ export default function RaffleForm({ raffleId, raffleName, initialEmail = '' }: 
       const result = await response.json()
 
       if (response.ok) {
-        const params = new URLSearchParams({
-          raffle: raffleName,
-          name: values.name,
-          email: values.email,
-          phone: values.phone,
-          zip: values.zip_code,
-          interests: values.interested_in.join(','),
-        })
-        router.push(`/openclaw-raffle/entered?${params.toString()}`)
+        dispatch(
+          setRaffleConfirmation({
+            raffleName,
+            name: values.name,
+            email: values.email,
+            phone: values.phone,
+            zip: values.zip_code,
+            interests: values.interested_in,
+          })
+        )
+        router.push('/openclaw-raffle/entered')
       } else {
         setSubmitError(result.error || "Oops, something didn't work — give it another shot!")
       }
@@ -237,7 +242,7 @@ export default function RaffleForm({ raffleId, raffleName, initialEmail = '' }: 
             >
               {isSubmitting ? 'Entering...' : 'Enter Raffle'}
             </button>
-            <div className="min-h-12">
+            <div>
               {submitError && (
                 <div className="rounded-md bg-amber-50 px-4 py-3 text-sm text-amber-700 dark:bg-amber-900/20 dark:text-amber-300">
                   {submitError}

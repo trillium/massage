@@ -1,9 +1,10 @@
 'use client'
 
-import { Suspense } from 'react'
-import { useSearchParams } from 'next/navigation'
+import { useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import SectionContainer from '@/components/SectionContainer'
 import Link from 'next/link'
+import { useReduxRaffle } from '@/redux/hooks'
 
 const INTEREST_LABELS: Record<string, string> = {
   in_home: 'In-home massage',
@@ -11,22 +12,18 @@ const INTEREST_LABELS: Record<string, string> = {
 }
 
 export default function RaffleEnteredPage() {
-  return (
-    <Suspense>
-      <RaffleEnteredContent />
-    </Suspense>
-  )
-}
+  const router = useRouter()
+  const raffle = useReduxRaffle()
 
-function RaffleEnteredContent() {
-  const searchParams = useSearchParams()
-  const raffleName = searchParams.get('raffle')
-  const name = searchParams.get('name')
-  const email = searchParams.get('email')
-  const phone = searchParams.get('phone')
-  const zip = searchParams.get('zip')
-  const interests = searchParams.get('interests')?.split(',').filter(Boolean) ?? []
-  const hasData = !!name
+  useEffect(() => {
+    if (!raffle) {
+      router.replace('/openclaw-raffle')
+    }
+  }, [raffle, router])
+
+  if (!raffle) return null
+
+  const { raffleName, name, email, phone, zip, interests } = raffle
 
   return (
     <SectionContainer>
@@ -41,34 +38,32 @@ function RaffleEnteredContent() {
           Thanks for entering! We'll reach out if you're selected.
         </p>
 
-        {hasData && (
-          <div className="mb-8 w-full max-w-lg rounded-lg border-2 border-surface-200 bg-surface-50 text-left shadow-md dark:border-surface-700 dark:bg-surface-900">
-            <div className="border-b border-surface-200 px-5 py-3 dark:border-surface-700">
-              <p className="text-sm text-surface-500 dark:text-surface-400">Name</p>
-              <p className="font-semibold">{name}</p>
-            </div>
-            <div className="border-b border-surface-200 px-5 py-3 dark:border-surface-700">
-              <p className="text-sm text-surface-500 dark:text-surface-400">Email</p>
-              <p>{email}</p>
-            </div>
-            <div className="border-b border-surface-200 px-5 py-3 dark:border-surface-700">
-              <p className="text-sm text-surface-500 dark:text-surface-400">Phone</p>
-              <p>{phone}</p>
-            </div>
-            {zip && (
-              <div className="border-b border-surface-200 px-5 py-3 dark:border-surface-700">
-                <p className="text-sm text-surface-500 dark:text-surface-400">Zip Code</p>
-                <p>{zip}</p>
-              </div>
-            )}
-            {interests.length > 0 && (
-              <div className="px-5 py-3">
-                <p className="text-sm text-surface-500 dark:text-surface-400">Interested in</p>
-                <p>{interests.map((i) => INTEREST_LABELS[i] || i).join(', ')}</p>
-              </div>
-            )}
+        <div className="mb-8 w-full max-w-lg rounded-lg border-2 border-surface-200 bg-surface-50 text-left shadow-md dark:border-surface-700 dark:bg-surface-900">
+          <div className="border-b border-surface-200 px-5 py-3 dark:border-surface-700">
+            <p className="text-sm text-surface-500 dark:text-surface-400">Name</p>
+            <p className="font-semibold">{name}</p>
           </div>
-        )}
+          <div className="border-b border-surface-200 px-5 py-3 dark:border-surface-700">
+            <p className="text-sm text-surface-500 dark:text-surface-400">Email</p>
+            <p>{email}</p>
+          </div>
+          <div className="border-b border-surface-200 px-5 py-3 dark:border-surface-700">
+            <p className="text-sm text-surface-500 dark:text-surface-400">Phone</p>
+            <p>{phone}</p>
+          </div>
+          {zip && (
+            <div className="border-b border-surface-200 px-5 py-3 dark:border-surface-700">
+              <p className="text-sm text-surface-500 dark:text-surface-400">Zip Code</p>
+              <p>{zip}</p>
+            </div>
+          )}
+          {interests.length > 0 && (
+            <div className="px-5 py-3">
+              <p className="text-sm text-surface-500 dark:text-surface-400">Interested in</p>
+              <p>{interests.map((i) => INTEREST_LABELS[i] || i).join(', ')}</p>
+            </div>
+          )}
+        </div>
 
         <div className="flex gap-4">
           <Link

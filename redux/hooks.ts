@@ -7,6 +7,7 @@ import { selectReviewFormData } from '@/redux/slices/reviewFormSlice'
 import { selectEventContainers } from '@/redux/slices/eventContainersSlice'
 import { selectConfig } from '@/redux/slices/configSlice'
 import { selectContactForm } from '@/redux/slices/contactFormSlice'
+import { selectRaffle } from '@/redux/slices/raffleSlice'
 
 // Use throughout your app instead of plain `useDispatch` and `useSelector`
 export const useAppDispatch = useDispatch.withTypes<AppDispatch>()
@@ -34,4 +35,7 @@ export const useReduxConfig = () => {
 }
 export const useReduxContactForm = () => {
   return useAppSelector(selectContactForm)
+}
+export const useReduxRaffle = () => {
+  return useAppSelector(selectRaffle)
 }
