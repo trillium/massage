@@ -61,12 +61,6 @@ const slugConfigurations: SlugConfigurationType[] = [
   },
   {
     ...initialStateWithoutType,
-    type: 'area-wide',
-    bookingSlug: ['expired'],
-    promoEndDate: '2025-1-1', // Example promo end date
-  },
-  {
-    ...initialStateWithoutType,
     bookingSlug: ['the_kinn'],
     type: 'scheduled-site',
     title: 'Welcome to the the_kinn booking page!',
@@ -87,47 +81,11 @@ const slugConfigurations: SlugConfigurationType[] = [
   },
   {
     ...initialStateWithoutType,
-    bookingSlug: ['midnight-runners-spooktober'],
-    type: 'area-wide',
-    title: 'Midnight Runners Discount Page!',
-    text: 'Thanks for considering me, please enjoy 25% off standard pricing :)',
-    discount: {
-      type: 'percent',
-      amountPercent: 0.25,
-    },
-    promoEndDate: '2025-11-01',
-  },
-  {
-    ...initialStateWithoutType,
-    bookingSlug: ['nextdoor-spooktober'],
-    type: 'area-wide',
-    title: 'Nextoor Neighbors Discount Page!',
-    text: 'Thanks for considering me, please enjoy 25% off standard pricing :)',
-    discount: {
-      type: 'percent',
-      amountPercent: 0.25,
-    },
-    promoEndDate: '2025-11-01',
-  },
-  {
-    ...initialStateWithoutType,
     bookingSlug: ['90045', 'westchester', 'playa', 'playa-vista', 'kentwood'],
     type: 'area-wide',
     title: 'Do you live ridiculously close to me??',
     text: "That's so convenient! I can confidently say that if I'm home and not busy I can scoot on over to you in an hour or less. See you soon!",
     leadTimeMinimum: 60,
-  },
-  {
-    ...initialStateWithoutType,
-    bookingSlug: ['nextdoor-westchester'],
-    type: 'area-wide',
-    title: 'Nextdoor Westchester Promo!',
-    text: 'Special pricing for Westchester neighbors booking through Nextdoor. Enjoy 20% off your session!',
-    discount: {
-      type: 'percent',
-      amountPercent: 0.2,
-    },
-    promoEndDate: '2025-7-30', // Example promo end date
   },
   {
     ...initialStateWithoutType,
@@ -186,60 +144,6 @@ const slugConfigurations: SlugConfigurationType[] = [
       city: 'Westchester',
       message:
         'This free 30-minute offer is available for Westchester residents. Appointments outside this area might be declined.',
-    },
-  },
-  {
-    ...initialStateWithoutType,
-    bookingSlug: ['airbnb-host-promo-2026-03'],
-    type: 'area-wide',
-    title: 'Airbnb Hosts: Get a Free 30-Minute Upgrade',
-    text: `Book a massage and get 30 minutes added to your session, on the house. Thanks for hosting! Questions? Call or text ${contactPhone}`,
-    durationBonus: 30,
-    pricingLabels: {
-      60: '+30 min free! (90 min session)',
-      90: '+30 min free! (120 min session)',
-      120: '+30 min free! (150 min session)',
-    },
-    allowedDurations: [60, 90, 120],
-    promoEndDate: '2026-04-01',
-  },
-  {
-    ...initialStateWithoutType,
-    bookingSlug: ['scale-attendees-home'],
-    type: 'area-wide',
-    title: 'SCaLE 23x Attendees: Free 30-Minute Upgrade',
-    text: `Book an in-home massage and get 30 minutes added to your session, on the house. Thanks for stopping by at SCaLE! Questions? Call or text ${contactPhone}`,
-    durationBonus: 30,
-    pricingLabels: {
-      60: '+30 min free! (90 min session)',
-      90: '+30 min free! (120 min session)',
-      120: '+30 min free! (150 min session)',
-    },
-    allowedDurations: [60, 90, 120],
-    promoEndDate: '2026-04-01',
-    customFields: {
-      showNotesField: true,
-    },
-  },
-  {
-    ...initialStateWithoutType,
-    bookingSlug: ['scale-attendees-office'],
-    type: 'area-wide',
-    title: 'SCaLE 23x: Chair Massage at Your Office',
-    text: [
-      'Bring chair massage to your office! I can see 1–3 people per 30-minute segment, making it easy to share with your team.',
-      `Book a session and get 30 minutes added free. Thanks for stopping by at SCaLE! Questions? Call or text ${contactPhone}`,
-    ],
-    durationBonus: 30,
-    pricingLabels: {
-      60: '+30 min free! (90 min session)',
-      90: '+30 min free! (120 min session)',
-      120: '+30 min free! (150 min session)',
-    },
-    allowedDurations: [60, 90, 120],
-    promoEndDate: '2026-04-01',
-    customFields: {
-      showNotesField: true,
     },
   },
   {
