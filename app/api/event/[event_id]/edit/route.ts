@@ -14,7 +14,7 @@ import {
 } from '@/lib/helpers/eventHelpers'
 import { escapeHtml } from '@/lib/messaging/escapeHtml'
 import { flattenLocation } from '@/lib/helpers/locationHelpers'
-import { updateAppointmentEmail } from '@/lib/appointments/updateAppointmentEmail'
+import { updateAppointmentFields } from '@/lib/appointments/updateAppointmentFields'
 
 export const dynamic = 'force-dynamic'
 
@@ -86,9 +86,16 @@ export async function POST(
 
   try {
     await updateCalendarEvent(event_id, updateData)
-    if (sanitized.email !== undefined) {
-      updateAppointmentEmail(event_id, sanitized.email).catch(() => {})
-    }
+
+    const dbFields: Record<string, string> = {}
+    if (sanitized.firstName !== undefined) dbFields.client_first_name = sanitized.firstName
+    if (sanitized.lastName !== undefined) dbFields.client_last_name = sanitized.lastName
+    if (sanitized.email !== undefined) dbFields.client_email = sanitized.email
+    if (sanitized.phone !== undefined) dbFields.client_phone = sanitized.phone
+    if (sanitized.location !== undefined) dbFields.location = flattenLocation(sanitized.location)
+
+    updateAppointmentFields(event_id, dbFields).catch(() => {})
+
     return NextResponse.json({ success: true })
   } catch (error) {
     console.error('Failed to update event:', error)
