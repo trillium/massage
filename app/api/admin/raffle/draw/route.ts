@@ -38,7 +38,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Raffle not found' }, { status: 404 })
   }
 
-  if (raffle.status !== 'open' && raffle.status !== 'closed' && raffle.status !== 'drawn') {
+  if (raffle.status !== 'open' && raffle.status !== 'drawn') {
     return NextResponse.json(
       { error: `Cannot draw raffle with status: ${raffle.status}` },
       { status: 400 }
@@ -61,6 +61,7 @@ export async function POST(request: NextRequest) {
     .select('name, email')
     .eq('raffle_id', parsed.data.raffle_id)
     .eq('excluded', false)
+    .order('created_at', { ascending: false })
 
   const entries = entriesData as { name: string; email: string }[] | null
 
