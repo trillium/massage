@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
+import { getSupabaseBrowserClient } from '@/lib/supabase/client'
 
 const COOLDOWN_MS = 15_000
 const BACKGROUND_INTERVAL_MS = 30_000
@@ -30,10 +31,19 @@ export function useSmartRefresh() {
       if (document.visibilityState === 'visible') refresh()
     }, BACKGROUND_INTERVAL_MS)
 
+    const supabase = getSupabaseBrowserClient()
+    const channel = supabase
+      ?.channel('appointments_refresh')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'appointments' }, () => {
+        refresh()
+      })
+      .subscribe()
+
     return () => {
       document.removeEventListener('visibilitychange', onVisibilityChange)
       document.removeEventListener('touchstart', refresh)
       if (intervalRef.current) clearInterval(intervalRef.current)
+      channel?.unsubscribe()
     }
   }, [refresh])
 
