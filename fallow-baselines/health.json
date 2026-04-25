@@ -1,0 +1,921 @@
+{
+  "finding_counts": {
+    "app/[bookingSlug]/page.tsx": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "app/admin-request-access/page.tsx": {
+      "crap_moderate": {
+        "count": 2
+      }
+    },
+    "app/admin/[bookingSlug]/page.tsx": {
+      "crap_high": {
+        "count": 1
+      }
+    },
+    "app/admin/active-event-containers/EventList.tsx": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "app/admin/active-event-containers/getActiveContainers.ts": {
+      "crap_high": {
+        "count": 1
+      }
+    },
+    "app/admin/booked/page.tsx": {
+      "crap_critical": {
+        "count": 1
+      }
+    },
+    "app/admin/create-container/page.tsx": {
+      "crap_high": {
+        "count": 1
+      },
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "app/admin/event/[event_id]/page.tsx": {
+      "complexity_critical": {
+        "count": 1
+      },
+      "crap_critical": {
+        "count": 3
+      },
+      "crap_high": {
+        "count": 1
+      }
+    },
+    "app/admin/gmail-events/page.tsx": {
+      "crap_critical": {
+        "count": 2
+      },
+      "crap_high": {
+        "count": 2
+      },
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "app/admin/mocked_user_flow/EmailMockComponent.tsx": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "app/admin/mocked_user_flow/MockedConfirmationPage.tsx": {
+      "crap_high": {
+        "count": 1
+      }
+    },
+    "app/admin/mocked_user_flow/components/Step4FinalConfirmation.tsx": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "app/admin/mocked_user_flow/components/Step5EventObjectDetails.tsx": {
+      "crap_critical": {
+        "count": 1
+      }
+    },
+    "app/admin/mocked_user_flow/hooks/useMockedUserFlow/generateMockEmails.ts": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "app/admin/mocked_user_flow/hooks/useMockedUserFlow/useMockedUserFlow.ts": {
+      "crap_critical": {
+        "count": 1
+      },
+      "crap_high": {
+        "count": 1
+      }
+    },
+    "app/admin/page.tsx": {
+      "crap_high": {
+        "count": 1
+      }
+    },
+    "app/admin/pending/DeclineButton.tsx": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "app/admin/pending/page.tsx": {
+      "crap_critical": {
+        "count": 1
+      }
+    },
+    "app/admin/promo-routes/page.tsx": {
+      "crap_high": {
+        "count": 1
+      }
+    },
+    "app/admin/raffle/CreateRaffleForm.tsx": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "app/admin/raffle/RaffleAdmin.tsx": {
+      "complexity_critical": {
+        "count": 1
+      },
+      "crap_critical": {
+        "count": 1
+      },
+      "crap_high": {
+        "count": 1
+      },
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "app/admin/raffle/page.tsx": {
+      "crap_critical": {
+        "count": 1
+      },
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "app/admin/request-access/page.tsx": {
+      "crap_moderate": {
+        "count": 2
+      }
+    },
+    "app/admin/reviews-list/ReviewsClient.tsx": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "app/admin/schedule/SchedulePanel.tsx": {
+      "crap_critical": {
+        "count": 1
+      },
+      "crap_high": {
+        "count": 1
+      }
+    },
+    "app/admin/schedule/TimelineBlock.tsx": {
+      "crap_high": {
+        "count": 2
+      }
+    },
+    "app/api/admin/create-appointment/route.ts": {
+      "complexity_moderate": {
+        "count": 1
+      }
+    },
+    "app/api/admin/create-container/route.ts": {
+      "crap_critical": {
+        "count": 1
+      }
+    },
+    "app/api/admin/raffle/[id]/route.ts": {
+      "crap_critical": {
+        "count": 1
+      }
+    },
+    "app/api/admin/raffle/draw/route.ts": {
+      "complexity_critical": {
+        "count": 1
+      },
+      "crap_critical": {
+        "count": 1
+      }
+    },
+    "app/api/admin/raffle/entries/[id]/route.ts": {
+      "crap_high": {
+        "count": 1
+      },
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "app/api/admin/raffle/route.ts": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "app/api/admin/verify-slug/[slug]/route.ts": {
+      "crap_critical": {
+        "count": 2
+      }
+    },
+    "app/api/confirm/route.ts": {
+      "complexity_moderate": {
+        "count": 1
+      }
+    },
+    "app/api/dev-mode-prod-excluded/capture-test-data/route.ts": {
+      "crap_critical": {
+        "count": 1
+      }
+    },
+    "app/api/driveTime/route.ts": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "app/api/event-booking/route.ts": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "app/api/event/[event_id]/edit/route.ts": {
+      "complexity_critical": {
+        "count": 1
+      },
+      "crap_critical": {
+        "count": 1
+      }
+    },
+    "app/api/invoice/[invoiceId]/update-email/route.ts": {
+      "crap_critical": {
+        "count": 1
+      }
+    },
+    "app/api/invoice/route.ts": {
+      "crap_critical": {
+        "count": 1
+      }
+    },
+    "app/api/raffle/lookup/route.ts": {
+      "crap_high": {
+        "count": 1
+      }
+    },
+    "app/api/raffle/submit/route.ts": {
+      "crap_critical": {
+        "count": 1
+      }
+    },
+    "app/api/test/double-booking/route.ts": {
+      "crap_high": {
+        "count": 1
+      }
+    },
+    "app/api/webhooks/square/route.ts": {
+      "crap_high": {
+        "count": 1
+      },
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "app/auth/callback/supabase/route.ts": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "app/auth/supabase-test/page.tsx": {
+      "crap_critical": {
+        "count": 1
+      }
+    },
+    "app/blog/[...slug]/page.tsx": {
+      "crap_high": {
+        "count": 1
+      },
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "app/changelog/buildQuarters.ts": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "app/components/AuthStateListener.tsx": {
+      "crap_high": {
+        "count": 1
+      }
+    },
+    "app/display/page.tsx": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "app/event/[event_id]/CancelButton.tsx": {
+      "crap_moderate": {
+        "count": 2
+      }
+    },
+    "app/event/[event_id]/EditForm.tsx": {
+      "crap_critical": {
+        "count": 1
+      },
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "app/event/[event_id]/adjacent/page.tsx": {
+      "complexity_critical": {
+        "count": 1
+      },
+      "crap_critical": {
+        "count": 1
+      }
+    },
+    "app/event/[event_id]/next/page.tsx": {
+      "crap_critical": {
+        "count": 1
+      }
+    },
+    "app/event/[event_id]/page.tsx": {
+      "complexity_critical": {
+        "count": 1
+      },
+      "crap_critical": {
+        "count": 1
+      }
+    },
+    "app/gallery/edit/page.tsx": {
+      "crap_high": {
+        "count": 1
+      }
+    },
+    "app/isTestUser/page.tsx": {
+      "crap_high": {
+        "count": 1
+      }
+    },
+    "app/my_events/components/ActionButtons.tsx": {
+      "crap_high": {
+        "count": 1
+      }
+    },
+    "app/my_events/components/EventCard.tsx": {
+      "complexity_critical": {
+        "count": 1
+      },
+      "crap_critical": {
+        "count": 2
+      }
+    },
+    "app/my_events/components/EventComponents.tsx": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "app/my_events/page.tsx": {
+      "crap_critical": {
+        "count": 1
+      },
+      "crap_high": {
+        "count": 1
+      }
+    },
+    "app/onsite/ClientPage.tsx": {
+      "crap_high": {
+        "count": 1
+      }
+    },
+    "app/openclaw-raffle/RaffleForm.tsx": {
+      "complexity_critical": {
+        "count": 1
+      },
+      "crap_critical": {
+        "count": 2
+      },
+      "crap_high": {
+        "count": 2
+      }
+    },
+    "app/openclaw-raffle/entered/page.tsx": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "app/reviews/submitted/ClientPage.tsx": {
+      "crap_high": {
+        "count": 1
+      }
+    },
+    "app/sandbox/SandboxClientPage.tsx": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "app/sandbox/api/approve/route.ts": {
+      "crap_high": {
+        "count": 1
+      }
+    },
+    "app/sandbox/api/decline/route.ts": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "app/sandbox/api/request/route.ts": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "app/sandbox/components/AdminView.tsx": {
+      "crap_high": {
+        "count": 1
+      },
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "app/seo.tsx": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "app/test/page.tsx": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "components/AirbnbCouponTable/AirbnbCouponTable.tsx": {
+      "crap_moderate": {
+        "count": 2
+      }
+    },
+    "components/BookedCard.tsx": {
+      "crap_high": {
+        "count": 1
+      }
+    },
+    "components/CachedTileMap.tsx": {
+      "crap_high": {
+        "count": 1
+      }
+    },
+    "components/Card.tsx": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "components/ContactForm.tsx": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "components/FAQ/FAQCard.tsx": {
+      "complexity_critical": {
+        "count": 1
+      },
+      "crap_critical": {
+        "count": 1
+      },
+      "crap_moderate": {
+        "count": 3
+      }
+    },
+    "components/ReviewCard/ReviewSnippet.tsx": {
+      "crap_high": {
+        "count": 1
+      }
+    },
+    "components/ReviewForm.tsx": {
+      "crap_high": {
+        "count": 1
+      }
+    },
+    "components/SearchButton.tsx": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "components/admin/AdminDebugPanel.tsx": {
+      "crap_critical": {
+        "count": 1
+      }
+    },
+    "components/admin/configuration-tester/ConfigDetailsPanel.tsx": {
+      "crap_critical": {
+        "count": 1
+      }
+    },
+    "components/auth/supabase/AuthGuard.tsx": {
+      "crap_moderate": {
+        "count": 2
+      }
+    },
+    "components/auth/supabase/LoginForm.tsx": {
+      "crap_high": {
+        "count": 1
+      }
+    },
+    "components/auth/supabase/SupabaseAuthProvider.tsx": {
+      "crap_moderate": {
+        "count": 2
+      }
+    },
+    "components/auth/supabase/UserMenu.tsx": {
+      "crap_critical": {
+        "count": 1
+      }
+    },
+    "components/availability/DynamicTimeList.tsx": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "components/availability/controls/DurationPicker.tsx": {
+      "crap_critical": {
+        "count": 1
+      },
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "components/availability/date/Calendar.tsx": {
+      "crap_high": {
+        "count": 2
+      }
+    },
+    "components/availability/date/DayButton.tsx": {
+      "crap_high": {
+        "count": 1
+      }
+    },
+    "components/availability/time/TimeList.tsx": {
+      "crap_high": {
+        "count": 1
+      }
+    },
+    "components/booking/BookingForm.tsx": {
+      "complexity_critical": {
+        "count": 1
+      },
+      "crap_critical": {
+        "count": 1
+      }
+    },
+    "components/booking/BookingFormFields.tsx": {
+      "complexity_critical": {
+        "count": 1
+      },
+      "crap_critical": {
+        "count": 1
+      }
+    },
+    "components/booking/BookingSummary.tsx": {
+      "crap_high": {
+        "count": 1
+      }
+    },
+    "components/booking/features/DriveTimeCalculator.tsx": {
+      "crap_critical": {
+        "count": 2
+      },
+      "crap_high": {
+        "count": 1
+      },
+      "crap_moderate": {
+        "count": 2
+      }
+    },
+    "components/booking/features/GeneralBookingFeature.tsx": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "components/booking/features/NextBookingFeature.tsx": {
+      "crap_critical": {
+        "count": 1
+      },
+      "crap_moderate": {
+        "count": 2
+      }
+    },
+    "components/booking/useBookingInitialValues.ts": {
+      "complexity_critical": {
+        "count": 1
+      },
+      "crap_critical": {
+        "count": 1
+      }
+    },
+    "components/booking/useBookingSubmit.ts": {
+      "complexity_critical": {
+        "count": 1
+      },
+      "crap_critical": {
+        "count": 1
+      }
+    },
+    "components/display/DisplayTimeList.tsx": {
+      "crap_high": {
+        "count": 1
+      },
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "components/landingPage/ServiceAreaSection.tsx": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "components/landingPage/TestimonialsSection.tsx": {
+      "crap_critical": {
+        "count": 1
+      }
+    },
+    "components/masonry/DynamicGridMasonry.tsx": {
+      "crap_high": {
+        "count": 1
+      }
+    },
+    "components/utilities/LocationParamSync.tsx": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "components/utilities/UpdateSlotsUtility.tsx": {
+      "crap_critical": {
+        "count": 1
+      },
+      "crap_high": {
+        "count": 1
+      },
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "features/ClientConfirmationFeature.tsx": {
+      "crap_critical": {
+        "count": 1
+      }
+    },
+    "hooks/useSlotPresence.ts": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "layouts/ListLayoutWithTags.tsx": {
+      "crap_moderate": {
+        "count": 2
+      }
+    },
+    "layouts/PostBanner.tsx": {
+      "crap_high": {
+        "count": 1
+      }
+    },
+    "layouts/PostLayout.tsx": {
+      "crap_high": {
+        "count": 1
+      }
+    },
+    "layouts/PostSimple.tsx": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "lib/availability/checkSlotAvailability.ts": {
+      "complexity_moderate": {
+        "count": 1
+      }
+    },
+    "lib/env.ts": {
+      "crap_high": {
+        "count": 1
+      }
+    },
+    "lib/fetch/getNextUpcomingEvent.ts": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "lib/geocode.ts": {
+      "complexity_high": {
+        "count": 1
+      },
+      "crap_high": {
+        "count": 1
+      }
+    },
+    "lib/gmail/searchSootheEmails.ts": {
+      "complexity_high": {
+        "count": 1
+      },
+      "crap_high": {
+        "count": 1
+      }
+    },
+    "lib/handleAppointmentRequest.ts": {
+      "complexity_critical": {
+        "count": 1
+      },
+      "crap_critical": {
+        "count": 1
+      }
+    },
+    "lib/helpers/createBookingUrl.ts": {
+      "complexity_critical": {
+        "count": 1
+      },
+      "crap_critical": {
+        "count": 1
+      }
+    },
+    "lib/helpers/extractBookingSlug.ts": {
+      "crap_critical": {
+        "count": 1
+      }
+    },
+    "lib/messaging/email/admin/Approval.ts": {
+      "complexity_critical": {
+        "count": 1
+      }
+    },
+    "lib/messaging/push/admin/AppointmentPushover.ts": {
+      "complexity_high": {
+        "count": 1
+      }
+    },
+    "lib/messaging/push/admin/AppointmentPushoverInstantConfirm.ts": {
+      "complexity_high": {
+        "count": 1
+      }
+    },
+    "lib/messaging/templates/events/adminAppointmentDescription.ts": {
+      "crap_high": {
+        "count": 1
+      }
+    },
+    "lib/messaging/templates/events/createAdminAppointment.ts": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "lib/messaging/templates/events/createManualAdminAppointment.ts": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "lib/messaging/templates/events/eventDescription.ts": {
+      "complexity_critical": {
+        "count": 1
+      },
+      "crap_critical": {
+        "count": 1
+      }
+    },
+    "lib/messaging/templates/events/manualAdminAppointmentDescription.ts": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "lib/qr/generate-native.ts": {
+      "crap_high": {
+        "count": 2
+      },
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "lib/qr/verify.ts": {
+      "complexity_critical": {
+        "count": 1
+      },
+      "crap_critical": {
+        "count": 1
+      }
+    },
+    "lib/reminders/processReminders.ts": {
+      "complexity_moderate": {
+        "count": 1
+      }
+    },
+    "lib/reviews/fetchReviews.ts": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "lib/reviews/filterTestimonialReviews.ts": {
+      "crap_high": {
+        "count": 1
+      }
+    },
+    "lib/slugConfigurations/createPageConfiguration.tsx": {
+      "complexity_critical": {
+        "count": 1
+      },
+      "crap_critical": {
+        "count": 1
+      }
+    },
+    "mcp-server.ts": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "proxy.ts": {
+      "crap_high": {
+        "count": 1
+      }
+    },
+    "scripts/backup-db.ts": {
+      "crap_high": {
+        "count": 1
+      }
+    },
+    "scripts/capture-test-data.mjs": {
+      "crap_high": {
+        "count": 1
+      }
+    },
+    "scripts/check-supabase-setup.ts": {
+      "crap_high": {
+        "count": 2
+      },
+      "crap_moderate": {
+        "count": 2
+      }
+    },
+    "scripts/check-test-user-roles.ts": {
+      "crap_high": {
+        "count": 1
+      }
+    },
+    "scripts/debugNextPage.ts": {
+      "complexity_critical": {
+        "count": 1
+      },
+      "crap_critical": {
+        "count": 2
+      },
+      "crap_high": {
+        "count": 1
+      },
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "scripts/generate-handbills.ts": {
+      "crap_high": {
+        "count": 1
+      }
+    },
+    "scripts/generate-pdf-print.ts": {
+      "crap_high": {
+        "count": 1
+      },
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "scripts/render-proposal.ts": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "scripts/seed-reviews.ts": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "scripts/test-adjacency.ts": {
+      "complexity_critical": {
+        "count": 2
+      },
+      "crap_critical": {
+        "count": 2
+      }
+    },
+    "src/lib/mcp/tools/create-calendar-event.ts": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "src/lib/mcp/tools/email-tools.ts": {
+      "crap_high": {
+        "count": 2
+      }
+    }
+  },
+  "production_coverage_findings": [],
+  "target_keys": [
+    "redux/slices/readySlice.ts:dead code",
+    "components/utilities/UpdateSlotsUtility.tsx:dead code",
+    "lib/messaging/push/admin/AppointmentPushover.ts:complexity",
+    "lib/messaging/push/admin/AppointmentPushoverInstantConfirm.ts:complexity",
+    "lib/dayAsObject.ts:dead code",
+    "app/my_events/page.tsx:untested risk",
+    "lib/reviews/filterTestimonialReviews.ts:high impact",
+    "lib/helpers/eventHelpers.ts:high impact",
+    "lib/handleAppointmentRequest.ts:complexity",
+    "lib/env.ts:dead code",
+    "lib/supabase/auth-helpers.ts:dead code",
+    "lib/slugConfigurations/createPageConfiguration.tsx:complexity",
+    "redux/slices/configSlice.ts:dead code",
+    "components/CachedTileMap.tsx:dead code",
+    "redux/slices/reviewFormSlice.ts:dead code",
+    "data/authHeaderNavLinks.ts:dead code",
+    "lib/messaging/email/admin/Approval.ts:complexity",
+    "lib/availability/availabilityHelpers.ts:high impact",
+    "lib/messaging/templates/events/eventDescription.ts:complexity",
+    "scripts/debugNextPage.ts:untested risk",
+    "lib/gmail/searchSootheEmails.ts:complexity"
+  ]
+}

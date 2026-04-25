@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "entry": [
+    "app/**/page.tsx",
+    "app/**/layout.tsx",
+    "app/**/route.ts",
+    "app/**/loading.tsx",
+    "app/**/error.tsx",
+    "app/**/not-found.tsx",
+    "proxy.ts",
+    "contentlayer.config.ts",
+    "next.config.js",
+    "vitest.config.ts",
+    "vitest.setup.ts",
+    "scripts/*.{ts,mjs,js}",
+    "mcp-server.ts",
+    "src/lib/mcp/**/*.ts",
+    "data/**/*.mdx"
+  ],
+  "ignorePatterns": [
+    "__tests__/**",
+    "tests/**",
+    "playground/**",
+    ".contentlayer/**",
+    "data/ratings.ts"
+  ],
+  "ignoreDependencies": [
+    "autoprefixer",
+    "@svgr/webpack",
+    "ignore-loader",
+    "lint-staged",
+    "dictionary-en",
+    "nspell",
+    "eslint-config-next"
+  ],
+  "rules": {
+    "unused-files": "warn",
+    "unused-exports": "warn"
+  },
+  "health": {
+    "maxCyclomatic": 20,
+    "maxCognitive": 15,
+    "maxCrap": 30
+  }
+}

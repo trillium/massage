@@ -3,6 +3,9 @@
 # reports
 dead-code-report.md
 
+# fallow cache
+.fallow/
+
 # worktrees (local agent worktrees)
 /worktrees
 
