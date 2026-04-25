@@ -116,7 +116,8 @@ function computeStats(entries: RaffleEntry[]) {
     uniqueEntries: uniqueEmails.size,
     localCount,
     nonLocalCount: eligible.length - localCount,
-    localPercent: eligible.length > 0 ? Math.round((uniqueLocal.size / uniqueEmails.size) * 100) : 0,
+    localPercent:
+      eligible.length > 0 ? Math.round((uniqueLocal.size / uniqueEmails.size) * 100) : 0,
     uniqueLocal: uniqueLocal.size,
     uniqueNonLocal: uniqueNonLocal.size,
     interestedInCounts,

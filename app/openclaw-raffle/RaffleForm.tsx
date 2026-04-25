@@ -274,4 +274,3 @@ export default function RaffleForm({ raffleId, raffleName }: RaffleFormProps) {
     </div>
   )
 }
-

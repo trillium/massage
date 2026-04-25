@@ -116,9 +116,7 @@ export function RaffleAdmin({ raffle, entries: initialEntries, stats }: RaffleAd
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error)
-      setEntryList((prev) =>
-        prev.map((e) => ({ ...e, is_winner: e.email === data.winner.email }))
-      )
+      setEntryList((prev) => prev.map((e) => ({ ...e, is_winner: e.email === data.winner.email })))
       setStatus('drawn')
       toast.success(`Winner drawn: ${data.winner.name}`)
     } catch (err) {
@@ -272,7 +270,11 @@ export function RaffleAdmin({ raffle, entries: initialEntries, stats }: RaffleAd
         <StatCard label="Total Submissions" value={stats.totalEntries} />
         <StatCard label="Local %" value={`${stats.localPercent}%`} />
         {Object.entries(stats.interestedInCounts).map(([interest, count]) => (
-          <StatCard key={interest} label={RAFFLE_INTEREST_LABELS[interest] || interest} value={count} />
+          <StatCard
+            key={interest}
+            label={RAFFLE_INTEREST_LABELS[interest] || interest}
+            value={count}
+          />
         ))}
       </div>
 

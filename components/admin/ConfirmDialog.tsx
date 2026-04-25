@@ -1,13 +1,7 @@
 'use client'
 
 import { Fragment } from 'react'
-import {
-  Dialog,
-  DialogPanel,
-  DialogTitle,
-  Transition,
-  TransitionChild,
-} from '@headlessui/react'
+import { Dialog, DialogPanel, DialogTitle, Transition, TransitionChild } from '@headlessui/react'
 
 type ConfirmDialogProps = {
   open: boolean

@@ -262,6 +262,7 @@ export interface Database {
           end_time: string
           expires_at: string
           created_at: string
+          shoo_count: number
         }
         Insert: {
           id?: string
@@ -270,6 +271,7 @@ export interface Database {
           end_time: string
           expires_at?: string
           created_at?: string
+          shoo_count?: number
         }
         Update: {
           id?: string
@@ -278,6 +280,7 @@ export interface Database {
           end_time?: string
           expires_at?: string
           created_at?: string
+          shoo_count?: number
         }
         Relationships: []
       }
@@ -545,6 +548,13 @@ export interface Database {
           p_session_id: string
         }
         Returns: void
+      }
+      shoo_slot_hold: {
+        Args: {
+          p_start: string
+          p_end: string
+        }
+        Returns: Json
       }
     }
     Enums: {
