@@ -105,12 +105,34 @@ describe('fetchPageData', () => {
 
   it('scheduled-site returns container-event path', async () => {
     const config = makeConfig({ type: 'scheduled-site' })
-    const { fetchContainersByQuery } = await import('@/lib/fetch/fetchContainersByQuery')
-    ;(fetchContainersByQuery as Mock).mockResolvedValue({
+    const { fetchAllCalendarEvents, filterEventsForQuery } = await import(
+      '@/lib/fetch/fetchContainersByQuery'
+    )
+    ;(fetchAllCalendarEvents as Mock).mockResolvedValue({
       start: '2025-01-15',
       end: '2025-01-28',
-      busy: [{ start: '2025-01-16T10:00:00Z', end: '2025-01-16T11:00:00Z' }],
+      allEvents: [
+        {
+          id: 'ev-1',
+          summary: 'test-slug__EVENT__MEMBER__',
+          start: { dateTime: '2025-01-16T10:00:00Z' },
+          end: { dateTime: '2025-01-16T11:00:00Z' },
+        },
+      ],
+    })
+    ;(filterEventsForQuery as Mock).mockReturnValue({
+      events: [],
       containers: [{ id: 'container-1', summary: 'test-slug__EVENT__CONTAINER__' }],
+      members: [],
+      busyQuery: [
+        {
+          start: { dateTime: '2025-01-16T10:00:00Z' },
+          end: { dateTime: '2025-01-16T11:00:00Z' },
+        },
+      ],
+      searchQuery: 'test-slug__EVENT__',
+      eventMemberString: 'test-slug__EVENT__MEMBER__',
+      eventContainerString: 'test-slug__EVENT__CONTAINER__',
     })
     const result = await fetchPageData(
       config,
@@ -122,7 +144,7 @@ describe('fetchPageData', () => {
       true
     )
     expect(result.debugInfo?.pathTaken).toBe('container-event')
-    expect(fetchContainersByQuery).toHaveBeenCalled()
+    expect(fetchAllCalendarEvents).toHaveBeenCalled()
     expect(result.containers).toBeDefined()
   })
 
@@ -169,16 +191,26 @@ describe('fetchPageData', () => {
 
   it('eventContainer override triggers container path regardless of type', async () => {
     const config = makeConfig({ type: 'area-wide', eventContainer: '__TEST_QUERY__' })
-    const { fetchContainersByQuery } = await import('@/lib/fetch/fetchContainersByQuery')
-    ;(fetchContainersByQuery as Mock).mockResolvedValue({
+    const { fetchAllCalendarEvents, filterEventsForQuery } = await import(
+      '@/lib/fetch/fetchContainersByQuery'
+    )
+    ;(fetchAllCalendarEvents as Mock).mockResolvedValue({
       start: '2025-01-15',
       end: '2025-01-28',
-      busy: [],
+      allEvents: [],
+    })
+    ;(filterEventsForQuery as Mock).mockReturnValue({
+      events: [],
       containers: [{ id: 'c-1', summary: '__TEST_QUERY____EVENT__CONTAINER__' }],
+      members: [],
+      busyQuery: [],
+      searchQuery: '__TEST_QUERY____EVENT__',
+      eventMemberString: '__TEST_QUERY____EVENT__MEMBER__',
+      eventContainerString: '__TEST_QUERY____EVENT__CONTAINER__',
     })
     const result = await fetchPageData(config, {}, undefined, undefined, undefined, undefined, true)
     expect(result.debugInfo?.pathTaken).toBe('container-event')
-    expect(fetchContainersByQuery).toHaveBeenCalled()
+    expect(fetchAllCalendarEvents).toHaveBeenCalled()
   })
 
   it('fixed-location returns fixed-location path without containers', async () => {

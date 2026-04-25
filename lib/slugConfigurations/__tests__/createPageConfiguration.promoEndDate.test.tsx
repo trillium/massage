@@ -36,10 +36,21 @@ describe('createPageConfiguration promoEndDate limiting', () => {
       await import('../fetchSlugConfigurationData'),
       'fetchSlugConfigurationData'
     ).mockResolvedValue({ [bookingSlug]: fakeConfig })
-    vi.spyOn(
-      await import('@/lib/fetch/fetchContainersByQuery'),
-      'fetchContainersByQuery'
-    ).mockResolvedValue(fakeData)
+    const fetchModule = await import('@/lib/fetch/fetchContainersByQuery')
+    vi.spyOn(fetchModule, 'fetchAllCalendarEvents').mockResolvedValue({
+      start: fakeData.start,
+      end: fakeData.end,
+      allEvents: [],
+    })
+    vi.spyOn(fetchModule, 'filterEventsForQuery').mockReturnValue({
+      events: [],
+      containers: fakeData.containers,
+      members: [],
+      busyQuery: [],
+      searchQuery: `${bookingSlug}__EVENT__`,
+      eventMemberString: `${bookingSlug}__EVENT__MEMBER__`,
+      eventContainerString: `${bookingSlug}__EVENT__CONTAINER__`,
+    })
 
     const result = await createPageConfiguration({
       bookingSlug,

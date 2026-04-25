@@ -14,8 +14,10 @@ describe('fetchPageData - blockingScope functionality', () => {
   const mockSearchParams = { date: '2024-01-01' }
 
   describe('blockingScope: "event" (default behavior)', () => {
-    it('should use fetchContainersByQuery for event-only blocking', async () => {
-      const { fetchContainersByQuery } = await import('@/lib/fetch/fetchContainersByQuery')
+    it('should use fetchAllCalendarEvents + filterEventsForQuery for event-only blocking', async () => {
+      const { fetchAllCalendarEvents, filterEventsForQuery } = await import(
+        '@/lib/fetch/fetchContainersByQuery'
+      )
 
       const config: SlugConfigurationType = {
         type: 'area-wide',
@@ -31,38 +33,47 @@ describe('fetchPageData - blockingScope functionality', () => {
         allowedDurations: null,
       }
 
-      const mockContainerData = {
+      vi.mocked(fetchAllCalendarEvents).mockResolvedValue({
         start: '2024-01-01T00:00:00.000Z',
         end: '2024-01-08T00:00:00.000Z',
-        busy: [
+        allEvents: [],
+      })
+
+      vi.mocked(filterEventsForQuery).mockReturnValue({
+        events: [],
+        containers: [],
+        members: [],
+        busyQuery: [
           {
             start: { dateTime: '2024-01-01T10:00:00.000Z', timeZone: 'UTC' },
             end: { dateTime: '2024-01-01T11:00:00.000Z', timeZone: 'UTC' },
           },
         ],
-        containers: [],
-      }
-
-      vi.mocked(fetchContainersByQuery).mockResolvedValue(mockContainerData)
+        searchQuery: 'free-30__EVENT__',
+        eventMemberString: 'free-30__EVENT__MEMBER__',
+        eventContainerString: 'free-30__EVENT__CONTAINER__',
+      })
 
       const result = await fetchPageData(config, mockSearchParams, 'test-slug')
 
-      expect(fetchContainersByQuery).toHaveBeenCalledWith({
+      expect(fetchAllCalendarEvents).toHaveBeenCalledWith({
         searchParams: mockSearchParams,
-        query: 'free-30',
       })
+      expect(filterEventsForQuery).toHaveBeenCalledWith([], 'free-30')
 
       expect(result).toEqual({
-        start: mockContainerData.start,
-        end: mockContainerData.end,
+        start: '2024-01-01T00:00:00.000Z',
+        end: '2024-01-08T00:00:00.000Z',
         busy: [{ start: '2024-01-01T10:00:00.000Z', end: '2024-01-01T11:00:00.000Z' }],
-        containers: mockContainerData.containers,
+        containers: [],
         nextEventFound: false,
       })
     })
 
     it('should default to event blocking when blockingScope is undefined', async () => {
-      const { fetchContainersByQuery } = await import('@/lib/fetch/fetchContainersByQuery')
+      const { fetchAllCalendarEvents, filterEventsForQuery } = await import(
+        '@/lib/fetch/fetchContainersByQuery'
+      )
 
       const config: SlugConfigurationType = {
         type: 'area-wide',
@@ -78,21 +89,28 @@ describe('fetchPageData - blockingScope functionality', () => {
         allowedDurations: null,
       }
 
-      const mockContainerData = {
+      vi.mocked(fetchAllCalendarEvents).mockResolvedValue({
         start: '2024-01-01T00:00:00.000Z',
         end: '2024-01-08T00:00:00.000Z',
-        busy: [],
-        containers: [],
-      }
+        allEvents: [],
+      })
 
-      vi.mocked(fetchContainersByQuery).mockResolvedValue(mockContainerData)
+      vi.mocked(filterEventsForQuery).mockReturnValue({
+        events: [],
+        containers: [],
+        members: [],
+        busyQuery: [],
+        searchQuery: 'free-30__EVENT__',
+        eventMemberString: 'free-30__EVENT__MEMBER__',
+        eventContainerString: 'free-30__EVENT__CONTAINER__',
+      })
 
       await fetchPageData(config, mockSearchParams, 'test-slug')
 
-      expect(fetchContainersByQuery).toHaveBeenCalledWith({
+      expect(fetchAllCalendarEvents).toHaveBeenCalledWith({
         searchParams: mockSearchParams,
-        query: 'free-30',
       })
+      expect(filterEventsForQuery).toHaveBeenCalledWith([], 'free-30')
     })
   })
 
@@ -171,7 +189,9 @@ describe('fetchPageData - blockingScope functionality', () => {
 
   describe('scheduled-site type with blockingScope', () => {
     it('should use slug as query when eventContainer is not specified', async () => {
-      const { fetchContainersByQuery } = await import('@/lib/fetch/fetchContainersByQuery')
+      const { fetchAllCalendarEvents, filterEventsForQuery } = await import(
+        '@/lib/fetch/fetchContainersByQuery'
+      )
 
       const config: SlugConfigurationType = {
         type: 'scheduled-site',
@@ -187,21 +207,28 @@ describe('fetchPageData - blockingScope functionality', () => {
         allowedDurations: null,
       }
 
-      const mockContainerData = {
+      vi.mocked(fetchAllCalendarEvents).mockResolvedValue({
         start: '2024-01-01T00:00:00.000Z',
         end: '2024-01-08T00:00:00.000Z',
-        busy: [],
-        containers: [],
-      }
+        allEvents: [],
+      })
 
-      vi.mocked(fetchContainersByQuery).mockResolvedValue(mockContainerData)
+      vi.mocked(filterEventsForQuery).mockReturnValue({
+        events: [],
+        containers: [],
+        members: [],
+        busyQuery: [],
+        searchQuery: 'special-event__EVENT__',
+        eventMemberString: 'special-event__EVENT__MEMBER__',
+        eventContainerString: 'special-event__EVENT__CONTAINER__',
+      })
 
       await fetchPageData(config, mockSearchParams, 'special-event')
 
-      expect(fetchContainersByQuery).toHaveBeenCalledWith({
+      expect(fetchAllCalendarEvents).toHaveBeenCalledWith({
         searchParams: mockSearchParams,
-        query: 'special-event', // Should use slug as query
       })
+      expect(filterEventsForQuery).toHaveBeenCalledWith([], 'special-event')
     })
   })
 })
