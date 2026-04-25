@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Business Card — Single Card Calibration Template — Front + Back</title>
+<style>
+  @page {
+    size: 3.75in 2.25in;
+    margin: 0;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body {
+    width: 3.75in;
+    overflow: hidden;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  }
+
+  .card {
+    position: relative;
+    width: 3.75in;
+    height: 2.25in;
+    background: white;
+    page-break-after: always;
+  }
+  .card:last-child { page-break-after: auto; }
+
+  .bleed-zone-top, .bleed-zone-bottom, .bleed-zone-left, .bleed-zone-right {
+    position: absolute;
+  }
+  .bleed-zone-top    { top: 0; left: 0; right: 0; height: 0.125in; }
+  .bleed-zone-bottom { bottom: 0; left: 0; right: 0; height: 0.125in; }
+  .bleed-zone-left   { top: 0.125in; bottom: 0.125in; left: 0; width: 0.125in; }
+  .bleed-zone-right  { top: 0.125in; bottom: 0.125in; right: 0; width: 0.125in; }
+
+  .bleed-border {
+    position: absolute;
+    inset: 0;
+    border: 0.5pt solid;
+  }
+
+  .trim-border {
+    position: absolute;
+    top: 0.125in;
+    left: 0.125in;
+    width: 3.5in;
+    height: 2.0in;
+    border: 0.75pt solid;
+  }
+
+  .safe-border {
+    position: absolute;
+    top: 0.25in;
+    left: 0.25in;
+    width: 3.25in;
+    height: 1.75in;
+    border: 0.5pt dashed;
+  }
+
+  .crosshair {
+    position: absolute;
+    width: 18pt;
+    height: 18pt;
+  }
+  .crosshair svg { width: 100%; height: 100%; }
+  .ch-tl { top: calc(0.125in - 9pt); left: calc(0.125in - 9pt); }
+  .ch-tr { top: calc(0.125in - 9pt); right: calc(0.125in - 9pt); }
+  .ch-bl { bottom: calc(0.125in - 9pt); left: calc(0.125in - 9pt); }
+  .ch-br { bottom: calc(0.125in - 9pt); right: calc(0.125in - 9pt); }
+
+  .center-cross {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 24pt;
+    height: 24pt;
+  }
+  .center-cross svg { width: 100%; height: 100%; }
+
+  .label {
+    position: absolute;
+    font-size: 5.5pt;
+    letter-spacing: 0.03em;
+  }
+  .label-bleed {
+    top: 2pt;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .label-trim {
+    top: calc(0.125in + 2pt);
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .label-safe {
+    top: calc(0.25in + 2pt);
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .label-dims-bleed {
+    bottom: 2pt;
+    right: 4pt;
+    font-size: 5pt;
+  }
+  .label-dims-trim {
+    bottom: calc(0.125in + 2pt);
+    right: calc(0.125in + 4pt);
+    font-size: 5pt;
+  }
+  .label-side {
+    bottom: calc(0.25in + 2pt);
+    left: calc(0.25in + 4pt);
+    font-size: 6pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  /* ── FRONT (blue accent) ── */
+  .card-front .bleed-zone-top,
+  .card-front .bleed-zone-bottom,
+  .card-front .bleed-zone-left,
+  .card-front .bleed-zone-right { background: rgba(37, 99, 235, 0.06); }
+  .card-front .bleed-border { border-color: #2563eb; }
+  .card-front .trim-border { border-color: #1e40af; }
+  .card-front .safe-border { border-color: #93c5fd; }
+  .card-front .crosshair circle,
+  .card-front .crosshair line,
+  .card-front .center-cross circle,
+  .card-front .center-cross line { stroke: #2563eb; }
+  .card-front .label-bleed { color: #2563eb; }
+  .card-front .label-trim { color: #1e40af; }
+  .card-front .label-safe { color: #93c5fd; }
+  .card-front .label-dims-bleed { color: #2563eb; }
+  .card-front .label-dims-trim { color: #1e40af; }
+  .card-front .label-side { color: #2563eb; }
+
+  /* ── BACK (green accent) ── */
+  .card-back .bleed-zone-top,
+  .card-back .bleed-zone-bottom,
+  .card-back .bleed-zone-left,
+  .card-back .bleed-zone-right { background: rgba(22, 163, 74, 0.06); }
+  .card-back .bleed-border { border-color: #16a34a; }
+  .card-back .trim-border { border-color: #166534; }
+  .card-back .safe-border { border-color: #86efac; }
+  .card-back .crosshair circle,
+  .card-back .crosshair line,
+  .card-back .center-cross circle,
+  .card-back .center-cross line { stroke: #16a34a; }
+  .card-back .label-bleed { color: #16a34a; }
+  .card-back .label-trim { color: #166534; }
+  .card-back .label-safe { color: #86efac; }
+  .card-back .label-dims-bleed { color: #16a34a; }
+  .card-back .label-dims-trim { color: #166534; }
+  .card-back .label-side { color: #16a34a; }
+</style>
+</head>
+<body>
+<script>
+  const sides = [
+    { side: 'FRONT', cls: 'card-front' },
+    { side: 'BACK',  cls: 'card-back' },
+  ]
+
+  const crosshairSvg = `<svg viewBox="0 0 18 18"><circle cx="9" cy="9" r="6" fill="none" stroke-width="0.4"/><line x1="0" y1="9" x2="18" y2="9" stroke-width="0.3"/><line x1="9" y1="0" x2="9" y2="18" stroke-width="0.3"/></svg>`
+  const centerSvg = `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4" fill="none" stroke-width="0.3"/><circle cx="12" cy="12" r="8" fill="none" stroke-width="0.2" stroke-dasharray="1.5 1"/><line x1="0" y1="12" x2="24" y2="12" stroke-width="0.25"/><line x1="12" y1="0" x2="12" y2="24" stroke-width="0.25"/></svg>`
+
+  sides.forEach(({ side, cls }) => {
+    const card = document.createElement('div')
+    card.className = `card ${cls}`
+    card.innerHTML = `
+      <div class="bleed-zone-top"></div>
+      <div class="bleed-zone-bottom"></div>
+      <div class="bleed-zone-left"></div>
+      <div class="bleed-zone-right"></div>
+      <div class="bleed-border"></div>
+      <div class="trim-border"></div>
+      <div class="safe-border"></div>
+      <div class="crosshair ch-tl">${crosshairSvg}</div>
+      <div class="crosshair ch-tr">${crosshairSvg}</div>
+      <div class="crosshair ch-bl">${crosshairSvg}</div>
+      <div class="crosshair ch-br">${crosshairSvg}</div>
+      <div class="center-cross">${centerSvg}</div>
+      <span class="label label-bleed">BLEED (3.75 × 2.25)</span>
+      <span class="label label-trim">TRIM (3.5 × 2.0)</span>
+      <span class="label label-safe">SAFE ZONE (3.25 × 1.75)</span>
+      <span class="label label-dims-bleed">0.125″ bleed</span>
+      <span class="label label-dims-trim">0.125″ safe margin</span>
+      <span class="label label-side">${side}</span>
+    `
+    document.body.appendChild(card)
+  })
+</script>
+</body>
+</html>

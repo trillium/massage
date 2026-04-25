@@ -110,9 +110,9 @@ print/sheet.pdf
 print/sheet.html
 print/index.html
 print/qc/
-print/business-cards/print-sheet.*
-print/business-cards/.tmp/
+print/business-cards/
 print/reference/
+print/2026-*/
 
 # Proposals (private working docs)
 proposals/

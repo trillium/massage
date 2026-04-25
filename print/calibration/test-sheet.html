@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Business Card — 2×5 Calibration Test Sheet (8.5×11) — Front + Back</title>
+<style>
+  @page {
+    size: 8.5in 11in;
+    margin: 0;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body {
+    width: 8.5in;
+    overflow: hidden;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background: white;
+  }
+
+  .sheet {
+    position: relative;
+    width: 8.5in;
+    height: 11in;
+    page-break-after: always;
+    overflow: hidden;
+  }
+  .sheet:last-child { page-break-after: auto; }
+
+  .grid {
+    position: absolute;
+    top: 0.5in;
+    left: 0.75in;
+    width: 7.0in;
+    height: 10.0in;
+  }
+
+  .card-cell {
+    position: absolute;
+    width: 3.5in;
+    height: 2.0in;
+  }
+
+  .card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  .card-crosshair {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 20pt;
+    height: 20pt;
+  }
+  .card-crosshair svg { width: 100%; height: 100%; }
+
+  .card-diag {
+    position: absolute;
+    inset: 0;
+  }
+  .card-diag svg { width: 100%; height: 100%; }
+
+  .card-label {
+    position: absolute;
+    top: 3pt;
+    left: 4pt;
+    font-size: 7pt;
+    font-weight: 600;
+  }
+  .card-dims {
+    position: absolute;
+    bottom: 3pt;
+    right: 4pt;
+    font-size: 5pt;
+  }
+  .card-side-tag {
+    position: absolute;
+    bottom: 3pt;
+    left: 4pt;
+    font-size: 5pt;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* ── FRONT (blue accent) ── */
+  .sheet-front .card-cell { border: 0.5pt solid #2563eb; }
+  .sheet-front .card-label { color: #1e40af; }
+  .sheet-front .card-dims { color: #60a5fa; }
+  .sheet-front .card-side-tag { color: #2563eb; }
+  .sheet-front .card-diag line { stroke: #bfdbfe; }
+  .sheet-front .card-crosshair circle,
+  .sheet-front .card-crosshair line { stroke: #2563eb; }
+  .sheet-front .sheet-title { color: #1e40af; }
+  .sheet-front .sheet-subtitle { color: #60a5fa; }
+  .sheet-front .duplex-marker { color: #2563eb; }
+  .sheet-front .crop-h, .sheet-front .crop-v { background: #2563eb; }
+  .sheet-front .sheet-reg circle,
+  .sheet-front .sheet-reg line { stroke: #2563eb; }
+
+  /* ── BACK (green accent) ── */
+  .sheet-back .card-cell { border: 0.5pt solid #16a34a; }
+  .sheet-back .card-label { color: #166534; }
+  .sheet-back .card-dims { color: #4ade80; }
+  .sheet-back .card-side-tag { color: #16a34a; }
+  .sheet-back .card-diag line { stroke: #bbf7d0; }
+  .sheet-back .card-crosshair circle,
+  .sheet-back .card-crosshair line { stroke: #16a34a; }
+  .sheet-back .sheet-title { color: #166534; }
+  .sheet-back .sheet-subtitle { color: #4ade80; }
+  .sheet-back .duplex-marker { color: #16a34a; }
+  .sheet-back .crop-h, .sheet-back .crop-v { background: #16a34a; }
+  .sheet-back .sheet-reg circle,
+  .sheet-back .sheet-reg line { stroke: #16a34a; }
+
+  .sheet-reg {
+    position: absolute;
+    width: 14pt;
+    height: 14pt;
+  }
+  .sheet-reg svg { width: 100%; height: 100%; }
+  .sr-tl { top: calc(0.5in - 7pt - 8pt); left: calc(0.75in - 7pt); }
+  .sr-tr { top: calc(0.5in - 7pt - 8pt); right: calc(0.75in - 7pt); }
+  .sr-bl { bottom: calc(0.5in - 7pt - 8pt); left: calc(0.75in - 7pt); }
+  .sr-br { bottom: calc(0.5in - 7pt - 8pt); right: calc(0.75in - 7pt); }
+
+  .crop-h, .crop-v { position: absolute; }
+  .crop-h { height: 0.3pt; width: 12pt; }
+  .crop-v { width: 0.3pt; height: 12pt; }
+
+  .color-bar {
+    position: absolute;
+    bottom: 0.15in;
+    left: 0.75in;
+    display: flex;
+    gap: 3pt;
+    align-items: flex-end;
+  }
+  .color-patch { width: 24pt; height: 12pt; }
+  .color-patch-label { font-size: 4pt; color: #666; text-align: center; margin-top: 1pt; }
+  .gray-ramp { display: flex; gap: 0; margin-left: 6pt; }
+  .gray-step { width: 8pt; height: 12pt; }
+
+  .sheet-title {
+    position: absolute;
+    top: 0.15in;
+    left: 0.75in;
+    font-size: 6pt;
+    letter-spacing: 0.05em;
+  }
+  .sheet-subtitle {
+    position: absolute;
+    top: 0.15in;
+    right: 0.75in;
+    font-size: 5pt;
+    text-align: right;
+  }
+  .duplex-marker {
+    position: absolute;
+    font-size: 5pt;
+    font-weight: 700;
+  }
+  .dm-tl { top: calc(0.5in - 20pt); left: calc(0.75in + 18pt); }
+</style>
+</head>
+<body>
+
+<script>
+  const COLS = 2
+  const ROWS = 5
+  const CARD_W = 3.5
+  const CARD_H = 2.0
+  const GRID_LEFT = 0.75
+  const GRID_TOP = 0.5
+  const ROW_LABELS = ['A', 'B', 'C', 'D', 'E']
+  const COL_LABELS = ['1', '2']
+
+  const sides = [
+    { side: 'FRONT', cls: 'sheet-front', symbol: '▲', reversed: false },
+    { side: 'BACK',  cls: 'sheet-back',  symbol: '▼', reversed: true },
+  ]
+
+  const regMarkSvg = `<svg viewBox="0 0 14 14"><circle cx="7" cy="7" r="5" fill="none" stroke-width="0.4"/><line x1="0" y1="7" x2="14" y2="7" stroke-width="0.3"/><line x1="7" y1="0" x2="7" y2="14" stroke-width="0.3"/></svg>`
+
+  sides.forEach(({ side, cls, symbol, reversed }) => {
+    const sheet = document.createElement('div')
+    sheet.className = `sheet ${cls}`
+
+    const title = document.createElement('div')
+    title.className = 'sheet-title'
+    title.textContent = `CALIBRATION TEST SHEET — ${side} — 2 COL × 5 ROW — 8.5 × 11 IN`
+    sheet.appendChild(title)
+
+    const subtitle = document.createElement('div')
+    subtitle.className = 'sheet-subtitle'
+    subtitle.textContent = `Card trim: 3.5 × 2.0 in · Bleed: 0.125 in · Grid origin: (0.75, 0.5) in${reversed ? ' · Rows reversed for short-edge duplex' : ''}`
+    sheet.appendChild(subtitle)
+
+    // Registration marks
+    ;['sr-tl', 'sr-tr', 'sr-bl', 'sr-br'].forEach(pos => {
+      const reg = document.createElement('div')
+      reg.className = `sheet-reg ${pos}`
+      reg.innerHTML = regMarkSvg
+      sheet.appendChild(reg)
+    })
+
+    // Duplex indicator
+    const dm = document.createElement('div')
+    dm.className = 'duplex-marker dm-tl'
+    dm.textContent = `${symbol} ${side}`
+    sheet.appendChild(dm)
+
+    // Card grid
+    const grid = document.createElement('div')
+    grid.className = 'grid'
+
+    for (let r = 0; r < ROWS; r++) {
+      for (let c = 0; c < COLS; c++) {
+        const displayRow = reversed ? (ROWS - 1 - r) : r
+        const label = `${ROW_LABELS[displayRow]}${COL_LABELS[c]}`
+
+        const cell = document.createElement('div')
+        cell.className = 'card-cell'
+        cell.style.left = `${c * CARD_W}in`
+        cell.style.top = `${r * CARD_H}in`
+
+        cell.innerHTML = `
+          <div class="card-inner">
+            <div class="card-diag">
+              <svg viewBox="0 0 252 144" preserveAspectRatio="none">
+                <line x1="0" y1="0" x2="252" y2="144" stroke-width="0.4" stroke-dasharray="3 2"/>
+                <line x1="252" y1="0" x2="0" y2="144" stroke-width="0.4" stroke-dasharray="3 2"/>
+              </svg>
+            </div>
+            <div class="card-crosshair">
+              <svg viewBox="0 0 20 20">
+                <circle cx="10" cy="10" r="4" fill="none" stroke-width="0.4"/>
+                <circle cx="10" cy="10" r="7" fill="none" stroke-width="0.2" stroke-dasharray="1.2 0.8"/>
+                <line x1="0" y1="10" x2="20" y2="10" stroke-width="0.3"/>
+                <line x1="10" y1="0" x2="10" y2="20" stroke-width="0.3"/>
+              </svg>
+            </div>
+            <span class="card-label">${label}</span>
+            <span class="card-side-tag">${side}</span>
+            <span class="card-dims">${CARD_W}×${CARD_H} in</span>
+          </div>
+        `
+        grid.appendChild(cell)
+      }
+    }
+    sheet.appendChild(grid)
+
+    // Crop marks
+    for (let r = 0; r <= ROWS; r++) {
+      const y = GRID_TOP + r * CARD_H
+      addCropMark(sheet, 'h', GRID_LEFT, y, -1)
+      addCropMark(sheet, 'h', GRID_LEFT + COLS * CARD_W, y, 1)
+    }
+    for (let c = 0; c <= COLS; c++) {
+      const x = GRID_LEFT + c * CARD_W
+      addCropMark(sheet, 'v', x, GRID_TOP, -1)
+      addCropMark(sheet, 'v', x, GRID_TOP + ROWS * CARD_H, 1)
+    }
+
+    // Color bar
+    const colorBar = document.createElement('div')
+    colorBar.className = 'color-bar'
+    colorBar.innerHTML = `
+      <div><div class="color-patch" style="background:cyan"></div><div class="color-patch-label">C</div></div>
+      <div><div class="color-patch" style="background:magenta"></div><div class="color-patch-label">M</div></div>
+      <div><div class="color-patch" style="background:yellow"></div><div class="color-patch-label">Y</div></div>
+      <div><div class="color-patch" style="background:black"></div><div class="color-patch-label">K</div></div>
+      <div><div class="color-patch" style="background:red"></div><div class="color-patch-label">C+M</div></div>
+      <div><div class="color-patch" style="background:green"></div><div class="color-patch-label">C+Y</div></div>
+      <div><div class="color-patch" style="background:blue"></div><div class="color-patch-label">M+Y</div></div>
+      <div class="gray-ramp">
+        <div class="gray-step" style="background:#000"></div>
+        <div class="gray-step" style="background:#333"></div>
+        <div class="gray-step" style="background:#666"></div>
+        <div class="gray-step" style="background:#999"></div>
+        <div class="gray-step" style="background:#ccc"></div>
+        <div class="gray-step" style="background:#eee"></div>
+        <div class="gray-step" style="background:#fff;border:0.25pt solid #ccc"></div>
+      </div>
+    `
+    sheet.appendChild(colorBar)
+
+    document.body.appendChild(sheet)
+  })
+
+  function addCropMark(parent, dir, xIn, yIn, side) {
+    const el = document.createElement('div')
+    if (dir === 'h') {
+      el.className = 'crop-h'
+      el.style.top = `${yIn}in`
+      if (side < 0) {
+        el.style.right = `calc(${8.5 - xIn}in + 4pt)`
+      } else {
+        el.style.left = `calc(${xIn}in + 4pt)`
+      }
+    } else {
+      el.className = 'crop-v'
+      el.style.left = `${xIn}in`
+      if (side < 0) {
+        el.style.bottom = `calc(${11 - yIn}in + 4pt)`
+      } else {
+        el.style.top = `calc(${yIn}in + 4pt)`
+      }
+    }
+    parent.appendChild(el)
+  }
+</script>
+</body>
+</html>
