@@ -6,7 +6,7 @@ import { toast } from 'sonner'
 import { adminFetch } from '@/lib/adminFetch'
 import ConfirmDialog from '@/components/admin/ConfirmDialog'
 
-import { RAFFLE_RAFFLE_INTEREST_LABELS } from '@/lib/schema'
+import { RAFFLE_INTEREST_LABELS } from '@/lib/schema'
 
 interface Raffle {
   id: string

@@ -6,7 +6,7 @@ import SectionContainer from '@/components/SectionContainer'
 import Link from 'next/link'
 import { useReduxRaffle } from '@/redux/hooks'
 
-import { RAFFLE_RAFFLE_INTEREST_LABELS } from '@/lib/schema'
+import { RAFFLE_INTEREST_LABELS } from '@/lib/schema'
 
 export default function RaffleEnteredPage() {
   const router = useRouter()
