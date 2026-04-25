@@ -79,7 +79,7 @@ export function InitializationUtility({
     }
 
     // Set initial duration
-    if (initialDuration && !durationRedux) {
+    if (initialDuration) {
       dispatch(setDuration(initialDuration))
     }
 
