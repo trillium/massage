@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import { adminFetch } from '@/lib/adminFetch'
@@ -63,6 +63,14 @@ export function RaffleAdmin({ raffle, entries: initialEntries, stats }: RaffleAd
   })
   const [status, setStatus] = useState(raffle.status)
   const [isActive, setIsActive] = useState(raffle.is_active)
+
+  useEffect(() => {
+    setEntryList(initialEntries)
+    const w = initialEntries.find((e) => e.is_winner)
+    setWinner(w ? { name: w.name, email: w.email } : null)
+    setStatus(raffle.status)
+    setIsActive(raffle.is_active)
+  }, [initialEntries, raffle.status, raffle.is_active])
   const [confirmDialog, setConfirmDialog] = useState<{
     title: string
     message: string
