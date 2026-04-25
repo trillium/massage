@@ -97,13 +97,14 @@ export default async function RafflePage({
 }
 
 function computeStats(entries: RaffleEntry[]) {
-  const uniqueEmails = new Set(entries.map((e) => e.email))
-  const localCount = entries.filter((e) => e.is_local).length
-  const uniqueLocal = new Set(entries.filter((e) => e.is_local).map((e) => e.email))
-  const uniqueNonLocal = new Set(entries.filter((e) => !e.is_local).map((e) => e.email))
+  const eligible = entries.filter((e) => !e.excluded)
+  const uniqueEmails = new Set(eligible.map((e) => e.email))
+  const localCount = eligible.filter((e) => e.is_local).length
+  const uniqueLocal = new Set(eligible.filter((e) => e.is_local).map((e) => e.email))
+  const uniqueNonLocal = new Set(eligible.filter((e) => !e.is_local).map((e) => e.email))
 
   const interestedInCounts: Record<string, number> = {}
-  for (const entry of entries) {
+  for (const entry of eligible) {
     const interests = Array.isArray(entry.interested_in) ? entry.interested_in : []
     for (const interest of interests) {
       interestedInCounts[interest] = (interestedInCounts[interest] || 0) + 1
@@ -111,11 +112,11 @@ function computeStats(entries: RaffleEntry[]) {
   }
 
   return {
-    totalEntries: entries.length,
+    totalEntries: eligible.length,
     uniqueEntries: uniqueEmails.size,
     localCount,
-    nonLocalCount: entries.length - localCount,
-    localPercent: entries.length > 0 ? Math.round((uniqueLocal.size / uniqueEmails.size) * 100) : 0,
+    nonLocalCount: eligible.length - localCount,
+    localPercent: eligible.length > 0 ? Math.round((uniqueLocal.size / uniqueEmails.size) * 100) : 0,
     uniqueLocal: uniqueLocal.size,
     uniqueNonLocal: uniqueNonLocal.size,
     interestedInCounts,
