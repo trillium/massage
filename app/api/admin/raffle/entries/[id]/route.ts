@@ -27,6 +27,16 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
     return NextResponse.json({ error: 'Service unavailable' }, { status: 503 })
   }
 
+  const { data: entry } = await supabase
+    .from('raffle_entries' as never)
+    .select('is_winner')
+    .eq('id', id)
+    .single()
+
+  if ((entry as { is_winner: boolean } | null)?.is_winner) {
+    return NextResponse.json({ error: 'Cannot modify a winning entry' }, { status: 400 })
+  }
+
   const { error } = await supabase
     .from('raffle_entries' as never)
     .update({ excluded: parsed.data.excluded } as never)
@@ -52,6 +62,17 @@ export async function DELETE(
   if (!supabase) {
     return NextResponse.json({ error: 'Service unavailable' }, { status: 503 })
   }
+
+  const { data: entry } = await supabase
+    .from('raffle_entries' as never)
+    .select('is_winner')
+    .eq('id', id)
+    .single()
+
+  if ((entry as { is_winner: boolean } | null)?.is_winner) {
+    return NextResponse.json({ error: 'Cannot delete a winning entry' }, { status: 400 })
+  }
+
   const { error } = await supabase
     .from('raffle_entries' as never)
     .delete()
