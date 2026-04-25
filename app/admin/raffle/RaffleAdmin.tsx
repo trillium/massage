@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import { adminFetch } from '@/lib/adminFetch'
 
@@ -13,6 +14,7 @@ interface Raffle {
   id: string
   name: string
   status: string
+  is_active: boolean
   created_at: string
   drawn_at: string | null
 }
@@ -26,6 +28,7 @@ interface RaffleEntry {
   is_local: boolean
   interested_in: string[]
   is_winner: boolean
+  excluded: boolean
   created_at: string
 }
 
@@ -47,16 +50,40 @@ interface RaffleAdminProps {
 }
 
 export function RaffleAdmin({ raffle, entries: initialEntries, stats }: RaffleAdminProps) {
+  const router = useRouter()
   const [drawing, setDrawing] = useState(false)
+  const [settingActive, setSettingActive] = useState(false)
   const [deletingId, setDeletingId] = useState<string | null>(null)
+  const [togglingExcludeId, setTogglingExcludeId] = useState<string | null>(null)
   const [entryList, setEntryList] = useState(initialEntries)
   const [winner, setWinner] = useState<{ name: string; email: string } | null>(() => {
     const existing = initialEntries.find((e) => e.is_winner)
     return existing ? { name: existing.name, email: existing.email } : null
   })
   const [status, setStatus] = useState(raffle.status)
+  const [isActive, setIsActive] = useState(raffle.is_active)
 
   const isDrawn = status === 'drawn'
+
+  const handleSetActive = async () => {
+    setSettingActive(true)
+    try {
+      const res = await adminFetch(`/api/admin/raffle/${raffle.id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ is_active: true }),
+      })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error)
+      setIsActive(true)
+      toast.success(`"${raffle.name}" is now the active raffle`)
+      router.refresh()
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : 'Failed to set active')
+    } finally {
+      setSettingActive(false)
+    }
+  }
 
   const handleDraw = async () => {
     setDrawing(true)
@@ -76,6 +103,37 @@ export function RaffleAdmin({ raffle, entries: initialEntries, stats }: RaffleAd
     } finally {
       setDrawing(false)
     }
+  }
+
+  const handleExclude = async (entry: RaffleEntry) => {
+    const newExcluded = !entry.excluded
+    setTogglingExcludeId(entry.id)
+    setEntryList((prev) =>
+      prev.map((e) => (e.id === entry.id ? { ...e, excluded: newExcluded } : e))
+    )
+    try {
+      const res = await adminFetch(`/api/admin/raffle/entries/${entry.id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ excluded: newExcluded }),
+      })
+      const data = await res.json()
+      if (!res.ok) {
+        setEntryList((prev) =>
+          prev.map((e) => (e.id === entry.id ? { ...e, excluded: !newExcluded } : e))
+        )
+        throw new Error(data.error)
+      }
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : 'Failed to update entry')
+    } finally {
+      setTogglingExcludeId(null)
+    }
+  }
+
+  const handleRedraw = async () => {
+    if (!window.confirm('Redraw winner? This will clear the current winner.')) return
+    await handleDraw()
   }
 
   const handleDelete = async (entryId: string) => {
@@ -105,16 +163,32 @@ export function RaffleAdmin({ raffle, entries: initialEntries, stats }: RaffleAd
             <h2 className="text-xl font-semibold text-accent-900 dark:text-accent-100">
               {raffle.name}
             </h2>
-            <span
-              className={`mt-1 inline-block rounded-full px-3 py-1 text-xs font-medium ${
-                isDrawn
-                  ? 'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300'
-                  : 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300'
-              }`}
-            >
-              {status}
-            </span>
+            <div className="mt-1 flex items-center gap-2">
+              <span
+                className={`inline-block rounded-full px-3 py-1 text-xs font-medium ${
+                  isDrawn
+                    ? 'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300'
+                    : 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300'
+                }`}
+              >
+                {status}
+              </span>
+              {isActive && (
+                <span className="inline-block rounded-full bg-blue-100 px-3 py-1 text-xs font-medium text-blue-800 dark:bg-blue-900/30 dark:text-blue-300">
+                  active
+                </span>
+              )}
+            </div>
           </div>
+          {!isActive && (
+            <button
+              onClick={handleSetActive}
+              disabled={settingActive}
+              className="rounded bg-blue-500 px-3 py-1.5 text-sm text-white hover:bg-blue-600 disabled:bg-surface-300"
+            >
+              {settingActive ? 'Setting…' : 'Set as Active'}
+            </button>
+          )}
         </div>
       </div>
 
@@ -145,6 +219,9 @@ export function RaffleAdmin({ raffle, entries: initialEntries, stats }: RaffleAd
                   Interested In
                 </th>
                 <th className="px-3 py-2 font-medium text-accent-500 dark:text-accent-400">Date</th>
+                <th className="px-3 py-2 font-medium text-accent-500 dark:text-accent-400">
+                  Exclude
+                </th>
                 <th className="px-3 py-2"></th>
               </tr>
             </thead>
@@ -152,7 +229,7 @@ export function RaffleAdmin({ raffle, entries: initialEntries, stats }: RaffleAd
               {entryList.map((entry) => (
                 <tr
                   key={entry.id}
-                  className={`border-b border-accent-100 dark:border-accent-800 ${entry.is_winner ? 'bg-yellow-50 dark:bg-yellow-900/10' : ''}`}
+                  className={`border-b border-accent-100 dark:border-accent-800 ${entry.is_winner ? 'bg-yellow-50 dark:bg-yellow-900/10' : ''} ${entry.excluded ? 'opacity-50' : ''}`}
                 >
                   <td className="px-3 py-2 text-accent-900 dark:text-accent-100">{entry.name}</td>
                   <td className="px-3 py-2">{entry.email}</td>
@@ -165,6 +242,15 @@ export function RaffleAdmin({ raffle, entries: initialEntries, stats }: RaffleAd
                   </td>
                   <td className="px-3 py-2 text-accent-500 dark:text-accent-400">
                     {new Date(entry.created_at).toLocaleDateString()}
+                  </td>
+                  <td className="px-3 py-2 text-center">
+                    <input
+                      type="checkbox"
+                      checked={entry.excluded}
+                      disabled={entry.is_winner || togglingExcludeId === entry.id}
+                      onChange={() => handleExclude(entry)}
+                      className="h-4 w-4 rounded border-accent-300 disabled:opacity-50"
+                    />
                   </td>
                   <td className="px-3 py-2">
                     <button
@@ -179,7 +265,7 @@ export function RaffleAdmin({ raffle, entries: initialEntries, stats }: RaffleAd
               ))}
               {entryList.length === 0 && (
                 <tr>
-                  <td colSpan={7} className="px-3 py-6 text-center text-accent-400">
+                  <td colSpan={8} className="px-3 py-6 text-center text-accent-400">
                     No entries yet
                   </td>
                 </tr>
@@ -196,6 +282,15 @@ export function RaffleAdmin({ raffle, entries: initialEntries, stats }: RaffleAd
             {winner.name}
           </p>
           <p className="text-sm text-yellow-700 dark:text-yellow-300">{winner.email}</p>
+          {isDrawn && (
+            <button
+              onClick={handleRedraw}
+              disabled={drawing}
+              className="mt-4 rounded bg-amber-500 px-4 py-2 text-sm text-white hover:bg-amber-600 disabled:bg-surface-300"
+            >
+              {drawing ? 'Drawing...' : 'Redraw Winner'}
+            </button>
+          )}
         </div>
       )}
 

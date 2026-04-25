@@ -38,21 +38,29 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Raffle not found' }, { status: 404 })
   }
 
-  if (raffle.status === 'drawn') {
-    return NextResponse.json({ error: 'Raffle already drawn' }, { status: 400 })
-  }
-
-  if (raffle.status !== 'open' && raffle.status !== 'closed') {
+  if (raffle.status !== 'open' && raffle.status !== 'closed' && raffle.status !== 'drawn') {
     return NextResponse.json(
       { error: `Cannot draw raffle with status: ${raffle.status}` },
       { status: 400 }
     )
   }
 
+  if (raffle.status === 'drawn') {
+    const { error: clearWinnerError } = await supabase
+      .from('raffle_entries' as never)
+      .update({ is_winner: false } as never)
+      .eq('raffle_id', parsed.data.raffle_id)
+
+    if (clearWinnerError) {
+      return NextResponse.json({ error: clearWinnerError.message }, { status: 500 })
+    }
+  }
+
   const { data: entriesData, error: entriesError } = await supabase
     .from('raffle_entries' as never)
     .select('name, email')
     .eq('raffle_id', parsed.data.raffle_id)
+    .eq('excluded', false)
 
   const entries = entriesData as { name: string; email: string }[] | null
 

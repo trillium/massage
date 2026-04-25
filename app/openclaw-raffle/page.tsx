@@ -16,7 +16,7 @@ export default async function OpenClawRafflePage() {
     const { data } = await supabase
       .from('raffles' as never)
       .select('id, name')
-      .eq('status' as never, 'open')
+      .eq('is_active' as never, true)
       .limit(1)
       .single()
     raffle = data as Raffle | null

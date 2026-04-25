@@ -1,4 +1,5 @@
 import { getSupabaseAdminClient } from '@/lib/supabase/server'
+import { CreateRaffleForm } from './CreateRaffleForm'
 import { RaffleAdmin } from './RaffleAdmin'
 import { RaffleSelector } from './RaffleSelector'
 
@@ -6,6 +7,7 @@ interface Raffle {
   id: string
   name: string
   status: string
+  is_active: boolean
   created_at: string
   drawn_at: string | null
 }
@@ -19,6 +21,7 @@ interface RaffleEntry {
   is_local: boolean
   interested_in: string[]
   is_winner: boolean
+  excluded: boolean
   created_at: string
 }
 
@@ -55,6 +58,9 @@ export default async function RafflePage({
     return (
       <div className="py-4">
         <h1 className="mb-6 text-3xl font-bold text-accent-900 dark:text-accent-100">Raffle</h1>
+        <div className="mb-6">
+          <CreateRaffleForm />
+        </div>
         <p className="text-accent-600 dark:text-accent-400">No active raffle found.</p>
       </div>
     )
@@ -71,10 +77,18 @@ export default async function RafflePage({
   return (
     <div className="py-4">
       <h1 className="mb-6 text-3xl font-bold text-accent-900 dark:text-accent-100">Raffle</h1>
+      <div className="mb-6">
+        <CreateRaffleForm />
+      </div>
       {allRaffles.length > 1 && (
         <div className="mb-6">
           <RaffleSelector
-            raffles={allRaffles.map((r) => ({ id: r.id, name: r.name, status: r.status }))}
+            raffles={allRaffles.map((r) => ({
+              id: r.id,
+              name: r.name,
+              status: r.status,
+              is_active: r.is_active,
+            }))}
             currentRaffleId={raffle.id}
           />
         </div>

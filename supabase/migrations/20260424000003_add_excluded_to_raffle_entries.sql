@@ -1,0 +1,1 @@
+ALTER TABLE raffle_entries ADD COLUMN excluded BOOLEAN NOT NULL DEFAULT false;
