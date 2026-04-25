@@ -15,8 +15,9 @@ Duplex (long-edge flip = flip left↔right):
 URL printed rotated in the white-margin strip of each front card.
 
 Usage:
-  python3 scripts/generate-print-sheet.py
-  python3 scripts/generate-print-sheet.py --pdf ~/Downloads/"CC BEV (2).pdf"
+  python3 scripts/generate-cards/generate-print-sheet.py
+  python3 scripts/generate-cards/generate-print-sheet.py --pdf print/templates/"CC BEV (2).pdf"
+  python3 scripts/generate-cards/generate-print-sheet.py --front front.pdf --back back.pdf
 
 Output: print/sheet.pdf
 """
@@ -29,10 +30,10 @@ try:
 except ImportError:
     sys.exit("pymupdf not installed.  Run: pip3 install pymupdf")
 
-REPO_ROOT   = Path(__file__).parent.parent
+REPO_ROOT   = Path(__file__).parent.parent.parent
 QR_DIR      = REPO_ROOT / "print" / "qr"
 DEFAULT_OUT = REPO_ROOT / "print" / "sheet.pdf"
-DEFAULT_PDF = Path.home() / "Downloads" / "CC BEV (2).pdf"
+DEFAULT_PDF = REPO_ROOT / "print" / "templates" / "CC BEV (2).pdf"
 
 # Green square: where the QR code goes on page 1 (top-left origin, pts)
 GREEN = fitz.Rect(343, 402, 579, 637.5)
@@ -82,10 +83,10 @@ def cell_rect(col: int, row: int) -> fitz.Rect:
     return fitz.Rect(x0, y0, x0 + CARD_W, y0 + CARD_H)
 
 
-def make_front(template: fitz.Document, qr_path: Path) -> fitz.Document:
-    """Copy template page 0, overlay QR SVG with teal double-border over the green square."""
+def make_front(front_doc: fitz.Document, qr_path: Path) -> fitz.Document:
+    """Copy front template, overlay QR SVG with teal double-border over the green square."""
     doc = fitz.open()
-    doc.insert_pdf(template, from_page=0, to_page=0)
+    doc.insert_pdf(front_doc, from_page=0, to_page=0)
     page = doc[0]
 
     # 1. Flood-fill the placeholder with teal — kills any green bleed at the edges
@@ -150,26 +151,45 @@ def draw_cut_lines(page: fitz.Page) -> None:
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--pdf", default=str(DEFAULT_PDF))
+    parser.add_argument("--pdf", default=None,
+                        help="2-page PDF (front + back). Ignored if --front/--back given.")
+    parser.add_argument("--front", default=None,
+                        help="Single-page front template PDF")
+    parser.add_argument("--back", default=None,
+                        help="Single-page back template PDF")
     parser.add_argument("--prefix", default="handbill_",
                         help="SVG filename prefix to match (default: handbill_)")
     parser.add_argument("--out", default=None,
                         help="Output PDF path (default: print/sheet.pdf)")
     args = parser.parse_args()
 
-    pdf_path = Path(args.pdf)
-    if not pdf_path.exists():
-        sys.exit(f"PDF not found: {pdf_path}")
+    if args.front or args.back:
+        if not args.front or not args.back:
+            sys.exit("--front and --back must both be provided")
+        front_path, back_path = Path(args.front), Path(args.back)
+        if not front_path.exists():
+            sys.exit(f"Front PDF not found: {front_path}")
+        if not back_path.exists():
+            sys.exit(f"Back PDF not found: {back_path}")
+        front_doc = fitz.open(str(front_path))
+        back_doc = fitz.open(str(back_path))
+    else:
+        pdf_path = Path(args.pdf) if args.pdf else DEFAULT_PDF
+        if not pdf_path.exists():
+            sys.exit(f"PDF not found: {pdf_path}")
+        combined = fitz.open(str(pdf_path))
+        if combined.page_count < 2:
+            sys.exit("PDF needs 2 pages (front + back)")
+        front_doc = fitz.open()
+        front_doc.insert_pdf(combined, from_page=0, to_page=0)
+        back_doc = fitz.open()
+        back_doc.insert_pdf(combined, from_page=1, to_page=1)
 
     out_path = Path(args.out) if args.out else DEFAULT_OUT
 
     qr_files = sorted(QR_DIR.glob(f"{args.prefix}*.svg"))
     if not qr_files:
         sys.exit(f"No {args.prefix}*.svg in {QR_DIR}")
-
-    template = fitz.open(str(pdf_path))
-    if template.page_count < 2:
-        sys.exit("PDF needs 2 pages (front + back)")
 
     out    = fitz.open()
     sheets = 0
@@ -180,9 +200,9 @@ def main():
 
         # ── Front ────────────────────────────────────────────────────────────
         front = out.new_page(width=PAGE_W, height=PAGE_H)
-        front_docs = [make_front(template, qr) for qr in batch]
+        stamped_fronts = [make_front(front_doc, qr) for qr in batch]
 
-        for i, (fdoc, qr_path) in enumerate(zip(front_docs, batch)):
+        for i, (fdoc, qr_path) in enumerate(zip(stamped_fronts, batch)):
             col, row = i % COLS, i // COLS
             front.show_pdf_page(cell_rect(col, row), fdoc, 0,
                                 rotate=COL_ROTATE[col])
@@ -198,7 +218,7 @@ def main():
             col, row   = i % COLS, i // COLS
             b_col      = BACK_COL[col]
             b_rotate   = BACK_ROTATE[col]
-            back.show_pdf_page(cell_rect(b_col, row), template, 1,
+            back.show_pdf_page(cell_rect(b_col, row), back_doc, 0,
                                rotate=b_rotate)
 
         draw_cut_lines(back)
@@ -217,7 +237,7 @@ def main():
     import subprocess
     print("\n── Validating QR renders ──\n")
     result = subprocess.run(
-        [sys.executable, str(Path(__file__).parent / "validate-print-qr.py"),
+        [sys.executable, str(REPO_ROOT / "scripts" / "validate-print-qr.py"),
          "--sheet", str(out_path), "--save-crops"],
     )
     if result.returncode:
