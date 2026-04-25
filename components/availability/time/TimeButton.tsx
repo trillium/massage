@@ -13,6 +13,7 @@ type TimeProps = {
   presenceCount?: number
   disabled?: boolean
   loading?: boolean
+  held?: boolean
   onTimeSelect: (time: StringDateTimeInterval, location?: LocationObject) => void
 } & Omit<DetailedHTMLProps<HTMLAttributes<HTMLButtonElement>, HTMLButtonElement>, 'onClick'>
 
@@ -25,13 +26,16 @@ export default function TimeButton({
   presenceCount,
   disabled,
   loading,
+  held,
   onTimeSelect,
   ...props
 }: TimeProps) {
+  const isDisabled = disabled || held
+
   return (
     <button
       type="button"
-      disabled={disabled}
+      disabled={isDisabled}
       className={clsx(
         'relative rounded-md border border-accent-300 px-3 py-2 shadow-sm transition-all',
         'text-sm text-accent-900',
@@ -39,8 +43,9 @@ export default function TimeButton({
         'outline-primary-600 active:mt-0.5 active:-mb-0.5',
         {
           'bg-primary-500 font-bold text-white': active,
-          'bg-surface-50 font-semibold text-accent-900': !active,
-          'opacity-50 cursor-wait': disabled,
+          'bg-surface-50 font-semibold text-accent-900': !active && !held,
+          'opacity-50 cursor-wait': disabled && !held,
+          'opacity-40 cursor-not-allowed border-dashed': held,
         },
         className
       )}
@@ -49,6 +54,11 @@ export default function TimeButton({
     >
       {loading ? (
         <span className="animate-pulse">Holding…</span>
+      ) : held ? (
+        <span className="text-accent-500 dark:text-accent-400">
+          {formatLocalTime(start, { timeZone })} – {formatLocalTime(end, { timeZone })}
+          <span className="ml-1.5 text-xs italic">held</span>
+        </span>
       ) : (
         <>
           {formatLocalTime(start, { timeZone })} – {formatLocalTime(end, { timeZone })}

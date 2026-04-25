@@ -87,7 +87,7 @@ export default function BookingForm({
     <Modal
       open={modal !== 'closed'}
       setOpen={(open) => {
-        // if (!open) releaseHold()
+        if (!open) releaseHold()
         dispatch(setModal({ status: open ? 'open' : 'closed' }))
       }}
     >

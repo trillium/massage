@@ -1,11 +1,13 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { useReduxAvailability, useAppDispatch } from '@/redux/hooks'
 import { setSelectedTime } from '@/redux/slices/availabilitySlice'
 import { setModal } from '@/redux/slices/modalSlice'
 import { setEventContainers } from '@/redux/slices/eventContainersSlice'
 import { useSlotHoldContext } from 'hooks/SlotHoldContext'
+import { useHeldSlots } from 'hooks/useHeldSlots'
+import { useSessionId } from 'hooks/useSessionId'
 import TimeButton from './TimeButton'
 import { DataFreshnessPill } from './DataFreshnessPill'
 import type {
@@ -20,7 +22,17 @@ export default function TimeList({}) {
   const { slots: slotsRedux, selectedDate, selectedTime, timeZone } = useReduxAvailability()
   const dispatch = useAppDispatch()
   const { claimHold, claiming } = useSlotHoldContext()
+  const heldSlots = useHeldSlots()
+  const sessionId = useSessionId()
   const [claimingSlot, setClaimingSlot] = useState<string | null>(null)
+
+  const isHeldByOther = useCallback(
+    (start: string, end: string) =>
+      heldSlots.some(
+        (h) => h.session_id !== sessionId && h.start_time === start && h.end_time === end
+      ),
+    [heldSlots, sessionId]
+  )
 
   const slots = slotsRedux || []
 
@@ -76,6 +88,7 @@ export default function TimeList({}) {
               className={className}
               disabled={claiming}
               loading={isLoading}
+              held={isHeldByOther(start, end)}
               onTimeSelect={handleTimeButtonClick}
             />
           )
