@@ -349,6 +349,27 @@ const slugConfigurations: SlugConfigurationType[] = [
   },
   {
     ...initialStateWithoutType,
+    bookingSlug: ['openclaw-raffle-prize'],
+    type: 'area-wide',
+    defaultDuration: 60,
+    title: 'OpenClaw Raffle — Your Free Session!',
+    text: `Congratulations on winning the OpenClaw raffle! Book your free 60-minute in-home massage. Questions? Call or text ${contactPhone}`,
+    allowedDurations: [60, 90, 120, 150],
+    pricing: { 60: 0, 90: 70, 120: 140, 150: 210 },
+    pricingLabels: {
+      60: 'Free! ($140 value)',
+      90: '$70 ($210 value — 60 min free!)',
+      120: '$140 ($280 value — 60 min free!)',
+      150: '$210 ($350 value — 60 min free!)',
+    },
+    promoEndDate: '2026-05-23',
+    acceptingPayment: true,
+    customFields: {
+      showNotesField: true,
+    },
+  },
+  {
+    ...initialStateWithoutType,
     bookingSlug: ['scale23x-after-hours'],
     type: 'fixed-location',
     title: 'SCaLE 23x After Hours — Book a Session!',
