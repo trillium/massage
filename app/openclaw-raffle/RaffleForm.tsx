@@ -1,9 +1,9 @@
 'use client'
 
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
-import { useAppDispatch } from '@/redux/hooks'
+import { useAppDispatch, useReduxRaffle } from '@/redux/hooks'
 import { setRaffleConfirmation } from '@/redux/slices/raffleSlice'
 
 const INTERESTED_IN_OPTIONS = [
@@ -14,7 +14,6 @@ const INTERESTED_IN_OPTIONS = [
 interface RaffleFormProps {
   raffleId: string
   raffleName: string
-  initialEmail?: string
 }
 
 interface FormValues {
@@ -34,6 +33,7 @@ const validate = (values: FormValues) => {
     errors.email = "That doesn't look quite right"
   if (!values.phone.trim()) errors.phone = 'Please enter a phone number'
   if (!values.zip_code.trim()) errors.zip_code = 'Please enter a zip code'
+  if (values.interested_in.length === 0) errors.interested_in = 'Please select at least one'
 
   return errors
 }
@@ -45,9 +45,10 @@ const labelClasses = 'block text-sm font-medium text-accent-900 dark:text-accent
 
 const checkboxClasses = 'h-4 w-4 rounded border-accent-300 text-primary-600 focus:ring-primary-500'
 
-export default function RaffleForm({ raffleId, raffleName, initialEmail = '' }: RaffleFormProps) {
+export default function RaffleForm({ raffleId, raffleName }: RaffleFormProps) {
   const router = useRouter()
   const dispatch = useAppDispatch()
+  const previousEntry = useReduxRaffle()
   const [submitError, setSubmitError] = useState<string | null>(null)
   const [lookupMessage, setLookupMessage] = useState<string | null>(null)
 
@@ -117,18 +118,17 @@ export default function RaffleForm({ raffleId, raffleName, initialEmail = '' }: 
     <div className="border-white-500 focus-within:border-primary-500 flex w-full flex-col items-center space-y-4 rounded-lg border-2 bg-surface-50 p-6 shadow-md dark:bg-surface-900">
       <Formik<FormValues>
         initialValues={{
-          name: '',
-          email: initialEmail,
-          phone: '',
-          zip_code: '',
-          interested_in: [],
+          name: previousEntry?.name ?? '',
+          email: previousEntry?.email ?? '',
+          phone: previousEntry?.phone ?? '',
+          zip_code: previousEntry?.zip ?? '',
+          interested_in: previousEntry?.interests ?? [],
         }}
         validate={validate}
         onSubmit={handleSubmit}
       >
         {({ isSubmitting, values, setFieldValue }) => (
           <Form className="w-full space-y-6">
-            <AutoLookup email={initialEmail} lookupEntry={lookupEntry} setFieldValue={setFieldValue} />
             <div>
               <label htmlFor="name" className={labelClasses}>
                 Name <span className="text-primary-500">*</span>
@@ -207,7 +207,9 @@ export default function RaffleForm({ raffleId, raffleName, initialEmail = '' }: 
             </div>
 
             <div>
-              <p className={labelClasses}>Interested in (optional)</p>
+              <p className={labelClasses}>
+                Interested in <span className="text-primary-500">*</span>
+              </p>
               <div className="space-y-2">
                 {INTERESTED_IN_OPTIONS.map(({ value, label }) => (
                   <div className="flex items-center" key={value}>
@@ -233,6 +235,9 @@ export default function RaffleForm({ raffleId, raffleName, initialEmail = '' }: 
                   </div>
                 ))}
               </div>
+              <div className="mt-1 min-h-5 text-sm text-amber-500 dark:text-amber-400">
+                <ErrorMessage name="interested_in" />
+              </div>
             </div>
 
             <button
@@ -256,21 +261,3 @@ export default function RaffleForm({ raffleId, raffleName, initialEmail = '' }: 
   )
 }
 
-function AutoLookup({
-  email,
-  lookupEntry,
-  setFieldValue,
-}: {
-  email: string
-  lookupEntry: (email: string, setFieldValue: (field: string, value: string | string[]) => void) => void
-  setFieldValue: (field: string, value: string | string[]) => void
-}) {
-  const didRun = useRef(false)
-  useEffect(() => {
-    if (email && !didRun.current) {
-      didRun.current = true
-      lookupEntry(email, setFieldValue)
-    }
-  }, [email, lookupEntry, setFieldValue])
-  return null
-}
