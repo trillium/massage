@@ -76,12 +76,17 @@ export function ActionButtons({
     )
   }
 
+  const containerMatch = event.summary?.match(/^(.+?)__EVENT__CONTAINER__/)
+  const detailsHref = containerMatch
+    ? `/admin/${containerMatch[1]}`
+    : token
+      ? `/event/${event.id}?token=${encodeURIComponent(token)}`
+      : `/event/${event.id}`
+
   return (
     <div className="ml-4 flex flex-col space-y-2">
       <Link
-        href={
-          token ? `/event/${event.id}?token=${encodeURIComponent(token)}` : `/event/${event.id}`
-        }
+        href={detailsHref}
         className={clsx(
           'inline-block rounded px-3 py-1 text-center text-sm text-white transition-colors',
           colorClasses.button
