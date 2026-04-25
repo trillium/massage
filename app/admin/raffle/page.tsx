@@ -80,19 +80,17 @@ export default async function RafflePage({
       <div className="mb-6">
         <CreateRaffleForm />
       </div>
-      {allRaffles.length > 1 && (
-        <div className="mb-6">
-          <RaffleSelector
-            raffles={allRaffles.map((r) => ({
-              id: r.id,
-              name: r.name,
-              status: r.status,
-              is_active: r.is_active,
-            }))}
-            currentRaffleId={raffle.id}
-          />
-        </div>
-      )}
+      <div className="mb-6">
+        <RaffleSelector
+          raffles={allRaffles.map((r) => ({
+            id: r.id,
+            name: r.name,
+            status: r.status,
+            is_active: r.is_active,
+          }))}
+          currentRaffleId={raffle.id}
+        />
+      </div>
       <RaffleAdmin raffle={raffle} entries={entries} stats={stats} />
     </div>
   )

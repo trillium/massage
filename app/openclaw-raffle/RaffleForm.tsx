@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 
@@ -12,6 +12,7 @@ const INTERESTED_IN_OPTIONS = [
 interface RaffleFormProps {
   raffleId: string
   raffleName: string
+  initialEmail?: string
 }
 
 interface FormValues {
@@ -42,7 +43,7 @@ const labelClasses = 'block text-sm font-medium text-accent-900 dark:text-accent
 
 const checkboxClasses = 'h-4 w-4 rounded border-accent-300 text-primary-600 focus:ring-primary-500'
 
-export default function RaffleForm({ raffleId, raffleName }: RaffleFormProps) {
+export default function RaffleForm({ raffleId, raffleName, initialEmail = '' }: RaffleFormProps) {
   const router = useRouter()
   const [submitError, setSubmitError] = useState<string | null>(null)
   const [lookupMessage, setLookupMessage] = useState<string | null>(null)
@@ -112,7 +113,7 @@ export default function RaffleForm({ raffleId, raffleName }: RaffleFormProps) {
       <Formik<FormValues>
         initialValues={{
           name: '',
-          email: '',
+          email: initialEmail,
           phone: '',
           zip_code: '',
           interested_in: [],
@@ -122,6 +123,7 @@ export default function RaffleForm({ raffleId, raffleName }: RaffleFormProps) {
       >
         {({ isSubmitting, values, setFieldValue }) => (
           <Form className="w-full space-y-6">
+            <AutoLookup email={initialEmail} lookupEntry={lookupEntry} setFieldValue={setFieldValue} />
             <div>
               <label htmlFor="name" className={labelClasses}>
                 Name <span className="text-primary-500">*</span>
@@ -247,4 +249,23 @@ export default function RaffleForm({ raffleId, raffleName }: RaffleFormProps) {
       </Formik>
     </div>
   )
+}
+
+function AutoLookup({
+  email,
+  lookupEntry,
+  setFieldValue,
+}: {
+  email: string
+  lookupEntry: (email: string, setFieldValue: (field: string, value: string | string[]) => void) => void
+  setFieldValue: (field: string, value: string | string[]) => void
+}) {
+  const didRun = useRef(false)
+  useEffect(() => {
+    if (email && !didRun.current) {
+      didRun.current = true
+      lookupEntry(email, setFieldValue)
+    }
+  }, [email, lookupEntry, setFieldValue])
+  return null
 }

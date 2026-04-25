@@ -72,7 +72,7 @@ function RaffleEnteredContent() {
 
         <div className="flex gap-4">
           <Link
-            href="/openclaw-raffle"
+            href={`/openclaw-raffle${email ? `?email=${encodeURIComponent(email)}` : ''}`}
             className="rounded border-2 border-surface-300 px-6 py-2 font-semibold text-surface-600 transition-colors hover:bg-surface-100 dark:border-surface-600 dark:text-surface-300 dark:hover:bg-surface-800"
           >
             Edit Entry

@@ -8,7 +8,12 @@ interface Raffle {
   name: string
 }
 
-export default async function OpenClawRafflePage() {
+export default async function OpenClawRafflePage({
+  searchParams,
+}: {
+  searchParams: Promise<{ email?: string }>
+}) {
+  const { email } = await searchParams
   const supabase = getSupabaseAdminClient()
 
   let raffle: Raffle | null = null
@@ -45,7 +50,7 @@ export default async function OpenClawRafflePage() {
         Session must be redeemed by May 23, 2026 in the LA metro area.
       </p>
       <div className="mx-auto max-w-2xl">
-        <RaffleForm raffleId={raffle.id} raffleName={raffle.name} />
+        <RaffleForm raffleId={raffle.id} raffleName={raffle.name} initialEmail={email} />
       </div>
     </SectionContainer>
   )

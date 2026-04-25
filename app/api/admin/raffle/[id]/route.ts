@@ -6,6 +6,7 @@ import { getSupabaseAdminClient } from '@/lib/supabase/server'
 const UpdateRaffleSchema = z.object({
   is_active: z.boolean().optional(),
   status: z.string().optional(),
+  clear_winner: z.boolean().optional(),
 })
 
 export async function PATCH(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
@@ -40,9 +41,24 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
     }
   }
 
+  if (parsed.data.clear_winner) {
+    const { error: clearWinnerError } = await supabase
+      .from('raffle_entries' as never)
+      .update({ is_winner: false } as never)
+      .eq('raffle_id', id)
+
+    if (clearWinnerError) {
+      return NextResponse.json({ error: clearWinnerError.message }, { status: 500 })
+    }
+  }
+
   const updateFields: Record<string, unknown> = {}
   if (parsed.data.is_active !== undefined) updateFields.is_active = parsed.data.is_active
   if (parsed.data.status !== undefined) updateFields.status = parsed.data.status
+  if (parsed.data.clear_winner) {
+    updateFields.status = 'open'
+    updateFields.drawn_at = null
+  }
 
   const { data, error } = await supabase
     .from('raffles' as never)

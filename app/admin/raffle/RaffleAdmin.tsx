@@ -106,7 +106,7 @@ export function RaffleAdmin({ raffle, entries: initialEntries, stats }: RaffleAd
   }
 
   const handleExclude = async (entry: RaffleEntry) => {
-    const newExcluded = !entry.excluded
+    const newExcluded = !(entry.excluded ?? false)
     setTogglingExcludeId(entry.id)
     setEntryList((prev) =>
       prev.map((e) => (e.id === entry.id ? { ...e, excluded: newExcluded } : e))
@@ -136,6 +136,25 @@ export function RaffleAdmin({ raffle, entries: initialEntries, stats }: RaffleAd
     await handleDraw()
   }
 
+  const handleClearWinner = async () => {
+    if (!window.confirm('Clear the winner? Raffle will reopen with no winner.')) return
+    try {
+      const res = await adminFetch(`/api/admin/raffle/${raffle.id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ clear_winner: true }),
+      })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error)
+      setWinner(null)
+      setStatus('open')
+      setEntryList((prev) => prev.map((e) => ({ ...e, is_winner: false })))
+      toast.success('Winner cleared, raffle reopened')
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : 'Failed to clear winner')
+    }
+  }
+
   const handleDelete = async (entryId: string) => {
     if (!window.confirm('Delete this entry?')) return
     setDeletingId(entryId)
@@ -163,6 +182,9 @@ export function RaffleAdmin({ raffle, entries: initialEntries, stats }: RaffleAd
             <h2 className="text-xl font-semibold text-accent-900 dark:text-accent-100">
               {raffle.name}
             </h2>
+            <p className="mt-0.5 font-mono text-xs text-accent-400 dark:text-accent-500">
+              {raffle.id}
+            </p>
             <div className="mt-1 flex items-center gap-2">
               <span
                 className={`inline-block rounded-full px-3 py-1 text-xs font-medium ${
@@ -180,15 +202,26 @@ export function RaffleAdmin({ raffle, entries: initialEntries, stats }: RaffleAd
               )}
             </div>
           </div>
-          {!isActive && (
+          <div className="flex items-center gap-2">
+            {!isActive && (
+              <button
+                onClick={handleSetActive}
+                disabled={settingActive}
+                className="rounded bg-blue-500 px-3 py-1.5 text-sm text-white hover:bg-blue-600 disabled:bg-surface-300 dark:disabled:bg-surface-600"
+              >
+                {settingActive ? 'Setting…' : 'Set as Active'}
+              </button>
+            )}
             <button
-              onClick={handleSetActive}
-              disabled={settingActive}
-              className="rounded bg-blue-500 px-3 py-1.5 text-sm text-white hover:bg-blue-600 disabled:bg-surface-300"
+              onClick={() => {
+                router.refresh()
+                toast.success('Data refreshed')
+              }}
+              className="rounded border border-accent-300 px-3 py-1.5 text-sm text-accent-600 hover:bg-surface-100 dark:border-accent-600 dark:text-accent-400 dark:hover:bg-surface-700"
             >
-              {settingActive ? 'Setting…' : 'Set as Active'}
+              Refresh
             </button>
-          )}
+          </div>
         </div>
       </div>
 
@@ -246,7 +279,7 @@ export function RaffleAdmin({ raffle, entries: initialEntries, stats }: RaffleAd
                   <td className="px-3 py-2 text-center">
                     <input
                       type="checkbox"
-                      checked={entry.excluded}
+                      checked={entry.excluded ?? false}
                       disabled={entry.is_winner || togglingExcludeId === entry.id}
                       onChange={() => handleExclude(entry)}
                       className="h-4 w-4 rounded border-accent-300 disabled:opacity-50"
@@ -283,13 +316,21 @@ export function RaffleAdmin({ raffle, entries: initialEntries, stats }: RaffleAd
           </p>
           <p className="text-sm text-yellow-700 dark:text-yellow-300">{winner.email}</p>
           {isDrawn && (
-            <button
-              onClick={handleRedraw}
-              disabled={drawing}
-              className="mt-4 rounded bg-amber-500 px-4 py-2 text-sm text-white hover:bg-amber-600 disabled:bg-surface-300"
-            >
-              {drawing ? 'Drawing...' : 'Redraw Winner'}
-            </button>
+            <div className="mt-4 flex gap-3">
+              <button
+                onClick={handleRedraw}
+                disabled={drawing}
+                className="rounded bg-amber-500 px-4 py-2 text-sm text-white hover:bg-amber-600 disabled:bg-surface-300 dark:disabled:bg-surface-600"
+              >
+                {drawing ? 'Drawing...' : 'Redraw Winner'}
+              </button>
+              <button
+                onClick={handleClearWinner}
+                className="rounded border border-accent-300 px-4 py-2 text-sm text-accent-700 hover:bg-surface-100 dark:border-accent-600 dark:text-accent-300 dark:hover:bg-surface-700"
+              >
+                Clear Winner
+              </button>
+            </div>
           )}
         </div>
       )}
@@ -298,7 +339,7 @@ export function RaffleAdmin({ raffle, entries: initialEntries, stats }: RaffleAd
         <button
           onClick={handleDraw}
           disabled={drawing || stats.uniqueEntries === 0}
-          className="rounded bg-primary-500 px-4 py-2 text-white hover:bg-primary-600 disabled:bg-surface-300"
+          className="rounded bg-primary-500 px-4 py-2 text-white hover:bg-primary-600 disabled:bg-surface-300 dark:disabled:bg-surface-600"
         >
           {drawing ? 'Drawing...' : 'Draw Winner'}
         </button>

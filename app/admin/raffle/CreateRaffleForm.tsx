@@ -53,7 +53,7 @@ export function CreateRaffleForm() {
       <button
         type="submit"
         disabled={submitting || !name.trim()}
-        className="rounded bg-primary-500 px-4 py-2 text-white hover:bg-primary-600 disabled:bg-surface-300"
+        className="rounded bg-primary-500 px-4 py-2 text-white hover:bg-primary-600 disabled:bg-surface-300 dark:disabled:bg-surface-600"
       >
         {submitting ? 'Creating…' : 'Create'}
       </button>
