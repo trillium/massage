@@ -225,6 +225,7 @@ const slugConfigurations: SlugConfigurationType[] = [
     ...initialStateWithoutType,
     bookingSlug: ['openclaw'],
     type: 'fixed-location',
+    hideCalendar: true,
     title: 'OpenClaw Meetup — Book a Session!',
     text: "Complementary chair massage! Pick a time and we'll get you in!",
     location: createLocationObject(
@@ -306,6 +307,7 @@ const slugConfigurations: SlugConfigurationType[] = [
     ...initialStateWithoutType,
     bookingSlug: ['nerdstage'],
     type: 'fixed-location',
+    hideCalendar: true,
     title: 'Nerdstage — Book a Session!',
     text: "Quick chair massage at Nerdstage. Pick a time and we'll get you in!",
     location: createLocationObject('The Clubhouse, 1201 Olympic Blvd', 'Santa Monica', '90404'),

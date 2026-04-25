@@ -63,7 +63,7 @@ export default function GeneralBookingFeature({
 
         <div className="flex flex-col space-y-8">
           <DurationPicker {...durationProps} />
-          <Calendar />
+          {!configuration.hideCalendar && <Calendar />}
           <TimeList />
         </div>
       </SlotHoldProvider>

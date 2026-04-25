@@ -63,6 +63,7 @@ export type SlugConfigurationType = {
   durationBonus?: number
   discount: DiscountType | null
   leadTimeMinimum: number | null // in minutes
+  hideCalendar?: boolean
   instantConfirm?: boolean
   acceptingPayment?: boolean
   defaultDuration?: number

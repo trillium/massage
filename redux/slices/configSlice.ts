@@ -23,6 +23,7 @@ export const initialState: SlugConfigurationType = {
   blockingScope: undefined, // defaults to 'event' behavior if not specified
   discount: null,
   leadTimeMinimum: null, // in minutes,
+  hideCalendar: false,
   instantConfirm: false,
   acceptingPayment: true,
   promoEndDate: null,
@@ -87,6 +88,9 @@ export const configSlice: Slice<SlugConfigurationType> = createSlice({
     setLeadTimeMinimum: (state, action: PayloadAction<number | null>) => {
       state.leadTimeMinimum = action.payload
     },
+    setHideCalendar: (state, action: PayloadAction<boolean>) => {
+      state.hideCalendar = action.payload
+    },
     setInstantConfirm: (state, action: PayloadAction<boolean>) => {
       state.instantConfirm = action.payload
     },
@@ -111,6 +115,7 @@ export const {
   setBlockingScope,
   setDiscount,
   setLeadTimeMinimum,
+  setHideCalendar,
   setInstantConfirm,
   setAcceptingPayment,
   setBulkConfigSliceState,
