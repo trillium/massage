@@ -1,9 +1,10 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import { adminFetch } from '@/lib/adminFetch'
+import ConfirmDialog from '@/components/admin/ConfirmDialog'
 
 const INTEREST_LABELS: Record<string, string> = {
   in_home: 'In-home',
@@ -62,8 +63,28 @@ export function RaffleAdmin({ raffle, entries: initialEntries, stats }: RaffleAd
   })
   const [status, setStatus] = useState(raffle.status)
   const [isActive, setIsActive] = useState(raffle.is_active)
+  const [confirmDialog, setConfirmDialog] = useState<{
+    title: string
+    message: string
+    confirmLabel: string
+    confirmClassName?: string
+    onConfirm: () => void
+  } | null>(null)
 
   const isDrawn = status === 'drawn'
+
+  const showConfirm = useCallback(
+    (opts: {
+      title: string
+      message: string
+      confirmLabel: string
+      confirmClassName?: string
+      onConfirm: () => void
+    }) => {
+      setConfirmDialog(opts)
+    },
+    []
+  )
 
   const handleSetActive = async () => {
     setSettingActive(true)
@@ -131,44 +152,64 @@ export function RaffleAdmin({ raffle, entries: initialEntries, stats }: RaffleAd
     }
   }
 
-  const handleRedraw = async () => {
-    if (!window.confirm('Redraw winner? This will clear the current winner.')) return
-    await handleDraw()
+  const handleRedraw = () => {
+    showConfirm({
+      title: 'Redraw Winner',
+      message: 'This will clear the current winner and draw a new one.',
+      confirmLabel: 'Redraw',
+      confirmClassName: 'bg-amber-500 hover:bg-amber-600 text-white',
+      onConfirm: () => handleDraw(),
+    })
   }
 
-  const handleClearWinner = async () => {
-    if (!window.confirm('Clear the winner? Raffle will reopen with no winner.')) return
-    try {
-      const res = await adminFetch(`/api/admin/raffle/${raffle.id}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ clear_winner: true }),
-      })
-      const data = await res.json()
-      if (!res.ok) throw new Error(data.error)
-      setWinner(null)
-      setStatus('open')
-      setEntryList((prev) => prev.map((e) => ({ ...e, is_winner: false })))
-      toast.success('Winner cleared, raffle reopened')
-    } catch (err) {
-      toast.error(err instanceof Error ? err.message : 'Failed to clear winner')
-    }
+  const handleClearWinner = () => {
+    showConfirm({
+      title: 'Clear Winner',
+      message: 'The raffle will reopen with no winner.',
+      confirmLabel: 'Clear Winner',
+      onConfirm: async () => {
+        try {
+          const res = await adminFetch(`/api/admin/raffle/${raffle.id}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ clear_winner: true }),
+          })
+          const data = await res.json()
+          if (!res.ok) throw new Error(data.error)
+          setWinner(null)
+          setStatus('open')
+          setEntryList((prev) => prev.map((e) => ({ ...e, is_winner: false })))
+          toast.success('Winner cleared, raffle reopened')
+        } catch (err) {
+          toast.error(err instanceof Error ? err.message : 'Failed to clear winner')
+        }
+      },
+    })
   }
 
-  const handleDelete = async (entryId: string) => {
-    if (!window.confirm('Delete this entry?')) return
-    setDeletingId(entryId)
-    try {
-      const res = await adminFetch(`/api/admin/raffle/entries/${entryId}`, { method: 'DELETE' })
-      const data = await res.json()
-      if (!res.ok) throw new Error(data.error)
-      setEntryList((prev) => prev.filter((e) => e.id !== entryId))
-      toast.success('Entry deleted')
-    } catch (err) {
-      toast.error(err instanceof Error ? err.message : 'Failed to delete entry')
-    } finally {
-      setDeletingId(null)
-    }
+  const handleDelete = (entryId: string) => {
+    showConfirm({
+      title: 'Delete Entry',
+      message: 'This entry will be permanently removed.',
+      confirmLabel: 'Delete',
+      confirmClassName: 'bg-red-600 hover:bg-red-700 text-white',
+      onConfirm: async () => {
+        setDeletingId(entryId)
+        try {
+          const res = await adminFetch(`/api/admin/raffle/entries/${entryId}`, {
+            method: 'DELETE',
+          })
+          const data = await res.json()
+          if (!res.ok) throw new Error(data.error)
+          setEntryList((prev) => prev.filter((e) => e.id !== entryId))
+          toast.success('Entry deleted')
+        } catch (err) {
+          toast.error(err instanceof Error ? err.message : 'Failed to delete entry')
+        } finally {
+          setDeletingId(null)
+        }
+      },
+    })
   }
 
   const cardClass =
@@ -344,6 +385,16 @@ export function RaffleAdmin({ raffle, entries: initialEntries, stats }: RaffleAd
           {drawing ? 'Drawing...' : 'Draw Winner'}
         </button>
       )}
+
+      <ConfirmDialog
+        open={confirmDialog !== null}
+        onClose={() => setConfirmDialog(null)}
+        onConfirm={confirmDialog?.onConfirm ?? (() => {})}
+        title={confirmDialog?.title ?? ''}
+        message={confirmDialog?.message ?? ''}
+        confirmLabel={confirmDialog?.confirmLabel}
+        confirmClassName={confirmDialog?.confirmClassName}
+      />
     </div>
   )
 }

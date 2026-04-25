@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
+import { toast } from 'sonner'
 import { fetchSlugConfigurationData } from '@/lib/slugConfigurations/fetchSlugConfigurationData'
 import { SlugConfigurationType } from '@/lib/types'
 import { useAppDispatch } from '@/redux/hooks'
@@ -82,7 +83,7 @@ export default function ConfigurationTester({ onConfigurationChange }: Configura
   const handleCopyJson = () => {
     if (!selectedConfig) return
     navigator.clipboard.writeText(JSON.stringify(selectedConfig, null, 2))
-    alert('Configuration copied to clipboard!')
+    toast.success('Configuration copied to clipboard!')
   }
 
   return (
