@@ -319,6 +319,36 @@ const slugConfigurations: SlugConfigurationType[] = [
   },
   {
     ...initialStateWithoutType,
+    bookingSlug: ['openclaw'],
+    type: 'fixed-location',
+    title: 'OpenClaw Meetup — Book a Session!',
+    text: "Quick chair. Pick a time and we'll get you in!",
+    location: createLocationObject(
+      'Art and Space - Venue, 5555 Washington Blvd',
+      'Los Angeles',
+      '90016'
+    ),
+    locationIsReadOnly: true,
+    eventContainer: 'openclaw',
+    defaultDuration: 5,
+    allowedDurations: [5, 10, 15, 20, 30],
+    pricing: { 5: 0, 10: 0, 15: 0, 20: 0, 30: 0 },
+    pricingLabels: {
+      5: 'Free!',
+      10: 'Please tip for time above 5m',
+      15: 'Please tip for time above 5m',
+      20: 'Please tip for time above 5m',
+      30: 'Please tip for time above 5m',
+    },
+    leadTimeMinimum: 0,
+    instantConfirm: true,
+    acceptingPayment: false,
+    customFields: {
+      showNotesField: true,
+    },
+  },
+  {
+    ...initialStateWithoutType,
     bookingSlug: ['scale23x-after-hours'],
     type: 'fixed-location',
     title: 'SCaLE 23x After Hours — Book a Session!',
