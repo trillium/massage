@@ -1,0 +1,1 @@
+ALTER TABLE raffle_entries ADD COLUMN phone TEXT NOT NULL DEFAULT '';

@@ -122,3 +122,14 @@ export const BookedDataSchema = z
   })
 
 export type OnSiteRequestType = z.infer<typeof OnSiteRequestSchema>
+
+const RaffleInterestedInEnum = z.enum(['in_home', 'in_office'])
+
+export const RaffleEntrySchema = z.object({
+  name: z.string().min(1, 'Name is required'),
+  email: z.email('Invalid email format'),
+  phone: z.string().min(7, 'Phone number is required'),
+  is_local: z.boolean().optional().default(false),
+  zip_code: z.string().nullable().optional(),
+  interested_in: z.array(RaffleInterestedInEnum),
+})

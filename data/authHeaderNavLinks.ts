@@ -43,6 +43,12 @@ const authHeaderNavLinks: AuthNavLink[] = [
     category: 'management',
   },
   {
+    href: '/admin/raffle',
+    title: 'Raffle',
+    description: 'Manage raffles and draw winners',
+    category: 'management',
+  },
+  {
     href: '/admin/reviews-list',
     title: 'Reviews',
     description: 'Customer ratings and feedback',
