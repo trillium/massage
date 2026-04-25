@@ -23,6 +23,8 @@ if (typeof window !== 'undefined') {
       ui_host: 'https://us.posthog.com',
       person_profiles: 'always',
       custom_campaign_params: ['ref'],
+      capture_performance: true,
+      defaults: '2026-01-30',
       debug: false,
     })
   }

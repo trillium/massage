@@ -49,3 +49,29 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
 
   return NextResponse.json({ appointment: data })
 }
+
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const authResult = await requireAdminWithFlag(request)
+  if (authResult instanceof NextResponse) return authResult
+
+  const { id } = await params
+
+  const supabase = getSupabaseAdminClient()
+  if (!supabase) {
+    return NextResponse.json({ error: 'Server configuration error' }, { status: 500 })
+  }
+
+  const { error } = await supabase
+    .from('appointments' as never)
+    .delete()
+    .eq('id', id)
+
+  if (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 })
+  }
+
+  return NextResponse.json({ deleted: true })
+}

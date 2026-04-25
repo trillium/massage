@@ -4,6 +4,7 @@ import { Fragment, useState } from 'react'
 import { Dialog, DialogPanel, DialogTitle, Transition, TransitionChild } from '@headlessui/react'
 import { adminFetch } from '@/lib/adminFetch'
 import { formatLocalTime } from 'lib/availability/helpers'
+import ConfirmDialog from '@/components/admin/ConfirmDialog'
 import clsx from 'clsx'
 
 interface Appointment {
@@ -26,6 +27,7 @@ type AdminNotesModalProps = {
   open: boolean
   onClose: () => void
   onSaved: () => void
+  onDeleted: () => void
   appointment: Appointment | null
 }
 
@@ -41,10 +43,13 @@ export default function AdminNotesModal({
   open,
   onClose,
   onSaved,
+  onDeleted,
   appointment,
 }: AdminNotesModalProps) {
   const [notes, setNotes] = useState(appointment?.admin_notes ?? '')
   const [saving, setSaving] = useState(false)
+  const [deleting, setDeleting] = useState(false)
+  const [confirmDelete, setConfirmDelete] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
   function handleOpen() {
@@ -76,6 +81,31 @@ export default function AdminNotesModal({
       setError('Network error')
     } finally {
       setSaving(false)
+    }
+  }
+
+  async function handleDelete() {
+    if (!appointment) return
+    setDeleting(true)
+    setError(null)
+
+    try {
+      const response = await adminFetch(`/api/admin/appointments/${appointment.id}`, {
+        method: 'DELETE',
+      })
+
+      if (!response.ok) {
+        const data = await response.json()
+        setError(data.error ?? 'Failed to delete')
+        return
+      }
+
+      onDeleted()
+      onClose()
+    } catch {
+      setError('Network error')
+    } finally {
+      setDeleting(false)
     }
   }
 
@@ -185,23 +215,44 @@ export default function AdminNotesModal({
                   <p className="mt-2 text-sm text-red-600 dark:text-red-400">{error}</p>
                 )}
 
-                <div className="mt-4 flex justify-end gap-3">
+                <div className="mt-4 flex justify-between">
                   <button
                     type="button"
-                    onClick={onClose}
-                    className="rounded border border-accent-300 px-4 py-2 text-sm font-semibold text-accent-700 hover:bg-surface-100 dark:border-accent-600 dark:text-accent-300 dark:hover:bg-surface-700"
+                    onClick={() => setConfirmDelete(true)}
+                    disabled={deleting}
+                    className="rounded border border-red-300 px-4 py-2 text-sm font-semibold text-red-600 hover:bg-red-50 disabled:opacity-50 dark:border-red-700 dark:text-red-400 dark:hover:bg-red-950"
                   >
-                    Cancel
+                    {deleting ? 'Deleting...' : 'Delete'}
                   </button>
-                  <button
-                    type="button"
-                    onClick={handleSave}
-                    disabled={saving}
-                    className="rounded bg-primary-500 px-4 py-2 text-sm font-semibold text-white hover:bg-primary-600 disabled:opacity-50"
-                  >
-                    {saving ? 'Saving...' : 'Save'}
-                  </button>
+                  <div className="flex gap-3">
+                    <button
+                      type="button"
+                      onClick={onClose}
+                      className="rounded border border-accent-300 px-4 py-2 text-sm font-semibold text-accent-700 hover:bg-surface-100 dark:border-accent-600 dark:text-accent-300 dark:hover:bg-surface-700"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleSave}
+                      disabled={saving}
+                      className="rounded bg-primary-500 px-4 py-2 text-sm font-semibold text-white hover:bg-primary-600 disabled:opacity-50"
+                    >
+                      {saving ? 'Saving...' : 'Save'}
+                    </button>
+                  </div>
                 </div>
+
+                <ConfirmDialog
+                  open={confirmDelete}
+                  onClose={() => setConfirmDelete(false)}
+                  onConfirm={handleDelete}
+                  title="Delete Appointment"
+                  message={`Delete ${appointment.client_first_name} ${appointment.client_last_name}'s appointment? This cannot be undone.`}
+                  confirmLabel="Delete"
+                  confirmClassName="bg-red-600 hover:bg-red-700 text-white"
+                  typeToConfirm="delete"
+                />
               </DialogPanel>
             </TransitionChild>
           </div>

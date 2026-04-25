@@ -270,6 +270,7 @@ function AppointmentsPanel({
         open={editingId !== null}
         onClose={() => setEditingId(null)}
         onSaved={onRefresh}
+        onDeleted={onRefresh}
         appointment={editingAppointment ?? null}
       />
     </div>
