@@ -41,9 +41,7 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
   if (configuration.eventContainer) {
     try {
       const queryGroups = await getActiveContainers()
-      const match = queryGroups.find(
-        (g: QueryGroup) => g.query === configuration.eventContainer
-      )
+      const match = queryGroups.find((g: QueryGroup) => g.query === configuration.eventContainer)
 
       if (match && match.containers.length > 0) {
         containers = {
