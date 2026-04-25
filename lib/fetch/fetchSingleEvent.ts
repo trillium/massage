@@ -26,6 +26,7 @@ export async function fetchSingleEvent(eventId: string): Promise<GoogleCalendarV
         Authorization: `Bearer ${accessToken}`,
         'Content-Type': 'application/json',
       },
+      cache: 'no-store',
     })
 
     if (!response.ok) {
