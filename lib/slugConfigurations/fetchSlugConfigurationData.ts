@@ -322,7 +322,7 @@ const slugConfigurations: SlugConfigurationType[] = [
     bookingSlug: ['openclaw'],
     type: 'fixed-location',
     title: 'OpenClaw Meetup — Book a Session!',
-    text: "Quick chair. Pick a time and we'll get you in!",
+    text: "Complementary chair massage! Pick a time and we'll get you in!",
     location: createLocationObject(
       'Art and Space - Venue, 5555 Washington Blvd',
       'Los Angeles',
