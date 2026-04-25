@@ -20,6 +20,8 @@ export const initialBookingFormData: BookingFormData = {
   locationString: '',
   bookingUrl: '',
   promo: '',
+  raffleName: '',
+  raffleInterests: [],
 }
 
 export const bookingFormSlice: Slice<BookingFormData> = createSlice({
