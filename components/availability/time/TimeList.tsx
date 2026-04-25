@@ -1,13 +1,13 @@
 'use client'
 
-import { useCallback, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
+import { useSearchParams } from 'next/navigation'
 import { useReduxAvailability, useAppDispatch } from '@/redux/hooks'
 import { setSelectedTime } from '@/redux/slices/availabilitySlice'
 import { setModal } from '@/redux/slices/modalSlice'
 import { setEventContainers } from '@/redux/slices/eventContainersSlice'
 import { useSlotHoldContext } from 'hooks/SlotHoldContext'
 import { useHeldSlots } from 'hooks/useHeldSlots'
-import { useSessionId } from 'hooks/useSessionId'
 import TimeButton from './TimeButton'
 import { DataFreshnessPill } from './DataFreshnessPill'
 import type {
@@ -17,22 +17,19 @@ import type {
 } from '@/lib/types'
 
 import { format } from 'date-fns-tz'
+import { formatLocalTime } from 'lib/availability/helpers'
 
 export default function TimeList({}) {
+  const searchParams = useSearchParams()
+  const isLocalhost = typeof window !== 'undefined' && window.location.hostname === 'localhost'
+  const showDebug =
+    searchParams.get('debug') !== 'false' &&
+    (isLocalhost || searchParams.get('debug') === 'true')
   const { slots: slotsRedux, selectedDate, selectedTime, timeZone } = useReduxAvailability()
   const dispatch = useAppDispatch()
   const { claimHold, claiming } = useSlotHoldContext()
-  const heldSlots = useHeldSlots()
-  const sessionId = useSessionId()
+  const { heldSlots, debug: heldSlotsDebug, getHolderSessionId, sessionId } = useHeldSlots()
   const [claimingSlot, setClaimingSlot] = useState<string | null>(null)
-
-  const isHeldByOther = useCallback(
-    (start: string, end: string) =>
-      heldSlots.some(
-        (h) => h.session_id !== sessionId && h.start_time === start && h.end_time === end
-      ),
-    [heldSlots, sessionId]
-  )
 
   const slots = slotsRedux || []
 
@@ -78,6 +75,8 @@ export default function TimeList({}) {
           const isActive = selectedTime ? slotKey === timeSignature : false
           const isLoading = claiming && claimingSlot === slotKey
 
+          const holderSession = getHolderSessionId(start, end)
+
           return (
             <TimeButton
               key={slotKey}
@@ -88,12 +87,49 @@ export default function TimeList({}) {
               className={className}
               disabled={claiming}
               loading={isLoading}
-              held={isHeldByOther(start, end)}
+              held={!!holderSession}
+              holderSessionId={holderSession}
               onTimeSelect={handleTimeButtonClick}
             />
           )
         })}
       </div>
+      {showDebug && heldSlotsDebug.fetchCount > 0 && (
+        <div className="mt-4 rounded bg-surface-100 p-3 text-xs dark:bg-surface-800">
+          <div className="flex items-center gap-2 text-surface-500 dark:text-surface-400">
+            <span
+              className={`inline-block h-2 w-2 rounded-full ${heldSlotsDebug.channelStatus === 'SUBSCRIBED' ? 'bg-green-500' : 'bg-amber-500'}`}
+            />
+            <span>{heldSlotsDebug.mode === 'realtime' ? 'Live' : 'Polling'}</span>
+            <span>·</span>
+            <span>{heldSlotsDebug.fetchCount} fetches</span>
+          </div>
+          {heldSlots.length > 0 ? (
+            <ul className="mt-2 space-y-1">
+              {heldSlots.map((h) => (
+                <li key={h.session_id + h.start_time} className="flex flex-col gap-0.5">
+                  <span className="flex items-center gap-2">
+                    <span className="font-medium">
+                      {formatLocalTime(h.start_time)}–{formatLocalTime(h.end_time)}
+                    </span>
+                    <span className="text-surface-400">
+                      {h.session_id === sessionId ? '(you)' : '(other)'}
+                    </span>
+                    <span className="text-surface-400">
+                      match: {availability?.some((s) => s.start === h.start_time) ? 'yes' : 'NO'}
+                    </span>
+                  </span>
+                  <span className="font-mono text-surface-400">
+                    hold: {h.start_time} | slot: {availability?.[0]?.start ?? 'none'}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="mt-1 text-surface-400">No holds</p>
+          )}
+        </div>
+      )}
     </div>
   )
 }

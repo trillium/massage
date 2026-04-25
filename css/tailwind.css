@@ -109,6 +109,58 @@
   --z-60: 60;
   --z-70: 70;
   --z-80: 80;
+
+  /* Slot hold critter patrol animation */
+  --animate-bob-wobble: bob-wobble 8s ease-in-out infinite;
+
+  @keyframes bob-wobble {
+    0% {
+      left: -4px;
+      transform: scaleX(1) translateY(0);
+    }
+    2% { transform: scaleX(1) translateY(-6px); }
+    4% { transform: scaleX(1) translateY(0); }
+    6% { transform: scaleX(1) translateY(-6px); }
+    8% { transform: scaleX(1) translateY(0); }
+    10% { transform: scaleX(1) translateY(-6px); }
+    12% { transform: scaleX(1) translateY(0); }
+    14% { transform: scaleX(1) translateY(-6px); }
+    16% { transform: scaleX(1) translateY(0); }
+    18% { transform: scaleX(1) translateY(-6px); }
+    20% { transform: scaleX(1) translateY(0); }
+    22% { transform: scaleX(1) translateY(-6px); }
+    24% {
+      left: calc(100% - 20px);
+      transform: scaleX(1) translateY(0);
+    }
+    25% {
+      left: calc(100% - 20px);
+      transform: scaleX(-1) translateY(0);
+    }
+    27% { transform: scaleX(-1) translateY(-6px); }
+    29% { transform: scaleX(-1) translateY(0); }
+    31% { transform: scaleX(-1) translateY(-6px); }
+    33% { transform: scaleX(-1) translateY(0); }
+    35% { transform: scaleX(-1) translateY(-6px); }
+    37% { transform: scaleX(-1) translateY(0); }
+    39% { transform: scaleX(-1) translateY(-6px); }
+    41% { transform: scaleX(-1) translateY(0); }
+    43% { transform: scaleX(-1) translateY(-6px); }
+    45% { transform: scaleX(-1) translateY(0); }
+    47% { transform: scaleX(-1) translateY(-6px); }
+    49% {
+      left: -4px;
+      transform: scaleX(-1) translateY(0);
+    }
+    50% {
+      left: -4px;
+      transform: scaleX(1) translateY(0);
+    }
+    100% {
+      left: -4px;
+      transform: scaleX(1) translateY(0);
+    }
+  }
 }
 
 /*

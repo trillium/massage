@@ -15,7 +15,7 @@ const ContentSecurityPolicy = `
   style-src 'self' 'unsafe-inline';
   img-src * blob: data:;
   media-src *.s3.amazonaws.com;
-  connect-src 'self' https://qrvuazoacpolbojkimyu.supabase.co https://*.ingest.sentry.io;
+  connect-src 'self' https://qrvuazoacpolbojkimyu.supabase.co wss://qrvuazoacpolbojkimyu.supabase.co https://*.ingest.sentry.io;
   font-src 'self';
   frame-src 'self';
   worker-src 'self' blob:;

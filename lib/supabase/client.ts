@@ -19,6 +19,12 @@ export function getSupabaseBrowserClient() {
   const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
   if (!url || !key) return null
 
-  client = createBrowserClient<Database>(url, key)
+  client = createBrowserClient<Database>(url, key, {
+    realtime: {
+      logger: (kind, msg, data) => {
+        console.log(`[supabase-realtime] [${kind}] ${msg}`, data)
+      },
+    },
+  })
   return client
 }
