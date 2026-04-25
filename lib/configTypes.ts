@@ -68,6 +68,7 @@ export type SlugConfigurationType = {
   acceptingPayment?: boolean
   defaultDuration?: number
   allowedDurations: AllowedDurationsType | null
+  links?: { label: string; href: string }[]
   customFields?: CustomFieldsType
   nextEventFound?: boolean
   currentEvent?: GoogleCalendarV3Event

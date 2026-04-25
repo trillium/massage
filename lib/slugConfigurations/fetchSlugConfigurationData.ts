@@ -228,6 +228,7 @@ const slugConfigurations: SlugConfigurationType[] = [
     hideCalendar: true,
     title: 'OpenClaw Meetup — Book a Session!',
     text: "Complementary chair massage! Pick a time and we'll get you in!",
+    links: [{ label: 'Enter the raffle for a free session!', href: '/openclaw-raffle' }],
     location: createLocationObject(
       'Art and Space - Venue, 5555 Washington Blvd',
       'Los Angeles',

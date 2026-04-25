@@ -54,6 +54,7 @@ export default function GeneralBookingFeature({
       <Template
         title={configuration.title || siteConfig.content.bookingTitle || 'Book a session'}
         text={configuration.text ?? undefined}
+        links={configuration.links}
       />
       <SlotHoldProvider>
         <BookingForm

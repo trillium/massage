@@ -1,13 +1,15 @@
 import clsx from 'clsx'
+import Link from 'next/link'
 
 interface TemplateProps {
   title: string
   text?: string | string[]
+  links?: { label: string; href: string }[]
   classes?: string
   center?: boolean
 }
 
-export default function Template({ title, text, classes, center = false }: TemplateProps) {
+export default function Template({ title, text, links, classes, center = false }: TemplateProps) {
   const renderText = () => {
     if (!text) return null
     if (typeof text === 'string') {
@@ -40,6 +42,19 @@ export default function Template({ title, text, classes, center = false }: Templ
         {title}
       </h1>
       {renderText()}
+      {links?.map((link) => (
+        <p
+          key={link.href}
+          className="mt-2 font-medium sm:mt-4 sm:text-xl"
+        >
+          <Link
+            href={link.href}
+            className="text-primary-500 dark:text-primary-400 underline hover:text-primary-600 dark:hover:text-primary-300"
+          >
+            {link.label}
+          </Link>
+        </p>
+      ))}
     </div>
   )
 }

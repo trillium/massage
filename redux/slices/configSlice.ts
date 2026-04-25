@@ -27,6 +27,7 @@ export const initialState: SlugConfigurationType = {
   instantConfirm: false,
   acceptingPayment: true,
   promoEndDate: null,
+  links: undefined,
   customFields: undefined,
 }
 
