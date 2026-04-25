@@ -5,11 +5,7 @@ import { useRouter } from 'next/navigation'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import { useAppDispatch, useReduxRaffle } from '@/redux/hooks'
 import { setRaffleConfirmation } from '@/redux/slices/raffleSlice'
-
-const INTERESTED_IN_OPTIONS = [
-  { value: 'in_home', label: 'In-home massage' },
-  { value: 'in_office', label: 'In-office massage' },
-]
+import { RAFFLE_INTEREST_OPTIONS } from '@/lib/schema'
 
 interface RaffleFormProps {
   raffleId: string
@@ -69,12 +65,17 @@ export default function RaffleForm({ raffleId, raffleName }: RaffleFormProps) {
         setFieldValue('zip_code', entry.zip_code ?? '')
         setFieldValue('interested_in', entry.interested_in ?? [])
         setLookupMessage('Welcome back! We found your previous entry.')
-      } catch {}
+      } catch (err) {
+        console.error('Raffle lookup failed:', err)
+      }
     },
     [raffleId]
   )
 
-  const handleSubmit = async (values: FormValues) => {
+  const handleSubmit = async (
+    values: FormValues,
+    { setErrors }: { setErrors: (errors: Partial<Record<keyof FormValues, string>>) => void }
+  ) => {
     setSubmitError(null)
 
     try {
@@ -106,6 +107,19 @@ export default function RaffleForm({ raffleId, raffleName }: RaffleFormProps) {
           })
         )
         router.push('/openclaw-raffle/entered')
+      } else if (result.details) {
+        const fieldErrors: Partial<Record<keyof FormValues, string>> = {}
+        for (const issue of result.details) {
+          const field = issue.path?.[0] as keyof FormValues | undefined
+          if (field && field in values) {
+            fieldErrors[field] = issue.message
+          }
+        }
+        if (Object.keys(fieldErrors).length > 0) {
+          setErrors(fieldErrors)
+        } else {
+          setSubmitError(result.error || "Oops, something didn't work — give it another shot!")
+        }
       } else {
         setSubmitError(result.error || "Oops, something didn't work — give it another shot!")
       }
@@ -211,7 +225,7 @@ export default function RaffleForm({ raffleId, raffleName }: RaffleFormProps) {
                 Interested in <span className="text-primary-500">*</span>
               </p>
               <div className="space-y-2">
-                {INTERESTED_IN_OPTIONS.map(({ value, label }) => (
+                {RAFFLE_INTEREST_OPTIONS.map(({ value, label }) => (
                   <div className="flex items-center" key={value}>
                     <input
                       type="checkbox"

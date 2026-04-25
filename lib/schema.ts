@@ -125,6 +125,15 @@ export type OnSiteRequestType = z.infer<typeof OnSiteRequestSchema>
 
 const RaffleInterestedInEnum = z.enum(['in_home', 'in_office'])
 
+export const RAFFLE_INTEREST_OPTIONS = [
+  { value: 'in_home' as const, label: 'In-home massage' },
+  { value: 'in_office' as const, label: 'In-office massage' },
+]
+
+export const RAFFLE_INTEREST_LABELS: Record<string, string> = Object.fromEntries(
+  RAFFLE_INTEREST_OPTIONS.map(({ value, label }) => [value, label])
+)
+
 export const RaffleEntrySchema = z.object({
   name: z.string().min(1, 'Name is required'),
   email: z.email('Invalid email format'),

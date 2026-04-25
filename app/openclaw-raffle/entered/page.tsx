@@ -6,10 +6,7 @@ import SectionContainer from '@/components/SectionContainer'
 import Link from 'next/link'
 import { useReduxRaffle } from '@/redux/hooks'
 
-const INTEREST_LABELS: Record<string, string> = {
-  in_home: 'In-home massage',
-  in_office: 'In-office massage',
-}
+import { RAFFLE_RAFFLE_INTEREST_LABELS } from '@/lib/schema'
 
 export default function RaffleEnteredPage() {
   const router = useRouter()
@@ -60,7 +57,7 @@ export default function RaffleEnteredPage() {
           {interests.length > 0 && (
             <div className="px-5 py-3">
               <p className="text-sm text-surface-500 dark:text-surface-400">Interested in</p>
-              <p>{interests.map((i) => INTEREST_LABELS[i] || i).join(', ')}</p>
+              <p>{interests.map((i) => RAFFLE_INTEREST_LABELS[i] || i).join(', ')}</p>
             </div>
           )}
         </div>

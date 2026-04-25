@@ -6,10 +6,7 @@ import { toast } from 'sonner'
 import { adminFetch } from '@/lib/adminFetch'
 import ConfirmDialog from '@/components/admin/ConfirmDialog'
 
-const INTEREST_LABELS: Record<string, string> = {
-  in_home: 'In-home',
-  in_office: 'In-office',
-}
+import { RAFFLE_RAFFLE_INTEREST_LABELS } from '@/lib/schema'
 
 interface Raffle {
   id: string
@@ -57,17 +54,12 @@ export function RaffleAdmin({ raffle, entries: initialEntries, stats }: RaffleAd
   const [deletingId, setDeletingId] = useState<string | null>(null)
   const [togglingExcludeId, setTogglingExcludeId] = useState<string | null>(null)
   const [entryList, setEntryList] = useState(initialEntries)
-  const [winner, setWinner] = useState<{ name: string; email: string } | null>(() => {
-    const existing = initialEntries.find((e) => e.is_winner)
-    return existing ? { name: existing.name, email: existing.email } : null
-  })
   const [status, setStatus] = useState(raffle.status)
   const [isActive, setIsActive] = useState(raffle.is_active)
+  const winner = entryList.find((e) => e.is_winner) ?? null
 
   useEffect(() => {
     setEntryList(initialEntries)
-    const w = initialEntries.find((e) => e.is_winner)
-    setWinner(w ? { name: w.name, email: w.email } : null)
     setStatus(raffle.status)
     setIsActive(raffle.is_active)
   }, [initialEntries, raffle.status, raffle.is_active])
@@ -124,7 +116,9 @@ export function RaffleAdmin({ raffle, entries: initialEntries, stats }: RaffleAd
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error)
-      setWinner(data.winner)
+      setEntryList((prev) =>
+        prev.map((e) => ({ ...e, is_winner: e.email === data.winner.email }))
+      )
       setStatus('drawn')
       toast.success(`Winner drawn: ${data.winner.name}`)
     } catch (err) {
@@ -184,7 +178,6 @@ export function RaffleAdmin({ raffle, entries: initialEntries, stats }: RaffleAd
           })
           const data = await res.json()
           if (!res.ok) throw new Error(data.error)
-          setWinner(null)
           setStatus('open')
           setEntryList((prev) => prev.map((e) => ({ ...e, is_winner: false })))
           toast.success('Winner cleared, raffle reopened')
@@ -279,7 +272,7 @@ export function RaffleAdmin({ raffle, entries: initialEntries, stats }: RaffleAd
         <StatCard label="Total Submissions" value={stats.totalEntries} />
         <StatCard label="Local %" value={`${stats.localPercent}%`} />
         {Object.entries(stats.interestedInCounts).map(([interest, count]) => (
-          <StatCard key={interest} label={INTEREST_LABELS[interest] || interest} value={count} />
+          <StatCard key={interest} label={RAFFLE_INTEREST_LABELS[interest] || interest} value={count} />
         ))}
       </div>
 
@@ -319,7 +312,7 @@ export function RaffleAdmin({ raffle, entries: initialEntries, stats }: RaffleAd
                   <td className="px-3 py-2">{entry.zip_code || '—'}</td>
                   <td className="px-3 py-2">
                     {Array.isArray(entry.interested_in)
-                      ? entry.interested_in.map((i) => INTEREST_LABELS[i] || i).join(', ')
+                      ? entry.interested_in.map((i) => RAFFLE_INTEREST_LABELS[i] || i).join(', ')
                       : '—'}
                   </td>
                   <td className="px-3 py-2 text-accent-500 dark:text-accent-400">
@@ -364,6 +357,15 @@ export function RaffleAdmin({ raffle, entries: initialEntries, stats }: RaffleAd
             {winner.name}
           </p>
           <p className="text-sm text-yellow-700 dark:text-yellow-300">{winner.email}</p>
+          <p className="text-sm text-yellow-700 dark:text-yellow-300">{winner.phone}</p>
+          {winner.zip_code && (
+            <p className="text-sm text-yellow-700 dark:text-yellow-300">Zip: {winner.zip_code}</p>
+          )}
+          {Array.isArray(winner.interested_in) && winner.interested_in.length > 0 && (
+            <p className="text-sm text-yellow-700 dark:text-yellow-300">
+              {winner.interested_in.map((i) => RAFFLE_INTEREST_LABELS[i] || i).join(', ')}
+            </p>
+          )}
           {isDrawn && (
             <div className="mt-4 flex gap-3">
               <button
