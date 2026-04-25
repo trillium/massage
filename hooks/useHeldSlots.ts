@@ -11,6 +11,7 @@ type HeldSlot = {
   start_time: string
   end_time: string
   session_id: string
+  shoo_count: number
 }
 
 export type HeldSlotsDebug = {
@@ -21,7 +22,9 @@ export type HeldSlotsDebug = {
 }
 
 export function useHeldSlots() {
+  const sessionId = useSessionId()
   const [heldSlots, setHeldSlots] = useState<HeldSlot[]>([])
+  const [activeUsers, setActiveUsers] = useState(0)
   const [debug, setDebug] = useState<HeldSlotsDebug>({
     channelStatus: 'initializing',
     lastFetchedAt: null,
@@ -41,7 +44,7 @@ export function useHeldSlots() {
     const fetchActiveHolds = async () => {
       const { data, error } = await supabase
         .from('slot_holds')
-        .select('start_time, end_time, session_id')
+        .select('start_time, end_time, session_id, shoo_count')
         .gt('expires_at', new Date().toISOString())
 
       setHeldSlots(data ?? [])
@@ -69,11 +72,17 @@ export function useHeldSlots() {
     fetchActiveHolds()
 
     const channel = supabase
-      .channel('slot_holds_changes')
+      .channel('slot_holds_changes', {
+        config: { presence: { key: sessionId ?? crypto.randomUUID() } },
+      })
       .on('postgres_changes', { event: '*', schema: 'public', table: 'slot_holds' }, () => {
         fetchActiveHolds()
       })
-      .subscribe((status, err) => {
+      .on('presence', { event: 'sync' }, () => {
+        const state = channel.presenceState()
+        setActiveUsers(Object.keys(state).length)
+      })
+      .subscribe(async (status, err) => {
         setDebug((d) => ({
           ...d,
           channelStatus: err ? `${status}: ${err.message}` : status,
@@ -82,6 +91,7 @@ export function useHeldSlots() {
         if (status === 'SUBSCRIBED') {
           stopPolling()
           setDebug((d) => ({ ...d, mode: 'realtime' }))
+          await channel.track({ online_at: new Date().toISOString() })
         } else if (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT') {
           startPolling()
         }
@@ -94,9 +104,7 @@ export function useHeldSlots() {
       channel.unsubscribe()
       channelRef.current = null
     }
-  }, [])
-
-  const sessionId = useSessionId()
+  }, [sessionId])
 
   const getHolderSessionId = useCallback(
     (start: string, end: string): string | null => {
@@ -105,13 +113,28 @@ export function useHeldSlots() {
       const hold = heldSlots.find(
         (h) =>
           h.session_id !== sessionId &&
-          new Date(h.start_time).getTime() === startMs &&
-          new Date(h.end_time).getTime() === endMs
+          new Date(h.start_time).getTime() < endMs &&
+          new Date(h.end_time).getTime() > startMs
       )
       return hold?.session_id ?? null
     },
     [heldSlots, sessionId]
   )
 
-  return { heldSlots, debug, getHolderSessionId, sessionId }
+  const getShooCount = useCallback(
+    (start: string, end: string): number => {
+      const startMs = new Date(start).getTime()
+      const endMs = new Date(end).getTime()
+      const hold = heldSlots.find(
+        (h) =>
+          h.session_id !== sessionId &&
+          new Date(h.start_time).getTime() < endMs &&
+          new Date(h.end_time).getTime() > startMs
+      )
+      return hold?.shoo_count ?? 0
+    },
+    [heldSlots, sessionId]
+  )
+
+  return { heldSlots, debug, activeUsers, getHolderSessionId, getShooCount, sessionId }
 }

@@ -23,12 +23,17 @@ export default function TimeList({}) {
   const searchParams = useSearchParams()
   const isLocalhost = typeof window !== 'undefined' && window.location.hostname === 'localhost'
   const showDebug =
-    searchParams.get('debug') !== 'false' &&
-    (isLocalhost || searchParams.get('debug') === 'true')
+    searchParams.get('debug') !== 'false' && (isLocalhost || searchParams.get('debug') === 'true')
   const { slots: slotsRedux, selectedDate, selectedTime, timeZone } = useReduxAvailability()
   const dispatch = useAppDispatch()
   const { claimHold, claiming } = useSlotHoldContext()
-  const { heldSlots, debug: heldSlotsDebug, getHolderSessionId, sessionId } = useHeldSlots()
+  const {
+    heldSlots,
+    debug: heldSlotsDebug,
+    getHolderSessionId,
+    getShooCount,
+    sessionId,
+  } = useHeldSlots()
   const [claimingSlot, setClaimingSlot] = useState<string | null>(null)
 
   const slots = slotsRedux || []
@@ -89,6 +94,17 @@ export default function TimeList({}) {
               loading={isLoading}
               held={!!holderSession}
               holderSessionId={holderSession}
+              shooCount={getShooCount(start, end)}
+              onShoo={() =>
+                fetch('/api/shoo-hold', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ start, end }),
+                })
+                  .then((r) => r.json())
+                  .then((d) => console.log('[shoo] response', d))
+                  .catch((e) => console.error('[shoo] error', e))
+              }
               onTimeSelect={handleTimeButtonClick}
             />
           )

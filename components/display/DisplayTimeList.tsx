@@ -24,7 +24,7 @@ export default function DisplayTimeList({ presenceCounts, onSlotHover }: Display
   const { slots: slotsRedux, selectedDate, selectedTime, timeZone } = useReduxAvailability()
   const dispatch = useAppDispatch()
   const { claimHold, claiming } = useSlotHoldContext()
-  const { getHolderSessionId } = useHeldSlots()
+  const { getHolderSessionId, getShooCount } = useHeldSlots()
   const [claimingSlot, setClaimingSlot] = useState<string | null>(null)
 
   const slots = slotsRedux || []
@@ -82,6 +82,14 @@ export default function DisplayTimeList({ presenceCounts, onSlotHover }: Display
               loading={isLoading}
               held={!!holderSession}
               holderSessionId={holderSession}
+              shooCount={getShooCount(start, end)}
+              onShoo={() =>
+                fetch('/api/shoo-hold', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ start, end }),
+                })
+              }
               onTimeSelect={handleTimeSelect}
               onMouseEnter={() => onSlotHover?.(slotKey)}
               onMouseLeave={() => onSlotHover?.(null)}
