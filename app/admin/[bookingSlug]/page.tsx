@@ -1,9 +1,10 @@
+export const dynamic = 'force-dynamic'
+
 import { SearchParamsType } from '@/lib/types'
 import NotFound from 'app/not-found'
 import { createPageConfiguration } from '@/lib/slugConfigurations/createPageConfiguration'
-import ExpiredPromoPage from '@/components/ExpiredPromoPage'
-import GeneralBookingFeature from '@/components/booking/features/GeneralBookingFeature'
-import AdminDebugPanel from '@/components/admin/AdminDebugPanel'
+import SlugDashboard from '@/components/admin/SlugDashboard'
+import { getSupabaseAdminClient } from '@/lib/supabase/server'
 
 export default async function Page({
   searchParams,
@@ -15,50 +16,28 @@ export default async function Page({
   const { bookingSlug } = await params
   const resolvedParams = await searchParams
 
-  const result = await createPageConfiguration({ bookingSlug, resolvedParams, debug: true })
+  const result = await createPageConfiguration({ bookingSlug, resolvedParams })
 
   if (result.configuration === null || result.configuration === undefined) {
-    return <NotFound></NotFound>
+    return <NotFound />
   }
 
-  // Check if this is an expired promotion
-  if (result.isExpired && result.configuration.promoEndDate) {
-    return (
-      <ExpiredPromoPage
-        title={result.configuration.title || 'Promotion Expired'}
-        promoEndDate={result.configuration.promoEndDate}
-        originalText={result.configuration.text}
-      />
+  const supabase = getSupabaseAdminClient()
+  const { data: appointmentsData } = await supabase!
+    .from('appointments')
+    .select(
+      'id, client_first_name, client_last_name, client_email, client_phone, start_time, end_time, duration_minutes, status, promo, location, admin_notes, created_at'
     )
-  }
+    .ilike('booking_url', `%${bookingSlug}%`)
+    .order('start_time', { ascending: true })
 
-  const {
-    durationProps,
-    configuration,
-    selectedDate,
-    allowedDurations,
-    slots,
-    containerStrings,
-    duration,
-    data,
-    start,
-    end,
-    debug,
-  } = result
+  const eventContainer = result.configuration.eventContainer ?? null
 
   return (
-    <div>
-      {debug && <AdminDebugPanel debug={debug} />}
-      <GeneralBookingFeature
-        durationProps={durationProps}
-        configuration={configuration}
-        selectedDate={selectedDate}
-        slots={slots}
-        duration={duration}
-        data={data}
-        start={start}
-        end={end}
-      />
-    </div>
+    <SlugDashboard
+      slug={bookingSlug}
+      appointments={appointmentsData ?? []}
+      eventContainer={eventContainer}
+    />
   )
 }
