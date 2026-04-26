@@ -260,7 +260,7 @@ const slugConfigurations: SlugConfigurationType[] = [
     title: 'OpenClaw Appreciation: Free 30-Minute Upgrade',
     text: [
       'Thanks for coming to OpenClaw! Book a session and get 30 minutes added free.',
-      `Offer expires May 23, 2026. Questions? Call or text ${contactPhone}`,
+      `This offer is valid through May 23, 2026. Questions? Call or text ${contactPhone}`,
     ],
     durationBonus: 30,
     pricingLabels: {
@@ -280,7 +280,10 @@ const slugConfigurations: SlugConfigurationType[] = [
     type: 'area-wide',
     defaultDuration: 60,
     title: 'OpenClaw Raffle — Your Free Session!',
-    text: `Congratulations on winning the OpenClaw raffle! Book your free 60-minute in-home massage. Questions? Call or text ${contactPhone}`,
+    text: [
+      'Congratulations on winning the OpenClaw raffle! Book your free 60-minute in-home massage.',
+      `This offer is valid through May 23, 2026. Questions? Call or text ${contactPhone}`,
+    ],
     allowedDurations: [60, 90, 120, 150],
     pricing: { 60: 0, 90: 70, 120: 140, 150: 210 },
     pricingLabels: {
