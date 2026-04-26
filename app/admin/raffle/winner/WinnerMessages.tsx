@@ -100,7 +100,8 @@ function TemplateEditor({
       <textarea
         value={template}
         onChange={(e) => onChange(e.target.value)}
-        rows={3}
+        rows={2}
+        style={{ fieldSizing: 'content' } as React.CSSProperties}
         className="w-full rounded border border-accent-300 bg-white px-3 py-2 text-sm text-accent-900 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500 dark:border-accent-600 dark:bg-surface-700 dark:text-accent-100"
       />
     </div>
@@ -121,7 +122,8 @@ function EditableMessage({
       <textarea
         value={message}
         onChange={(e) => onChange(e.target.value)}
-        rows={3}
+        rows={2}
+        style={{ fieldSizing: 'content' } as React.CSSProperties}
         className="flex-1 resize-none border-none bg-transparent text-sm text-accent-800 focus:outline-none dark:text-accent-200"
       />
       <CopyButton text={message} label={label} />
