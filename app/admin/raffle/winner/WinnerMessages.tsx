@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import { toast } from 'sonner'
 import { RAFFLE_INTEREST_LABELS } from '@/lib/schema'
 
@@ -16,18 +17,28 @@ interface Entry {
 interface WinnerMessagesProps {
   winner: Entry
   nonWinners: Entry[]
+  expirationDate: string
 }
 
-function firstName(name: string) {
-  return name.split(' ')[0]
+const VARS: Record<string, string> = {
+  '{firstName}': 'First name',
+  '{name}': 'Full name',
+  '{email}': 'Email',
+  '{phone}': 'Phone',
+  '{expiration}': 'Expiration date',
 }
 
-function winnerSms(name: string) {
-  return `Hey ${firstName(name)}! 🎉 You won the OpenClaw raffle — a free 60-minute massage! Book here before May 23: https://trilliummassage.la/openclaw-raffle-prize`
-}
+const DEFAULT_WINNER_TEMPLATE = `Hey {firstName}! 🎉 You won the OpenClaw raffle — a free 60-minute massage! Book here before {expiration}: https://trilliummassage.la/openclaw-raffle-prize`
 
-function nonWinnerSms(name: string) {
-  return `Hey ${firstName(name)}! Unfortunately you didn't win the raffle, BUT! I wanted to extend a free 30-minute upgrade to you, valid through May 23. Book here: https://trilliummassage.la/openclaw-appreciation`
+const DEFAULT_NON_WINNER_TEMPLATE = `Hey {firstName}! Unfortunately you didn't win the raffle, BUT! I wanted to extend a free 30-minute upgrade to you, valid through {expiration}. Book here: https://trilliummassage.la/openclaw-appreciation`
+
+function resolveTemplate(template: string, entry: Entry, expiration: string) {
+  return template
+    .replace(/\{firstName\}/g, entry.name.split(' ')[0])
+    .replace(/\{name\}/g, entry.name)
+    .replace(/\{email\}/g, entry.email)
+    .replace(/\{phone\}/g, entry.phone)
+    .replace(/\{expiration\}/g, expiration)
 }
 
 function copyToClipboard(text: string, label: string) {
@@ -64,7 +75,34 @@ function EntryDetails({ entry }: { entry: Entry }) {
   )
 }
 
-function MessageTemplate({ message, label }: { message: string; label: string }) {
+function TemplateEditor({
+  label,
+  template,
+  onChange,
+}: {
+  label: string
+  template: string
+  onChange: (value: string) => void
+}) {
+  return (
+    <div>
+      <div className="mb-1 flex items-center justify-between">
+        <label className="text-sm font-medium text-accent-700 dark:text-accent-300">{label}</label>
+        <span className="text-xs text-accent-400">
+          Variables: {Object.keys(VARS).join(' ')}
+        </span>
+      </div>
+      <textarea
+        value={template}
+        onChange={(e) => onChange(e.target.value)}
+        rows={3}
+        className="w-full rounded border border-accent-300 bg-white px-3 py-2 text-sm text-accent-900 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500 dark:border-accent-600 dark:bg-surface-700 dark:text-accent-100"
+      />
+    </div>
+  )
+}
+
+function ResolvedMessage({ message, label }: { message: string; label: string }) {
   return (
     <div className="flex items-start gap-3 rounded border border-accent-200 bg-surface-100 p-3 dark:border-accent-700 dark:bg-surface-900">
       <p className="flex-1 text-sm text-accent-800 dark:text-accent-200">{message}</p>
@@ -73,7 +111,10 @@ function MessageTemplate({ message, label }: { message: string; label: string })
   )
 }
 
-export function WinnerMessages({ winner, nonWinners }: WinnerMessagesProps) {
+export function WinnerMessages({ winner, nonWinners, expirationDate }: WinnerMessagesProps) {
+  const [winnerTemplate, setWinnerTemplate] = useState(DEFAULT_WINNER_TEMPLATE)
+  const [nonWinnerTemplate, setNonWinnerTemplate] = useState(DEFAULT_NON_WINNER_TEMPLATE)
+
   const cardClass =
     'rounded-lg border border-accent-200 bg-surface-50 p-6 dark:border-accent-700 dark:bg-surface-800'
 
@@ -82,11 +123,16 @@ export function WinnerMessages({ winner, nonWinners }: WinnerMessagesProps) {
       <div className="rounded-lg border border-yellow-300 bg-yellow-50 p-6 dark:border-yellow-700 dark:bg-yellow-900/20">
         <h2 className="mb-4 text-lg font-semibold text-yellow-900 dark:text-yellow-100">Winner</h2>
         <EntryDetails entry={winner} />
-        <div className="mt-4">
-          <h3 className="mb-2 text-sm font-medium text-yellow-800 dark:text-yellow-200">
-            Winner SMS
-          </h3>
-          <MessageTemplate message={winnerSms(winner.name)} label="Winner SMS" />
+        <div className="mt-4 space-y-3">
+          <TemplateEditor
+            label="Winner SMS Template"
+            template={winnerTemplate}
+            onChange={setWinnerTemplate}
+          />
+          <ResolvedMessage
+            message={resolveTemplate(winnerTemplate, winner, expirationDate)}
+            label="Winner SMS"
+          />
         </div>
       </div>
 
@@ -94,34 +140,32 @@ export function WinnerMessages({ winner, nonWinners }: WinnerMessagesProps) {
         <h2 className="mb-4 text-lg font-semibold text-accent-900 dark:text-accent-100">
           Non-Winners ({nonWinners.length})
         </h2>
-        <div className="mt-2">
-          <h3 className="mb-3 text-sm font-medium text-accent-600 dark:text-accent-400">
-            Non-Winner SMS Template
-          </h3>
-          <div className="space-y-4">
-            {nonWinners.map((entry) => (
-              <div
-                key={entry.id}
-                className="rounded-lg border border-accent-100 p-4 dark:border-accent-800"
-              >
-                <div className="mb-2 flex items-center justify-between">
-                  <span className="font-medium text-accent-900 dark:text-accent-100">
-                    {entry.name}
-                  </span>
-                  <span className="text-xs text-accent-500 dark:text-accent-400">
-                    {entry.phone}
-                  </span>
-                </div>
-                <MessageTemplate
-                  message={nonWinnerSms(entry.name)}
-                  label={`SMS for ${firstName(entry.name)}`}
-                />
+        <TemplateEditor
+          label="Non-Winner SMS Template"
+          template={nonWinnerTemplate}
+          onChange={setNonWinnerTemplate}
+        />
+        <div className="mt-4 space-y-4">
+          {nonWinners.map((entry) => (
+            <div
+              key={entry.id}
+              className="rounded-lg border border-accent-100 p-4 dark:border-accent-800"
+            >
+              <div className="mb-2 flex items-center justify-between">
+                <span className="font-medium text-accent-900 dark:text-accent-100">
+                  {entry.name}
+                </span>
+                <span className="text-xs text-accent-500 dark:text-accent-400">{entry.phone}</span>
               </div>
-            ))}
-            {nonWinners.length === 0 && (
-              <p className="text-sm text-accent-400">No non-winner entries</p>
-            )}
-          </div>
+              <ResolvedMessage
+                message={resolveTemplate(nonWinnerTemplate, entry, expirationDate)}
+                label={`SMS for ${entry.name.split(' ')[0]}`}
+              />
+            </div>
+          ))}
+          {nonWinners.length === 0 && (
+            <p className="text-sm text-accent-400">No non-winner entries</p>
+          )}
         </div>
       </div>
     </div>

@@ -79,7 +79,7 @@ export default async function RaffleWinnerPage() {
         </Link>
       </div>
       <p className="mb-6 text-sm text-accent-500 dark:text-accent-400">{raffle.name}</p>
-      <WinnerMessages winner={winner} nonWinners={nonWinners} />
+      <WinnerMessages winner={winner} nonWinners={nonWinners} expirationDate="May 23" />
     </div>
   )
 }
