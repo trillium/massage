@@ -107,10 +107,23 @@ function TemplateEditor({
   )
 }
 
-function ResolvedMessage({ message, label }: { message: string; label: string }) {
+function EditableMessage({
+  message,
+  label,
+  onChange,
+}: {
+  message: string
+  label: string
+  onChange: (value: string) => void
+}) {
   return (
     <div className="flex items-start gap-3 rounded border border-accent-200 bg-surface-100 p-3 dark:border-accent-700 dark:bg-surface-900">
-      <p className="flex-1 text-sm text-accent-800 dark:text-accent-200">{message}</p>
+      <textarea
+        value={message}
+        onChange={(e) => onChange(e.target.value)}
+        rows={3}
+        className="flex-1 resize-none border-none bg-transparent text-sm text-accent-800 focus:outline-none dark:text-accent-200"
+      />
       <CopyButton text={message} label={label} />
     </div>
   )
@@ -119,6 +132,21 @@ function ResolvedMessage({ message, label }: { message: string; label: string })
 export function WinnerMessages({ winner, nonWinners, expirationDate }: WinnerMessagesProps) {
   const [winnerTemplate, setWinnerTemplate] = useState(DEFAULT_WINNER_TEMPLATE)
   const [nonWinnerTemplate, setNonWinnerTemplate] = useState(DEFAULT_NON_WINNER_TEMPLATE)
+  const [overrides, setOverrides] = useState<Record<string, string>>({})
+
+  function getResolvedMessage(entryId: string, template: string, entry: Entry) {
+    if (overrides[entryId] !== undefined) return overrides[entryId]
+    return resolveTemplate(template, entry, expirationDate)
+  }
+
+  function setOverride(entryId: string, value: string) {
+    setOverrides((prev) => ({ ...prev, [entryId]: value }))
+  }
+
+  function handleTemplateChange(setter: (v: string) => void, value: string) {
+    setter(value)
+    setOverrides({})
+  }
 
   const cardClass =
     'rounded-lg border border-accent-200 bg-surface-50 p-6 dark:border-accent-700 dark:bg-surface-800'
@@ -150,10 +178,11 @@ export function WinnerMessages({ winner, nonWinners, expirationDate }: WinnerMes
           <TemplateEditor
             label="Winner SMS Template"
             template={winnerTemplate}
-            onChange={setWinnerTemplate}
+            onChange={(v) => handleTemplateChange(setWinnerTemplate, v)}
           />
-          <ResolvedMessage
-            message={resolveTemplate(winnerTemplate, winner, expirationDate)}
+          <EditableMessage
+            message={getResolvedMessage(winner.id, winnerTemplate, winner)}
+            onChange={(v) => setOverride(winner.id, v)}
             label="Winner SMS"
           />
         </div>
@@ -166,7 +195,7 @@ export function WinnerMessages({ winner, nonWinners, expirationDate }: WinnerMes
         <TemplateEditor
           label="Non-Winner SMS Template"
           template={nonWinnerTemplate}
-          onChange={setNonWinnerTemplate}
+          onChange={(v) => handleTemplateChange(setNonWinnerTemplate, v)}
         />
         <div className="mt-4 space-y-4">
           {nonWinners.map((entry) => (
@@ -185,8 +214,9 @@ export function WinnerMessages({ winner, nonWinners, expirationDate }: WinnerMes
                   {entry.phone} 📋
                 </button>
               </div>
-              <ResolvedMessage
-                message={resolveTemplate(nonWinnerTemplate, entry, expirationDate)}
+              <EditableMessage
+                message={getResolvedMessage(entry.id, nonWinnerTemplate, entry)}
+                onChange={(v) => setOverride(entry.id, v)}
                 label={`SMS for ${entry.name.split(' ')[0]}`}
               />
             </div>
