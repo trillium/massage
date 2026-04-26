@@ -32,10 +32,18 @@ const DEFAULT_WINNER_TEMPLATE = `Hey {firstName}! 🎉 You won the OpenClaw raff
 
 const DEFAULT_NON_WINNER_TEMPLATE = `Hey {firstName}! Unfortunately you didn't win the raffle, BUT! I wanted to extend a free 30-minute upgrade to you, valid through {expiration}. Book here: https://trilliummassage.la/openclaw-appreciation`
 
+function capitalize(s: string) {
+  return s.charAt(0).toUpperCase() + s.slice(1).toLowerCase()
+}
+
+function capitalizeName(name: string) {
+  return name.split(' ').map(capitalize).join(' ')
+}
+
 function resolveTemplate(template: string, entry: Entry, expiration: string) {
   return template
-    .replace(/\{firstName\}/g, entry.name.split(' ')[0])
-    .replace(/\{name\}/g, entry.name)
+    .replace(/\{firstName\}/g, capitalize(entry.name.split(' ')[0]))
+    .replace(/\{name\}/g, capitalizeName(entry.name))
     .replace(/\{email\}/g, entry.email)
     .replace(/\{phone\}/g, entry.phone)
     .replace(/\{expiration\}/g, expiration)
