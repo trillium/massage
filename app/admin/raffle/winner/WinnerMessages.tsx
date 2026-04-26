@@ -94,11 +94,8 @@ function TemplateEditor({
 }) {
   return (
     <div>
-      <div className="mb-1 flex items-center justify-between">
+      <div className="mb-1">
         <label className="text-sm font-medium text-accent-700 dark:text-accent-300">{label}</label>
-        <span className="text-xs text-accent-400">
-          Variables: {Object.keys(VARS).join(' ')}
-        </span>
       </div>
       <textarea
         value={template}
@@ -128,6 +125,24 @@ export function WinnerMessages({ winner, nonWinners, expirationDate }: WinnerMes
 
   return (
     <div className="space-y-6">
+      <div className={cardClass}>
+        <h2 className="mb-3 text-lg font-semibold text-accent-900 dark:text-accent-100">
+          Template Variables
+        </h2>
+        <div className="flex flex-wrap gap-2">
+          {Object.entries(VARS).map(([key, desc]) => (
+            <button
+              key={key}
+              onClick={() => copyToClipboard(key, key)}
+              className="rounded border border-accent-200 bg-surface-100 px-2.5 py-1 text-sm hover:border-primary-400 dark:border-accent-700 dark:bg-surface-900"
+            >
+              <code className="font-semibold text-primary-600 dark:text-primary-400">{key}</code>
+              <span className="ml-1.5 text-accent-500 dark:text-accent-400">{desc}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+
       <div className="rounded-lg border border-yellow-300 bg-yellow-50 p-6 dark:border-yellow-700 dark:bg-yellow-900/20">
         <h2 className="mb-4 text-lg font-semibold text-yellow-900 dark:text-yellow-100">Winner</h2>
         <EntryDetails entry={winner} />
