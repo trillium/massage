@@ -66,13 +66,13 @@ function copyToClipboard(text: string, label: string) {
   toast.success(`${label} copied`)
 }
 
-function CopyButton({ text, label }: { text: string; label: string }) {
+function CopyButton({ text, label, children }: { text: string; label: string; children: string }) {
   return (
     <button
       onClick={() => copyToClipboard(text, label)}
       className="shrink-0 rounded bg-primary-500 px-3 py-1.5 text-sm text-white hover:bg-primary-600"
     >
-      Copy
+      {children}
     </button>
   )
 }
@@ -138,7 +138,7 @@ function EditableMessage({
         style={{ fieldSizing: 'content' } as React.CSSProperties}
         className="flex-1 resize-none border-none bg-transparent text-sm text-accent-800 focus:outline-none dark:text-accent-200"
       />
-      <CopyButton text={message} label={label} />
+      <CopyButton text={message} label={label}>Copy Message</CopyButton>
     </div>
   )
 }
@@ -221,12 +221,10 @@ export function WinnerMessages({ winner, nonWinners, expirationDate }: WinnerMes
                 <span className="font-medium text-accent-900 dark:text-accent-100">
                   {capitalizeName(entry.name)}
                 </span>
-                <button
-                  onClick={() => copyToClipboard(entry.phone, 'Phone')}
-                  className="text-xs text-accent-500 hover:text-primary-500 dark:text-accent-400 dark:hover:text-primary-400"
-                >
-                  {entry.phone} 📋
-                </button>
+                <span className="flex items-center gap-2">
+                  <span className="text-xs text-accent-500 dark:text-accent-400">{entry.phone}</span>
+                  <CopyButton text={entry.phone} label="Phone">Copy Phone</CopyButton>
+                </span>
               </div>
               <EditableMessage
                 message={getResolvedMessage(entry.id, nonWinnerTemplate, entry)}
