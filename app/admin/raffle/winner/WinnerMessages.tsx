@@ -32,6 +32,18 @@ const DEFAULT_WINNER_TEMPLATE = `Hey {firstName}! 🎉 You won the OpenClaw raff
 
 const DEFAULT_NON_WINNER_TEMPLATE = `Hey {firstName}! Unfortunately you didn't win the raffle, BUT! I wanted to extend a free 30-minute upgrade to you, valid through {expiration}. Book here: https://trilliummassage.la/openclaw-appreciation`
 
+function ordinal(n: number) {
+  if (n % 100 >= 11 && n % 100 <= 13) return `${n}th`
+  const suffixes = ['th', 'st', 'nd', 'rd']
+  return `${n}${suffixes[n % 10] ?? 'th'}`
+}
+
+function formatExpiration(dateStr: string) {
+  const d = new Date(dateStr + 'T00:00:00')
+  const month = d.toLocaleDateString('en-US', { month: 'long' })
+  return `${month} ${ordinal(d.getDate())}`
+}
+
 function capitalize(s: string) {
   return s.charAt(0).toUpperCase() + s.slice(1).toLowerCase()
 }
@@ -46,7 +58,7 @@ function resolveTemplate(template: string, entry: Entry, expiration: string) {
     .replace(/\{name\}/g, capitalizeName(entry.name))
     .replace(/\{email\}/g, entry.email)
     .replace(/\{phone\}/g, entry.phone)
-    .replace(/\{expiration\}/g, expiration)
+    .replace(/\{expiration\}/g, formatExpiration(expiration))
 }
 
 function copyToClipboard(text: string, label: string) {
