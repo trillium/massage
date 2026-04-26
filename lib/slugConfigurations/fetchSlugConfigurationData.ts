@@ -255,6 +255,27 @@ const slugConfigurations: SlugConfigurationType[] = [
   },
   {
     ...initialStateWithoutType,
+    bookingSlug: ['openclaw-appreciation'],
+    type: 'area-wide',
+    title: 'OpenClaw Appreciation: Free 30-Minute Upgrade',
+    text: [
+      'Thanks for coming to OpenClaw! Book a session and get 30 minutes added free.',
+      `Offer expires May 23, 2026. Questions? Call or text ${contactPhone}`,
+    ],
+    durationBonus: 30,
+    pricingLabels: {
+      60: '+30 min free! (90 min session)',
+      90: '+30 min free! (120 min session)',
+      120: '+30 min free! (150 min session)',
+    },
+    allowedDurations: [60, 90, 120],
+    promoEndDate: '2026-05-23',
+    customFields: {
+      showNotesField: true,
+    },
+  },
+  {
+    ...initialStateWithoutType,
     bookingSlug: ['openclaw-raffle-prize'],
     type: 'area-wide',
     defaultDuration: 60,
