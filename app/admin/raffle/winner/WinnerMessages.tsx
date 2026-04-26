@@ -161,9 +161,14 @@ export function WinnerMessages({ winner, nonWinners, expirationDate }: WinnerMes
             >
               <div className="mb-2 flex items-center justify-between">
                 <span className="font-medium text-accent-900 dark:text-accent-100">
-                  {entry.name}
+                  {capitalizeName(entry.name)}
                 </span>
-                <span className="text-xs text-accent-500 dark:text-accent-400">{entry.phone}</span>
+                <button
+                  onClick={() => copyToClipboard(entry.phone, 'Phone')}
+                  className="text-xs text-accent-500 hover:text-primary-500 dark:text-accent-400 dark:hover:text-primary-400"
+                >
+                  {entry.phone} 📋
+                </button>
               </div>
               <ResolvedMessage
                 message={resolveTemplate(nonWinnerTemplate, entry, expirationDate)}
