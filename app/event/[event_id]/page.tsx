@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import { fetchSingleEvent } from '@/lib/fetch/fetchSingleEvent'
 import { verifyEventToken } from '@/lib/eventToken'
 import { parseEventSummary } from '@/lib/helpers/parseEventSummary'

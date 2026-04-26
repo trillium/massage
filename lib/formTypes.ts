@@ -32,6 +32,10 @@ export type BookingFormData = {
   bookingUrl?: string
   /** Promotional offer applied to this booking */
   promo?: string
+  /** Raffle name (set after raffle entry) */
+  raffleName?: string
+  /** Raffle interests selected by user */
+  raffleInterests?: string[]
 }
 
 export type ReviewFormData = {

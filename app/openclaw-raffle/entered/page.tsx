@@ -4,23 +4,24 @@ import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import SectionContainer from '@/components/SectionContainer'
 import Link from 'next/link'
-import { useReduxRaffle } from '@/redux/hooks'
+import { useReduxFormData } from '@/redux/hooks'
 
 import { RAFFLE_INTEREST_LABELS } from '@/lib/schema'
 
 export default function RaffleEnteredPage() {
   const router = useRouter()
-  const raffle = useReduxRaffle()
+  const formData = useReduxFormData()
 
   useEffect(() => {
-    if (!raffle) {
+    if (!formData?.raffleName) {
       router.replace('/openclaw-raffle')
     }
-  }, [raffle, router])
+  }, [formData, router])
 
-  if (!raffle) return null
+  if (!formData?.raffleName) return null
 
-  const { raffleName, name, email, phone, zip, interests } = raffle
+  const name = [formData.firstName, formData.lastName].filter(Boolean).join(' ')
+  const { raffleName, email, phone, raffleInterests: interests } = formData
 
   return (
     <SectionContainer>
@@ -48,13 +49,7 @@ export default function RaffleEnteredPage() {
             <p className="text-sm text-surface-500 dark:text-surface-400">Phone</p>
             <p>{phone}</p>
           </div>
-          {zip && (
-            <div className="border-b border-surface-200 px-5 py-3 dark:border-surface-700">
-              <p className="text-sm text-surface-500 dark:text-surface-400">Zip Code</p>
-              <p>{zip}</p>
-            </div>
-          )}
-          {interests.length > 0 && (
+          {interests && interests.length > 0 && (
             <div className="px-5 py-3">
               <p className="text-sm text-surface-500 dark:text-surface-400">Interested in</p>
               <p>{interests.map((i) => RAFFLE_INTEREST_LABELS[i] || i).join(', ')}</p>

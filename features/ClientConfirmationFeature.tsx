@@ -12,6 +12,7 @@ import { formatLocalDate, formatLocalTime } from 'lib/availability/helpers'
 import BookSessionButton from 'components/BookSessionButton'
 import { flattenLocation } from '@/lib/helpers/locationHelpers'
 import { BookedCard } from 'components/BookedCard'
+import RaffleOptIn from '@/components/raffle/RaffleOptIn'
 import { DEFAULT_PRICING } from 'config'
 
 export default function Confirmation() {
@@ -81,6 +82,14 @@ export default function Confirmation() {
         </p>
       </div>
       <BookedCard {...BookedData} />
+
+      {bookingUrl === 'openclaw' && (
+        <RaffleOptIn
+          name={`${firstName} ${lastName}`}
+          email={email!}
+          phone={phone!}
+        />
+      )}
 
       <div className="flex flex-grow items-center justify-center pt-12">
         <BookSessionButton title="Book Another Session!" href="/book" />

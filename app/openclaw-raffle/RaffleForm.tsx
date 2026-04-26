@@ -3,8 +3,8 @@
 import { useCallback, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
-import { useAppDispatch, useReduxRaffle } from '@/redux/hooks'
-import { setRaffleConfirmation } from '@/redux/slices/raffleSlice'
+import { useAppDispatch, useReduxFormData } from '@/redux/hooks'
+import { setBookingForm } from '@/redux/slices/bookingFormSlice'
 import { RAFFLE_INTEREST_OPTIONS } from '@/lib/schema'
 
 interface RaffleFormProps {
@@ -44,7 +44,7 @@ const checkboxClasses = 'h-4 w-4 rounded border-accent-300 text-primary-600 focu
 export default function RaffleForm({ raffleId, raffleName }: RaffleFormProps) {
   const router = useRouter()
   const dispatch = useAppDispatch()
-  const previousEntry = useReduxRaffle()
+  const formData = useReduxFormData()
   const [submitError, setSubmitError] = useState<string | null>(null)
   const [lookupMessage, setLookupMessage] = useState<string | null>(null)
 
@@ -97,13 +97,13 @@ export default function RaffleForm({ raffleId, raffleName }: RaffleFormProps) {
 
       if (response.ok) {
         dispatch(
-          setRaffleConfirmation({
+          setBookingForm({
             raffleName,
-            name: values.name,
+            firstName: values.name.split(' ')[0] || values.name,
+            lastName: values.name.split(' ').slice(1).join(' '),
             email: values.email,
             phone: values.phone,
-            zip: values.zip_code,
-            interests: values.interested_in,
+            raffleInterests: values.interested_in,
           })
         )
         router.push('/openclaw-raffle/entered')
@@ -132,11 +132,11 @@ export default function RaffleForm({ raffleId, raffleName }: RaffleFormProps) {
     <div className="border-white-500 focus-within:border-primary-500 flex w-full flex-col items-center space-y-4 rounded-lg border-2 bg-surface-50 p-6 shadow-md dark:bg-surface-900">
       <Formik<FormValues>
         initialValues={{
-          name: previousEntry?.name ?? '',
-          email: previousEntry?.email ?? '',
-          phone: previousEntry?.phone ?? '',
-          zip_code: previousEntry?.zip ?? '',
-          interested_in: previousEntry?.interests ?? [],
+          name: [formData?.firstName, formData?.lastName].filter(Boolean).join(' '),
+          email: formData?.email ?? '',
+          phone: formData?.phone ?? '',
+          zip_code: '',
+          interested_in: formData?.raffleInterests ?? [],
         }}
         validate={validate}
         onSubmit={handleSubmit}
