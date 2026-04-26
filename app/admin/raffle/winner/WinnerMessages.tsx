@@ -147,6 +147,7 @@ export function WinnerMessages({ winner, nonWinners, expirationDate }: WinnerMes
   const [winnerTemplate, setWinnerTemplate] = useState(DEFAULT_WINNER_TEMPLATE)
   const [nonWinnerTemplate, setNonWinnerTemplate] = useState(DEFAULT_NON_WINNER_TEMPLATE)
   const [overrides, setOverrides] = useState<Record<string, string>>({})
+  const [followedUp, setFollowedUp] = useState<Record<string, boolean>>({})
 
   function getResolvedMessage(entryId: string, template: string, entry: Entry) {
     if (overrides[entryId] !== undefined) return overrides[entryId]
@@ -186,7 +187,18 @@ export function WinnerMessages({ winner, nonWinners, expirationDate }: WinnerMes
       </div>
 
       <div className="rounded-lg border border-yellow-300 bg-yellow-50 p-6 dark:border-yellow-700 dark:bg-yellow-900/20">
-        <h2 className="mb-4 text-lg font-semibold text-yellow-900 dark:text-yellow-100">Winner</h2>
+        <div className="mb-4 flex items-center justify-between">
+          <h2 className="text-lg font-semibold text-yellow-900 dark:text-yellow-100">Winner</h2>
+          <label className="flex items-center gap-2 text-sm text-yellow-800 dark:text-yellow-200">
+            <input
+              type="checkbox"
+              checked={followedUp[winner.id] ?? false}
+              onChange={() => setFollowedUp((p) => ({ ...p, [winner.id]: !p[winner.id] }))}
+              className="h-4 w-4 rounded border-accent-300 text-primary-600 focus:ring-primary-500"
+            />
+            Followed up
+          </label>
+        </div>
         <EntryDetails entry={winner} />
         <div className="mt-4 space-y-3">
           <TemplateEditor
@@ -205,6 +217,11 @@ export function WinnerMessages({ winner, nonWinners, expirationDate }: WinnerMes
       <div className={cardClass}>
         <h2 className="mb-4 text-lg font-semibold text-accent-900 dark:text-accent-100">
           Non-Winners ({nonWinners.length})
+          {nonWinners.filter((e) => followedUp[e.id]).length > 0 && (
+            <span className="ml-2 text-sm font-normal text-accent-400">
+              · {nonWinners.filter((e) => followedUp[e.id]).length} followed up
+            </span>
+          )}
         </h2>
         <TemplateEditor
           label="Non-Winner SMS Template"
@@ -218,9 +235,17 @@ export function WinnerMessages({ winner, nonWinners, expirationDate }: WinnerMes
               className="rounded-lg border border-accent-100 p-4 dark:border-accent-800"
             >
               <div className="mb-2 flex items-center justify-between">
-                <span className="font-medium text-accent-900 dark:text-accent-100">
-                  {capitalizeName(entry.name)}
-                </span>
+                <label className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    checked={followedUp[entry.id] ?? false}
+                    onChange={() => setFollowedUp((p) => ({ ...p, [entry.id]: !p[entry.id] }))}
+                    className="h-4 w-4 rounded border-accent-300 text-primary-600 focus:ring-primary-500"
+                  />
+                  <span className="font-medium text-accent-900 dark:text-accent-100">
+                    {capitalizeName(entry.name)}
+                  </span>
+                </label>
                 <span className="flex items-center gap-2">
                   <span className="text-xs text-accent-500 dark:text-accent-400">{entry.phone}</span>
                   <CopyButton text={entry.phone} label="Phone">Copy Phone</CopyButton>
