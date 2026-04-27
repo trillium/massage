@@ -22,6 +22,10 @@
     "tests/**",
     "playground/**",
     ".contentlayer/**",
+    ".next/**",
+    "dist/**",
+    "build/**",
+    "node_modules/**",
     "data/ratings.ts"
   ],
   "ignoreDependencies": [
@@ -35,7 +39,13 @@
   ],
   "rules": {
     "unused-files": "warn",
-    "unused-exports": "warn"
+    "unused-exports": "warn",
+    "circular-deps": "error",
+    "boundary-violations": "error"
+  },
+  "duplication": {
+    "threshold": 8,
+    "mode": "semantic"
   },
   "health": {
     "maxCyclomatic": 20,
