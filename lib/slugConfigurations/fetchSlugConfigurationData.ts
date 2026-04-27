@@ -284,7 +284,7 @@ const slugConfigurations: SlugConfigurationType[] = [
     text: [
       'Congratulations on winning the OpenClaw raffle! Book your free 60-minute in-home massage.',
       `Questions? Call or text ${contactPhone}`,
-      `* This offer is valid through May 23, 2026.`,
+      `* This offer has been redeemed.`,
     ],
     allowedDurations: [60, 90, 120, 150],
     pricing: { 60: 0, 90: 70, 120: 140, 150: 210 },
@@ -294,7 +294,7 @@ const slugConfigurations: SlugConfigurationType[] = [
       120: '$140 ($280 value — 60 min free!)',
       150: '$210 ($350 value — 60 min free!)',
     },
-    promoEndDate: '2026-05-23',
+    promoEndDate: '2026-04-25',
     acceptingPayment: true,
     customFields: {
       showNotesField: true,
