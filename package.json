@@ -21,6 +21,7 @@
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:headed": "playwright test --headed",
+    "test:a11y": "playwright test --grep @a11y",
     "ratings:spellcheck": "ts-node scripts/ratingsCorrectionScript.ts",
     "dead-code": "knip --reporter markdown > dead-code-report.md; echo 'Report: dead-code-report.md (knip is primary, fallow supplementary)'",
     "fallow": "fallow",
@@ -119,6 +120,7 @@
   },
   "devDependencies": {
     "@anthropic-ai/sdk": "^0.78.0",
+    "@axe-core/playwright": "^4.10.1",
     "@biomejs/biome": "^2.4.2",
     "@faker-js/faker": "^9.3.0",
     "@jest/types": "^29.6.3",
