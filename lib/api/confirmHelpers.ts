@@ -54,12 +54,14 @@ export function verifyHashedData(req: NextRequest): VerifyResult {
 
 export function parseLocation(validObject: Record<string, unknown>): LocationObject | NextResponse {
   if (validObject.locationString) {
+    const zipRegex = /^\d{5}(-\d{4})?$/
     const parts = (validObject.locationString as string).split(',').map((part) => part.trim())
-    return {
-      street: parts[0] || '',
-      city: parts[1] || '',
-      zip: parts[2] || '',
-    }
+    const last = parts[parts.length - 1] || ''
+    const hasZip = zipRegex.test(last)
+    const zip = hasZip ? parts.pop()! : ''
+    const city = parts.pop() || ''
+    const street = parts.join(', ')
+    return { street, city, zip }
   }
 
   if (validObject.locationObject) {
