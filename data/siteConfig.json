@@ -1,36 +1,37 @@
 {
   "business": {
-    "name": "Trillium Massage",
-    "ownerName": "Trillium Smith",
+    "name": "Therapy by Monica",
+    "ownerName": "Monica",
     "occupation": "Massage Therapist",
-    "tagline": "Let the spa come to you",
-    "description": "Let the spa come to you. Providing in-home massage therapy and wellness to the LA Metro Area"
+    "tagline": "Mobile Luxury Massage Therapy",
+    "description": "Mobile Luxury Massage Therapy — No hidden fees. No additional travel charges. Each session includes aromatherapy, hot stones, a heated table, and your preferred pressure, delivered right to you."
   },
   "contact": {
     "email": "trilliummassagela@gmail.com",
-    "phone": "1-818-738-5344",
-    "instagram": "https://www.instagram.com/trilliummassage"
+    "phone": "689-777-5192",
+    "instagram": "https://www.instagram.com/trilliummassage",
+    "airbnb": "https://www.airbnb.com/services/6960057"
   },
   "domain": {
     "siteUrl": "https://trilliummassage.la/",
     "siteRepo": "https://github.com/Spiteless/www-massage/"
   },
   "location": {
-    "city": "Los Angeles",
-    "state": "CA",
-    "display": "Los Angeles, CA",
-    "neighborhood": "Westchester",
-    "serviceArea": "Serving the LA Metro Area",
-    "mapLatitude": 33.99,
-    "mapLongitude": -118.4
+    "city": "Orlando",
+    "state": "FL",
+    "display": "Orlando, FL",
+    "neighborhood": "Orlando",
+    "serviceArea": "Serving the Orlando Area",
+    "mapLatitude": 28.5,
+    "mapLongitude": -81.38
   },
   "scheduling": {
     "timezone": "America/Los_Angeles",
     "leadTimeMinutes": 180,
     "appointmentIntervalMinutes": 30,
     "slotPadding": 0,
-    "defaultDuration": 90,
-    "allowedDurations": [60, 90, 120, 150],
+    "defaultDuration": 60,
+    "allowedDurations": [30, 60, 90],
     "validDurations": [5, 10, 15, 20, 25, 30, 45, 60, 90, 120, 150, 180, 210, 240],
     "workdays": {
       "0": { "startHour": 10, "endHour": 23 },
@@ -43,7 +44,7 @@
     }
   },
   "pricing": {
-    "baseHourlyRate": 140
+    "baseHourlyRate": 135
   },
   "calendars": ["primary", "trillium@hatsfabulous.com", "trillium@trilliumsmith.com"],
   "payments": [
@@ -74,25 +75,25 @@
     }
   ],
   "content": {
-    "bookingTitle": "Book a massage with Trillium :)",
-    "serviceAreaBlurb": "Trillium is based out of Westchester, but happy to travel to the LA area in general. Very close locations include Playa Vista, Mar Vista, Santa Monica, Venice, El Segundo, Torrance, and Culver City.",
+    "bookingTitle": "Book a session with Monica",
+    "serviceAreaBlurb": "Available for off-Disney property accommodations only. Monica serves the greater Orlando area, bringing the luxury spa experience directly to your door — no traffic, no stress.",
     "hero": {
-      "headline": "Relax, Restore, Rejuvenate",
-      "gradientWord": "Rejuvenate",
-      "subheading": "Let the spa come to you",
-      "description": "Spa level massage therapy in your home, at your convenience."
+      "headline": "No traffic. No stress. Just pure relaxation",
+      "gradientWord": "relaxation",
+      "subheading": "Mobile Luxury Massage Therapy",
+      "description": "No hidden fees. No additional travel charges. Aromatherapy, hot stones, a heated table, and your preferred pressure — delivered right to you."
     },
     "about": {
-      "bio": "Trillium is a massage therapist with 10 years of experience. Working in the LA Metro Area, Trillium found success in specializing in In-Home mobile massage therapy, working solo and through platforms like Soothe and Zeel since 2016.",
-      "focus": "Combining relaxation and pain relief techniques, Trillium provides you with effective massage therapy from the comfort of your own home.",
-      "stats": "With more than 3,000 in-home massage therapy sessions, Trillium has maintained a",
-      "rating": "4.9-star rating",
-      "statsClose": ", reflecting the quality and care he puts into his work."
+      "bio": "Monica is a licensed massage therapist (MA79268) specializing in mobile luxury massage therapy in the Orlando area. She brings the full spa experience directly to your accommodation, so you can focus on pure relaxation.",
+      "focus": "From Swedish relaxation to Deep Tissue, Prenatal, Lymphatic Drainage, Oncology Massage, Traditional Lomi Lomi, and Sports Massage — each session is tailored to your needs.",
+      "stats": "Every session includes the comforts of a luxury spa experience —",
+      "rating": "aromatherapy, hot stones, a heated table",
+      "statsClose": ", and your preferred pressure, all included in the price."
     },
     "footer": {
-      "blurb": "Providing professional massage therapy services to help you relax, rejuvenate, and restore your body and mind.",
-      "locationLine1": "Westchester Area by LAX,",
-      "locationLine2": "Los Angeles"
+      "blurb": "Providing mobile luxury massage therapy services to the Orlando area. Off-Disney property accommodations only.",
+      "locationLine1": "Orlando, FL",
+      "locationLine2": "Off-Disney Property Accommodations"
     }
   },
   "branding": {
