@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap");
 @import "tailwindcss";
 @plugin "@tailwindcss/forms";
 @plugin "@tailwindcss/typography";
@@ -24,80 +25,60 @@
     "InterVariable", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
     Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
     "Segoe UI Symbol", "Noto Color Emoji";
+  --font-serif:
+    "Cormorant Garamond", "Georgia", ui-serif, serif;
 
-  /* Colors - Using Tailwind's teal palette for primary */
-  --color-primary-50: hsl(210, 40%, 98%); /* fallback */
-  --color-primary-50: oklch(98.4% 0.014 180.72);
-  --color-primary-100: hsl(210, 40%, 96%); /* fallback */
-  --color-primary-100: oklch(95.3% 0.051 180.801);
-  --color-primary-200: hsl(208, 32%, 92%); /* fallback */
-  --color-primary-200: oklch(91% 0.096 180.426);
-  --color-primary-300: hsl(206, 33%, 87%); /* fallback */
-  --color-primary-300: oklch(85.5% 0.138 181.071);
-  --color-primary-400: hsl(204, 33%, 80%); /* fallback */
-  --color-primary-400: oklch(77.7% 0.152 181.912);
-  --color-primary-500: hsl(202, 38%, 67%); /* fallback */
-  --color-primary-500: oklch(70.4% 0.14 182.503);
-  --color-primary-600: hsl(201, 43%, 59%); /* fallback */
-  --color-primary-600: oklch(60% 0.118 184.704);
-  --color-primary-700: hsl(199, 49%, 48%); /* fallback */
-  --color-primary-700: oklch(51.1% 0.096 186.391);
-  --color-primary-800: hsl(198, 55%, 43%); /* fallback */
-  --color-primary-800: oklch(43.7% 0.078 188.216);
-  --color-primary-900: hsl(196, 61%, 36%); /* fallback */
-  --color-primary-900: oklch(38.6% 0.063 188.416);
-  --color-primary-950: hsl(195, 65%, 27%); /* fallback */
-  --color-primary-950: oklch(27.7% 0.046 192.524);
+  /* Colors - Warm spa sage (primary) */
+  --color-primary-50: oklch(98.5% 0.008 152);
+  --color-primary-100: oklch(95.5% 0.025 152);
+  --color-primary-200: oklch(90% 0.048 152);
+  --color-primary-300: oklch(83% 0.072 152);
+  --color-primary-400: oklch(74% 0.080 152);
+  --color-primary-500: oklch(65% 0.075 152);
+  --color-primary-600: oklch(56% 0.065 152);
+  --color-primary-700: oklch(47% 0.055 152);
+  --color-primary-800: oklch(40% 0.045 152);
+  --color-primary-900: oklch(34% 0.035 152);
+  --color-primary-950: oklch(25% 0.025 152);
 
-  /* Surface — page/card/panel backgrounds (downstream forks override for theming) */
-  --color-surface-50: #ffffff;
-  --color-surface-100: #f9fafb;
-  --color-surface-200: #f3f4f6;
-  --color-surface-300: #e5e7eb;
-  --color-surface-400: #d1d5db;
-  --color-surface-500: #9ca3af;
-  --color-surface-600: #6b7280;
-  --color-surface-700: #4b5563;
-  --color-surface-800: #374151;
-  --color-surface-900: #1f2937;
-  --color-surface-950: #030712;
+  /* Surface — warm cream/ivory backgrounds */
+  --color-surface-50: #fdfaf6;
+  --color-surface-100: #f9f4ec;
+  --color-surface-200: #f2e9db;
+  --color-surface-300: #e5d8c6;
+  --color-surface-400: #cfc0a9;
+  --color-surface-500: #b5a08a;
+  --color-surface-600: #8c7a65;
+  --color-surface-700: #6a5d4e;
+  --color-surface-800: #473f35;
+  --color-surface-900: #2c2620;
+  --color-surface-950: #181310;
 
-  /* Accent — text, borders, dividers, structural neutrals (downstream forks override for theming) */
-  --color-accent-50: #f9fafb;
-  --color-accent-100: #f3f4f6;
-  --color-accent-200: #e5e7eb;
-  --color-accent-300: #d1d5db;
-  --color-accent-400: #9ca3af;
-  --color-accent-500: #6b7280;
-  --color-accent-600: #4b5563;
-  --color-accent-700: #374151;
-  --color-accent-800: #1f2937;
-  --color-accent-900: #111827;
-  --color-accent-950: #030712;
+  /* Accent — warm taupe/brown-grey text, borders, dividers */
+  --color-accent-50: #f8f4f0;
+  --color-accent-100: #ede8e1;
+  --color-accent-200: #ddd5cb;
+  --color-accent-300: #c5bab0;
+  --color-accent-400: #a89890;
+  --color-accent-500: #8a7a72;
+  --color-accent-600: #6b5d55;
+  --color-accent-700: #504540;
+  --color-accent-800: #342f2a;
+  --color-accent-900: #201b18;
+  --color-accent-950: #110e0c;
 
-  /* Colors - Using Tailwind's blue palette for secondary */
-  --color-secondary-50: hsl(214, 32%, 98%); /* fallback */
-  --color-secondary-50: oklch(98.4% 0.014 240.72);
-  --color-secondary-100: hsl(214, 32%, 96%); /* fallback */
-  --color-secondary-100: oklch(95.3% 0.051 240.801);
-  --color-secondary-200: hsl(213, 27%, 92%); /* fallback */
-  --color-secondary-200: oklch(91% 0.096 240.426);
-  --color-secondary-300: hsl(212, 33%, 87%); /* fallback */
-  --color-secondary-300: oklch(85.5% 0.138 241.071);
-  --color-secondary-400: hsl(213, 34%, 80%); /* fallback */
-  --color-secondary-400: oklch(77.7% 0.152 241.912);
-  --color-secondary-500: hsl(217, 34%, 67%); /* fallback */
-  --color-secondary-500: oklch(70.4% 0.14 242.503);
-  --color-secondary-600: hsl(221, 43%, 59%); /* fallback */
-  --color-secondary-600: oklch(60% 0.118 244.704);
-  --color-secondary-700: hsl(224, 49%, 48%); /* fallback */
-  --color-secondary-700: oklch(51.1% 0.096 246.391);
-  --color-secondary-800: hsl(226, 55%, 43%); /* fallback */
-  --color-secondary-800: oklch(43.7% 0.078 248.216);
-  --color-secondary-900: hsl(224, 64%, 36%); /* fallback */
-  --color-secondary-900: oklch(38.6% 0.063 248.416);
-  --color-secondary-950: hsl(226, 71%, 27%); /* fallback */
-  --color-secondary-950: oklch(27.7% 0.046 252.524);
+  /* Colors - Warm rose/blush (secondary) */
+  --color-secondary-50: oklch(98.5% 0.008 15);
+  --color-secondary-100: oklch(95.5% 0.025 15);
+  --color-secondary-200: oklch(90% 0.050 15);
+  --color-secondary-300: oklch(83% 0.075 15);
+  --color-secondary-400: oklch(74% 0.090 15);
+  --color-secondary-500: oklch(65% 0.085 15);
+  --color-secondary-600: oklch(56% 0.075 15);
+  --color-secondary-700: oklch(47% 0.065 15);
+  --color-secondary-800: oklch(40% 0.055 15);
+  --color-secondary-900: oklch(34% 0.045 15);
+  --color-secondary-950: oklch(25% 0.035 15);
 
   /* Line heights */
   --line-height-11: 2.75rem;
