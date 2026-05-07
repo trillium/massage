@@ -5,6 +5,7 @@ import headerNavLinks from '@/data/headerNavLinks'
 import { usePathname } from 'next/navigation'
 import Logo from './Logo'
 import Link from './Link'
+import { siteConfig } from '@/lib/siteConfig'
 import MobileNav from './MobileNav'
 import ThemeSwitch from './ThemeSwitch'
 import SearchButton from './SearchButton'
@@ -28,9 +29,11 @@ const Header = () => {
       <AdminAuthChip />
       <Link href="/" aria-label={siteMetadata.headerTitle}>
         <div className="flex items-center justify-between">
-          <div className="mr-3">
-            <Logo classes="text-primary-500 w-10 h-10 xs:w-12 xs:h-12" />
-          </div>
+          {siteConfig.branding.hasLogoSvg && (
+            <div className="mr-3">
+              <Logo classes="text-primary-500 w-10 h-10 xs:w-12 xs:h-12" />
+            </div>
+          )}
           {typeof siteMetadata.headerTitle === 'string' ? (
             <div
               className={clsx(

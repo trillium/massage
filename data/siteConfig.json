@@ -96,9 +96,10 @@
     }
   },
   "branding": {
+    "hasLogoSvg": false,
     "siteLogo": "/static/images/logo.svg",
     "socialBanner": "/static/images/twitter-card.jpg",
-    "avatar": "/static/images/avatar.jpg"
+    "avatar": "/static/images/gallery/headshot_scrubs.jpg"
   },
   "locale": "en-US",
   "language": "en-us",

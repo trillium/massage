@@ -75,6 +75,7 @@ export const SiteConfigSchema = z.object({
   calendars: z.array(z.string()),
   payments: z.array(PaymentMethodSchema),
   branding: z.object({
+    hasLogoSvg: z.boolean(),
     siteLogo: z.string(),
     socialBanner: z.string(),
     avatar: z.string(),

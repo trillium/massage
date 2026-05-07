@@ -65,8 +65,8 @@ function ImageContent({ positionClasses }: { positionClasses?: string }) {
       <div className="border-primary-500 relative h-72 w-full overflow-hidden rounded-lg border-2 sm:h-100 md:h-128 lg:h-148 xl:h-152">
         {
           <Image
-            src={'/static/images/table/table_square_02.webp'}
-            alt="Massage therapy session"
+            src={'/static/images/gallery/table_hotel_room.jpg'}
+            alt="Therapy by Monica mobile massage setup"
             fill
             className="object-cover"
             priority
