@@ -1,5 +1,7 @@
 'use client'
 
+import { getSupabaseBrowserClient } from '@/lib/supabase/client'
+
 interface ConnectGoogleClientProps {
   connectedEmail: string | null
   successEmail: string | null
@@ -9,8 +11,14 @@ interface ConnectGoogleClientProps {
 const ERROR_MESSAGES: Record<string, string> = {
   access_denied: 'You denied access. Please try again.',
   callback_failed: 'Something went wrong during the connection. Please try again.',
-  missing_code: 'OAuth response was incomplete. Please try again.',
+  missing_tokens: 'Google did not return credentials. Please try again.',
 }
+
+const GOOGLE_SCOPES = [
+  'https://www.googleapis.com/auth/calendar',
+  'https://www.googleapis.com/auth/gmail.send',
+  'https://www.googleapis.com/auth/gmail.compose',
+].join(' ')
 
 export default function ConnectGoogleClient({
   connectedEmail,
@@ -20,6 +28,19 @@ export default function ConnectGoogleClient({
   const displayEmail = successEmail ?? connectedEmail
   const isConnected = !!displayEmail
   const errorMessage = error ? (ERROR_MESSAGES[error] ?? 'An unexpected error occurred.') : null
+
+  async function handleConnect() {
+    const supabase = getSupabaseBrowserClient()
+    if (!supabase) return
+    await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        scopes: GOOGLE_SCOPES,
+        queryParams: { access_type: 'offline', prompt: 'consent' },
+        redirectTo: `${window.location.origin}/auth/callback/supabase?next=/admin/connect-google&connect_google=1`,
+      },
+    })
+  }
 
   return (
     <div className="space-y-6">
@@ -54,12 +75,12 @@ export default function ConnectGoogleClient({
           <li>Read and write Google Calendar events</li>
           <li>Send email via Gmail on your behalf</li>
         </ul>
-        <a
-          href="/api/auth/google"
+        <button
+          onClick={handleConnect}
           className="inline-block rounded-lg bg-accent-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-accent-700 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:ring-offset-2 dark:focus:ring-offset-surface-900"
         >
           {isConnected ? 'Reconnect Google Account' : 'Connect Google Account'}
-        </a>
+        </button>
       </div>
     </div>
   )

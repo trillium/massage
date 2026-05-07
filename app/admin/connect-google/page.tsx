@@ -4,7 +4,7 @@ import { loadGoogleCredentials } from '@/lib/google/credentials'
 import ConnectGoogleClient from './ConnectGoogleClient'
 
 interface PageProps {
-  searchParams: Promise<{ success?: string; error?: string; email?: string }>
+  searchParams: Promise<{ connected?: string; error?: string; email?: string }>
 }
 
 export const dynamic = 'force-dynamic'
