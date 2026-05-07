@@ -1,14 +1,12 @@
 import SectionContainer from '@/components/SectionContainer'
-import { DEFAULT_PRICING } from 'config'
 import Link from '@/components/Link'
 import { home } from '@/app/content'
 
-const pricingStart = [{ duration: 60 }, { duration: 90 }, { duration: 120 }, { duration: 150 }]
-
-const pricing = pricingStart.map((item) => ({
-  ...item,
-  price: DEFAULT_PRICING[item.duration],
-}))
+const pricing = [
+  { duration: 30, price: 70 },
+  { duration: 60, price: 135 },
+  { duration: 90, price: 200 },
+]
 
 export default function PricingPage() {
   return (
