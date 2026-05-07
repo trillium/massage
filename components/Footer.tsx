@@ -7,7 +7,7 @@ import Logo from '@/components/Logo'
 import { FaMapMarkerAlt, FaPhoneAlt, FaEnvelope, FaClock, FaRegCalendarAlt } from 'react-icons/fa'
 import { servicesLinks } from '@/data/servicesData'
 import { createContactUrl } from '@/lib/helpers'
-import { siteConfig } from '@/lib/siteConfig'
+import { home } from '@/app/content'
 
 export default function Footer() {
   return (
@@ -154,7 +154,9 @@ function LogoAndBlurb({ displayClasses }: { displayClasses: string }) {
           </div>
         </div>
       </Link>
-      <p className="text-accent-400">{siteConfig.content.footer.blurb}</p>
+      <p className="text-accent-400" data-content="footer.blurb">
+        {home.footer.blurb}
+      </p>
       <Socials />
     </div>
   )
@@ -197,8 +199,12 @@ const contactItems = [
     icon: <FaMapMarkerAlt />,
     content: (
       <>
-        <span className="block whitespace-nowrap">{siteConfig.content.footer.locationLine1}</span>{' '}
-        <span className="block whitespace-nowrap">{siteConfig.content.footer.locationLine2}</span>
+        <span className="block whitespace-nowrap" data-content="footer.locationLine1">
+          {home.footer.locationLine1}
+        </span>{' '}
+        <span className="block whitespace-nowrap" data-content="footer.locationLine2">
+          {home.footer.locationLine2}
+        </span>
       </>
     ),
   },

@@ -11,7 +11,7 @@ import DurationPicker from '@/components/availability/controls/DurationPicker'
 import Calendar from '@/components/availability/date/Calendar'
 import TimeList from '@/components/availability/time/TimeList'
 import SectionContainer from '@/components/SectionContainer'
-import { siteConfig } from '@/lib/siteConfig'
+import { home } from '@/app/content'
 
 export type PageProps = InferGetServerSidePropsType<typeof fetchData>
 
@@ -40,7 +40,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<Sea
 
   return (
     <SectionContainer>
-      <Template title={siteConfig.content.bookingTitle ?? 'Book a session'} />
+      <Template title={home.bookingTitle ?? 'Book a session'} />
       <SlotHoldProvider>
         <ClientPage duration={duration}>
           <div className="flex flex-col space-y-8">

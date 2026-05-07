@@ -2,9 +2,9 @@ import Image from './Image'
 import siteMetadata from '@/data/siteMetadata'
 import SocialIcon from '@/components/social-icons'
 import Link from '@/components/Link'
-import { siteConfig } from '@/lib/siteConfig'
+import { home } from '@/app/content'
 
-const { bio, focus, stats, rating, statsClose } = siteConfig.content.about
+const { bio, focus, stats, rating, statsClose } = home.about
 
 const AuthorCard = () => {
   const { author, avatar, occupation, company, email, location, instagram } = siteMetadata

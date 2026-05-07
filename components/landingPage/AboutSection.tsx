@@ -50,11 +50,11 @@ export function AboutLayout({
   )
 }
 
-import { siteConfig } from '@/lib/siteConfig'
+import { home, site } from '@/app/content'
 
-const { avatar } = siteConfig.branding
-const { name } = siteConfig.business
-const { bio, focus, stats, rating, statsClose } = siteConfig.content.about
+const { avatar } = site.branding
+const { name } = site.business
+const { bio, focus, stats, rating, statsClose } = home.about
 
 export default function AboutSection() {
   return (
