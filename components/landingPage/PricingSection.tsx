@@ -1,5 +1,4 @@
 import Link from '@/components/Link'
-import { DEFAULT_PRICING } from 'config'
 import { FaLeaf } from 'react-icons/fa'
 import clsx from 'clsx'
 import { home } from '@/app/content'
@@ -7,7 +6,6 @@ import { home } from '@/app/content'
 const pricingOptions = home.pricing.tiers.map((tier) => ({
   ...tier,
   duration: tier.minutes,
-  price: DEFAULT_PRICING[tier.minutes],
 }))
 
 export default function PricingSection() {
