@@ -7,7 +7,7 @@ import Logo from '@/components/Logo'
 import { FaMapMarkerAlt, FaPhoneAlt, FaEnvelope, FaClock, FaRegCalendarAlt } from 'react-icons/fa'
 import { servicesLinks } from '@/data/servicesData'
 import { createContactUrl } from '@/lib/helpers'
-import { home } from '@/app/content'
+import { home, site } from '@/app/content'
 
 export default function Footer() {
   return (
@@ -141,9 +141,11 @@ function LogoAndBlurb({ displayClasses }: { displayClasses: string }) {
             'group-focus-within:outline-primary-500 rounded-md outline-2 outline-offset-2 outline-transparent'
           )}
         >
-          <div className="mr-3">
-            <Logo forceTheme="light" classes="text-primary-500 w-8 h-8 xs:w-10 xs:h-10" />
-          </div>
+          {site.branding.hasLogoSvg && (
+            <div className="mr-3">
+              <Logo forceTheme="light" classes="text-primary-500 w-8 h-8 xs:w-10 xs:h-10" />
+            </div>
+          )}
 
           <div
             className={clsx(
