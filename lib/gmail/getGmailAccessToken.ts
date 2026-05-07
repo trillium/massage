@@ -1,26 +1,26 @@
-/**
- * Retrieves an access token from Google with Gmail scope using a refresh token.
- * This extends the existing calendar token functionality to include Gmail access.
- *
- * @returns {Promise<string>} A promise that resolves to the access token.
- * @throws {Error} If any required environment variables are missing,
- *                 or if no access token is returned.
- */
+import { loadGoogleCredentials } from '@/lib/google/credentials'
+
+async function getRefreshToken(): Promise<string> {
+  const creds = await loadGoogleCredentials()
+  if (creds?.refresh_token) return creds.refresh_token
+  if (process.env.GOOGLE_OAUTH_REFRESH) return process.env.GOOGLE_OAUTH_REFRESH
+  throw new Error('No Google refresh token available')
+}
+
 export default async function getGmailAccessToken(): Promise<string> {
   if (!process.env.GOOGLE_OAUTH_SECRET) {
     throw new Error('GOOGLE_OAUTH_SECRET not set')
-  }
-  if (!process.env.GOOGLE_OAUTH_REFRESH) {
-    throw new Error('GOOGLE_OAUTH_REFRESH not set')
   }
   if (!process.env.GOOGLE_OAUTH_CLIENT_ID) {
     throw new Error('GOOGLE_OAUTH_CLIENT_ID not set')
   }
 
+  const refreshToken = await getRefreshToken()
+
   const params = new URLSearchParams({
     grant_type: 'refresh_token',
     client_secret: process.env.GOOGLE_OAUTH_SECRET,
-    refresh_token: process.env.GOOGLE_OAUTH_REFRESH,
+    refresh_token: refreshToken,
     client_id: process.env.GOOGLE_OAUTH_CLIENT_ID,
   })
 
