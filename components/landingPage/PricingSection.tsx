@@ -2,41 +2,12 @@ import Link from '@/components/Link'
 import { DEFAULT_PRICING } from 'config'
 import { FaLeaf } from 'react-icons/fa'
 import clsx from 'clsx'
+import { home } from '@/app/content'
 
-const pricingStart = [
-  {
-    title: '60-Minute Massage',
-    duration: 60,
-    features: [
-      'Focus on 1–2 specific areas of tension (e.g., neck, shoulders, or back)',
-      'Good for stress relief and general relaxation',
-      'Enough time for a focused therapeutic session or a lighter full-body pass',
-    ],
-  },
-  {
-    title: '90-Minute Massage',
-    duration: 90,
-    mostPopular: true,
-    features: [
-      'Balanced full-body massage with extra focus on 2–3 problem areas',
-      'Ideal for combining relaxation and deeper therapeutic work',
-      'Time to address chronic tightness while still covering the whole body',
-    ],
-  },
-  {
-    title: '120-Minute Massage',
-    duration: 120,
-    features: [
-      'Comprehensive full-body massage with detailed work on multiple areas',
-      'Best choice for chronic pain, athletes, or deeper restorative sessions',
-      'Allows slow, thorough treatment without rushing any part of the body',
-    ],
-  },
-]
-
-const pricingOptions = pricingStart.map((item) => ({
-  ...item,
-  price: DEFAULT_PRICING[item.duration],
+const pricingOptions = home.pricing.tiers.map((tier) => ({
+  ...tier,
+  duration: tier.minutes,
+  price: DEFAULT_PRICING[tier.minutes],
 }))
 
 export default function PricingSection() {
@@ -74,13 +45,25 @@ export default function PricingSection() {
                     </span>
                   </div>
                 )}
-                <h3 className="mb-2 text-xl font-semibold dark:text-white">{option.title}</h3>
-                <div className="text-primary-600 dark:text-primary-400 mb-4 text-3xl font-bold">
+                <h3
+                  className="mb-2 text-xl font-semibold dark:text-white"
+                  data-content="pricing.tier.title"
+                >
+                  {option.title}
+                </h3>
+                <div
+                  className="text-primary-600 dark:text-primary-400 mb-4 text-3xl font-bold"
+                  data-content="pricing.tier.price"
+                >
                   ${option.price}
                 </div>
                 <ul className="mb-4 items-start space-y-4 text-left text-accent-600 dark:text-accent-300">
                   {option.features.map((feature, index) => (
-                    <li key={index} className="relative list-none pl-6">
+                    <li
+                      key={index}
+                      className="relative list-none pl-6"
+                      data-content="pricing.tier.feature"
+                    >
                       {feature}
                       <span className="text-primary-600 absolute top-0.5 -left-1 text-xl">
                         <FaLeaf />

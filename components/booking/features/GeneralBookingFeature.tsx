@@ -8,7 +8,7 @@ import { InitialUrlUtility, UpdateSlotsUtility } from '@/components/utilities/Up
 import SectionContainer from '@/components/SectionContainer'
 import { SlotHoldProvider } from 'hooks/SlotHoldContext'
 import { buildDurationProps } from '@/lib/slugConfigurations/helpers/buildDurationProps'
-import { siteConfig } from '@/lib/siteConfig'
+import { home } from '@/app/content'
 import {
   SlugConfigurationType,
   StringDateTimeIntervalAndLocation,
@@ -52,7 +52,7 @@ export default function GeneralBookingFeature({
     <SectionContainer>
       <SlotTakenAlert />
       <Template
-        title={configuration.title || siteConfig.content.bookingTitle || 'Book a session'}
+        title={configuration.title || home.bookingTitle || 'Book a session'}
         text={configuration.text ?? undefined}
         links={configuration.links}
       />

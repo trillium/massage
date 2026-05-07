@@ -1,6 +1,7 @@
 import SectionContainer from '@/components/SectionContainer'
 import { DEFAULT_PRICING } from 'config'
 import Link from '@/components/Link'
+import { home } from '@/app/content'
 
 const pricingStart = [{ duration: 60 }, { duration: 90 }, { duration: 120 }, { duration: 150 }]
 
@@ -13,7 +14,9 @@ export default function PricingPage() {
   return (
     <SectionContainer>
       <h1 className="mb-4 text-3xl font-bold">Pricing</h1>
-      <p className="mb-6">Transparent pricing for all our massage sessions. No hidden fees.</p>
+      <p className="mb-6" data-content="pricing.pageLead">
+        {home.pricing.pageLead}
+      </p>
       <table className="mb-6 w-full table-auto border-collapse overflow-hidden rounded-lg">
         <thead className="bg-primary-500 dark:bg-primary-600 text-accent-100">
           <tr>
@@ -32,12 +35,11 @@ export default function PricingPage() {
       </table>
       <div className="mb-4 text-accent-700 dark:text-accent-300">
         <ul className="list-disc pl-6">
-          <li>Westchester/LAX area based.</li>
-          <li>
-            Additional travel fees may apply for other areas if drive time exceeds 45 minutes.
-          </li>
-          <li>Payment accepted: cash, Venmo, Zelle.</li>
-          <li>A cancellation fee may apply with under 24-hour notice.</li>
+          {home.pricing.notes.map((note, i) => (
+            <li key={i} data-content="pricing.note">
+              {note}
+            </li>
+          ))}
         </ul>
       </div>
       <Link
