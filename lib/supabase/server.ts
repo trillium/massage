@@ -10,6 +10,8 @@ import { cookies } from 'next/headers'
 import type { Database } from './database.types'
 import { getCookieOptionsWithDomain } from './cookie-options'
 
+const tenantSchema = (process.env.TENANT_SLUG || 'public') as 'public'
+
 export async function getSupabaseServerClient() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL
   const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
@@ -18,6 +20,7 @@ export async function getSupabaseServerClient() {
   const cookieStore = await cookies()
 
   return createServerClient<Database>(url, key, {
+    db: { schema: tenantSchema },
     cookies: {
       getAll() {
         return cookieStore.getAll()
@@ -99,6 +102,7 @@ export function getSupabaseAdminClient() {
   if (!url || !key) return null
 
   return createServerClient<Database>(url, key, {
+    db: { schema: tenantSchema },
     cookies: {
       getAll() {
         return []

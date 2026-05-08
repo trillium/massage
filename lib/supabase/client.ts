@@ -10,6 +10,8 @@
 import { createBrowserClient } from '@supabase/ssr'
 import type { Database } from './database.types'
 
+const tenantSchema = (process.env.NEXT_PUBLIC_TENANT_SLUG || 'public') as 'public'
+
 let client: ReturnType<typeof createBrowserClient<Database>> | null = null
 
 export function getSupabaseBrowserClient() {
@@ -20,8 +22,9 @@ export function getSupabaseBrowserClient() {
   if (!url || !key) return null
 
   client = createBrowserClient<Database>(url, key, {
+    db: { schema: tenantSchema },
     realtime: {
-      logger: (kind, msg, data) => {
+      logger: (kind: string, msg: string, data: unknown) => {
         console.log(`[supabase-realtime] [${kind}] ${msg}`, data)
       },
     },

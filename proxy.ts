@@ -12,6 +12,7 @@ import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 import { getCookieOptionsWithDomain } from './lib/supabase/cookie-options'
 
+const tenantSchema = process.env.TENANT_SLUG || 'public'
 const DEBUG = process.env.PROXY_DEBUG === 'true'
 
 function log(...args: unknown[]) {
@@ -32,6 +33,7 @@ export async function proxy(request: NextRequest) {
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
+      db: { schema: tenantSchema },
       cookies: {
         getAll() {
           return request.cookies.getAll()
