@@ -13,6 +13,8 @@ import siteMetadata from '@/data/siteMetadata'
 import { ThemeProviders } from './theme-providers'
 import { Metadata } from 'next'
 import { Toaster } from 'sonner'
+import { getUser, isAdmin } from '@/lib/supabase/server'
+import FeedtackOverlay from '@/components/FeedtackOverlay'
 
 const space_grotesk = Space_Grotesk({
   subsets: ['latin'],
@@ -60,7 +62,10 @@ export const metadata: Metadata = {
   },
 }
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const isDev = process.env.NODE_ENV === 'development'
+  const admin = isDev ? true : await isAdmin()
+  const user = admin ? await getUser() : null
   const basePath = process.env.BASE_PATH || ''
 
   return (
@@ -113,6 +118,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </SectionContainer>
           </div>
           <Toaster />
+          {admin && <FeedtackOverlay userId={user?.id ?? 'dev'} userName={user?.email ?? 'Dev'} />}
         </ThemeProviders>
       </body>
     </html>

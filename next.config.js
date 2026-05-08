@@ -110,6 +110,10 @@ const nextConfig = () => {
         use: ['@svgr/webpack'],
       })
 
+      if (!options.isServer) {
+        config.resolve.fallback = { ...config.resolve.fallback, fs: false, path: false }
+      }
+
       if (!options.dev && options.isServer) {
         config.module.rules.push({
           test: /\/dev-mode-prod-excluded\/.*$/i,
