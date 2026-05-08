@@ -1,9 +1,10 @@
 import { getSupabaseAdminClient } from '@/lib/supabase/server'
 import type { ReviewType } from '@/lib/types'
+import fallbackReviews from '@/data/reviews-fallback.json'
 
 export async function fetchReviews(): Promise<ReviewType[]> {
   const supabase = getSupabaseAdminClient()
-  if (!supabase) return []
+  if (!supabase) return fallbackReviews as ReviewType[]
 
   const { data, error } = await supabase
     .from('reviews')
