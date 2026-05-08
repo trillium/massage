@@ -43,7 +43,7 @@
     "circular-deps": "error",
     "boundary-violations": "error"
   },
-  "duplication": {
+  "duplicates": {
     "threshold": 8,
     "mode": "semantic"
   },
