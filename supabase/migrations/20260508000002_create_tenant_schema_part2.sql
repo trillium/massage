@@ -85,52 +85,73 @@ ALTER TABLE trillium_massage.sandbox_sessions ENABLE ROW LEVEL SECURITY;
 -- Step 4: Copy existing data from public to trillium_massage
 -- ============================================
 
-INSERT INTO trillium_massage.google_credentials (id, email, access_token, refresh_token, expiry_date, updated_at)
-  SELECT id, email, access_token, refresh_token, expiry_date, updated_at
-  FROM public.google_credentials
-  ON CONFLICT DO NOTHING;
+INSERT INTO trillium_massage.appointments (
+  id, calendar_event_id, client_email, client_phone, client_first_name, client_last_name,
+  start_time, end_time, duration_minutes, timezone, location, price, status, promo,
+  booking_url, slug_config, source, instant_confirm, admin_notes, created_at, updated_at,
+  confirmed_at, cancelled_at
+)
+SELECT
+  id, calendar_event_id, client_email, client_phone, client_first_name, client_last_name,
+  start_time, end_time, duration_minutes, timezone, location, price, status::TEXT, promo,
+  booking_url, slug_config, source, instant_confirm, admin_notes, created_at, updated_at,
+  confirmed_at, cancelled_at
+FROM public.appointments
+ON CONFLICT DO NOTHING;
 
-INSERT INTO trillium_massage.appointments
-  SELECT * FROM public.appointments
-  ON CONFLICT DO NOTHING;
+INSERT INTO trillium_massage.reminders (
+  id, appointment_id, channel, reminder_type, status,
+  scheduled_for, sent_at, created_at, updated_at
+)
+SELECT
+  id, appointment_id, channel::TEXT, reminder_type::TEXT, status::TEXT,
+  scheduled_for, sent_at, created_at, updated_at
+FROM public.reminders
+ON CONFLICT DO NOTHING;
 
-INSERT INTO trillium_massage.reminders
-  SELECT * FROM public.reminders
-  ON CONFLICT DO NOTHING;
+INSERT INTO trillium_massage.reminder_logs (
+  id, reminder_id, channel, recipient, status, error_message, response_data, created_at
+)
+SELECT
+  id, reminder_id, channel::TEXT, recipient, status, error_message, response_data, created_at
+FROM public.reminder_logs
+ON CONFLICT DO NOTHING;
 
-INSERT INTO trillium_massage.reminder_logs
-  SELECT * FROM public.reminder_logs
-  ON CONFLICT DO NOTHING;
+-- Note: public.invoices and public.invoice_audit_log were never created on live DB.
 
-INSERT INTO trillium_massage.invoices
-  SELECT * FROM public.invoices
-  ON CONFLICT DO NOTHING;
-
-INSERT INTO trillium_massage.invoice_audit_log
-  SELECT * FROM public.invoice_audit_log
-  ON CONFLICT DO NOTHING;
-
-INSERT INTO trillium_massage.slot_holds
-  SELECT * FROM public.slot_holds
-  ON CONFLICT DO NOTHING;
+INSERT INTO trillium_massage.slot_holds (
+  id, session_id, start_time, end_time, expires_at, created_at, shoo_count
+)
+SELECT id, session_id, start_time, end_time, expires_at, created_at, shoo_count
+FROM public.slot_holds
+ON CONFLICT DO NOTHING;
 
 INSERT INTO trillium_massage.reviews (id, rating, date, name, source, comment, type, helpful, spellcheck)
-  SELECT id, rating, date, name, source, comment, type, helpful, spellcheck
-  FROM public.reviews
-  ON CONFLICT DO NOTHING;
+SELECT id, rating, date, name, source, comment, type, helpful, spellcheck
+FROM public.reviews
+ON CONFLICT DO NOTHING;
 
-INSERT INTO trillium_massage.admin_emails
-  SELECT * FROM public.admin_emails
-  ON CONFLICT DO NOTHING;
+INSERT INTO trillium_massage.admin_emails (email, added_at, added_by)
+SELECT email, added_at, added_by
+FROM public.admin_emails
+ON CONFLICT DO NOTHING;
 
-INSERT INTO trillium_massage.raffles
-  SELECT * FROM public.raffles
-  ON CONFLICT DO NOTHING;
+INSERT INTO trillium_massage.raffles (id, name, status, is_active, created_at, drawn_at)
+SELECT id, name, status, is_active, created_at, drawn_at
+FROM public.raffles
+ON CONFLICT DO NOTHING;
 
-INSERT INTO trillium_massage.raffle_entries
-  SELECT * FROM public.raffle_entries
-  ON CONFLICT DO NOTHING;
+INSERT INTO trillium_massage.raffle_entries (
+  id, raffle_id, name, email, phone, is_local, zip_code,
+  interested_in, is_winner, excluded, created_at
+)
+SELECT
+  id, raffle_id, name, email, phone, is_local, zip_code,
+  interested_in, is_winner, excluded, created_at
+FROM public.raffle_entries
+ON CONFLICT DO NOTHING;
 
-INSERT INTO trillium_massage.sandbox_sessions
-  SELECT * FROM public.sandbox_sessions
-  ON CONFLICT DO NOTHING;
+INSERT INTO trillium_massage.sandbox_sessions (session_id, events, emails, created_at, updated_at)
+SELECT session_id, events, emails, created_at, updated_at
+FROM public.sandbox_sessions
+ON CONFLICT DO NOTHING;
