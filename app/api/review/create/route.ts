@@ -1,72 +1,28 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { headers as nextHeaders } from 'next/headers'
 
-import { LRUCache } from 'lru-cache'
-import { z } from 'zod'
 import sendMail from 'lib/email'
 import ReviewSubmissionEmail from 'lib/messaging/email/admin/ReviewSubmissionEmail'
 import siteMetadata from '@/data/siteMetadata'
 import { RatingTypeStrict } from '@/lib/types'
 import { escapeHtml } from 'lib/messaging/escapeHtml'
+import { CreateReviewSchema } from '@/lib/schema'
+import { createRateLimiter, rateLimitResponse } from '@/lib/api/rateLimit'
 
-// Define the rate limiter
-const rateLimitLRU = new LRUCache({
-  max: 500,
-  ttl: 60_000, // 60_000 milliseconds = 1 minute
-})
-const REQUESTS_PER_IP_PER_MINUTE_LIMIT = 5
-
-// Define the schema for the request body
-const CreateReviewSchema = z.object({
-  firstName: z.string(),
-  lastName: z.string(),
-  text: z.string(),
-  date: z.string().refine((value) => !Number.isNaN(Date.parse(value)), {
-    message: 'Start must be a valid date.',
-  }),
-  rating: z.union([z.number(), z.string()]).refine(
-    (value) => {
-      let parsedValue
-      if (typeof value === 'string') {
-        parsedValue = Number.parseInt(value, 10)
-      } else {
-        parsedValue = value
-      }
-      return !Number.isNaN(parsedValue) && parsedValue >= 1 && parsedValue <= 5
-    },
-    {
-      message: 'Rating must be a valid integer 1 - 5.',
-    }
-  ),
-  price: z
-    .string()
-    .refine((value) => !Number.isNaN(Number.parseInt(value, 10)), {
-      message: 'Rating must be a valid integer 1 - 5.',
-    })
-    .optional(),
-  source: z.string(),
-  type: z.string(),
-  dateSummary: z.string().optional(),
-})
+const checkRateLimit = createRateLimiter()
 
 export async function POST(req: NextRequest): Promise<NextResponse> {
   const headers = await nextHeaders()
-  const jsonData = await req.json()
 
-  // Apply rate limiting using the client's IP address
-  const limitReached = checkRateLimit()
-
-  if (limitReached) {
-    return NextResponse.json({ error: 'Rate limit exceeded' }, { status: 429 })
+  if (checkRateLimit(req, headers)) {
+    return rateLimitResponse()
   }
 
-  // Validate and parse the request body using Zod
+  const jsonData = await req.json()
   const validationResult = CreateReviewSchema.safeParse(jsonData)
 
   if (!validationResult.success) {
-    return NextResponse.json(validationResult.error.message, {
-      status: 400,
-    })
+    return NextResponse.json(validationResult.error.message, { status: 400 })
   }
 
   const { data } = validationResult
@@ -79,7 +35,6 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     type: escapeHtml(data.type),
   }
 
-  // Generate and send the approval email
   const createReviewEmail = ReviewSubmissionEmail({
     ...data,
     ...safeData,
@@ -92,25 +47,4 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
   })
 
   return NextResponse.json({ success: true }, { status: 200 })
-
-  /**
-   * Checks the rate limit for the current IP address.
-   *
-   * @return {boolean} Whether the rate limit has been reached.
-   */
-  function checkRateLimit(): boolean {
-    const forwarded = headers.get('x-forwarded-for')
-    const ip =
-      (Array.isArray(forwarded) ? forwarded[0] : forwarded) ??
-      req.headers.get('x-real-ip') ??
-      '127.0.0.1'
-
-    const tokenCount = (rateLimitLRU.get(ip) as number[]) || [0]
-    if (tokenCount[0] === 0) {
-      rateLimitLRU.set(ip, tokenCount)
-    }
-    tokenCount[0] += 1
-    const currentUsage = tokenCount[0]
-    return currentUsage >= REQUESTS_PER_IP_PER_MINUTE_LIMIT
-  }
 }

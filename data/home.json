@@ -1,0 +1,80 @@
+{
+  "hero": {
+    "headline": "No traffic. No stress. Just pure relaxation",
+    "gradientWord": "relaxation",
+    "subheading": "Mobile Luxury Massage Therapy",
+    "description": "No hidden fees. No additional travel charges. Each session includes the comforts of a luxury spa experience — aromatherapy, hot stones, a heated table, and your preferred pressure — delivered right to you."
+  },
+  "about": {
+    "bio": "Monica is a licensed massage therapist (MA79268) specializing in mobile luxury massage therapy in the Orlando area. She brings the full spa experience directly to your accommodation, so you can focus on pure relaxation.",
+    "focus": "From Swedish relaxation to Deep Tissue, Prenatal, Lymphatic Drainage, Oncology Massage, Traditional Lomi Lomi, and Sports Massage — each session is tailored to your needs.",
+    "stats": "Every session includes the comforts of a luxury spa experience —",
+    "rating": "aromatherapy, hot stones, a heated table",
+    "statsClose": ", and your preferred pressure, all included in the price."
+  },
+  "footer": {
+    "blurb": "Providing mobile luxury massage therapy services to the Orlando area. Off-Disney property accommodations only.",
+    "locationLine1": "Orlando, FL",
+    "locationLine2": "Off-Disney Property Accommodations"
+  },
+  "serviceAreaBlurb": "Available for off-Disney property accommodations only. Monica serves the greater Orlando area, bringing the luxury spa experience directly to your door — no traffic, no stress.",
+  "bookingTitle": "Book a session with Monica",
+  "features": [
+    {
+      "title": "Personalized Care",
+      "description": "Tailored to your needs"
+    },
+    {
+      "title": "Seasoned Practitioner",
+      "description": "Certified with over 10 years of experience"
+    },
+    {
+      "title": "Eco-Friendly Products",
+      "description": "Hypoallergenic lotions and oils"
+    },
+    {
+      "title": "Flexible Hours",
+      "description": "Open 7 days a week"
+    }
+  ],
+  "pricing": {
+    "tiers": [
+      {
+        "minutes": 60,
+        "title": "60-Minute Massage",
+        "features": [
+          "Focus on 1\u20132 specific areas of tension (e.g., neck, shoulders, or back)",
+          "Good for stress relief and general relaxation",
+          "Enough time for a focused therapeutic session or a lighter full-body pass"
+        ]
+      },
+      {
+        "minutes": 90,
+        "title": "90-Minute Massage",
+        "mostPopular": true,
+        "features": [
+          "Balanced full-body massage with extra focus on 2\u20133 problem areas",
+          "Ideal for combining relaxation and deeper therapeutic work",
+          "Time to address chronic tightness while still covering the whole body"
+        ]
+      },
+      {
+        "minutes": 120,
+        "title": "120-Minute Massage",
+        "features": [
+          "Comprehensive full-body massage with detailed work on multiple areas",
+          "Best choice for chronic pain, athletes, or deeper restorative sessions",
+          "Allows slow, thorough treatment without rushing any part of the body"
+        ]
+      }
+    ],
+    "note": "All-inclusive. No hidden fees. No additional travel charges.",
+    "pageLead": "Transparent pricing for all our massage sessions. No hidden fees.",
+    "notes": [
+      "Available for off-Disney property accommodations only.",
+      "No hidden fees. No additional travel charges.",
+      "Payment accepted: cash, Venmo, CashApp, credit card.",
+      "A cancellation fee may apply with under 24-hour notice."
+    ]
+  }
+}

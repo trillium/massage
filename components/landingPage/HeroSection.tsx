@@ -5,10 +5,10 @@ import { FaCar, FaRegClock } from 'react-icons/fa'
 import { FiMapPin } from 'react-icons/fi'
 import { HiSparkles } from 'react-icons/hi2'
 import { GradientText } from '@/components/ui/GradientText'
-import { siteConfig } from '@/lib/siteConfig'
+import { home, site } from '@/app/content'
 
-const { hero } = siteConfig.content
-const { neighborhood, serviceArea } = siteConfig.location
+const { hero } = home
+const { neighborhood, serviceArea } = site.location
 
 export default function HeroSection() {
   return (
@@ -34,15 +34,24 @@ function TextContent({ positionClasses }: { positionClasses?: string }) {
       )}
     >
       <div>
-        <h1 className="text-4xl font-bold tracking-tight md:text-5xl lg:text-6xl">
+        <h1
+          className="text-4xl font-bold tracking-tight md:text-5xl lg:text-6xl"
+          data-content="hero.headline"
+        >
           {headlineParts[0]}
           <GradientText>{hero.gradientWord}</GradientText>
           {headlineParts[1]}
         </h1>
-        <h2 className="mx-auto mt-4 max-w-lg text-3xl font-semibold text-accent-600 md:mx-0 dark:text-accent-300">
+        <h2
+          className="mx-auto mt-4 max-w-lg text-3xl font-semibold text-accent-600 md:mx-0 dark:text-accent-300"
+          data-content="hero.subheading"
+        >
           {hero.subheading}
         </h2>
-        <p className="mx-auto mt-4 max-w-lg text-xl text-accent-600 md:mx-0 dark:text-accent-300">
+        <p
+          className="mx-auto mt-4 max-w-lg text-xl text-accent-600 md:mx-0 dark:text-accent-300"
+          data-content="hero.description"
+        >
           {hero.description}
         </p>
       </div>

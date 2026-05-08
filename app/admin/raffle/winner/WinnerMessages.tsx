@@ -1,18 +1,18 @@
 'use client'
 
 import { useState } from 'react'
-import { toast } from 'sonner'
-import { RAFFLE_INTEREST_LABELS } from '@/lib/schema'
-
-interface Entry {
-  id: string
-  name: string
-  email: string
-  phone: string
-  zip_code: string | null
-  interested_in: string[]
-  is_winner: boolean
-}
+import {
+  type Entry,
+  DEFAULT_WINNER_TEMPLATE,
+  DEFAULT_NON_WINNER_TEMPLATE,
+  capitalizeName,
+  resolveTemplate,
+  CopyButton,
+  EntryDetails,
+  TemplateEditor,
+  EditableMessage,
+  TemplateVarsPanel,
+} from './WinnerMessageComponents'
 
 interface WinnerMessagesProps {
   winner: Entry
@@ -20,125 +20,93 @@ interface WinnerMessagesProps {
   expirationDate: string
 }
 
-const VARS: Record<string, string> = {
-  '{firstName}': 'First name',
-  '{name}': 'Full name',
-  '{email}': 'Email',
-  '{phone}': 'Phone',
-  '{expiration}': 'Expiration date',
-}
-
-const DEFAULT_WINNER_TEMPLATE = `Hey {firstName}! 🎉 You won the OpenClaw raffle — a free 60-minute massage! Book here before {expiration}: https://trilliummassage.la/openclaw-raffle-prize`
-
-const DEFAULT_NON_WINNER_TEMPLATE = `Hey {firstName}! Unfortunately you didn't win the raffle, BUT! I wanted to extend a free 30-minute upgrade to you, valid through {expiration}. Book here: https://trilliummassage.la/openclaw-appreciation`
-
-function ordinal(n: number) {
-  if (n % 100 >= 11 && n % 100 <= 13) return `${n}th`
-  const suffixes = ['th', 'st', 'nd', 'rd']
-  return `${n}${suffixes[n % 10] ?? 'th'}`
-}
-
-function formatExpiration(dateStr: string) {
-  const d = new Date(dateStr + 'T00:00:00')
-  const month = d.toLocaleDateString('en-US', { month: 'long' })
-  return `${month} ${ordinal(d.getDate())}`
-}
-
-function capitalize(s: string) {
-  return s.charAt(0).toUpperCase() + s.slice(1).toLowerCase()
-}
-
-function capitalizeName(name: string) {
-  return name.split(' ').map(capitalize).join(' ')
-}
-
-function resolveTemplate(template: string, entry: Entry, expiration: string) {
-  return template
-    .replace(/\{firstName\}/g, capitalize(entry.name.split(' ')[0]))
-    .replace(/\{name\}/g, capitalizeName(entry.name))
-    .replace(/\{email\}/g, entry.email)
-    .replace(/\{phone\}/g, entry.phone)
-    .replace(/\{expiration\}/g, formatExpiration(expiration))
-}
-
-function copyToClipboard(text: string, label: string) {
-  navigator.clipboard.writeText(text)
-  toast.success(`${label} copied`)
-}
-
-function CopyButton({ text, label, children }: { text: string; label: string; children: string }) {
-  return (
-    <button
-      onClick={() => copyToClipboard(text, label)}
-      className="shrink-0 rounded bg-primary-500 px-3 py-1.5 text-sm text-white hover:bg-primary-600"
-    >
-      {children}
-    </button>
-  )
-}
-
-function EntryDetails({ entry }: { entry: Entry }) {
-  return (
-    <div className="space-y-1 text-sm">
-      <p className="font-semibold text-accent-900 dark:text-accent-100">{entry.name}</p>
-      <p className="text-accent-600 dark:text-accent-400">{entry.email}</p>
-      <p className="text-accent-600 dark:text-accent-400">{entry.phone}</p>
-      {entry.zip_code && (
-        <p className="text-accent-600 dark:text-accent-400">Zip: {entry.zip_code}</p>
-      )}
-      {Array.isArray(entry.interested_in) && entry.interested_in.length > 0 && (
-        <p className="text-accent-600 dark:text-accent-400">
-          {entry.interested_in.map((i) => RAFFLE_INTEREST_LABELS[i] || i).join(', ')}
-        </p>
-      )}
-    </div>
-  )
-}
-
-function TemplateEditor({
-  label,
-  template,
-  onChange,
+function WinnerCard({
+  winner,
+  followedUp,
+  onToggleFollowedUp,
+  winnerTemplate,
+  onTemplateChange,
+  resolvedMessage,
+  onMessageOverride,
 }: {
-  label: string
-  template: string
-  onChange: (value: string) => void
+  winner: Entry
+  followedUp: boolean
+  onToggleFollowedUp: () => void
+  winnerTemplate: string
+  onTemplateChange: (v: string) => void
+  resolvedMessage: string
+  onMessageOverride: (v: string) => void
 }) {
   return (
-    <div>
-      <div className="mb-1">
-        <label className="text-sm font-medium text-accent-700 dark:text-accent-300">{label}</label>
+    <div className="rounded-lg border border-yellow-300 bg-yellow-50 p-6 dark:border-yellow-700 dark:bg-yellow-900/20">
+      <div className="mb-4 flex items-center justify-between">
+        <h2 className="text-lg font-semibold text-yellow-900 dark:text-yellow-100">Winner</h2>
+        <label className="flex items-center gap-2 text-sm text-yellow-800 dark:text-yellow-200">
+          <input
+            type="checkbox"
+            checked={followedUp}
+            onChange={onToggleFollowedUp}
+            className="h-4 w-4 rounded border-accent-300 text-primary-600 focus:ring-primary-500"
+          />
+          Followed up
+        </label>
       </div>
-      <textarea
-        value={template}
-        onChange={(e) => onChange(e.target.value)}
-        rows={2}
-        style={{ fieldSizing: 'content' } as React.CSSProperties}
-        className="w-full rounded border border-accent-300 bg-white px-3 py-2 text-sm text-accent-900 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500 dark:border-accent-600 dark:bg-surface-700 dark:text-accent-100"
-      />
+      <EntryDetails entry={winner} />
+      <div className="mt-4 space-y-3">
+        <TemplateEditor
+          label="Winner SMS Template"
+          template={winnerTemplate}
+          onChange={onTemplateChange}
+        />
+        <EditableMessage
+          message={resolvedMessage}
+          onChange={onMessageOverride}
+          label="Winner SMS"
+        />
+      </div>
     </div>
   )
 }
 
-function EditableMessage({
-  message,
-  label,
-  onChange,
+function NonWinnerCard({
+  entry,
+  followedUp,
+  onToggleFollowedUp,
+  resolvedMessage,
+  onMessageOverride,
 }: {
-  message: string
-  label: string
-  onChange: (value: string) => void
+  entry: Entry
+  followedUp: boolean
+  onToggleFollowedUp: () => void
+  resolvedMessage: string
+  onMessageOverride: (v: string) => void
 }) {
   return (
-    <div className="flex items-start gap-3 rounded border border-accent-200 bg-surface-100 p-3 dark:border-accent-700 dark:bg-surface-900">
-      <textarea
-        value={message}
-        onChange={(e) => onChange(e.target.value)}
-        rows={2}
-        style={{ fieldSizing: 'content' } as React.CSSProperties}
-        className="flex-1 resize-none border-none bg-transparent text-sm text-accent-800 focus:outline-none dark:text-accent-200"
+    <div className="rounded-lg border border-accent-100 p-4 dark:border-accent-800">
+      <div className="mb-2 flex items-center justify-between">
+        <label className="flex items-center gap-2">
+          <input
+            type="checkbox"
+            checked={followedUp}
+            onChange={onToggleFollowedUp}
+            className="h-4 w-4 rounded border-accent-300 text-primary-600 focus:ring-primary-500"
+          />
+          <span className="font-medium text-accent-900 dark:text-accent-100">
+            {capitalizeName(entry.name)}
+          </span>
+        </label>
+        <span className="flex items-center gap-2">
+          <span className="text-xs text-accent-500 dark:text-accent-400">{entry.phone}</span>
+          <CopyButton text={entry.phone} label="Phone">
+            Copy Phone
+          </CopyButton>
+        </span>
+      </div>
+      <EditableMessage
+        message={resolvedMessage}
+        onChange={onMessageOverride}
+        label={`SMS for ${entry.name.split(' ')[0]}`}
       />
-      <CopyButton text={message} label={label}>Copy Message</CopyButton>
     </div>
   )
 }
@@ -150,12 +118,17 @@ export function WinnerMessages({ winner, nonWinners, expirationDate }: WinnerMes
   const [followedUp, setFollowedUp] = useState<Record<string, boolean>>({})
 
   function getResolvedMessage(entryId: string, template: string, entry: Entry) {
-    if (overrides[entryId] !== undefined) return overrides[entryId]
-    return resolveTemplate(template, entry, expirationDate)
+    return overrides[entryId] !== undefined
+      ? overrides[entryId]
+      : resolveTemplate(template, entry, expirationDate)
   }
 
   function setOverride(entryId: string, value: string) {
     setOverrides((prev) => ({ ...prev, [entryId]: value }))
+  }
+
+  function toggleFollowedUp(entryId: string) {
+    setFollowedUp((p) => ({ ...p, [entryId]: !p[entryId] }))
   }
 
   function handleTemplateChange(setter: (v: string) => void, value: string) {
@@ -163,63 +136,28 @@ export function WinnerMessages({ winner, nonWinners, expirationDate }: WinnerMes
     setOverrides({})
   }
 
-  const cardClass =
-    'rounded-lg border border-accent-200 bg-surface-50 p-6 dark:border-accent-700 dark:bg-surface-800'
+  const followedUpCount = nonWinners.filter((e) => followedUp[e.id]).length
 
   return (
     <div className="space-y-6">
-      <div className={cardClass}>
-        <h2 className="mb-3 text-lg font-semibold text-accent-900 dark:text-accent-100">
-          Template Variables
-        </h2>
-        <div className="flex flex-wrap gap-2">
-          {Object.entries(VARS).map(([key, desc]) => (
-            <button
-              key={key}
-              onClick={() => copyToClipboard(key, key)}
-              className="rounded border border-accent-200 bg-surface-100 px-2.5 py-1 text-sm hover:border-primary-400 dark:border-accent-700 dark:bg-surface-900"
-            >
-              <code className="font-semibold text-primary-600 dark:text-primary-400">{key}</code>
-              <span className="ml-1.5 text-accent-500 dark:text-accent-400">{desc}</span>
-            </button>
-          ))}
-        </div>
-      </div>
+      <TemplateVarsPanel />
 
-      <div className="rounded-lg border border-yellow-300 bg-yellow-50 p-6 dark:border-yellow-700 dark:bg-yellow-900/20">
-        <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-lg font-semibold text-yellow-900 dark:text-yellow-100">Winner</h2>
-          <label className="flex items-center gap-2 text-sm text-yellow-800 dark:text-yellow-200">
-            <input
-              type="checkbox"
-              checked={followedUp[winner.id] ?? false}
-              onChange={() => setFollowedUp((p) => ({ ...p, [winner.id]: !p[winner.id] }))}
-              className="h-4 w-4 rounded border-accent-300 text-primary-600 focus:ring-primary-500"
-            />
-            Followed up
-          </label>
-        </div>
-        <EntryDetails entry={winner} />
-        <div className="mt-4 space-y-3">
-          <TemplateEditor
-            label="Winner SMS Template"
-            template={winnerTemplate}
-            onChange={(v) => handleTemplateChange(setWinnerTemplate, v)}
-          />
-          <EditableMessage
-            message={getResolvedMessage(winner.id, winnerTemplate, winner)}
-            onChange={(v) => setOverride(winner.id, v)}
-            label="Winner SMS"
-          />
-        </div>
-      </div>
+      <WinnerCard
+        winner={winner}
+        followedUp={followedUp[winner.id] ?? false}
+        onToggleFollowedUp={() => toggleFollowedUp(winner.id)}
+        winnerTemplate={winnerTemplate}
+        onTemplateChange={(v) => handleTemplateChange(setWinnerTemplate, v)}
+        resolvedMessage={getResolvedMessage(winner.id, winnerTemplate, winner)}
+        onMessageOverride={(v) => setOverride(winner.id, v)}
+      />
 
-      <div className={cardClass}>
+      <div className="rounded-lg border border-accent-200 bg-surface-50 p-6 dark:border-accent-700 dark:bg-surface-800">
         <h2 className="mb-4 text-lg font-semibold text-accent-900 dark:text-accent-100">
           Non-Winners ({nonWinners.length})
-          {nonWinners.filter((e) => followedUp[e.id]).length > 0 && (
+          {followedUpCount > 0 && (
             <span className="ml-2 text-sm font-normal text-accent-400">
-              · {nonWinners.filter((e) => followedUp[e.id]).length} followed up
+              · {followedUpCount} followed up
             </span>
           )}
         </h2>
@@ -229,37 +167,19 @@ export function WinnerMessages({ winner, nonWinners, expirationDate }: WinnerMes
           onChange={(v) => handleTemplateChange(setNonWinnerTemplate, v)}
         />
         <div className="mt-4 space-y-4">
-          {nonWinners.map((entry) => (
-            <div
-              key={entry.id}
-              className="rounded-lg border border-accent-100 p-4 dark:border-accent-800"
-            >
-              <div className="mb-2 flex items-center justify-between">
-                <label className="flex items-center gap-2">
-                  <input
-                    type="checkbox"
-                    checked={followedUp[entry.id] ?? false}
-                    onChange={() => setFollowedUp((p) => ({ ...p, [entry.id]: !p[entry.id] }))}
-                    className="h-4 w-4 rounded border-accent-300 text-primary-600 focus:ring-primary-500"
-                  />
-                  <span className="font-medium text-accent-900 dark:text-accent-100">
-                    {capitalizeName(entry.name)}
-                  </span>
-                </label>
-                <span className="flex items-center gap-2">
-                  <span className="text-xs text-accent-500 dark:text-accent-400">{entry.phone}</span>
-                  <CopyButton text={entry.phone} label="Phone">Copy Phone</CopyButton>
-                </span>
-              </div>
-              <EditableMessage
-                message={getResolvedMessage(entry.id, nonWinnerTemplate, entry)}
-                onChange={(v) => setOverride(entry.id, v)}
-                label={`SMS for ${entry.name.split(' ')[0]}`}
-              />
-            </div>
-          ))}
-          {nonWinners.length === 0 && (
+          {nonWinners.length === 0 ? (
             <p className="text-sm text-accent-400">No non-winner entries</p>
+          ) : (
+            nonWinners.map((entry) => (
+              <NonWinnerCard
+                key={entry.id}
+                entry={entry}
+                followedUp={followedUp[entry.id] ?? false}
+                onToggleFollowedUp={() => toggleFollowedUp(entry.id)}
+                resolvedMessage={getResolvedMessage(entry.id, nonWinnerTemplate, entry)}
+                onMessageOverride={(v) => setOverride(entry.id, v)}
+              />
+            ))
           )}
         </div>
       </div>

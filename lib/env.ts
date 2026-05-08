@@ -113,6 +113,19 @@ const ENV_VARS: EnvVar[] = [
     description: 'NextAuth URL for authentication',
   },
 
+  // Multi-tenant
+  {
+    name: 'TENANT_SLUG',
+    required: false,
+    description:
+      'Postgres schema name for this tenant (e.g. trillium_massage). Falls back to public.',
+  },
+  {
+    name: 'NEXT_PUBLIC_TENANT_SLUG',
+    required: false,
+    description: 'Browser-accessible tenant slug, must match TENANT_SLUG',
+  },
+
   // Development/Testing
   {
     name: 'USE_MOCK_CALENDAR_DATA',

@@ -7,7 +7,7 @@ import Logo from '@/components/Logo'
 import { FaMapMarkerAlt, FaPhoneAlt, FaEnvelope, FaClock, FaRegCalendarAlt } from 'react-icons/fa'
 import { servicesLinks } from '@/data/servicesData'
 import { createContactUrl } from '@/lib/helpers'
-import { siteConfig } from '@/lib/siteConfig'
+import { home, site } from '@/app/content'
 
 export default function Footer() {
   return (
@@ -141,9 +141,11 @@ function LogoAndBlurb({ displayClasses }: { displayClasses: string }) {
             'group-focus-within:outline-primary-500 rounded-md outline-2 outline-offset-2 outline-transparent'
           )}
         >
-          <div className="mr-3">
-            <Logo forceTheme="light" classes="text-primary-500 w-8 h-8 xs:w-10 xs:h-10" />
-          </div>
+          {site.branding.hasLogoSvg && (
+            <div className="mr-3">
+              <Logo forceTheme="light" classes="text-primary-500 w-8 h-8 xs:w-10 xs:h-10" />
+            </div>
+          )}
 
           <div
             className={clsx(
@@ -154,7 +156,9 @@ function LogoAndBlurb({ displayClasses }: { displayClasses: string }) {
           </div>
         </div>
       </Link>
-      <p className="text-accent-400">{siteConfig.content.footer.blurb}</p>
+      <p className="text-accent-400" data-content="footer.blurb">
+        {home.footer.blurb}
+      </p>
       <Socials />
     </div>
   )
@@ -197,8 +201,12 @@ const contactItems = [
     icon: <FaMapMarkerAlt />,
     content: (
       <>
-        <span className="block whitespace-nowrap">{siteConfig.content.footer.locationLine1}</span>{' '}
-        <span className="block whitespace-nowrap">{siteConfig.content.footer.locationLine2}</span>
+        <span className="block whitespace-nowrap" data-content="footer.locationLine1">
+          {home.footer.locationLine1}
+        </span>{' '}
+        <span className="block whitespace-nowrap" data-content="footer.locationLine2">
+          {home.footer.locationLine2}
+        </span>
       </>
     ),
   },

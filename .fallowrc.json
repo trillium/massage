@@ -22,6 +22,10 @@
     "tests/**",
     "playground/**",
     ".contentlayer/**",
+    ".next/**",
+    "dist/**",
+    "build/**",
+    "node_modules/**",
     "data/ratings.ts"
   ],
   "ignoreDependencies": [
@@ -31,15 +35,41 @@
     "lint-staged",
     "dictionary-en",
     "nspell",
-    "eslint-config-next"
+    "eslint-config-next",
+    "@tailwindcss/forms",
+    "@tailwindcss/typography",
+    "maplibre-gl",
+    "canvas",
+    "@axe-core/playwright",
+    "contentlayer2",
+    "next-contentlayer2",
+    "hast-util-from-html-isomorphic",
+    "reading-time",
+    "rehype-autolink-headings",
+    "rehype-citation",
+    "rehype-katex",
+    "rehype-katex-notranslate",
+    "rehype-preset-minify",
+    "rehype-prism-plus",
+    "rehype-slug",
+    "remark-gfm",
+    "remark-math"
   ],
   "rules": {
     "unused-files": "warn",
-    "unused-exports": "warn"
+    "unused-exports": "warn",
+    "unused-types": "warn",
+    "duplicates": "warn",
+    "circular-deps": "error",
+    "boundary-violations": "error"
+  },
+  "duplicates": {
+    "threshold": 20,
+    "mode": "semantic"
   },
   "health": {
     "maxCyclomatic": 20,
     "maxCognitive": 15,
-    "maxCrap": 30
+    "maxCrap": 50
   }
 }

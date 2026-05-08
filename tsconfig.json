@@ -24,6 +24,7 @@
       "@/redux/*": ["./redux/*"],
       "@/lib/*": ["./lib/*"],
       "@/features/*": ["./features/*"],
+      "@/app/*": ["./app/*"],
       "contentlayer/generated": ["./.contentlayer/generated"],
       "pliny/*": ["./node_modules/pliny/*"],
       "*": ["./*"]

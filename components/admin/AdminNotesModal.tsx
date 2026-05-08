@@ -6,22 +6,7 @@ import { adminFetch } from '@/lib/adminFetch'
 import { formatLocalTime } from 'lib/availability/helpers'
 import ConfirmDialog from '@/components/admin/ConfirmDialog'
 import clsx from 'clsx'
-
-interface Appointment {
-  id: string
-  client_first_name: string
-  client_last_name: string
-  client_email: string
-  client_phone: string | null
-  start_time: string
-  end_time: string
-  duration_minutes: number
-  status: string
-  promo: string | null
-  location: string | null
-  admin_notes: string | null
-  created_at: string
-}
+import { Appointment, STATUS_STYLES } from '@/components/admin/appointmentTypes'
 
 type AdminNotesModalProps = {
   open: boolean
@@ -31,12 +16,104 @@ type AdminNotesModalProps = {
   appointment: Appointment | null
 }
 
-const STATUS_STYLES: Record<string, string> = {
-  confirmed: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
-  pending: 'bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-200',
-  cancelled: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200',
-  completed: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200',
-  no_show: 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200',
+function DetailRow({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <div className="flex justify-between">
+      <span className="font-medium text-accent-700 dark:text-accent-300">{label}</span>
+      {children}
+    </div>
+  )
+}
+
+function AppointmentDetails({ appointment }: { appointment: Appointment }) {
+  return (
+    <div className="mt-4 space-y-2 text-sm text-accent-600 dark:text-accent-400">
+      <DetailRow label="Time">
+        <span>
+          {formatLocalTime(appointment.start_time)} – {formatLocalTime(appointment.end_time)}
+        </span>
+      </DetailRow>
+      <DetailRow label="Duration">
+        <span>{appointment.duration_minutes}min</span>
+      </DetailRow>
+      <DetailRow label="Email">
+        <span>{appointment.client_email}</span>
+      </DetailRow>
+      {appointment.client_phone && (
+        <DetailRow label="Phone">
+          <span>{appointment.client_phone}</span>
+        </DetailRow>
+      )}
+      {appointment.location && (
+        <DetailRow label="Location">
+          <span className="text-right">{appointment.location}</span>
+        </DetailRow>
+      )}
+      {appointment.promo && (
+        <DetailRow label="Promo">
+          <span className="rounded bg-purple-100 px-1.5 text-xs text-purple-700 dark:bg-purple-900 dark:text-purple-300">
+            {appointment.promo}
+          </span>
+        </DetailRow>
+      )}
+    </div>
+  )
+}
+
+function ModalActions({
+  saving,
+  deleting,
+  onDelete,
+  onCancel,
+  onSave,
+}: {
+  saving: boolean
+  deleting: boolean
+  onDelete: () => void
+  onCancel: () => void
+  onSave: () => void
+}) {
+  return (
+    <div className="mt-4 flex justify-between">
+      <button
+        type="button"
+        onClick={onDelete}
+        disabled={deleting}
+        className="rounded border border-red-300 px-4 py-2 text-sm font-semibold text-red-600 hover:bg-red-50 disabled:opacity-50 dark:border-red-700 dark:text-red-400 dark:hover:bg-red-950"
+      >
+        {deleting ? 'Deleting...' : 'Delete'}
+      </button>
+      <div className="flex gap-3">
+        <button
+          type="button"
+          onClick={onCancel}
+          className="rounded border border-accent-300 px-4 py-2 text-sm font-semibold text-accent-700 hover:bg-surface-100 dark:border-accent-600 dark:text-accent-300 dark:hover:bg-surface-700"
+        >
+          Cancel
+        </button>
+        <button
+          type="button"
+          onClick={onSave}
+          disabled={saving}
+          className="rounded bg-primary-500 px-4 py-2 text-sm font-semibold text-white hover:bg-primary-600 disabled:opacity-50"
+        >
+          {saving ? 'Saving...' : 'Save'}
+        </button>
+      </div>
+    </div>
+  )
+}
+
+async function patchAppointment(id: string, notes: string) {
+  return adminFetch(`/api/admin/appointments/${id}`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ admin_notes: notes.trim() || null }),
+  })
+}
+
+async function deleteAppointment(id: string) {
+  return adminFetch(`/api/admin/appointments/${id}`, { method: 'DELETE' })
 }
 
 export default function AdminNotesModal({
@@ -61,20 +138,13 @@ export default function AdminNotesModal({
     if (!appointment) return
     setSaving(true)
     setError(null)
-
     try {
-      const response = await adminFetch(`/api/admin/appointments/${appointment.id}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ admin_notes: notes.trim() || null }),
-      })
-
+      const response = await patchAppointment(appointment.id, notes)
       if (!response.ok) {
         const data = await response.json()
         setError(data.error ?? 'Failed to save')
         return
       }
-
       onSaved()
       onClose()
     } catch {
@@ -88,18 +158,13 @@ export default function AdminNotesModal({
     if (!appointment) return
     setDeleting(true)
     setError(null)
-
     try {
-      const response = await adminFetch(`/api/admin/appointments/${appointment.id}`, {
-        method: 'DELETE',
-      })
-
+      const response = await deleteAppointment(appointment.id)
       if (!response.ok) {
         const data = await response.json()
         setError(data.error ?? 'Failed to delete')
         return
       }
-
       onDeleted()
       onClose()
     } catch {
@@ -152,96 +217,30 @@ export default function AdminNotesModal({
                   </span>
                 </div>
 
-                <div className="mt-4 space-y-2 text-sm text-accent-600 dark:text-accent-400">
-                  <div className="flex justify-between">
-                    <span className="font-medium text-accent-700 dark:text-accent-300">Time</span>
-                    <span>
-                      {formatLocalTime(appointment.start_time)} –{' '}
-                      {formatLocalTime(appointment.end_time)}
-                    </span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="font-medium text-accent-700 dark:text-accent-300">
-                      Duration
-                    </span>
-                    <span>{appointment.duration_minutes}min</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="font-medium text-accent-700 dark:text-accent-300">Email</span>
-                    <span>{appointment.client_email}</span>
-                  </div>
-                  {appointment.client_phone && (
-                    <div className="flex justify-between">
-                      <span className="font-medium text-accent-700 dark:text-accent-300">
-                        Phone
-                      </span>
-                      <span>{appointment.client_phone}</span>
-                    </div>
-                  )}
-                  {appointment.location && (
-                    <div className="flex justify-between">
-                      <span className="font-medium text-accent-700 dark:text-accent-300">
-                        Location
-                      </span>
-                      <span className="text-right">{appointment.location}</span>
-                    </div>
-                  )}
-                  {appointment.promo && (
-                    <div className="flex justify-between">
-                      <span className="font-medium text-accent-700 dark:text-accent-300">
-                        Promo
-                      </span>
-                      <span className="rounded bg-purple-100 px-1.5 text-xs text-purple-700 dark:bg-purple-900 dark:text-purple-300">
-                        {appointment.promo}
-                      </span>
-                    </div>
-                  )}
-                </div>
+                <AppointmentDetails appointment={appointment} />
 
                 <div className="mt-5 border-t border-accent-200 pt-4 dark:border-accent-700">
-                  <label className="text-sm font-medium text-accent-700 dark:text-accent-300">
+                  <label className="block text-sm font-medium text-accent-700 dark:text-accent-300">
                     Notes
+                    <textarea
+                      value={notes}
+                      onChange={(e) => setNotes(e.target.value)}
+                      rows={4}
+                      className="mt-1.5 w-full rounded border border-accent-300 bg-white px-3 py-2 text-sm text-accent-900 placeholder:text-accent-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500 dark:border-accent-600 dark:bg-surface-700 dark:text-accent-100 dark:placeholder:text-accent-500"
+                      placeholder="Add notes about this appointment..."
+                    />
                   </label>
-                  <textarea
-                    value={notes}
-                    onChange={(e) => setNotes(e.target.value)}
-                    rows={4}
-                    className="mt-1.5 w-full rounded border border-accent-300 bg-white px-3 py-2 text-sm text-accent-900 placeholder:text-accent-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500 dark:border-accent-600 dark:bg-surface-700 dark:text-accent-100 dark:placeholder:text-accent-500"
-                    placeholder="Add notes about this appointment..."
-                  />
                 </div>
 
-                {error && (
-                  <p className="mt-2 text-sm text-red-600 dark:text-red-400">{error}</p>
-                )}
+                {error && <p className="mt-2 text-sm text-red-600 dark:text-red-400">{error}</p>}
 
-                <div className="mt-4 flex justify-between">
-                  <button
-                    type="button"
-                    onClick={() => setConfirmDelete(true)}
-                    disabled={deleting}
-                    className="rounded border border-red-300 px-4 py-2 text-sm font-semibold text-red-600 hover:bg-red-50 disabled:opacity-50 dark:border-red-700 dark:text-red-400 dark:hover:bg-red-950"
-                  >
-                    {deleting ? 'Deleting...' : 'Delete'}
-                  </button>
-                  <div className="flex gap-3">
-                    <button
-                      type="button"
-                      onClick={onClose}
-                      className="rounded border border-accent-300 px-4 py-2 text-sm font-semibold text-accent-700 hover:bg-surface-100 dark:border-accent-600 dark:text-accent-300 dark:hover:bg-surface-700"
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      type="button"
-                      onClick={handleSave}
-                      disabled={saving}
-                      className="rounded bg-primary-500 px-4 py-2 text-sm font-semibold text-white hover:bg-primary-600 disabled:opacity-50"
-                    >
-                      {saving ? 'Saving...' : 'Save'}
-                    </button>
-                  </div>
-                </div>
+                <ModalActions
+                  saving={saving}
+                  deleting={deleting}
+                  onDelete={() => setConfirmDelete(true)}
+                  onCancel={onClose}
+                  onSave={handleSave}
+                />
 
                 <ConfirmDialog
                   open={confirmDelete}

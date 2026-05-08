@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { headers as nextHeaders } from 'next/headers'
 
-import { LRUCache } from 'lru-cache'
-
 import { OWNER_TIMEZONE } from 'config'
 import { formatLocalDate, formatLocalTime } from 'lib/availability/helpers'
 import sendMail from 'lib/email'
@@ -16,28 +14,18 @@ import { intervalToHumanString } from 'lib/intervalToHumanString'
 import { flattenLocation } from 'lib/helpers/locationHelpers'
 import { escapeHtml } from 'lib/messaging/escapeHtml'
 import { getOriginFromHeaders } from 'lib/helpers/getOriginFromHeaders'
+import { createRateLimiter, rateLimitResponse } from '@/lib/api/rateLimit'
 
-// Define the rate limiter
-const rateLimitLRU = new LRUCache({
-  max: 500,
-  ttl: 60_000, // 60_000 milliseconds = 1 minute
-})
-const REQUESTS_PER_IP_PER_MINUTE_LIMIT = 5
-
-// Define the schema for the request body
+const checkRateLimit = createRateLimiter()
 
 export async function POST(req: NextRequest): Promise<NextResponse> {
   const headers = await nextHeaders()
-  const jsonData = await req.json()
 
-  // Apply rate limiting using the client's IP address
-  const limitReached = checkRateLimit()
-
-  if (limitReached) {
-    return NextResponse.json({ error: 'Rate limit exceeded' }, { status: 429 })
+  if (checkRateLimit(req, headers)) {
+    return rateLimitResponse()
   }
 
-  // Validate and parse the request body using Zod
+  const jsonData = await req.json()
   const validationResult = OnSiteRequestSchema.safeParse(jsonData)
 
   if (!validationResult.success) {
@@ -115,25 +103,4 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
   })
 
   return NextResponse.json({ success: true }, { status: 200 })
-
-  /**
-   * Checks the rate limit for the current IP address.
-   *
-   * @return {boolean} Whether the rate limit has been reached.
-   */
-  function checkRateLimit(): boolean {
-    const forwarded = headers.get('x-forwarded-for')
-    const ip =
-      (Array.isArray(forwarded) ? forwarded[0] : forwarded) ??
-      req.headers.get('x-real-ip') ??
-      '127.0.0.1'
-
-    const tokenCount = (rateLimitLRU.get(ip) as number[]) || [0]
-    if (tokenCount[0] === 0) {
-      rateLimitLRU.set(ip, tokenCount)
-    }
-    tokenCount[0] += 1
-    const currentUsage = tokenCount[0]
-    return currentUsage >= REQUESTS_PER_IP_PER_MINUTE_LIMIT
-  }
 }

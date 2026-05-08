@@ -1,8 +1,8 @@
 import CachedTileMap from '@/components/CachedTileMap'
 import clsx from 'clsx'
-import { siteConfig } from '@/lib/siteConfig'
+import { home, site } from '@/app/content'
 
-const serviceAreaBlurb = siteConfig.content.serviceAreaBlurb ?? ''
+const serviceAreaBlurb = home.serviceAreaBlurb
 const title = "What's the service area?"
 
 export function ServiceAreaSection() {
@@ -41,8 +41,8 @@ function ServiceArea({ text, imageLeft, imageRight }: ServiceAreaProps) {
         )}
       >
         <CachedTileMap
-          latitude={siteConfig.location.mapLatitude}
-          longitude={siteConfig.location.mapLongitude}
+          latitude={site.location.mapLatitude}
+          longitude={site.location.mapLongitude}
           zoom={10}
           className="absolute inset-0 border-0"
           style={{ width: '100%', height: '100%' }}
@@ -54,6 +54,7 @@ function ServiceArea({ text, imageLeft, imageRight }: ServiceAreaProps) {
         className={clsx(
           'text-md col-span-2 row-span-2 leading-relaxed font-light tracking-wider sm:col-span-1 sm:text-base md:text-left lg:text-xl'
         )}
+        data-content="serviceAreaBlurb"
       >
         {text || 'Missing text'}
       </p>

@@ -1,1 +1,24 @@
 #!/bin/sh
+
+if [ "${CI:-}" = "true" ] || [ "${GITHUB_ACTIONS:-}" = "true" ]; then
+  exit 0
+fi
+
+BRANCH=$(git rev-parse --abbrev-ref HEAD)
+if [ "$BRANCH" = "main" ] || [ "$BRANCH" = "master" ]; then
+  echo "direct push to $BRANCH blocked — use a PR"
+  exit 1
+fi
+
+if [ -f scripts/fallow-prepush.sh ]; then
+  bash scripts/fallow-prepush.sh
+fi
+
+if command -v gitleaks &>/dev/null; then
+  gitleaks protect --staged --no-banner || {
+    echo "gitleaks: secrets detected — push blocked"
+    exit 1
+  }
+else
+  echo "gitleaks: not installed, skipping secret scan (brew install gitleaks)"
+fi
