@@ -62,10 +62,15 @@ export const metadata: Metadata = {
   },
 }
 
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
+async function AdminFeedtack() {
   const isDev = process.env.NODE_ENV === 'development'
   const admin = isDev ? true : await isAdmin()
-  const user = admin ? await getUser() : null
+  if (!admin) return null
+  const user = await getUser()
+  return <FeedtackOverlay userId={user?.id ?? 'dev'} userName={user?.email ?? 'Dev'} />
+}
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   const basePath = process.env.BASE_PATH || ''
 
   return (
@@ -118,7 +123,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             </SectionContainer>
           </div>
           <Toaster />
-          {admin && <FeedtackOverlay userId={user?.id ?? 'dev'} userName={user?.email ?? 'Dev'} />}
+          <AdminFeedtack />
         </ThemeProviders>
       </body>
     </html>

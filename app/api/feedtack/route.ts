@@ -23,27 +23,21 @@ export async function POST(request: NextRequest) {
   if (authError) return authError
 
   const db = supabase as never as FeedtackDB
-  const body = await request.json()
-  const { type, feedbackId, payload, reply, resolution, userId } = body
+  const { type, feedbackId, payload, reply, resolution, userId } = await request.json()
 
-  let error: { message: string } | null = null
-
-  if (type === 'submit') {
-    ;({ error } = await db.from('feedtack_submissions').insert({ id: payload.id, data: payload }))
-  } else if (type === 'reply') {
-    ;({ error } = await db.from('feedtack_replies').insert({ feedback_id: feedbackId, ...reply }))
-  } else if (type === 'resolve') {
-    ;({ error } = await db
-      .from('feedtack_resolutions')
-      .insert({ feedback_id: feedbackId, ...resolution }))
-  } else if (type === 'archive') {
-    ;({ error } = await db
-      .from('feedtack_archives')
-      .insert({ feedback_id: feedbackId, user_id: userId }))
-  } else {
-    return NextResponse.json({ error: 'Unknown type' }, { status: 400 })
+  const dispatchers: Record<string, () => Promise<{ error: { message: string } | null }>> = {
+    submit: () => db.from('feedtack_submissions').insert({ id: payload.id, data: payload }),
+    reply: () => db.from('feedtack_replies').insert({ feedback_id: feedbackId, ...reply }),
+    resolve: () =>
+      db.from('feedtack_resolutions').insert({ feedback_id: feedbackId, ...resolution }),
+    archive: () =>
+      db.from('feedtack_archives').insert({ feedback_id: feedbackId, user_id: userId }),
   }
 
+  const dispatch = dispatchers[type]
+  if (!dispatch) return NextResponse.json({ error: 'Unknown type' }, { status: 400 })
+
+  const { error } = await dispatch()
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
   return NextResponse.json({ ok: true })
 }
