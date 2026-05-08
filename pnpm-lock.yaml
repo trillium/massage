@@ -65,6 +65,9 @@ importers:
       dotenv:
         specifier: ^17.2.1
         version: 17.2.1
+      feedtack:
+        specifier: ^1.1.0
+        version: 1.1.0(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
       formik:
         specifier: ^2.4.6
         version: 2.4.6(@types/react@19.2.14)(react@19.2.5)
@@ -4610,6 +4613,12 @@ packages:
     peerDependenciesMeta:
       picomatch:
         optional: true
+
+  feedtack@1.1.0:
+    resolution: {integrity: sha512-L+ZMxrD0yC29lKfVZ2CGUpQ0bBI6Ms54DOMtd1guQnoYIqf4kswMAjB8A0CSozFAeeebiiXoNanVq8CqHHK5ZQ==}
+    peerDependencies:
+      react: '>=18.0.0'
+      react-dom: '>=18.0.0'
 
   fetch-ponyfill@7.1.0:
     resolution: {integrity: sha512-FhbbL55dj/qdVO3YNK7ZEkshvj3eQ7EuIGV2I6ic/2YiocvyWv+7jg2s4AyS0wdRU75s3tA8ZxI/xPigb0v5Aw==}
@@ -12188,6 +12197,11 @@ snapshots:
   fdir@6.4.6(picomatch@4.0.3):
     optionalDependencies:
       picomatch: 4.0.3
+
+  feedtack@1.1.0(react-dom@19.2.5(react@19.2.5))(react@19.2.5):
+    dependencies:
+      react: 19.2.5
+      react-dom: 19.2.5(react@19.2.5)
 
   fetch-ponyfill@7.1.0:
     dependencies:
