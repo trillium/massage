@@ -6,10 +6,18 @@ const paymentMethodValues = paymentMethod.map((method) => method.value) as [stri
 export const LocationSchema = z.object({
   street: z.string(),
   city: z.string(),
-  zip: z
-    .string()
-    .regex(/^(\d{5}(-\d{4})?)?$/, { message: 'Invalid US zip code.' }),
+  zip: z.string().regex(/^(\d{5}(-\d{4})?)?$/, { message: 'Invalid US zip code.' }),
 })
+
+const sharedBookingOptionalFields = {
+  eventMemberString: z.string().optional(),
+  eventContainerString: z.string().optional(),
+  hotelRoomNumber: z.string().optional(),
+  parkingInstructions: z.string().optional(),
+  additionalNotes: z.string().optional(),
+  bookingUrl: z.string().optional(),
+  promo: z.string().optional(),
+}
 
 const BaseRequestSchema = z
   .object({
@@ -36,20 +44,14 @@ const BaseRequestSchema = z
       .optional(),
     phone: z.string(),
     eventBaseString: z.string(),
-    eventMemberString: z.string().optional(),
-    eventContainerString: z.string().optional(),
+    ...sharedBookingOptionalFields,
     instantConfirm: z.boolean().optional(),
-    hotelRoomNumber: z.string().optional(),
-    parkingInstructions: z.string().optional(),
-    additionalNotes: z.string().optional(),
-    bookingUrl: z.string().optional(),
-    promo: z.string().optional(),
-    slugConfiguration: z.any().optional(), // Full slug configuration object
+    slugConfiguration: z.any().optional(),
     rescheduleEventId: z.string().optional(),
     rescheduleToken: z.string().optional(),
     sessionId: z.string().uuid().optional(),
   })
-  .strict() // Disallow unknown keys
+  .strict()
   .refine((data) => data.locationObject !== undefined || data.locationString !== undefined, {
     message: 'Either locationObject or locationString must be provided.',
   })
@@ -99,16 +101,9 @@ export const BookedDataSchema = z
     duration: z.string(),
     phone: z.string(),
     eventBaseString: z.string(),
-    eventMemberString: z.string().optional(),
-    eventContainerString: z.string().optional(),
+    ...sharedBookingOptionalFields,
     price: z.string().optional(),
     paymentMethod: z.string().optional(),
-    hotelRoomNumber: z.string().optional(),
-    parkingInstructions: z.string().optional(),
-    additionalNotes: z.string().optional(),
-    bookingUrl: z.string().optional(),
-    promo: z.string().optional(),
-    // Additional fields for booked data
     attendees: z.array(
       z.object({
         email: z.email(),
@@ -143,4 +138,31 @@ export const RaffleEntrySchema = z.object({
   is_local: z.boolean().optional().default(false),
   zip_code: z.string().nullable().optional(),
   interested_in: z.array(RaffleInterestedInEnum),
+})
+
+export const CreateReviewSchema = z.object({
+  firstName: z.string(),
+  lastName: z.string(),
+  text: z.string(),
+  date: z.string().refine((value) => !Number.isNaN(Date.parse(value)), {
+    message: 'Start must be a valid date.',
+  }),
+  rating: z.union([z.number(), z.string()]).refine(
+    (value) => {
+      const parsedValue = typeof value === 'string' ? Number.parseInt(value, 10) : value
+      return !Number.isNaN(parsedValue) && parsedValue >= 1 && parsedValue <= 5
+    },
+    {
+      message: 'Rating must be a valid integer 1 - 5.',
+    }
+  ),
+  price: z
+    .string()
+    .refine((value) => !Number.isNaN(Number.parseInt(value, 10)), {
+      message: 'Rating must be a valid integer 1 - 5.',
+    })
+    .optional(),
+  source: z.string(),
+  type: z.string(),
+  dateSummary: z.string().optional(),
 })

@@ -91,23 +91,4 @@ export async function isAdmin() {
   return profile?.role === 'admin'
 }
 
-/**
- * Admin-only server client
- * Uses service role key for elevated permissions
- * ONLY use this in server-side code, never expose to browser!
- */
-export function getSupabaseAdminClient() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY
-  if (!url || !key) return null
-
-  return createServerClient<Database>(url, key, {
-    db: { schema: tenantSchema },
-    cookies: {
-      getAll() {
-        return []
-      },
-      setAll() {},
-    },
-  })
-}
+export { getSupabaseAdminClient } from './admin'

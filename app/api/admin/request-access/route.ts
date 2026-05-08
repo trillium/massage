@@ -1,19 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { headers as nextHeaders } from 'next/headers'
-import { LRUCache } from 'lru-cache'
 import sendMail from '@/lib/email'
 import siteMetadata from '@/data/siteMetadata'
 import { AdminAccessRequestSchema } from '@/lib/schema'
 import AdminAccessEmail from '@/lib/messaging/email/admin/AdminAccessEmail'
 import { escapeHtml } from '@/lib/messaging/escapeHtml'
 import { getOriginFromHeaders } from '@/lib/helpers/getOriginFromHeaders'
+import { createRateLimiter, rateLimitResponse } from '@/lib/api/rateLimit'
 
-// Rate limiting
-const rateLimitLRU = new LRUCache({
-  max: 100,
-  ttl: 60_000, // 1 minute
-})
-const REQUESTS_PER_IP_PER_MINUTE_LIMIT = 2 // Very restrictive for admin access
+const checkRateLimit = createRateLimiter({ max: 100, limit: 2 })
 
 /**
  * Request admin access - sends secure admin link via email
@@ -22,13 +17,8 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
   const headers = await nextHeaders()
 
   try {
-    // Rate limiting
-    const limitReached = checkRateLimit(headers)
-    if (limitReached) {
-      return NextResponse.json(
-        { error: 'Rate limit exceeded. Please wait before requesting again.' },
-        { status: 429 }
-      )
+    if (checkRateLimit(req, headers)) {
+      return rateLimitResponse()
     }
 
     // Parse and validate request
@@ -94,19 +84,4 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       { status: 500 }
     )
   }
-}
-
-/**
- * Rate limiting helper
- */
-function checkRateLimit(headers: Headers): boolean {
-  const forwarded = headers.get('x-forwarded-for')
-  const ip = (Array.isArray(forwarded) ? forwarded[0] : forwarded) || '127.0.0.1'
-
-  const tokenCount = (rateLimitLRU.get(ip) as number) || 0
-  const newCount = tokenCount + 1
-
-  rateLimitLRU.set(ip, newCount)
-
-  return newCount > REQUESTS_PER_IP_PER_MINUTE_LIMIT
 }

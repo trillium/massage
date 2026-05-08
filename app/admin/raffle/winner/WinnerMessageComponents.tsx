@@ -1,0 +1,171 @@
+'use client'
+
+import { toast } from 'sonner'
+import { RAFFLE_INTEREST_LABELS } from '@/lib/schema'
+
+export interface Entry {
+  id: string
+  name: string
+  email: string
+  phone: string
+  zip_code: string | null
+  interested_in: string[]
+  is_winner: boolean
+}
+
+export const VARS: Record<string, string> = {
+  '{firstName}': 'First name',
+  '{name}': 'Full name',
+  '{email}': 'Email',
+  '{phone}': 'Phone',
+  '{expiration}': 'Expiration date',
+}
+
+export const DEFAULT_WINNER_TEMPLATE = `Hey {firstName}! 🎉 You won the OpenClaw raffle — a free 60-minute massage! Book here before {expiration}: https://trilliummassage.la/openclaw-raffle-prize`
+
+export const DEFAULT_NON_WINNER_TEMPLATE = `Hey {firstName}! Unfortunately you didn't win the raffle, BUT! I wanted to extend a free 30-minute upgrade to you, valid through {expiration}. Book here: https://trilliummassage.la/openclaw-appreciation`
+
+function ordinal(n: number) {
+  if (n % 100 >= 11 && n % 100 <= 13) return `${n}th`
+  const suffixes = ['th', 'st', 'nd', 'rd']
+  return `${n}${suffixes[n % 10] ?? 'th'}`
+}
+
+function formatExpiration(dateStr: string) {
+  const d = new Date(dateStr + 'T00:00:00')
+  const month = d.toLocaleDateString('en-US', { month: 'long' })
+  return `${month} ${ordinal(d.getDate())}`
+}
+
+export function capitalize(s: string) {
+  return s.charAt(0).toUpperCase() + s.slice(1).toLowerCase()
+}
+
+export function capitalizeName(name: string) {
+  return name.split(' ').map(capitalize).join(' ')
+}
+
+export function resolveTemplate(template: string, entry: Entry, expiration: string) {
+  return template
+    .replace(/\{firstName\}/g, capitalize(entry.name.split(' ')[0]))
+    .replace(/\{name\}/g, capitalizeName(entry.name))
+    .replace(/\{email\}/g, entry.email)
+    .replace(/\{phone\}/g, entry.phone)
+    .replace(/\{expiration\}/g, formatExpiration(expiration))
+}
+
+function copyToClipboard(text: string, label: string) {
+  navigator.clipboard.writeText(text)
+  toast.success(`${label} copied`)
+}
+
+export function CopyButton({
+  text,
+  label,
+  children,
+}: {
+  text: string
+  label: string
+  children: string
+}) {
+  return (
+    <button
+      type="button"
+      onClick={() => copyToClipboard(text, label)}
+      className="shrink-0 rounded bg-primary-500 px-3 py-1.5 text-sm text-white hover:bg-primary-600"
+    >
+      {children}
+    </button>
+  )
+}
+
+export function EntryDetails({ entry }: { entry: Entry }) {
+  return (
+    <div className="space-y-1 text-sm">
+      <p className="font-semibold text-accent-900 dark:text-accent-100">{entry.name}</p>
+      <p className="text-accent-600 dark:text-accent-400">{entry.email}</p>
+      <p className="text-accent-600 dark:text-accent-400">{entry.phone}</p>
+      {entry.zip_code && (
+        <p className="text-accent-600 dark:text-accent-400">Zip: {entry.zip_code}</p>
+      )}
+      {Array.isArray(entry.interested_in) && entry.interested_in.length > 0 && (
+        <p className="text-accent-600 dark:text-accent-400">
+          {entry.interested_in.map((i) => RAFFLE_INTEREST_LABELS[i] || i).join(', ')}
+        </p>
+      )}
+    </div>
+  )
+}
+
+export function TemplateEditor({
+  label,
+  template,
+  onChange,
+}: {
+  label: string
+  template: string
+  onChange: (value: string) => void
+}) {
+  return (
+    <label className="block">
+      <span className="mb-1 block text-sm font-medium text-accent-700 dark:text-accent-300">
+        {label}
+      </span>
+      <textarea
+        value={template}
+        onChange={(e) => onChange(e.target.value)}
+        rows={2}
+        style={{ fieldSizing: 'content' } as React.CSSProperties}
+        className="w-full rounded border border-accent-300 bg-white px-3 py-2 text-sm text-accent-900 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500 dark:border-accent-600 dark:bg-surface-700 dark:text-accent-100"
+      />
+    </label>
+  )
+}
+
+export function EditableMessage({
+  message,
+  label,
+  onChange,
+}: {
+  message: string
+  label: string
+  onChange: (value: string) => void
+}) {
+  return (
+    <div className="flex items-start gap-3 rounded border border-accent-200 bg-surface-100 p-3 dark:border-accent-700 dark:bg-surface-900">
+      <textarea
+        value={message}
+        onChange={(e) => onChange(e.target.value)}
+        rows={2}
+        style={{ fieldSizing: 'content' } as React.CSSProperties}
+        className="flex-1 resize-none border-none bg-transparent text-sm text-accent-800 focus:outline-none dark:text-accent-200"
+      />
+      <CopyButton text={message} label={label}>
+        Copy Message
+      </CopyButton>
+    </div>
+  )
+}
+
+export function TemplateVarsPanel() {
+  return (
+    <div className="rounded-lg border border-accent-200 bg-surface-50 p-6 dark:border-accent-700 dark:bg-surface-800">
+      <h2 className="mb-3 text-lg font-semibold text-accent-900 dark:text-accent-100">
+        Template Variables
+      </h2>
+      <div className="flex flex-wrap gap-2">
+        {Object.entries(VARS).map(([key, desc]) => (
+          <button
+            type="button"
+            key={key}
+            onClick={() => copyToClipboard(key, key)}
+            className="rounded border border-accent-200 bg-surface-100 px-2.5 py-1 text-sm hover:border-primary-400 dark:border-accent-700 dark:bg-surface-900"
+          >
+            <code className="font-semibold text-primary-600 dark:text-primary-400">{key}</code>
+            <span className="ml-1.5 text-accent-500 dark:text-accent-400">{desc}</span>
+          </button>
+        ))}
+      </div>
+    </div>
+  )
+}

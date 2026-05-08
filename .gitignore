@@ -3,8 +3,9 @@
 # reports
 dead-code-report.md
 
-# fallow cache
-.fallow/
+# fallow cache (keep baselines tracked)
+.fallow/*
+!.fallow/*-baseline.json
 
 # worktrees (local agent worktrees)
 /worktrees
