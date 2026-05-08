@@ -1,3 +1,5 @@
+import { clearCredentialsCache, loadGoogleCredentials } from '@/lib/google/credentials'
+
 const TOKEN_CACHE_MS = 50 * 60 * 1000
 let cachedToken: { value: string; expiresAt: number } | null = null
 
@@ -5,25 +7,17 @@ export function clearTokenCache() {
   cachedToken = null
 }
 
-export default async function getAccessToken(): Promise<string> {
-  if (cachedToken && Date.now() < cachedToken.expiresAt) {
-    return cachedToken.value
-  }
+async function exchangeRefreshToken(): Promise<string | null> {
+  const creds = await loadGoogleCredentials()
 
-  if (!process.env.GOOGLE_OAUTH_SECRET) {
-    throw new Error('GOOGLE_OAUTH_SECRET not set')
-  }
-  if (!process.env.GOOGLE_OAUTH_REFRESH) {
-    throw new Error('GOOGLE_OAUTH_REFRESH not set')
-  }
-  if (!process.env.GOOGLE_OAUTH_CLIENT_ID) {
-    throw new Error('GOOGLE_OAUTH_CLIENT_ID not set')
-  }
+  if (!creds.refresh_token) return null
+  if (!process.env.GOOGLE_OAUTH_SECRET) throw new Error('GOOGLE_OAUTH_SECRET not set')
+  if (!process.env.GOOGLE_OAUTH_CLIENT_ID) throw new Error('GOOGLE_OAUTH_CLIENT_ID not set')
 
   const params = new URLSearchParams({
     grant_type: 'refresh_token',
     client_secret: process.env.GOOGLE_OAUTH_SECRET,
-    refresh_token: process.env.GOOGLE_OAUTH_REFRESH,
+    refresh_token: creds.refresh_token,
     client_id: process.env.GOOGLE_OAUTH_CLIENT_ID,
   })
 
@@ -37,13 +31,27 @@ export default async function getAccessToken(): Promise<string> {
   })
 
   const json = await response.json()
+  return (json.access_token as string) ?? null
+}
 
-  if (!json.access_token) {
-    throw new Error(`Couldn't get access token: ${JSON.stringify(json, null, 2)}`)
+export default async function getAccessToken(): Promise<string> {
+  if (cachedToken && Date.now() < cachedToken.expiresAt) {
+    return cachedToken.value
+  }
+
+  let accessToken = await exchangeRefreshToken()
+
+  if (!accessToken) {
+    clearCredentialsCache()
+    accessToken = await exchangeRefreshToken()
+  }
+
+  if (!accessToken) {
+    throw new Error('Failed to get access token after credential cache refresh')
   }
 
   cachedToken = {
-    value: json.access_token as string,
+    value: accessToken,
     expiresAt: Date.now() + TOKEN_CACHE_MS,
   }
 
