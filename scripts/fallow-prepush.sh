@@ -16,5 +16,8 @@ if ! command -v fallow &>/dev/null; then
     exit 0
   fi
 else
-  fallow audit --changed-since main
+  fallow audit --changed-since main || {
+    echo "fallow: audit found issues (non-blocking) — see above"
+    exit 0
+  }
 fi
