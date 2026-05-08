@@ -2,19 +2,27 @@ import { NextRequest, NextResponse } from 'next/server'
 import { requireAdminWithFlag } from '@/lib/adminAuthBridge'
 import { getSupabaseAdminClient } from '@/lib/supabase/server'
 
-export async function POST(request: NextRequest) {
+type FeedtackDB = {
+  from: (table: string) => {
+    insert: (data: object) => Promise<{ error: { message: string } | null }>
+  }
+}
+
+async function authorizeAndGetDB(request: NextRequest) {
   const authResult = await requireAdminWithFlag(request)
-  if (authResult instanceof NextResponse) return authResult
+  if (authResult instanceof NextResponse) return { error: authResult }
 
   const supabase = getSupabaseAdminClient()
-  if (!supabase) return NextResponse.json({ error: 'DB unavailable' }, { status: 503 })
+  if (!supabase) return { error: NextResponse.json({ error: 'DB unavailable' }, { status: 503 }) }
 
-  const db = supabase as never as {
-    from: (table: string) => {
-      insert: (data: object) => Promise<{ error: { message: string } | null }>
-    }
-  }
+  return { supabase }
+}
 
+export async function POST(request: NextRequest) {
+  const { error: authError, supabase } = await authorizeAndGetDB(request)
+  if (authError) return authError
+
+  const db = supabase as never as FeedtackDB
   const body = await request.json()
   const { type, feedbackId, payload, reply, resolution, userId } = body
 
@@ -41,11 +49,8 @@ export async function POST(request: NextRequest) {
 }
 
 export async function GET(request: NextRequest) {
-  const authResult = await requireAdminWithFlag(request)
-  if (authResult instanceof NextResponse) return authResult
-
-  const supabase = getSupabaseAdminClient()
-  if (!supabase) return NextResponse.json({ error: 'DB unavailable' }, { status: 503 })
+  const { error: authError, supabase } = await authorizeAndGetDB(request)
+  if (authError) return authError
 
   const pathname = request.nextUrl.searchParams.get('pathname')
 
