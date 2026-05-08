@@ -67,7 +67,7 @@ async function AdminFeedtack() {
   const admin = isDev ? true : await isAdmin()
   if (!admin) return null
   const user = await getUser()
-  return <FeedtackOverlay userId={user?.id ?? 'dev'} userName={user?.email ?? 'Dev'} />
+  return <FeedtackOverlay user={user} />
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

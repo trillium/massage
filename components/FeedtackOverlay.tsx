@@ -19,16 +19,14 @@ const adapter = isDev
     })
 
 export default function FeedtackOverlay({
-  userId,
-  userName,
+  user,
 }: {
-  userId: string
-  userName: string
+  user: { id?: string; email?: string | null } | null
 }) {
   return (
     <FeedtackProvider
       adapter={adapter}
-      currentUser={{ id: userId, name: userName, role: 'admin' }}
+      currentUser={{ id: user?.id ?? 'dev', name: user?.email ?? 'Dev', role: 'admin' }}
       hotkey="p"
     >
       <span />
