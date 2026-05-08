@@ -2,6 +2,8 @@ import Link from 'next/link'
 import { getSupabaseAdminClient } from '@/lib/supabase/server'
 import { WinnerMessages } from './WinnerMessages'
 
+export const dynamic = 'force-dynamic'
+
 interface RaffleEntry {
   id: string
   name: string
