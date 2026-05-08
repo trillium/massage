@@ -1,40 +1,40 @@
 {
   "hero": {
-    "headline": "No traffic. No stress. Just pure relaxation",
-    "gradientWord": "relaxation",
-    "subheading": "Mobile Luxury Massage Therapy",
-    "description": "No hidden fees. No additional travel charges. Each session includes the comforts of a luxury spa experience — aromatherapy, hot stones, a heated table, and your preferred pressure — delivered right to you."
+    "headline": "Relax, Restore, Rejuvenate",
+    "gradientWord": "Rejuvenate",
+    "subheading": "Let the spa come to you",
+    "description": "Spa level massage therapy in your home, at your convenience."
   },
   "about": {
-    "bio": "Monica is a licensed massage therapist (MA79268) specializing in mobile luxury massage therapy in the Orlando area. She brings the full spa experience directly to your accommodation, so you can focus on pure relaxation.",
-    "focus": "From Swedish relaxation to Deep Tissue, Prenatal, Lymphatic Drainage, Oncology Massage, Traditional Lomi Lomi, and Sports Massage — each session is tailored to your needs.",
-    "stats": "Every session includes the comforts of a luxury spa experience —",
-    "rating": "aromatherapy, hot stones, a heated table",
-    "statsClose": ", and your preferred pressure, all included in the price."
+    "bio": "Trillium is a massage therapist with 10 years of experience. Working in the LA Metro Area, Trillium found success in specializing in In-Home mobile massage therapy, working solo and through platforms like Soothe and Zeel since 2016.",
+    "focus": "Combining relaxation and pain relief techniques, Trillium provides you with effective massage therapy from the comfort of your own home.",
+    "stats": "With more than 3,000 in-home massage therapy sessions, Trillium has maintained a",
+    "rating": "4.9-star rating",
+    "statsClose": ", reflecting the quality and care he puts into his work."
   },
   "footer": {
-    "blurb": "Providing mobile luxury massage therapy services to the Orlando area. Off-Disney property accommodations only.",
-    "locationLine1": "Orlando, FL",
-    "locationLine2": "Off-Disney Property Accommodations"
+    "blurb": "Providing professional massage therapy services to help you relax, rejuvenate, and restore your body and mind.",
+    "locationLine1": "Westchester Area by LAX,",
+    "locationLine2": "Los Angeles"
   },
-  "serviceAreaBlurb": "Available for off-Disney property accommodations only. Monica serves the greater Orlando area, bringing the luxury spa experience directly to your door — no traffic, no stress.",
-  "bookingTitle": "Book a session with Monica",
+  "serviceAreaBlurb": "Trillium serves the greater LA Metro Area, bringing a full spa experience directly to your home — no traffic, no stress, no extra charges.",
+  "bookingTitle": "Book a session with Trillium",
   "features": [
     {
       "title": "Personalized Care",
-      "description": "Tailored to your needs"
+      "description": "Tailored to your specific needs and goals"
     },
     {
-      "title": "Seasoned Practitioner",
-      "description": "Certified with over 10 years of experience"
+      "title": "10+ Years Experience",
+      "description": "3,000+ in-home sessions and counting"
     },
     {
-      "title": "Eco-Friendly Products",
-      "description": "Hypoallergenic lotions and oils"
+      "title": "Full Spa Setup",
+      "description": "Heated table, aromatherapy, and hot stones included"
     },
     {
-      "title": "Flexible Hours",
-      "description": "Open 7 days a week"
+      "title": "Flexible Scheduling",
+      "description": "Available 7 days a week across the LA Metro Area"
     }
   ],
   "pricing": {
@@ -43,7 +43,7 @@
         "minutes": 60,
         "title": "60-Minute Massage",
         "features": [
-          "Focus on 1\u20132 specific areas of tension (e.g., neck, shoulders, or back)",
+          "Focus on 1–2 specific areas of tension (e.g., neck, shoulders, or back)",
           "Good for stress relief and general relaxation",
           "Enough time for a focused therapeutic session or a lighter full-body pass"
         ]
@@ -53,7 +53,7 @@
         "title": "90-Minute Massage",
         "mostPopular": true,
         "features": [
-          "Balanced full-body massage with extra focus on 2\u20133 problem areas",
+          "Balanced full-body massage with extra focus on 2–3 problem areas",
           "Ideal for combining relaxation and deeper therapeutic work",
           "Time to address chronic tightness while still covering the whole body"
         ]
@@ -69,9 +69,9 @@
       }
     ],
     "note": "All-inclusive. No hidden fees. No additional travel charges.",
-    "pageLead": "Transparent pricing for all our massage sessions. No hidden fees.",
+    "pageLead": "Transparent pricing for all massage sessions. No hidden fees, no travel charges.",
     "notes": [
-      "Available for off-Disney property accommodations only.",
+      "Serving the LA Metro Area.",
       "No hidden fees. No additional travel charges.",
       "Payment accepted: cash, Venmo, CashApp, credit card.",
       "A cancellation fee may apply with under 24-hour notice."
