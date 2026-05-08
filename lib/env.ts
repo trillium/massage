@@ -150,6 +150,7 @@ class EnvValidationError extends Error {
  * Validates all environment variables
  * Throws EnvValidationError if any required variables are missing
  */
+// fallow-ignore-next-line complexity
 export function validateEnv(): void {
   const missing: EnvVar[] = []
   const warnings: string[] = []
