@@ -27,11 +27,12 @@ export default async function Page({
     endDate = addWeeks(new Date(), 2).toISOString()
   }
 
-  const events: GoogleCalendarV3Event[] = await getEventsBySearchQuery({
-    query: 'massage',
-    start: startDate,
-    end: endDate,
-  })
+  let events: GoogleCalendarV3Event[] = []
+  try {
+    events = await getEventsBySearchQuery({ query: 'massage', start: startDate, end: endDate })
+  } catch {
+    // Google not connected yet
+  }
   return (
     <SectionContainer>
       <div className="mx-auto max-w-7xl px-4 py-8">
