@@ -7,6 +7,7 @@ import { saveGoogleCredentials } from '@/lib/google/credentials'
 import type { Session } from '@supabase/supabase-js'
 
 const NEXT_PATH = '/admin/connect-google'
+const LOG = '[connect-google/callback]'
 
 function redirectTo(origin: string, path: string) {
   return NextResponse.redirect(`${origin}${path}`)
@@ -40,22 +41,36 @@ async function exchangeCode(code: string) {
 }
 
 async function handleGoogleConnect(session: Session, origin: string) {
+  console.log(LOG, 'session.user.email:', session.user?.email)
+  console.log(LOG, 'provider_token present:', !!session.provider_token)
+  console.log(LOG, 'provider_refresh_token present:', !!session.provider_refresh_token)
+  console.log(LOG, 'expires_at:', session.expires_at)
+
   if (!session.provider_token || !session.user?.email) {
+    console.error(
+      LOG,
+      'missing_tokens — provider_token:',
+      !!session.provider_token,
+      'email:',
+      session.user?.email
+    )
     return redirectTo(origin, `${NEXT_PATH}?error=missing_tokens`)
   }
   try {
+    console.log(LOG, 'saving credentials for', session.user.email)
     await saveGoogleCredentials({
       email: session.user.email,
       access_token: session.provider_token,
       refresh_token: session.provider_refresh_token ?? '',
       expiry_date: session.expires_at ? session.expires_at * 1000 : Date.now() + 3600 * 1000,
     })
+    console.log(LOG, 'credentials saved successfully')
     return redirectTo(
       origin,
       `${NEXT_PATH}?connected=1&email=${encodeURIComponent(session.user.email)}`
     )
   } catch (err) {
-    console.error('Failed to save Google credentials:', err)
+    console.error(LOG, 'failed to save credentials:', err)
     return redirectTo(origin, `${NEXT_PATH}?error=callback_failed`)
   }
 }
@@ -66,22 +81,34 @@ export async function GET(request: NextRequest) {
   const error = requestUrl.searchParams.get('error')
   const origin = getOrigin(request)
 
+  console.log(LOG, 'received — origin:', origin, 'code present:', !!code, 'error:', error)
+
   if (error) {
-    console.error('Connect-Google callback error:', error)
+    console.error(LOG, 'OAuth error param:', error)
     return redirectTo(origin, `${NEXT_PATH}?error=${encodeURIComponent(error)}`)
   }
 
   if (!code) {
+    console.error(LOG, 'no code param')
     return redirectTo(origin, `${NEXT_PATH}?error=authentication_failed`)
   }
 
+  console.log(LOG, 'exchanging code for session...')
   const {
     data: { session },
     error: exchangeError,
   } = await exchangeCode(code)
 
+  console.log(
+    LOG,
+    'exchange result — session present:',
+    !!session,
+    'error:',
+    exchangeError?.message
+  )
+
   if (exchangeError || !session) {
-    console.error('Error exchanging code for session:', exchangeError)
+    console.error(LOG, 'code exchange failed:', exchangeError)
     return redirectTo(origin, `${NEXT_PATH}?error=authentication_failed`)
   }
 
