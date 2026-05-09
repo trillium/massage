@@ -20,6 +20,30 @@ const GOOGLE_SCOPES = [
   'https://www.googleapis.com/auth/gmail.compose',
 ].join(' ')
 
+function StatusBanners({
+  error,
+  successEmail,
+}: {
+  error: string | null
+  successEmail: string | null
+}) {
+  const errorMessage = error ? (ERROR_MESSAGES[error] ?? 'An unexpected error occurred.') : null
+  return (
+    <>
+      {errorMessage && (
+        <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-red-800 dark:border-red-800 dark:bg-red-950 dark:text-red-200">
+          {errorMessage}
+        </div>
+      )}
+      {successEmail && (
+        <div className="rounded-lg border border-green-200 bg-green-50 p-4 text-green-800 dark:border-green-800 dark:bg-green-950 dark:text-green-200">
+          Successfully connected <strong>{successEmail}</strong>
+        </div>
+      )}
+    </>
+  )
+}
+
 export default function ConnectGoogleClient({
   connectedEmail,
   successEmail,
@@ -27,7 +51,6 @@ export default function ConnectGoogleClient({
 }: ConnectGoogleClientProps) {
   const displayEmail = successEmail ?? connectedEmail
   const isConnected = !!displayEmail
-  const errorMessage = error ? (ERROR_MESSAGES[error] ?? 'An unexpected error occurred.') : null
 
   async function handleConnect() {
     const supabase = getSupabaseBrowserClient()
@@ -44,17 +67,7 @@ export default function ConnectGoogleClient({
 
   return (
     <div className="space-y-6">
-      {errorMessage && (
-        <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-red-800 dark:border-red-800 dark:bg-red-950 dark:text-red-200">
-          {errorMessage}
-        </div>
-      )}
-
-      {successEmail && (
-        <div className="rounded-lg border border-green-200 bg-green-50 p-4 text-green-800 dark:border-green-800 dark:bg-green-950 dark:text-green-200">
-          Successfully connected <strong>{successEmail}</strong>
-        </div>
-      )}
+      <StatusBanners error={error} successEmail={successEmail} />
 
       <div className="rounded-lg border border-surface-200 bg-white p-6 dark:border-surface-700 dark:bg-surface-800">
         <h2 className="mb-2 text-sm font-semibold uppercase tracking-wide text-surface-500 dark:text-surface-400">
