@@ -33,34 +33,34 @@ const ENV_VARS: EnvVar[] = [
   // Google OAuth & Calendar
   {
     name: 'GOOGLE_OAUTH_CLIENT_ID',
-    required: true,
+    required: false,
     description: 'Google OAuth 2.0 client ID',
   },
   {
     name: 'GOOGLE_OAUTH_SECRET',
-    required: true,
+    required: false,
     description: 'Google OAuth 2.0 client secret',
   },
   {
     name: 'GOOGLE_OAUTH_REFRESH',
-    required: true,
+    required: false,
     description: 'Google OAuth refresh token',
   },
   {
     name: 'GOOGLE_MAPS_API_KEY',
-    required: true,
+    required: false,
     description: 'Google Maps API key',
   },
   {
     name: 'GOOGLE_MAPS_CAL_PRIMARY_EVENT_ID',
-    required: true,
+    required: false,
     description: 'Google Calendar primary event ID',
   },
 
   // Owner Information
   {
     name: 'OWNER_EMAIL',
-    required: true,
+    required: false,
     description: 'Business owner email address',
   },
   {
@@ -70,7 +70,7 @@ const ENV_VARS: EnvVar[] = [
   },
   {
     name: 'OWNER_PHONE_NUMBER',
-    required: true,
+    required: false,
     description: 'Business owner phone number',
   },
 
@@ -150,13 +150,11 @@ class EnvValidationError extends Error {
  * Validates all environment variables
  * Throws EnvValidationError if any required variables are missing
  */
-export function validateEnv(): void {
+function classifyEnvVars() {
   const missing: EnvVar[] = []
   const warnings: string[] = []
-
   for (const envVar of ENV_VARS) {
     const value = process.env[envVar.name]
-
     if (!value || value.trim() === '') {
       if (envVar.required) {
         missing.push(envVar)
@@ -165,26 +163,34 @@ export function validateEnv(): void {
       }
     }
   }
+  return { missing, warnings }
+}
 
-  if (warnings.length > 0 && process.env.NODE_ENV === 'development') {
-    console.warn('\n⚠️  Optional environment variables not set:')
-    warnings.forEach((warning) => console.warn(`   ${warning}`))
-    console.warn('')
-  }
+function warnOptionalEnvVars(warnings: string[]) {
+  if (warnings.length === 0 || process.env.NODE_ENV !== 'development') return
+  console.warn('\n⚠️  Optional environment variables not set:')
+  warnings.forEach((warning) => console.warn(`   ${warning}`))
+  console.warn('')
+}
 
-  if (missing.length > 0) {
-    const errorMessage = [
-      '\n❌ Missing required environment variables:',
-      '',
-      ...missing.map((envVar) => `   ${envVar.name}: ${envVar.description}`),
-      '',
-      'Please set these variables in your .env.local file.',
-      'See .env.example for reference.',
-      '',
-    ].join('\n')
+function throwIfMissingRequired(missing: EnvVar[]) {
+  if (missing.length === 0) return
+  const errorMessage = [
+    '\n❌ Missing required environment variables:',
+    '',
+    ...missing.map((envVar) => `   ${envVar.name}: ${envVar.description}`),
+    '',
+    'Please set these variables in your .env.local file.',
+    'See .env.example for reference.',
+    '',
+  ].join('\n')
+  throw new EnvValidationError(errorMessage)
+}
 
-    throw new EnvValidationError(errorMessage)
-  }
+export function validateEnv(): void {
+  const { missing, warnings } = classifyEnvVars()
+  warnOptionalEnvVars(warnings)
+  throwIfMissingRequired(missing)
 }
 
 /**
