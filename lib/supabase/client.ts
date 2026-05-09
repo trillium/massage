@@ -31,3 +31,18 @@ export function getSupabaseBrowserClient() {
   })
   return client
 }
+
+let publicClient: ReturnType<typeof createBrowserClient<Database>> | null = null
+
+export function getSupabasePublicBrowserClient() {
+  if (publicClient) return publicClient
+
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  if (!url || !key) return null
+
+  publicClient = createBrowserClient<Database>(url, key, {
+    db: { schema: 'public' },
+  })
+  return publicClient
+}

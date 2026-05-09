@@ -80,7 +80,15 @@ export async function proxy(request: NextRequest) {
   const isAdminPath = adminPaths.some((path) => request.nextUrl.pathname.startsWith(path))
 
   if (isAdminPath && user) {
-    const { data: profile } = await supabase
+    const publicSupabase = createServerClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      {
+        db: { schema: 'public' },
+        cookies: { getAll: () => request.cookies.getAll(), setAll: () => {} },
+      }
+    )
+    const { data: profile } = await publicSupabase
       .from('profiles')
       .select('role')
       .eq('id', user.id)

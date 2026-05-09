@@ -53,8 +53,7 @@ async function handleGoogleConnect(session: Session, origin: string, next: strin
   }
 }
 
-async function handleCodeExchange(code: string, requestUrl: URL, next: string) {
-  const origin = requestUrl.origin
+async function handleCodeExchange(code: string, requestUrl: URL, next: string, origin: string) {
   const {
     data: { session },
     error: exchangeError,
@@ -73,13 +72,19 @@ async function handleCodeExchange(code: string, requestUrl: URL, next: string) {
   return redirectTo(origin, next)
 }
 
+function getOrigin(request: NextRequest) {
+  const host = request.headers.get('x-forwarded-host') ?? request.headers.get('host') ?? ''
+  const proto = request.headers.get('x-forwarded-proto') ?? 'http'
+  return `${proto}://${host}`
+}
+
 export async function GET(request: NextRequest) {
   const requestUrl = new URL(request.url)
   const code = requestUrl.searchParams.get('code')
   const next = requestUrl.searchParams.get('next') ?? '/'
   const error = requestUrl.searchParams.get('error')
   const errorDescription = requestUrl.searchParams.get('error_description')
-  const origin = requestUrl.origin
+  const origin = getOrigin(request)
 
   if (error) {
     console.error('Auth callback error:', error, errorDescription)
@@ -91,5 +96,5 @@ export async function GET(request: NextRequest) {
     return redirectTo(origin, '/auth/supabase-login')
   }
 
-  return handleCodeExchange(code, requestUrl, next)
+  return handleCodeExchange(code, requestUrl, next, origin)
 }
