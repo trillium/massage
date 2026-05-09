@@ -98,8 +98,8 @@ function holdFor(session: string, slot: typeof SLOT_1, shooCount = 0) {
   return { ...slot, session_id: session, shoo_count: shooCount }
 }
 
-function fireRealtimeEvent() {
-  act(() => {
+async function fireRealtimeEvent() {
+  await act(async () => {
     postgresHandler?.({ eventType: 'INSERT', table: 'slot_holds', schema: 'trillium_massage' })
   })
 }
@@ -365,6 +365,52 @@ describe('useHeldSlots', () => {
 
       // Hold ends at 10:00, SLOT_1 starts at 10:00 — no overlap (exclusive boundary)
       expect(result.current.getHolderSessionId(SLOT_1.start_time, SLOT_1.end_time)).toBeNull()
+    })
+  })
+
+  describe('fetch error handling', () => {
+    it('preserves existing holds when a subsequent fetch errors', async () => {
+      buildMocks([holdFor(SESSION_B, SLOT_1)])
+      const { result } = renderHook(() => useHeldSlots())
+      await waitFor(() => expect(result.current.heldSlots).toHaveLength(1))
+
+      mockGt.mockResolvedValue({ data: null, error: { message: 'DB down' } })
+      await fireRealtimeEvent()
+
+      await waitFor(() => expect(result.current.debug.fetchCount).toBe(2))
+      expect(result.current.heldSlots).toHaveLength(1)
+      expect(result.current.heldSlots[0].session_id).toBe(SESSION_B)
+    })
+
+    it('starts with empty holds and records error when initial fetch fails', async () => {
+      mockGt.mockResolvedValue({ data: null, error: { message: 'connection refused' } })
+      const { result } = renderHook(() => useHeldSlots())
+
+      await waitFor(() => expect(result.current.debug.fetchCount).toBe(1))
+      expect(result.current.heldSlots).toHaveLength(0)
+      expect(result.current.debug.channelStatus).toContain('connection refused')
+    })
+  })
+
+  describe('presence sync', () => {
+    it('updates activeUsers when presence sync fires', async () => {
+      const { result } = renderHook(() => useHeldSlots())
+      await waitFor(() => expect(result.current.debug.fetchCount).toBe(1))
+
+      mockChannel.presenceState.mockReturnValue({ a: {}, b: {}, c: {} })
+      act(() => presenceHandler?.())
+
+      await waitFor(() => expect(result.current.activeUsers).toBe(3))
+    })
+  })
+
+  describe('getShooCount own-session exclusion', () => {
+    it('returns 0 for a hold belonging to the current session', async () => {
+      buildMocks([holdFor(SESSION_A, SLOT_1, 5)])
+      const { result } = renderHook(() => useHeldSlots())
+      await waitFor(() => expect(result.current.heldSlots).toHaveLength(1))
+
+      expect(result.current.getShooCount(SLOT_1.start_time, SLOT_1.end_time)).toBe(0)
     })
   })
 })

@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useSessionId } from './useSessionId'
 import { getSupabaseBrowserClient } from '@/lib/supabase/client'
+import { debugLog } from '@/lib/debug/log'
 import type { RealtimeChannel } from '@supabase/supabase-js'
 
 const POLL_INTERVAL_MS = 5_000
@@ -38,8 +39,11 @@ export function useHeldSlots() {
     const supabase = getSupabaseBrowserClient()
     if (!supabase) {
       setDebug((d) => ({ ...d, channelStatus: 'no_supabase_client' }))
+      debugLog('held_slots:no_client', { sessionId })
       return
     }
+
+    const tenantSlug = process.env.NEXT_PUBLIC_TENANT_SLUG || 'public'
 
     const fetchActiveHolds = async () => {
       const { data, error } = await supabase
@@ -47,19 +51,27 @@ export function useHeldSlots() {
         .select('start_time, end_time, session_id, shoo_count')
         .gt('expires_at', new Date().toISOString())
 
-      setHeldSlots(data ?? [])
+      if (!error) setHeldSlots(data ?? [])
       setDebug((d) => ({
         ...d,
         lastFetchedAt: new Date().toISOString(),
         fetchCount: d.fetchCount + 1,
         ...(error ? { channelStatus: `fetch_error: ${error.message}` } : {}),
       }))
+      debugLog('held_slots:fetched', {
+        sessionId,
+        tenant: tenantSlug,
+        count: data?.length ?? 0,
+        error: error?.message,
+        holds: data?.map((h) => ({ start: h.start_time, session: h.session_id })),
+      })
     }
 
     const startPolling = () => {
       if (pollRef.current) return
       pollRef.current = setInterval(fetchActiveHolds, POLL_INTERVAL_MS)
       setDebug((d) => ({ ...d, mode: 'polling' }))
+      debugLog('held_slots:polling_started', { sessionId })
     }
 
     const stopPolling = () => {
@@ -71,22 +83,42 @@ export function useHeldSlots() {
 
     fetchActiveHolds()
 
+    const channelName = `${tenantSlug}:slot_holds_changes`
     const channel = supabase
-      .channel('slot_holds_changes', {
+      .channel(channelName, {
         config: { presence: { key: sessionId ?? crypto.randomUUID() } },
       })
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'slot_holds' }, () => {
-        fetchActiveHolds()
-      })
+      .on(
+        'postgres_changes',
+        { event: '*', schema: tenantSlug, table: 'slot_holds' },
+        (payload) => {
+          debugLog('held_slots:realtime_event', {
+            sessionId,
+            tenant: tenantSlug,
+            eventType: payload.eventType,
+            table: payload.table,
+            schema: payload.schema,
+          })
+          fetchActiveHolds()
+        }
+      )
       .on('presence', { event: 'sync' }, () => {
         const state = channel.presenceState()
         setActiveUsers(Object.keys(state).length)
+        debugLog('held_slots:presence_sync', { sessionId, activeUsers: Object.keys(state).length })
       })
       .subscribe(async (status, err) => {
         setDebug((d) => ({
           ...d,
           channelStatus: err ? `${status}: ${err.message}` : status,
         }))
+        debugLog('held_slots:channel_status', {
+          sessionId,
+          tenant: tenantSlug,
+          channel: channelName,
+          status,
+          error: err?.message,
+        })
 
         if (status === 'SUBSCRIBED') {
           stopPolling()
@@ -103,6 +135,7 @@ export function useHeldSlots() {
       stopPolling()
       channel.unsubscribe()
       channelRef.current = null
+      debugLog('held_slots:unmount', { sessionId })
     }
   }, [sessionId])
 
