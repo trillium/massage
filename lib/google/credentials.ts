@@ -1,16 +1,29 @@
 import { getSupabaseAdminClient } from '@/lib/supabase/admin'
 
+export type GoogleOAuthApp = {
+  id: string
+  name: string
+  client_id: string
+  client_secret: string
+}
+
 export type GoogleCredentials = {
   email: string
   access_token: string | null
   refresh_token: string | null
   expiry_date: number | null
+  oauth_app_id: string | null
 }
 
 let cachedCreds: GoogleCredentials | null = null
+let cachedApp: GoogleOAuthApp | null = null
 
 export function clearCredentialsCache() {
   cachedCreds = null
+}
+
+export function clearAppCache() {
+  cachedApp = null
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -18,6 +31,36 @@ function adminClient(): any {
   const supabase = getSupabaseAdminClient()
   if (!supabase) throw new Error('Supabase admin client not available')
   return supabase
+}
+
+export async function loadGoogleOAuthApp(): Promise<GoogleOAuthApp | null> {
+  if (cachedApp) return cachedApp
+
+  const { data, error } = await adminClient()
+    .from('google_oauth_apps')
+    .select('id, name, client_id, client_secret')
+    .limit(1)
+    .maybeSingle()
+
+  if (error) throw new Error(`Failed to load Google OAuth app: ${error.message}`)
+  if (!data) return null
+
+  cachedApp = data as GoogleOAuthApp
+  return cachedApp
+}
+
+export async function saveGoogleOAuthApp(app: {
+  name: string
+  client_id: string
+  client_secret: string
+}): Promise<void> {
+  const { error } = await adminClient()
+    .from('google_oauth_apps')
+    .upsert(app, { onConflict: 'name' })
+
+  if (error) throw new Error(`Failed to save Google OAuth app: ${error.message}`)
+
+  clearAppCache()
 }
 
 export async function loadGoogleCredentials(): Promise<GoogleCredentials | null> {
@@ -28,7 +71,7 @@ export async function loadGoogleCredentials(): Promise<GoogleCredentials | null>
 
   const { data, error } = await adminClient()
     .from('google_credentials')
-    .select('email, access_token, refresh_token, expiry_date')
+    .select('email, access_token, refresh_token, expiry_date, oauth_app_id')
     .eq('email', ownerEmail)
     .maybeSingle()
 

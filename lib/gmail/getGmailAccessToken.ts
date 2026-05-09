@@ -1,27 +1,16 @@
-import { loadGoogleCredentials } from '@/lib/google/credentials'
-
-async function getRefreshToken(): Promise<string> {
-  const creds = await loadGoogleCredentials()
-  if (creds?.refresh_token) return creds.refresh_token
-  if (process.env.GOOGLE_OAUTH_REFRESH) return process.env.GOOGLE_OAUTH_REFRESH
-  throw new Error('No Google refresh token available')
-}
+import { loadGoogleCredentials, loadGoogleOAuthApp } from '@/lib/google/credentials'
 
 export default async function getGmailAccessToken(): Promise<string> {
-  if (!process.env.GOOGLE_OAUTH_SECRET) {
-    throw new Error('GOOGLE_OAUTH_SECRET not set')
-  }
-  if (!process.env.GOOGLE_OAUTH_CLIENT_ID) {
-    throw new Error('GOOGLE_OAUTH_CLIENT_ID not set')
-  }
+  const [creds, app] = await Promise.all([loadGoogleCredentials(), loadGoogleOAuthApp()])
 
-  const refreshToken = await getRefreshToken()
+  if (!creds?.refresh_token) throw new Error('No Google refresh token available')
+  if (!app) throw new Error('Google OAuth app not configured')
 
   const params = new URLSearchParams({
     grant_type: 'refresh_token',
-    client_secret: process.env.GOOGLE_OAUTH_SECRET,
-    refresh_token: refreshToken,
-    client_id: process.env.GOOGLE_OAUTH_CLIENT_ID,
+    client_secret: app.client_secret,
+    refresh_token: creds.refresh_token,
+    client_id: app.client_id,
   })
 
   const response = await fetch('https://oauth2.googleapis.com/token', {
