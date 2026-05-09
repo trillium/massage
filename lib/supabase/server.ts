@@ -40,6 +40,34 @@ export async function getSupabaseServerClient() {
   })
 }
 
+export async function getSupabasePublicClient() {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  if (!url || !key) return null
+
+  const cookieStore = await cookies()
+
+  return createServerClient<Database>(url, key, {
+    db: { schema: 'public' },
+    cookies: {
+      getAll() {
+        return cookieStore.getAll()
+      },
+      setAll(cookiesToSet) {
+        try {
+          cookiesToSet.forEach(({ name, value, options }) => {
+            cookieStore.set(name, value, getCookieOptionsWithDomain(options))
+          })
+        } catch {
+          // The `setAll` method was called from a Server Component.
+          // This can be ignored if you have middleware refreshing
+          // user sessions.
+        }
+      },
+    },
+  })
+}
+
 /**
  * Get current user from server
  * Returns null if not authenticated
@@ -71,7 +99,7 @@ export async function getSession() {
  * Returns null if not authenticated or profile doesn't exist
  */
 export async function getUserProfile() {
-  const supabase = await getSupabaseServerClient()
+  const supabase = await getSupabasePublicClient()
   if (!supabase) return null
 
   const user = await getUser()

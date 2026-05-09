@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { getSupabaseBrowserClient } from '@/lib/supabase/client'
+import { getSupabaseBrowserClient, getSupabasePublicBrowserClient } from '@/lib/supabase/client'
 import Spinner from '@/components/Spinner'
 import { AdminAuthChip } from '@/components/auth/admin/AdminAuthChip'
 import { identifyAuthenticatedUser } from '@/lib/posthog-utils'
@@ -53,7 +53,8 @@ export function AdminAuthProvider({ children }: AdminAuthProviderProps) {
           return
         }
 
-        const { data: profile, error: profileError } = await supabase
+        const publicClient = getSupabasePublicBrowserClient()
+        const { data: profile, error: profileError } = await publicClient!
           .from('profiles')
           .select('role')
           .eq('id', user.id)

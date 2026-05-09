@@ -20,7 +20,7 @@ function adminClient(): any {
   return supabase
 }
 
-export async function loadGoogleCredentials(): Promise<GoogleCredentials> {
+export async function loadGoogleCredentials(): Promise<GoogleCredentials | null> {
   if (cachedCreds) return cachedCreds
 
   const ownerEmail = process.env.OWNER_EMAIL
@@ -30,11 +30,10 @@ export async function loadGoogleCredentials(): Promise<GoogleCredentials> {
     .from('google_credentials')
     .select('email, access_token, refresh_token, expiry_date')
     .eq('email', ownerEmail)
-    .single()
+    .maybeSingle()
 
-  if (error || !data) {
-    throw new Error(`Failed to load Google credentials: ${error?.message ?? 'not found'}`)
-  }
+  if (error) throw new Error(`Failed to load Google credentials: ${error.message}`)
+  if (!data) return null
 
   cachedCreds = data as GoogleCredentials
   return cachedCreds

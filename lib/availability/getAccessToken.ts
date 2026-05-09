@@ -10,7 +10,7 @@ export function clearTokenCache() {
 async function exchangeRefreshToken(): Promise<string | null> {
   const creds = await loadGoogleCredentials()
 
-  if (!creds.refresh_token) return null
+  if (!creds?.refresh_token) return null
   if (!process.env.GOOGLE_OAUTH_SECRET) throw new Error('GOOGLE_OAUTH_SECRET not set')
   if (!process.env.GOOGLE_OAUTH_CLIENT_ID) throw new Error('GOOGLE_OAUTH_CLIENT_ID not set')
 
