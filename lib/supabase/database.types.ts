@@ -440,6 +440,36 @@ export interface Database {
           },
         ]
       }
+      google_credentials: {
+        Row: {
+          id: string
+          email: string
+          access_token: string
+          refresh_token: string
+          expiry_date: number
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          email: string
+          access_token: string
+          refresh_token: string
+          expiry_date: number
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          email?: string
+          access_token?: string
+          refresh_token?: string
+          expiry_date?: number
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {}
     Functions: {
