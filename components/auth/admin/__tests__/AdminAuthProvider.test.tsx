@@ -18,6 +18,14 @@ const mockSingle = vi.fn().mockResolvedValue({ data: null, error: null })
 const safeSingle = (...args: unknown[]) =>
   mockSingle(...args) ?? Promise.resolve({ data: null, error: null })
 
+const mockPublicFrom = () => ({
+  select: () => ({
+    eq: () => ({
+      single: safeSingle,
+    }),
+  }),
+})
+
 vi.mock('@/lib/supabase/client', () => ({
   getSupabaseBrowserClient: vi.fn(() => ({
     auth: {
@@ -33,6 +41,9 @@ vi.mock('@/lib/supabase/client', () => ({
         }),
       }),
     }),
+  })),
+  getSupabasePublicBrowserClient: vi.fn(() => ({
+    from: mockPublicFrom,
   })),
   supabase: {},
 }))
