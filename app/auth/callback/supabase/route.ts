@@ -16,7 +16,6 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { getCookieOptionsWithDomain } from '@/lib/supabase/cookie-options'
 
-// fallow-ignore-next-line complexity
 export async function GET(request: NextRequest) {
   const requestUrl = new URL(request.url)
   const code = requestUrl.searchParams.get('code')
