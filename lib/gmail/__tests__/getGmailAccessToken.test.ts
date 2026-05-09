@@ -1,46 +1,55 @@
 import { describe, it, expect, vi, beforeEach, afterEach, type Mock } from 'vitest'
 import getGmailAccessToken from '@/lib/gmail/getGmailAccessToken'
 
+vi.mock('@/lib/google/credentials', () => ({
+  loadGoogleCredentials: vi.fn(),
+  loadGoogleOAuthApp: vi.fn(),
+}))
+
+import { loadGoogleCredentials, loadGoogleOAuthApp } from '@/lib/google/credentials'
+
 const originalFetch = global.fetch
+
+const validCreds = {
+  email: 'test@example.com',
+  access_token: null,
+  refresh_token: 'test_refresh',
+  expiry_date: null,
+  oauth_app_id: null,
+}
+
+const validApp = {
+  id: 'app-uuid',
+  name: 'test_app',
+  client_id: 'test_client_id',
+  client_secret: 'test_secret',
+}
 
 describe('getGmailAccessToken', () => {
   beforeEach(() => {
     global.fetch = vi.fn()
-    // Clear environment variables for each test
-    delete process.env.GOOGLE_OAUTH_SECRET
-    delete process.env.GOOGLE_OAUTH_REFRESH
-    delete process.env.GOOGLE_OAUTH_CLIENT_ID
+    vi.mocked(loadGoogleCredentials).mockResolvedValue(validCreds)
+    vi.mocked(loadGoogleOAuthApp).mockResolvedValue(validApp)
   })
 
   afterEach(() => {
     global.fetch = originalFetch
-    delete process.env.GOOGLE_OAUTH_SECRET
-    delete process.env.GOOGLE_OAUTH_REFRESH
-    delete process.env.GOOGLE_OAUTH_CLIENT_ID
   })
 
-  it('throws an error if GOOGLE_OAUTH_SECRET is not set', async () => {
-    await expect(getGmailAccessToken()).rejects.toThrow('GOOGLE_OAUTH_SECRET not set')
+  it('throws if no refresh token is available', async () => {
+    vi.mocked(loadGoogleCredentials).mockResolvedValueOnce({
+      ...validCreds,
+      refresh_token: null,
+    })
+    await expect(getGmailAccessToken()).rejects.toThrow('No Google refresh token available')
   })
 
-  it('throws an error if GOOGLE_OAUTH_REFRESH is not set', async () => {
-    process.env.GOOGLE_OAUTH_SECRET = 'test_secret'
-
-    await expect(getGmailAccessToken()).rejects.toThrow('GOOGLE_OAUTH_REFRESH not set')
-  })
-
-  it('throws an error if GOOGLE_OAUTH_CLIENT_ID is not set', async () => {
-    process.env.GOOGLE_OAUTH_SECRET = 'test_secret'
-    process.env.GOOGLE_OAUTH_REFRESH = 'test_refresh'
-
-    await expect(getGmailAccessToken()).rejects.toThrow('GOOGLE_OAUTH_CLIENT_ID not set')
+  it('throws if Google OAuth app is not configured', async () => {
+    vi.mocked(loadGoogleOAuthApp).mockResolvedValueOnce(null)
+    await expect(getGmailAccessToken()).rejects.toThrow('Google OAuth app not configured')
   })
 
   it('successfully retrieves a Gmail access token', async () => {
-    process.env.GOOGLE_OAUTH_SECRET = 'test_secret'
-    process.env.GOOGLE_OAUTH_REFRESH = 'test_refresh'
-    process.env.GOOGLE_OAUTH_CLIENT_ID = 'test_client_id'
-
     const accessToken = 'test_gmail_access_token'
     const mockJson = {
       access_token: accessToken,
@@ -69,10 +78,6 @@ describe('getGmailAccessToken', () => {
   })
 
   it('throws an error if access_token is not in the response', async () => {
-    process.env.GOOGLE_OAUTH_SECRET = 'test_secret'
-    process.env.GOOGLE_OAUTH_REFRESH = 'test_refresh'
-    process.env.GOOGLE_OAUTH_CLIENT_ID = 'test_client_id'
-
     const mockJson = { error: 'invalid_grant' }
     const mockResponse = new Response(JSON.stringify(mockJson), {
       status: 400,
@@ -87,9 +92,15 @@ describe('getGmailAccessToken', () => {
   })
 
   it('includes correct request parameters', async () => {
-    process.env.GOOGLE_OAUTH_SECRET = 'secret_123'
-    process.env.GOOGLE_OAUTH_REFRESH = 'refresh_456'
-    process.env.GOOGLE_OAUTH_CLIENT_ID = 'client_789'
+    vi.mocked(loadGoogleCredentials).mockResolvedValueOnce({
+      ...validCreds,
+      refresh_token: 'refresh_456',
+    })
+    vi.mocked(loadGoogleOAuthApp).mockResolvedValueOnce({
+      ...validApp,
+      client_id: 'client_789',
+      client_secret: 'secret_123',
+    })
 
     const mockJson = { access_token: 'token_abc' }
     const mockResponse = new Response(JSON.stringify(mockJson), { status: 200 })
