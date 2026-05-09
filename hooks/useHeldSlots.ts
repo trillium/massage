@@ -7,12 +7,14 @@ import { debugLog } from '@/lib/debug/log'
 import type { RealtimeChannel } from '@supabase/supabase-js'
 
 const POLL_INTERVAL_MS = 5_000
+const ORPHAN_LEAVE_DEBOUNCE_MS = 2_500
 
 type HeldSlot = {
   start_time: string
   end_time: string
   session_id: string
   shoo_count: number
+  expires_at: string
 }
 
 export type HeldSlotsDebug = {
@@ -34,6 +36,9 @@ export function useHeldSlots() {
   })
   const channelRef = useRef<RealtimeChannel | null>(null)
   const pollRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  const heldSlotsRef = useRef<HeldSlot[]>([])
+  const leaveDebounceRef = useRef<Map<string, ReturnType<typeof setTimeout>>>(new Map())
+  const expiryTimersRef = useRef<ReturnType<typeof setTimeout>[]>([])
 
   useEffect(() => {
     const supabase = getSupabaseBrowserClient()
@@ -45,13 +50,51 @@ export function useHeldSlots() {
 
     const tenantSlug = process.env.NEXT_PUBLIC_TENANT_SLUG || 'public'
 
+    const releaseOrphanedHold = (orphanSessionId: string) => {
+      debugLog('held_slots:orphan_cleanup', { sessionId, orphanSessionId })
+      fetch('/api/release-hold', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sessionId: orphanSessionId }),
+      }).catch(() => {})
+    }
+
+    const checkOrphanedHolds = (presenceKeys: string[]) => {
+      const keySet = new Set(presenceKeys)
+      for (const hold of heldSlotsRef.current) {
+        if (!keySet.has(hold.session_id)) {
+          releaseOrphanedHold(hold.session_id)
+        }
+      }
+    }
+
+    const clearExpiryTimers = () => {
+      for (const t of expiryTimersRef.current) {
+        clearTimeout(t)
+      }
+      expiryTimersRef.current = []
+    }
+
     const fetchActiveHolds = async () => {
       const { data, error } = await supabase
         .from('slot_holds')
-        .select('start_time, end_time, session_id, shoo_count')
+        .select('start_time, end_time, session_id, shoo_count, expires_at')
         .gt('expires_at', new Date().toISOString())
 
-      if (!error) setHeldSlots(data ?? [])
+      if (!error) {
+        const holds = data ?? []
+        setHeldSlots(holds)
+        heldSlotsRef.current = holds
+
+        clearExpiryTimers()
+        for (const hold of holds) {
+          const timeUntilExpiry = new Date(hold.expires_at).getTime() - Date.now()
+          if (timeUntilExpiry > 0) {
+            const t = setTimeout(() => fetchActiveHolds(), timeUntilExpiry)
+            expiryTimersRef.current.push(t)
+          }
+        }
+      }
       setDebug((d) => ({
         ...d,
         lastFetchedAt: new Date().toISOString(),
@@ -104,8 +147,22 @@ export function useHeldSlots() {
       )
       .on('presence', { event: 'sync' }, () => {
         const state = channel.presenceState()
-        setActiveUsers(Object.keys(state).length)
-        debugLog('held_slots:presence_sync', { sessionId, activeUsers: Object.keys(state).length })
+        const presenceKeys = Object.keys(state)
+        setActiveUsers(presenceKeys.length)
+        debugLog('held_slots:presence_sync', { sessionId, activeUsers: presenceKeys.length })
+        checkOrphanedHolds(presenceKeys)
+      })
+      .on('presence', { event: 'leave' }, ({ key }: { key: string }) => {
+        const existing = leaveDebounceRef.current.get(key)
+        if (existing) clearTimeout(existing)
+        const t = setTimeout(() => {
+          leaveDebounceRef.current.delete(key)
+          const hasOrphanedHold = heldSlotsRef.current.some((h) => h.session_id === key)
+          if (hasOrphanedHold) {
+            releaseOrphanedHold(key)
+          }
+        }, ORPHAN_LEAVE_DEBOUNCE_MS)
+        leaveDebounceRef.current.set(key, t)
       })
       .subscribe(async (status, err) => {
         setDebug((d) => ({
@@ -124,6 +181,8 @@ export function useHeldSlots() {
           stopPolling()
           setDebug((d) => ({ ...d, mode: 'realtime' }))
           await channel.track({ online_at: new Date().toISOString() })
+          const state = channel.presenceState()
+          checkOrphanedHolds(Object.keys(state))
         } else if (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT') {
           startPolling()
         }
@@ -133,6 +192,11 @@ export function useHeldSlots() {
 
     return () => {
       stopPolling()
+      clearExpiryTimers()
+      for (const t of leaveDebounceRef.current.values()) {
+        clearTimeout(t)
+      }
+      leaveDebounceRef.current.clear()
       channel.unsubscribe()
       channelRef.current = null
       debugLog('held_slots:unmount', { sessionId })
