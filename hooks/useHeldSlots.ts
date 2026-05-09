@@ -8,6 +8,7 @@ import type { RealtimeChannel } from '@supabase/supabase-js'
 
 const POLL_INTERVAL_MS = 5_000
 const ORPHAN_LEAVE_DEBOUNCE_MS = 2_500
+const FETCH_DEBOUNCE_MS = 100
 
 type HeldSlot = {
   start_time: string
@@ -39,6 +40,7 @@ export function useHeldSlots() {
   const heldSlotsRef = useRef<HeldSlot[]>([])
   const leaveDebounceRef = useRef<Map<string, ReturnType<typeof setTimeout>>>(new Map())
   const expiryTimersRef = useRef<ReturnType<typeof setTimeout>[]>([])
+  const fetchDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   useEffect(() => {
     const supabase = getSupabaseBrowserClient()
@@ -110,6 +112,14 @@ export function useHeldSlots() {
       })
     }
 
+    const debouncedFetch = () => {
+      if (fetchDebounceRef.current) clearTimeout(fetchDebounceRef.current)
+      fetchDebounceRef.current = setTimeout(() => {
+        fetchDebounceRef.current = null
+        fetchActiveHolds()
+      }, FETCH_DEBOUNCE_MS)
+    }
+
     const startPolling = () => {
       if (pollRef.current) return
       pollRef.current = setInterval(fetchActiveHolds, POLL_INTERVAL_MS)
@@ -142,7 +152,7 @@ export function useHeldSlots() {
             table: payload.table,
             schema: payload.schema,
           })
-          fetchActiveHolds()
+          debouncedFetch()
         }
       )
       .on('presence', { event: 'sync' }, () => {
@@ -193,6 +203,7 @@ export function useHeldSlots() {
     return () => {
       stopPolling()
       clearExpiryTimers()
+      if (fetchDebounceRef.current) clearTimeout(fetchDebounceRef.current)
       for (const t of leaveDebounceRef.current.values()) {
         clearTimeout(t)
       }
