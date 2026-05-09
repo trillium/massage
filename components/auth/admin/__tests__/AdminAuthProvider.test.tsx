@@ -27,21 +27,26 @@ const mockPublicFrom = () => ({
 })
 
 vi.mock('@/lib/supabase/client', () => ({
-  getSupabaseBrowserClient: vi.fn(() => ({
-    auth: {
-      getUser: (...args: unknown[]) =>
-        mockGetUser(...args) ?? Promise.resolve({ data: { user: null }, error: null }),
-      signOut: mockSignOut,
-      onAuthStateChange: vi.fn(() => ({ data: { subscription: { unsubscribe: vi.fn() } } })),
-    },
-    from: () => ({
+  getSupabaseBrowserClient: vi.fn(() => {
+    const fromChain = () => ({
       select: () => ({
         eq: () => ({
           single: safeSingle,
         }),
       }),
-    }),
-  })),
+    })
+    const client = {
+      auth: {
+        getUser: (...args: unknown[]) =>
+          mockGetUser(...args) ?? Promise.resolve({ data: { user: null }, error: null }),
+        signOut: mockSignOut,
+        onAuthStateChange: vi.fn(() => ({ data: { subscription: { unsubscribe: vi.fn() } } })),
+      },
+      from: fromChain,
+      schema: () => ({ from: fromChain }),
+    }
+    return client
+  }),
   getSupabasePublicBrowserClient: vi.fn(() => ({
     from: mockPublicFrom,
   })),
