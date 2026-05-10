@@ -43,10 +43,7 @@ export default function Template({ title, text, links, classes, center = false }
       </h1>
       {renderText()}
       {links?.map((link) => (
-        <p
-          key={link.href}
-          className="mt-2 font-medium sm:mt-4 sm:text-xl"
-        >
+        <p key={link.href} className="mt-2 font-medium sm:mt-4 sm:text-xl">
           <Link
             href={link.href}
             className="text-primary-500 dark:text-primary-400 underline hover:text-primary-600 dark:hover:text-primary-300"
