@@ -4,6 +4,7 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import { makeStore } from '@/redux/store'
 import BookingForm from '@/components/booking/BookingForm'
+import { SlotHoldProvider } from 'hooks/SlotHoldContext'
 import { ChairAppointmentBlockProps } from '@/lib/types'
 
 // Create store instance
@@ -136,11 +137,13 @@ export default function TestDynamicFieldsPage() {
               </div>
             </div>
 
-            <BookingForm
-              additionalData={testAdditionalData}
-              acceptingPayment={true}
-              onSubmit={mockSubmitHandler}
-            />
+            <SlotHoldProvider>
+              <BookingForm
+                additionalData={testAdditionalData}
+                acceptingPayment={true}
+                onSubmit={mockSubmitHandler}
+              />
+            </SlotHoldProvider>
 
             {submittedData && (
               <div className="mt-4 rounded-lg bg-surface-200 p-4">

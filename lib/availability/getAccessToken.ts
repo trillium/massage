@@ -1,4 +1,8 @@
-import { clearCredentialsCache, loadGoogleCredentials } from '@/lib/google/credentials'
+import {
+  clearCredentialsCache,
+  loadGoogleCredentials,
+  loadGoogleOAuthApp,
+} from '@/lib/google/credentials'
 
 const TOKEN_CACHE_MS = 50 * 60 * 1000
 let cachedToken: { value: string; expiresAt: number } | null = null
@@ -9,16 +13,16 @@ export function clearTokenCache() {
 
 async function exchangeRefreshToken(): Promise<string | null> {
   const creds = await loadGoogleCredentials()
-
   if (!creds?.refresh_token) return null
-  if (!process.env.GOOGLE_OAUTH_SECRET) throw new Error('GOOGLE_OAUTH_SECRET not set')
-  if (!process.env.GOOGLE_OAUTH_CLIENT_ID) throw new Error('GOOGLE_OAUTH_CLIENT_ID not set')
+
+  const app = await loadGoogleOAuthApp()
+  if (!app) throw new Error('Google OAuth app not configured')
 
   const params = new URLSearchParams({
     grant_type: 'refresh_token',
-    client_secret: process.env.GOOGLE_OAUTH_SECRET,
+    client_secret: app.client_secret,
     refresh_token: creds.refresh_token,
-    client_id: process.env.GOOGLE_OAUTH_CLIENT_ID,
+    client_id: app.client_id,
   })
 
   const response = await fetch('https://oauth2.googleapis.com/token', {

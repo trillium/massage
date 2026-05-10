@@ -60,7 +60,7 @@ export default function ConnectGoogleClient({
       options: {
         scopes: GOOGLE_SCOPES,
         queryParams: { access_type: 'offline', prompt: 'consent' },
-        redirectTo: `${window.location.origin}/auth/callback/supabase?next=/admin/connect-google&connect_google=1`,
+        redirectTo: `${window.location.origin}/auth/callback/connect-google`,
       },
     })
   }

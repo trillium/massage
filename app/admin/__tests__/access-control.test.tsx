@@ -14,22 +14,38 @@ vi.mock('next/navigation', () => ({
 const mockGetUser = vi.fn().mockResolvedValue({ data: { user: null }, error: null })
 const mockSingle = vi.fn().mockResolvedValue({ data: null, error: null })
 
+const mockPublicFrom = () => ({
+  select: () => ({
+    eq: () => ({
+      single: (...args: unknown[]) =>
+        mockSingle(...args) ?? Promise.resolve({ data: null, error: null }),
+    }),
+  }),
+})
+
 vi.mock('@/lib/supabase/client', () => ({
-  getSupabaseBrowserClient: vi.fn(() => ({
-    auth: {
-      getUser: (...args: unknown[]) =>
-        mockGetUser(...args) ?? Promise.resolve({ data: { user: null }, error: null }),
-      signOut: vi.fn().mockResolvedValue({ error: null }),
-      onAuthStateChange: vi.fn(() => ({ data: { subscription: { unsubscribe: vi.fn() } } })),
-    },
-    from: () => ({
+  getSupabaseBrowserClient: vi.fn(() => {
+    const fromChain = () => ({
       select: () => ({
         eq: () => ({
           single: (...args: unknown[]) =>
             mockSingle(...args) ?? Promise.resolve({ data: null, error: null }),
         }),
       }),
-    }),
+    })
+    return {
+      auth: {
+        getUser: (...args: unknown[]) =>
+          mockGetUser(...args) ?? Promise.resolve({ data: { user: null }, error: null }),
+        signOut: vi.fn().mockResolvedValue({ error: null }),
+        onAuthStateChange: vi.fn(() => ({ data: { subscription: { unsubscribe: vi.fn() } } })),
+      },
+      from: fromChain,
+      schema: () => ({ from: fromChain }),
+    }
+  }),
+  getSupabasePublicBrowserClient: vi.fn(() => ({
+    from: mockPublicFrom,
   })),
   supabase: {},
 }))
