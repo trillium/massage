@@ -36,7 +36,7 @@ const allImages: GalleryImage[] = [
   },
   {
     src: '/static/images/gallery/portrait_arms_crossed_burgundy.jpg',
-    alt: 'Trillium portrait arms crossed',
+    alt: 'Portrait arms crossed',
   },
   {
     src: '/static/images/gallery/_retouched_focus_chair_massage_elbow.jpg',
@@ -52,12 +52,12 @@ const allImages: GalleryImage[] = [
     src: '/static/images/gallery/massage_chair_shoulders_wide.jpg',
     alt: 'Massage chair shoulder work',
   },
-  { src: '/static/images/gallery/headshot_hat.jpg', alt: 'Trillium with hat' },
+  { src: '/static/images/gallery/headshot_hat.jpg', alt: 'Therapist with hat' },
   {
     src: '/static/images/gallery/headshot_branded_hat.jpg',
-    alt: 'Trillium headshot with branded hat',
+    alt: 'Therapist headshot with branded hat',
   },
-  { src: '/static/images/gallery/_retouched_no_hat_headshot.jpg', alt: 'Trillium headshot' },
+  { src: '/static/images/gallery/_retouched_no_hat_headshot.jpg', alt: 'Therapist headshot' },
 ]
 
 export default function Page() {

@@ -40,7 +40,5 @@ export const createCalendarEventSchema = z.object({
     .string()
     .optional()
     .default('primary')
-    .describe(
-      'Calendar ID (email address like trillium@trilliumsmith.com or trillium@hatsfabulous.com). Defaults to "primary"'
-    ),
+    .describe('Calendar ID (email address). Defaults to "primary"'),
 })

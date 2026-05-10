@@ -54,7 +54,7 @@ const summary: MonthEntry = {
       label: 'Brand & Design',
       icon: 'images',
       items: [
-        'Added a custom trillium-shaped SVG logo with dark/light mode support',
+        'Added a custom SVG logo with dark/light mode support',
         'Swapped primary and secondary colors (green to teal, teal to green)',
         'Replaced favicon with the new logo across all icon sizes',
         'Created a nav header with logo link and navigation links',

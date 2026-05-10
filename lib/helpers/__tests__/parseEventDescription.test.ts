@@ -12,7 +12,7 @@ const sampleDescription = `Thanks for booking!
 <b>Phone</b>: 555-1234
 <b>Location</b>: 123 Main St, Los Angeles, 90001
 
-Trillium Smith, LMT`
+Your Name, LMT`
 
 describe('parseEditableFields', () => {
   it('extracts name, phone, and location', () => {

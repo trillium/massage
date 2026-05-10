@@ -10,11 +10,11 @@ const __dirname = path.dirname(__filename)
 const FIXTURES_DIR = path.join(__dirname, '../lib/qr/__tests__/fixtures')
 
 const GOLDEN_URLS: Record<string, string> = {
-  test_golden: 'https://trilliummassage.la/redirect/test_golden',
-  test_abc123: 'https://trilliummassage.la/redirect/test_abc123',
-  airbnb_host_promo: 'https://trilliummassage.la/redirect/airbnb_host_promo_2026-03',
-  handbill_test_1: 'https://trilliummassage.la/redirect/handbill_test_1',
-  handbill_test_2: 'https://trilliummassage.la/redirect/handbill_test_2',
+  test_golden: 'https://yourdomain.com/redirect/test_golden',
+  test_abc123: 'https://yourdomain.com/redirect/test_abc123',
+  airbnb_host_promo: 'https://yourdomain.com/redirect/airbnb_host_promo_2026-03',
+  handbill_test_1: 'https://yourdomain.com/redirect/handbill_test_1',
+  handbill_test_2: 'https://yourdomain.com/redirect/handbill_test_2',
 }
 
 async function main() {

@@ -199,7 +199,7 @@ describe('checkSlotAvailability', () => {
           '2026-03-09T00:30:00Z'
         ),
         calendarEvent(
-          '5 minute massage with Test Test - TrilliumMassage',
+          '5 minute massage with Test Test - YourBusinessName',
           '2026-03-08T17:40:00Z',
           '2026-03-08T17:45:00Z',
           'scale23x__EVENT__MEMBER__'
@@ -219,7 +219,7 @@ describe('checkSlotAvailability', () => {
           '2026-03-09T00:30:00Z'
         ),
         calendarEvent(
-          '5 minute massage with Earlier Client - TrilliumMassage',
+          '5 minute massage with Earlier Client - YourBusinessName',
           '2026-03-08T17:30:00Z',
           '2026-03-08T17:35:00Z',
           'scale23x__EVENT__MEMBER__'

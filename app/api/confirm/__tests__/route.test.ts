@@ -11,7 +11,7 @@ vi.mock('lib/hash', () => ({
 }))
 
 vi.mock('lib/messaging/templates/events/eventSummary', () => ({
-  default: vi.fn(() => '60 minute massage with Jane Doe - TrilliumMassage'),
+  default: vi.fn(() => '60 minute massage with Jane Doe - YourBusinessName'),
 }))
 
 vi.mock('lib/messaging/templates/events/eventDescription', () => ({

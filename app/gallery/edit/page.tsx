@@ -93,13 +93,13 @@ const initialImages: GalleryImage[] = [
     src: '/static/images/gallery/a46d7ce823d6ae558684f52c206e0f4c-large.jpg',
     alt: 'Massage session',
   },
-  { src: '/static/images/gallery/headshot_hat.jpg', alt: 'Trillium with hat' },
-  { src: '/static/images/gallery/_retouched_photo_arms_hat.jpg', alt: 'Trillium portrait' },
+  { src: '/static/images/gallery/headshot_hat.jpg', alt: 'Therapist with hat' },
+  { src: '/static/images/gallery/_retouched_photo_arms_hat.jpg', alt: 'Therapist portrait' },
   {
     src: '/static/images/gallery/44d2227fc9d4193835f67e1d0c98bc5c-large.jpg',
     alt: 'Massage session',
   },
-  { src: '/static/images/gallery/_retouched_no_hat_headshot.jpg', alt: 'Trillium headshot' },
+  { src: '/static/images/gallery/_retouched_no_hat_headshot.jpg', alt: 'Therapist headshot' },
   {
     src: '/static/images/gallery/005994cb32463dd19f5e74544748843b-large.jpg',
     alt: 'Massage session',

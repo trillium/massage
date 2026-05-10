@@ -34,7 +34,7 @@ export function containerEvent(query: string, start: string, end: string) {
 
 export function memberEvent(query: string, start: string, end: string, clientName = 'Test Client') {
   return calendarEvent(
-    `30 minute massage with ${clientName} - TrilliumMassage`,
+    `30 minute massage with ${clientName} - YourBusinessName`,
     start,
     end,
     `${query}__EVENT__MEMBER__`

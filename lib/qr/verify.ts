@@ -49,7 +49,7 @@ export function verifySvgs(scope: string): VerifyResult {
     const dataUrl = extractDataUrl(content)
     if (dataUrl) {
       if (!sampleUrl) sampleUrl = dataUrl
-      const expected = `https://trilliummassage.la/rd/${slug}`
+      const expected = `https://yourdomain.com/rd/${slug}`
       if (dataUrl !== expected) {
         urlMismatches.push({ slug, expected, found: dataUrl })
       }

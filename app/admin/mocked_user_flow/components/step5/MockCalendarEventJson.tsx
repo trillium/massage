@@ -34,12 +34,12 @@ export default function MockCalendarEventJson({
     location: submittedData.location ? flattenLocation(submittedData.location) : undefined,
     attendees,
     creator: {
-      email: 'trillium@trilliummassage.la',
-      displayName: 'Trillium Smith, LMT',
+      email: 'owner@yourdomain.com',
+      displayName: 'Your Name, LMT',
     },
     organizer: {
-      email: 'trillium@trilliummassage.la',
-      displayName: 'Trillium Smith, LMT',
+      email: 'owner@yourdomain.com',
+      displayName: 'Your Name, LMT',
     },
     status: 'confirmed',
     kind: 'calendar#event',

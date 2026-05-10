@@ -11,7 +11,7 @@ export async function setupAdminSession(page: Page) {
 
   const supabase = createClient(supabaseUrl, supabaseAnonKey)
 
-  const testAdminEmail = process.env.TEST_ADMIN_EMAIL || 'trilliummassagela@gmail.com'
+  const testAdminEmail = process.env.TEST_ADMIN_EMAIL || 'your@email.com'
   const testAdminPassword = process.env.TEST_ADMIN_PASSWORD
 
   if (!testAdminPassword) {

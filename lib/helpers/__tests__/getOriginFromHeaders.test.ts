@@ -21,15 +21,15 @@ describe('getOriginFromHeaders', () => {
   })
 
   it('falls back to NEXT_PUBLIC_SITE_URL when no request headers', () => {
-    vi.stubEnv('NEXT_PUBLIC_SITE_URL', 'https://staging.trilliummassage.la')
+    vi.stubEnv('NEXT_PUBLIC_SITE_URL', 'https://staging.yourdomain.com')
     const headers = makeHeaders({})
-    expect(getOriginFromHeaders(headers)).toBe('https://staging.trilliummassage.la')
+    expect(getOriginFromHeaders(headers)).toBe('https://staging.yourdomain.com')
   })
 
   it('falls back to production URL as last resort', () => {
     vi.stubEnv('NEXT_PUBLIC_SITE_URL', '')
     const headers = makeHeaders({})
-    expect(getOriginFromHeaders(headers)).toBe('https://trilliummassage.la')
+    expect(getOriginFromHeaders(headers)).toBe('https://yourdomain.com')
   })
 
   it('prefers origin over host', () => {

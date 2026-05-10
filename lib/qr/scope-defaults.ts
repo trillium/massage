@@ -1,6 +1,6 @@
 export const SCOPE_DEFAULTS: Record<string, string> = {
-  BC01: 'https://trilliummassage.la',
-  HB01: 'https://trilliummassage.la/blog/airbnb-host-promo-2026-03',
+  BC01: 'https://yourdomain.com',
+  HB01: 'https://yourdomain.com/blog/your-blog-post',
 }
 
 export function scopeFromCode(code: string): string | null {

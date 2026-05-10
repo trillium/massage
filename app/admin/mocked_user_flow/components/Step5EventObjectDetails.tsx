@@ -75,8 +75,8 @@ export default function Step5EventObjectDetails({
       responseStatus: 'accepted',
     },
     {
-      email: 'trillium@trilliummassage.la',
-      displayName: 'Trillium Smith, LMT',
+      email: 'owner@yourdomain.com',
+      displayName: 'Your Name, LMT',
       responseStatus: 'accepted',
       organizer: true,
     },

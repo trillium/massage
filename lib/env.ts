@@ -118,7 +118,7 @@ const ENV_VARS: EnvVar[] = [
     name: 'TENANT_SLUG',
     required: false,
     description:
-      'Postgres schema name for this tenant (e.g. trillium_massage). Falls back to public.',
+      'Postgres schema name for this tenant (e.g. your_business_name). Falls back to public.',
   },
   {
     name: 'NEXT_PUBLIC_TENANT_SLUG',

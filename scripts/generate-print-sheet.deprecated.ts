@@ -16,7 +16,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const REPO_ROOT = path.join(__dirname, '..')
 const QR_DIR = path.join(REPO_ROOT, 'print/qr')
 const OUT_PATH = path.join(REPO_ROOT, 'print/sheet.html')
-const BASE_URL = 'https://trilliummassage.la/rd'
+const BASE_URL = 'https://yourdomain.com/rd'
 
 function inlineSvg(filePath: string): string {
   return fs.readFileSync(filePath, 'utf-8')

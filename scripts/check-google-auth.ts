@@ -11,7 +11,7 @@ import { createClient } from '@supabase/supabase-js'
 
 const url = process.env.NEXT_PUBLIC_SUPABASE_URL
 const key = process.env.SUPABASE_SERVICE_ROLE_KEY
-const tenant = process.env.TENANT_SLUG || 'trillium_massage'
+const tenant = process.env.TENANT_SLUG || 'your_tenant_schema'
 
 if (!url || !key) {
   console.error('Missing NEXT_PUBLIC_SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY')

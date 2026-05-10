@@ -101,7 +101,7 @@ function holdFor(session: string, slot: typeof SLOT_1, shooCount = 0) {
 
 async function fireRealtimeEvent() {
   await act(async () => {
-    postgresHandler?.({ eventType: 'INSERT', table: 'slot_holds', schema: 'trillium_massage' })
+    postgresHandler?.({ eventType: 'INSERT', table: 'slot_holds', schema: 'your_tenant_schema' })
   })
 }
 

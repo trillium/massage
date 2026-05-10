@@ -24,7 +24,7 @@ const REPO_ROOT = path.join(__dirname, '..')
 const REDIRECTS_PATH = path.join(REPO_ROOT, 'redirects.jsonl')
 const PRINT_DIR = path.join(REPO_ROOT, 'print')
 const QR_DIR = path.join(PRINT_DIR, 'qr')
-const BASE_URL = 'https://trilliummassage.la/redirect'
+const BASE_URL = 'https://yourdomain.com/redirect'
 
 function arg(name: string, fallback: string): string {
   const found = process.argv.find((a) => a.startsWith(`--${name}=`))
@@ -32,10 +32,10 @@ function arg(name: string, fallback: string): string {
 }
 
 const PREFIX = arg('prefix', 'HB-')
-const DESTINATION = arg(
-  'dest',
-  'https://trilliummassage.la/blog/airbnb-host-promo-2026-03'
-).replace(/^\//, 'https://trilliummassage.la/')
+const DESTINATION = arg('dest', 'https://yourdomain.com/blog/your-blog-post').replace(
+  /^\//,
+  'https://yourdomain.com/'
+)
 const COUNT = parseInt(arg('count', '6'), 10)
 const REGEN = process.argv.includes('--regen')
 

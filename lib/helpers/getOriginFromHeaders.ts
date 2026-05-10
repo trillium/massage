@@ -1,4 +1,4 @@
-const PRODUCTION_ORIGIN = 'https://trilliummassage.la'
+const PRODUCTION_ORIGIN = 'https://yourdomain.com'
 
 export function getOriginFromHeaders(headers: Headers): string {
   return (

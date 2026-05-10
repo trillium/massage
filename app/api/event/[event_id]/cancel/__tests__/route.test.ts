@@ -36,7 +36,7 @@ function makeRequest(body: Record<string, unknown>) {
 
 const mockEvent = {
   id: eventId,
-  summary: 'REQUEST: 90 minute massage with Test User - TrilliumMassage',
+  summary: 'REQUEST: 90 minute massage with Test User - YourBusinessName',
   status: 'confirmed',
   start: { dateTime: futureDate },
   end: { dateTime: futureDate },

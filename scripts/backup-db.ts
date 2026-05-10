@@ -7,7 +7,7 @@
  * Required env vars:
  *   NEXT_PUBLIC_SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY — Supabase access
  *   GITHUB_BACKUP_TOKEN — GitHub PAT with repo scope
- *   GITHUB_BACKUP_REPO  — e.g. "trillium/massage-backups"
+ *   GITHUB_BACKUP_REPO  — e.g. "yourusername/massage-backups"
  *
  * Usage: tsx scripts/backup-db.ts
  */

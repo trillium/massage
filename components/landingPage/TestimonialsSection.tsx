@@ -37,7 +37,7 @@ function SourceIcon({ source }: { source: string }) {
       />
     )
   }
-  if (source.toLowerCase().includes('trillium')) {
+  if (source.toLowerCase().includes('direct')) {
     return <Logo classes="text-primary-500 w-8 h-8 xs:w-10 xs:h-10" />
   }
 

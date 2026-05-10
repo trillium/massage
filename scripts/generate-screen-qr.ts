@@ -21,8 +21,8 @@ const REPO_ROOT = path.join(__dirname, '..')
 const REDIRECTS_PATH = path.join(REPO_ROOT, 'redirects.jsonl')
 const QR_DIR = path.join(REPO_ROOT, 'print', 'qr')
 
-const DESTINATION = 'https://trilliummassage.la/quicklinks'
-const BASE_URL = 'https://trilliummassage.la/redirect'
+const DESTINATION = 'https://yourdomain.com/quicklinks'
+const BASE_URL = 'https://yourdomain.com/redirect'
 
 function usedSlugs(): Set<string> {
   if (!fs.existsSync(REDIRECTS_PATH)) return new Set()

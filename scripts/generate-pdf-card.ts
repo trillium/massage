@@ -2,7 +2,7 @@ import { generatePrint, parseArgs } from './generate-pdf-print'
 
 const config = parseArgs({
   prefix: '',
-  destination: 'https://trilliummassage.la',
+  destination: 'https://yourdomain.com',
   count: 10,
   regen: false,
 })

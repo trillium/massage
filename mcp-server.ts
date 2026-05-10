@@ -87,8 +87,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
             },
             calendarId: {
               type: 'string',
-              description:
-                'Calendar ID (email address like trillium@trilliumsmith.com or trillium@hatsfabulous.com). Defaults to "primary"',
+              description: 'Calendar ID (email address). Defaults to "primary"',
               default: 'primary',
             },
           },

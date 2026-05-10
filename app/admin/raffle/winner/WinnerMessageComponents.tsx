@@ -21,9 +21,9 @@ export const VARS: Record<string, string> = {
   '{expiration}': 'Expiration date',
 }
 
-export const DEFAULT_WINNER_TEMPLATE = `Hey {firstName}! 🎉 You won the OpenClaw raffle — a free 60-minute massage! Book here before {expiration}: https://trilliummassage.la/openclaw-raffle-prize`
+export const DEFAULT_WINNER_TEMPLATE = `Hey {firstName}! 🎉 You won the raffle — a free 60-minute massage! Book here before {expiration}: https://yourdomain.com/raffle-prize`
 
-export const DEFAULT_NON_WINNER_TEMPLATE = `Hey {firstName}! Unfortunately you didn't win the raffle, BUT! I wanted to extend a free 30-minute upgrade to you, valid through {expiration}. Book here: https://trilliummassage.la/openclaw-appreciation`
+export const DEFAULT_NON_WINNER_TEMPLATE = `Hey {firstName}! Unfortunately you didn't win the raffle, BUT! I wanted to extend a free 30-minute upgrade to you, valid through {expiration}. Book here: https://yourdomain.com/raffle-appreciation`
 
 function ordinal(n: number) {
   if (n % 100 >= 11 && n % 100 <= 13) return `${n}th`

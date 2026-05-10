@@ -2,7 +2,7 @@
 
 import { createClient } from '@supabase/supabase-js'
 import sootheRatings from '../data/ratings-soothe'
-import trilliumRatings from '../data/ratings-trillium'
+import directRatings from '../data/ratings-direct'
 import airbnbRatings from '../data/ratings-airbnb'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
@@ -15,7 +15,7 @@ if (!supabaseUrl || !serviceRoleKey) {
 
 const supabase = createClient(supabaseUrl, serviceRoleKey)
 
-const allReviews = [...sootheRatings, ...trilliumRatings, ...airbnbRatings]
+const allReviews = [...sootheRatings, ...directRatings, ...airbnbRatings]
 
 async function seed() {
   console.log(`Seeding ${allReviews.length} reviews...`)

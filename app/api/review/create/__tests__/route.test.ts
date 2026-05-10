@@ -28,7 +28,7 @@ const validReview = {
   text: 'Great massage!',
   date: '2026-03-15T10:00:00-07:00',
   rating: 5,
-  source: 'Trillium Massage',
+  source: 'Your Business Name',
   type: 'table',
 }
 

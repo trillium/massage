@@ -9,7 +9,7 @@ import { verifySvgs } from '../lib/qr/verify'
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const REPO_ROOT = path.join(__dirname, '..')
 const QR_DIR = path.join(REPO_ROOT, 'print', 'qr')
-const BASE_URL = 'https://trilliummassage.la/rd'
+const BASE_URL = 'https://yourdomain.com/rd'
 
 export interface PrintConfig {
   prefix: string
@@ -41,10 +41,7 @@ export function parseArgs(defaults: PrintConfig): PrintConfig {
     )
   }
 
-  const destination = arg('dest', defaults.destination).replace(
-    /^\//,
-    'https://trilliummassage.la/'
-  )
+  const destination = arg('dest', defaults.destination).replace(/^\//, 'https://yourdomain.com/')
   if (registered && destination !== registered) {
     console.warn(
       `⚠ --dest=${destination} differs from scope default (${registered}). Scope default wins at redirect time.`

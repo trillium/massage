@@ -4,7 +4,7 @@ const adminFile = 'playwright/.auth/admin.json'
 const userFile = 'playwright/.auth/user.json'
 
 setup('authenticate as admin', async ({ page }) => {
-  const testAdminEmail = process.env.TEST_ADMIN_EMAIL || 'trilliummassagela@gmail.com'
+  const testAdminEmail = process.env.TEST_ADMIN_EMAIL || 'your@email.com'
   const testAdminPassword = process.env.TEST_ADMIN_PASSWORD
 
   if (!testAdminPassword) {

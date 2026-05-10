@@ -187,7 +187,7 @@ describe('GET /auth/callback/connect-google', () => {
             provider_token: 'access-token',
             provider_refresh_token: 'refresh-token',
             expires_at: 9999999999,
-            user: { email: 'trillium@example.com' },
+            user: { email: 'test@example.com' },
           },
         },
         error: null,
@@ -197,13 +197,13 @@ describe('GET /auth/callback/connect-google', () => {
       const res = await GET(makeRequest({ code: 'good-code' }))
 
       expect(mockSaveGoogleCredentials).toHaveBeenCalledWith({
-        email: 'trillium@example.com',
+        email: 'test@example.com',
         access_token: 'access-token',
         refresh_token: 'refresh-token',
         expiry_date: 9999999999 * 1000,
       })
       expect(redirectedTo(res)).toBe(
-        'http://localhost:9876/admin/connect-google?connected=1&email=trillium%40example.com'
+        'http://localhost:9876/admin/connect-google?connected=1&email=test%40example.com'
       )
     })
 
@@ -214,7 +214,7 @@ describe('GET /auth/callback/connect-google', () => {
             provider_token: 'access-token',
             provider_refresh_token: null,
             expires_at: 9999999999,
-            user: { email: 'trillium@example.com' },
+            user: { email: 'test@example.com' },
           },
         },
         error: null,
