@@ -1,12 +1,13 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { usePostHog } from 'posthog-js/react'
 import { getSupabaseBrowserClient } from '@/lib/supabase/client'
 
 export function AuthStateListener() {
   const posthog = usePostHog()
   const supabase = getSupabaseBrowserClient()
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   useEffect(() => {
     if (!supabase) return
@@ -38,16 +39,22 @@ export function AuthStateListener() {
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((event, session) => {
-      if (event === 'SIGNED_IN' && session?.user?.email) {
-        identifyUser(session.user.email, session.user.id, session.user.app_metadata?.provider)
-      }
+      if (debounceRef.current) clearTimeout(debounceRef.current)
+      debounceRef.current = setTimeout(() => {
+        if (event === 'SIGNED_IN' && session?.user?.email) {
+          identifyUser(session.user.email, session.user.id, session.user.app_metadata?.provider)
+        }
 
-      if (event === 'SIGNED_OUT' && posthog._isIdentified()) {
-        posthog.reset()
-      }
+        if (event === 'SIGNED_OUT' && posthog._isIdentified()) {
+          posthog.reset()
+        }
+      }, 300)
     })
 
-    return () => subscription.unsubscribe()
+    return () => {
+      subscription.unsubscribe()
+      if (debounceRef.current) clearTimeout(debounceRef.current)
+    }
   }, [posthog, supabase])
 
   return null
