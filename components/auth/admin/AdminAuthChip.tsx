@@ -3,9 +3,6 @@
 import { Menu, MenuItems, MenuItem, MenuButton } from '@headlessui/react'
 import Link from '@/components/Link'
 import authHeaderNavLinks from '@/data/authHeaderNavLinks'
-import { useEffect, useState } from 'react'
-import { getSupabaseBrowserClient } from '@/lib/supabase/client'
-import { useRouter } from 'next/navigation'
 import { FaCheck, FaChevronDown } from 'react-icons/fa'
 
 interface AdminAuthChipProps {
@@ -13,70 +10,8 @@ interface AdminAuthChipProps {
   onLogout?: () => void
 }
 
-interface AdminState {
-  isAdmin: boolean
-  email: string | null
-}
-
 export function AdminAuthChip({ adminEmail, onLogout }: AdminAuthChipProps) {
-  const [adminState, setAdminState] = useState<AdminState>({ isAdmin: false, email: null })
-  const [isClient, setIsClient] = useState(false)
-  const supabase = getSupabaseBrowserClient()
-  const router = useRouter()
-
-  useEffect(() => {
-    setIsClient(true)
-    if (!supabase) return
-
-    const checkAdminStatus = async () => {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser()
-
-      if (!user) {
-        setAdminState({ isAdmin: false, email: null })
-        return
-      }
-
-      const { data: profile } = await supabase
-        .from('profiles')
-        .select('role')
-        .eq('id', user.id)
-        .single()
-
-      if (profile?.role === 'admin') {
-        setAdminState({ isAdmin: true, email: user.email || null })
-      } else {
-        setAdminState({ isAdmin: false, email: null })
-      }
-    }
-
-    checkAdminStatus()
-
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange(() => {
-      checkAdminStatus()
-    })
-
-    return () => {
-      subscription.unsubscribe()
-    }
-  }, [supabase])
-
-  const handleLogout = async () => {
-    if (onLogout) {
-      onLogout()
-    } else if (supabase) {
-      await supabase.auth.signOut()
-      setAdminState({ isAdmin: false, email: null })
-      router.push('/auth/login')
-    }
-  }
-
-  const displayEmail = adminEmail ?? adminState.email
-
-  if (!isClient || (!adminEmail && !adminState.isAdmin)) {
+  if (!adminEmail) {
     return null
   }
 
@@ -86,7 +21,7 @@ export function AdminAuthChip({ adminEmail, onLogout }: AdminAuthChipProps) {
         <MenuButton className="rounded-br-3xl border-b border-l bg-blue-50 px-4 py-2 text-sm transition-colors hover:bg-blue-100 dark:bg-blue-900/20 dark:hover:bg-blue-900/30">
           <div className="flex items-center justify-between">
             <span className="flex items-center text-blue-800 dark:text-blue-200">
-              <FaCheck className="mr-1" /> Admin {displayEmail}
+              <FaCheck className="mr-1" /> Admin {adminEmail}
             </span>
             <span className="pl-2 text-blue-600 dark:text-blue-300">
               <FaChevronDown />
@@ -109,7 +44,7 @@ export function AdminAuthChip({ adminEmail, onLogout }: AdminAuthChipProps) {
           <div className="px-1 py-1">
             <MenuItem>
               <button
-                onClick={handleLogout}
+                onClick={onLogout}
                 className="group flex w-full items-center rounded-md px-2 py-2 text-sm text-accent-900 hover:bg-red-500 hover:text-white dark:text-accent-100 dark:hover:bg-red-500 dark:hover:text-white"
               >
                 Logout

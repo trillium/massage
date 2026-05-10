@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { getSupabaseBrowserClient } from '@/lib/supabase/client'
@@ -29,6 +29,7 @@ export function AdminAuthProvider({ children }: AdminAuthProviderProps) {
 
   const router = useRouter()
   const supabase = getSupabaseBrowserClient()
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   useEffect(() => {
     if (!supabase) {
@@ -80,6 +81,7 @@ export function AdminAuthProvider({ children }: AdminAuthProviderProps) {
           })
           return
         }
+
         await identifyAuthenticatedUser(user.email!, 'admin_session')
 
         setAuthState({
@@ -100,6 +102,18 @@ export function AdminAuthProvider({ children }: AdminAuthProviderProps) {
     }
 
     checkAdminAccess()
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange(() => {
+      if (debounceRef.current) clearTimeout(debounceRef.current)
+      debounceRef.current = setTimeout(checkAdminAccess, 300)
+    })
+
+    return () => {
+      subscription.unsubscribe()
+      if (debounceRef.current) clearTimeout(debounceRef.current)
+    }
   }, [supabase])
 
   const handleLogout = async () => {
@@ -155,7 +169,6 @@ export function AdminAuthProvider({ children }: AdminAuthProviderProps) {
     )
   }
 
-  // Authenticated - provide admin context to children
   return (
     <div className="min-h-screen">
       <AdminAuthChip adminEmail={authState.adminEmail} onLogout={handleLogout} />
