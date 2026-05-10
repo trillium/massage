@@ -61,37 +61,30 @@ export function InitializationUtility({
   initialSelectedDate?: string
   initialDuration?: number
 }) {
-  const { selectedDate: selectedDateRedux, duration: durationRedux } = useReduxAvailability()
   const dispatch = useAppDispatch()
   const initializedRef = useRef(false)
 
+  // One-time: set slots and duration on mount
   useEffect(() => {
     if (initializedRef.current) return
 
-    // Set initial slots
     if (initialSlots && initialSlots.length > 0) {
       dispatch(setSlots(initialSlots))
     }
 
-    // Set initial selected date — URL param always wins over stale Redux state
-    if (initialSelectedDate) {
-      dispatch(setSelectedDate(initialSelectedDate))
-    }
-
-    // Set initial duration
     if (initialDuration) {
       dispatch(setDuration(initialDuration))
     }
 
     initializedRef.current = true
-  }, [
-    initialSlots,
-    initialSelectedDate,
-    initialDuration,
-    dispatch,
-    selectedDateRedux,
-    durationRedux,
-  ])
+  }, [initialSlots, initialDuration, dispatch])
+
+  // Always sync URL-provided date to Redux — re-runs on SPA navigation when param changes
+  useEffect(() => {
+    if (initialSelectedDate) {
+      dispatch(setSelectedDate(initialSelectedDate))
+    }
+  }, [initialSelectedDate, dispatch])
 
   return <></>
 }
@@ -104,6 +97,7 @@ export function SlotGenerationUtility(
     nextSlotMultiDurations?: NextSlotMultiDurationsType
     isNextSlotPage?: boolean
     shouldAutoSelectFirstDate?: boolean
+    initialSelectedDate?: string
   } & (
     | {
         nextSlotMultiDurations: NextSlotMultiDurationsType
@@ -145,8 +139,13 @@ export function SlotGenerationUtility(
     startTransition(() => {
       dispatch(setSlots(newSlots))
 
-      // Auto-select first available date if none selected and slots are available
-      if (props.shouldAutoSelectFirstDate && !selectedDateRedux && newSlots.length > 0) {
+      // Auto-select first available date if none selected, no URL-provided date, and slots available
+      if (
+        props.shouldAutoSelectFirstDate &&
+        !selectedDateRedux &&
+        !props.initialSelectedDate &&
+        newSlots.length > 0
+      ) {
         const firstAvail = format(new Date(newSlots[0].start), 'yyyy-MM-dd')
         dispatch(setSelectedDate(firstAvail))
       }
@@ -189,6 +188,7 @@ export function UpdateSlotsUtility(props: {
   start: DayWithStartEnd
   end: DayWithStartEnd
   configObject: SlugConfigurationType | null
+  initialSelectedDate?: string
 }) {
   useSmartRefresh()
   return (
@@ -200,6 +200,7 @@ export function UpdateSlotsUtility(props: {
         start={props.start}
         end={props.end}
         shouldAutoSelectFirstDate={true}
+        initialSelectedDate={props.initialSelectedDate}
       />
       <UrlSynchronizationUtility />
     </>

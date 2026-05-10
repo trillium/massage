@@ -55,7 +55,13 @@ export default async function Page({ searchParams }: { searchParams: Promise<Sea
         initialSelectedDate={selectedDate || undefined}
         initialDuration={duration}
       />
-      <UpdateSlotsUtility busy={data.busy} start={start} end={end} configObject={configuration} />
+      <UpdateSlotsUtility
+        busy={data.busy}
+        start={start}
+        end={end}
+        configObject={configuration}
+        initialSelectedDate={selectedDate || undefined}
+      />
     </SectionContainer>
   )
 }
