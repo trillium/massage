@@ -1,3 +1,5 @@
+import { unstable_cache } from 'next/cache'
+
 import {
   clearCredentialsCache,
   loadGoogleCredentials,
@@ -5,6 +7,7 @@ import {
 } from '@/lib/google/credentials'
 
 const TOKEN_CACHE_MS = 50 * 60 * 1000
+const TOKEN_CACHE_SECONDS = 50 * 60
 let cachedToken: { value: string; expiresAt: number } | null = null
 
 export function clearTokenCache() {
@@ -38,12 +41,16 @@ async function exchangeRefreshToken(): Promise<string | null> {
   return (json.access_token as string) ?? null
 }
 
+const cachedExchangeRefreshToken = unstable_cache(exchangeRefreshToken, ['google-access-token'], {
+  revalidate: TOKEN_CACHE_SECONDS,
+})
+
 export default async function getAccessToken(): Promise<string> {
   if (cachedToken && Date.now() < cachedToken.expiresAt) {
     return cachedToken.value
   }
 
-  let accessToken = await exchangeRefreshToken()
+  let accessToken = await cachedExchangeRefreshToken()
 
   if (!accessToken) {
     clearCredentialsCache()
