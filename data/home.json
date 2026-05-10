@@ -41,6 +41,7 @@
     "tiers": [
       {
         "minutes": 60,
+        "price": 140,
         "title": "60-Minute Massage",
         "features": [
           "Focus on 1–2 specific areas of tension (e.g., neck, shoulders, or back)",
@@ -50,6 +51,7 @@
       },
       {
         "minutes": 90,
+        "price": 210,
         "title": "90-Minute Massage",
         "mostPopular": true,
         "features": [
@@ -60,6 +62,7 @@
       },
       {
         "minutes": 120,
+        "price": 280,
         "title": "120-Minute Massage",
         "features": [
           "Comprehensive full-body massage with detailed work on multiple areas",
