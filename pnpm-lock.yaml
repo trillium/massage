@@ -63,8 +63,8 @@ importers:
         specifier: ^17.2.1
         version: 17.2.1
       feedtack:
-        specifier: ^1.2.0
-        version: 1.2.0(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
+        specifier: ^1.3.2
+        version: 1.3.2(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
       formik:
         specifier: ^2.4.6
         version: 2.4.6(@types/react@19.2.14)(react@19.2.5)
@@ -4080,8 +4080,8 @@ packages:
       picomatch:
         optional: true
 
-  feedtack@1.2.0:
-    resolution: {integrity: sha512-jYCMGpHRQ8AjIU4tW3oD5hxyh6h9GHQ8dCEBLcPRWo7vIfOOfZ9VNlL5rUh2r3qJ2YxbxPDzc8p1+HKaI8Q9aA==}
+  feedtack@1.3.2:
+    resolution: {integrity: sha512-KeGtamti8OdThB2/lROjdAN/qd0/TRPtaBq2XrmCNI/g1rs7FODO/9GNvlALJfCq0XOx5mlswTfPbRI/JCiXYA==}
     peerDependencies:
       react: '>=18.0.0'
       react-dom: '>=18.0.0'
@@ -10828,7 +10828,7 @@ snapshots:
     optionalDependencies:
       picomatch: 4.0.3
 
-  feedtack@1.2.0(react-dom@19.2.5(react@19.2.5))(react@19.2.5):
+  feedtack@1.3.2(react-dom@19.2.5(react@19.2.5))(react@19.2.5):
     dependencies:
       react: 19.2.5
       react-dom: 19.2.5(react@19.2.5)
