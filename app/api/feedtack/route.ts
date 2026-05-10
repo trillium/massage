@@ -8,22 +8,25 @@ type FeedtackDB = {
   }
 }
 
-async function authorizeAndGetDB(request: NextRequest) {
-  const authResult = await requireAdminWithFlag(request)
-  if (authResult instanceof NextResponse) return { error: authResult }
+const ADMIN_ONLY_TYPES = new Set(['reply', 'resolve', 'archive'])
 
+function getDB() {
   const supabase = getSupabaseAdminClient()
-  if (!supabase) return { error: NextResponse.json({ error: 'DB unavailable' }, { status: 503 }) }
-
-  return { supabase }
+  if (!supabase) return null
+  return supabase as never as FeedtackDB
 }
 
 export async function POST(request: NextRequest) {
-  const { error: authError, supabase } = await authorizeAndGetDB(request)
-  if (authError) return authError
+  const body = await request.json()
+  const { type, feedbackId, payload, reply, resolution, userId } = body
 
-  const db = supabase as never as FeedtackDB
-  const { type, feedbackId, payload, reply, resolution, userId } = await request.json()
+  if (ADMIN_ONLY_TYPES.has(type)) {
+    const authResult = await requireAdminWithFlag(request)
+    if (authResult instanceof NextResponse) return authResult
+  }
+
+  const db = getDB()
+  if (!db) return NextResponse.json({ error: 'DB unavailable' }, { status: 503 })
 
   const dispatchers: Record<string, () => Promise<{ error: { message: string } | null }>> = {
     submit: () => db.from('feedtack_submissions').insert({ id: payload.id, data: payload }),
@@ -43,8 +46,11 @@ export async function POST(request: NextRequest) {
 }
 
 export async function GET(request: NextRequest) {
-  const { error: authError, supabase } = await authorizeAndGetDB(request)
-  if (authError) return authError
+  const authResult = await requireAdminWithFlag(request)
+  if (authResult instanceof NextResponse) return authResult
+
+  const supabase = getSupabaseAdminClient()
+  if (!supabase) return NextResponse.json({ error: 'DB unavailable' }, { status: 503 })
 
   const pathname = request.nextUrl.searchParams.get('pathname')
 
