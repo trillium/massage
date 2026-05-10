@@ -22,7 +22,7 @@ interface SlugDashboardProps {
 
 export default function SlugDashboard({ slug, appointments, eventContainer }: SlugDashboardProps) {
   const router = useRouter()
-  const { heldSlots, debug, activeUsers } = useHeldSlots()
+  const { heldSlots, debug, activeUsers } = useHeldSlots('SlugDashboard')
   const [expanded, setExpanded] = useState(true)
 
   const appointmentsChannel = useAppointmentsChannel(router.refresh)

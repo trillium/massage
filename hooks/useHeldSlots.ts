@@ -25,7 +25,7 @@ export type HeldSlotsDebug = {
   mode: 'realtime' | 'polling'
 }
 
-export function useHeldSlots() {
+export function useHeldSlots(caller = 'unknown') {
   const sessionId = useSessionId()
   const [heldSlots, setHeldSlots] = useState<HeldSlot[]>([])
   const [activeUsers, setActiveUsers] = useState(0)
@@ -105,6 +105,7 @@ export function useHeldSlots() {
       }))
       debugLog('held_slots:fetched', {
         sessionId,
+        caller,
         tenant: tenantSlug,
         count: data?.length ?? 0,
         error: error?.message,
@@ -161,6 +162,14 @@ export function useHeldSlots() {
         setActiveUsers(presenceKeys.length)
         debugLog('held_slots:presence_sync', { sessionId, activeUsers: presenceKeys.length })
         checkOrphanedHolds(presenceKeys)
+      })
+      .on('presence', { event: 'join' }, ({ key }: { key: string }) => {
+        const existing = leaveDebounceRef.current.get(key)
+        if (existing) {
+          clearTimeout(existing)
+          leaveDebounceRef.current.delete(key)
+          debugLog('held_slots:orphan_join_cancel', { sessionId, orphanSessionId: key })
+        }
       })
       .on('presence', { event: 'leave' }, ({ key }: { key: string }) => {
         const existing = leaveDebounceRef.current.get(key)
