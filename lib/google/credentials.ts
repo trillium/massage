@@ -1,4 +1,4 @@
-import { getSupabaseAdminClient } from '@/lib/supabase/admin'
+import { getSupabaseAdminClient, getSupabasePublicAdminClient } from '@/lib/supabase/admin'
 
 export type GoogleOAuthApp = {
   id: string
@@ -33,10 +33,17 @@ function adminClient(): any {
   return supabase
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function publicAdminClient(): any {
+  const supabase = getSupabasePublicAdminClient()
+  if (!supabase) throw new Error('Supabase admin client not available')
+  return supabase
+}
+
 export async function loadGoogleOAuthApp(): Promise<GoogleOAuthApp | null> {
   if (cachedApp) return cachedApp
 
-  const { data, error } = await adminClient()
+  const { data, error } = await publicAdminClient()
     .from('google_oauth_apps')
     .select('id, name, client_id, client_secret')
     .limit(1)
@@ -54,7 +61,7 @@ export async function saveGoogleOAuthApp(app: {
   client_id: string
   client_secret: string
 }): Promise<void> {
-  const { error } = await adminClient()
+  const { error } = await publicAdminClient()
     .from('google_oauth_apps')
     .upsert(app, { onConflict: 'name' })
 
