@@ -73,8 +73,8 @@ export function InitializationUtility({
       dispatch(setSlots(initialSlots))
     }
 
-    // Set initial selected date
-    if (initialSelectedDate && !selectedDateRedux) {
+    // Set initial selected date — URL param always wins over stale Redux state
+    if (initialSelectedDate) {
       dispatch(setSelectedDate(initialSelectedDate))
     }
 
