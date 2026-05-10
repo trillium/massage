@@ -7,10 +7,12 @@ import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest'
 
 type PostgresHandler = (payload: unknown) => void
 type PresenceHandler = () => void
+type PresenceLeaveHandler = (payload: { key: string }) => void
 type SubscribeCallback = (status: string, err?: Error) => void
 
 let postgresHandler: PostgresHandler | null = null
-let presenceHandler: PresenceHandler | null = null
+let syncHandler: PresenceHandler | null = null
+let leaveHandler: PresenceLeaveHandler | null = null
 let subscribeCallback: SubscribeCallback | null = null
 let mockGt: ReturnType<typeof vi.fn>
 let mockFrom: ReturnType<typeof vi.fn>
@@ -27,7 +29,8 @@ let mockChannel: {
 
 function buildMocks(initialData: unknown[] = []) {
   postgresHandler = null
-  presenceHandler = null
+  syncHandler = null
+  leaveHandler = null
   subscribeCallback = null
 
   mockGt = vi.fn().mockResolvedValue({ data: initialData, error: null })
@@ -45,9 +48,11 @@ function buildMocks(initialData: unknown[] = []) {
     track: mockTrack,
   }
 
-  channel.on.mockImplementation((type: string, _: unknown, handler: unknown) => {
+  channel.on.mockImplementation((type: string, arg: { event?: string }, handler: unknown) => {
     if (type === 'postgres_changes') postgresHandler = handler as PostgresHandler
-    if (type === 'presence') presenceHandler = handler as PresenceHandler
+    if (type === 'presence' && arg?.event === 'sync') syncHandler = handler as PresenceHandler
+    if (type === 'presence' && arg?.event === 'leave')
+      leaveHandler = handler as PresenceLeaveHandler
     return channel
   })
 
@@ -79,10 +84,6 @@ const SESSION_A = 'aaaaaaaa-0000-0000-0000-000000000000'
 
 vi.mock('../useSessionId', () => ({
   useSessionId: () => SESSION_A,
-}))
-
-vi.mock('@/lib/debug/log', () => ({
-  debugLog: vi.fn(),
 }))
 
 // ─── Fixtures ─────────────────────────────────────────────────────────────────
@@ -398,7 +399,7 @@ describe('useHeldSlots', () => {
       await waitFor(() => expect(result.current.debug.fetchCount).toBe(1))
 
       mockChannel.presenceState.mockReturnValue({ a: {}, b: {}, c: {} })
-      act(() => presenceHandler?.())
+      act(() => syncHandler?.())
 
       await waitFor(() => expect(result.current.activeUsers).toBe(3))
     })
