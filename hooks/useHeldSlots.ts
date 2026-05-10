@@ -3,7 +3,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useSessionId } from './useSessionId'
 import { getSupabaseBrowserClient } from '@/lib/supabase/client'
-import { debugLog } from '@/lib/debug/log'
 import type { RealtimeChannel } from '@supabase/supabase-js'
 
 const POLL_INTERVAL_MS = 5_000
@@ -25,7 +24,7 @@ export type HeldSlotsDebug = {
   mode: 'realtime' | 'polling'
 }
 
-export function useHeldSlots(caller = 'unknown') {
+export function useHeldSlots(_caller = 'unknown') {
   const sessionId = useSessionId()
   const [heldSlots, setHeldSlots] = useState<HeldSlot[]>([])
   const [activeUsers, setActiveUsers] = useState(0)
@@ -46,14 +45,12 @@ export function useHeldSlots(caller = 'unknown') {
     const supabase = getSupabaseBrowserClient()
     if (!supabase) {
       setDebug((d) => ({ ...d, channelStatus: 'no_supabase_client' }))
-      debugLog('held_slots:no_client', { sessionId })
       return
     }
 
     const tenantSlug = process.env.NEXT_PUBLIC_TENANT_SLUG || 'public'
 
     const releaseOrphanedHold = (orphanSessionId: string) => {
-      debugLog('held_slots:orphan_cleanup', { sessionId, orphanSessionId })
       fetch('/api/release-hold', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -103,14 +100,6 @@ export function useHeldSlots(caller = 'unknown') {
         fetchCount: d.fetchCount + 1,
         ...(error ? { channelStatus: `fetch_error: ${error.message}` } : {}),
       }))
-      debugLog('held_slots:fetched', {
-        sessionId,
-        caller,
-        tenant: tenantSlug,
-        count: data?.length ?? 0,
-        error: error?.message,
-        holds: data?.map((h) => ({ start: h.start_time, session: h.session_id })),
-      })
     }
 
     const debouncedFetch = () => {
@@ -125,7 +114,6 @@ export function useHeldSlots(caller = 'unknown') {
       if (pollRef.current) return
       pollRef.current = setInterval(fetchActiveHolds, POLL_INTERVAL_MS)
       setDebug((d) => ({ ...d, mode: 'polling' }))
-      debugLog('held_slots:polling_started', { sessionId })
     }
 
     const stopPolling = () => {
@@ -142,25 +130,13 @@ export function useHeldSlots(caller = 'unknown') {
       .channel(channelName, {
         config: { presence: { key: sessionId ?? crypto.randomUUID() } },
       })
-      .on(
-        'postgres_changes',
-        { event: '*', schema: tenantSlug, table: 'slot_holds' },
-        (payload) => {
-          debugLog('held_slots:realtime_event', {
-            sessionId,
-            tenant: tenantSlug,
-            eventType: payload.eventType,
-            table: payload.table,
-            schema: payload.schema,
-          })
-          debouncedFetch()
-        }
-      )
+      .on('postgres_changes', { event: '*', schema: tenantSlug, table: 'slot_holds' }, () => {
+        debouncedFetch()
+      })
       .on('presence', { event: 'sync' }, () => {
         const state = channel.presenceState()
         const presenceKeys = Object.keys(state)
         setActiveUsers(presenceKeys.length)
-        debugLog('held_slots:presence_sync', { sessionId, activeUsers: presenceKeys.length })
         checkOrphanedHolds(presenceKeys)
       })
       .on('presence', { event: 'join' }, ({ key }: { key: string }) => {
@@ -168,7 +144,6 @@ export function useHeldSlots(caller = 'unknown') {
         if (existing) {
           clearTimeout(existing)
           leaveDebounceRef.current.delete(key)
-          debugLog('held_slots:orphan_join_cancel', { sessionId, orphanSessionId: key })
         }
       })
       .on('presence', { event: 'leave' }, ({ key }: { key: string }) => {
@@ -188,13 +163,6 @@ export function useHeldSlots(caller = 'unknown') {
           ...d,
           channelStatus: err ? `${status}: ${err.message}` : status,
         }))
-        debugLog('held_slots:channel_status', {
-          sessionId,
-          tenant: tenantSlug,
-          channel: channelName,
-          status,
-          error: err?.message,
-        })
 
         if (status === 'SUBSCRIBED') {
           stopPolling()
@@ -219,7 +187,6 @@ export function useHeldSlots(caller = 'unknown') {
       leaveDebounceRef.current.clear()
       channel.unsubscribe()
       channelRef.current = null
-      debugLog('held_slots:unmount', { sessionId })
     }
   }, [sessionId])
 
