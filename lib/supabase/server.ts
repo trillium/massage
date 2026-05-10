@@ -1,11 +1,5 @@
-/**
- * Supabase Server Client
- *
- * Use this in Server Components, Server Actions, and API Routes.
- * This client reads/writes cookies for session management.
- */
-
 import { createServerClient } from '@supabase/ssr'
+import { cache } from 'react'
 import { cookies } from 'next/headers'
 import type { Database } from './database.types'
 import { getCookieOptionsWithDomain } from './cookie-options'
@@ -72,14 +66,14 @@ export async function getSupabasePublicClient() {
  * Get current user from server
  * Returns null if not authenticated
  */
-export async function getUser() {
+export const getUser = cache(async () => {
   const supabase = await getSupabaseServerClient()
   if (!supabase) return null
   const {
     data: { user },
   } = await supabase.auth.getUser()
   return user
-}
+})
 
 /**
  * Get current user session from server
