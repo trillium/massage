@@ -14,7 +14,8 @@ type DisplayClientProps = {
 }
 
 export default function DisplayClient({ durationProps }: DisplayClientProps) {
-  const { presenceCounts, trackSlot } = useSlotPresence('display-event')
+  const tenantSlug = process.env.NEXT_PUBLIC_TENANT_SLUG || 'public'
+  const { presenceCounts, trackSlot } = useSlotPresence(`${tenantSlug}:display-event`)
 
   useSmartRefresh()
 

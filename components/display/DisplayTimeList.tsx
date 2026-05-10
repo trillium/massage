@@ -24,7 +24,7 @@ export default function DisplayTimeList({ presenceCounts, onSlotHover }: Display
   const { slots: slotsRedux, selectedDate, selectedTime, timeZone } = useReduxAvailability()
   const dispatch = useAppDispatch()
   const { claimHold, claiming } = useSlotHoldContext()
-  const { getHolderSessionId, getShooCount } = useHeldSlots()
+  const { getHolderSessionId, getShooCount } = useHeldSlots('DisplayTimeList')
   const [claimingSlot, setClaimingSlot] = useState<string | null>(null)
 
   const slots = slotsRedux || []
