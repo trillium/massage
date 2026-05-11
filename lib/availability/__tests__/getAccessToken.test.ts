@@ -1,6 +1,10 @@
 import { describe, it, expect, vi, beforeEach, afterEach, type Mock } from 'vitest'
 import getAccessToken, { clearTokenCache } from '@/lib/availability/getAccessToken'
 
+vi.mock('next/cache', () => ({
+  unstable_cache: (fn: (...args: unknown[]) => unknown) => fn,
+}))
+
 vi.mock('@/lib/google/credentials', () => ({
   loadGoogleCredentials: vi.fn(),
   clearCredentialsCache: vi.fn(),
@@ -89,5 +93,20 @@ describe('getAccessToken', () => {
     await expect(getAccessToken()).rejects.toThrow(
       'Failed to get access token after credential cache refresh'
     )
+  })
+
+  it('in-process cache prevents second fetch call within TTL', async () => {
+    const mockResponse = new Response(JSON.stringify({ access_token: 'cached_token' }), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' },
+    })
+    ;(fetch as Mock).mockResolvedValue(mockResponse)
+
+    const first = await getAccessToken()
+    const second = await getAccessToken()
+
+    expect(first).toBe('cached_token')
+    expect(second).toBe('cached_token')
+    expect(fetch).toHaveBeenCalledTimes(1)
   })
 })

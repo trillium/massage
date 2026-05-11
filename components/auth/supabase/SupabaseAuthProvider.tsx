@@ -12,7 +12,7 @@
 
 'use client'
 
-import { createContext, useContext, useEffect, useState } from 'react'
+import { createContext, useContext, useEffect, useRef, useState } from 'react'
 import type { User, Session } from '@supabase/supabase-js'
 import { getSupabaseBrowserClient } from '@/lib/supabase/client'
 import type { Profile } from '@/lib/supabase/database.types'
@@ -36,6 +36,7 @@ export function SupabaseAuthProvider({ children }: { children: React.ReactNode }
   const [loading, setLoading] = useState(true)
 
   const supabase = getSupabaseBrowserClient()
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const fetchProfile = async (userId: string) => {
     if (!supabase) return null
@@ -73,9 +74,7 @@ export function SupabaseAuthProvider({ children }: { children: React.ReactNode }
 
     initAuth()
 
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange(async (_event, newSession) => {
+    const handleAuthChange = async (newSession: Session | null) => {
       setSession(newSession)
       setUser(newSession?.user ?? null)
 
@@ -86,10 +85,18 @@ export function SupabaseAuthProvider({ children }: { children: React.ReactNode }
       }
 
       setLoading(false)
+    }
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, newSession) => {
+      if (debounceRef.current) clearTimeout(debounceRef.current)
+      debounceRef.current = setTimeout(() => handleAuthChange(newSession), 300)
     })
 
     return () => {
       subscription.unsubscribe()
+      if (debounceRef.current) clearTimeout(debounceRef.current)
     }
   }, [supabase])
 

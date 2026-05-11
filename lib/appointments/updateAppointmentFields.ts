@@ -12,12 +12,11 @@ export async function updateAppointmentFields(
   calendarEventId: string,
   fields: UpdatableFields
 ): Promise<void> {
-  const filtered = Object.fromEntries(
-    Object.entries(fields).filter(([, v]) => v !== undefined)
-  )
+  const filtered = Object.fromEntries(Object.entries(fields).filter(([, v]) => v !== undefined))
   if (Object.keys(filtered).length === 0) return
 
   const supabase = getSupabaseAdminClient()
+  if (!supabase) return
 
   const { error } = await supabase
     .from('appointments')
