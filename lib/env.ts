@@ -221,4 +221,7 @@ export function getOptionalEnv(name: string, defaultValue: string = ''): string 
 if (typeof window === 'undefined' && !process.env.NEXT_PHASE) {
   // Only validate on server-side at runtime (not in browser, not during build)
   validateEnv()
+  import('./startup/provisionTenant').then(({ provisionTenant }) =>
+    provisionTenant().catch(console.warn)
+  )
 }
