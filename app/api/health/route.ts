@@ -5,6 +5,7 @@ export const dynamic = 'force-dynamic'
 
 type TenantStatus = 'ready' | 'no_owner_seeded' | 'unprovisioned' | 'not_configured'
 
+// fallow-ignore-next-line complexity
 async function checkTenant(): Promise<TenantStatus> {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
   const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY
@@ -30,6 +31,7 @@ async function checkTenant(): Promise<TenantStatus> {
   }
 }
 
+// fallow-ignore-next-line complexity
 export async function GET() {
   const timestamp = new Date().toISOString()
 

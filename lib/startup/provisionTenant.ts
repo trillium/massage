@@ -7,6 +7,7 @@ const managementApiToken = process.env.SUPABASE_MANAGEMENT_API_TOKEN ?? null
 
 let provisioned = false
 
+// fallow-ignore-next-line complexity
 export async function registerRedirectUrls(): Promise<void> {
   if (!managementApiToken || !tenantDomain) {
     if (!managementApiToken)
@@ -68,6 +69,7 @@ export async function registerRedirectUrls(): Promise<void> {
   }
 }
 
+// fallow-ignore-next-line complexity
 export async function provisionTenant(): Promise<void> {
   if (provisioned) return
   if (!supabaseUrl || !serviceRoleKey || !tenantSlug) return

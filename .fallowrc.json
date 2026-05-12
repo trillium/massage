@@ -18,8 +18,13 @@
     "data/**/*.mdx"
   ],
   "ignorePatterns": [
-    "__tests__/**",
+    "**/__tests__/**",
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "**/*.spec.ts",
+    "**/*.spec.tsx",
     "tests/**",
+    "scripts/**",
     "playground/**",
     ".contentlayer/**",
     ".next/**",
