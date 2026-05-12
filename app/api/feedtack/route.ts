@@ -16,7 +16,14 @@ function getDB() {
   return supabase as never as FeedtackDB
 }
 
+function isDevHost(request: NextRequest) {
+  const host = request.headers.get('host') ?? ''
+  return /^(dev|test)\./.test(host) || host.startsWith('localhost')
+}
+
 export async function POST(request: NextRequest) {
+  if (!isDevHost(request)) return NextResponse.json({ error: 'Not found' }, { status: 404 })
+
   const body = await request.json()
   const { type, feedbackId, payload, reply, resolution, userId } = body
 
@@ -46,6 +53,8 @@ export async function POST(request: NextRequest) {
 }
 
 export async function GET(request: NextRequest) {
+  if (!isDevHost(request)) return NextResponse.json({ error: 'Not found' }, { status: 404 })
+
   const authResult = await requireAdminWithFlag(request)
   if (authResult instanceof NextResponse) return authResult
 
