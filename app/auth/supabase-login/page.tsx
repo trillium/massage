@@ -12,7 +12,7 @@
 import { LoginForm } from '@/components/auth/supabase/LoginForm'
 import { Suspense } from 'react'
 
-function LoginContent() {
+function LoginContent({ redirectTo }: { redirectTo?: string }) {
   return (
     <div className="flex min-h-screen items-center justify-center bg-surface-100 px-4">
       <div className="w-full max-w-md">
@@ -22,7 +22,7 @@ function LoginContent() {
             <p className="mt-2 text-sm text-accent-600">Enter your email to receive a magic link</p>
           </div>
 
-          <LoginForm />
+          <LoginForm redirectTo={redirectTo} />
         </div>
 
         <p className="mt-6 text-center text-sm text-accent-600">
@@ -36,7 +36,13 @@ function LoginContent() {
   )
 }
 
-export default function LoginPage() {
+export default async function LoginPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ redirectTo?: string }>
+}) {
+  const { redirectTo } = await searchParams
+
   return (
     <Suspense
       fallback={
@@ -47,7 +53,7 @@ export default function LoginPage() {
         </div>
       }
     >
-      <LoginContent />
+      <LoginContent redirectTo={redirectTo} />
     </Suspense>
   )
 }
