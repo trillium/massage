@@ -47,18 +47,15 @@ GOOGLE_MAPS_API_KEY=<shared maps key>
 NEXT_PUBLIC_SITE_URL=https://<their-domain.com>
 ```
 
-### Step 2 — Register OAuth callbacks
+### Step 2 — Register redirect URLs in Supabase
 
-**Google Cloud Console** → Trillium's OAuth client → Authorized redirect URIs, add:
-
-```
-https://<their-domain.com>/auth/callback/connect-google
-```
+OAuth is handled via Supabase — no Google Cloud Console changes needed.
 
 **Supabase Dashboard** → Auth → URL Configuration → Redirect URLs, add:
 
 ```
 https://<their-domain.com>/auth/callback/supabase
+https://<their-domain.com>/auth/callback/connect-google
 ```
 
 ### Step 3 — Deploy
