@@ -22,7 +22,7 @@ jobs:
           version: latest
 
       - name: Apply pending migrations
-        run: supabase db push --linked
+        run: supabase db push --project-ref qrvuazoacpolbojkimyu
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
           SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
