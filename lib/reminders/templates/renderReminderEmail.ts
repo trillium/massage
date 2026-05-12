@@ -1,4 +1,5 @@
 import type { Appointment, Reminder } from '@/lib/supabase/database.types'
+import { siteConfig } from '@/lib/siteConfig'
 
 export function renderReminderEmail(
   reminder: Reminder,
@@ -18,22 +19,25 @@ export function renderReminderEmail(
     timeZone: appointment.timezone,
   })
 
+  const sn = siteConfig.business.serviceNoun
+  const snCap = sn.charAt(0).toUpperCase() + sn.slice(1)
+
   if (reminder.reminder_type === '24h_before') {
     return {
-      subject: `Reminder: Your massage is tomorrow`,
-      body: `<p>Hi ${clientName},</p><p>This is a friendly reminder that your ${appointment.duration_minutes}-minute massage is scheduled for <strong>${formattedDate} at ${formattedTime}</strong>.</p><p>Looking forward to seeing you!</p>`,
+      subject: `Reminder: Your ${sn} is tomorrow`,
+      body: `<p>Hi ${clientName},</p><p>This is a friendly reminder that your ${appointment.duration_minutes}-minute ${sn} is scheduled for <strong>${formattedDate} at ${formattedTime}</strong>.</p><p>Looking forward to seeing you!</p>`,
     }
   }
 
   if (reminder.reminder_type === '2h_before') {
     return {
-      subject: `Your massage is in 2 hours`,
-      body: `<p>Hi ${clientName},</p><p>Just a quick reminder — your ${appointment.duration_minutes}-minute massage starts at <strong>${formattedTime}</strong> today.</p><p>See you soon!</p>`,
+      subject: `Your ${sn} is in 2 hours`,
+      body: `<p>Hi ${clientName},</p><p>Just a quick reminder — your ${appointment.duration_minutes}-minute ${sn} starts at <strong>${formattedTime}</strong> today.</p><p>See you soon!</p>`,
     }
   }
 
   return {
-    subject: `Massage appointment reminder`,
-    body: `<p>Hi ${clientName},</p><p>You have a massage scheduled for ${formattedDate} at ${formattedTime}.</p>`,
+    subject: `${snCap} appointment reminder`,
+    body: `<p>Hi ${clientName},</p><p>You have a ${sn} scheduled for ${formattedDate} at ${formattedTime}.</p>`,
   }
 }

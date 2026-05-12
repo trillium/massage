@@ -1,5 +1,6 @@
 import { EmailProps } from '@/lib/types'
 import { parts as signatureParts } from '@/lib/messaging/utilities/signature'
+import { siteConfig } from '@/lib/siteConfig'
 
 const LINE_PREFIX = `<div class="gmail_default" style="font-family:arial,sans-serif">`
 const LINE_SUFFIX = `</div>`
@@ -14,13 +15,14 @@ export default function ClientConfirmEmail({
   promo,
   eventPageUrl,
 }: Omit<EmailProps, 'approveUrl'> & { eventPageUrl?: string }) {
-  const SUBJECT = `Massage Session Confirmed${price ? ` $${price},` : ','} ${duration} minutes`
+  const serviceNoun = siteConfig.business.serviceNoun
+  const SUBJECT = `${serviceNoun.charAt(0).toUpperCase() + serviceNoun.slice(1)} Session Confirmed${price ? ` $${price},` : ','} ${duration} minutes`
 
   let body = `<div dir="ltr">`
   body += [
     `Hi ${firstName || 'there'}`,
     `<br>`,
-    `Great news! Your massage session has been confirmed.`,
+    `Great news! Your ${serviceNoun} session has been confirmed.`,
     `<br>`,
     `<b>Date:</b> ${dateSummary}`,
     `<b>Location:</b> ${location}`,
