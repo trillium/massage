@@ -112,7 +112,8 @@ Migrations automatically apply to all tenants (they use `CREATE TABLE IF NOT EXI
 
 ## Tenant Registry
 
-| Slug               | Domain              | Status |
-| ------------------ | ------------------- | ------ |
-| `trillium_massage` | trilliummassage.la  | Active |
-| `sarah_music`      | musicwithsarahb.com | Active |
+_Update this table as tenants are onboarded._
+
+| Slug         | Domain      | Status |
+| ------------ | ----------- | ------ |
+| `tenant_one` | example.com | Active |
