@@ -1,18 +1,23 @@
--- create_tenant: self-service tenant provisioning via REST API
--- Callable with service role key only. No DB password required at call time.
--- Usage: POST /rest/v1/rpc/create_tenant {"p_tenant_slug": "sarah_music", "p_domain": "musicwithsarahb.com"}
+-- Extend create_tenant with:
+--   1. p_owner_email  — seeds admin_emails so the trigger grants admin on signup
+--   2. PostgREST exposure — appends the new schema to pgrst.db_schemas and reloads
 
 CREATE OR REPLACE FUNCTION public.create_tenant(
-  p_tenant_slug TEXT,
-  p_domain      TEXT DEFAULT NULL
+  p_tenant_slug  TEXT,
+  p_domain       TEXT DEFAULT NULL,
+  p_owner_email  TEXT DEFAULT NULL
 )
 RETURNS jsonb
 LANGUAGE plpgsql
 SECURITY DEFINER
 SET search_path = public
 AS $$
+DECLARE
+  _role_cfg    TEXT[];
+  _cfg         TEXT;
+  _cur_schemas TEXT;
 BEGIN
-  -- Slug guard: reject reserved schemas and non-identifier input
+  -- Slug guard
   IF p_tenant_slug IS NULL OR p_tenant_slug = '' THEN
     RAISE EXCEPTION 'p_tenant_slug must not be empty';
   END IF;
@@ -162,9 +167,9 @@ BEGIN
     )
   $sql$, p_tenant_slug, p_tenant_slug);
 
-  EXECUTE format('CREATE INDEX IF NOT EXISTS idx_%s_invoices_booking ON %I.invoices(booking_id)',          p_tenant_slug, p_tenant_slug);
-  EXECUTE format('CREATE INDEX IF NOT EXISTS idx_%s_invoices_square  ON %I.invoices(square_invoice_id)',   p_tenant_slug, p_tenant_slug);
-  EXECUTE format('CREATE INDEX IF NOT EXISTS idx_%s_invoices_status  ON %I.invoices(status)',              p_tenant_slug, p_tenant_slug);
+  EXECUTE format('CREATE INDEX IF NOT EXISTS idx_%s_invoices_booking ON %I.invoices(booking_id)',        p_tenant_slug, p_tenant_slug);
+  EXECUTE format('CREATE INDEX IF NOT EXISTS idx_%s_invoices_square  ON %I.invoices(square_invoice_id)', p_tenant_slug, p_tenant_slug);
+  EXECUTE format('CREATE INDEX IF NOT EXISTS idx_%s_invoices_status  ON %I.invoices(status)',             p_tenant_slug, p_tenant_slug);
   EXECUTE format('ALTER TABLE %I.invoices ENABLE ROW LEVEL SECURITY', p_tenant_slug);
   BEGIN
     EXECUTE format('CREATE POLICY "Service role full access on invoices" ON %I.invoices FOR ALL USING (auth.role() = ''service_role'')', p_tenant_slug);
@@ -189,10 +194,10 @@ BEGIN
     )
   $sql$, p_tenant_slug, p_tenant_slug);
 
-  EXECUTE format('CREATE INDEX IF NOT EXISTS idx_%s_audit_booking    ON %I.invoice_audit_log(booking_id)',          p_tenant_slug, p_tenant_slug);
-  EXECUTE format('CREATE INDEX IF NOT EXISTS idx_%s_audit_sq_inv     ON %I.invoice_audit_log(square_invoice_id)',   p_tenant_slug, p_tenant_slug);
-  EXECUTE format('CREATE INDEX IF NOT EXISTS idx_%s_audit_event_type ON %I.invoice_audit_log(event_type)',          p_tenant_slug, p_tenant_slug);
-  EXECUTE format('CREATE INDEX IF NOT EXISTS idx_%s_audit_created    ON %I.invoice_audit_log(created_at)',          p_tenant_slug, p_tenant_slug);
+  EXECUTE format('CREATE INDEX IF NOT EXISTS idx_%s_audit_booking    ON %I.invoice_audit_log(booking_id)',        p_tenant_slug, p_tenant_slug);
+  EXECUTE format('CREATE INDEX IF NOT EXISTS idx_%s_audit_sq_inv     ON %I.invoice_audit_log(square_invoice_id)', p_tenant_slug, p_tenant_slug);
+  EXECUTE format('CREATE INDEX IF NOT EXISTS idx_%s_audit_event_type ON %I.invoice_audit_log(event_type)',        p_tenant_slug, p_tenant_slug);
+  EXECUTE format('CREATE INDEX IF NOT EXISTS idx_%s_audit_created    ON %I.invoice_audit_log(created_at)',        p_tenant_slug, p_tenant_slug);
   EXECUTE format('CREATE UNIQUE INDEX IF NOT EXISTS idx_%s_audit_idempotency ON %I.invoice_audit_log(idempotency_key) WHERE idempotency_key IS NOT NULL', p_tenant_slug, p_tenant_slug);
   EXECUTE format('ALTER TABLE %I.invoice_audit_log ENABLE ROW LEVEL SECURITY', p_tenant_slug);
   BEGIN
@@ -266,6 +271,14 @@ BEGIN
   EXCEPTION WHEN duplicate_object THEN NULL;
   END;
 
+  -- Seed owner email if provided
+  IF p_owner_email IS NOT NULL THEN
+    EXECUTE format(
+      'INSERT INTO %I.admin_emails (email) VALUES ($1) ON CONFLICT DO NOTHING',
+      p_tenant_slug
+    ) USING p_owner_email;
+  END IF;
+
   -- raffles
   EXECUTE format($sql$
     CREATE TABLE IF NOT EXISTS %I.raffles (
@@ -337,16 +350,35 @@ BEGIN
   EXCEPTION WHEN duplicate_object THEN NULL;
   END;
 
-  -- Permissions + PostgREST exposure
+  -- Permissions
   EXECUTE format('GRANT USAGE ON SCHEMA %I TO anon, authenticated, service_role', p_tenant_slug);
   EXECUTE format('GRANT ALL ON ALL TABLES IN SCHEMA %I TO service_role', p_tenant_slug);
   EXECUTE format('GRANT SELECT ON ALL TABLES IN SCHEMA %I TO anon, authenticated', p_tenant_slug);
   EXECUTE format('ALTER DEFAULT PRIVILEGES IN SCHEMA %I GRANT ALL ON TABLES TO service_role', p_tenant_slug);
   EXECUTE format('ALTER DEFAULT PRIVILEGES IN SCHEMA %I GRANT SELECT ON TABLES TO anon, authenticated', p_tenant_slug);
 
+  -- Expose in PostgREST (append to existing schema list if not already present)
+  SELECT rolconfig INTO _role_cfg FROM pg_roles WHERE rolname = 'authenticator';
+  _cur_schemas := '';
+  IF _role_cfg IS NOT NULL THEN
+    FOREACH _cfg IN ARRAY _role_cfg LOOP
+      IF _cfg LIKE 'pgrst.db_schemas=%' THEN
+        _cur_schemas := substring(_cfg, length('pgrst.db_schemas=') + 1);
+      END IF;
+    END LOOP;
+  END IF;
+  IF _cur_schemas = '' THEN
+    _cur_schemas := 'public';
+  END IF;
+  IF position(p_tenant_slug IN _cur_schemas) = 0 THEN
+    EXECUTE format('ALTER ROLE authenticator SET pgrst.db_schemas = %L', _cur_schemas || ',' || p_tenant_slug);
+    NOTIFY pgrst, 'reload config';
+    NOTIFY pgrst, 'reload schema';
+  END IF;
+
   RETURN jsonb_build_object('ok', true, 'tenant_slug', p_tenant_slug);
 END;
 $$;
 
-REVOKE EXECUTE ON FUNCTION public.create_tenant(TEXT, TEXT) FROM PUBLIC;
-GRANT  EXECUTE ON FUNCTION public.create_tenant(TEXT, TEXT) TO service_role;
+REVOKE EXECUTE ON FUNCTION public.create_tenant(TEXT, TEXT, TEXT) FROM PUBLIC;
+GRANT  EXECUTE ON FUNCTION public.create_tenant(TEXT, TEXT, TEXT) TO service_role;

@@ -13,7 +13,8 @@ import siteMetadata from '@/data/siteMetadata'
 import { ThemeProviders } from './theme-providers'
 import { Metadata } from 'next'
 import { Toaster } from 'sonner'
-import { getUser, isAdmin } from '@/lib/supabase/server'
+import { headers } from 'next/headers'
+import { getUser } from '@/lib/supabase/server'
 import FeedtackOverlay from '@/components/FeedtackOverlay'
 
 const space_grotesk = Space_Grotesk({
@@ -63,9 +64,9 @@ export const metadata: Metadata = {
 }
 
 async function AdminFeedtack() {
-  const isDev = process.env.NODE_ENV === 'development'
-  const admin = isDev ? true : await isAdmin()
-  if (!admin) return null
+  const host = (await headers()).get('host') ?? ''
+  const isDevHost = /^(dev|test)\./.test(host) || host.startsWith('localhost')
+  if (!isDevHost) return null
   const user = await getUser()
   return <FeedtackOverlay user={user} />
 }
