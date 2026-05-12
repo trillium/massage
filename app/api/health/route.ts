@@ -4,38 +4,112 @@ import { NextResponse } from 'next/server'
 export const dynamic = 'force-dynamic'
 
 type TenantStatus = 'ready' | 'no_owner_seeded' | 'unprovisioned' | 'not_configured'
+type OverallStatus = 'ok' | 'degraded' | 'error'
 
-async function queryAdminEmails(
-  url: string,
-  key: string,
-  slug: string
-): Promise<'ready' | 'no_owner_seeded' | 'unprovisioned'> {
+interface ConfigCheck {
+  ok: boolean
+  warnings: string[]
+}
+
+interface SimpleCheck {
+  ok: boolean
+  detail?: string
+}
+
+interface ProvisioningCheck {
+  ok: boolean
+  tenant: TenantStatus
+}
+
+interface HealthChecks {
+  config: ConfigCheck
+  supabase: SimpleCheck
+  provisioning: ProvisioningCheck
+  google: SimpleCheck
+  management_api: SimpleCheck
+}
+
+function checkConfig(): ConfigCheck {
+  const slug = process.env.TENANT_SLUG ?? ''
+  const publicSlug = process.env.NEXT_PUBLIC_TENANT_SLUG ?? ''
+  const warnings: string[] = []
+
+  if (slug && /[A-Z\s]/.test(slug)) {
+    warnings.push('TENANT_SLUG contains uppercase or spaces — use snake_case')
+  }
+  if (slug && publicSlug && slug !== publicSlug) {
+    warnings.push('TENANT_SLUG and NEXT_PUBLIC_TENANT_SLUG do not match')
+  }
+
+  return { ok: warnings.length === 0, warnings }
+}
+
+async function checkProvisioning(): Promise<ProvisioningCheck> {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY
+  const slug = process.env.TENANT_SLUG
+  if (!url || !key || !slug) return { ok: false, tenant: 'not_configured' }
+
   try {
     const res = await fetch(`${url}/rest/v1/admin_emails?select=email&limit=1`, {
       headers: { apikey: key, Authorization: `Bearer ${key}`, 'Accept-Profile': slug },
     })
-    if (!res.ok) return 'unprovisioned'
+    if (!res.ok) return { ok: false, tenant: 'unprovisioned' }
     const rows = await res.json()
-    return Array.isArray(rows) && rows.length > 0 ? 'ready' : 'no_owner_seeded'
+    const tenant: TenantStatus =
+      Array.isArray(rows) && rows.length > 0 ? 'ready' : 'no_owner_seeded'
+    return { ok: tenant === 'ready', tenant }
   } catch {
-    return 'unprovisioned'
+    return { ok: false, tenant: 'unprovisioned' }
   }
 }
 
-async function checkTenant(): Promise<TenantStatus> {
+async function checkGoogle(): Promise<SimpleCheck> {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY
   const slug = process.env.TENANT_SLUG
-  if (!url || !key || !slug) return 'not_configured'
-  return queryAdminEmails(url, key, slug)
+  if (!url || !key || !slug) return { ok: false, detail: 'tenant not configured' }
+
+  try {
+    const res = await fetch(`${url}/rest/v1/google_credentials?select=email&limit=1`, {
+      headers: { apikey: key, Authorization: `Bearer ${key}`, 'Accept-Profile': slug },
+    })
+    if (!res.ok) return { ok: false, detail: 'google_credentials table not found' }
+    const rows = await res.json()
+    if (Array.isArray(rows) && rows.length > 0) return { ok: true }
+    return { ok: false, detail: 'no credentials found — visit /admin/connect-google' }
+  } catch {
+    return { ok: false, detail: 'unable to query google_credentials' }
+  }
 }
 
-function tenantHttpStatus(tenant: TenantStatus): number {
-  return tenant === 'unprovisioned' || tenant === 'no_owner_seeded' ? 503 : 200
+function checkManagementApi(): SimpleCheck {
+  if (process.env.SUPABASE_MANAGEMENT_API_TOKEN) return { ok: true }
+  return {
+    ok: false,
+    detail: 'SUPABASE_MANAGEMENT_API_TOKEN not set — redirect URLs must be registered manually',
+  }
+}
+
+function deriveStatus(checks: HealthChecks): OverallStatus {
+  if (!checks.config.ok) return 'degraded'
+  if (!checks.supabase.ok) return 'degraded'
+  if (!checks.provisioning.ok) return 'degraded'
+  return 'ok'
+}
+
+function skippedChecks(supabaseDetail: string): Omit<HealthChecks, 'config' | 'management_api'> {
+  return {
+    supabase: { ok: false, detail: supabaseDetail },
+    provisioning: { ok: false, tenant: 'not_configured' },
+    google: { ok: false, detail: 'skipped' },
+  }
 }
 
 export async function GET() {
   const timestamp = new Date().toISOString()
+  const config = checkConfig()
+  const management_api = checkManagementApi()
 
   try {
     const supabase = createClient(
@@ -48,21 +122,33 @@ export async function GET() {
 
     if (error) {
       return NextResponse.json(
-        { status: 'degraded', timestamp, supabase: 'error', detail: error.message },
+        {
+          status: 'degraded' as OverallStatus,
+          timestamp,
+          checks: { config, management_api, ...skippedChecks(error.message) },
+        },
         { status: 503 }
       )
     }
 
-    const tenant = await checkTenant()
-    const httpStatus = tenantHttpStatus(tenant)
+    const [provisioning, google] = await Promise.all([checkProvisioning(), checkGoogle()])
+    const checks: HealthChecks = {
+      config,
+      supabase: { ok: true },
+      provisioning,
+      google,
+      management_api,
+    }
+    const status = deriveStatus(checks)
 
-    return NextResponse.json(
-      { status: httpStatus === 200 ? 'ok' : 'degraded', timestamp, supabase: 'connected', tenant },
-      { status: httpStatus }
-    )
+    return NextResponse.json({ status, timestamp, checks }, { status: status === 'ok' ? 200 : 503 })
   } catch {
     return NextResponse.json(
-      { status: 'error', timestamp, supabase: 'unreachable' },
+      {
+        status: 'error' as OverallStatus,
+        timestamp,
+        checks: { config, management_api, ...skippedChecks('unreachable') },
+      },
       { status: 503 }
     )
   }
