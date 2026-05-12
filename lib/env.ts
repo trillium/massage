@@ -187,9 +187,30 @@ function throwIfMissingRequired(missing: EnvVar[]) {
   throw new EnvValidationError(errorMessage)
 }
 
+function validateTenantConfig(): string[] {
+  const warnings: string[] = []
+  const tenantSlug = process.env.TENANT_SLUG
+  const publicTenantSlug = process.env.NEXT_PUBLIC_TENANT_SLUG
+
+  if (tenantSlug && !/^[a-z][a-z0-9_]*$/.test(tenantSlug)) {
+    warnings.push(
+      `TENANT_SLUG="${tenantSlug}" is not valid snake_case — must match /^[a-z][a-z0-9_]*$/`
+    )
+  }
+
+  if (tenantSlug && publicTenantSlug && tenantSlug !== publicTenantSlug) {
+    warnings.push(
+      `TENANT_SLUG="${tenantSlug}" and NEXT_PUBLIC_TENANT_SLUG="${publicTenantSlug}" differ — they should match`
+    )
+  }
+
+  return warnings
+}
+
 export function validateEnv(): void {
   const { missing, warnings } = classifyEnvVars()
-  warnOptionalEnvVars(warnings)
+  const tenantWarnings = validateTenantConfig()
+  warnOptionalEnvVars([...warnings, ...tenantWarnings])
   throwIfMissingRequired(missing)
 }
 
