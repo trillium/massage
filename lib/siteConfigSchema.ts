@@ -18,6 +18,7 @@ export const SiteConfigSchema = z.object({
     occupation: z.string(),
     tagline: z.string(),
     description: z.string(),
+    serviceNoun: z.string(),
   }),
   contact: z.object({
     email: z.string().email(),
