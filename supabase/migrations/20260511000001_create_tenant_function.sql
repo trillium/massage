@@ -47,28 +47,12 @@ BEGIN
     )
   $sql$, p_tenant_slug);
 
-  EXECUTE format($sql$
-    CREATE UNIQUE INDEX IF NOT EXISTS idx_%s_google_credentials_email
-      ON %I.google_credentials(email)
-  $sql$, p_tenant_slug, p_tenant_slug);
-
+  EXECUTE format('CREATE UNIQUE INDEX IF NOT EXISTS idx_%s_google_credentials_email ON %I.google_credentials(email)', p_tenant_slug, p_tenant_slug);
   EXECUTE format('ALTER TABLE %I.google_credentials ENABLE ROW LEVEL SECURITY', p_tenant_slug);
-  EXECUTE format($sql$
-    DO $inner$
-    BEGIN
-      IF NOT EXISTS (
-        SELECT 1 FROM pg_policies
-        WHERE schemaname = %L AND tablename = 'google_credentials'
-        AND policyname = 'Service role full access on google_credentials'
-      ) THEN
-        EXECUTE format(
-          'CREATE POLICY "Service role full access on google_credentials" ON %I.google_credentials FOR ALL USING (auth.role() = ''service_role'')',
-          %L
-        );
-      END IF;
-    END
-    $inner$
-  $sql$, p_tenant_slug, p_tenant_slug);
+  BEGIN
+    EXECUTE format('CREATE POLICY "Service role full access on google_credentials" ON %I.google_credentials FOR ALL USING (auth.role() = ''service_role'')', p_tenant_slug);
+  EXCEPTION WHEN duplicate_object THEN NULL;
+  END;
 
   -- appointments
   EXECUTE format($sql$
@@ -102,25 +86,15 @@ BEGIN
     )
   $sql$, p_tenant_slug);
 
-  EXECUTE format('CREATE INDEX IF NOT EXISTS idx_%s_appts_start ON %I.appointments(start_time)', p_tenant_slug, p_tenant_slug);
-  EXECUTE format('CREATE INDEX IF NOT EXISTS idx_%s_appts_status ON %I.appointments(status)', p_tenant_slug, p_tenant_slug);
+  EXECUTE format('CREATE INDEX IF NOT EXISTS idx_%s_appts_start     ON %I.appointments(start_time)',        p_tenant_slug, p_tenant_slug);
+  EXECUTE format('CREATE INDEX IF NOT EXISTS idx_%s_appts_status    ON %I.appointments(status)',             p_tenant_slug, p_tenant_slug);
   EXECUTE format('CREATE INDEX IF NOT EXISTS idx_%s_appts_cal_event ON %I.appointments(calendar_event_id)', p_tenant_slug, p_tenant_slug);
-  EXECUTE format('CREATE INDEX IF NOT EXISTS idx_%s_appts_email ON %I.appointments(client_email)', p_tenant_slug, p_tenant_slug);
+  EXECUTE format('CREATE INDEX IF NOT EXISTS idx_%s_appts_email     ON %I.appointments(client_email)',       p_tenant_slug, p_tenant_slug);
   EXECUTE format('ALTER TABLE %I.appointments ENABLE ROW LEVEL SECURITY', p_tenant_slug);
-  EXECUTE format($sql$
-    DO $inner$
-    BEGIN
-      IF NOT EXISTS (
-        SELECT 1 FROM pg_policies WHERE schemaname = %L AND tablename = 'appointments'
-        AND policyname = 'Service role full access on appointments'
-      ) THEN
-        EXECUTE format(
-          'CREATE POLICY "Service role full access on appointments" ON %I.appointments FOR ALL USING (auth.role() = ''service_role'')',
-          %L
-        );
-      END IF;
-    END $inner$
-  $sql$, p_tenant_slug, p_tenant_slug);
+  BEGIN
+    EXECUTE format('CREATE POLICY "Service role full access on appointments" ON %I.appointments FOR ALL USING (auth.role() = ''service_role'')', p_tenant_slug);
+  EXCEPTION WHEN duplicate_object THEN NULL;
+  END;
 
   -- reminders
   EXECUTE format($sql$
@@ -137,23 +111,13 @@ BEGIN
     )
   $sql$, p_tenant_slug, p_tenant_slug);
 
-  EXECUTE format('CREATE INDEX IF NOT EXISTS idx_%s_reminders_due ON %I.reminders(scheduled_for, status) WHERE status = ''scheduled''', p_tenant_slug, p_tenant_slug);
+  EXECUTE format('CREATE INDEX IF NOT EXISTS idx_%s_reminders_due  ON %I.reminders(scheduled_for, status) WHERE status = ''scheduled''', p_tenant_slug, p_tenant_slug);
   EXECUTE format('CREATE INDEX IF NOT EXISTS idx_%s_reminders_appt ON %I.reminders(appointment_id)', p_tenant_slug, p_tenant_slug);
   EXECUTE format('ALTER TABLE %I.reminders ENABLE ROW LEVEL SECURITY', p_tenant_slug);
-  EXECUTE format($sql$
-    DO $inner$
-    BEGIN
-      IF NOT EXISTS (
-        SELECT 1 FROM pg_policies WHERE schemaname = %L AND tablename = 'reminders'
-        AND policyname = 'Service role full access on reminders'
-      ) THEN
-        EXECUTE format(
-          'CREATE POLICY "Service role full access on reminders" ON %I.reminders FOR ALL USING (auth.role() = ''service_role'')',
-          %L
-        );
-      END IF;
-    END $inner$
-  $sql$, p_tenant_slug, p_tenant_slug);
+  BEGIN
+    EXECUTE format('CREATE POLICY "Service role full access on reminders" ON %I.reminders FOR ALL USING (auth.role() = ''service_role'')', p_tenant_slug);
+  EXCEPTION WHEN duplicate_object THEN NULL;
+  END;
 
   -- reminder_logs
   EXECUTE format($sql$
@@ -171,20 +135,10 @@ BEGIN
 
   EXECUTE format('CREATE INDEX IF NOT EXISTS idx_%s_reminder_logs ON %I.reminder_logs(reminder_id)', p_tenant_slug, p_tenant_slug);
   EXECUTE format('ALTER TABLE %I.reminder_logs ENABLE ROW LEVEL SECURITY', p_tenant_slug);
-  EXECUTE format($sql$
-    DO $inner$
-    BEGIN
-      IF NOT EXISTS (
-        SELECT 1 FROM pg_policies WHERE schemaname = %L AND tablename = 'reminder_logs'
-        AND policyname = 'Service role full access on reminder_logs'
-      ) THEN
-        EXECUTE format(
-          'CREATE POLICY "Service role full access on reminder_logs" ON %I.reminder_logs FOR ALL USING (auth.role() = ''service_role'')',
-          %L
-        );
-      END IF;
-    END $inner$
-  $sql$, p_tenant_slug, p_tenant_slug);
+  BEGIN
+    EXECUTE format('CREATE POLICY "Service role full access on reminder_logs" ON %I.reminder_logs FOR ALL USING (auth.role() = ''service_role'')', p_tenant_slug);
+  EXCEPTION WHEN duplicate_object THEN NULL;
+  END;
 
   -- invoices
   EXECUTE format($sql$
@@ -208,24 +162,14 @@ BEGIN
     )
   $sql$, p_tenant_slug, p_tenant_slug);
 
-  EXECUTE format('CREATE INDEX IF NOT EXISTS idx_%s_invoices_booking ON %I.invoices(booking_id)', p_tenant_slug, p_tenant_slug);
-  EXECUTE format('CREATE INDEX IF NOT EXISTS idx_%s_invoices_square ON %I.invoices(square_invoice_id)', p_tenant_slug, p_tenant_slug);
-  EXECUTE format('CREATE INDEX IF NOT EXISTS idx_%s_invoices_status ON %I.invoices(status)', p_tenant_slug, p_tenant_slug);
+  EXECUTE format('CREATE INDEX IF NOT EXISTS idx_%s_invoices_booking ON %I.invoices(booking_id)',          p_tenant_slug, p_tenant_slug);
+  EXECUTE format('CREATE INDEX IF NOT EXISTS idx_%s_invoices_square  ON %I.invoices(square_invoice_id)',   p_tenant_slug, p_tenant_slug);
+  EXECUTE format('CREATE INDEX IF NOT EXISTS idx_%s_invoices_status  ON %I.invoices(status)',              p_tenant_slug, p_tenant_slug);
   EXECUTE format('ALTER TABLE %I.invoices ENABLE ROW LEVEL SECURITY', p_tenant_slug);
-  EXECUTE format($sql$
-    DO $inner$
-    BEGIN
-      IF NOT EXISTS (
-        SELECT 1 FROM pg_policies WHERE schemaname = %L AND tablename = 'invoices'
-        AND policyname = 'Service role full access on invoices'
-      ) THEN
-        EXECUTE format(
-          'CREATE POLICY "Service role full access on invoices" ON %I.invoices FOR ALL USING (auth.role() = ''service_role'')',
-          %L
-        );
-      END IF;
-    END $inner$
-  $sql$, p_tenant_slug, p_tenant_slug);
+  BEGIN
+    EXECUTE format('CREATE POLICY "Service role full access on invoices" ON %I.invoices FOR ALL USING (auth.role() = ''service_role'')', p_tenant_slug);
+  EXCEPTION WHEN duplicate_object THEN NULL;
+  END;
 
   -- invoice_audit_log
   EXECUTE format($sql$
@@ -245,30 +189,16 @@ BEGIN
     )
   $sql$, p_tenant_slug, p_tenant_slug);
 
-  EXECUTE format('CREATE INDEX IF NOT EXISTS idx_%s_audit_booking ON %I.invoice_audit_log(booking_id)', p_tenant_slug, p_tenant_slug);
-  EXECUTE format('CREATE INDEX IF NOT EXISTS idx_%s_audit_sq_inv ON %I.invoice_audit_log(square_invoice_id)', p_tenant_slug, p_tenant_slug);
-  EXECUTE format('CREATE INDEX IF NOT EXISTS idx_%s_audit_event_type ON %I.invoice_audit_log(event_type)', p_tenant_slug, p_tenant_slug);
-  EXECUTE format('CREATE INDEX IF NOT EXISTS idx_%s_audit_created ON %I.invoice_audit_log(created_at)', p_tenant_slug, p_tenant_slug);
-  EXECUTE format($sql$
-    CREATE UNIQUE INDEX IF NOT EXISTS idx_%s_audit_idempotency
-      ON %I.invoice_audit_log(idempotency_key)
-      WHERE idempotency_key IS NOT NULL
-  $sql$, p_tenant_slug, p_tenant_slug);
+  EXECUTE format('CREATE INDEX IF NOT EXISTS idx_%s_audit_booking    ON %I.invoice_audit_log(booking_id)',          p_tenant_slug, p_tenant_slug);
+  EXECUTE format('CREATE INDEX IF NOT EXISTS idx_%s_audit_sq_inv     ON %I.invoice_audit_log(square_invoice_id)',   p_tenant_slug, p_tenant_slug);
+  EXECUTE format('CREATE INDEX IF NOT EXISTS idx_%s_audit_event_type ON %I.invoice_audit_log(event_type)',          p_tenant_slug, p_tenant_slug);
+  EXECUTE format('CREATE INDEX IF NOT EXISTS idx_%s_audit_created    ON %I.invoice_audit_log(created_at)',          p_tenant_slug, p_tenant_slug);
+  EXECUTE format('CREATE UNIQUE INDEX IF NOT EXISTS idx_%s_audit_idempotency ON %I.invoice_audit_log(idempotency_key) WHERE idempotency_key IS NOT NULL', p_tenant_slug, p_tenant_slug);
   EXECUTE format('ALTER TABLE %I.invoice_audit_log ENABLE ROW LEVEL SECURITY', p_tenant_slug);
-  EXECUTE format($sql$
-    DO $inner$
-    BEGIN
-      IF NOT EXISTS (
-        SELECT 1 FROM pg_policies WHERE schemaname = %L AND tablename = 'invoice_audit_log'
-        AND policyname = 'Service role full access on invoice_audit_log'
-      ) THEN
-        EXECUTE format(
-          'CREATE POLICY "Service role full access on invoice_audit_log" ON %I.invoice_audit_log FOR ALL USING (auth.role() = ''service_role'')',
-          %L
-        );
-      END IF;
-    END $inner$
-  $sql$, p_tenant_slug, p_tenant_slug);
+  BEGIN
+    EXECUTE format('CREATE POLICY "Service role full access on invoice_audit_log" ON %I.invoice_audit_log FOR ALL USING (auth.role() = ''service_role'')', p_tenant_slug);
+  EXCEPTION WHEN duplicate_object THEN NULL;
+  END;
 
   -- slot_holds
   EXECUTE format($sql$
@@ -283,33 +213,18 @@ BEGIN
     )
   $sql$, p_tenant_slug);
 
-  EXECUTE format('CREATE INDEX IF NOT EXISTS idx_%s_slot_holds_time ON %I.slot_holds(start_time, end_time)', p_tenant_slug, p_tenant_slug);
-  EXECUTE format('CREATE INDEX IF NOT EXISTS idx_%s_slot_holds_session ON %I.slot_holds(session_id)', p_tenant_slug, p_tenant_slug);
-  EXECUTE format('CREATE INDEX IF NOT EXISTS idx_%s_slot_holds_expires ON %I.slot_holds(expires_at)', p_tenant_slug, p_tenant_slug);
+  EXECUTE format('CREATE INDEX IF NOT EXISTS idx_%s_slot_holds_time    ON %I.slot_holds(start_time, end_time)', p_tenant_slug, p_tenant_slug);
+  EXECUTE format('CREATE INDEX IF NOT EXISTS idx_%s_slot_holds_session ON %I.slot_holds(session_id)',           p_tenant_slug, p_tenant_slug);
+  EXECUTE format('CREATE INDEX IF NOT EXISTS idx_%s_slot_holds_expires ON %I.slot_holds(expires_at)',           p_tenant_slug, p_tenant_slug);
   EXECUTE format('ALTER TABLE %I.slot_holds ENABLE ROW LEVEL SECURITY', p_tenant_slug);
-  EXECUTE format($sql$
-    DO $inner$
-    BEGIN
-      IF NOT EXISTS (
-        SELECT 1 FROM pg_policies WHERE schemaname = %L AND tablename = 'slot_holds'
-        AND policyname = 'Service role full access on slot_holds'
-      ) THEN
-        EXECUTE format(
-          'CREATE POLICY "Service role full access on slot_holds" ON %I.slot_holds FOR ALL USING (auth.role() = ''service_role'')',
-          %L
-        );
-      END IF;
-      IF NOT EXISTS (
-        SELECT 1 FROM pg_policies WHERE schemaname = %L AND tablename = 'slot_holds'
-        AND policyname = 'Anon can read slot_holds'
-      ) THEN
-        EXECUTE format(
-          'CREATE POLICY "Anon can read slot_holds" ON %I.slot_holds FOR SELECT USING (auth.role() = ''anon'')',
-          %L
-        );
-      END IF;
-    END $inner$
-  $sql$, p_tenant_slug, p_tenant_slug, p_tenant_slug, p_tenant_slug);
+  BEGIN
+    EXECUTE format('CREATE POLICY "Service role full access on slot_holds" ON %I.slot_holds FOR ALL USING (auth.role() = ''service_role'')', p_tenant_slug);
+  EXCEPTION WHEN duplicate_object THEN NULL;
+  END;
+  BEGIN
+    EXECUTE format('CREATE POLICY "Anon can read slot_holds" ON %I.slot_holds FOR SELECT USING (auth.role() = ''anon'')', p_tenant_slug);
+  EXCEPTION WHEN duplicate_object THEN NULL;
+  END;
 
   -- reviews
   EXECUTE format($sql$
@@ -327,29 +242,14 @@ BEGIN
   $sql$, p_tenant_slug);
 
   EXECUTE format('ALTER TABLE %I.reviews ENABLE ROW LEVEL SECURITY', p_tenant_slug);
-  EXECUTE format($sql$
-    DO $inner$
-    BEGIN
-      IF NOT EXISTS (
-        SELECT 1 FROM pg_policies WHERE schemaname = %L AND tablename = 'reviews'
-        AND policyname = 'Service role full access on reviews'
-      ) THEN
-        EXECUTE format(
-          'CREATE POLICY "Service role full access on reviews" ON %I.reviews FOR ALL USING (auth.role() = ''service_role'')',
-          %L
-        );
-      END IF;
-      IF NOT EXISTS (
-        SELECT 1 FROM pg_policies WHERE schemaname = %L AND tablename = 'reviews'
-        AND policyname = 'Anon can read reviews'
-      ) THEN
-        EXECUTE format(
-          'CREATE POLICY "Anon can read reviews" ON %I.reviews FOR SELECT USING (auth.role() = ''anon'')',
-          %L
-        );
-      END IF;
-    END $inner$
-  $sql$, p_tenant_slug, p_tenant_slug, p_tenant_slug, p_tenant_slug);
+  BEGIN
+    EXECUTE format('CREATE POLICY "Service role full access on reviews" ON %I.reviews FOR ALL USING (auth.role() = ''service_role'')', p_tenant_slug);
+  EXCEPTION WHEN duplicate_object THEN NULL;
+  END;
+  BEGIN
+    EXECUTE format('CREATE POLICY "Anon can read reviews" ON %I.reviews FOR SELECT USING (auth.role() = ''anon'')', p_tenant_slug);
+  EXCEPTION WHEN duplicate_object THEN NULL;
+  END;
 
   -- admin_emails
   EXECUTE format($sql$
@@ -361,20 +261,10 @@ BEGIN
   $sql$, p_tenant_slug);
 
   EXECUTE format('ALTER TABLE %I.admin_emails ENABLE ROW LEVEL SECURITY', p_tenant_slug);
-  EXECUTE format($sql$
-    DO $inner$
-    BEGIN
-      IF NOT EXISTS (
-        SELECT 1 FROM pg_policies WHERE schemaname = %L AND tablename = 'admin_emails'
-        AND policyname = 'Service role full access on admin_emails'
-      ) THEN
-        EXECUTE format(
-          'CREATE POLICY "Service role full access on admin_emails" ON %I.admin_emails FOR ALL USING (auth.role() = ''service_role'')',
-          %L
-        );
-      END IF;
-    END $inner$
-  $sql$, p_tenant_slug, p_tenant_slug);
+  BEGIN
+    EXECUTE format('CREATE POLICY "Service role full access on admin_emails" ON %I.admin_emails FOR ALL USING (auth.role() = ''service_role'')', p_tenant_slug);
+  EXCEPTION WHEN duplicate_object THEN NULL;
+  END;
 
   -- raffles
   EXECUTE format($sql$
@@ -389,34 +279,16 @@ BEGIN
     )
   $sql$, p_tenant_slug);
 
-  EXECUTE format($sql$
-    CREATE UNIQUE INDEX IF NOT EXISTS idx_%s_raffles_active
-      ON %I.raffles(is_active) WHERE is_active = true
-  $sql$, p_tenant_slug, p_tenant_slug);
+  EXECUTE format('CREATE UNIQUE INDEX IF NOT EXISTS idx_%s_raffles_active ON %I.raffles(is_active) WHERE is_active = true', p_tenant_slug, p_tenant_slug);
   EXECUTE format('ALTER TABLE %I.raffles ENABLE ROW LEVEL SECURITY', p_tenant_slug);
-  EXECUTE format($sql$
-    DO $inner$
-    BEGIN
-      IF NOT EXISTS (
-        SELECT 1 FROM pg_policies WHERE schemaname = %L AND tablename = 'raffles'
-        AND policyname = 'Service role full access on raffles'
-      ) THEN
-        EXECUTE format(
-          'CREATE POLICY "Service role full access on raffles" ON %I.raffles FOR ALL USING (auth.role() = ''service_role'')',
-          %L
-        );
-      END IF;
-      IF NOT EXISTS (
-        SELECT 1 FROM pg_policies WHERE schemaname = %L AND tablename = 'raffles'
-        AND policyname = 'Anon can read raffles'
-      ) THEN
-        EXECUTE format(
-          'CREATE POLICY "Anon can read raffles" ON %I.raffles FOR SELECT USING (auth.role() = ''anon'')',
-          %L
-        );
-      END IF;
-    END $inner$
-  $sql$, p_tenant_slug, p_tenant_slug, p_tenant_slug, p_tenant_slug);
+  BEGIN
+    EXECUTE format('CREATE POLICY "Service role full access on raffles" ON %I.raffles FOR ALL USING (auth.role() = ''service_role'')', p_tenant_slug);
+  EXCEPTION WHEN duplicate_object THEN NULL;
+  END;
+  BEGIN
+    EXECUTE format('CREATE POLICY "Anon can read raffles" ON %I.raffles FOR SELECT USING (auth.role() = ''anon'')', p_tenant_slug);
+  EXCEPTION WHEN duplicate_object THEN NULL;
+  END;
 
   -- raffle_entries
   EXECUTE format($sql$
@@ -435,32 +307,17 @@ BEGIN
     )
   $sql$, p_tenant_slug, p_tenant_slug);
 
-  EXECUTE format('CREATE INDEX IF NOT EXISTS idx_%s_raffle_entries_raffle ON %I.raffle_entries(raffle_id)', p_tenant_slug, p_tenant_slug);
-  EXECUTE format('CREATE INDEX IF NOT EXISTS idx_%s_raffle_entries_email ON %I.raffle_entries(email, raffle_id)', p_tenant_slug, p_tenant_slug);
+  EXECUTE format('CREATE INDEX IF NOT EXISTS idx_%s_raffle_entries_raffle ON %I.raffle_entries(raffle_id)',        p_tenant_slug, p_tenant_slug);
+  EXECUTE format('CREATE INDEX IF NOT EXISTS idx_%s_raffle_entries_email  ON %I.raffle_entries(email, raffle_id)', p_tenant_slug, p_tenant_slug);
   EXECUTE format('ALTER TABLE %I.raffle_entries ENABLE ROW LEVEL SECURITY', p_tenant_slug);
-  EXECUTE format($sql$
-    DO $inner$
-    BEGIN
-      IF NOT EXISTS (
-        SELECT 1 FROM pg_policies WHERE schemaname = %L AND tablename = 'raffle_entries'
-        AND policyname = 'Service role full access on raffle_entries'
-      ) THEN
-        EXECUTE format(
-          'CREATE POLICY "Service role full access on raffle_entries" ON %I.raffle_entries FOR ALL USING (auth.role() = ''service_role'')',
-          %L
-        );
-      END IF;
-      IF NOT EXISTS (
-        SELECT 1 FROM pg_policies WHERE schemaname = %L AND tablename = 'raffle_entries'
-        AND policyname = 'Anon can insert raffle_entries'
-      ) THEN
-        EXECUTE format(
-          'CREATE POLICY "Anon can insert raffle_entries" ON %I.raffle_entries FOR INSERT WITH CHECK (auth.role() = ''anon'')',
-          %L
-        );
-      END IF;
-    END $inner$
-  $sql$, p_tenant_slug, p_tenant_slug, p_tenant_slug, p_tenant_slug);
+  BEGIN
+    EXECUTE format('CREATE POLICY "Service role full access on raffle_entries" ON %I.raffle_entries FOR ALL USING (auth.role() = ''service_role'')', p_tenant_slug);
+  EXCEPTION WHEN duplicate_object THEN NULL;
+  END;
+  BEGIN
+    EXECUTE format('CREATE POLICY "Anon can insert raffle_entries" ON %I.raffle_entries FOR INSERT WITH CHECK (auth.role() = ''anon'')', p_tenant_slug);
+  EXCEPTION WHEN duplicate_object THEN NULL;
+  END;
 
   -- sandbox_sessions
   EXECUTE format($sql$
@@ -475,20 +332,17 @@ BEGIN
 
   EXECUTE format('CREATE INDEX IF NOT EXISTS idx_%s_sandbox_created ON %I.sandbox_sessions(created_at)', p_tenant_slug, p_tenant_slug);
   EXECUTE format('ALTER TABLE %I.sandbox_sessions ENABLE ROW LEVEL SECURITY', p_tenant_slug);
-  EXECUTE format($sql$
-    DO $inner$
-    BEGIN
-      IF NOT EXISTS (
-        SELECT 1 FROM pg_policies WHERE schemaname = %L AND tablename = 'sandbox_sessions'
-        AND policyname = 'Service role full access on sandbox_sessions'
-      ) THEN
-        EXECUTE format(
-          'CREATE POLICY "Service role full access on sandbox_sessions" ON %I.sandbox_sessions FOR ALL USING (auth.role() = ''service_role'')',
-          %L
-        );
-      END IF;
-    END $inner$
-  $sql$, p_tenant_slug, p_tenant_slug);
+  BEGIN
+    EXECUTE format('CREATE POLICY "Service role full access on sandbox_sessions" ON %I.sandbox_sessions FOR ALL USING (auth.role() = ''service_role'')', p_tenant_slug);
+  EXCEPTION WHEN duplicate_object THEN NULL;
+  END;
+
+  -- Permissions + PostgREST exposure
+  EXECUTE format('GRANT USAGE ON SCHEMA %I TO anon, authenticated, service_role', p_tenant_slug);
+  EXECUTE format('GRANT ALL ON ALL TABLES IN SCHEMA %I TO service_role', p_tenant_slug);
+  EXECUTE format('GRANT SELECT ON ALL TABLES IN SCHEMA %I TO anon, authenticated', p_tenant_slug);
+  EXECUTE format('ALTER DEFAULT PRIVILEGES IN SCHEMA %I GRANT ALL ON TABLES TO service_role', p_tenant_slug);
+  EXECUTE format('ALTER DEFAULT PRIVILEGES IN SCHEMA %I GRANT SELECT ON TABLES TO anon, authenticated', p_tenant_slug);
 
   RETURN jsonb_build_object('ok', true, 'tenant_slug', p_tenant_slug);
 END;
