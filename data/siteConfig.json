@@ -103,5 +103,9 @@
   },
   "locale": "en-US",
   "language": "en-us",
-  "eventBaseString": "__EVENT__"
+  "eventBaseString": "__EVENT__",
+  "serviceLocationOptions": [
+    { "value": "in_home", "label": "In-home massage" },
+    { "value": "in_office", "label": "In-office massage" }
+  ]
 }

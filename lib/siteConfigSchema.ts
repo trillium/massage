@@ -83,6 +83,7 @@ export const SiteConfigSchema = z.object({
   locale: z.string(),
   language: z.string(),
   eventBaseString: z.string(),
+  serviceLocationOptions: z.array(z.object({ value: z.string(), label: z.string() })),
 })
 
 export type SiteConfig = z.infer<typeof SiteConfigSchema>
