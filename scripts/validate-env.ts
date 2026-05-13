@@ -25,8 +25,8 @@ const checks: Check[] = [
   {
     name: 'NEXT_PUBLIC_SUPABASE_ANON_KEY',
     value: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-    validate: (v) => v.startsWith('eyJ') && v.length > 100,
-    hint: 'must be a JWT starting with eyJ (get it from Supabase → Settings → API)',
+    validate: (v) => (v.startsWith('eyJ') && v.length > 100) || v.startsWith('sb_publishable_'),
+    hint: 'must be a Supabase anon key (eyJ... JWT or sb_publishable_... new format)',
   },
 ]
 
