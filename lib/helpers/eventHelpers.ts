@@ -3,7 +3,7 @@ import { siteConfig } from '@/lib/siteConfig'
 
 export const REQUEST_PREFIX = 'REQUEST: '
 export const SUMMARY_SUFFIX = ` - ${siteConfig.business.name.replace(/\s+/g, '')}`
-export const SUMMARY_PATTERN = new RegExp(
+const SUMMARY_PATTERN = new RegExp(
   `^(\\d+\\s+minute\\s+${siteConfig.business.serviceNoun}\\s+with\\s+).+$`,
   'i'
 )
