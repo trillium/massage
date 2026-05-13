@@ -4,7 +4,8 @@
     "ownerName": "Trillium Smith",
     "occupation": "Massage Therapist",
     "tagline": "Let the spa come to you",
-    "description": "Let the spa come to you. Providing in-home massage therapy and wellness to the LA Metro Area"
+    "description": "Let the spa come to you. Providing in-home massage therapy and wellness to the LA Metro Area",
+    "serviceNoun": "massage"
   },
   "contact": {
     "email": "trilliummassagela@gmail.com",
@@ -102,5 +103,9 @@
   },
   "locale": "en-US",
   "language": "en-us",
-  "eventBaseString": "__EVENT__"
+  "eventBaseString": "__EVENT__",
+  "serviceLocationOptions": [
+    { "value": "in_home", "label": "In-home massage" },
+    { "value": "in_office", "label": "In-office massage" }
+  ]
 }

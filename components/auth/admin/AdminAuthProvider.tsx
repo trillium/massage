@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, usePathname } from 'next/navigation'
 import Link from 'next/link'
 import { getSupabaseBrowserClient } from '@/lib/supabase/client'
 import Spinner from '@/components/Spinner'
@@ -19,6 +19,21 @@ interface AdminAuthState {
   error: string | null
 }
 
+async function fetchAdminRole(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  supabase: any,
+  userId: string
+): Promise<{ error: string } | { role: string }> {
+  const { data: profile, error: profileError } = await supabase
+    .schema('public')
+    .from('profiles')
+    .select('role')
+    .eq('id', userId)
+    .single()
+  if (profileError || !profile) return { error: 'Unable to verify admin access.' }
+  return { role: profile.role }
+}
+
 export function AdminAuthProvider({ children }: AdminAuthProviderProps) {
   const [authState, setAuthState] = useState<AdminAuthState>({
     isAuthenticated: false,
@@ -28,6 +43,7 @@ export function AdminAuthProvider({ children }: AdminAuthProviderProps) {
   })
 
   const router = useRouter()
+  const pathname = usePathname()
   const supabase = getSupabaseBrowserClient()
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
@@ -44,7 +60,7 @@ export function AdminAuthProvider({ children }: AdminAuthProviderProps) {
           error: userError,
         } = await supabase.auth.getUser()
 
-        if (userError || !user) {
+        if (userError) {
           setAuthState({
             isAuthenticated: false,
             isLoading: false,
@@ -54,25 +70,25 @@ export function AdminAuthProvider({ children }: AdminAuthProviderProps) {
           return
         }
 
-        const { data: profile, error: profileError } = await supabase
-          .schema('public')
-          .from('profiles')
-          .select('role')
-          .eq('id', user.id)
-          .single()
+        if (!user) {
+          router.replace(`/auth/supabase-login?redirectTo=${encodeURIComponent(pathname)}`)
+          return
+        }
 
-        if (profileError || !profile) {
-          console.error('[Admin Auth] Profile fetch error:', profileError?.message)
+        const roleResult = await fetchAdminRole(supabase, user.id)
+
+        if ('error' in roleResult) {
+          console.error('[Admin Auth] Profile fetch error:', roleResult.error)
           setAuthState({
             isAuthenticated: false,
             isLoading: false,
             adminEmail: null,
-            error: 'Unable to verify admin access.',
+            error: roleResult.error,
           })
           return
         }
 
-        if (profile.role !== 'admin') {
+        if (roleResult.role !== 'admin') {
           setAuthState({
             isAuthenticated: false,
             isLoading: false,
@@ -158,7 +174,10 @@ export function AdminAuthProvider({ children }: AdminAuthProviderProps) {
           <div className="text-sm text-accent-500 dark:text-accent-400">
             <p>
               Please{' '}
-              <Link href="/auth/login" className="text-blue-600 hover:underline">
+              <Link
+                href={`/auth/supabase-login?redirectTo=${encodeURIComponent(pathname)}`}
+                className="text-blue-600 hover:underline"
+              >
                 log in
               </Link>{' '}
               with an admin account.

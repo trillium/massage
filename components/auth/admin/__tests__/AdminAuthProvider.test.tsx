@@ -9,6 +9,7 @@ const mockRouter = {
 
 vi.mock('next/navigation', () => ({
   useRouter: () => mockRouter,
+  usePathname: () => '/admin',
 }))
 
 const mockGetUser = vi.fn().mockResolvedValue({ data: { user: null }, error: null })
@@ -181,7 +182,7 @@ describe('AdminAuthProvider', () => {
   })
 
   describe('Not Authenticated', () => {
-    it('shows access denied when no user session', async () => {
+    it('redirects to supabase-login with returnTo when no user session', async () => {
       mockNoUser()
 
       render(
@@ -191,10 +192,9 @@ describe('AdminAuthProvider', () => {
       )
 
       await waitFor(() => {
-        expect(screen.getByText('Admin Access Required')).toBeInTheDocument()
+        expect(mockRouter.replace).toHaveBeenCalledWith('/auth/supabase-login?redirectTo=%2Fadmin')
       })
 
-      expect(screen.getByText('Please log in to access admin panel.')).toBeInTheDocument()
       expect(screen.queryByTestId('test-child')).not.toBeInTheDocument()
     })
 
@@ -232,8 +232,8 @@ describe('AdminAuthProvider', () => {
       expect(screen.getByText('Unable to verify admin access.')).toBeInTheDocument()
     })
 
-    it('shows login link', async () => {
-      mockNoUser()
+    it('login link points to supabase-login with returnTo', async () => {
+      mockProfileError()
 
       render(
         <AdminAuthProvider>
@@ -246,7 +246,7 @@ describe('AdminAuthProvider', () => {
       })
 
       const loginLink = screen.getByRole('link', { name: 'log in' })
-      expect(loginLink).toHaveAttribute('href', '/auth/login')
+      expect(loginLink).toHaveAttribute('href', '/auth/supabase-login?redirectTo=%2Fadmin')
     })
   })
 

@@ -18,6 +18,7 @@ export const SiteConfigSchema = z.object({
     occupation: z.string(),
     tagline: z.string(),
     description: z.string(),
+    serviceNoun: z.string(),
   }),
   contact: z.object({
     email: z.string().email(),
@@ -82,6 +83,7 @@ export const SiteConfigSchema = z.object({
   locale: z.string(),
   language: z.string(),
   eventBaseString: z.string(),
+  serviceLocationOptions: z.array(z.object({ value: z.string(), label: z.string() })),
 })
 
 export type SiteConfig = z.infer<typeof SiteConfigSchema>

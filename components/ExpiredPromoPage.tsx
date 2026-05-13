@@ -1,6 +1,7 @@
 import Template from '@/components/Template'
 import Link from '@/components/Link'
 import { FaClock } from 'react-icons/fa'
+import { siteConfig } from '@/lib/siteConfig'
 
 interface ExpiredPromoPageProps {
   title: string
@@ -37,7 +38,7 @@ export default function ExpiredPromoPage({
 
         <div className="space-y-4">
           <p className="text-lg text-accent-600 dark:text-accent-300">
-            Don't worry, you can still book a massage!
+            Don't worry, you can still book a {siteConfig.business.serviceNoun}!
           </p>
 
           <div className="flex flex-col items-center space-y-3 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4">

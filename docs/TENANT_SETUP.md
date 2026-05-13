@@ -290,6 +290,47 @@ The app does not process payments — it collects the client's payment method pr
 
 ---
 
+## Pre-Deploy Checklist
+
+Run through this before triggering a first deploy for a new tenant. Catches the class of error where a build succeeds but ships a broken artifact (e.g. a placeholder Supabase URL baked into the JS bundle).
+
+```bash
+# Verify Vercel env vars are set and non-placeholder
+vercel env ls --environment=production | grep -E 'SUPABASE|GOOGLE|OWNER'
+```
+
+Check each line against this table:
+
+| Variable                        | Expected format                            | Common mistake                      |
+| ------------------------------- | ------------------------------------------ | ----------------------------------- |
+| `NEXT_PUBLIC_SUPABASE_URL`      | `https://<ref>.supabase.co`                | Left as `placeholder.supabase.co`   |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | starts with `eyJ`, >100 chars              | Copied service role key by mistake  |
+| `SUPABASE_SERVICE_ROLE_KEY`     | starts with `eyJ`, >100 chars              | Left blank                          |
+| `GOOGLE_OAUTH_CLIENT_ID`        | ends with `.apps.googleusercontent.com`    | Wrong project's client ID           |
+| `GOOGLE_OAUTH_SECRET`           | starts with `GOCSPX-`                      | Blank or wrong project              |
+| `OWNER_EMAIL`                   | matches the Google account to be connected | Trillium's email left in by mistake |
+| `NEXT_PUBLIC_SITE_URL`          | tenant's actual domain                     | Template URL left in                |
+
+**After setting env vars, verify the build gate passes locally:**
+
+```bash
+NEXT_PUBLIC_SUPABASE_URL=https://yourref.supabase.co \
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJ... \
+pnpm prebuild
+```
+
+The build gate (`scripts/validate-env.ts`, wired as `prebuild`) will fail loudly if either Supabase var is missing or doesn't match the expected format. It runs automatically before every `pnpm build`.
+
+**After first deploy:**
+
+- [ ] `/api/health` returns `"status": "ok"` (not `degraded`)
+- [ ] `/auth/login` loads without JS errors
+- [ ] Signing up with the admin email gives admin role
+- [ ] `/admin/connect-google` completes without error
+- [ ] `/admin` shows calendar data
+
+---
+
 ## Known Limitations
 
 - **Single Google account per deployment** — the app is designed for one practitioner per deployment. `OWNER_EMAIL` ties the entire calendar/email integration to one account. Multiple practitioners sharing a deployment is not currently supported.

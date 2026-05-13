@@ -1,41 +1,63 @@
 import { getEventsBySearchQuery } from 'lib/availability/getEventsBySearchQuery'
+import { loadGoogleCredentials } from '@/lib/google/credentials'
 import { GoogleCalendarV3Event } from 'lib/types'
-import { subWeeks, addWeeks } from 'date-fns'
+import { subWeeks, addWeeks, parseISO, isValid } from 'date-fns'
 import { CategorizedEventList } from 'app/my_events/components/EventComponents'
 import SectionContainer from '@/components/SectionContainer'
 
-import { parseISO, isValid } from 'date-fns'
+function parseDateParam(param: string | string[] | undefined, fallback: Date): string {
+  if (param && typeof param === 'string' && isValid(parseISO(param))) return param
+  return fallback.toISOString()
+}
+
+async function isGoogleConnected(): Promise<boolean> {
+  try {
+    return (await loadGoogleCredentials()) !== null
+  } catch {
+    return false
+  }
+}
+
+async function fetchEvents(start: string, end: string): Promise<GoogleCalendarV3Event[]> {
+  try {
+    return await getEventsBySearchQuery({ query: 'massage', start, end })
+  } catch {
+    return []
+  }
+}
+
+function GoogleNotConnectedBanner() {
+  return (
+    <div className="mb-6 rounded-lg border border-yellow-200 bg-yellow-50 p-4 dark:border-yellow-800 dark:bg-yellow-950">
+      <p className="text-sm font-medium text-yellow-800 dark:text-yellow-200">
+        Google Calendar is not connected.{' '}
+        <a href="/admin/connect-google" className="underline hover:no-underline">
+          Connect now &rarr;
+        </a>
+      </p>
+    </div>
+  )
+}
 
 export default async function Page({
   searchParams,
 }: {
   searchParams?: Promise<{ [key: string]: string | string[] | undefined }>
 }) {
-  const resolvedSearchParams = searchParams ? await searchParams : {}
-  let startDate: string
-  let endDate: string
-  const startDateParam = resolvedSearchParams.startDate
-  const endDateParam = resolvedSearchParams.endDate
-  if (startDateParam && typeof startDateParam === 'string' && isValid(parseISO(startDateParam))) {
-    startDate = startDateParam
-  } else {
-    startDate = subWeeks(new Date(), 2).toISOString()
-  }
-  if (endDateParam && typeof endDateParam === 'string' && isValid(parseISO(endDateParam))) {
-    endDate = endDateParam
-  } else {
-    endDate = addWeeks(new Date(), 2).toISOString()
-  }
+  const resolved = searchParams ? await searchParams : {}
+  const now = new Date()
+  const startDate = parseDateParam(resolved.startDate, subWeeks(now, 2))
+  const endDate = parseDateParam(resolved.endDate, addWeeks(now, 2))
 
-  let events: GoogleCalendarV3Event[] = []
-  try {
-    events = await getEventsBySearchQuery({ query: 'massage', start: startDate, end: endDate })
-  } catch {
-    // Google not connected yet
-  }
+  const [googleConnected, events] = await Promise.all([
+    isGoogleConnected(),
+    fetchEvents(startDate, endDate),
+  ])
+
   return (
     <SectionContainer>
       <div className="mx-auto max-w-7xl px-4 py-8">
+        {!googleConnected && <GoogleNotConnectedBanner />}
         <CategorizedEventList events={events} />
       </div>
     </SectionContainer>

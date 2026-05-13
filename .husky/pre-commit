@@ -90,3 +90,23 @@ if [ "$EMOJI_FAIL" -ne 0 ]; then
 fi
 
 npx --no-install lint-staged
+
+# ── No fallow-ignore suppression ────────────────────────────
+FALLOW_SUPPRESS_FAIL=0
+STAGED_SRC=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.(ts|tsx|js|jsx)$' || true)
+for file in $STAGED_SRC; do
+  if git diff --cached -U0 "$file" 2>/dev/null | grep -E '^\+.*fallow-ignore' > /dev/null 2>&1; then
+    if [ "$FALLOW_SUPPRESS_FAIL" -eq 0 ]; then
+      echo "❌ fallow-ignore suppression detected — fix the underlying issue instead:"
+      echo ""
+    fi
+    echo "   $file"
+    FALLOW_SUPPRESS_FAIL=1
+  fi
+done
+if [ "$FALLOW_SUPPRESS_FAIL" -ne 0 ]; then
+  echo ""
+  echo "   Refactor to reduce complexity, or raise the threshold in .fallowrc.json"
+  echo "   if the limit itself is wrong — don't hide the finding."
+  exit 1
+fi

@@ -1,4 +1,4 @@
-import { REQUEST_PREFIX, SUMMARY_SUFFIX } from './eventHelpers'
+import { REQUEST_PREFIX, SUMMARY_SUFFIX, SUMMARY_PARSE_PATTERN } from './eventHelpers'
 
 export type EventStatus = 'pending' | 'confirmed' | 'cancelled'
 
@@ -13,7 +13,7 @@ export function parseEventSummary(summary: string, calendarStatus: string) {
     ? clean.slice(0, -SUMMARY_SUFFIX.length)
     : clean
 
-  const match = withoutSuffix.match(/^(\d+)\s+minute\s+massage\s+with\s+(.+)$/i)
+  const match = withoutSuffix.match(SUMMARY_PARSE_PATTERN)
 
   return {
     status,
