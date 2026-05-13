@@ -128,3 +128,4 @@ proposals/
 __pycache__/
 .mcp.json
 debug/
+playwright-test.cjs
