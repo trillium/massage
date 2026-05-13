@@ -53,6 +53,16 @@ export default defineConfig({
         storageState: { cookies: [], origins: [] },
       },
     },
+
+    {
+      name: 'onboarding',
+      testMatch: /tests\/e2e\/tenant-onboarding\.spec\.ts/,
+      use: {
+        ...devices['Desktop Chrome'],
+        storageState: 'playwright/.auth/admin.json',
+      },
+      dependencies: ['setup'],
+    },
   ],
 
   webServer: {
