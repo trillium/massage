@@ -352,6 +352,7 @@ const slugConfigurations: SlugConfigurationType[] = [
     },
     leadTimeMinimum: 0,
     instantConfirm: true,
+    allowConcurrentBookings: true,
     acceptingPayment: false,
     customFields: {
       showNotesField: true,

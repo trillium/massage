@@ -66,6 +66,7 @@ export type SlugConfigurationType = {
   leadTimeMinimum: number | null // in minutes
   hideCalendar?: boolean
   instantConfirm?: boolean
+  allowConcurrentBookings?: boolean
   acceptingPayment?: boolean
   defaultDuration?: number
   allowedDurations: AllowedDurationsType | null
