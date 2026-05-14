@@ -129,3 +129,4 @@ __pycache__/
 .mcp.json
 debug/
 playwright-test.cjs
+tsconfig.tsbuildinfo
