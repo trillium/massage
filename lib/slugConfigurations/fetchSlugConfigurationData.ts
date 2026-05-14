@@ -357,6 +357,7 @@ const slugConfigurations: SlugConfigurationType[] = [
       showNotesField: true,
       showRaffleOptIn: true,
     },
+    links: [{ label: 'Enter the raffle →', href: '/nerdstage-raffle' }],
   },
   {
     ...initialStateWithoutType,
