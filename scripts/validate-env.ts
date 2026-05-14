@@ -28,6 +28,12 @@ const checks: Check[] = [
     validate: (v) => (v.startsWith('eyJ') && v.length > 100) || v.startsWith('sb_publishable_'),
     hint: 'must be a Supabase anon key (eyJ... JWT or sb_publishable_... new format)',
   },
+  {
+    name: 'NEXT_PUBLIC_TENANT_SLUG',
+    value: process.env.NEXT_PUBLIC_TENANT_SLUG,
+    validate: (v) => /^[a-z][a-z0-9_]*$/.test(v),
+    hint: 'must be a snake_case identifier (e.g. trillium_massage) — set in Vercel Environment Variables',
+  },
 ]
 
 const errors: string[] = []
