@@ -12,21 +12,20 @@ type EnvVar = {
 }
 
 const ENV_VARS: EnvVar[] = [
-  // Supabase (not yet fully integrated — warn only)
+  // Supabase — required for auth and tenant operations
   {
     name: 'NEXT_PUBLIC_SUPABASE_URL',
-    required: false,
-    description: 'Supabase project URL (not yet required — auth migration in progress)',
+    required: true,
+    description: 'Supabase project URL',
   },
   {
     name: 'NEXT_PUBLIC_SUPABASE_ANON_KEY',
-    required: false,
-    description:
-      'Supabase anonymous/public API key (not yet required — auth migration in progress)',
+    required: true,
+    description: 'Supabase anonymous/public API key',
   },
   {
     name: 'SUPABASE_SERVICE_ROLE_KEY',
-    required: false,
+    required: true,
     description: 'Supabase service role key (server-side only, needed for admin operations)',
   },
 
@@ -116,13 +115,12 @@ const ENV_VARS: EnvVar[] = [
   // Multi-tenant
   {
     name: 'TENANT_SLUG',
-    required: false,
-    description:
-      'Postgres schema name for this tenant (e.g. trillium_massage). Falls back to public.',
+    required: true,
+    description: 'Postgres schema name for this tenant (e.g. trillium_massage)',
   },
   {
     name: 'NEXT_PUBLIC_TENANT_SLUG',
-    required: false,
+    required: true,
     description: 'Browser-accessible tenant slug, must match TENANT_SLUG',
   },
 
