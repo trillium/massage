@@ -337,7 +337,7 @@ const slugConfigurations: SlugConfigurationType[] = [
     hideCalendar: true,
     title: 'Nerdstage — Book a Session!',
     text: "Quick chair massage at Nerdstage. Pick a time and we'll get you in!",
-    location: createLocationObject('The Clubhouse, 1201 Olympic Blvd', 'Santa Monica', '90404'),
+    location: createLocationObject('606 Venice Blvd.', 'Venice', '90291'),
     locationIsReadOnly: true,
     eventContainer: 'nerdstage',
     defaultDuration: 5,
