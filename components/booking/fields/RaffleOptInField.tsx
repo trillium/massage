@@ -17,7 +17,7 @@ export default function RaffleOptInField({
   onChange,
 }: RaffleOptInFieldProps) {
   return (
-    <div className="mt-4 rounded-md border-2 border-primary-200 bg-primary-50 p-4 dark:border-primary-800 dark:bg-primary-950/30">
+    <div className="rounded-md border-2 border-primary-200 bg-primary-50 p-3 dark:border-primary-800 dark:bg-primary-950/30">
       <div className="flex items-start gap-3">
         <input
           type="checkbox"
