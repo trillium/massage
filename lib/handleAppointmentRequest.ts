@@ -202,7 +202,7 @@ export async function handleAppointmentRequest({
     const eventPageUrl = createEventPageUrl(origin, calendarData.id, data.email, data.end)
 
     // Send confirmation email — fire-and-forget so email failure doesn't block the success response
-    clientConfirmEmailFn({
+    const confirmationEmail = clientConfirmEmailFn({
       ...data,
       ...safeData,
       location: safeLocation,
@@ -213,14 +213,11 @@ export async function handleAppointmentRequest({
         timeZone: data.timeZone,
       }),
     })
-      .then((confirmationEmail) =>
-        sendMailFn({
-          to: data.email,
-          subject: confirmationEmail.subject,
-          body: confirmationEmail.body,
-        })
-      )
-      .catch((err) => console.error('Failed to send instant confirm email:', err))
+    sendMailFn({
+      to: data.email,
+      subject: confirmationEmail.subject,
+      body: confirmationEmail.body,
+    }).catch((err: unknown) => console.error('Failed to send instant confirm email:', err))
 
     return NextResponse.json({ success: true, instantConfirm: true, eventPageUrl }, { status: 200 })
   }
