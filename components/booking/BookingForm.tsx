@@ -72,8 +72,8 @@ export default function BookingForm({
   )
   const showNotesField = !!(additionalData?.showNotesField || config?.customFields?.showNotesField)
   const resolvedShowRaffleOptIn = !!(
-    showRaffleOptIn ||
-    additionalData?.showRaffleOptIn ||
+    showRaffleOptIn ??
+    additionalData?.showRaffleOptIn ??
     config?.customFields?.showRaffleOptIn
   )
   const locationReadOnly = !!eventContainers?.location || config.locationIsReadOnly

@@ -95,6 +95,7 @@ export function useBookingSubmit({ additionalData, endPoint, onSubmit }: UseBook
               fetch('/api/raffle/submit', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
+                keepalive: true,
                 body: JSON.stringify({
                   name: `${values.firstName} ${values.lastName}`.trim(),
                   email: values.email,
