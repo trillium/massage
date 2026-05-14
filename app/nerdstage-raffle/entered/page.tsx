@@ -14,7 +14,7 @@ export default function NerdstageRaffleEnteredPage() {
 
   useEffect(() => {
     if (!formData?.raffleName) {
-      router.replace('/nerdstage')
+      router.replace('/nerdstage-raffle')
     }
   }, [formData, router])
 
@@ -59,7 +59,7 @@ export default function NerdstageRaffleEnteredPage() {
 
         <div className="flex gap-4">
           <Link
-            href="/nerdstage"
+            href="/nerdstage-raffle"
             className="rounded border-2 border-surface-300 px-6 py-2 font-semibold text-surface-600 transition-colors hover:bg-surface-100 dark:border-surface-600 dark:text-surface-300 dark:hover:bg-surface-800"
           >
             Edit Entry

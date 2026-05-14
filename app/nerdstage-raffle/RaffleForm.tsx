@@ -80,7 +80,7 @@ export default function RaffleForm({ raffleId, raffleName }: RaffleFormProps) {
             raffleInterests: values.interested_in,
           })
         )
-        router.push('/nerdstage/entered')
+        router.push('/nerdstage-raffle/entered')
       } else if (result.details) {
         const fieldErrors: Partial<Record<keyof FormValues, string>> = {}
         for (const issue of result.details) {
