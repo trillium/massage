@@ -45,6 +45,7 @@ export type CustomFieldsType = {
   showHotelField?: boolean
   showParkingField?: boolean
   showNotesField?: boolean
+  showRaffleOptIn?: boolean
 }
 
 export type SlugConfigurationType = {

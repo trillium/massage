@@ -93,6 +93,89 @@ describe('useBookingSubmit - 409 handling', () => {
     expect(mockPush).toHaveBeenCalledWith('/scale23x?slotTaken=1')
   })
 
+  it('fires raffle submit when raffleOptIn is true and booking succeeds', async () => {
+    const fetchMock = vi
+      .fn()
+      .mockResolvedValueOnce({
+        status: 200,
+        ok: true,
+        json: () => Promise.resolve({ success: true }),
+      })
+      .mockResolvedValueOnce({
+        status: 200,
+        ok: true,
+        json: () => Promise.resolve({ success: true }),
+      })
+    global.fetch = fetchMock
+
+    const { result } = renderHook(() =>
+      useBookingSubmit({ additionalData: {}, endPoint: '/api/request' })
+    )
+
+    await act(async () => {
+      await result.current(
+        {
+          ...baseValues,
+          raffleOptIn: true,
+          raffleZipCode: '90210',
+          raffleInterestedIn: ['in_home'],
+        } as unknown as BookingFormValues,
+        formikHelpers
+      )
+    })
+
+    const raffleCalls = fetchMock.mock.calls.filter(([url]) => url === '/api/raffle/submit')
+    expect(raffleCalls).toHaveLength(1)
+    const body = JSON.parse(raffleCalls[0][1].body)
+    expect(body.name).toBe('John Doe')
+    expect(body.email).toBe('john@test.com')
+    expect(body.zip_code).toBe('90210')
+    expect(body.interested_in).toEqual(['in_home'])
+  })
+
+  it('does not fire raffle submit when raffleOptIn is false', async () => {
+    const fetchMock = vi.fn().mockResolvedValue({
+      status: 200,
+      ok: true,
+      json: () => Promise.resolve({ success: true }),
+    })
+    global.fetch = fetchMock
+
+    const { result } = renderHook(() =>
+      useBookingSubmit({ additionalData: {}, endPoint: '/api/request' })
+    )
+
+    await act(async () => {
+      await result.current(baseValues, formikHelpers)
+    })
+
+    const raffleCalls = fetchMock.mock.calls.filter(([url]) => url === '/api/raffle/submit')
+    expect(raffleCalls).toHaveLength(0)
+  })
+
+  it('does not fire raffle submit when booking fails', async () => {
+    const fetchMock = vi.fn().mockResolvedValue({
+      status: 500,
+      ok: false,
+      json: () => Promise.resolve({ error: 'server error' }),
+    })
+    global.fetch = fetchMock
+
+    const { result } = renderHook(() =>
+      useBookingSubmit({ additionalData: {}, endPoint: '/api/request' })
+    )
+
+    await act(async () => {
+      await result.current(
+        { ...baseValues, raffleOptIn: true } as unknown as BookingFormValues,
+        formikHelpers
+      )
+    })
+
+    const raffleCalls = fetchMock.mock.calls.filter(([url]) => url === '/api/raffle/submit')
+    expect(raffleCalls).toHaveLength(0)
+  })
+
   it('does not show error modal on 409', async () => {
     global.fetch = vi.fn().mockResolvedValue({
       status: 409,

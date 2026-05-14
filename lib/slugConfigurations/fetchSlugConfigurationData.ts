@@ -355,6 +355,7 @@ const slugConfigurations: SlugConfigurationType[] = [
     acceptingPayment: false,
     customFields: {
       showNotesField: true,
+      showRaffleOptIn: true,
     },
   },
   {

@@ -71,6 +71,7 @@ export type ChairAppointmentBlockProps = {
   showHotelField?: boolean
   showParkingField?: boolean
   showNotesField?: boolean
+  showRaffleOptIn?: boolean
 }
 
 export type ChairAppointmentBlockCalendarProps = ChairAppointmentBlockProps & AppointmentProps
