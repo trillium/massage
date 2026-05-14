@@ -201,8 +201,8 @@ export async function handleAppointmentRequest({
     if (data.sessionId) releaseSlotHold(data.sessionId).catch(() => {})
     const eventPageUrl = createEventPageUrl(origin, calendarData.id, data.email, data.end)
 
-    // Send confirmation email directly
-    const confirmationEmail = await clientConfirmEmailFn({
+    // Send confirmation email — fire-and-forget so email failure doesn't block the success response
+    clientConfirmEmailFn({
       ...data,
       ...safeData,
       location: safeLocation,
@@ -213,11 +213,14 @@ export async function handleAppointmentRequest({
         timeZone: data.timeZone,
       }),
     })
-    await sendMailFn({
-      to: data.email,
-      subject: confirmationEmail.subject,
-      body: confirmationEmail.body,
-    })
+      .then((confirmationEmail) =>
+        sendMailFn({
+          to: data.email,
+          subject: confirmationEmail.subject,
+          body: confirmationEmail.body,
+        })
+      )
+      .catch((err) => console.error('Failed to send instant confirm email:', err))
 
     return NextResponse.json({ success: true, instantConfirm: true, eventPageUrl }, { status: 200 })
   }
