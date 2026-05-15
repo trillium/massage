@@ -9,6 +9,7 @@ const mockRouter = {
 
 vi.mock('next/navigation', () => ({
   useRouter: () => mockRouter,
+  usePathname: () => '/admin',
 }))
 
 const mockGetUser = vi.fn().mockResolvedValue({ data: { user: null }, error: null })
@@ -109,7 +110,9 @@ describe('Admin Page Access Control', () => {
       )
 
       await waitFor(() => {
-        expect(screen.getByText('Admin Access Required')).toBeInTheDocument()
+        expect(mockRouter.replace).toHaveBeenCalledWith(
+          expect.stringContaining('/auth/supabase-login')
+        )
       })
 
       expect(screen.queryByTestId('admin-content')).not.toBeInTheDocument()

@@ -32,6 +32,7 @@ type BookingFormProps = {
   acceptingPayment?: boolean
   endPoint?: string
   onSubmit?: (values: BookingFormValues, formikHelpers: FormikHelpers<BookingFormValues>) => void
+  showRaffleOptIn?: boolean
 }
 
 export default function BookingForm({
@@ -39,6 +40,7 @@ export default function BookingForm({
   endPoint = 'api/request',
   acceptingPayment = true,
   onSubmit,
+  showRaffleOptIn,
 }: BookingFormProps) {
   const dispatch = useAppDispatch()
   const { releaseHold, holdExpired, claimHold, claiming } = useSlotHoldContext()
@@ -69,6 +71,11 @@ export default function BookingForm({
     additionalData?.showParkingField || config?.customFields?.showParkingField
   )
   const showNotesField = !!(additionalData?.showNotesField || config?.customFields?.showNotesField)
+  const resolvedShowRaffleOptIn = !!(
+    showRaffleOptIn ??
+    additionalData?.showRaffleOptIn ??
+    config?.customFields?.showRaffleOptIn
+  )
   const locationReadOnly = !!eventContainers?.location || config.locationIsReadOnly
 
   const dateString =
@@ -160,6 +167,7 @@ export default function BookingForm({
                   showHotelField={showHotelField}
                   showParkingField={showParkingField}
                   showNotesField={showNotesField}
+                  showRaffleOptIn={resolvedShowRaffleOptIn}
                 />
 
                 {modal === 'error' && (

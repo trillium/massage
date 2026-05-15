@@ -43,6 +43,7 @@
     "db:seed-google-app": "tsx scripts/seed-google-oauth-app.ts",
     "db:migrate:status": "npx supabase migration list",
     "test:integration:db-health": "tsx scripts/db-health.ts",
+    "db:appointments": "tsx scripts/db-appointments.ts",
     "db:backup": "tsx scripts/backup-db.ts",
     "admin:generate-link": "tsx scripts/generate-admin-link.ts --emailEnv",
     "user:generate-link": "tsx scripts/generate-user-link.ts",

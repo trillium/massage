@@ -33,7 +33,7 @@ vi.mock('../messaging/templates/events/requestEventDescription', () => ({
 }))
 
 // Mock dependencies
-const mockSendMail = vi.fn()
+const mockSendMail = vi.fn(() => Promise.resolve())
 const mockApprovalEmail = vi.fn()
 const mockClientRequestEmail = vi.fn()
 const mockClientConfirmEmail = vi.fn()

@@ -91,6 +91,22 @@ export function useBookingSubmit({ additionalData, endPoint, onSubmit }: UseBook
           }
 
           if (json.success && response.ok) {
+            if (values.raffleOptIn) {
+              fetch('/api/raffle/submit', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                keepalive: true,
+                body: JSON.stringify({
+                  name: `${values.firstName} ${values.lastName}`.trim(),
+                  email: values.email,
+                  phone: values.phone,
+                  is_local: !!values.raffleZipCode?.trim(),
+                  zip_code: values.raffleZipCode?.trim() || null,
+                  interested_in: values.raffleInterestedIn ?? [],
+                }),
+              }).catch((err) => console.error('Raffle opt-in failed:', err))
+            }
+
             dispatch(setModal({ status: 'closed' }))
             if (json.eventPageUrl) {
               router.push(json.eventPageUrl)

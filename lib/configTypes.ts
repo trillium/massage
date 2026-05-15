@@ -45,6 +45,7 @@ export type CustomFieldsType = {
   showHotelField?: boolean
   showParkingField?: boolean
   showNotesField?: boolean
+  showRaffleOptIn?: boolean
 }
 
 export type SlugConfigurationType = {
@@ -65,6 +66,7 @@ export type SlugConfigurationType = {
   leadTimeMinimum: number | null // in minutes
   hideCalendar?: boolean
   instantConfirm?: boolean
+  allowConcurrentBookings?: boolean
   acceptingPayment?: boolean
   defaultDuration?: number
   allowedDurations: AllowedDurationsType | null

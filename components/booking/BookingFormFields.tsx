@@ -9,6 +9,7 @@ import PaymentMethodField from './fields/PaymentMethodField'
 import HotelField from './fields/HotelField'
 import ParkingField from './fields/ParkingField'
 import NotesField from './fields/NotesField'
+import RaffleOptInField from './fields/RaffleOptInField'
 
 import { setForm } from '@/redux/slices/formSlice'
 import { useAppDispatch } from '@/redux/hooks'
@@ -33,6 +34,7 @@ type BookingFormFieldsProps = {
   showHotelField?: boolean
   showParkingField?: boolean
   showNotesField?: boolean
+  showRaffleOptIn?: boolean
 }
 
 export default function BookingFormFields({
@@ -47,6 +49,7 @@ export default function BookingFormFields({
   showHotelField,
   showParkingField,
   showNotesField,
+  showRaffleOptIn,
 }: BookingFormFieldsProps) {
   const dispatch = useAppDispatch()
 
@@ -188,6 +191,15 @@ export default function BookingFormFields({
             <div className="mt-1 text-sm text-red-600">{errors.paymentMethod}</div>
           )}
         </>
+      )}
+
+      {showRaffleOptIn && (
+        <RaffleOptInField
+          optIn={values.raffleOptIn ?? false}
+          zipCode={values.raffleZipCode ?? ''}
+          interestedIn={values.raffleInterestedIn ?? []}
+          onChange={setFieldValue}
+        />
       )}
     </div>
   )
