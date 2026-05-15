@@ -1,55 +1,44 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getSupabaseAdminClient } from '@/lib/supabase/server'
+import { createPageConfiguration } from '@/lib/slugConfigurations/createPageConfiguration'
 
 export const dynamic = 'force-dynamic'
 
 export async function GET(_req: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
 
-  const supabase = getSupabaseAdminClient()
-  if (!supabase) {
-    return NextResponse.json({ ok: false, error: 'db client unavailable' }, { status: 503 })
+  try {
+    const result = await createPageConfiguration({
+      bookingSlug: slug,
+      resolvedParams: {},
+    })
+
+    const config = result.configuration
+    if (!config || config.type === null) {
+      return NextResponse.json({ ok: false, slug, error: 'unknown slug' }, { status: 404 })
+    }
+
+    const slots = result.slots ?? []
+    const uniqueDates = [...new Set(slots.map((s) => s.start.slice(0, 10)))]
+
+    return NextResponse.json({
+      ok: slots.length > 0,
+      slug,
+      type: config.type,
+      slots_available: slots.length,
+      dates_with_slots: uniqueDates.length,
+      next_available: slots[0]?.start ?? null,
+      duration: result.duration,
+      date_range: {
+        start: result.start?.start ?? null,
+        end: result.end?.end ?? null,
+      },
+      busy_count: result.data?.busy?.length ?? 0,
+      schema: process.env.TENANT_SLUG ?? 'public',
+    })
+  } catch (err) {
+    return NextResponse.json(
+      { ok: false, slug, error: err instanceof Error ? err.message : 'unknown error' },
+      { status: 500 }
+    )
   }
-
-  const slugPath = slug.startsWith('/') ? slug : `/${slug}`
-
-  const { data, error } = await supabase
-    .from('appointments')
-    .select('id, status, instant_confirm, created_at, start_time, booking_url')
-    .or(`booking_url.eq.${slugPath},booking_url.eq.${slug}`)
-    .order('created_at', { ascending: false })
-    .limit(50)
-
-  if (error) {
-    return NextResponse.json({ ok: false, error: error.message }, { status: 503 })
-  }
-
-  const rows = data ?? []
-
-  const counts = rows.reduce(
-    (acc, row) => {
-      const s = row.status as string
-      acc[s] = (acc[s] ?? 0) + 1
-      return acc
-    },
-    {} as Record<string, number>
-  )
-
-  const mostRecent = rows[0]
-    ? {
-        created_at: rows[0].created_at,
-        start_time: rows[0].start_time,
-        status: rows[0].status,
-        instant_confirm: rows[0].instant_confirm,
-      }
-    : null
-
-  return NextResponse.json({
-    ok: true,
-    slug,
-    total: rows.length,
-    counts,
-    most_recent: mostRecent,
-    schema: process.env.TENANT_SLUG ?? 'public',
-  })
 }
