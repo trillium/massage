@@ -46,8 +46,11 @@ export function createSlots({
     leadTime,
   })
 
-  const slots = offers.filter((slot, index) => {
-    return slot.start >= startOfInterval && slot.end <= endOfInterval
+  const slots = offers.filter((slot) => {
+    return (
+      new Date(slot.start) >= new Date(startOfInterval) &&
+      new Date(slot.end) <= new Date(endOfInterval)
+    )
   })
 
   return slots

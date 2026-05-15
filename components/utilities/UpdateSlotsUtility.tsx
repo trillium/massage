@@ -116,21 +116,11 @@ export function SlotGenerationUtility(
       }
   )
 ) {
-  const {
-    duration: durationRedux,
-    selectedDate: selectedDateRedux,
-    slots: currentSlots,
-  } = useReduxAvailability()
+  const { duration: durationRedux, selectedDate: selectedDateRedux } = useReduxAvailability()
   const { leadTimeMinimum: leadTime, durationBonus } = useReduxConfig()
   const dispatch = useAppDispatch()
-  const initialRun = useRef(true)
 
   useEffect(() => {
-    if (initialRun.current) {
-      initialRun.current = false
-      if (currentSlots && currentSlots.length > 0) return
-    }
-
     let newSlots: StringDateTimeIntervalAndLocation[] = []
 
     const effectiveDuration = durationRedux || DEFAULT_DURATION
