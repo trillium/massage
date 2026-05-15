@@ -7,6 +7,7 @@ export async function getActiveHolds(
   excludeSessionId?: string
 ): Promise<DateTimeInterval[]> {
   const supabase = getSupabaseAdminClient()
+  if (!supabase) throw new Error('Supabase client unavailable')
 
   let query = supabase
     .from('slot_holds')

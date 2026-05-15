@@ -8,6 +8,7 @@ export async function claimSlotHold(
   end: string
 ): Promise<ClaimResult> {
   const supabase = getSupabaseAdminClient()
+  if (!supabase) throw new Error('Supabase client unavailable')
 
   const { data, error } = await supabase.rpc('claim_slot_hold', {
     p_session_id: sessionId,

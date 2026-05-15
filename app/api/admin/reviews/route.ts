@@ -31,6 +31,7 @@ export async function POST(request: NextRequest) {
   }
 
   const supabase = getSupabaseAdminClient()
+  if (!supabase) return NextResponse.json({ error: 'Database unavailable' }, { status: 503 })
   const { data, error } = await supabase.from('reviews').insert(parsed.data).select().single()
 
   if (error) {
@@ -56,6 +57,7 @@ export async function PATCH(request: NextRequest) {
 
   const { id, ...updates } = parsed.data
   const supabase = getSupabaseAdminClient()
+  if (!supabase) return NextResponse.json({ error: 'Database unavailable' }, { status: 503 })
   const { data, error } = await supabase
     .from('reviews')
     .update(updates)

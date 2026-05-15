@@ -6,6 +6,7 @@ export async function updateAppointmentStatus(
   status: AppointmentStatus
 ): Promise<void> {
   const supabase = getSupabaseAdminClient()
+  if (!supabase) throw new Error('Supabase client unavailable')
 
   const timestamps: Record<string, string> = {}
   if (status === 'confirmed') timestamps.confirmed_at = new Date().toISOString()

@@ -5,6 +5,7 @@ export async function linkAppointmentToCalendarEvent(
   calendarEventId: string
 ): Promise<void> {
   const supabase = getSupabaseAdminClient()
+  if (!supabase) throw new Error('Supabase client unavailable')
 
   const { error } = await supabase
     .from('appointments')

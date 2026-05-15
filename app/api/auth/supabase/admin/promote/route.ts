@@ -27,6 +27,7 @@ export async function POST(request: Request) {
     const ip = reqHeaders.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown'
 
     const supabase = getSupabaseAdminClient()
+    if (!supabase) return NextResponse.json({ error: 'Database unavailable' }, { status: 503 })
 
     const { error } = await supabase.rpc('promote_to_admin', { user_id: userId })
 

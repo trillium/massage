@@ -17,6 +17,7 @@ export async function GET() {
     }
 
     const supabase = await getSupabaseServerClient()
+    if (!supabase) return NextResponse.json({ error: 'Database unavailable' }, { status: 503 })
 
     const { data: profile, error } = await supabase
       .from('profiles')
@@ -47,6 +48,7 @@ export async function PUT(request: Request) {
     const body = await request.json()
 
     const supabase = await getSupabaseServerClient()
+    if (!supabase) return NextResponse.json({ error: 'Database unavailable' }, { status: 503 })
 
     const allowedUpdates = ['email']
     const updates: any = {}

@@ -24,6 +24,7 @@ type ReserveResult = { success: true; appointmentId: string } | { success: false
 
 export async function reserveAppointmentSlot(params: ReserveSlotParams): Promise<ReserveResult> {
   const supabase = getSupabaseAdminClient()
+  if (!supabase) throw new Error('Supabase client unavailable')
 
   const { data, error } = await supabase.rpc('reserve_appointment_slot', {
     p_start: params.start,

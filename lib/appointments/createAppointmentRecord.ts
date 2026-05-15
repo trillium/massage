@@ -25,6 +25,7 @@ export async function createAppointmentRecord(
   status: AppointmentStatus = 'pending'
 ): Promise<void> {
   const supabase = getSupabaseAdminClient()
+  if (!supabase) throw new Error('Supabase client unavailable')
 
   const location = data.locationObject
     ? `${data.locationObject.street}, ${data.locationObject.city} ${data.locationObject.zip}`
