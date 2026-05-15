@@ -3,26 +3,14 @@ import { getSupabaseAdminClient } from '@/lib/supabase/server'
 
 export const dynamic = 'force-dynamic'
 
-/**
- * Public (no auth) health endpoint to check if appointments are landing for a given slug.
- *
- * GET /api/booking/health?slug=nerdstage
- *
- * Returns aggregate counts only — no PII.
- */
-export async function GET(req: NextRequest) {
-  const slug = req.nextUrl.searchParams.get('slug')
-  if (!slug) {
-    return NextResponse.json({ error: 'slug query param required' }, { status: 400 })
-  }
+export async function GET(_req: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params
 
   const supabase = getSupabaseAdminClient()
   if (!supabase) {
     return NextResponse.json({ ok: false, error: 'db client unavailable' }, { status: 503 })
   }
 
-  // booking_url is stored as the path e.g. "/nerdstage" or the slug itself.
-  // Match either form.
   const slugPath = slug.startsWith('/') ? slug : `/${slug}`
 
   const { data, error } = await supabase
