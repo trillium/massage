@@ -118,6 +118,8 @@ export function SlotGenerationUtility(
   useEffect(() => {
     let newSlots: StringDateTimeIntervalAndLocation[] = []
 
+    const effectiveDuration = durationRedux || DEFAULT_DURATION
+
     if (props.isNextSlotPage && props.nextSlotMultiDurations && durationRedux) {
       // Next-slot page: use pre-calculated multi-duration data
       if (props.nextSlotMultiDurations[durationRedux]) {
@@ -126,7 +128,7 @@ export function SlotGenerationUtility(
     } else if (props.start && props.end) {
       // Regular page: generate slots
       newSlots = createSlots({
-        duration: durationRedux || DEFAULT_DURATION,
+        duration: effectiveDuration,
         durationBonus: durationBonus ?? 0,
         leadTime: leadTime ?? LEAD_TIME,
         start: props.start,
@@ -135,6 +137,18 @@ export function SlotGenerationUtility(
         containers: props.containers,
       })
     }
+
+    console.log('[SlotGen]', {
+      durationRedux,
+      effectiveDuration,
+      leadTime,
+      slotsProduced: newSlots.length,
+      busyCount: props.busy?.length,
+      containerCount: props.containers?.length,
+      selectedDateRedux,
+      hasStart: !!props.start,
+      hasEnd: !!props.end,
+    })
 
     startTransition(() => {
       dispatch(setSlots(newSlots))
@@ -147,6 +161,7 @@ export function SlotGenerationUtility(
         newSlots.length > 0
       ) {
         const firstAvail = format(new Date(newSlots[0].start), 'yyyy-MM-dd')
+        console.log('[SlotGen] auto-selecting date:', firstAvail)
         dispatch(setSelectedDate(firstAvail))
       }
     })
