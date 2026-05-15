@@ -70,6 +70,11 @@ export function InitializationUtility({
 
     if (initialSlots && initialSlots.length > 0) {
       dispatch(setSlots(initialSlots))
+
+      if (!initialSelectedDate) {
+        const firstAvail = format(new Date(initialSlots[0].start), 'yyyy-MM-dd')
+        dispatch(setSelectedDate(firstAvail))
+      }
     }
 
     if (initialDuration) {
@@ -77,7 +82,7 @@ export function InitializationUtility({
     }
 
     initializedRef.current = true
-  }, [initialSlots, initialDuration, dispatch])
+  }, [initialSlots, initialDuration, initialSelectedDate, dispatch])
 
   // Always sync URL-provided date to Redux — re-runs on SPA navigation when param changes
   useEffect(() => {
