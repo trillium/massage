@@ -4,6 +4,7 @@ type ExtendResult = { extended: true } | { extended: false; reason: string }
 
 export async function extendSlotHold(sessionId: string): Promise<ExtendResult> {
   const supabase = getSupabaseAdminClient()
+  if (!supabase) throw new Error('Supabase client unavailable')
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any -- RPC not in generated types until migration runs
   const { data, error } = await (supabase.rpc as any)('extend_slot_hold', {

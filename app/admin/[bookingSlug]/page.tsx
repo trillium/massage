@@ -23,10 +23,11 @@ export default async function Page({
   }
 
   const supabase = getSupabaseAdminClient()
-  const { data: appointmentsData } = await supabase!
+  if (!supabase) return <NotFound />
+  const { data: appointmentsData } = await supabase
     .from('appointments')
     .select(
-      'id, client_first_name, client_last_name, client_email, client_phone, start_time, end_time, duration_minutes, status, promo, location, admin_notes, created_at'
+      'id, client_first_name, client_last_name, client_email, client_phone, start_time, end_time, duration_minutes, status, promo, location, created_at'
     )
     .ilike('booking_url', `%${bookingSlug}%`)
     .order('start_time', { ascending: true })

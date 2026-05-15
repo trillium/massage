@@ -13,7 +13,6 @@ describe('/api/admin/configuration/[slug]', () => {
     const mockConfig = { type: 'area-wide', title: 'Test' }
     vi.mocked(resolveConfiguration).mockResolvedValue({
       configuration: mockConfig as never,
-      bookingSlug: 'test',
     })
 
     const req = new NextRequest('http://localhost/api/admin/configuration/test')

@@ -35,6 +35,7 @@ export default function TestLoginPage() {
 
     console.log('[TestLogin] Starting authentication...')
     const supabase = getSupabaseBrowserClient()
+    if (!supabase) return
 
     const { data, error: signInError } = await supabase.auth.signInWithPassword({
       email,

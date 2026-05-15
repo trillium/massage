@@ -16,6 +16,7 @@ export async function GET() {
     }
 
     const supabase = getSupabaseAdminClient()
+    if (!supabase) return NextResponse.json({ error: 'Database unavailable' }, { status: 503 })
 
     const { data: profiles, error } = await supabase
       .from('profiles')

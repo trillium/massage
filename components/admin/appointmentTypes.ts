@@ -10,7 +10,7 @@ export interface Appointment {
   status: string
   promo: string | null
   location: string | null
-  admin_notes: string | null
+  admin_notes?: string | null
   created_at: string
 }
 

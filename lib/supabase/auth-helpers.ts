@@ -16,6 +16,7 @@ import type { Provider } from '@supabase/supabase-js'
  */
 export async function signInWithMagicLink(email: string, redirectTo?: string) {
   const supabase = getSupabaseBrowserClient()
+  if (!supabase) throw new Error('Supabase client unavailable')
 
   const callbackUrl = new URL('/auth/callback/supabase', window.location.origin)
   if (redirectTo) {
@@ -37,6 +38,7 @@ export async function signInWithMagicLink(email: string, redirectTo?: string) {
  */
 export async function signInWithOAuth(provider: Provider, redirectTo?: string) {
   const supabase = getSupabaseBrowserClient()
+  if (!supabase) throw new Error('Supabase client unavailable')
 
   const callbackUrl = new URL('/auth/callback/supabase', window.location.origin)
   if (redirectTo) {
@@ -59,6 +61,7 @@ export async function signInWithOAuth(provider: Provider, redirectTo?: string) {
  */
 export async function signInWithPassword(email: string, password: string) {
   const supabase = getSupabaseBrowserClient()
+  if (!supabase) throw new Error('Supabase client unavailable')
 
   const { data, error } = await supabase.auth.signInWithPassword({
     email,
@@ -74,6 +77,7 @@ export async function signInWithPassword(email: string, password: string) {
  */
 export async function signUpWithPassword(email: string, password: string) {
   const supabase = getSupabaseBrowserClient()
+  if (!supabase) throw new Error('Supabase client unavailable')
 
   const { data, error } = await supabase.auth.signUp({
     email,
@@ -91,6 +95,7 @@ export async function signUpWithPassword(email: string, password: string) {
  */
 export async function signOut() {
   const supabase = getSupabaseBrowserClient()
+  if (!supabase) throw new Error('Supabase client unavailable')
   const { error } = await supabase.auth.signOut()
   return { error }
 }
@@ -100,6 +105,7 @@ export async function signOut() {
  */
 export async function getClientSession() {
   const supabase = getSupabaseBrowserClient()
+  if (!supabase) throw new Error('Supabase client unavailable')
   const {
     data: { session },
   } = await supabase.auth.getSession()
@@ -111,6 +117,7 @@ export async function getClientSession() {
  */
 export async function getClientUser() {
   const supabase = getSupabaseBrowserClient()
+  if (!supabase) throw new Error('Supabase client unavailable')
   const {
     data: { user },
   } = await supabase.auth.getUser()
@@ -122,6 +129,7 @@ export async function getClientUser() {
  */
 export async function getClientProfile() {
   const supabase = getSupabaseBrowserClient()
+  if (!supabase) throw new Error('Supabase client unavailable')
   const user = await getClientUser()
 
   if (!user) {
@@ -147,6 +155,7 @@ export async function isClientAdmin() {
  */
 export function onAuthStateChange(callback: (event: string, session: any) => void): () => void {
   const supabase = getSupabaseBrowserClient()
+  if (!supabase) throw new Error('Supabase client unavailable')
 
   const {
     data: { subscription },
@@ -160,6 +169,7 @@ export function onAuthStateChange(callback: (event: string, session: any) => voi
  */
 export async function updateEmail(newEmail: string) {
   const supabase = getSupabaseBrowserClient()
+  if (!supabase) throw new Error('Supabase client unavailable')
   const { data, error } = await supabase.auth.updateUser({ email: newEmail })
   return { data, error }
 }
@@ -169,6 +179,7 @@ export async function updateEmail(newEmail: string) {
  */
 export async function updatePassword(newPassword: string) {
   const supabase = getSupabaseBrowserClient()
+  if (!supabase) throw new Error('Supabase client unavailable')
   const { data, error } = await supabase.auth.updateUser({ password: newPassword })
   return { data, error }
 }
@@ -178,6 +189,7 @@ export async function updatePassword(newPassword: string) {
  */
 export async function resetPassword(email: string) {
   const supabase = getSupabaseBrowserClient()
+  if (!supabase) throw new Error('Supabase client unavailable')
   const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
     redirectTo: `${window.location.origin}/auth/reset-password`,
   })

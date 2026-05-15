@@ -141,7 +141,7 @@ function LogoAndBlurb({ displayClasses }: { displayClasses: string }) {
             'group-focus-within:outline-primary-500 rounded-md outline-2 outline-offset-2 outline-transparent'
           )}
         >
-          {site.branding.hasLogoSvg && (
+          {site.branding.siteLogo && (
             <div className="mr-3">
               <Logo forceTheme="light" classes="text-primary-500 w-8 h-8 xs:w-10 xs:h-10" />
             </div>

@@ -13,6 +13,7 @@ interface ProcessResult {
 
 export async function processReminders(): Promise<ProcessResult> {
   const supabase = getSupabaseAdminClient()
+  if (!supabase) throw new Error('Supabase admin client unavailable')
   const result: ProcessResult = { processed: 0, sent: 0, failed: 0, errors: [] }
 
   const { data: dueReminders, error: fetchError } = await supabase
@@ -97,7 +98,7 @@ export async function processReminders(): Promise<ProcessResult> {
 }
 
 async function markFailed(
-  supabase: ReturnType<typeof getSupabaseAdminClient>,
+  supabase: NonNullable<ReturnType<typeof getSupabaseAdminClient>>,
   reminder: { id: string },
   _error: string
 ) {

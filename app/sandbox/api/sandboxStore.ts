@@ -33,7 +33,9 @@ export function validateSessionId(sessionId: string): boolean {
 }
 
 function getClient() {
-  return getSupabaseAdminClient()
+  const client = getSupabaseAdminClient()
+  if (!client) throw new Error('Supabase admin client unavailable')
+  return client
 }
 
 function cleanupExpired() {
