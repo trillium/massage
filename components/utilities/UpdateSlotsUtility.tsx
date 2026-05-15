@@ -111,11 +111,21 @@ export function SlotGenerationUtility(
       }
   )
 ) {
-  const { duration: durationRedux, selectedDate: selectedDateRedux } = useReduxAvailability()
+  const {
+    duration: durationRedux,
+    selectedDate: selectedDateRedux,
+    slots: currentSlots,
+  } = useReduxAvailability()
   const { leadTimeMinimum: leadTime, durationBonus } = useReduxConfig()
   const dispatch = useAppDispatch()
+  const initialRun = useRef(true)
 
   useEffect(() => {
+    if (initialRun.current) {
+      initialRun.current = false
+      if (currentSlots && currentSlots.length > 0) return
+    }
+
     let newSlots: StringDateTimeIntervalAndLocation[] = []
 
     const effectiveDuration = durationRedux || DEFAULT_DURATION
@@ -138,18 +148,6 @@ export function SlotGenerationUtility(
       })
     }
 
-    console.log('[SlotGen]', {
-      durationRedux,
-      effectiveDuration,
-      leadTime,
-      slotsProduced: newSlots.length,
-      busyCount: props.busy?.length,
-      containerCount: props.containers?.length,
-      selectedDateRedux,
-      hasStart: !!props.start,
-      hasEnd: !!props.end,
-    })
-
     startTransition(() => {
       dispatch(setSlots(newSlots))
 
@@ -161,7 +159,6 @@ export function SlotGenerationUtility(
         newSlots.length > 0
       ) {
         const firstAvail = format(new Date(newSlots[0].start), 'yyyy-MM-dd')
-        console.log('[SlotGen] auto-selecting date:', firstAvail)
         dispatch(setSelectedDate(firstAvail))
       }
     })
