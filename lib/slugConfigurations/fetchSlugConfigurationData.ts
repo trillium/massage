@@ -406,6 +406,31 @@ const slugConfigurations: SlugConfigurationType[] = [
   },
   {
     ...initialStateWithoutType,
+    bookingSlug: ['nerdstage-raffle-prize'],
+    type: 'area-wide',
+    defaultDuration: 60,
+    title: 'Nerdstage Raffle — Your Free Session!',
+    text: [
+      'Congratulations on winning the Nerdstage raffle! Book your free in-home massage.',
+      `Questions? Call or text ${contactPhone}`,
+      `* This offer is valid through June 14, 2026.`,
+    ],
+    allowedDurations: [60, 90, 120, 150],
+    pricing: { 60: 0, 90: 0, 120: 0, 150: 0 },
+    pricingLabels: {
+      60: 'Free! ($140 value)',
+      90: 'Free! ($210 value)',
+      120: 'Free! ($280 value)',
+      150: 'Free! ($350 value)',
+    },
+    promoEndDate: '2026-06-14',
+    acceptingPayment: false,
+    customFields: {
+      showNotesField: true,
+    },
+  },
+  {
+    ...initialStateWithoutType,
     bookingSlug: ['barter'],
     type: 'area-wide',
     title: 'Free / Barter Session',
