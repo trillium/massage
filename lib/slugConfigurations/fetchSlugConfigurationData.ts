@@ -384,6 +384,28 @@ const slugConfigurations: SlugConfigurationType[] = [
   },
   {
     ...initialStateWithoutType,
+    bookingSlug: ['nerdstage-appreciation'],
+    type: 'area-wide',
+    title: 'Nerdstage Appreciation: Free 30-Minute Upgrade',
+    text: [
+      'Thanks for coming to Nerdstage! Book a session and get 30 minutes added free.',
+      `Questions? Call or text ${contactPhone}`,
+      `* This offer is valid through June 14, 2026.`,
+    ],
+    durationBonus: 30,
+    pricingLabels: {
+      60: '+30 min free! (90 min session)',
+      90: '+30 min free! (120 min session)',
+      120: '+30 min free! (150 min session)',
+    },
+    allowedDurations: [60, 90, 120],
+    promoEndDate: '2026-06-14',
+    customFields: {
+      showNotesField: true,
+    },
+  },
+  {
+    ...initialStateWithoutType,
     bookingSlug: ['barter'],
     type: 'area-wide',
     title: 'Free / Barter Session',
