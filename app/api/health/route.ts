@@ -110,6 +110,11 @@ export async function GET() {
   const timestamp = new Date().toISOString()
   const config = checkConfig()
   const management_api = checkManagementApi()
+  const build = {
+    sha: process.env.VERCEL_GIT_COMMIT_SHA?.slice(0, 7) ?? 'local',
+    branch: process.env.VERCEL_GIT_COMMIT_REF ?? 'unknown',
+    message: process.env.VERCEL_GIT_COMMIT_MESSAGE?.slice(0, 80) ?? '',
+  }
 
   try {
     const supabase = createClient(
@@ -125,6 +130,7 @@ export async function GET() {
         {
           status: 'degraded' as OverallStatus,
           timestamp,
+          build,
           checks: { config, management_api, ...skippedChecks(error.message) },
         },
         { status: 503 }
@@ -141,12 +147,16 @@ export async function GET() {
     }
     const status = deriveStatus(checks)
 
-    return NextResponse.json({ status, timestamp, checks }, { status: status === 'ok' ? 200 : 503 })
+    return NextResponse.json(
+      { status, timestamp, build, checks },
+      { status: status === 'ok' ? 200 : 503 }
+    )
   } catch {
     return NextResponse.json(
       {
         status: 'error' as OverallStatus,
         timestamp,
+        build,
         checks: { config, management_api, ...skippedChecks('unreachable') },
       },
       { status: 503 }
