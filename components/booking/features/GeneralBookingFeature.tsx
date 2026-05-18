@@ -10,6 +10,7 @@ import { SlotHoldProvider } from 'hooks/SlotHoldContext'
 import { buildDurationProps } from '@/lib/slugConfigurations/helpers/buildDurationProps'
 import { home } from '@/app/content'
 import { differenceInDays, parseISO } from 'date-fns'
+import { dayToString } from '@/lib/dayAsObject'
 import {
   SlugConfigurationType,
   StringDateTimeIntervalAndLocation,
@@ -71,6 +72,8 @@ export default function GeneralBookingFeature({
                 !!configuration.promoEndDate &&
                 differenceInDays(parseISO(configuration.promoEndDate), new Date()) > 14
               }
+              start={dayToString(start)}
+              end={dayToString(end)}
             />
           )}
           <TimeList />
