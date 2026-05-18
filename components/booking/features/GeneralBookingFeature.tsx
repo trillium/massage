@@ -9,6 +9,7 @@ import SectionContainer from '@/components/SectionContainer'
 import { SlotHoldProvider } from 'hooks/SlotHoldContext'
 import { buildDurationProps } from '@/lib/slugConfigurations/helpers/buildDurationProps'
 import { home } from '@/app/content'
+import { differenceInDays, parseISO } from 'date-fns'
 import {
   SlugConfigurationType,
   StringDateTimeIntervalAndLocation,
@@ -64,7 +65,14 @@ export default function GeneralBookingFeature({
 
         <div className="flex flex-col space-y-8">
           <DurationPicker {...durationProps} />
-          {!configuration.hideCalendar && <Calendar />}
+          {!configuration.hideCalendar && (
+            <Calendar
+              paginate={
+                !!configuration.promoEndDate &&
+                differenceInDays(parseISO(configuration.promoEndDate), new Date()) > 14
+              }
+            />
+          )}
           <TimeList />
         </div>
       </SlotHoldProvider>

@@ -1,8 +1,9 @@
 'use client'
 
-import { useMemo } from 'react'
+import { useMemo, useState, useCallback } from 'react'
 import { addDays, eachDayOfInterval, endOfWeek, startOfWeek } from 'date-fns'
 
+import CalendarNav from './CalendarNav'
 import DayButton from './DayButton'
 import Day from 'lib/day'
 import { useSelector } from 'react-redux'
@@ -22,6 +23,8 @@ interface CalendarProps {
   forceEnableFutureDates?: boolean
   selectedDate?: Day | null
   weeksDisplayOverride?: number
+  paginate?: boolean
+  maxVisibleWeeks?: number
 }
 
 export default function Calendar({
@@ -33,6 +36,8 @@ export default function Calendar({
   forceEnableFutureDates = false,
   selectedDate: selectedDateProp,
   weeksDisplayOverride = 3,
+  paginate = false,
+  maxVisibleWeeks = 5,
 }: CalendarProps) {
   const { slots: slotsRedux, selectedDate } = useReduxAvailability()
   const {
@@ -97,12 +102,53 @@ export default function Calendar({
     days.splice(0, 7)
   }
 
+  const effectivePageWeeks = paginate
+    ? Math.min(weeksDisplayOverride, maxVisibleWeeks)
+    : weeksDisplayOverride
+
+  const [pageOffset, setPageOffset] = useState(0)
+
+  const safeStartIndex = paginate ? pageOffset * effectivePageWeeks * 7 : 0
+
+  const visibleDays = paginate
+    ? days.slice(safeStartIndex, safeStartIndex + effectivePageWeeks * 7)
+    : days.slice(0, weeksDisplayOverride * 7)
+
+  const totalPages = paginate ? Math.ceil(days.length / (effectivePageWeeks * 7)) : 1
+  const prevDisabled = paginate ? pageOffset <= 0 : true
+  const nextDisabled = paginate ? pageOffset >= totalPages - 1 : true
+
+  const handlePrev = useCallback(() => {
+    setPageOffset((p) => Math.max(0, p - 1))
+  }, [])
+
+  const handleNext = useCallback(() => {
+    setPageOffset((p) => Math.min(totalPages - 1, p + 1))
+  }, [totalPages])
+
+  const pageStartDate =
+    visibleDays.length > 0 ? new Date(visibleDays[0].toString() + 'T12:00:00') : startDate
+  const lastVisible =
+    visibleDays.length > 0
+      ? new Date(visibleDays[visibleDays.length - 1].toString() + 'T12:00:00')
+      : startDate
+
   return (
     <div
       className="focus-within:ring-primary-500 active:ring-primary-500 isolate mt-6 grid grid-cols-7 overflow-hidden rounded-md border-2 border-accent-300 text-xs leading-6 text-accent-500 focus-within:ring-2 active:ring-2 dark:border-accent-700 dark:text-accent-400"
       role="grid"
       aria-label="Calendar"
     >
+      {paginate && (
+        <CalendarNav
+          pageStartDate={pageStartDate}
+          pageEndDate={lastVisible}
+          onPrev={handlePrev}
+          onNext={handleNext}
+          prevDisabled={prevDisabled}
+          nextDisabled={nextDisabled}
+        />
+      )}
       {weekdays.map((weekday) => (
         <div
           key={weekday}
@@ -113,7 +159,7 @@ export default function Calendar({
           {weekday}
         </div>
       ))}
-      {days.slice(0, weeksDisplayOverride * 7).map((day) => {
+      {visibleDays.map((day) => {
         const availabilityTest = offers[day.toString()] ?? []
 
         // Determine which selected date to use - props override Redux

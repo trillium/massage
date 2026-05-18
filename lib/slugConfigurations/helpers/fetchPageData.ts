@@ -1,3 +1,4 @@
+import { differenceInDays, parseISO } from 'date-fns'
 import { GoogleCalendarV3Event, SearchParamsType, SlugConfigurationType } from '@/lib/types'
 import { MockedData, FetchPageDataReturnType } from './fetchPageData.types'
 import {
@@ -26,6 +27,12 @@ function wrapWithDebug(
     debugInfo.outputs = result
   }
   return { ...result, debugInfo }
+}
+
+function windowDaysFromPromo(configuration: SlugConfigurationType): number | undefined {
+  if (!configuration.promoEndDate) return undefined
+  const days = differenceInDays(parseISO(configuration.promoEndDate), new Date()) + 1
+  return days > 14 ? days : undefined
 }
 
 function isContainerBasedPath(configuration: SlugConfigurationType, bookingSlug?: string): boolean {
@@ -70,7 +77,7 @@ export async function fetchPageData(
 
   if (configuration?.type === 'fixed-location') {
     return wrapWithDebug(
-      await fetchFixedLocationResult(resolvedParams),
+      await fetchFixedLocationResult(resolvedParams, windowDaysFromPromo(configuration)),
       'fixed-location',
       debugInfo
     )
@@ -101,7 +108,7 @@ export async function fetchPageData(
   }
 
   const finalResult = wrapWithDebug(
-    await fetchAreaWideResult(resolvedParams),
+    await fetchAreaWideResult(resolvedParams, windowDaysFromPromo(configuration)),
     'area-wide',
     debugInfo
   )

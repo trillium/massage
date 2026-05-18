@@ -8,10 +8,17 @@ import {
   GoogleCalendarV3Event,
 } from '../types'
 
-export async function fetchData({ searchParams }: { searchParams: SearchParamsType }) {
-  // Offer two weeks of availability.
+const DEFAULT_WINDOW_DAYS = 14
+
+export async function fetchData({
+  searchParams,
+  windowDays,
+}: {
+  searchParams: SearchParamsType
+  windowDays?: number
+}) {
   const start = Day.todayWithOffset(0)
-  const end = Day.todayWithOffset(14)
+  const end = Day.todayWithOffset(windowDays ?? DEFAULT_WINDOW_DAYS)
 
   const timeZone = undefined
 

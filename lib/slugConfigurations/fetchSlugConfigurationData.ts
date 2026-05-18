@@ -413,7 +413,7 @@ const slugConfigurations: SlugConfigurationType[] = [
     text: [
       'Congratulations on winning the Nerdstage raffle! Book your free in-home massage.',
       `Questions? Call or text ${contactPhone}`,
-      `* This offer is valid through June 14, 2026.`,
+      `* This offer is valid through June 16, 2026.`,
     ],
     allowedDurations: [60, 90, 120, 150],
     pricing: { 60: 0, 90: 70, 120: 140, 150: 210 },
@@ -423,7 +423,7 @@ const slugConfigurations: SlugConfigurationType[] = [
       120: '$140 ($280 value — 60 min free!)',
       150: '$210 ($350 value — 60 min free!)',
     },
-    promoEndDate: '2026-06-14',
+    promoEndDate: '2026-06-16',
     acceptingPayment: true,
     customFields: {
       showNotesField: true,
