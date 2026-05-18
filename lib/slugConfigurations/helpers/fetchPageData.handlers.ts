@@ -113,9 +113,10 @@ export async function fetchContainerResult(
 }
 
 export async function fetchStandardAvailability(
-  resolvedParams: SearchParamsType
+  resolvedParams: SearchParamsType,
+  windowDays?: number
 ): Promise<PageDataResult> {
-  const regularData = await fetchData({ searchParams: resolvedParams })
+  const regularData = await fetchData({ searchParams: resolvedParams, windowDays })
   return {
     start: regularData.start,
     end: regularData.end,
