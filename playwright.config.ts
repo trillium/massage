@@ -63,6 +63,13 @@ export default defineConfig({
       },
       dependencies: ['setup'],
     },
+
+    {
+      name: 'onboarding-live',
+      testMatch: /onboarding-live\.spec\.ts/,
+      use: { ...devices['Desktop Chrome'] },
+      timeout: 180_000,
+    },
   ],
 
   webServer: {
