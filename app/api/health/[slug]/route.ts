@@ -1,5 +1,6 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextRequest } from 'next/server'
 import { createPageConfiguration } from '@/lib/slugConfigurations/createPageConfiguration'
+import { healthResponse, errorResponse } from '@/lib/health/shared'
 
 export const dynamic = 'force-dynamic'
 
@@ -14,13 +15,13 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ slu
 
     const config = result.configuration
     if (!config || config.type === null) {
-      return NextResponse.json({ ok: false, slug, error: 'unknown slug' }, { status: 404 })
+      return healthResponse({ ok: false, slug, error: 'unknown slug' }, 404)
     }
 
     const slots = result.slots ?? []
     const uniqueDates = [...new Set(slots.map((s) => s.start.slice(0, 10)))]
 
-    return NextResponse.json({
+    return healthResponse({
       ok: slots.length > 0,
       slug,
       type: config.type,
@@ -36,9 +37,6 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ slu
       schema: process.env.TENANT_SLUG ?? 'public',
     })
   } catch (err) {
-    return NextResponse.json(
-      { ok: false, slug, error: err instanceof Error ? err.message : 'unknown error' },
-      { status: 500 }
-    )
+    return errorResponse(err, { slug })
   }
 }

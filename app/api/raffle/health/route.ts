@@ -1,5 +1,5 @@
-import { NextResponse } from 'next/server'
 import { getSupabaseAdminClient } from '@/lib/supabase/server'
+import { healthResponse } from '@/lib/health/shared'
 
 interface RaffleRow {
   id: string
@@ -17,7 +17,7 @@ export async function GET() {
   const supabase = getSupabaseAdminClient()
 
   if (!supabase) {
-    return NextResponse.json(
+    return healthResponse(
       {
         db: 'unhealthy',
         error: 'Could not connect to database',
@@ -25,7 +25,7 @@ export async function GET() {
         active_raffle: null,
         entry_counts: null,
       },
-      { status: 503 }
+      503
     )
   }
 
@@ -36,7 +36,7 @@ export async function GET() {
       .order('created_at', { ascending: false })
 
     if (rafflesError) {
-      return NextResponse.json(
+      return healthResponse(
         {
           db: 'unhealthy',
           error: rafflesError.message,
@@ -44,7 +44,7 @@ export async function GET() {
           active_raffle: null,
           entry_counts: null,
         },
-        { status: 503 }
+        503
       )
     }
 
@@ -71,7 +71,7 @@ export async function GET() {
       entry_count: entryCounts[r.id] ?? 0,
     }))
 
-    return NextResponse.json({
+    return healthResponse({
       db: 'healthy',
       raffle_count: raffles.length,
       active_raffle: activeRaffle
@@ -84,7 +84,7 @@ export async function GET() {
       raffles: rafflesSummary,
     })
   } catch (error) {
-    return NextResponse.json(
+    return healthResponse(
       {
         db: 'unhealthy',
         error: error instanceof Error ? error.message : 'Unknown error',
@@ -92,7 +92,7 @@ export async function GET() {
         active_raffle: null,
         entry_counts: null,
       },
-      { status: 500 }
+      500
     )
   }
 }
