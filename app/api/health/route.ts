@@ -1,35 +1,24 @@
 import { createClient } from '@supabase/supabase-js'
-import { NextResponse } from 'next/server'
+import { healthResponse, type OverallStatus } from '@/lib/health/shared'
 
 export const dynamic = 'force-dynamic'
 
 type TenantStatus = 'ready' | 'no_owner_seeded' | 'unprovisioned' | 'not_configured'
-type OverallStatus = 'ok' | 'degraded' | 'error'
-
-interface ConfigCheck {
-  ok: boolean
-  warnings: string[]
-}
 
 interface SimpleCheck {
   ok: boolean
   detail?: string
 }
 
-interface ProvisioningCheck {
-  ok: boolean
-  tenant: TenantStatus
-}
-
 interface HealthChecks {
-  config: ConfigCheck
+  config: { ok: boolean; warnings: string[] }
   supabase: SimpleCheck
-  provisioning: ProvisioningCheck
+  provisioning: { ok: boolean; tenant: TenantStatus }
   google: SimpleCheck
   management_api: SimpleCheck
 }
 
-function checkConfig(): ConfigCheck {
+function checkConfig() {
   const slug = process.env.TENANT_SLUG ?? ''
   const publicSlug = process.env.NEXT_PUBLIC_TENANT_SLUG ?? ''
   const warnings: string[] = []
@@ -44,7 +33,7 @@ function checkConfig(): ConfigCheck {
   return { ok: warnings.length === 0, warnings }
 }
 
-async function checkProvisioning(): Promise<ProvisioningCheck> {
+async function checkProvisioning(): Promise<{ ok: boolean; tenant: TenantStatus }> {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY
   const slug = process.env.TENANT_SLUG
@@ -98,16 +87,15 @@ function deriveStatus(checks: HealthChecks): OverallStatus {
   return 'ok'
 }
 
-function skippedChecks(supabaseDetail: string): Omit<HealthChecks, 'config' | 'management_api'> {
+function skippedChecks(detail: string) {
   return {
-    supabase: { ok: false, detail: supabaseDetail },
-    provisioning: { ok: false, tenant: 'not_configured' },
+    supabase: { ok: false, detail },
+    provisioning: { ok: false, tenant: 'not_configured' as TenantStatus },
     google: { ok: false, detail: 'skipped' },
   }
 }
 
 export async function GET() {
-  const timestamp = new Date().toISOString()
   const config = checkConfig()
   const management_api = checkManagementApi()
 
@@ -121,13 +109,12 @@ export async function GET() {
     const { error } = await supabase.from('profiles').select('id').limit(1)
 
     if (error) {
-      return NextResponse.json(
+      return healthResponse(
         {
           status: 'degraded' as OverallStatus,
-          timestamp,
           checks: { config, management_api, ...skippedChecks(error.message) },
         },
-        { status: 503 }
+        503
       )
     }
 
@@ -141,15 +128,14 @@ export async function GET() {
     }
     const status = deriveStatus(checks)
 
-    return NextResponse.json({ status, timestamp, checks }, { status: status === 'ok' ? 200 : 503 })
+    return healthResponse({ status, checks }, status === 'ok' ? 200 : 503)
   } catch {
-    return NextResponse.json(
+    return healthResponse(
       {
         status: 'error' as OverallStatus,
-        timestamp,
         checks: { config, management_api, ...skippedChecks('unreachable') },
       },
-      { status: 503 }
+      503
     )
   }
 }
