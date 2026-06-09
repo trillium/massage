@@ -52,7 +52,8 @@
     "blog:build": "contentlayer2 build && cross-env NODE_OPTIONS='--experimental-json-modules' node ./scripts/postbuild.mjs",
     "blog:watch": "contentlayer2 dev",
     "render:proposal": "tsx scripts/render-proposal.ts",
-    "render:proposal:pdf": "tsx scripts/render-proposal-pdf.ts"
+    "render:proposal:pdf": "tsx scripts/render-proposal-pdf.ts",
+    "llms:update": "bun scripts/update-llms-txt.ts"
   },
   "dependencies": {
     "@headlessui/react": "2.2.0",
