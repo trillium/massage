@@ -87,5 +87,33 @@
     "durationLabel": "How long should sessions be?",
     "durationSuffix": "minutes",
     "paymentLabel": "Payment options"
+  },
+  "activeEventContainers": {
+    "eventCountOpen": "(",
+    "eventCountClose": ")",
+    "descriptionEllipsis": "...",
+    "patternStringSpace": " ",
+    "eventTimesSeparator": " - ",
+    "slugPrefix": "/",
+    "slugTypePairOpen": "(",
+    "slugTypeColon": ": ",
+    "slugTypePairClose": ")",
+    "queryLabel": "Query: ",
+    "slugsPreamble": "Used by {count} slug{plural}:",
+    "typeLabel": "type",
+    "searchQueryLabel": "Search Query:",
+    "searchQueryGeneric": "__EVENT__ (generic)",
+    "localFilterLabel": "Local Filter:",
+    "containerPatternLabel": "Container Pattern:",
+    "memberPatternLabel": "Member Pattern:",
+    "containersLabel": "Containers",
+    "membersLabel": "Members",
+    "totalEventsLabel": "Total Events",
+    "debugHeaderPrefix": "Debug: All Events Found by Search Query \"",
+    "debugHeaderSuffix": "\"",
+    "containerEventsLabel": "Container Events",
+    "noContainerEventsMessage": "No container events found. Create events with names containing:",
+    "memberEventsLabel": "Member Events",
+    "noMemberEventsMessage": "No member events found. These are created when bookings are made within container events."
   }
 }
