@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
+import { GradientText } from '@/components/ui/GradientText'
 
 const PALETTE_SCALES = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950]
 
@@ -42,6 +43,11 @@ const ENFORCEMENT_RULES = [
     rule: '<span className=…badge…>',
     fix: '<Badge> from @/components/ui/',
     guard: 'check-design-system.mjs',
+  },
+  {
+    rule: 'bg-clip-text text-transparent bg-gradient-to-*',
+    fix: '<GradientText> from @/components/ui/GradientText',
+    guard: 'audit-ui.ts',
   },
   {
     rule: 'Bare JSX text node',
@@ -289,6 +295,39 @@ export default function DesignSystemPage() {
               <Input label="With error" placeholder="Bad value" error="This field is required" />
               <Input placeholder="No label" />
               <Input placeholder="Disabled" disabled />
+            </div>
+          </div>
+
+          {/* GradientText */}
+          <div className="mb-8">
+            <h3 className="mb-1 text-sm font-semibold text-accent-700 dark:text-accent-300">
+              GradientText
+            </h3>
+            <p className="mb-3 font-mono text-xs text-accent-400">
+              import {'{ GradientText }'} from @/components/ui/GradientText
+            </p>
+            <p className="mb-3 text-xs text-accent-500">
+              Gradient-clipped text span. Default: accent-700 → primary-700 → primary-500 (bottom).
+              Used for hero headline emphasis words (Relax, Restore, Rejuvenate).
+            </p>
+            <div className="flex flex-col gap-4 rounded-lg border border-accent-200 p-6 dark:border-accent-700">
+              <div className="text-4xl font-bold">
+                Relax, <GradientText>Restore</GradientText>, Rejuvenate
+              </div>
+              <div className="text-2xl font-bold">
+                Default gradient: <GradientText>accent → primary</GradientText>
+              </div>
+              <div className="text-2xl font-bold">
+                Custom:{' '}
+                <GradientText
+                  gradientColors="from-secondary-400 via-secondary-600 to-primary-600"
+                  gradientColorsDark="dark:from-secondary-300 dark:via-secondary-500 dark:to-primary-400"
+                  gradientDirection="bg-gradient-to-r"
+                  directionLevels="from-0% via-50% to-100%"
+                >
+                  gold → red
+                </GradientText>
+              </div>
             </div>
           </div>
 

@@ -1,3 +1,4 @@
+/* ds-ignore-file */
 import clsx from 'clsx'
 
 const defaultGradientColors = 'from-accent-700 via-primary-700 to-primary-500'

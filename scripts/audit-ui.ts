@@ -25,6 +25,11 @@ const RULES: Rule[] = [
   { name: 'raw-input', pattern: /<input\b[^>]*\bclassName=/, component: '<Input>' },
   { name: 'raw-textarea', pattern: /<textarea\b[^>]*\bclassName=/, component: '<Textarea>' },
   { name: 'raw-button', pattern: /<button\b[^>]*\bclassName=/, component: '<Button>' },
+  {
+    name: 'raw-gradient-text',
+    pattern: /\bbg-clip-text\b.*\btext-transparent\b|\btext-transparent\b.*\bbg-clip-text\b/,
+    component: '<GradientText>',
+  },
 ]
 
 const DS_IGNORE_FILE = /\/\*\s*ds-ignore-file\s*\*\//
