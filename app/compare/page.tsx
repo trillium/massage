@@ -1,124 +1,31 @@
 import SectionContainer from '@/components/SectionContainer'
 import { FaCheck, FaTimes, FaStar } from 'react-icons/fa'
 import { siteConfig } from '@/lib/siteConfig'
+import compareData from '@/data/compare.json'
 
 const Check = () => <FaCheck className="text-lg text-emerald-600 dark:text-emerald-400" />
 const Cross = () => <FaTimes className="text-lg text-accent-300 dark:text-accent-600" />
-const Soon = () => (
-  <span className="text-xs font-medium text-amber-600 dark:text-amber-400">Soon</span>
+
+interface SoonProps {
+  label: string
+}
+
+const Soon = ({ label }: SoonProps) => (
+  <span className="text-xs font-medium text-amber-600 dark:text-amber-400">{label}</span>
 )
 const Star = () => <FaStar className="text-lg text-amber-500" />
 
 type CellValue = 'yes' | 'no' | 'soon'
 type Platform = { name: string; category: string; price: string; features: CellValue[] }
 
-const featureLabels = [
-  'Online Booking',
-  'No Commissions',
-  'Mobile-First',
-  'AI Scheduling',
-  'Multi-Duration',
-  'Payments',
-  'Auto Reminders',
-  'Intake Forms',
-  'Gift Cards',
-  'Self-Service Cancel',
-  'Client Discovery',
-  'Email Marketing',
-]
-
-const platforms: Platform[] = [
-  {
-    name: siteConfig.business.name,
-    category: 'Purpose-Built',
-    price: 'Custom',
-    features: [
-      'yes',
-      'yes',
-      'yes',
-      'yes',
-      'yes',
-      'soon',
-      'soon',
-      'soon',
-      'soon',
-      'soon',
-      'no',
-      'soon',
-    ],
-  },
-  {
-    name: 'Soothe',
-    category: 'Marketplace',
-    price: '~60% cut',
-    features: ['yes', 'no', 'yes', 'no', 'no', 'yes', 'yes', 'no', 'no', 'no', 'yes', 'no'],
-  },
-  {
-    name: 'Zeel',
-    category: 'Marketplace',
-    price: '~60% cut',
-    features: ['yes', 'no', 'yes', 'no', 'no', 'yes', 'yes', 'no', 'no', 'no', 'yes', 'no'],
-  },
-  {
-    name: 'MassageBook',
-    category: 'Massage',
-    price: '$20/mo',
-    features: ['yes', 'yes', 'no', 'no', 'no', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes'],
-  },
-  {
-    name: 'Vagaro',
-    category: 'General',
-    price: '$30/mo',
-    features: ['yes', 'yes', 'no', 'yes', 'no', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes'],
-  },
-  {
-    name: 'Square',
-    category: 'General',
-    price: 'Free+fees',
-    features: ['yes', 'yes', 'yes', 'yes', 'no', 'yes', 'yes', 'no', 'no', 'yes', 'no', 'no'],
-  },
-  {
-    name: 'Acuity',
-    category: 'General',
-    price: '$20/mo',
-    features: ['yes', 'yes', 'no', 'no', 'no', 'yes', 'yes', 'yes', 'no', 'yes', 'no', 'no'],
-  },
-  {
-    name: 'Mindbody',
-    category: 'Enterprise',
-    price: '$129/mo',
-    features: ['yes', 'no', 'yes', 'no', 'no', 'yes', 'yes', 'no', 'yes', 'yes', 'yes', 'yes'],
-  },
-  {
-    name: 'Boulevard',
-    category: 'Enterprise',
-    price: '$176/mo',
-    features: ['yes', 'yes', 'no', 'yes', 'no', 'yes', 'yes', 'no', 'yes', 'yes', 'no', 'yes'],
-  },
-]
-
-const advantages = [
-  { title: 'No Commissions', desc: 'Soothe and Zeel take up to 60% of session revenue.' },
-  { title: 'AI Scheduling', desc: 'Lead time, travel gaps, and duration-aware slot generation.' },
-  { title: 'Purpose-Built', desc: 'Designed for 90-minute sessions, not 15-minute haircuts.' },
-  { title: 'Transparent Pricing', desc: 'No hidden fees, no upsell tiers.' },
-  { title: 'Mobile-First', desc: 'Built for phones, not adapted from desktop.' },
-  { title: 'Multi-Duration', desc: '60–150 min sessions with real-time availability for each.' },
-]
-
-const roadmap = [
-  { feature: 'Online Payments', desc: 'Pay at booking — no more Venmo after the session' },
-  { feature: 'Auto Reminders', desc: 'SMS and email confirmations so clients never forget' },
-  { feature: 'Intake Forms', desc: 'Health history, conditions, and preferences before arrival' },
-  { feature: 'Gift Cards', desc: 'Buy a massage for someone — biggest holiday revenue driver' },
-  { feature: 'Self-Service Changes', desc: 'Clients cancel or reschedule without texting you' },
-  { feature: 'Email Marketing', desc: 'Re-engage past clients with automated campaigns' },
-]
+const platforms: Platform[] = compareData.platforms.map((p) =>
+  p.name === 'MASSAGE_BUSINESS_NAME' ? { ...p, name: siteConfig.business.name } : p
+) as Platform[]
 
 const cellBase = 'px-2 py-2 text-sm'
 const headerCell = `${cellBase} text-left font-medium text-accent-500 dark:text-accent-400`
 const CellIcon = ({ v }: { v: CellValue }) =>
-  v === 'yes' ? <Check /> : v === 'soon' ? <Soon /> : <Cross />
+  v === 'yes' ? <Check /> : v === 'soon' ? <Soon label="Soon" /> : <Cross />
 
 export default function Page() {
   return (
@@ -126,21 +33,21 @@ export default function Page() {
       <div className="py-12">
         <div className="mb-12 text-center">
           <p className="mb-2 text-sm font-semibold tracking-widest text-primary-600 uppercase dark:text-primary-400">
-            Platform Comparison
+            {compareData.pageLabel}
           </p>
           <h1 className="mb-4 text-4xl font-bold tracking-tight text-accent-900 dark:text-accent-100">
-            How We Compare
+            {compareData.pageTitle}
           </h1>
           <p className="mx-auto max-w-2xl text-lg text-accent-600 dark:text-accent-400">
-            An honest look at where we lead, where we&apos;re catching up, and why it matters.
+            {compareData.pageDescription}
           </p>
         </div>
 
         <h2 className="mb-4 text-2xl font-bold text-accent-900 dark:text-accent-100">
-          Where We Lead
+          {compareData.whereWeLeadHeading}
         </h2>
         <div className="mb-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {advantages.map((a) => (
+          {compareData.advantages.map((a) => (
             <div
               key={a.title}
               className="rounded-lg border border-accent-200 p-4 dark:border-accent-700"
@@ -152,20 +59,19 @@ export default function Page() {
         </div>
 
         <h2 className="mb-4 text-2xl font-bold text-accent-900 dark:text-accent-100">
-          Where We&apos;re Catching Up
+          {compareData.whereWeCatchingUpHeading}
         </h2>
         <p className="mb-4 text-sm text-accent-600 dark:text-accent-400">
-          We&apos;re a powerful scheduling engine — but scheduling is only one piece. Here&apos;s
-          what&apos;s on our roadmap.
+          {compareData.whereWeCatchingUpSubtext}
         </p>
         <div className="mb-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {roadmap.map((r) => (
+          {compareData.roadmap.map((r) => (
             <div
               key={r.feature}
               className="rounded-lg border border-amber-200 bg-amber-50/50 p-4 dark:border-amber-800 dark:bg-amber-950/20"
             >
               <h3 className="mb-1 font-semibold text-accent-900 dark:text-accent-100">
-                <Soon /> <span className="ml-1">{r.feature}</span>
+                <Soon label="Soon" /> <span className="ml-1">{r.feature}</span>
               </h3>
               <p className="text-sm text-accent-600 dark:text-accent-400">{r.desc}</p>
             </div>
@@ -173,15 +79,15 @@ export default function Page() {
         </div>
 
         <h2 className="mb-4 text-2xl font-bold text-accent-900 dark:text-accent-100">
-          Full Feature Grid
+          {compareData.fullFeatureGridHeading}
         </h2>
         <div className="-mx-4 overflow-x-auto sm:mx-0">
           <table className="w-full min-w-[720px] border-collapse text-left">
             <thead>
               <tr className="border-b border-accent-200 dark:border-accent-700">
-                <th className={headerCell}>Platform</th>
-                <th className={headerCell}>Price</th>
-                {featureLabels.map((f) => (
+                <th className={headerCell}>{compareData.platformColumnHeader}</th>
+                <th className={headerCell}>{compareData.priceColumnHeader}</th>
+                {compareData.featureLabels.map((f) => (
                   <th key={f} className={`${headerCell} text-center`} title={f}>
                     <span className="hidden xl:inline">{f}</span>
                     <span className="xl:hidden">{f.split(' ')[0]}</span>
@@ -222,28 +128,21 @@ export default function Page() {
 
         <div className="mt-14 rounded-lg bg-surface-100 p-8 dark:bg-surface-800/50">
           <h2 className="mb-3 text-xl font-bold text-accent-900 dark:text-accent-100">
-            The Honest Take
+            {compareData.honestTakeHeading}
           </h2>
           <div className="space-y-3 text-sm leading-relaxed text-accent-600 dark:text-accent-400">
+            <p>{compareData.honestTakeParagraph1}</p>
+            <p>{compareData.honestTakeParagraph2}</p>
             <p>
-              Right now, we&apos;re a best-in-class scheduling engine with real AI — not a full
-              business suite. Vagaro at $30/mo gives you payments, reminders, intake forms, gift
-              cards, and marketing. We don&apos;t do that yet.
-            </p>
-            <p>
-              What we do is build software specifically for massage therapists, not repurpose salon
-              tools. Our scheduling understands lead time, travel, multi-duration sessions, and
-              timezone-aware availability in ways no competitor matches.
-            </p>
-            <p>
-              The features above marked <Soon /> are actively in development. We&apos;d rather ship
-              each one right than ship everything half-baked.
+              {compareData.honestTakeParagraph3.replace('<Soon />', '')}
+              <Soon label="Soon" />
+              {compareData.honestTakeParagraph3.split('<Soon />')[1] || ''}
             </p>
           </div>
         </div>
 
         <p className="mt-8 text-center text-xs text-accent-400 dark:text-accent-600">
-          Data sourced from platform websites and independent reviews, February 2026.
+          {compareData.dataSourceAttribution}
         </p>
       </div>
     </SectionContainer>

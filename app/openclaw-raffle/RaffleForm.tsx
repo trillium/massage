@@ -6,6 +6,9 @@ import { Formik, Form, Field, ErrorMessage } from 'formik'
 import { useAppDispatch, useReduxFormData } from '@/redux/hooks'
 import { setBookingForm } from '@/redux/slices/bookingFormSlice'
 import { RAFFLE_INTEREST_OPTIONS } from '@/lib/schema'
+import raffleData from '@/data/raffle.json'
+
+const openclawData = raffleData.openclaw
 
 interface RaffleFormProps {
   raffleId: string
@@ -23,13 +26,13 @@ interface FormValues {
 const validate = (values: FormValues) => {
   const errors: Partial<Record<keyof FormValues, string>> = {}
 
-  if (!values.name.trim()) errors.name = 'Please enter your name'
-  if (!values.email.trim()) errors.email = 'Please enter your email'
+  if (!values.name.trim()) errors.name = openclawData.nameErrorRequired
+  if (!values.email.trim()) errors.email = openclawData.emailErrorRequired
   else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email))
-    errors.email = "That doesn't look quite right"
-  if (!values.phone.trim()) errors.phone = 'Please enter a phone number'
-  if (!values.zip_code.trim()) errors.zip_code = 'Please enter a zip code'
-  if (values.interested_in.length === 0) errors.interested_in = 'Please select at least one'
+    errors.email = openclawData.emailErrorInvalid
+  if (!values.phone.trim()) errors.phone = openclawData.phoneErrorRequired
+  if (!values.zip_code.trim()) errors.zip_code = openclawData.zipCodeErrorRequired
+  if (values.interested_in.length === 0) errors.interested_in = openclawData.interestedErrorRequired
 
   return errors
 }
@@ -64,7 +67,7 @@ export default function RaffleForm({ raffleId, raffleName }: RaffleFormProps) {
         setFieldValue('phone', entry.phone)
         setFieldValue('zip_code', entry.zip_code ?? '')
         setFieldValue('interested_in', entry.interested_in ?? [])
-        setLookupMessage('Welcome back! We found your previous entry.')
+        setLookupMessage(openclawData.welcomeBackMessage)
       } catch (err) {
         console.error('Raffle lookup failed:', err)
       }
@@ -118,13 +121,13 @@ export default function RaffleForm({ raffleId, raffleName }: RaffleFormProps) {
         if (Object.keys(fieldErrors).length > 0) {
           setErrors(fieldErrors)
         } else {
-          setSubmitError(result.error || "Oops, something didn't work — give it another shot!")
+          setSubmitError(result.error || openclawData.errorGeneric)
         }
       } else {
-        setSubmitError(result.error || "Oops, something didn't work — give it another shot!")
+        setSubmitError(result.error || openclawData.errorGeneric)
       }
     } catch {
-      setSubmitError('Looks like we lost connection — try again in a sec!')
+      setSubmitError(openclawData.errorNetwork)
     }
   }
 
@@ -145,14 +148,15 @@ export default function RaffleForm({ raffleId, raffleName }: RaffleFormProps) {
           <Form className="w-full space-y-6">
             <div>
               <label htmlFor="name" className={labelClasses}>
-                Name <span className="text-primary-500">*</span>
+                {openclawData.nameLabel}{' '}
+                <span className="text-primary-500">{openclawData.requiredAsterisk}</span>
               </label>
               <Field
                 type="text"
                 id="name"
                 name="name"
                 className={inputClasses}
-                placeholder="Your name"
+                placeholder={openclawData.namePlaceholder}
                 disabled={isSubmitting}
               />
               <div className="mt-1 min-h-5 text-sm text-amber-500 dark:text-amber-400">
@@ -162,14 +166,15 @@ export default function RaffleForm({ raffleId, raffleName }: RaffleFormProps) {
 
             <div>
               <label htmlFor="email" className={labelClasses}>
-                Email <span className="text-primary-500">*</span>
+                {openclawData.emailLabel}{' '}
+                <span className="text-primary-500">{openclawData.requiredAsterisk}</span>
               </label>
               <Field
                 type="email"
                 id="email"
                 name="email"
                 className={inputClasses}
-                placeholder="you@example.com"
+                placeholder={openclawData.emailPlaceholder}
                 disabled={isSubmitting}
                 onBlur={(e: React.FocusEvent<HTMLInputElement>) => {
                   lookupEntry(e.target.value, setFieldValue)
@@ -187,14 +192,15 @@ export default function RaffleForm({ raffleId, raffleName }: RaffleFormProps) {
 
             <div>
               <label htmlFor="phone" className={labelClasses}>
-                Phone <span className="text-primary-500">*</span>
+                {openclawData.phoneLabel}{' '}
+                <span className="text-primary-500">{openclawData.requiredAsterisk}</span>
               </label>
               <Field
                 type="tel"
                 id="phone"
                 name="phone"
                 className={inputClasses}
-                placeholder="(555) 555-1234"
+                placeholder={openclawData.phonePlaceholder}
                 disabled={isSubmitting}
               />
               <div className="mt-1 min-h-5 text-sm text-amber-500 dark:text-amber-400">
@@ -204,14 +210,15 @@ export default function RaffleForm({ raffleId, raffleName }: RaffleFormProps) {
 
             <div>
               <label htmlFor="zip_code" className={labelClasses}>
-                What's your zip code? <span className="text-primary-500">*</span>
+                {openclawData.zipCodeLabel}{' '}
+                <span className="text-primary-500">{openclawData.requiredAsterisk}</span>
               </label>
               <Field
                 type="text"
                 id="zip_code"
                 name="zip_code"
                 className={inputClasses}
-                placeholder="90210"
+                placeholder={openclawData.zipCodePlaceholder}
                 disabled={isSubmitting}
                 maxLength={10}
               />
@@ -222,7 +229,8 @@ export default function RaffleForm({ raffleId, raffleName }: RaffleFormProps) {
 
             <div>
               <p className={labelClasses}>
-                Interested in <span className="text-primary-500">*</span>
+                {openclawData.interestedLabel}{' '}
+                <span className="text-primary-500">{openclawData.requiredAsterisk}</span>
               </p>
               <div className="space-y-2">
                 {RAFFLE_INTEREST_OPTIONS.map(({ value, label }) => (
@@ -259,7 +267,7 @@ export default function RaffleForm({ raffleId, raffleName }: RaffleFormProps) {
               disabled={isSubmitting}
               className="bg-primary-600 hover:bg-primary-700 border-primary-500 rounded border-2 px-4 py-2 font-semibold text-white transition-colors disabled:cursor-not-allowed disabled:bg-surface-400"
             >
-              {isSubmitting ? 'Entering...' : 'Enter Raffle'}
+              {isSubmitting ? openclawData.enterButtonSubmitting : openclawData.enterButtonDefault}
             </button>
             <div>
               {submitError && (

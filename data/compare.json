@@ -1,0 +1,151 @@
+{
+  "pageLabel": "Platform Comparison",
+  "pageTitle": "How We Compare",
+  "pageDescription": "An honest look at where we lead, where we're catching up, and why it matters.",
+  "featureLabels": [
+    "Online Booking",
+    "No Commissions",
+    "Mobile-First",
+    "AI Scheduling",
+    "Multi-Duration",
+    "Payments",
+    "Auto Reminders",
+    "Intake Forms",
+    "Gift Cards",
+    "Self-Service Cancel",
+    "Client Discovery",
+    "Email Marketing"
+  ],
+  "platforms": [
+    {
+      "name": "MASSAGE_BUSINESS_NAME",
+      "category": "Purpose-Built",
+      "price": "Custom",
+      "features": [
+        "yes",
+        "yes",
+        "yes",
+        "yes",
+        "yes",
+        "soon",
+        "soon",
+        "soon",
+        "soon",
+        "soon",
+        "no",
+        "soon"
+      ]
+    },
+    {
+      "name": "Soothe",
+      "category": "Marketplace",
+      "price": "~60% cut",
+      "features": ["yes", "no", "yes", "no", "no", "yes", "yes", "no", "no", "no", "yes", "no"]
+    },
+    {
+      "name": "Zeel",
+      "category": "Marketplace",
+      "price": "~60% cut",
+      "features": ["yes", "no", "yes", "no", "no", "yes", "yes", "no", "no", "no", "yes", "no"]
+    },
+    {
+      "name": "MassageBook",
+      "category": "Massage",
+      "price": "$20/mo",
+      "features": ["yes", "yes", "no", "no", "no", "yes", "yes", "yes", "yes", "yes", "yes", "yes"]
+    },
+    {
+      "name": "Vagaro",
+      "category": "General",
+      "price": "$30/mo",
+      "features": ["yes", "yes", "no", "yes", "no", "yes", "yes", "yes", "yes", "yes", "yes", "yes"]
+    },
+    {
+      "name": "Square",
+      "category": "General",
+      "price": "Free+fees",
+      "features": ["yes", "yes", "yes", "yes", "no", "yes", "yes", "no", "no", "yes", "no", "no"]
+    },
+    {
+      "name": "Acuity",
+      "category": "General",
+      "price": "$20/mo",
+      "features": ["yes", "yes", "no", "no", "no", "yes", "yes", "yes", "no", "yes", "no", "no"]
+    },
+    {
+      "name": "Mindbody",
+      "category": "Enterprise",
+      "price": "$129/mo",
+      "features": ["yes", "no", "yes", "no", "no", "yes", "yes", "no", "yes", "yes", "yes", "yes"]
+    },
+    {
+      "name": "Boulevard",
+      "category": "Enterprise",
+      "price": "$176/mo",
+      "features": ["yes", "yes", "no", "yes", "no", "yes", "yes", "no", "yes", "yes", "no", "yes"]
+    }
+  ],
+  "advantages": [
+    {
+      "title": "No Commissions",
+      "desc": "Soothe and Zeel take up to 60% of session revenue."
+    },
+    {
+      "title": "AI Scheduling",
+      "desc": "Lead time, travel gaps, and duration-aware slot generation."
+    },
+    {
+      "title": "Purpose-Built",
+      "desc": "Designed for 90-minute sessions, not 15-minute haircuts."
+    },
+    {
+      "title": "Transparent Pricing",
+      "desc": "No hidden fees, no upsell tiers."
+    },
+    {
+      "title": "Mobile-First",
+      "desc": "Built for phones, not adapted from desktop."
+    },
+    {
+      "title": "Multi-Duration",
+      "desc": "60–150 min sessions with real-time availability for each."
+    }
+  ],
+  "roadmap": [
+    {
+      "feature": "Online Payments",
+      "desc": "Pay at booking — no more Venmo after the session"
+    },
+    {
+      "feature": "Auto Reminders",
+      "desc": "SMS and email confirmations so clients never forget"
+    },
+    {
+      "feature": "Intake Forms",
+      "desc": "Health history, conditions, and preferences before arrival"
+    },
+    {
+      "feature": "Gift Cards",
+      "desc": "Buy a massage for someone — biggest holiday revenue driver"
+    },
+    {
+      "feature": "Self-Service Changes",
+      "desc": "Clients cancel or reschedule without texting you"
+    },
+    {
+      "feature": "Email Marketing",
+      "desc": "Re-engage past clients with automated campaigns"
+    }
+  ],
+  "whereWeLeadHeading": "Where We Lead",
+  "whereWeCatchingUpHeading": "Where We're Catching Up",
+  "whereWeCatchingUpSubtext": "We're a powerful scheduling engine — but scheduling is only one piece. Here's what's on our roadmap.",
+  "fullFeatureGridHeading": "Full Feature Grid",
+  "platformColumnHeader": "Platform",
+  "priceColumnHeader": "Price",
+  "honestTakeHeading": "The Honest Take",
+  "honestTakeParagraph1": "Right now, we're a best-in-class scheduling engine with real AI — not a full business suite. Vagaro at $30/mo gives you payments, reminders, intake forms, gift cards, and marketing. We don't do that yet.",
+  "honestTakeParagraph2": "What we do is build software specifically for massage therapists, not repurpose salon tools. Our scheduling understands lead time, travel, multi-duration sessions, and timezone-aware availability in ways no competitor matches.",
+  "honestTakeParagraph3": "The features above marked Soon are actively in development. We'd rather ship each one right than ship everything half-baked.",
+  "dataSourceAttribution": "Data sourced from platform websites and independent reviews, February 2026."
+}
