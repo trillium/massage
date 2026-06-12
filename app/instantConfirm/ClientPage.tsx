@@ -7,6 +7,7 @@ import BookSessionButton from 'components/BookSessionButton'
 import { BookedCard } from 'components/BookedCard'
 import { flattenLocation } from '@/lib/helpers/locationHelpers'
 import pagesData from '@/data/pages.json'
+import { H1 } from '@/components/ui/heading'
 
 export default function Confirmation() {
   const { selectedTime, timeZone, duration } = useReduxAvailability()
@@ -55,9 +56,9 @@ export default function Confirmation() {
   return (
     <>
       <div className="w-full max-w-2xl px-4 py-4 sm:px-0 sm:py-8">
-        <h1 className="text-primary-500 dark:text-primary-400 text-3xl font-bold tracking-tight sm:text-5xl">
+        <H1 className="sm:text-5xl" status="primary">
           {instantConfirm.heading}
-        </h1>
+        </H1>
         <p className="mt-6 text-xl font-medium text-accent-800 dark:text-accent-200">
           {instantConfirm.subheading}
         </p>

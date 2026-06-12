@@ -3,6 +3,7 @@ import { GoogleCalendarV3Event } from 'lib/types'
 import { isRequestEvent, getCleanSummary, extractApprovalUrls } from '@/lib/helpers/eventHelpers'
 import SectionContainer from '@/components/SectionContainer'
 import { DeclineButton } from './DeclineButton'
+import { H1, H3 } from '@/components/ui/heading'
 
 export const dynamic = 'force-dynamic'
 
@@ -22,9 +23,7 @@ export default async function PendingPage() {
   return (
     <SectionContainer>
       <div className="mx-auto max-w-7xl px-4 py-8">
-        <h1 className="mb-6 text-2xl font-bold text-accent-900 dark:text-white">
-          Pending Requests ({pendingEvents.length})
-        </h1>
+        <H1 className="mb-6 dark:text-white">Pending Requests ({pendingEvents.length})</H1>
 
         {pendingEvents.length === 0 && (
           <p className="text-accent-500 dark:text-accent-400">No pending requests.</p>
@@ -38,9 +37,7 @@ export default async function PendingPage() {
                 key={event.id}
                 className="rounded-lg border border-amber-300 bg-amber-50 p-4 dark:border-amber-700 dark:bg-amber-900/20"
               >
-                <h3 className="text-lg font-semibold text-accent-900 dark:text-white">
-                  {getCleanSummary(event)}
-                </h3>
+                <H3 className="dark:text-white">{getCleanSummary(event)}</H3>
 
                 <div className="mt-2 space-y-1 text-sm text-accent-600 dark:text-accent-400">
                   <p>

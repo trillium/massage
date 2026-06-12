@@ -5,6 +5,7 @@ import { toast } from 'sonner'
 import { adminFetch } from '@/lib/adminFetch'
 import { ReviewFormFields, type ReviewFormData } from './ReviewFormFields'
 import { ReviewCard } from './ReviewCard'
+import { H2 } from '@/components/ui/heading'
 
 interface Review {
   id: number
@@ -112,7 +113,9 @@ export function ReviewsClient({ initialReviews }: { initialReviews: Review[] }) 
       />
 
       <div className="rounded-lg border border-green-200 bg-green-50 p-4 dark:border-green-800 dark:bg-green-900/20">
-        <h2 className="mb-3 text-sm font-medium text-green-800 dark:text-green-200">Add Review</h2>
+        <H2 className="mb-3" status="success">
+          Add Review
+        </H2>
         <ReviewFormFields form={form} onChange={setForm} />
         <button
           onClick={handleCreate}
@@ -124,9 +127,9 @@ export function ReviewsClient({ initialReviews }: { initialReviews: Review[] }) 
       </div>
 
       <div className="space-y-4">
-        <h2 className="text-lg font-semibold text-accent-900 dark:text-accent-100">
+        <H2>
           {sourceFilter ? `${sourceFilter} Reviews` : 'All Reviews'} ({filtered.length})
-        </h2>
+        </H2>
         {filtered.map((review) => (
           <ReviewCard
             key={review.id}
@@ -158,9 +161,9 @@ function SourceFilterBar({
 }) {
   return (
     <div className="rounded-lg border border-blue-200 bg-blue-50 p-4 dark:border-blue-800 dark:bg-blue-900/20">
-      <h2 className="mb-3 text-sm font-medium text-blue-800 dark:text-blue-200">
+      <H2 className="mb-3" status="info">
         Most Recent by Source
-      </h2>
+      </H2>
       <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
         {sources.map((source) => {
           const r = latestBySource[source]

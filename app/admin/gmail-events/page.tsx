@@ -9,6 +9,8 @@ import clsx from 'clsx'
 import { generateTimeSlots } from './generateTimeSlots'
 import { toast } from 'sonner'
 import { adminFetch } from '@/lib/adminFetch'
+import { H1, H3 } from '@/components/ui/heading'
+import { TextSm, TextSmSemibold, TextXs } from '@/components/ui/text'
 
 interface BookingResponse {
   success: boolean
@@ -172,9 +174,7 @@ export default function GmailTestPage() {
   return (
     <div className="mx-auto flex max-w-6xl flex-col gap-3 p-3 sm:gap-4 sm:p-4 lg:p-6">
       <div>
-        <h1 className="mb-4 text-2xl font-bold text-accent-900 sm:text-3xl dark:text-accent-100">
-          Gmail Soothe Booking Search
-        </h1>
+        <H1 className="mb-4 sm:text-3xl">Gmail Soothe Booking Search</H1>
 
         <div className="mb-2 rounded-lg border border-blue-200 bg-blue-50 p-3 sm:p-4 dark:border-blue-800 dark:bg-blue-900/20">
           <div className="mb-2 grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-2 lg:grid-cols-3">
@@ -234,10 +234,10 @@ export default function GmailTestPage() {
 
       {error && (
         <div className="mb-4 rounded-lg border border-red-200 bg-red-50 p-3 sm:mb-6 sm:p-4 dark:border-red-800 dark:bg-red-900/20">
-          <h3 className="mb-2 text-sm font-medium text-red-800 sm:text-base dark:text-red-200">
+          <H3 className="mb-2 sm:text-base" status="error">
             Error:
-          </h3>
-          <p className="text-sm text-red-700 dark:text-red-300">{error}</p>
+          </H3>
+          <TextSm status="error">{error}</TextSm>
           {error.includes('Gmail API has not been used') && (
             <div className="mt-2 text-xs text-red-600 sm:text-sm dark:text-red-400">
               <p>
@@ -335,31 +335,29 @@ function BookingItem({
       <div className="space-y-2 sm:space-y-3">
         {booking.clientName && (
           <div>
-            <p className="truncate text-sm font-semibold text-accent-900 sm:text-base dark:text-accent-100">
-              {booking.clientName}
-            </p>
+            <TextSmSemibold className="truncate sm:text-base">{booking.clientName}</TextSmSemibold>
           </div>
         )}
 
         {booking.sessionType && (
           <div>
-            <p className="text-sm text-accent-900 dark:text-accent-100">
+            <TextSm>
               {booking.duration && `${booking.duration}m - `}
               {booking.sessionType}
               {booking.isCouples && (
-                <span className="ml-2 rounded bg-pink-100 px-1.5 py-0.5 text-xs text-pink-800 dark:bg-pink-900 dark:text-pink-200">
+                <TextXs className="ml-2 rounded bg-pink-100 px-1.5 py-0.5 dark:bg-pink-900">
                   Couples
-                </span>
+                </TextXs>
               )}
-            </p>
+            </TextSm>
           </div>
         )}
 
         {booking.location && (
           <div>
-            <p className="line-clamp-2 text-xs whitespace-pre-line text-accent-900 sm:text-sm dark:text-accent-100">
+            <TextXs className="line-clamp-2 whitespace-pre-line sm:text-sm">
               {booking.location}
-            </p>
+            </TextXs>
           </div>
         )}
 
@@ -381,9 +379,7 @@ function BookingItem({
 
         {booking.notes && (
           <div>
-            <p className="line-clamp-2 text-xs text-accent-900 sm:text-sm dark:text-accent-100">
-              {booking.notes}
-            </p>
+            <TextXs className="line-clamp-2 sm:text-sm">{booking.notes}</TextXs>
           </div>
         )}
 
@@ -391,12 +387,13 @@ function BookingItem({
           <div>
             <div className="mt-1 flex flex-wrap gap-1">
               {booking.extraServices.map((service, serviceIndex) => (
-                <span
+                <TextXs
                   key={serviceIndex}
-                  className="inline-block rounded bg-blue-100 px-1.5 py-0.5 text-xs text-blue-800 dark:bg-blue-900 dark:text-blue-200"
+                  className="inline-block rounded bg-blue-100 px-1.5 py-0.5 dark:bg-blue-900"
+                  status="info"
                 >
                   {service}
-                </span>
+                </TextXs>
               ))}
             </div>
           </div>
@@ -458,11 +455,11 @@ function CurrentSelection(props: {
           >
             {selectedBooking ? (
               <>
-                <p className="text-sm sm:text-base">
+                <TextSm className="sm:text-base">
                   {selectedBooking.clientName} - {selectedBooking.sessionType}
-                </p>
-                <p className="text-xs sm:text-sm">Duration: {selectedBooking.duration}m</p>
-                <p className="text-xs sm:text-sm">Location: {selectedBooking.location}</p>
+                </TextSm>
+                <TextXs className="sm:text-sm">Duration: {selectedBooking.duration}m</TextXs>
+                <TextXs className="sm:text-sm">Location: {selectedBooking.location}</TextXs>
               </>
             ) : (
               'None selected'
@@ -486,7 +483,7 @@ function CurrentSelection(props: {
           >
             {selectedTime ? (
               <>
-                <p className="text-sm sm:text-base">
+                <TextSm className="sm:text-base">
                   {new Date(selectedTime.start).toLocaleString('en-US', {
                     timeZone: 'America/Los_Angeles',
                     hour: '2-digit',
@@ -504,9 +501,9 @@ function CurrentSelection(props: {
                     month: 'short',
                     day: 'numeric',
                   })}
-                </p>
+                </TextSm>
                 {selectedLocation && (
-                  <p className="text-xs sm:text-sm">Location: {selectedLocation}</p>
+                  <TextXs className="sm:text-sm">Location: {selectedLocation}</TextXs>
                 )}
               </>
             ) : (
@@ -522,9 +519,9 @@ function CurrentSelection(props: {
                 <strong className="text-sm text-green-800 dark:text-green-200">
                   Ready to create booking!
                 </strong>
-                <p className="mt-1 text-xs text-green-700 sm:text-sm dark:text-green-300">
+                <TextXs className="mt-1 sm:text-sm" status="success">
                   All required information has been selected. You can now create the appointment.
-                </p>
+                </TextXs>
               </div>
               <button
                 className="bg-primary-500 border-primary-600 w-full cursor-pointer rounded-md border-2 p-2 text-xs font-semibold disabled:cursor-not-allowed disabled:bg-surface-300 sm:w-auto sm:text-sm"

@@ -19,6 +19,7 @@ import InitializeBookingState from '@/components/booking/InitializeBookingState'
 import DurationSlotManager from '@/components/booking/DurationSlotManager'
 import { createPageConfiguration } from '@/lib/slugConfigurations/createPageConfiguration'
 import eventContent from '@/data/event.json'
+import { H1, H2, H3 } from '@/components/ui/heading'
 
 interface NextBookingPageProps {
   params: Promise<{ event_id: string }>
@@ -67,9 +68,9 @@ export default async function NextBookingPage({ params, searchParams }: NextBook
       <div className="container mx-auto px-4 py-8">
         <div className="mx-auto max-w-4xl">
           <div className="rounded-lg bg-red-50 p-6 dark:bg-red-900/20">
-            <h2 className="mb-4 text-2xl font-semibold text-red-800 dark:text-red-200">
+            <H2 className="mb-4" status="error">
               {eventContent.next.errorLoading.heading}
-            </h2>
+            </H2>
             <p className="text-red-700 dark:text-red-300">
               {eventContent.next.errorLoading.message}
             </p>
@@ -120,14 +121,14 @@ export default async function NextBookingPage({ params, searchParams }: NextBook
       <div className="container mx-auto px-4 py-8">
         <div className="mx-auto max-w-6xl">
           <div className="mb-8">
-            <h1 className="mb-4 text-3xl font-bold text-accent-900 dark:text-white">
+            <H1 className="mb-4 dark:text-white">
               {eventContent.next.heading}
-            </h1>
+            </H1>
             <div className="rounded-lg bg-blue-50 p-4 dark:bg-blue-900/20">
-              <h2 className="mb-2 text-lg font-semibold text-accent-900 dark:text-white">
+              <H2 className="mb-2 dark:text-white">
                 {eventContent.next.currentEvent}
                 {currentEvent.summary || 'Untitled Event'}
-              </h2>
+              </H2>
               <div className="space-y-1 text-sm text-accent-600 dark:text-accent-400">
                 <p>
                   <strong>{eventContent.next.endsAt}</strong> {eventEndTimeStr}
@@ -145,9 +146,9 @@ export default async function NextBookingPage({ params, searchParams }: NextBook
             {/* Left Column - Booking Configuration */}
             <div className="space-y-6">
               <div className="xs:p-6 rounded-lg bg-surface-50 p-3 shadow-sm dark:bg-surface-800">
-                <h3 className="mb-4 text-lg font-semibold text-accent-900 dark:text-white">
+                <H3 className="mb-4 dark:text-white">
                   {eventContent.next.duration}
-                </h3>
+                </H3>
                 <SlotHoldProvider>
                   <DurationPicker
                     title={`${selectedDuration} minute session - $${DEFAULT_PRICING[selectedDuration]}`}

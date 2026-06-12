@@ -2,6 +2,8 @@
 
 import Link from '@/components/Link'
 import systemData from '@/data/system.json'
+import { H1Hero } from '@/components/ui/heading'
+import { TextLg, TextSmMuted } from '@/components/ui/text'
 
 const errorText = systemData.adminError
 
@@ -19,19 +21,17 @@ export default function AdminError({
 
   return (
     <div className="flex flex-col items-center justify-center px-4 py-24 text-center">
-      <h1 className="text-4xl font-extrabold tracking-tight text-accent-900 dark:text-accent-100">
-        {errorText.title}
-      </h1>
-      <p className="mt-4 text-lg text-accent-700 dark:text-accent-300">{errorText.message}</p>
-      <p className="mt-2 text-sm text-accent-500 dark:text-accent-400">{error.message}</p>
+      <H1Hero>{errorText.title}</H1Hero>
+      <TextLg className="mt-4">{errorText.message}</TextLg>
+      <TextSmMuted className="mt-2">{error.message}</TextSmMuted>
       {credentialError && (
-        <p className="mt-4 text-sm text-accent-600 dark:text-accent-400">
+        <TextSmMuted className="mt-4">
           {errorText.credentialErrorMessage}{' '}
           <Link href="/admin/connect-google" className="underline">
             {errorText.credentialErrorLink}
           </Link>{' '}
           {errorText.credentialErrorSuffix}
-        </p>
+        </TextSmMuted>
       )}
       <div className="mt-8 flex gap-4">
         {credentialError ? (

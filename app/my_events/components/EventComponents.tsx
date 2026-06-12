@@ -5,6 +5,8 @@ import clsx from 'clsx'
 import { GoogleCalendarV3Event } from '@/lib/types'
 import { categorizeEvents } from '@/lib/helpers/eventHelpers'
 import { EventCard } from './EventCard'
+import { H3 } from '@/components/ui/heading'
+import { TextSm } from '@/components/ui/text'
 
 export function CategorizedEventList({
   events,
@@ -151,10 +153,10 @@ export function EventDelimiter({
     <div className={clsx('mt-6 mb-4 first:mt-0')}>
       <div className={clsx('flex items-center rounded-lg p-3', color)}>
         <div className="flex-1">
-          <h3 className="text-lg font-semibold">{title}</h3>
-          <p className="text-sm opacity-75">
+          <H3>{title}</H3>
+          <TextSm className="opacity-75">
             {count} event{count !== 1 ? 's' : ''}
-          </p>
+          </TextSm>
         </div>
       </div>
     </div>

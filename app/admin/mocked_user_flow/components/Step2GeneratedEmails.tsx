@@ -2,6 +2,7 @@
 
 import React from 'react'
 import EmailMockComponent from '../EmailMockComponent'
+import { H2, H3 } from '@/components/ui/heading'
 
 interface Step2GeneratedEmailsProps {
   therapistEmail: { subject: string; body: string } | null
@@ -22,15 +23,11 @@ export default function Step2GeneratedEmails({
 
   return (
     <div className="mb-12 rounded-lg bg-surface-50 p-6 shadow dark:bg-surface-800">
-      <h2 className="mb-4 text-xl font-semibold text-accent-800 dark:text-accent-200">
-        Step 2: Generated Emails
-      </h2>
+      <H2 className="mb-4">Step 2: Generated Emails</H2>
 
       <div className="grid gap-6 md:grid-cols-2">
         <div>
-          <h3 className="mb-2 text-lg font-medium text-accent-700 dark:text-accent-300">
-            Therapist Approval Email
-          </h3>
+          <H3 className="mb-2">Therapist Approval Email</H3>
           <EmailMockComponent
             email={therapistEmail}
             approveUrl={approveUrl}
@@ -39,9 +36,7 @@ export default function Step2GeneratedEmails({
         </div>
 
         <div>
-          <h3 className="mb-2 text-lg font-medium text-accent-700 dark:text-accent-300">
-            Client Confirmation Email
-          </h3>
+          <H3 className="mb-2">Client Confirmation Email</H3>
           <EmailMockComponent email={clientEmail} />
         </div>
       </div>

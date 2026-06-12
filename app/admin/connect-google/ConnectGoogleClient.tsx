@@ -1,6 +1,7 @@
 'use client'
 
 import { getSupabaseBrowserClient } from '@/lib/supabase/client'
+import { H2 } from '@/components/ui/heading'
 
 interface ConnectGoogleClientProps {
   connectedEmail: string | null
@@ -70,9 +71,9 @@ export default function ConnectGoogleClient({
       <StatusBanners error={error} successEmail={successEmail} />
 
       <div className="rounded-lg border border-surface-200 bg-white p-6 dark:border-surface-700 dark:bg-surface-800">
-        <h2 className="mb-2 text-sm font-semibold uppercase tracking-wide text-surface-500 dark:text-surface-400">
+        <H2 className="mb-2 uppercase" status="muted">
           Connected Account
-        </h2>
+        </H2>
         {isConnected ? (
           <p className="text-accent-900 dark:text-accent-100">{displayEmail}</p>
         ) : (
@@ -81,9 +82,9 @@ export default function ConnectGoogleClient({
       </div>
 
       <div className="rounded-lg border border-surface-200 bg-white p-6 dark:border-surface-700 dark:bg-surface-800">
-        <h2 className="mb-1 text-sm font-semibold uppercase tracking-wide text-surface-500 dark:text-surface-400">
+        <H2 className="mb-1 uppercase" status="muted">
           Permissions Requested
-        </h2>
+        </H2>
         <ul className="mb-4 mt-2 list-inside list-disc space-y-1 text-sm text-surface-700 dark:text-surface-300">
           <li>Read and write Google Calendar events</li>
           <li>Send email via Gmail on your behalf</li>

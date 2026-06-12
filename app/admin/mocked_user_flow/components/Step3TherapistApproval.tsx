@@ -1,6 +1,7 @@
 'use client'
 
 import React from 'react'
+import { H2 } from '@/components/ui/heading'
 
 interface Step3TherapistApprovalProps {
   approveUrl: string
@@ -15,9 +16,7 @@ export default function Step3TherapistApproval({
 }: Step3TherapistApprovalProps) {
   return (
     <div className="mb-12 rounded-lg bg-surface-50 p-6 shadow dark:bg-surface-800">
-      <h2 className="mb-4 text-xl font-semibold text-accent-800 dark:text-accent-200">
-        Step 3: Therapist Approval
-      </h2>
+      <H2 className="mb-4">Step 3: Therapist Approval</H2>
       <p className="mb-4 text-accent-600 dark:text-accent-400">
         Therapist must accept the appointment to proceed
       </p>

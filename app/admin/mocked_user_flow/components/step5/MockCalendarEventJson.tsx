@@ -1,5 +1,6 @@
 import { AppointmentProps } from '@/lib/types'
 import { flattenLocation } from '@/lib/helpers/locationHelpers'
+import { H3 } from '@/components/ui/heading'
 
 interface MockCalendarEventJsonProps {
   summary: string
@@ -54,9 +55,7 @@ export default function MockCalendarEventJson({
 
   return (
     <div>
-      <h3 className="mb-2 text-lg font-semibold text-accent-900 dark:text-white">
-        Mock Calendar Event Object
-      </h3>
+      <H3 className="mb-2 dark:text-white">Mock Calendar Event Object</H3>
       <details className="rounded bg-surface-200 dark:bg-surface-700">
         <summary className="cursor-pointer p-3 text-sm font-medium text-accent-700 hover:bg-surface-300 dark:text-accent-300 dark:hover:bg-surface-600">
           View Raw Event Data (Click to expand)

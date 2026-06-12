@@ -7,6 +7,8 @@ import Link from '@/components/Link'
 import { ActionButtons } from './ActionButtons'
 import { adminFetch } from '@/lib/adminFetch'
 import { getCleanSummary } from '@/lib/helpers/eventHelpers'
+import { H3 } from '@/components/ui/heading'
+import { TextXs, TextXsMedium } from '@/components/ui/text'
 
 interface EventCardProps {
   event: GoogleCalendarV3Event
@@ -119,13 +121,13 @@ export function EventCard({
       <div className="flex items-start justify-between">
         <div className="flex-1">
           <div className="flex items-center gap-2">
-            <h3 className="text-lg font-semibold text-accent-900 dark:text-white">
+            <H3 className="dark:text-white">
               {displaySummary}
-            </h3>
+            </H3>
             {isPending && (
-              <span className="rounded-full bg-amber-200 px-2 py-0.5 text-xs font-medium text-amber-800 dark:bg-amber-800 dark:text-amber-200">
+              <TextXsMedium className="rounded-full bg-amber-200 px-2 py-0.5 text-amber-800 dark:bg-amber-800 dark:text-amber-200">
                 Pending
-              </span>
+              </TextXsMedium>
             )}
           </div>
 
@@ -202,15 +204,15 @@ export function EventCard({
 
             {/* Status Messages */}
             {updateLocationError && (
-              <p className="text-xs text-red-600 dark:text-red-400">
+              <TextXs status="error">
                 <strong>Location Update Error:</strong> {updateLocationError}
-              </p>
+              </TextXs>
             )}
 
             {updateLocationSuccess && (
-              <p className="text-xs text-green-600 dark:text-green-400">
+              <TextXs status="success">
                 <strong>Success:</strong> Location updated successfully
-              </p>
+              </TextXs>
             )}
           </div>
 

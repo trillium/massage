@@ -4,6 +4,7 @@ import SectionContainer from '@/components/SectionContainer'
 import { getActiveContainers } from './getActiveContainers'
 import { QueryGroupCard } from './QueryGroupCard'
 import admin from '@/data/admin.json'
+import { H1, H2, H3 } from '@/components/ui/heading'
 
 export const dynamic = 'force-dynamic'
 
@@ -23,13 +24,11 @@ export default async function ActiveEventContainersPage() {
     <SectionContainer>
       <div className="mx-auto max-w-6xl px-4 py-8">
         <div className="mb-8">
-          <h1 className="mb-4 text-3xl font-bold text-accent-900 dark:text-white">{p.heading}</h1>
+          <H1 className="mb-4 dark:text-white">{p.heading}</H1>
           <div className="rounded-lg bg-blue-50 p-4 dark:bg-blue-900/20">
             <div className="flex items-center justify-between">
               <div>
-                <h2 className="text-lg font-medium text-blue-900 dark:text-blue-100">
-                  {p.overview.heading}
-                </h2>
+                <H2 status="info">{p.overview.heading}</H2>
                 <p className="text-blue-700 dark:text-blue-200">
                   {p.overview.monitoringPrefix}
                   {Day.todayWithOffset(0).toString()}
@@ -62,18 +61,14 @@ export default async function ActiveEventContainersPage() {
 
           {queryGroups.length === 0 && (
             <div className="rounded-lg bg-surface-100 p-8 text-center dark:bg-surface-800">
-              <h3 className="mb-2 text-lg font-medium text-accent-900 dark:text-white">
-                {p.empty.heading}
-              </h3>
+              <H3 className="mb-2 dark:text-white">{p.empty.heading}</H3>
               <p className="text-accent-600 dark:text-accent-400">{p.empty.message}</p>
             </div>
           )}
         </div>
 
         <div className="mt-8 rounded-lg bg-surface-100 p-6 dark:bg-surface-800">
-          <h3 className="mb-4 text-lg font-medium text-accent-900 dark:text-white">
-            {p.howItWorks.heading}
-          </h3>
+          <H3 className="mb-4 dark:text-white">{p.howItWorks.heading}</H3>
           <div className="space-y-3 text-sm text-accent-600 dark:text-accent-400">
             <p>
               <strong className="text-green-600 dark:text-green-400">

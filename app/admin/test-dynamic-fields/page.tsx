@@ -6,6 +6,7 @@ import { makeStore } from '@/redux/store'
 import BookingForm from '@/components/booking/BookingForm'
 import { SlotHoldProvider } from 'hooks/SlotHoldContext'
 import { ChairAppointmentBlockProps } from '@/lib/types'
+import { H1, H2, H3 } from '@/components/ui/heading'
 
 // Create store instance
 const store = makeStore()
@@ -31,9 +32,7 @@ export default function TestDynamicFieldsPage() {
     <div className="min-h-screen bg-surface-100 py-12">
       <div className="mx-auto max-w-4xl px-4">
         <div className="mb-8">
-          <h1 className="mb-4 text-3xl font-bold text-accent-900">
-            Dynamic Booking Form Test Page
-          </h1>
+          <H1 className="mb-4">Dynamic Booking Form Test Page</H1>
           <p className="text-accent-600">
             This page demonstrates the booking form with additional specific fields:
           </p>
@@ -45,7 +44,7 @@ export default function TestDynamicFieldsPage() {
         </div>
 
         <div className="rounded-lg bg-surface-50 p-6 shadow-lg">
-          <h2 className="mb-4 text-xl font-semibold text-accent-800">Test the Booking Form</h2>
+          <H2 className="mb-4">Test the Booking Form</H2>
           <p className="mb-6 text-accent-600">
             Click on any available time slot to open the booking modal and see the dynamic fields in
             action.
@@ -147,7 +146,7 @@ export default function TestDynamicFieldsPage() {
 
             {submittedData && (
               <div className="mt-4 rounded-lg bg-surface-200 p-4">
-                <h3 className="text-lg font-semibold text-accent-800">Submitted Data</h3>
+                <H3>Submitted Data</H3>
                 <pre className="mt-2 text-sm text-accent-600">
                   {JSON.stringify(submittedData, null, 2)}
                 </pre>
@@ -157,7 +156,9 @@ export default function TestDynamicFieldsPage() {
         </div>
 
         <div className="mt-8 rounded-lg bg-blue-50 p-6">
-          <h3 className="mb-2 text-lg font-semibold text-blue-900">Implementation Notes</h3>
+          <H3 className="mb-2" status="info">
+            Implementation Notes
+          </H3>
           <div className="space-y-2 text-sm text-blue-800">
             <p>
               • The additional fields are controlled via boolean flags: <code>showHotelField</code>,{' '}

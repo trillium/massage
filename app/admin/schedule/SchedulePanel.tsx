@@ -5,6 +5,7 @@ import type { QueryGroup } from '../active-event-containers/getActiveContainers'
 import { computeTimelineBlocks } from './computeTimelineBlocks'
 import { ContainerSelector } from './ContainerSelector'
 import { TimelineBlock } from './TimelineBlock'
+import { TextSmMuted, TextXsMedium } from '@/components/ui/text'
 
 function findNearestContainer(queryGroups: QueryGroup[]): {
   query: string
@@ -60,9 +61,7 @@ export function SchedulePanel({ queryGroups }: Props) {
   const nowMs = now.getTime()
 
   if (queryGroups.length === 0 || !queryGroups.some((g) => g.containers.length > 0)) {
-    return (
-      <p className="text-sm text-accent-500 dark:text-accent-400">No active containers found.</p>
-    )
+    return <TextSmMuted>No active containers found.</TextSmMuted>
   }
 
   const containerStart = container ? new Date(container.start.dateTime!).getTime() : 0
@@ -85,7 +84,7 @@ export function SchedulePanel({ queryGroups }: Props) {
       />
 
       {!container ? (
-        <p className="text-sm text-accent-500 dark:text-accent-400">Select a container above.</p>
+        <TextSmMuted>Select a container above.</TextSmMuted>
       ) : (
         <div className="relative space-y-1.5">
           {blocks.map((block, i) => {
@@ -100,12 +99,12 @@ export function SchedulePanel({ queryGroups }: Props) {
                   <div ref={nowRef} className="my-1 flex items-center gap-2">
                     <div className="h-2 w-2 rounded-full bg-red-500" />
                     <div className="h-px flex-1 bg-red-500" />
-                    <span className="text-xs font-medium text-red-500">
+                    <TextXsMedium status="error">
                       {now.toLocaleTimeString('en-US', {
                         hour: 'numeric',
                         minute: '2-digit',
                       })}
-                    </span>
+                    </TextXsMedium>
                   </div>
                 )}
                 <TimelineBlock block={block} isPast={isPast} isInProgress={isInProgress} />
@@ -123,9 +122,9 @@ export function SchedulePanel({ queryGroups }: Props) {
               <div ref={nowRef} className="my-1 flex items-center gap-2">
                 <div className="h-2 w-2 rounded-full bg-red-500" />
                 <div className="h-px flex-1 bg-red-500" />
-                <span className="text-xs font-medium text-red-500">
+                <TextXsMedium status="error">
                   {now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}
-                </span>
+                </TextXsMedium>
               </div>
             )}
         </div>

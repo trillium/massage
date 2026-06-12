@@ -2,6 +2,7 @@
 
 import React from 'react'
 import { AppointmentRequestType } from '@/lib/types'
+import { H3 } from '@/components/ui/heading'
 
 interface DebugDataProps {
   submittedData: AppointmentRequestType | null
@@ -16,9 +17,7 @@ export default function DebugData({ submittedData, onReset }: DebugDataProps) {
   return (
     <div className="mt-12 rounded-lg bg-surface-200 p-6 dark:bg-surface-700">
       <div className="mb-4 flex items-center justify-between">
-        <h3 className="text-lg font-medium text-accent-700 dark:text-accent-300">
-          Debug: Submitted Data
-        </h3>
+        <H3>Debug: Submitted Data</H3>
         {onReset && (
           <button
             onClick={onReset}

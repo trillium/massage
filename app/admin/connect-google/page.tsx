@@ -2,6 +2,7 @@ import { redirect } from 'next/navigation'
 import { isAdmin } from '@/lib/supabase/server'
 import { loadGoogleCredentials } from '@/lib/google/credentials'
 import ConnectGoogleClient from './ConnectGoogleClient'
+import { H1 } from '@/components/ui/heading'
 
 interface PageProps {
   searchParams: Promise<{ connected?: string; error?: string; email?: string }>
@@ -19,9 +20,7 @@ export default async function ConnectGooglePage({ searchParams }: PageProps) {
 
   return (
     <div className="max-w-lg">
-      <h1 className="mb-6 text-2xl font-bold text-accent-900 dark:text-accent-100">
-        Connect Google Account
-      </h1>
+      <H1 className="mb-6">Connect Google Account</H1>
       <ConnectGoogleClient
         connectedEmail={existingCreds?.email ?? null}
         successEmail={params.email ?? null}

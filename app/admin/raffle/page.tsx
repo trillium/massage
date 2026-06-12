@@ -2,6 +2,7 @@ import { getSupabaseAdminClient } from '@/lib/supabase/server'
 import { CreateRaffleForm } from './CreateRaffleForm'
 import { RaffleAdmin } from './RaffleAdmin'
 import { RaffleSelector } from './RaffleSelector'
+import { H1 } from '@/components/ui/heading'
 
 interface Raffle {
   id: string
@@ -57,7 +58,7 @@ export default async function RafflePage({
   if (!raffle) {
     return (
       <div className="py-4">
-        <h1 className="mb-6 text-3xl font-bold text-accent-900 dark:text-accent-100">Raffle</h1>
+        <H1 className="mb-6">Raffle</H1>
         <div className="mb-6">
           <CreateRaffleForm />
         </div>
@@ -76,7 +77,7 @@ export default async function RafflePage({
 
   return (
     <div className="py-4">
-      <h1 className="mb-6 text-3xl font-bold text-accent-900 dark:text-accent-100">Raffle</h1>
+      <H1 className="mb-6">Raffle</H1>
       <div className="mb-6">
         <CreateRaffleForm />
       </div>

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { TextSmMedium, TextXs } from '@/components/ui/text'
 
 export function DeclineButton({ declineUrl }: { declineUrl: string }) {
   const [state, setState] = useState<'idle' | 'loading' | 'declined' | 'error'>('idle')
@@ -21,7 +22,7 @@ export function DeclineButton({ declineUrl }: { declineUrl: string }) {
   }
 
   if (state === 'declined') {
-    return <span className="text-sm font-medium text-accent-500">Declined</span>
+    return <TextSmMedium status="muted">Declined</TextSmMedium>
   }
 
   return (
@@ -38,7 +39,9 @@ export function DeclineButton({ declineUrl }: { declineUrl: string }) {
         {state === 'loading' ? 'Declining...' : 'Decline'}
       </button>
       {state === 'error' && (
-        <p className="mt-1 text-xs text-red-600 dark:text-red-400">Failed to decline</p>
+        <TextXs className="mt-1" status="error">
+          Failed to decline
+        </TextXs>
       )}
     </div>
   )

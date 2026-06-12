@@ -1,6 +1,7 @@
 import { GoogleCalendarV3Event } from '@/lib/types'
 import admin from '@/data/admin.json'
 import { formatDateTime } from './formatDateTime'
+import { H4 } from '@/components/ui/heading'
 
 interface EventListProps {
   events: GoogleCalendarV3Event[]
@@ -19,12 +20,12 @@ export function EventList({ events, color, label, emptyMessage, patternString }:
 
   return (
     <div>
-      <h4 className="mb-3 flex items-center text-base font-medium text-accent-900 dark:text-white">
+      <H4 className="mb-3 flex items-center dark:text-white">
         <div className={`mr-2 h-3 w-3 rounded-full ${dotColor}`}></div>
         {label} {admin.activeEventContainers.eventCountOpen}
         {events.length}
         {admin.activeEventContainers.eventCountClose}
-      </h4>
+      </H4>
       {events.length === 0 ? (
         <div
           className={

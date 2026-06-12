@@ -11,6 +11,7 @@ import DebugData from './components/DebugData'
 import ConfigurationTester from 'components/admin/ConfigurationTester'
 import { useMockedUserFlow } from './hooks/useMockedUserFlow'
 import SectionContainer from '@/components/SectionContainer'
+import { TextSmMuted } from '@/components/ui/text'
 
 export default function MockedUserFlowPage() {
   const {
@@ -35,9 +36,9 @@ export default function MockedUserFlowPage() {
               <span className="text-xl font-bold text-accent-900 dark:text-accent-100">
                 Mocked User Flow - Admin
               </span>
-              <span className="hidden text-sm text-accent-600 md:inline dark:text-accent-400">
+              <TextSmMuted className="hidden md:inline">
                 Simulates the entire booking flow (no emails or calendar events)
-              </span>
+              </TextSmMuted>
             </div>
             <button
               onClick={handleReset}

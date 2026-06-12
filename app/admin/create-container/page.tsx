@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { toast } from 'sonner'
 import { adminFetch } from '@/lib/adminFetch'
+import { H1 } from '@/components/ui/heading'
 
 const KNOWN_QUERIES = [
   'free-30',
@@ -73,9 +74,7 @@ export default function CreateContainerPage() {
 
   return (
     <div className="mx-auto max-w-xl p-4 lg:p-6">
-      <h1 className="mb-6 text-2xl font-bold text-accent-900 dark:text-accent-100">
-        Create Event Container
-      </h1>
+      <H1 className="mb-6">Create Event Container</H1>
 
       <div className="space-y-4 rounded-lg border border-accent-200 bg-surface-50 p-4 dark:border-accent-700 dark:bg-surface-800">
         <div>

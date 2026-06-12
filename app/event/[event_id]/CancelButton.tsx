@@ -3,6 +3,8 @@
 import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import eventContent from '@/data/event.json'
+import { H2 } from '@/components/ui/heading'
+import { TextSm, TextSmMuted } from '@/components/ui/text'
 
 export default function CancelButton({ eventId, token }: { eventId: string; token: string }) {
   const router = useRouter()
@@ -68,14 +70,14 @@ export default function CancelButton({ eventId, token }: { eventId: string; toke
           }}
         >
           <div className="w-full max-w-md rounded-2xl bg-surface-50 p-6 shadow-xl dark:bg-surface-800">
-            <h2 className="text-lg font-semibold text-accent-900 dark:text-white">
+            <H2 className="dark:text-white">
               {eventContent.cancelButton.modalTitle}
-            </h2>
-            <p className="mt-2 text-sm text-accent-600 dark:text-accent-400">
+            </H2>
+            <TextSmMuted className="mt-2">
               {eventContent.cancelButton.modalMessage}
               <strong>{eventContent.cancelButton.modalConfirmWord}</strong>
               {eventContent.cancelButton.modalConfirmSuffix}
-            </p>
+            </TextSmMuted>
 
             <input
               ref={inputRef}
@@ -90,7 +92,7 @@ export default function CancelButton({ eventId, token }: { eventId: string; toke
               className="mt-4 block w-full rounded-lg border border-accent-300 px-3 py-2 text-accent-900 placeholder:text-accent-400 dark:border-accent-600 dark:bg-surface-700 dark:text-white dark:placeholder:text-accent-500"
             />
 
-            {error && <p className="mt-2 text-sm text-red-600 dark:text-red-400">{error}</p>}
+            {error && <TextSm className="mt-2" status="error">{error}</TextSm>}
 
             <div className="mt-4 flex justify-end gap-3">
               <button

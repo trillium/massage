@@ -7,6 +7,7 @@ import { formatLocalDate, formatLocalTime } from 'lib/availability/helpers'
 import { AttendeeType } from 'lib/types'
 import { flattenLocation } from '@/lib/helpers/locationHelpers'
 import Link from '@/components/Link'
+import { H1 } from '@/components/ui/heading'
 
 export default async function Page({
   searchParams,
@@ -27,7 +28,7 @@ export default async function Page({
     return (
       <SectionContainer>
         <div className="mx-auto max-w-xl py-8 sm:py-16">
-          <h1 className="text-3xl font-bold text-red-600">Error</h1>
+          <H1 status="error">Error</H1>
           <p className="mt-4 text-accent-600">Invalid appointment data. Please try again.</p>
         </div>
       </SectionContainer>
@@ -73,9 +74,7 @@ export default async function Page({
   return (
     <SectionContainer>
       <div className="mx-auto max-w-xl py-8 sm:py-16">
-        <h1 className="text-primary-600 dark:text-primary-500 text-3xl font-bold tracking-tight">
-          {h1Message}
-        </h1>
+        <H1 status="primary">{h1Message}</H1>
         <p className="mt-6 text-xl font-medium text-accent-800 dark:text-accent-200">
           It's now on your calendar and an invite has been sent to the client's email at:{' '}
           {attendees || 'them'}.

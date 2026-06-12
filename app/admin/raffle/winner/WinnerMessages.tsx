@@ -13,6 +13,8 @@ import {
   EditableMessage,
   TemplateVarsPanel,
 } from './WinnerMessageComponents'
+import { H2 } from '@/components/ui/heading'
+import { TextSmMuted, TextXsMuted } from '@/components/ui/text'
 
 interface WinnerMessagesProps {
   winner: Entry
@@ -40,7 +42,7 @@ function WinnerCard({
   return (
     <div className="rounded-lg border border-yellow-300 bg-yellow-50 p-6 dark:border-yellow-700 dark:bg-yellow-900/20">
       <div className="mb-4 flex items-center justify-between">
-        <h2 className="text-lg font-semibold text-yellow-900 dark:text-yellow-100">Winner</h2>
+        <H2 status="warning">Winner</H2>
         <label className="flex items-center gap-2 text-sm text-yellow-800 dark:text-yellow-200">
           <input
             type="checkbox"
@@ -96,7 +98,7 @@ function NonWinnerCard({
           </span>
         </label>
         <span className="flex items-center gap-2">
-          <span className="text-xs text-accent-500 dark:text-accent-400">{entry.phone}</span>
+          <TextXsMuted>{entry.phone}</TextXsMuted>
           <CopyButton text={entry.phone} label="Phone">
             Copy Phone
           </CopyButton>
@@ -153,14 +155,12 @@ export function WinnerMessages({ winner, nonWinners, expirationDate }: WinnerMes
       />
 
       <div className="rounded-lg border border-accent-200 bg-surface-50 p-6 dark:border-accent-700 dark:bg-surface-800">
-        <h2 className="mb-4 text-lg font-semibold text-accent-900 dark:text-accent-100">
+        <H2 className="mb-4">
           Non-Winners ({nonWinners.length})
           {followedUpCount > 0 && (
-            <span className="ml-2 text-sm font-normal text-accent-400">
-              · {followedUpCount} followed up
-            </span>
+            <TextSmMuted className="ml-2">· {followedUpCount} followed up</TextSmMuted>
           )}
-        </h2>
+        </H2>
         <TemplateEditor
           label="Non-Winner SMS Template"
           template={nonWinnerTemplate}
@@ -168,7 +168,7 @@ export function WinnerMessages({ winner, nonWinners, expirationDate }: WinnerMes
         />
         <div className="mt-4 space-y-4">
           {nonWinners.length === 0 ? (
-            <p className="text-sm text-accent-400">No non-winner entries</p>
+            <TextSmMuted>No non-winner entries</TextSmMuted>
           ) : (
             nonWinners.map((entry) => (
               <NonWinnerCard

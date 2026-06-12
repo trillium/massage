@@ -12,7 +12,10 @@ export default async function OgPreviewPage() {
     <SectionContainer>
       <div className="mx-auto max-w-6xl py-8">
         <h1 className="mb-2 text-3xl font-bold">{'OG Image Preview'}</h1>
-        <p className="mb-8 text-sm text-accent-500">{slugs.length}{' slugs'}</p>
+        <p className="mb-8 text-sm text-accent-500">
+          {slugs.length}
+          {' slugs'}
+        </p>
 
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
           {slugs.map((slug) => {
@@ -20,13 +23,22 @@ export default async function OgPreviewPage() {
             const ogUrl = `/${slug}/opengraph-image`
             const bookUrl = `/book/${slug}`
             return (
-              <div key={slug} className="overflow-hidden rounded-lg border border-accent-200 dark:border-accent-700">
+              <div
+                key={slug}
+                className="overflow-hidden rounded-lg border border-accent-200 dark:border-accent-700"
+              >
                 <div className="bg-surface-100 px-4 py-2 dark:bg-surface-800">
                   <div className="flex items-center justify-between gap-2">
-                    <code className="truncate font-mono text-xs text-accent-600 dark:text-accent-400">{slug}</code>
+                    <code className="truncate font-mono text-xs text-accent-600 dark:text-accent-400">
+                      {slug}
+                    </code>
                     <div className="flex shrink-0 gap-3 text-xs">
-                      <Link href={bookUrl} className="text-primary-600 hover:underline">{'book'}</Link>
-                      <Link href={ogUrl} className="text-primary-600 hover:underline">{'raw'}</Link>
+                      <Link href={bookUrl} className="text-primary-600 hover:underline">
+                        {'book'}
+                      </Link>
+                      <Link href={ogUrl} className="text-primary-600 hover:underline">
+                        {'raw'}
+                      </Link>
                     </div>
                   </div>
                   {config.title && (

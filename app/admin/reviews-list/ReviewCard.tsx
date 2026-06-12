@@ -1,5 +1,6 @@
 import { FaStar, FaRegStar } from 'react-icons/fa'
 import { ReviewFormFields, type ReviewFormData } from './ReviewFormFields'
+import { TextSm, TextXsMuted } from '@/components/ui/text'
 
 interface Review {
   id: number
@@ -61,17 +62,17 @@ export function ReviewCard({
             <span className="font-semibold text-accent-800 dark:text-accent-200">
               {review.name}
             </span>
-            <span className="text-xs text-accent-500 dark:text-accent-400">{review.source}</span>
-            <span className="flex text-sm text-yellow-500">
+            <TextXsMuted>{review.source}</TextXsMuted>
+            <TextSm className="flex" status="warning">
               {Array.from({ length: review.rating }, (_, i) => (
                 <FaStar key={`filled-${i}`} />
               ))}
               {Array.from({ length: 5 - review.rating }, (_, i) => (
                 <FaRegStar key={`empty-${i}`} />
               ))}
-            </span>
+            </TextSm>
           </div>
-          <p className="mt-1 text-xs text-accent-500 dark:text-accent-400">{review.date}</p>
+          <TextXsMuted className="mt-1">{review.date}</TextXsMuted>
         </div>
         <button
           onClick={onEdit}
@@ -80,9 +81,7 @@ export function ReviewCard({
           Edit
         </button>
       </div>
-      {review.comment && (
-        <p className="mt-2 text-sm text-accent-700 dark:text-accent-300">{review.comment}</p>
-      )}
+      {review.comment && <TextSm className="mt-2">{review.comment}</TextSm>}
     </div>
   )
 }

@@ -3,22 +3,20 @@
 import React from 'react'
 import SectionContainer from '@/components/SectionContainer'
 import { FaCheck, FaFolder } from 'react-icons/fa'
+import { H1, H2, H3, H4 } from '@/components/ui/heading'
+import { TextSm } from '@/components/ui/text'
 
 export default function MockFormValidatorsPage() {
   return (
     <SectionContainer>
       <div className="container mx-auto px-4 py-8">
         <div className="mx-auto max-w-4xl">
-          <h1 className="mb-8 text-3xl font-bold text-accent-900 dark:text-accent-100">
-            Form Validation Examples
-          </h1>
+          <H1 className="mb-8">Form Validation Examples</H1>
 
           <div className="space-y-12">
             {/* Updated BookingForm */}
             <section>
-              <h2 className="mb-4 text-2xl font-semibold text-accent-800 dark:text-accent-200">
-                BookingForm with Formik + Zod Integration
-              </h2>
+              <H2 className="mb-4">BookingForm with Formik + Zod Integration</H2>
               <p className="mb-6 text-accent-600 dark:text-accent-400">
                 The existing BookingForm component has been updated to use Formik for form state
                 management and Zod for validation. This provides type-safe form handling with
@@ -26,29 +24,25 @@ export default function MockFormValidatorsPage() {
               </p>
 
               <div className="rounded-lg bg-green-50 p-4 dark:bg-green-900/20">
-                <h3 className="font-medium text-green-800 dark:text-green-200">
+                <H3 status="success">
                   <FaCheck className="mr-1 inline text-green-600" /> BookingForm Updated
                   Successfully
-                </h3>
-                <p className="mt-2 text-sm text-green-700 dark:text-green-300">
+                </H3>
+                <TextSm className="mt-2" status="success">
                   The BookingForm now uses Formik + Zod while maintaining compatibility with all
                   existing field components. You can test it by triggering the booking modal in the
                   main application.
-                </p>
+                </TextSm>
               </div>
             </section>
 
             {/* Implementation Notes */}
             <section className="rounded-lg bg-surface-100 p-6 dark:bg-surface-800">
-              <h3 className="mb-4 text-xl font-semibold text-accent-800 dark:text-accent-200">
-                Implementation Highlights
-              </h3>
+              <H3 className="mb-4">Implementation Highlights</H3>
 
               <div className="grid gap-6 md:grid-cols-2">
                 <div>
-                  <h4 className="mb-2 font-medium text-accent-700 dark:text-accent-300">
-                    Zod Schema Benefits
-                  </h4>
+                  <H4 className="mb-2">Zod Schema Benefits</H4>
                   <ul className="space-y-1 text-sm text-accent-600 dark:text-accent-400">
                     <li>• Automatic TypeScript type generation</li>
                     <li>• Rich validation rules (regex, min/max, custom)</li>
@@ -59,9 +53,7 @@ export default function MockFormValidatorsPage() {
                 </div>
 
                 <div>
-                  <h4 className="mb-2 font-medium text-accent-700 dark:text-accent-300">
-                    Formik Integration Benefits
-                  </h4>
+                  <H4 className="mb-2">Formik Integration Benefits</H4>
                   <ul className="space-y-1 text-sm text-accent-600 dark:text-accent-400">
                     <li>• Seamless form state management</li>
                     <li>• Real-time validation feedback</li>
@@ -73,9 +65,9 @@ export default function MockFormValidatorsPage() {
               </div>
 
               <div className="mt-6 rounded-md bg-blue-50 p-4 dark:bg-blue-900/20">
-                <h4 className="mb-2 font-medium text-blue-800 dark:text-blue-200">
+                <H4 className="mb-2" status="info">
                   Key Integration Pattern Used
-                </h4>
+                </H4>
                 <pre className="overflow-x-auto text-xs text-blue-700 dark:text-blue-300">
                   {`// 1. Define Zod schema with location validation
 const createBookingFormSchema = (config) => {
@@ -112,9 +104,7 @@ const validationSchema = toFormikValidationSchema(
 
             {/* Code Example */}
             <section>
-              <h3 className="mb-4 text-xl font-semibold text-accent-800 dark:text-accent-200">
-                Updated Files
-              </h3>
+              <H3 className="mb-4">Updated Files</H3>
               <div className="rounded-lg bg-surface-900 p-4 font-mono text-sm text-green-400">
                 <p>
                   <FaFolder className="mr-1 inline" /> components/booking/BookingForm.tsx (
@@ -130,9 +120,7 @@ const validationSchema = toFormikValidationSchema(
               </div>
 
               <div className="mt-4 rounded-lg bg-surface-100 p-4 dark:bg-surface-800">
-                <h4 className="mb-2 font-medium text-accent-700 dark:text-accent-300">
-                  What Changed:
-                </h4>
+                <H4 className="mb-2">What Changed:</H4>
                 <ul className="space-y-1 text-sm text-accent-600 dark:text-accent-400">
                   <li>• Added Formik for form state management</li>
                   <li>• Added Zod schema validation with type safety</li>

@@ -3,6 +3,8 @@ import admin from '@/data/admin.json'
 import type { QueryGroup } from './getActiveContainers'
 import { EventList } from './EventList'
 import { formatDateTime } from './formatDateTime'
+import { H3, H4 } from '@/components/ui/heading'
+import { TextSmMuted, TextXsMedium, TextXsMuted } from '@/components/ui/text'
 
 export function QueryGroupCard({ group }: { group: QueryGroup }) {
   return (
@@ -10,21 +12,22 @@ export function QueryGroupCard({ group }: { group: QueryGroup }) {
       <div className="bg-surface-100 px-6 py-4 dark:bg-surface-700">
         <div className="flex items-center justify-between">
           <div>
-            <h3 className="text-lg font-medium text-accent-900 dark:text-white">
+            <H3 className="dark:text-white">
               {admin.activeEventContainers.queryLabel}
               <code className="text-blue-600 dark:text-blue-400">{group.query}</code>
-            </h3>
+            </H3>
             <div className="mt-2">
-              <p className="text-sm text-accent-600 dark:text-accent-300">
+              <TextSmMuted>
                 {admin.activeEventContainers.slugsPreamble
                   .replace('{count}', String(group.slugs.length))
                   .replace('{plural}', group.slugs.length !== 1 ? 's' : '')}
-              </p>
+              </TextSmMuted>
               <div className="mt-1 flex flex-wrap gap-2">
                 {group.slugs.map((slugInfo) => (
-                  <span
+                  <TextXsMedium
                     key={slugInfo.slug}
-                    className="inline-flex items-center rounded-md bg-blue-100 px-2 py-1 text-xs font-medium text-blue-800 dark:bg-blue-800 dark:text-blue-200"
+                    className="inline-flex items-center rounded-md bg-blue-100 px-2 py-1 dark:bg-blue-800"
+                    status="info"
                   >
                     {admin.activeEventContainers.slugPrefix}
                     {slugInfo.slug}
@@ -35,33 +38,33 @@ export function QueryGroupCard({ group }: { group: QueryGroup }) {
                       {slugInfo.type}
                       {admin.activeEventContainers.slugTypePairClose}
                     </span>
-                  </span>
+                  </TextXsMedium>
                 ))}
               </div>
             </div>
             <div className="mt-3 space-y-1">
-              <p className="text-xs text-accent-500 dark:text-accent-400">
+              <TextXsMuted>
                 {admin.activeEventContainers.searchQueryLabel}{' '}
                 <code className="bg-surface-200 px-1 dark:bg-surface-600">
                   {admin.activeEventContainers.searchQueryGeneric}
                 </code>
-              </p>
-              <p className="text-xs text-accent-500 dark:text-accent-400">
+              </TextXsMuted>
+              <TextXsMuted>
                 {admin.activeEventContainers.localFilterLabel}{' '}
                 <code className="bg-blue-100 px-1 dark:bg-blue-800">{group.searchQuery}</code>
-              </p>
-              <p className="text-xs text-accent-500 dark:text-accent-400">
+              </TextXsMuted>
+              <TextXsMuted>
                 {admin.activeEventContainers.containerPatternLabel}{' '}
                 <code className="bg-green-100 px-1 dark:bg-green-800">
                   {group.eventContainerString}
                 </code>
-              </p>
-              <p className="text-xs text-accent-500 dark:text-accent-400">
+              </TextXsMuted>
+              <TextXsMuted>
                 {admin.activeEventContainers.memberPatternLabel}{' '}
                 <code className="bg-orange-100 px-1 dark:bg-orange-800">
                   {group.eventMemberString}
                 </code>
-              </p>
+              </TextXsMuted>
             </div>
           </div>
           <div className="flex space-x-4 text-sm">
@@ -96,7 +99,7 @@ export function QueryGroupCard({ group }: { group: QueryGroup }) {
       <div className="p-6">
         {group.allEvents.length > 0 && (
           <div className="mb-6 rounded-lg bg-blue-50 p-4 dark:bg-blue-900/20">
-            <h4 className="mb-2 text-sm font-medium text-blue-900 dark:text-blue-100">
+            <H4 className="mb-2" status="info">
               <FaSearch className="mr-1 inline" />
               {admin.activeEventContainers.debugHeaderPrefix}
               {group.searchQuery}
@@ -104,7 +107,7 @@ export function QueryGroupCard({ group }: { group: QueryGroup }) {
               {admin.activeEventContainers.debugCounterOpen}
               {group.allEvents.length}
               {admin.activeEventContainers.debugCounterClose}
-            </h4>
+            </H4>
             <div className="max-h-40 overflow-y-auto">
               {group.allEvents.map((event) => (
                 <div key={event.id} className="mb-1 text-xs">

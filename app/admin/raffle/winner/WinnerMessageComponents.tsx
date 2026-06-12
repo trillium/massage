@@ -2,6 +2,8 @@
 
 import { toast } from 'sonner'
 import { RAFFLE_INTEREST_LABELS } from '@/lib/schema'
+import { TextSmMedium } from '@/components/ui/text'
+import { H2 } from '@/components/ui/heading'
 
 export interface Entry {
   id: string
@@ -108,9 +110,7 @@ export function TemplateEditor({
 }) {
   return (
     <label className="block">
-      <span className="mb-1 block text-sm font-medium text-accent-700 dark:text-accent-300">
-        {label}
-      </span>
+      <TextSmMedium className="mb-1 block">{label}</TextSmMedium>
       <textarea
         value={template}
         onChange={(e) => onChange(e.target.value)}
@@ -150,9 +150,7 @@ export function EditableMessage({
 export function TemplateVarsPanel() {
   return (
     <div className="rounded-lg border border-accent-200 bg-surface-50 p-6 dark:border-accent-700 dark:bg-surface-800">
-      <h2 className="mb-3 text-lg font-semibold text-accent-900 dark:text-accent-100">
-        Template Variables
-      </h2>
+      <H2 className="mb-3">Template Variables</H2>
       <div className="flex flex-wrap gap-2">
         {Object.entries(VARS).map(([key, desc]) => (
           <button

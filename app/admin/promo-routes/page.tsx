@@ -4,6 +4,8 @@ import Template from '@/components/Template'
 import { isPromoExpired } from '@/lib/utilities/promoValidation'
 import SectionContainer from '@/components/SectionContainer'
 import { FaCrosshairs, FaDollarSign, FaTimes, FaClock, FaClipboardList } from 'react-icons/fa'
+import { H2, H3, H4 } from '@/components/ui/heading'
+import { TextSmMedium, TextSmMuted, TextXs, TextXsMedium } from '@/components/ui/text'
 
 export default async function PromoRoutesPage() {
   const slugConfigurations = await fetchSlugConfigurationData()
@@ -33,9 +35,9 @@ export default async function PromoRoutesPage() {
           <div className="mt-8 space-y-8">
             {/* Promotional Routes Section */}
             <section className="rounded-lg bg-surface-50 p-6 shadow-md dark:bg-surface-800">
-              <h2 className="mb-4 text-2xl font-bold text-accent-900 dark:text-white">
+              <H2 className="mb-4 dark:text-white">
                 <FaCrosshairs className="inline" /> Promotional Routes ({promoRoutes.length})
-              </h2>
+              </H2>
               <div className="space-y-4">
                 {promoRoutes.map(([slug, config]) => (
                   <div
@@ -44,33 +46,25 @@ export default async function PromoRoutesPage() {
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex-1">
-                        <h3 className="font-semibold text-accent-900 dark:text-white">
+                        <H3 className="dark:text-white">
                           <Link
                             href={`/${slug}`}
                             className="hover:text-primary-600 hover:underline"
                           >
                             /{slug}
                           </Link>
-                        </h3>
-                        <p className="text-sm text-accent-600 dark:text-accent-300">
-                          {config.title}
-                        </p>
+                        </H3>
+                        <TextSmMuted>{config.title}</TextSmMuted>
                         {config.discount && (
-                          <p className="text-sm font-medium text-green-600 dark:text-green-400">
+                          <TextSmMedium status="success">
                             <FaDollarSign className="inline" />{' '}
                             {config.discount.type === 'percent'
                               ? `${config.discount.amountPercent! * 100}% off`
                               : `$${config.discount.amountDollars} off`}
-                          </p>
+                          </TextSmMedium>
                         )}
                         {config.promoEndDate && (
-                          <p
-                            className={`text-sm font-medium ${
-                              isPromoExpired(config.promoEndDate)
-                                ? 'text-red-600 dark:text-red-400'
-                                : 'text-orange-600 dark:text-orange-400'
-                            }`}
-                          >
+                          <TextSmMedium className="${ isPromoExpired(config.promoEndDate) ? 'text-red-600 dark:text-red-400' : 'text-orange-600 dark:text-orange-400' }">
                             <span>
                               {isPromoExpired(config.promoEndDate) ? (
                                 <>
@@ -83,7 +77,7 @@ export default async function PromoRoutesPage() {
                               )}{' '}
                             </span>
                             {config.promoEndDate}
-                          </p>
+                          </TextSmMedium>
                         )}
                         {config.text && (
                           <div className="mt-1 text-sm text-accent-500 dark:text-accent-400">
@@ -100,9 +94,12 @@ export default async function PromoRoutesPage() {
                         )}
                       </div>
                       <div className="ml-4 text-right">
-                        <span className="inline-block rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-800 dark:bg-green-800 dark:text-green-200">
+                        <TextXsMedium
+                          className="inline-block rounded-full bg-green-100 px-2 py-1 dark:bg-green-800"
+                          status="success"
+                        >
                           {config.type}
-                        </span>
+                        </TextXsMedium>
                       </div>
                     </div>
                   </div>
@@ -112,9 +109,9 @@ export default async function PromoRoutesPage() {
 
             {/* All Routes Section */}
             <section className="rounded-lg bg-surface-50 p-6 shadow-md dark:bg-surface-800">
-              <h2 className="mb-4 text-2xl font-bold text-accent-900 dark:text-white">
+              <H2 className="mb-4 dark:text-white">
                 <FaClipboardList className="inline" /> All Available Routes ({allRoutes.length})
-              </h2>
+              </H2>
               <div className="grid gap-3 md:grid-cols-2">
                 {allRoutes.map(([slug, config]) => (
                   <div
@@ -123,32 +120,27 @@ export default async function PromoRoutesPage() {
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex-1">
-                        <h4 className="font-medium text-accent-900 dark:text-white">
+                        <H4 className="dark:text-white">
                           <Link
                             href={`/${slug}`}
                             className="hover:text-primary-600 hover:underline"
                           >
                             /{slug}
                           </Link>
-                        </h4>
-                        <p className="text-sm text-accent-600 dark:text-accent-300">
-                          {config.title}
-                        </p>
+                        </H4>
+                        <TextSmMuted>{config.title}</TextSmMuted>
                       </div>
                       <div className="ml-2 flex flex-col items-end space-y-1">
-                        <span
-                          className={`inline-block rounded-full px-2 py-1 text-xs font-medium ${
-                            config.discount
-                              ? 'bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-200'
-                              : 'bg-surface-200 text-accent-800 dark:bg-surface-700 dark:text-accent-200'
-                          }`}
+                        <TextXsMedium
+                          className="inline-block rounded-full px-2 py-1 ${ config.discount ? 'bg-green-100 dark:bg-green-800 dark:text-green-200' : 'bg-surface-200 dark:bg-surface-700 dark:text-accent-200' }"
+                          status="success"
                         >
                           {config.type}
-                        </span>
+                        </TextXsMedium>
                         {config.discount && (
-                          <span className="text-xs text-green-600 dark:text-green-400">
+                          <TextXs status="success">
                             <FaCrosshairs className="mr-1 inline" /> PROMO
-                          </span>
+                          </TextXs>
                         )}
                       </div>
                     </div>

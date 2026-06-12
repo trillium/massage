@@ -18,6 +18,8 @@ import DurationPicker from '@/components/availability/controls/DurationPicker'
 import InitializeBookingState from '@/components/booking/InitializeBookingState'
 import DurationSlotManager from '@/components/booking/DurationSlotManager'
 import { createPageConfiguration } from '@/lib/slugConfigurations/createPageConfiguration'
+import { H1, H2, H3 } from '@/components/ui/heading'
+import { TextXs } from '@/components/ui/text'
 
 interface AdjacentBookingPageProps {
   params: Promise<{ event_id: string }>
@@ -67,9 +69,9 @@ export default async function AdjacentBookingPage({
       <div className="container mx-auto px-4 py-8">
         <div className="mx-auto max-w-4xl">
           <div className="rounded-lg bg-red-50 p-6 dark:bg-red-900/20">
-            <h2 className="mb-4 text-2xl font-semibold text-red-800 dark:text-red-200">
+            <H2 className="mb-4" status="error">
               Error Loading Event
-            </h2>
+            </H2>
             <p className="text-red-700 dark:text-red-300">Event not found</p>
           </div>
         </div>
@@ -116,13 +118,13 @@ export default async function AdjacentBookingPage({
       <div className="container mx-auto px-4 py-8">
         <div className="mx-auto max-w-6xl">
           <div className="mb-8">
-            <h1 className="mb-4 text-3xl font-bold text-accent-900 dark:text-white">
+            <H1 className="mb-4 dark:text-white">
               Book Adjacent Slot
-            </h1>
+            </H1>
             <div className="rounded-lg bg-blue-50 p-4 dark:bg-blue-900/20">
-              <h2 className="mb-2 text-lg font-semibold text-accent-900 dark:text-white">
+              <H2 className="mb-2 dark:text-white">
                 Current Event: {currentEvent.summary || 'Untitled Event'}
-              </h2>
+              </H2>
               <div className="space-y-1 text-sm text-accent-600 dark:text-accent-400">
                 <p>
                   <strong>Event starts at:</strong> {eventStartTimeStr}
@@ -135,9 +137,9 @@ export default async function AdjacentBookingPage({
                     <strong>Location:</strong> {currentEvent.location}
                   </p>
                 )}
-                <p className="mt-2 text-xs">
+                <TextXs className="mt-2">
                   Available slots are shown before and after this event with a 30-minute buffer.
-                </p>
+                </TextXs>
               </div>
             </div>
           </div>
@@ -145,9 +147,9 @@ export default async function AdjacentBookingPage({
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
             <div className="space-y-6">
               <div className="xs:p-6 rounded-lg bg-surface-50 p-3 shadow-sm dark:bg-surface-800">
-                <h3 className="mb-4 text-lg font-semibold text-accent-900 dark:text-white">
+                <H3 className="mb-4 dark:text-white">
                   Duration
-                </h3>
+                </H3>
                 <SlotHoldProvider>
                   <DurationPicker
                     title={`${selectedDuration} minute session - $${DEFAULT_PRICING[selectedDuration]}`}

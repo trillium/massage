@@ -5,6 +5,7 @@ import { BookedCard } from 'components/BookedCard'
 import BookSessionButton from 'components/BookSessionButton'
 import { formatLocalDate, formatLocalTime } from 'lib/availability/helpers'
 import { useReduxAvailability } from '@/redux/hooks'
+import { H1 } from '@/components/ui/heading'
 
 interface MockedConfirmationPageProps {
   data: {
@@ -55,9 +56,9 @@ export default function MockedConfirmationPage({ data }: MockedConfirmationPageP
   return (
     <div className="rounded-lg bg-surface-100 p-6 dark:bg-surface-900">
       <div className="w-full max-w-2xl px-4 py-4 sm:px-0 sm:py-8">
-        <h1 className="text-primary-500 dark:text-primary-400 text-3xl font-bold tracking-tight sm:text-5xl">
+        <H1 className="sm:text-5xl" status="primary">
           Thanks!
-        </h1>
+        </H1>
         <p className="mt-6 text-xl font-medium text-accent-800 dark:text-accent-200">
           Your appointment has been booked!
         </p>

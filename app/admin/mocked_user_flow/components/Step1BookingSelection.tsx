@@ -13,6 +13,7 @@ import { setSelectedTime } from '@/redux/slices/availabilitySlice'
 import { setModal } from '@/redux/slices/modalSlice'
 import { setEventContainers } from '@/redux/slices/eventContainersSlice'
 import { BookingFormValues } from '@/lib/bookingFormSchema'
+import { H2, H3 } from '@/components/ui/heading'
 
 interface Step1BookingSelectionProps {
   selectedDuration: number
@@ -55,9 +56,7 @@ export default function Step1BookingSelection({
 
   return (
     <div className="mb-12 rounded-lg bg-surface-50 p-6 shadow dark:bg-surface-800">
-      <h2 className="mb-4 text-xl font-semibold text-accent-800 dark:text-accent-200">
-        Step 1: Booking Form
-      </h2>
+      <H2 className="mb-4">Step 1: Booking Form</H2>
       <div className="space-y-4">
         <p className="text-accent-600 dark:text-accent-400">
           Fill out the form below to simulate a booking request:
@@ -70,9 +69,9 @@ export default function Step1BookingSelection({
 
         {/* Calendar Selection */}
         <div className="mt-4 rounded bg-green-50 p-4 dark:bg-green-900/20">
-          <h3 className="mb-2 text-sm font-medium text-green-800 dark:text-green-200">
+          <H3 className="mb-2" status="success">
             Calendar Selection
-          </h3>
+          </H3>
           <div className="w-full">
             <Calendar
               slots={[
@@ -105,9 +104,9 @@ export default function Step1BookingSelection({
 
         {/* Mock Time Selection */}
         <div className="rounded bg-blue-50 p-4 dark:bg-blue-900/20">
-          <h3 className="mb-2 text-sm font-medium text-blue-800 dark:text-blue-200">
+          <H3 className="mb-2" status="info">
             Quick Time Selection
-          </h3>
+          </H3>
           <div className="flex flex-wrap gap-2">
             <TimeButton
               time={{

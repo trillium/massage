@@ -4,6 +4,8 @@ import { useState } from 'react'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import { AdminAccessRequestSchema } from '@/lib/schema'
 import SectionContainer from '@/components/SectionContainer'
+import { H1 } from '@/components/ui/heading'
+import { TextSm, TextSmMedium } from '@/components/ui/text'
 
 interface FormValues {
   email: string
@@ -72,9 +74,7 @@ export default function AdminAccessRequestPage() {
     <SectionContainer>
       <div className="mx-auto max-w-2xl py-16">
         <div className="mb-8 text-center">
-          <h1 className="mb-4 text-3xl font-bold text-accent-900 dark:text-accent-100">
-            Request Admin Access
-          </h1>
+          <H1 className="mb-4">Request Admin Access</H1>
           <p className="text-accent-600 dark:text-accent-400">
             Submit your email to receive a secure admin access link
           </p>
@@ -184,10 +184,10 @@ export default function AdminAccessRequestPage() {
                   />
                 </svg>
                 <div className="ml-3">
-                  <p className="text-sm font-medium text-green-800 dark:text-green-200">Success!</p>
-                  <p className="mt-1 text-sm text-green-700 dark:text-green-300">
+                  <TextSmMedium status="success">Success!</TextSmMedium>
+                  <TextSm className="mt-1" status="success">
                     {submitStatus.message}
-                  </p>
+                  </TextSm>
                 </div>
               </div>
             </div>
@@ -204,10 +204,10 @@ export default function AdminAccessRequestPage() {
                   />
                 </svg>
                 <div className="ml-3">
-                  <p className="text-sm font-medium text-red-800 dark:text-red-200">Error</p>
-                  <p className="mt-1 text-sm text-red-700 dark:text-red-300">
+                  <TextSmMedium status="error">Error</TextSmMedium>
+                  <TextSm className="mt-1" status="error">
                     {submitStatus.message}
-                  </p>
+                  </TextSm>
                 </div>
               </div>
             </div>
@@ -230,9 +230,7 @@ export default function AdminAccessRequestPage() {
                 />
               </svg>
               <div className="ml-3">
-                <p className="text-sm font-medium text-blue-800 dark:text-blue-200">
-                  Security Information
-                </p>
+                <TextSmMedium status="info">Security Information</TextSmMedium>
                 <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-blue-700 dark:text-blue-300">
                   <li>Only authorized admin emails will receive access links</li>
                   <li>Access links expire after 4 hours</li>

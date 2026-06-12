@@ -7,6 +7,8 @@ import { adminFetch } from '@/lib/adminFetch'
 import ConfirmDialog from '@/components/admin/ConfirmDialog'
 
 import { RAFFLE_INTEREST_LABELS } from '@/lib/schema'
+import { H2, H3 } from '@/components/ui/heading'
+import { TextSm, TextSmMuted, TextXsMedium, TextXsMuted } from '@/components/ui/text'
 
 interface Raffle {
   id: string
@@ -219,26 +221,22 @@ export function RaffleAdmin({ raffle, entries: initialEntries, stats }: RaffleAd
       <div className={cardClass}>
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-xl font-semibold text-accent-900 dark:text-accent-100">
-              {raffle.name}
-            </h2>
-            <p className="mt-0.5 font-mono text-xs text-accent-400 dark:text-accent-500">
-              {raffle.id}
-            </p>
+            <H2>{raffle.name}</H2>
+            <TextXsMuted className="mt-0.5 font-mono">{raffle.id}</TextXsMuted>
             <div className="mt-1 flex items-center gap-2">
-              <span
-                className={`inline-block rounded-full px-3 py-1 text-xs font-medium ${
-                  isDrawn
-                    ? 'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300'
-                    : 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300'
-                }`}
+              <TextXsMedium
+                className="inline-block rounded-full px-3 py-1 ${ isDrawn ? 'bg-purple-100 dark:bg-purple-900/30 dark:text-purple-300' : 'bg-green-100 dark:bg-green-900/30 dark:text-green-300' }"
+                status="success"
               >
                 {status}
-              </span>
+              </TextXsMedium>
               {isActive && (
-                <span className="inline-block rounded-full bg-blue-100 px-3 py-1 text-xs font-medium text-blue-800 dark:bg-blue-900/30 dark:text-blue-300">
+                <TextXsMedium
+                  className="inline-block rounded-full bg-blue-100 px-3 py-1 dark:bg-blue-900/30"
+                  status="info"
+                >
                   active
-                </span>
+                </TextXsMedium>
               )}
             </div>
           </div>
@@ -279,7 +277,7 @@ export function RaffleAdmin({ raffle, entries: initialEntries, stats }: RaffleAd
       </div>
 
       <div className={cardClass}>
-        <h3 className="mb-4 text-lg font-semibold text-accent-900 dark:text-accent-100">Entries</h3>
+        <H3 className="mb-4">Entries</H3>
         <div className="overflow-x-auto">
           <table className="w-full text-left text-sm">
             <thead>
@@ -354,19 +352,17 @@ export function RaffleAdmin({ raffle, entries: initialEntries, stats }: RaffleAd
 
       {winner && (
         <div className="rounded-lg border border-yellow-300 bg-yellow-50 p-6 dark:border-yellow-700 dark:bg-yellow-900/20">
-          <h3 className="text-sm font-medium text-yellow-800 dark:text-yellow-200">Winner</h3>
+          <H3 status="warning">Winner</H3>
           <p className="mt-2 text-lg font-semibold text-yellow-900 dark:text-yellow-100">
             {winner.name}
           </p>
-          <p className="text-sm text-yellow-700 dark:text-yellow-300">{winner.email}</p>
-          <p className="text-sm text-yellow-700 dark:text-yellow-300">{winner.phone}</p>
-          {winner.zip_code && (
-            <p className="text-sm text-yellow-700 dark:text-yellow-300">Zip: {winner.zip_code}</p>
-          )}
+          <TextSm status="warning">{winner.email}</TextSm>
+          <TextSm status="warning">{winner.phone}</TextSm>
+          {winner.zip_code && <TextSm status="warning">Zip: {winner.zip_code}</TextSm>}
           {Array.isArray(winner.interested_in) && winner.interested_in.length > 0 && (
-            <p className="text-sm text-yellow-700 dark:text-yellow-300">
+            <TextSm status="warning">
               {winner.interested_in.map((i) => RAFFLE_INTEREST_LABELS[i] || i).join(', ')}
-            </p>
+            </TextSm>
           )}
           {isDrawn && (
             <div className="mt-4 flex gap-3">
@@ -414,7 +410,7 @@ export function RaffleAdmin({ raffle, entries: initialEntries, stats }: RaffleAd
 function StatCard({ label, value }: { label: string; value: string | number }) {
   return (
     <div className="rounded-lg border border-accent-200 bg-surface-50 p-4 dark:border-accent-700 dark:bg-surface-800">
-      <p className="text-sm text-accent-500 dark:text-accent-400">{label}</p>
+      <TextSmMuted>{label}</TextSmMuted>
       <p className="mt-1 text-2xl font-bold text-accent-900 dark:text-accent-100">{value}</p>
     </div>
   )

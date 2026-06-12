@@ -17,6 +17,8 @@ import { stringToLocationObject } from '@/lib/slugConfigurations/helpers/parseLo
 import { FaHourglassHalf, FaCheckCircle, FaTimesCircle } from 'react-icons/fa'
 import { gratuityLinks } from '@/data/paymentLinks'
 import eventContent from '@/data/event.json'
+import { TextLg, TextSmMedium, TextSmMuted, TextSmSemibold, TextXsMuted } from '@/components/ui/text'
+import { H1 } from '@/components/ui/heading'
 
 interface EventPageProps {
   params: Promise<{ event_id: string }>
@@ -50,22 +52,20 @@ function StatusBadge({ status }: { status: 'pending' | 'confirmed' | 'cancelled'
 
   const c = config[status]
   return (
-    <span
-      className={`inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-sm font-semibold ${c.bg} ${c.text} ${c.border}`}
-    >
+    <TextSmSemibold className="inline-flex items-center gap-2 rounded-full border px-4 py-1.5 ${c.bg} ${c.text} ${c.border}" >
       {c.icon}
       {c.label}
-    </span>
+    </TextSmSemibold>
   )
 }
 
 function DetailRow({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex flex-col gap-0.5 sm:flex-row sm:items-baseline sm:gap-3">
-      <span className="text-primary-500 dark:text-primary-400 min-w-24 text-sm font-medium tracking-wide uppercase">
+      <TextSmMedium className="min-w-24 uppercase">
         {label}
-      </span>
-      <span className="text-lg text-accent-800 dark:text-accent-200">{value}</span>
+      </TextSmMedium>
+      <TextLg>{value}</TextLg>
     </div>
   )
 }
@@ -78,9 +78,9 @@ export default async function EventPage({ params, searchParams }: EventPageProps
     return (
       <SectionContainer>
         <div className="py-16 text-center">
-          <h1 className="text-2xl font-bold text-accent-900 dark:text-white">
+          <H1 className="dark:text-white">
             {eventContent.page.accessDenied.heading}
-          </h1>
+          </H1>
           <p className="mt-2 text-accent-600 dark:text-accent-400">
             {eventContent.page.accessDenied.message}
           </p>
@@ -95,9 +95,9 @@ export default async function EventPage({ params, searchParams }: EventPageProps
     return (
       <SectionContainer>
         <div className="py-16 text-center">
-          <h1 className="text-2xl font-bold text-accent-900 dark:text-white">
+          <H1 className="dark:text-white">
             {eventContent.page.invalidLink.heading}
-          </h1>
+          </H1>
           <p className="mt-2 text-accent-600 dark:text-accent-400">
             {result.error === 'Token expired'
               ? eventContent.page.invalidLink.expiredMessage
@@ -114,9 +114,9 @@ export default async function EventPage({ params, searchParams }: EventPageProps
     return (
       <SectionContainer>
         <div className="py-16 text-center">
-          <h1 className="text-2xl font-bold text-accent-900 dark:text-white">
+          <H1 className="dark:text-white">
             {eventContent.page.notFound.heading}
-          </h1>
+          </H1>
           <p className="mt-2 text-accent-600 dark:text-accent-400">
             {eventContent.page.notFound.message}
           </p>
@@ -156,18 +156,18 @@ export default async function EventPage({ params, searchParams }: EventPageProps
     <SectionContainer>
       <div className="py-8 sm:py-12">
         <div className="mx-auto max-w-2xl">
-          <h1 className="text-primary-500 dark:text-primary-400 text-3xl font-bold tracking-tight sm:text-4xl">
+          <H1 className="sm:text-4xl" status="primary">
             {eventContent.page.heading}
-          </h1>
+          </H1>
 
           <div className="mt-6">
             <StatusBadge status={status} />
           </div>
 
           {status === 'pending' && (
-            <p className="mt-4 text-sm text-accent-600 dark:text-accent-400">
+            <TextSmMuted className="mt-4">
               {eventContent.page.pendingMessage}
-            </p>
+            </TextSmMuted>
           )}
 
           <div className="mt-8 space-y-3 rounded-2xl border-2 border-accent-200 bg-surface-100 p-6 dark:border-accent-700 dark:bg-surface-800/50">
@@ -180,11 +180,11 @@ export default async function EventPage({ params, searchParams }: EventPageProps
                   {eventContent.page.massageLabel}
                 </p>
                 {startString && endString && (
-                  <p className="text-sm text-accent-600 dark:text-accent-400">
+                  <TextSmMuted>
                     {startString}
                     {eventContent.page.timeRangeSeparator}
                     {endString}
-                  </p>
+                  </TextSmMuted>
                 )}
               </div>
             )}
@@ -224,9 +224,9 @@ export default async function EventPage({ params, searchParams }: EventPageProps
             <div className="mt-8">
               <div className="mb-3 flex items-center gap-3">
                 <div className="h-px flex-1 bg-surface-200 dark:bg-surface-700" />
-                <span className="text-sm font-medium text-accent-500 dark:text-accent-400">
+                <TextSmMedium status="muted">
                   {eventContent.page.appreciation}
-                </span>
+                </TextSmMedium>
                 <div className="h-px flex-1 bg-surface-200 dark:bg-surface-700" />
               </div>
               <div className="flex flex-col gap-3">
@@ -241,9 +241,9 @@ export default async function EventPage({ params, searchParams }: EventPageProps
                       <span className="font-semibold text-accent-900 dark:text-accent-100">
                         {link.label}
                       </span>
-                      <p className="text-sm text-accent-500 dark:text-accent-400">
+                      <TextSmMuted>
                         {link.description}
-                      </p>
+                      </TextSmMuted>
                     </div>
                   </Link>
                 ))}
@@ -275,7 +275,7 @@ export default async function EventPage({ params, searchParams }: EventPageProps
                   {eventContent.page.bookAnotherSession}
                 </Link>
               )}
-              <p className="text-xs text-accent-500 dark:text-accent-500">
+              <TextXsMuted>
                 {eventContent.page.allBookingsPrompt}
                 <Link
                   href="/auth/login?redirectedFrom=/my_events"
@@ -283,7 +283,7 @@ export default async function EventPage({ params, searchParams }: EventPageProps
                 >
                   {eventContent.page.signIn}
                 </Link>
-              </p>
+              </TextXsMuted>
             </div>
           </div>
         </div>

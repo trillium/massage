@@ -1,3 +1,5 @@
+import { H3 } from '@/components/ui/heading'
+import { TextSmMuted, TextXs, TextXsMedium } from '@/components/ui/text'
 interface Attendee {
   email?: string
   displayName: string
@@ -8,7 +10,7 @@ interface Attendee {
 export default function AttendeeList({ attendees }: { attendees: Attendee[] }) {
   return (
     <div>
-      <h3 className="mb-2 text-lg font-semibold text-accent-900 dark:text-white">Attendees</h3>
+      <H3 className="mb-2 dark:text-white">Attendees</H3>
       <div className="space-y-2">
         {attendees.map((attendee, index) => (
           <div
@@ -19,22 +21,22 @@ export default function AttendeeList({ attendees }: { attendees: Attendee[] }) {
               <p className="font-medium text-accent-900 dark:text-white">
                 {attendee.displayName}
                 {attendee.organizer && (
-                  <span className="ml-2 rounded bg-blue-100 px-2 py-1 text-xs text-blue-800 dark:bg-blue-900 dark:text-blue-200">
+                  <TextXs
+                    className="ml-2 rounded bg-blue-100 px-2 py-1 dark:bg-blue-900"
+                    status="info"
+                  >
                     Organizer
-                  </span>
+                  </TextXs>
                 )}
               </p>
-              <p className="text-sm text-accent-600 dark:text-accent-400">{attendee.email}</p>
+              <TextSmMuted>{attendee.email}</TextSmMuted>
             </div>
-            <span
-              className={`rounded px-2 py-1 text-xs font-medium ${
-                attendee.responseStatus === 'accepted'
-                  ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
-                  : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
-              }`}
+            <TextXsMedium
+              className="rounded px-2 py-1 ${ attendee.responseStatus === 'accepted' ? 'bg-green-100 dark:bg-green-900 dark:text-green-200' : 'bg-yellow-100 dark:bg-yellow-900 dark:text-yellow-200' }"
+              status="success"
             >
               {attendee.responseStatus}
-            </span>
+            </TextXsMedium>
           </div>
         ))}
       </div>

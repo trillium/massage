@@ -4,6 +4,7 @@ import React from 'react'
 import MockedConfirmationPage from '../MockedConfirmationPage'
 import { AppointmentRequestType } from '@/lib/types'
 import { flattenLocation } from '@/lib/helpers/locationHelpers'
+import { H2 } from '@/components/ui/heading'
 
 interface Step4FinalConfirmationProps {
   isConfirmed: boolean
@@ -33,9 +34,7 @@ export default function Step4FinalConfirmation({
       id="confirmation-section"
       className="rounded-lg bg-surface-50 p-6 shadow dark:bg-surface-800"
     >
-      <h2 className="mb-4 text-xl font-semibold text-accent-800 dark:text-accent-200">
-        Step 4: Booking Confirmed
-      </h2>
+      <H2 className="mb-4">Step 4: Booking Confirmed</H2>
       <p className="mb-4 text-accent-600 dark:text-accent-400">
         After approval, the user would see a confirmation page like this:
       </p>

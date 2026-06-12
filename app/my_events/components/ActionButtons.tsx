@@ -5,6 +5,7 @@ import clsx from 'clsx'
 import { GoogleCalendarV3Event } from '@/lib/types'
 import Link from '@/components/Link'
 import { extractApprovalUrls } from '@/lib/helpers/eventHelpers'
+import { TextSmMedium, TextXs } from '@/components/ui/text'
 
 interface ActionButtonsProps {
   event: GoogleCalendarV3Event
@@ -50,7 +51,7 @@ export function ActionButtons({
     if (cancelState === 'cancelled') {
       return (
         <div className="ml-4">
-          <span className="text-sm font-medium text-accent-500">Cancelled</span>
+          <TextSmMedium status="muted">Cancelled</TextSmMedium>
         </div>
       )
     }
@@ -70,7 +71,7 @@ export function ActionButtons({
           {cancelState === 'loading' ? 'Cancelling...' : 'Cancel Request'}
         </button>
         {cancelState === 'error' && (
-          <p className="mt-1 text-xs text-red-600 dark:text-red-400">Failed to cancel</p>
+          <TextXs className="mt-1" status="error">Failed to cancel</TextXs>
         )}
       </div>
     )

@@ -1,6 +1,8 @@
 import Link from 'next/link'
 import { getSupabaseAdminClient } from '@/lib/supabase/server'
 import { WinnerMessages } from './WinnerMessages'
+import { H1 } from '@/components/ui/heading'
+import { TextSmMuted } from '@/components/ui/text'
 
 interface RaffleEntry {
   id: string
@@ -27,9 +29,7 @@ export default async function RaffleWinnerPage() {
   if (!raffleData) {
     return (
       <div className="py-4">
-        <h1 className="mb-6 text-3xl font-bold text-accent-900 dark:text-accent-100">
-          Raffle Winner
-        </h1>
+        <H1 className="mb-6">Raffle Winner</H1>
         <p className="text-accent-600 dark:text-accent-400">
           No drawn raffle found.{' '}
           <Link href="/admin/raffle" className="text-primary-500 hover:underline">
@@ -54,9 +54,7 @@ export default async function RaffleWinnerPage() {
   if (!winner) {
     return (
       <div className="py-4">
-        <h1 className="mb-6 text-3xl font-bold text-accent-900 dark:text-accent-100">
-          Raffle Winner
-        </h1>
+        <H1 className="mb-6">Raffle Winner</H1>
         <p className="text-accent-600 dark:text-accent-400">
           Raffle &quot;{raffle.name}&quot; is drawn but no winner found.{' '}
           <Link href="/admin/raffle" className="text-primary-500 hover:underline">
@@ -70,7 +68,7 @@ export default async function RaffleWinnerPage() {
   return (
     <div className="py-4">
       <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-3xl font-bold text-accent-900 dark:text-accent-100">Raffle Winner</h1>
+        <H1>Raffle Winner</H1>
         <Link
           href="/admin/raffle"
           className="rounded border border-accent-300 px-3 py-1.5 text-sm text-accent-600 hover:bg-surface-100 dark:border-accent-600 dark:text-accent-400 dark:hover:bg-surface-700"
@@ -78,7 +76,7 @@ export default async function RaffleWinnerPage() {
           Back to Raffle
         </Link>
       </div>
-      <p className="mb-6 text-sm text-accent-500 dark:text-accent-400">{raffle.name}</p>
+      <TextSmMuted className="mb-6">{raffle.name}</TextSmMuted>
       <WinnerMessages winner={winner} nonWinners={nonWinners} expirationDate="2026-05-23" />
     </div>
   )

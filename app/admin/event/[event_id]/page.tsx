@@ -4,6 +4,8 @@ import { getEventsBySearchQuery } from '@/lib/availability/getEventsBySearchQuer
 import { GoogleCalendarV3Event } from '@/lib/types'
 import { fetchSingleEvent } from 'lib/fetch/fetchSingleEvent'
 import Link from '@/components/Link'
+import { H1, H2, H3 } from '@/components/ui/heading'
+import { TextSm, TextSmMuted, TextXs, TextXsMuted } from '@/components/ui/text'
 
 // Helper function to extract booking slug from event data
 function extractBookingSlug(event: GoogleCalendarV3Event): string | null {
@@ -113,30 +115,24 @@ export default async function EventPage({ params }: { params: Promise<{ event_id
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mx-auto max-w-4xl">
-        <h1 className="mb-6 text-3xl font-bold">Calendar Event Details</h1>
+        <H1 className="mb-6">Calendar Event Details</H1>
 
         {matchingEvent ? (
           <>
             <div className="mb-8 rounded-lg bg-surface-50 p-6 shadow-lg dark:bg-surface-800">
-              <h2 className="mb-4 text-2xl font-semibold text-accent-900 dark:text-white">
-                {matchingEvent.summary || 'Untitled Event'}
-              </h2>
+              <H2 className="mb-4 dark:text-white">{matchingEvent.summary || 'Untitled Event'}</H2>
 
               <div className="space-y-4">
                 <div>
-                  <h3 className="text-lg font-medium text-accent-700 dark:text-accent-300">
-                    Event ID:
-                  </h3>
-                  <p className="rounded bg-surface-200 p-2 font-mono text-sm text-accent-900 dark:bg-surface-700 dark:text-white">
+                  <H3>Event ID:</H3>
+                  <TextSm className="rounded bg-surface-200 p-2 font-mono dark:bg-surface-700 dark:text-white">
                     {matchingEvent.id}
-                  </p>
+                  </TextSm>
                 </div>
 
                 {matchingEvent.description && (
                   <div>
-                    <h3 className="text-lg font-medium text-accent-700 dark:text-accent-300">
-                      Description:
-                    </h3>
+                    <H3>Description:</H3>
                     <p className="whitespace-pre-wrap text-accent-900 dark:text-white">
                       {matchingEvent.description}
                     </p>
@@ -145,9 +141,7 @@ export default async function EventPage({ params }: { params: Promise<{ event_id
 
                 {(matchingEvent.start?.dateTime || matchingEvent.start?.date) && (
                   <div>
-                    <h3 className="text-lg font-medium text-accent-700 dark:text-accent-300">
-                      Start Time:
-                    </h3>
+                    <H3>Start Time:</H3>
                     <p className="text-accent-900 dark:text-white">
                       {matchingEvent.start.dateTime
                         ? new Date(matchingEvent.start.dateTime).toLocaleString()
@@ -158,9 +152,7 @@ export default async function EventPage({ params }: { params: Promise<{ event_id
 
                 {(matchingEvent.end?.dateTime || matchingEvent.end?.date) && (
                   <div>
-                    <h3 className="text-lg font-medium text-accent-700 dark:text-accent-300">
-                      End Time:
-                    </h3>
+                    <H3>End Time:</H3>
                     <p className="text-accent-900 dark:text-white">
                       {matchingEvent.end.dateTime
                         ? new Date(matchingEvent.end.dateTime).toLocaleString()
@@ -171,18 +163,14 @@ export default async function EventPage({ params }: { params: Promise<{ event_id
 
                 {matchingEvent.location && (
                   <div>
-                    <h3 className="text-lg font-medium text-accent-700 dark:text-accent-300">
-                      Location:
-                    </h3>
+                    <H3>Location:</H3>
                     <p className="text-accent-900 dark:text-white">{matchingEvent.location}</p>
                   </div>
                 )}
 
                 {matchingEvent.creator && (
                   <div>
-                    <h3 className="text-lg font-medium text-accent-700 dark:text-accent-300">
-                      Created by:
-                    </h3>
+                    <H3>Created by:</H3>
                     <p className="text-accent-900 dark:text-white">
                       {matchingEvent.creator.displayName || matchingEvent.creator.email}
                     </p>
@@ -191,17 +179,13 @@ export default async function EventPage({ params }: { params: Promise<{ event_id
 
                 {matchingEvent.attendees && matchingEvent.attendees.length > 0 && (
                   <div>
-                    <h3 className="text-lg font-medium text-accent-700 dark:text-accent-300">
-                      Attendees:
-                    </h3>
+                    <H3>Attendees:</H3>
                     <ul className="list-inside list-disc text-accent-900 dark:text-white">
                       {matchingEvent.attendees.map((attendee, index) => (
                         <li key={index}>
                           {attendee.displayName || attendee.email}
                           {attendee.responseStatus && (
-                            <span className="text-sm text-accent-600 dark:text-accent-400">
-                              ({attendee.responseStatus})
-                            </span>
+                            <TextSmMuted>({attendee.responseStatus})</TextSmMuted>
                           )}
                         </li>
                       ))}
@@ -211,9 +195,7 @@ export default async function EventPage({ params }: { params: Promise<{ event_id
 
                 {matchingEvent.status && (
                   <div>
-                    <h3 className="text-lg font-medium text-accent-700 dark:text-accent-300">
-                      Status:
-                    </h3>
+                    <H3>Status:</H3>
                     <p className="text-accent-900 capitalize dark:text-white">
                       {matchingEvent.status}
                     </p>
@@ -222,9 +204,7 @@ export default async function EventPage({ params }: { params: Promise<{ event_id
 
                 {matchingEvent.htmlLink && (
                   <div>
-                    <h3 className="text-lg font-medium text-accent-700 dark:text-accent-300">
-                      Google Calendar Link:
-                    </h3>
+                    <H3>Google Calendar Link:</H3>
                     <Link
                       href={matchingEvent.htmlLink}
                       target="_blank"
@@ -238,15 +218,13 @@ export default async function EventPage({ params }: { params: Promise<{ event_id
 
                 {/* Booking URL Section */}
                 <div className="rounded-lg bg-green-50 p-4 dark:bg-green-900/20">
-                  <h3 className="text-lg font-medium text-accent-700 dark:text-accent-300">
-                    Book a Similar Session:
-                  </h3>
+                  <H3>Book a Similar Session:</H3>
                   <div className="mt-2 space-y-2">
                     {bookingSlug && (
-                      <p className="text-sm text-green-700 dark:text-green-300">
+                      <TextSm status="success">
                         <strong>Detected Booking Type:</strong>{' '}
-                        <span className="font-mono text-xs">{bookingSlug}</span>
-                      </p>
+                        <TextXs className="font-mono">{bookingSlug}</TextXs>
+                      </TextSm>
                     )}
                     <Link
                       href={bookingUrl}
@@ -254,10 +232,10 @@ export default async function EventPage({ params }: { params: Promise<{ event_id
                     >
                       Book New Appointment
                     </Link>
-                    <p className="text-xs text-accent-600 dark:text-accent-400">
+                    <TextXsMuted>
                       {matchingEvent.location &&
                         'Location information will be pre-filled based on this event'}
-                    </p>
+                    </TextXsMuted>
                   </div>
                 </div>
               </div>
@@ -265,9 +243,7 @@ export default async function EventPage({ params }: { params: Promise<{ event_id
 
             {/* Debug section showing raw JSON */}
             <div className="rounded-lg bg-surface-200 p-6 dark:bg-surface-900">
-              <h3 className="mb-4 text-lg font-medium text-accent-700 dark:text-accent-300">
-                Raw Event Data (Debug):
-              </h3>
+              <H3 className="mb-4">Raw Event Data (Debug):</H3>
               <pre className="overflow-auto text-xs text-accent-900 dark:text-white">
                 {JSON.stringify(matchingEvent, null, 2)}
               </pre>
@@ -275,11 +251,11 @@ export default async function EventPage({ params }: { params: Promise<{ event_id
           </>
         ) : (
           <div className="mb-8 rounded-lg bg-red-50 p-6 dark:bg-red-900/20">
-            <h2 className="mb-4 text-2xl font-semibold text-red-800 dark:text-red-200">
+            <H2 className="mb-4" status="error">
               Event Not Found
-            </h2>
+            </H2>
             <p className="text-red-700 dark:text-red-300">
-              No event found with ID: <span className="font-mono text-sm">{event_id}</span>
+              No event found with ID: <TextSm className="font-mono">{event_id}</TextSm>
             </p>
             <p className="mt-2 text-red-600 dark:text-red-400">
               Check the search results below for available events.
@@ -289,9 +265,7 @@ export default async function EventPage({ params }: { params: Promise<{ event_id
 
         {/* Search Results for 'massage' */}
         <div className="mt-8 rounded-lg bg-blue-50 p-6 dark:bg-blue-900/20">
-          <h2 className="mb-6 text-2xl font-bold text-accent-900 dark:text-white">
-            Events containing "massage"
-          </h2>
+          <H2 className="mb-6 dark:text-white">Events containing "massage"</H2>
           {massageEvents.length > 0 ? (
             <div className="space-y-4">
               {massageEvents.map((event, index) => (
@@ -299,12 +273,10 @@ export default async function EventPage({ params }: { params: Promise<{ event_id
                   key={event.id || index}
                   className="rounded-lg bg-surface-50 p-4 shadow-sm dark:bg-surface-800"
                 >
-                  <h3 className="text-lg font-semibold text-accent-900 dark:text-white">
-                    {event.summary || 'Untitled Event'}
-                  </h3>
+                  <H3 className="dark:text-white">{event.summary || 'Untitled Event'}</H3>
                   <div className="mt-2 space-y-1 text-sm text-accent-600 dark:text-accent-400">
                     <p>
-                      <strong>ID:</strong> <span className="font-mono text-xs">{event.id}</span>
+                      <strong>ID:</strong> <TextXs className="font-mono">{event.id}</TextXs>
                     </p>
                     {(event.start?.dateTime || event.start?.date) && (
                       <p>

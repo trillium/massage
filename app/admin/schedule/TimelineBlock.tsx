@@ -1,6 +1,7 @@
 'use client'
 
 import type { TimelineBlockData } from './computeTimelineBlocks'
+import { TextSm, TextXs, TextXsMuted } from '@/components/ui/text'
 
 function formatTime(iso: string): string {
   return new Date(iso).toLocaleTimeString('en-US', {
@@ -38,8 +39,8 @@ export function TimelineBlock({ block, isPast, isInProgress }: Props) {
             : 'border-accent-300 bg-surface-100 text-accent-500 dark:border-accent-600 dark:bg-surface-800/50 dark:text-accent-400'
         }`}
       >
-        <span className="text-sm">{block.durationMinutes} min open</span>
-        <span className="text-xs">{timeLabel}</span>
+        <TextSm>{block.durationMinutes} min open</TextSm>
+        <TextXs>{timeLabel}</TextXs>
       </div>
     )
   }
@@ -58,7 +59,7 @@ export function TimelineBlock({ block, isPast, isInProgress }: Props) {
     >
       <div className="flex items-center justify-between">
         <span className="font-medium text-accent-900 dark:text-accent-100">{name}</span>
-        <span className="text-xs text-accent-500 dark:text-accent-400">{duration}</span>
+        <TextXsMuted>{duration}</TextXsMuted>
       </div>
       <div className="mt-1 text-sm text-accent-600 dark:text-accent-300">{timeLabel}</div>
       {block.event?.location && (

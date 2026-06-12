@@ -2,6 +2,8 @@
 
 import Link from '@/components/Link'
 import systemData from '@/data/system.json'
+import { H1Hero } from '@/components/ui/heading'
+import { TextLg } from '@/components/ui/text'
 
 export default function BookingError({
   error,
@@ -13,12 +15,12 @@ export default function BookingError({
   const { bookingError } = systemData
   return (
     <div className="flex flex-col items-center justify-center px-4 py-24 text-center">
-      <h1 className="text-4xl font-extrabold tracking-tight text-accent-900 dark:text-accent-100">
+      <H1Hero>
         {bookingError.title}
-      </h1>
-      <p className="mt-4 text-lg text-accent-700 dark:text-accent-300">
+      </H1Hero>
+      <TextLg className="mt-4">
         {bookingError.description}
-      </p>
+      </TextLg>
       <div className="mt-8 flex gap-4">
         <button
           onClick={reset}

@@ -5,6 +5,7 @@ import { subWeeks, addWeeks, parseISO, isValid } from 'date-fns'
 import { CategorizedEventList } from 'app/my_events/components/EventComponents'
 import SectionContainer from '@/components/SectionContainer'
 import pagesData from '@/data/pages.json'
+import { TextSmMedium } from '@/components/ui/text'
 
 const adminText = pagesData.adminPage
 
@@ -32,12 +33,12 @@ async function fetchEvents(start: string, end: string): Promise<GoogleCalendarV3
 function GoogleNotConnectedBanner() {
   return (
     <div className="mb-6 rounded-lg border border-yellow-200 bg-yellow-50 p-4 dark:border-yellow-800 dark:bg-yellow-950">
-      <p className="text-sm font-medium text-yellow-800 dark:text-yellow-200">
+      <TextSmMedium status="warning">
         {adminText.noConnectionBanner}{' '}
         <a href="/admin/connect-google" className="underline hover:no-underline">
           {adminText.connectNow}
         </a>
-      </p>
+      </TextSmMedium>
     </div>
   )
 }
