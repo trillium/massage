@@ -300,7 +300,7 @@ export default async function Image({ params }: { params: Promise<{ bookingSlug:
               letterSpacing: 1,
             }}
           >
-            GIFT
+            {'GIFT' /* content-ok: OG image badge label, not translatable copy */}
           </div>
         )}
       </div>
