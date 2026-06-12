@@ -41,7 +41,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<Sea
       <SlotHoldProvider>
         <SlotTakenAlert />
         <Template title={home.bookingTitle ?? 'Book a session'} />
-        <BookingForm />
+        <BookingForm additionalData={{ showPromoField: true }} />
         <div className="flex flex-col space-y-8">
           <DurationPicker {...durationProps} />
           <Calendar />
