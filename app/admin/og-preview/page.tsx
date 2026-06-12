@@ -1,5 +1,4 @@
 /* ds-ignore-file */
-/* biome-ignore-file lint/style/noJsxLiterals: admin internal tool, strings are UI chrome not content */
 import Image from 'next/image'
 import { fetchSlugConfigurationData } from '@/lib/slugConfigurations/fetchSlugConfigurationData'
 import SectionContainer from '@/components/SectionContainer'
