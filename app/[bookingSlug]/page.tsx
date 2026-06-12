@@ -24,17 +24,22 @@ export async function generateMetadata({
 }: {
   params: Promise<{ bookingSlug: string }>
 }): Promise<Metadata> {
-  const { bookingSlug } = await params
-  const configMap = await fetchSlugConfigurationData()
-  const config = configMap[bookingSlug]
-  const title = config?.title ?? 'Book a massage'
-  const description = firstLineOfText(config?.text ?? null) || siteMetadata.description
-  const origin = (process.env.NEXT_PUBLIC_SITE_URL ?? SITE_ORIGIN).replace(/\/$/, '')
-  return genPageMetadata({
-    title,
-    description,
-    image: `${origin}/${bookingSlug}/opengraph-image`,
-  })
+  try {
+    const { bookingSlug } = await params
+    const configMap = await fetchSlugConfigurationData()
+    const config = configMap[bookingSlug]
+    const title = config?.title ?? 'Book a massage'
+    const description = firstLineOfText(config?.text ?? null) || siteMetadata.description
+    const origin = (process.env.NEXT_PUBLIC_SITE_URL ?? SITE_ORIGIN).replace(/\/$/, '')
+    return genPageMetadata({
+      title,
+      description,
+      image: `${origin}/${bookingSlug}/opengraph-image`,
+    })
+  } catch (e) {
+    console.error('[generateMetadata] failed:', e)
+    return genPageMetadata({ title: 'Book a massage' })
+  }
 }
 
 export default async function Page({
