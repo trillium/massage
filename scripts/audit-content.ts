@@ -1,15 +1,15 @@
-#!/usr/bin/env node
+#!/usr/bin/env bun
 /**
- * audit-content.mjs — full-codebase content violation scanner
+ * audit-content.ts — full-codebase content violation scanner
  *
  * Runs the _lint-content-extract.py helper against every .tsx/.ts file in
  * the repo and produces a structured JSON report of all bare JSX text nodes
  * that should live in the content layer.
  *
  * Usage:
- *   node scripts/audit-content.mjs              # prints JSON report
- *   node scripts/audit-content.mjs --summary    # prints summary table only
- *   node scripts/audit-content.mjs --file path  # scan a single file
+ *   bun scripts/audit-content.ts              # prints JSON report
+ *   bun scripts/audit-content.ts --summary    # prints summary table only
+ *   bun scripts/audit-content.ts --file path  # scan a single file
  *
  * Output shape (JSON):
  * {
@@ -28,27 +28,46 @@
  */
 
 import { execSync } from 'node:child_process'
-import { readdirSync, statSync, existsSync } from 'node:fs'
+import { readdirSync, existsSync } from 'node:fs'
 import { join, relative } from 'node:path'
-import process from 'node:process'
+
+interface Violation {
+  line: number
+  text: string
+}
+
+interface FileReport {
+  path: string
+  violations: Violation[]
+}
+
+interface AuditReport {
+  totalViolations: number
+  totalFiles: number
+  files: FileReport[]
+}
 
 const REPO_ROOT = process.cwd()
 const HELPER = join(REPO_ROOT, 'scripts/_lint-content-extract.py')
 const PY = process.env.PYTHON ?? 'python3'
 
 const SKIP_DIRS = new Set([
-  'node_modules', '.next', '.contentlayer', 'coverage',
-  '__tests__', 'og-variants', 'design-system', 'designs',
-  'og-preview', '.git', '.claude',
+  'node_modules',
+  '.next',
+  '.contentlayer',
+  'coverage',
+  '__tests__',
+  'og-variants',
+  'design-system',
+  'designs',
+  'og-preview',
+  '.git',
+  '.claude',
 ])
 
-const SKIP_PATH_PATTERNS = [
-  /\.test\.(ts|tsx)$/,
-  /\.spec\.(ts|tsx)$/,
-  /\/data\//,
-]
+const SKIP_PATH_PATTERNS = [/\.test\.(ts|tsx)$/, /\.spec\.(ts|tsx)$/, /\/data\//]
 
-function* walkTs(dir) {
+function* walkTs(dir: string): Generator<string> {
   for (const entry of readdirSync(dir, { withFileTypes: true })) {
     if (entry.isDirectory()) {
       if (SKIP_DIRS.has(entry.name)) continue
@@ -61,20 +80,23 @@ function* walkTs(dir) {
   }
 }
 
-function scanFile(filePath) {
+function scanFile(filePath: string): Violation[] {
   try {
     const out = execSync(`"${PY}" "${HELPER}" "${filePath}"`, {
       encoding: 'utf8',
       stdio: ['pipe', 'pipe', 'pipe'],
     }).trim()
     if (!out) return []
-    return out.split('\n').filter(Boolean).map((line) => {
-      const colonIdx = line.indexOf(':')
-      return {
-        line: Number.parseInt(line.slice(0, colonIdx), 10),
-        text: line.slice(colonIdx + 1),
-      }
-    })
+    return out
+      .split('\n')
+      .filter(Boolean)
+      .map((line) => {
+        const colonIdx = line.indexOf(':')
+        return {
+          line: Number.parseInt(line.slice(0, colonIdx), 10),
+          text: line.slice(colonIdx + 1),
+        }
+      })
   } catch {
     return []
   }
@@ -84,11 +106,9 @@ const args = process.argv.slice(2)
 const summaryOnly = args.includes('--summary')
 const singleFile = args.includes('--file') ? args[args.indexOf('--file') + 1] : null
 
-const files = singleFile
-  ? [join(REPO_ROOT, singleFile)]
-  : [...walkTs(REPO_ROOT)]
+const files = singleFile ? [join(REPO_ROOT, singleFile)] : [...walkTs(REPO_ROOT)]
 
-const report = { totalViolations: 0, totalFiles: 0, files: [] }
+const report: AuditReport = { totalViolations: 0, totalFiles: 0, files: [] }
 
 for (const file of files) {
   if (!existsSync(file)) continue
@@ -96,17 +116,15 @@ for (const file of files) {
   if (violations.length === 0) continue
   report.totalViolations += violations.length
   report.totalFiles += 1
-  report.files.push({
-    path: relative(REPO_ROOT, file),
-    violations,
-  })
+  report.files.push({ path: relative(REPO_ROOT, file), violations })
 }
 
-// Sort by violation count descending
 report.files.sort((a, b) => b.violations.length - a.violations.length)
 
 if (summaryOnly) {
-  process.stdout.write(`\nContent Audit — ${report.totalViolations} violations across ${report.totalFiles} files\n\n`)
+  process.stdout.write(
+    `\nContent Audit — ${report.totalViolations} violations across ${report.totalFiles} files\n\n`
+  )
   for (const f of report.files) {
     process.stdout.write(`  ${String(f.violations.length).padStart(4)}  ${f.path}\n`)
   }
