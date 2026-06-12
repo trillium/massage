@@ -65,5 +65,29 @@
       "errorInvalid": "Invalid promo code",
       "appliedPrefix": "✓"
     }
+  },
+  "availability": {
+    "availableSlotLabel": "available slot",
+    "slotPlural": "s",
+    "emptyString": "",
+    "for": "for",
+    "dash": "-",
+    "minuteSessions": "minute sessions",
+    "noAvailableSlots": "No available",
+    "minuteSlots": "minute slots",
+    "tryDifferentDuration": "Try selecting a different duration to see more options"
+  },
+  "flow": {
+    "loading": "Loading...",
+    "requestAppointment": "Request appointment",
+    "submitting": "Submitting ...",
+    "securingSlot": "Securing slot ...",
+    "reserveAgain": "Reserve again",
+    "reserving": "Reserving…",
+    "cancel": "Cancel",
+    "errorSubmitting": "There was an error submitting your request.",
+    "slotTakenTitle": "That time slot was just booked by someone else.",
+    "slotTakenMessage": "Please pick a different time below — availability has been refreshed.",
+    "slotTakenDismiss": "Dismiss"
   }
 }

@@ -1,0 +1,13 @@
+{
+  "successBannerTitle": "You're in the raffle!",
+  "successBannerMessage": "We'll let you know if you win. Good luck!",
+  "interestedLabel": "Interested in",
+  "requiredAsterisk": "*",
+  "raffleTitle": "Enter the OpenClaw raffle!",
+  "raffleSubtitle": "Win a free 60-minute massage. Just a couple quick questions:",
+  "zipCodeLabel": "Zip code",
+  "zipCodePlaceholder": "90210",
+  "enterButtonSubmitting": "Entering...",
+  "enterButtonDefault": "Enter Raffle",
+  "errorNetwork": "Network error — try again"
+}

@@ -2,6 +2,7 @@
 
 import { useSearchParams, useRouter, usePathname } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
+import booking from '@/data/booking.json'
 
 export default function SlotTakenAlert() {
   const searchParams = useSearchParams()
@@ -27,10 +28,8 @@ export default function SlotTakenAlert() {
 
   return (
     <div className="rounded-md border border-amber-300 bg-amber-50 p-4 text-amber-800 dark:border-amber-600 dark:bg-amber-900/30 dark:text-amber-200">
-      <p className="font-medium">That time slot was just booked by someone else.</p>
-      <p className="mt-1 text-sm">
-        Please pick a different time below — availability has been refreshed.
-      </p>
+      <p className="font-medium">{booking.flow.slotTakenTitle}</p>
+      <p className="mt-1 text-sm">{booking.flow.slotTakenMessage}</p>
       <button
         type="button"
         onClick={() => {
@@ -39,7 +38,7 @@ export default function SlotTakenAlert() {
         }}
         className="mt-2 text-sm font-medium text-amber-600 underline hover:text-amber-800 dark:text-amber-300 dark:hover:text-amber-100"
       >
-        Dismiss
+        {booking.flow.slotTakenDismiss}
       </button>
     </div>
   )

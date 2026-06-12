@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { RAFFLE_INTEREST_OPTIONS } from '@/lib/schema'
+import raffle from '@/data/raffle.json'
 
 interface RaffleOptInProps {
   name: string
@@ -13,10 +14,10 @@ function SuccessBanner() {
   return (
     <div className="mt-8 rounded-lg border-2 border-primary-300 bg-primary-50 p-6 dark:border-primary-700 dark:bg-primary-950">
       <p className="text-lg font-semibold text-primary-700 dark:text-primary-300">
-        You're in the raffle!
+        {raffle.successBannerTitle}
       </p>
       <p className="mt-1 text-sm text-primary-600 dark:text-primary-400">
-        We'll let you know if you win. Good luck!
+        {raffle.successBannerMessage}
       </p>
     </div>
   )
@@ -32,7 +33,7 @@ function InterestCheckboxes({
   return (
     <div>
       <p className="block text-sm font-medium text-accent-900 dark:text-accent-100">
-        Interested in <span className="text-primary-500">*</span>
+        {raffle.interestedLabel} <span className="text-primary-500">{raffle.requiredAsterisk}</span>
       </p>
       <div className="mt-1 space-y-2">
         {RAFFLE_INTEREST_OPTIONS.map(({ value, label }) => (
@@ -111,7 +112,7 @@ export default function RaffleOptIn({ name, email, phone }: RaffleOptInProps) {
         setStatus('error')
       }
     } catch {
-      setErrorMessage('Network error — try again')
+      setErrorMessage(raffle.errorNetwork)
       setStatus('error')
     }
   }
@@ -119,11 +120,9 @@ export default function RaffleOptIn({ name, email, phone }: RaffleOptInProps) {
   return (
     <div className="mt-8 rounded-lg border-2 border-primary-300 bg-surface-50 p-6 shadow-md dark:border-primary-700 dark:bg-surface-900">
       <p className="text-lg font-semibold text-accent-900 dark:text-accent-100">
-        Enter the OpenClaw raffle!
+        {raffle.raffleTitle}
       </p>
-      <p className="mt-1 text-sm text-accent-600 dark:text-accent-400">
-        Win a free 60-minute massage. Just a couple quick questions:
-      </p>
+      <p className="mt-1 text-sm text-accent-600 dark:text-accent-400">{raffle.raffleSubtitle}</p>
 
       <form onSubmit={handleSubmit} className="mt-4 space-y-4">
         <div>
@@ -131,7 +130,7 @@ export default function RaffleOptIn({ name, email, phone }: RaffleOptInProps) {
             htmlFor="raffle-zip"
             className="block text-sm font-medium text-accent-900 dark:text-accent-100"
           >
-            Zip code
+            {raffle.zipCodeLabel}
           </label>
           <input
             type="text"
@@ -139,7 +138,7 @@ export default function RaffleOptIn({ name, email, phone }: RaffleOptInProps) {
             value={zipCode}
             onChange={(e) => setZipCode(e.target.value)}
             className="focus:ring-primary-500 focus:border-primary-500 mt-1 w-full rounded border px-3 py-2"
-            placeholder="90210"
+            placeholder={raffle.zipCodePlaceholder}
             maxLength={10}
           />
         </div>
@@ -153,7 +152,7 @@ export default function RaffleOptIn({ name, email, phone }: RaffleOptInProps) {
           disabled={status === 'submitting' || interests.length === 0}
           className="rounded bg-primary-600 px-4 py-2 font-semibold text-white transition-colors hover:bg-primary-700 disabled:cursor-not-allowed disabled:bg-surface-400"
         >
-          {status === 'submitting' ? 'Entering...' : 'Enter Raffle'}
+          {status === 'submitting' ? raffle.enterButtonSubmitting : raffle.enterButtonDefault}
         </button>
       </form>
     </div>

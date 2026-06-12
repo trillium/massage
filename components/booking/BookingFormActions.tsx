@@ -3,6 +3,7 @@ import Spinner from 'components/Spinner'
 import { setModal } from '@/redux/slices/modalSlice'
 import { useAppDispatch, useReduxModal } from '@/redux/hooks'
 import { useSlotHoldContext } from 'hooks/SlotHoldContext'
+import booking from '@/data/booking.json'
 
 interface BookingFormActionsProps {
   onSubmitLabel?: string
@@ -22,11 +23,11 @@ const BookingFormActions: React.FC<BookingFormActionsProps> = ({ onSubmitLabel =
       >
         {modal === 'busy' ? (
           <>
-            Submitting ... <Spinner className="ml-2" />
+            {booking.flow.submitting} <Spinner className="ml-2" />
           </>
         ) : claiming ? (
           <>
-            Securing slot ... <Spinner className="ml-2" />
+            {booking.flow.securingSlot} <Spinner className="ml-2" />
           </>
         ) : (
           onSubmitLabel
@@ -40,7 +41,7 @@ const BookingFormActions: React.FC<BookingFormActionsProps> = ({ onSubmitLabel =
           dispatch(setModal({ status: 'closed' }))
         }}
       >
-        Cancel
+        {booking.flow.cancel}
       </button>
     </div>
   )

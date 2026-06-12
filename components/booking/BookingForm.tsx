@@ -26,6 +26,7 @@ import { useBookingValidation } from './useBookingValidation'
 import { useBookingInitialValues } from './useBookingInitialValues'
 import { useBookingSubmit } from './useBookingSubmit'
 import { useSlotHoldContext } from 'hooks/SlotHoldContext'
+import booking from '@/data/booking.json'
 
 type BookingFormProps = {
   additionalData?: Partial<ChairAppointmentBlockProps>
@@ -100,7 +101,7 @@ export default function BookingForm({
       }}
     >
       {!selectedTime || !timeZone ? (
-        <div className="flex min-h-[200px] items-center justify-center">Loading...</div>
+        <div className="flex min-h-[200px] items-center justify-center">{booking.flow.loading}</div>
       ) : (
         <Formik
           initialValues={initialValues}
@@ -130,7 +131,7 @@ export default function BookingForm({
                     as="h3"
                     className="text-base leading-6 font-semibold text-accent-900 dark:text-accent-100"
                   >
-                    Request appointment
+                    {booking.flow.requestAppointment}
                   </DialogTitle>
                   {holdExpired && (
                     <button
@@ -141,7 +142,7 @@ export default function BookingForm({
                       }}
                       className="rounded bg-amber-100 px-2 py-1 text-xs text-amber-700 hover:bg-amber-200 disabled:opacity-50"
                     >
-                      {claiming ? 'Reserving…' : 'Reserve again'}
+                      {claiming ? booking.flow.reserving : booking.flow.reserveAgain}
                     </button>
                   )}
                 </div>
@@ -174,7 +175,7 @@ export default function BookingForm({
 
                 {modal === 'error' && (
                   <div className="mt-4 rounded-md bg-red-50 p-3 text-red-600">
-                    There was an error submitting your request.
+                    {booking.flow.errorSubmitting}
                   </div>
                 )}
 
