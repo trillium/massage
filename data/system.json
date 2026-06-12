@@ -1,0 +1,19 @@
+{
+  "globalError": {
+    "title": "Oops",
+    "message": "Something went wrong.",
+    "description": "We hit an unexpected error. You can try again or head back to the homepage.",
+    "buttons": {
+      "retry": "Try again",
+      "home": "Back to homepage"
+    }
+  },
+  "notFound": {
+    "code": "404",
+    "title": "Sorry we couldn't find this page.",
+    "description": "But don't worry, you can find plenty of other things on our homepage.",
+    "buttons": {
+      "home": "Back to homepage"
+    }
+  }
+}

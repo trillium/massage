@@ -53,5 +53,39 @@
       "leadTimeDebug": "Lead Time Debug Information",
       "fullDebug": "Full Debug Information"
     }
+  },
+  "slugDashboard": {
+    "socketsDebugPanel": {
+      "title": "Sockets",
+      "slotHoldsLabel": "slot_holds:",
+      "separator": "·",
+      "appointmentsLabel": "appointments:",
+      "fetches": "fetches",
+      "eventsReceived": "events received"
+    }
+  },
+  "isTestUser": {
+    "title": "PostHog User Management",
+    "distinctIdLabel": "PostHog Distinct ID:",
+    "loadingText": "Loading...",
+    "retryButton": "Try Again",
+    "actionLabel": "Action:",
+    "identifyLabel": "Identify User (userId or email)",
+    "testUserLabel": "Mark as Test User",
+    "identifyPlaceholder": "Enter User ID or Email",
+    "testUserPlaceholder": "Enter User ID",
+    "identifyButtonLoading": "Identifying...",
+    "testUserButtonLoading": "Marking...",
+    "identifyButton": "Identify User",
+    "testUserButton": "Mark as Test User",
+    "errorMessage": "Error with PostHog operation"
+  },
+  "onsite": {
+    "yourLink": "Your link:",
+    "eventNameLabel": "Let's pick a name for your booking:",
+    "eventNamePlaceholder": "e.g., WeWork Playa Vista",
+    "durationLabel": "How long should sessions be?",
+    "durationSuffix": "minutes",
+    "paymentLabel": "Payment options"
   }
 }

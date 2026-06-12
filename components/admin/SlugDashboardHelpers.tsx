@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { getSupabaseBrowserClient } from '@/lib/supabase/client'
 import clsx from 'clsx'
+import admin from '@/data/admin.json'
 
 export function StatusDot({ subscribed }: { subscribed: boolean }) {
   return (
@@ -24,18 +25,32 @@ export function SocketsDebugPanel({
 }) {
   return (
     <div className="rounded bg-surface-100 p-3 text-xs dark:bg-surface-800">
-      <h4 className="mb-1.5 font-semibold text-accent-600 dark:text-accent-400">Sockets</h4>
+      <h4 className="mb-1.5 font-semibold text-accent-600 dark:text-accent-400">
+        {admin.slugDashboard.socketsDebugPanel.title}
+      </h4>
       <div className="space-y-1 text-accent-500 dark:text-accent-400">
         <div className="flex items-center gap-2">
           <StatusDot subscribed={debug.channelStatus === 'SUBSCRIBED'} />
-          <span>slot_holds: {debug.channelStatus}</span>
-          <span>· {debug.mode}</span>
-          <span>· {debug.fetchCount} fetches</span>
+          <span>
+            {admin.slugDashboard.socketsDebugPanel.slotHoldsLabel} {debug.channelStatus}
+          </span>
+          <span>
+            {admin.slugDashboard.socketsDebugPanel.separator} {debug.mode}
+          </span>
+          <span>
+            {admin.slugDashboard.socketsDebugPanel.separator} {debug.fetchCount}{' '}
+            {admin.slugDashboard.socketsDebugPanel.fetches}
+          </span>
         </div>
         <div className="flex items-center gap-2">
           <StatusDot subscribed={appointmentsChannel.status === 'SUBSCRIBED'} />
-          <span>appointments: {appointmentsChannel.status}</span>
-          <span>· {appointmentsChannel.eventCount} events received</span>
+          <span>
+            {admin.slugDashboard.socketsDebugPanel.appointmentsLabel} {appointmentsChannel.status}
+          </span>
+          <span>
+            {admin.slugDashboard.socketsDebugPanel.separator} {appointmentsChannel.eventCount}{' '}
+            {admin.slugDashboard.socketsDebugPanel.eventsReceived}
+          </span>
         </div>
       </div>
     </div>

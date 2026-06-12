@@ -1,6 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react'
 import { markUserAsTestUser, getDistinctId, identifyUser } from '@/lib/posthog-utils'
+import admin from '@/data/admin.json'
 
 export default function IsTestUserPage() {
   const [userId, setUserId] = useState('')
@@ -40,22 +41,23 @@ export default function IsTestUserPage() {
   return (
     <div className="mx-auto mt-10 max-w-md rounded bg-surface-50 p-6 shadow dark:bg-surface-800">
       <h1 className="mb-4 text-2xl font-bold text-accent-900 dark:text-accent-100">
-        PostHog User Management
+        {admin.isTestUser.title}
       </h1>
       <div className="mb-4 text-sm text-accent-700 dark:text-accent-300">
-        <strong>PostHog Distinct ID:</strong> {distinctId || 'Loading...'}
+        <strong>{admin.isTestUser.distinctIdLabel}</strong>{' '}
+        {distinctId || admin.isTestUser.loadingText}
         <button
           type="button"
           className="ml-4 rounded bg-surface-200 px-2 py-1 text-xs text-accent-700 hover:bg-surface-300 dark:bg-surface-700 dark:text-accent-300 dark:hover:bg-surface-600"
           onClick={() => setRefreshKey((k) => k + 1)}
         >
-          Try Again
+          {admin.isTestUser.retryButton}
         </button>
       </div>
 
       <div className="mb-4">
         <div className="mb-2 block text-sm font-medium text-accent-700 dark:text-accent-300">
-          Action:
+          {admin.isTestUser.actionLabel}
         </div>
         <div className="space-y-2">
           <label className="flex items-center">
@@ -68,7 +70,7 @@ export default function IsTestUserPage() {
               className="mr-2"
             />
             <span className="text-accent-700 dark:text-accent-300">
-              Identify User (userId or email)
+              {admin.isTestUser.identifyLabel}
             </span>
           </label>
           <label className="flex items-center">
@@ -80,7 +82,9 @@ export default function IsTestUserPage() {
               onChange={(e) => setAction(e.target.value as 'identify' | 'testUser')}
               className="mr-2"
             />
-            <span className="text-accent-700 dark:text-accent-300">Mark as Test User</span>
+            <span className="text-accent-700 dark:text-accent-300">
+              {admin.isTestUser.testUserLabel}
+            </span>
           </label>
         </div>
       </div>
@@ -89,7 +93,11 @@ export default function IsTestUserPage() {
         <input
           type="text"
           className="w-full rounded border border-accent-300 p-2 text-accent-900 dark:border-accent-600 dark:bg-surface-700 dark:text-accent-100"
-          placeholder={action === 'identify' ? 'Enter User ID or Email' : 'Enter User ID'}
+          placeholder={
+            action === 'identify'
+              ? admin.isTestUser.identifyPlaceholder
+              : admin.isTestUser.testUserPlaceholder
+          }
           value={userId}
           onChange={(e) => setUserId(e.target.value)}
           required
@@ -101,11 +109,11 @@ export default function IsTestUserPage() {
         >
           {loading
             ? action === 'identify'
-              ? 'Identifying...'
-              : 'Marking...'
+              ? admin.isTestUser.identifyButtonLoading
+              : admin.isTestUser.testUserButtonLoading
             : action === 'identify'
-              ? 'Identify User'
-              : 'Mark as Test User'}
+              ? admin.isTestUser.identifyButton
+              : admin.isTestUser.testUserButton}
         </button>
       </form>
       {result && (

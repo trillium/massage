@@ -1,6 +1,7 @@
 'use client'
 
 import Link from '@/components/Link'
+import system from '@/data/system.json'
 
 export default function GlobalError({
   error: _error,
@@ -12,26 +13,25 @@ export default function GlobalError({
   return (
     <div className="flex flex-col items-center justify-center px-4 py-24 text-center">
       <h1 className="text-6xl font-extrabold tracking-tight text-accent-900 dark:text-accent-100">
-        Oops
+        {system.globalError.title}
       </h1>
       <p className="mt-4 text-xl font-bold text-accent-700 dark:text-accent-300">
-        Something went wrong.
+        {system.globalError.message}
       </p>
-      <p className="mt-2 text-accent-500 dark:text-accent-400">
-        We hit an unexpected error. You can try again or head back to the homepage.
-      </p>
+      <p className="mt-2 text-accent-500 dark:text-accent-400">{system.globalError.description}</p>
       <div className="mt-8 flex gap-4">
         <button
+          type="button"
           onClick={reset}
           className="rounded-lg bg-primary-600 px-4 py-2 text-sm font-medium text-white shadow-xs transition-colors hover:bg-blue-700 focus:outline-hidden dark:hover:bg-blue-500"
         >
-          Try again
+          {system.globalError.buttons.retry}
         </button>
         <Link
           href="/"
           className="rounded-lg border border-accent-300 px-4 py-2 text-sm font-medium text-accent-700 transition-colors hover:bg-surface-200 dark:border-accent-600 dark:text-accent-300 dark:hover:bg-surface-800"
         >
-          Back to homepage
+          {system.globalError.buttons.home}
         </Link>
       </div>
     </div>

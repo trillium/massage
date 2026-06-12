@@ -2,6 +2,7 @@
 
 import clsx from 'clsx'
 import 'wicg-inert'
+import admin from '@/data/admin.json'
 
 import { ALLOWED_DURATIONS, DEFAULT_PRICING } from 'config'
 
@@ -119,7 +120,7 @@ function ClientPage({ duration, children }: { duration: number; children?: React
       <SlotTakenAlert />
       <div className="flex w-full items-center justify-center align-middle">
         <h2 className="text-primary-500 dark:text-primary-400 py-2 text-lg font-bold">
-          Your link: {pathString}
+          {admin.onsite.yourLink} {pathString}
         </h2>
       </div>
       <form onBlur={formik.handleBlur}>
@@ -128,7 +129,7 @@ function ClientPage({ duration, children }: { duration: number; children?: React
             htmlFor="eventName"
             className="block text-xl font-semibold text-accent-900 dark:text-accent-100"
           >
-            Let&rsquo;s pick a name for your booking:
+            {admin.onsite.eventNameLabel}
           </label>
           <input
             aria-label="Event Name"
@@ -138,7 +139,7 @@ function ClientPage({ duration, children }: { duration: number; children?: React
             value={formik.values.eventName}
             onChange={formik.handleChange}
             className="focus:border-primary-500 focus:ring-primary-500 mb-1 block w-full rounded-md border-2 border-accent-100 p-0 py-1 pl-2 text-accent-900 placeholder:text-accent-400 focus:ring-2 sm:text-base sm:leading-6 dark:border-white dark:text-accent-100"
-            placeholder="e.g., WeWork Playa Vista"
+            placeholder={admin.onsite.eventNamePlaceholder}
             maxLength={60}
             required
             aria-required
@@ -151,7 +152,7 @@ function ClientPage({ duration, children }: { duration: number; children?: React
             htmlFor="sessionDuration"
             className="block pt-4 text-xl font-semibold text-accent-900 dark:text-accent-100"
           >
-            How long should sessions be?
+            {admin.onsite.durationLabel}
           </label>
           <div className="flex flex-col space-y-2 pl-4">
             <fieldset onBlur={formik.handleBlur('allowedDurations')}>
@@ -168,7 +169,7 @@ function ClientPage({ duration, children }: { duration: number; children?: React
                     aria-required
                   />
                   <label htmlFor={`checked-checkbox-${duration}`} className="ms-2 font-medium">
-                    {duration} minutes
+                    {duration} {admin.onsite.durationSuffix}
                   </label>
                 </div>
               ))}
@@ -182,7 +183,7 @@ function ClientPage({ duration, children }: { duration: number; children?: React
             htmlFor="sessionDuration"
             className="block pt-4 text-xl font-semibold text-accent-900 dark:text-accent-100"
           >
-            Payment options
+            {admin.onsite.paymentLabel}
           </label>
           <div className="flex flex-col space-y-2 pl-4">
             {paymentOptionsList.map((option) => (
