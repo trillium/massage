@@ -73,6 +73,7 @@ export type SlugConfigurationType = {
   allowedDurations: AllowedDurationsType | null
   links?: { label: string; href: string }[]
   customFields?: CustomFieldsType
+  ogDesign?: string
   nextEventFound?: boolean
   currentEvent?: GoogleCalendarV3Event
   targetDate?: string
