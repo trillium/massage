@@ -17,29 +17,17 @@ function firstLineOfText(text: string | string[] | null): string {
   return text
 }
 
-const SITE_ORIGIN = 'https://trilliummassage.la'
-
 export async function generateMetadata({
   params,
 }: {
   params: Promise<{ bookingSlug: string }>
 }): Promise<Metadata> {
-  try {
-    const { bookingSlug } = await params
-    const configMap = await fetchSlugConfigurationData()
-    const config = configMap[bookingSlug]
-    const title = config?.title ?? 'Book a massage'
-    const description = firstLineOfText(config?.text ?? null) || siteMetadata.description
-    const origin = (process.env.NEXT_PUBLIC_SITE_URL ?? SITE_ORIGIN).replace(/\/$/, '')
-    return genPageMetadata({
-      title,
-      description,
-      image: `${origin}/${bookingSlug}/opengraph-image`,
-    })
-  } catch (e) {
-    console.error('[generateMetadata] failed:', e)
-    return { title: 'Book a massage', openGraph: { title: 'Book a massage', type: 'website' } }
-  }
+  const { bookingSlug } = await params
+  const configMap = await fetchSlugConfigurationData()
+  const config = configMap[bookingSlug]
+  const title = config?.title ?? 'Book a massage'
+  const description = firstLineOfText(config?.text ?? null) || siteMetadata.description
+  return genPageMetadata({ title, description })
 }
 
 export default async function Page({
