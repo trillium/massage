@@ -1,5 +1,9 @@
 /* ds-ignore-file */ /* content-ok-file */
 import SectionContainer from '@/components/SectionContainer'
+import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
+import { Input } from '@/components/ui/input'
+import { Textarea } from '@/components/ui/textarea'
 
 const PALETTE_SCALES = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950]
 
@@ -225,6 +229,81 @@ export default function DesignSystemPage() {
           <div className="mt-3 rounded-md bg-secondary-50 px-4 py-3 text-sm text-secondary-800 dark:bg-secondary-950 dark:text-secondary-200">
             Note: ds-ignore-file and content-ok-file are separate directives. Brand/OG files need
             both.
+          </div>
+        </Section>
+
+        {/* Components */}
+        <Section title="Components">
+          {/* Button */}
+          <div className="mb-8">
+            <h3 className="mb-1 text-sm font-semibold text-accent-700 dark:text-accent-300">
+              Button
+            </h3>
+            <p className="mb-3 font-mono text-xs text-accent-400">
+              import {'{ Button }'} from @/components/ui/button
+            </p>
+            <div className="flex flex-wrap gap-3 rounded-lg border border-accent-200 p-4 dark:border-accent-700">
+              <Button variant="default">Default</Button>
+              <Button variant="secondary">Secondary</Button>
+              <Button variant="outline">Outline</Button>
+              <Button variant="ghost">Ghost</Button>
+              <Button variant="destructive">Destructive</Button>
+              <Button variant="default" size="sm">
+                Small
+              </Button>
+              <Button variant="default" size="lg">
+                Large
+              </Button>
+              <Button variant="default" disabled>
+                Disabled
+              </Button>
+            </div>
+          </div>
+
+          {/* Badge */}
+          <div className="mb-8">
+            <h3 className="mb-1 text-sm font-semibold text-accent-700 dark:text-accent-300">
+              Badge
+            </h3>
+            <p className="mb-3 font-mono text-xs text-accent-400">
+              import {'{ Badge }'} from @/components/ui/badge
+            </p>
+            <div className="flex flex-wrap gap-3 rounded-lg border border-accent-200 p-4 dark:border-accent-700">
+              <Badge variant="default">Default</Badge>
+              <Badge variant="secondary">Secondary</Badge>
+              <Badge variant="outline">Outline</Badge>
+              <Badge variant="destructive">Destructive</Badge>
+            </div>
+          </div>
+
+          {/* Input */}
+          <div className="mb-8">
+            <h3 className="mb-1 text-sm font-semibold text-accent-700 dark:text-accent-300">
+              Input
+            </h3>
+            <p className="mb-3 font-mono text-xs text-accent-400">
+              import {'{ Input }'} from @/components/ui/input
+            </p>
+            <div className="grid grid-cols-1 gap-4 rounded-lg border border-accent-200 p-4 dark:border-accent-700 md:grid-cols-2">
+              <Input label="Label" placeholder="Placeholder text" />
+              <Input label="With error" placeholder="Bad value" error="This field is required" />
+              <Input placeholder="No label" />
+              <Input placeholder="Disabled" disabled />
+            </div>
+          </div>
+
+          {/* Textarea */}
+          <div className="mb-8">
+            <h3 className="mb-1 text-sm font-semibold text-accent-700 dark:text-accent-300">
+              Textarea
+            </h3>
+            <p className="mb-3 font-mono text-xs text-accent-400">
+              import {'{ Textarea }'} from @/components/ui/textarea
+            </p>
+            <div className="grid grid-cols-1 gap-4 rounded-lg border border-accent-200 p-4 dark:border-accent-700 md:grid-cols-2">
+              <Textarea label="Notes" placeholder="Enter notes..." />
+              <Textarea label="With error" placeholder="..." error="Required" />
+            </div>
           </div>
         </Section>
 
