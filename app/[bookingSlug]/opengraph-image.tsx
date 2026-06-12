@@ -7,7 +7,10 @@ import siteMetadata from '@/data/siteMetadata'
 
 async function loadTableImageAsJpeg(): Promise<string> {
   const imagePath = join(process.cwd(), 'public/static/images/table/table_square_02.webp')
-  const buf = await sharp(imagePath).jpeg({ quality: 90 }).toBuffer()
+  const buf = await sharp(imagePath)
+    .resize(380, 630, { fit: 'cover', position: 'centre' })
+    .jpeg({ quality: 90 })
+    .toBuffer()
   return `data:image/jpeg;base64,${buf.toString('base64')}`
 }
 
