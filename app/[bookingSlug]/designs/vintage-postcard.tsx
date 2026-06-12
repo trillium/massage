@@ -145,7 +145,7 @@ export function render({ title, bodyText, durations, discountLabel, domainLabel,
                     marginBottom: 4,
                   }}
                 >
-                  Choose your session
+                  Choose your session {/* content-ok */}
                 </div>
               )}
               <div style={{ display: 'flex', gap: 14, alignItems: 'center' }}>
