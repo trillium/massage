@@ -4,6 +4,9 @@ import { GoogleCalendarV3Event } from 'lib/types'
 import { subWeeks, addWeeks, parseISO, isValid } from 'date-fns'
 import { CategorizedEventList } from 'app/my_events/components/EventComponents'
 import SectionContainer from '@/components/SectionContainer'
+import pagesData from '@/data/pages.json'
+
+const adminText = pagesData.adminPage
 
 function parseDateParam(param: string | string[] | undefined, fallback: Date): string {
   if (param && typeof param === 'string' && isValid(parseISO(param))) return param
@@ -30,9 +33,9 @@ function GoogleNotConnectedBanner() {
   return (
     <div className="mb-6 rounded-lg border border-yellow-200 bg-yellow-50 p-4 dark:border-yellow-800 dark:bg-yellow-950">
       <p className="text-sm font-medium text-yellow-800 dark:text-yellow-200">
-        Google Calendar is not connected.{' '}
+        {adminText.noConnectionBanner}{' '}
         <a href="/admin/connect-google" className="underline hover:no-underline">
-          Connect now &rarr;
+          {adminText.connectNow}
         </a>
       </p>
     </div>

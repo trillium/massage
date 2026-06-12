@@ -1,6 +1,9 @@
 import React from 'react'
 import { DiscountType } from '@/lib/types'
 import clsx from 'clsx'
+import uiData from '@/data/ui.json'
+
+const priceText = uiData.generatePrice
 
 type GeneratePriceType = { price: number; discount?: DiscountType | null }
 
@@ -21,12 +24,17 @@ export function GeneratePrice({ price, discount }: GeneratePriceType) {
           'line-through decoration-red-500 decoration-2': !!discount,
         })}
       >
-        ${price}
+        {priceText.currencySymbol}
+        {price}
       </span>
       {!!discount && (
         <>
           {' '}
-          {'->  '} <span>${discountPrice}</span>
+          {priceText.separator}
+          <span>
+            {priceText.currencySymbol}
+            {discountPrice}
+          </span>
         </>
       )}
     </>

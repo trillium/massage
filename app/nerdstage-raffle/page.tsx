@@ -1,6 +1,7 @@
 import SectionContainer from '@/components/SectionContainer'
 import PageTitle from '@/components/PageTitle'
 import { getSupabaseAdminClient } from '@/lib/supabase/server'
+import raffleData from '@/data/raffle.json'
 import RaffleForm from './RaffleForm'
 
 interface Raffle {
@@ -26,9 +27,9 @@ export default async function NerdstageRafflePage() {
     return (
       <SectionContainer>
         <div className="flex min-h-[40vh] flex-col items-center justify-center text-center">
-          <PageTitle>No Raffle Currently Active</PageTitle>
+          <PageTitle>{raffleData.nerdstage.pageHeadingNotActive}</PageTitle>
           <p className="mt-4 text-surface-600 dark:text-surface-400">
-            Check back soon for our next Nerdstage raffle!
+            {raffleData.nerdstage.pageSubtextNotActive}
           </p>
         </div>
       </SectionContainer>
@@ -39,10 +40,10 @@ export default async function NerdstageRafflePage() {
     <SectionContainer>
       <PageTitle>{raffle.name}</PageTitle>
       <p className="mb-2 text-surface-600 dark:text-surface-400">
-        Enter for a chance to win a free massage session!
+        {raffleData.nerdstage.pageSubtext}
       </p>
       <p className="mb-6 text-xs text-surface-400 dark:text-surface-500">
-        Session must be redeemed by May 23, 2026 in the LA metro area.
+        {raffleData.nerdstage.redeemDeadline}
       </p>
       <div className="mx-auto max-w-2xl">
         <RaffleForm raffleId={raffle.id} raffleName={raffle.name} />

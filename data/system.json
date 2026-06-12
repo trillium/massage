@@ -31,5 +31,15 @@
       "retry": "Try again",
       "home": "Back to booking"
     }
+  },
+  "adminError": {
+    "title": "Admin Error",
+    "message": "Something went wrong loading this admin page.",
+    "credentialErrorMessage": "Google Calendar is not connected. Visit",
+    "credentialErrorLink": "Connect Google",
+    "credentialErrorSuffix": "to authorize access.",
+    "connectGoogleButton": "Connect Google",
+    "tryAgainButton": "Try again",
+    "adminDashboardButton": "Admin dashboard"
   }
 }

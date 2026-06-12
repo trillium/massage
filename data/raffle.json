@@ -29,5 +29,37 @@
     "pageSubtextNotActive": "Check back soon for our next OpenClaw raffle!",
     "pageSubtext": "Enter for a chance to win a free massage session!",
     "redeemDeadline": "Session must be redeemed by May 23, 2026 in the LA metro area."
+  },
+  "nerdstage": {
+    "nameLabel": "Name",
+    "emailLabel": "Email",
+    "phoneLabel": "Phone",
+    "zipCodeLabel": "What's your zip code?",
+    "interestedLabel": "Interested in",
+    "requiredAsterisk": "*",
+    "namePlaceholder": "Your name",
+    "emailPlaceholder": "you@example.com",
+    "phonePlaceholder": "(555) 555-1234",
+    "zipCodePlaceholder": "90210",
+    "enterButtonSubmitting": "Entering...",
+    "enterButtonDefault": "Enter Raffle",
+    "errorNetwork": "Looks like we lost connection — try again in a sec!",
+    "errorGeneric": "Oops, something didn't work — give it another shot!",
+    "welcomeBackMessage": "Welcome back! We found your previous entry.",
+    "pageHeadingNotActive": "No Raffle Currently Active",
+    "pageSubtextNotActive": "Check back soon for our next Nerdstage raffle!",
+    "pageSubtext": "Enter for a chance to win a free massage session!",
+    "redeemDeadline": "Session must be redeemed by May 23, 2026 in the LA metro area."
+  },
+  "openclawEntered": {
+    "successHeading": "You're Entered!",
+    "successMessage": "Thanks for entering! We'll reach out if you're selected.",
+    "raffleLabel": "Raffle:",
+    "nameLabel": "Name",
+    "emailLabel": "Email",
+    "phoneLabel": "Phone",
+    "interestedInLabel": "Interested in",
+    "editEntryButton": "Edit Entry",
+    "backToHomeButton": "Back to Home"
   }
 }

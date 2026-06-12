@@ -1,6 +1,9 @@
 'use client'
 
 import { useState } from 'react'
+import pagesData from '@/data/pages.json'
+
+const testText = pagesData.test
 
 type Step = {
   actor: string
@@ -29,18 +32,15 @@ export default function DoubleBookingTestPage() {
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-12">
-      <h1 className="mb-2 text-2xl font-bold">Double Booking Fix Verification</h1>
-      <p className="mb-6 text-accent-500 dark:text-accent-400">
-        Simulates two users booking the same 11:00 AM slot. User 1 should succeed, User 2 should get
-        a 409 conflict.
-      </p>
+      <h1 className="mb-2 text-2xl font-bold">{testText.heading}</h1>
+      <p className="mb-6 text-accent-500 dark:text-accent-400">{testText.description}</p>
 
       <button
         onClick={runTest}
         disabled={loading}
         className="mb-8 rounded-lg bg-primary-500 px-6 py-3 font-semibold text-white transition-colors hover:bg-primary-600 disabled:opacity-50"
       >
-        {loading ? 'Running...' : 'Run Test'}
+        {loading ? testText.runningButton : testText.runTestButton}
       </button>
 
       {result && (
@@ -52,7 +52,7 @@ export default function DoubleBookingTestPage() {
                 : 'border-red-400 bg-red-50 text-red-700 dark:bg-red-900/20 dark:text-red-400'
             }`}
           >
-            {result.passed ? 'PASS — Double booking prevented' : 'FAIL — Double booking allowed'}
+            {result.passed ? testText.passMessage : testText.failMessage}
           </div>
 
           <div className="space-y-3">

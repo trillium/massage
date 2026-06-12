@@ -38,5 +38,9 @@
     "loadComments": "Load Comments",
     "learnMore": "Learn more →",
     "chooseDate": "Choose a Date"
+  },
+  "generatePrice": {
+    "currencySymbol": "$",
+    "separator": "->  "
   }
 }

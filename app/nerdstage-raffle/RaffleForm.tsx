@@ -6,6 +6,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik'
 import { useAppDispatch, useReduxFormData } from '@/redux/hooks'
 import { setBookingForm } from '@/redux/slices/bookingFormSlice'
 import { RAFFLE_INTEREST_OPTIONS } from '@/lib/schema'
+import raffleData from '@/data/raffle.json'
 import {
   type RaffleFormProps,
   type FormValues,
@@ -14,6 +15,8 @@ import {
   labelClasses,
   checkboxClasses,
 } from './raffleFormUtils'
+
+const formText = raffleData.nerdstage
 
 export default function RaffleForm({ raffleId, raffleName }: RaffleFormProps) {
   const router = useRouter()
@@ -38,7 +41,7 @@ export default function RaffleForm({ raffleId, raffleName }: RaffleFormProps) {
         setFieldValue('phone', entry.phone)
         setFieldValue('zip_code', entry.zip_code ?? '')
         setFieldValue('interested_in', entry.interested_in ?? [])
-        setLookupMessage('Welcome back! We found your previous entry.')
+        setLookupMessage(formText.welcomeBackMessage)
       } catch (err) {
         console.error('Raffle lookup failed:', err)
       }
@@ -92,13 +95,13 @@ export default function RaffleForm({ raffleId, raffleName }: RaffleFormProps) {
         if (Object.keys(fieldErrors).length > 0) {
           setErrors(fieldErrors)
         } else {
-          setSubmitError(result.error || "Oops, something didn't work — give it another shot!")
+          setSubmitError(result.error || formText.errorGeneric)
         }
       } else {
-        setSubmitError(result.error || "Oops, something didn't work — give it another shot!")
+        setSubmitError(result.error || formText.errorGeneric)
       }
     } catch {
-      setSubmitError('Looks like we lost connection — try again in a sec!')
+      setSubmitError(formText.errorNetwork)
     }
   }
 
@@ -119,14 +122,15 @@ export default function RaffleForm({ raffleId, raffleName }: RaffleFormProps) {
           <Form className="w-full space-y-6">
             <div>
               <label htmlFor="name" className={labelClasses}>
-                Name <span className="text-primary-500">*</span>
+                {formText.nameLabel}{' '}
+                <span className="text-primary-500">{formText.requiredAsterisk}</span>
               </label>
               <Field
                 type="text"
                 id="name"
                 name="name"
                 className={inputClasses}
-                placeholder="Your name"
+                placeholder={formText.namePlaceholder}
                 disabled={isSubmitting}
               />
               <div className="mt-1 min-h-5 text-sm text-amber-500 dark:text-amber-400">
@@ -136,14 +140,15 @@ export default function RaffleForm({ raffleId, raffleName }: RaffleFormProps) {
 
             <div>
               <label htmlFor="email" className={labelClasses}>
-                Email <span className="text-primary-500">*</span>
+                {formText.emailLabel}{' '}
+                <span className="text-primary-500">{formText.requiredAsterisk}</span>
               </label>
               <Field
                 type="email"
                 id="email"
                 name="email"
                 className={inputClasses}
-                placeholder="you@example.com"
+                placeholder={formText.emailPlaceholder}
                 disabled={isSubmitting}
                 onBlur={(e: React.FocusEvent<HTMLInputElement>) => {
                   lookupEntry(e.target.value, setFieldValue)
@@ -161,14 +166,15 @@ export default function RaffleForm({ raffleId, raffleName }: RaffleFormProps) {
 
             <div>
               <label htmlFor="phone" className={labelClasses}>
-                Phone <span className="text-primary-500">*</span>
+                {formText.phoneLabel}{' '}
+                <span className="text-primary-500">{formText.requiredAsterisk}</span>
               </label>
               <Field
                 type="tel"
                 id="phone"
                 name="phone"
                 className={inputClasses}
-                placeholder="(555) 555-1234"
+                placeholder={formText.phonePlaceholder}
                 disabled={isSubmitting}
               />
               <div className="mt-1 min-h-5 text-sm text-amber-500 dark:text-amber-400">
@@ -178,14 +184,15 @@ export default function RaffleForm({ raffleId, raffleName }: RaffleFormProps) {
 
             <div>
               <label htmlFor="zip_code" className={labelClasses}>
-                What's your zip code? <span className="text-primary-500">*</span>
+                {formText.zipCodeLabel}{' '}
+                <span className="text-primary-500">{formText.requiredAsterisk}</span>
               </label>
               <Field
                 type="text"
                 id="zip_code"
                 name="zip_code"
                 className={inputClasses}
-                placeholder="90210"
+                placeholder={formText.zipCodePlaceholder}
                 disabled={isSubmitting}
                 maxLength={10}
               />
@@ -196,7 +203,8 @@ export default function RaffleForm({ raffleId, raffleName }: RaffleFormProps) {
 
             <div>
               <p className={labelClasses}>
-                Interested in <span className="text-primary-500">*</span>
+                {formText.interestedLabel}{' '}
+                <span className="text-primary-500">{formText.requiredAsterisk}</span>
               </p>
               <div className="space-y-2">
                 {RAFFLE_INTEREST_OPTIONS.map(({ value, label }) => (
@@ -233,7 +241,7 @@ export default function RaffleForm({ raffleId, raffleName }: RaffleFormProps) {
               disabled={isSubmitting}
               className="bg-primary-600 hover:bg-primary-700 border-primary-500 rounded border-2 px-4 py-2 font-semibold text-white transition-colors disabled:cursor-not-allowed disabled:bg-surface-400"
             >
-              {isSubmitting ? 'Entering...' : 'Enter Raffle'}
+              {isSubmitting ? formText.enterButtonSubmitting : formText.enterButtonDefault}
             </button>
             <div>
               {submitError && (
