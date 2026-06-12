@@ -2,17 +2,21 @@ import Link from '@/components/Link'
 import { FaLeaf } from 'react-icons/fa'
 import clsx from 'clsx'
 import { home } from '@/app/content'
+import landing from '@/data/landing.json'
 
 const pricingOptions = home.pricing.tiers.map((tier) => ({
   ...tier,
   duration: tier.minutes,
 }))
+const { heading, mostPopularBadge, bookNowButton, pricePrefix } = landing.pricing
 
 export default function PricingSection() {
   return (
     <section className="flex w-full flex-col items-center bg-surface-50 dark:bg-surface-950">
       <div className="container">
-        <h2 className="mb-8 text-center text-3xl font-bold md:text-4xl dark:text-white">Pricing</h2>
+        <h2 className="mb-8 text-center text-3xl font-bold md:text-4xl dark:text-white">
+          {heading}
+        </h2>
         <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
           {pricingOptions.map((option, i) => (
             <div key={i} className="group relative">
@@ -39,7 +43,7 @@ export default function PricingSection() {
                 {option.mostPopular && (
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2 transform">
                     <span className="bg-primary-500 rounded-full px-3 py-1 text-sm font-medium whitespace-nowrap text-white">
-                      Most Popular
+                      {mostPopularBadge}
                     </span>
                   </div>
                 )}
@@ -53,7 +57,8 @@ export default function PricingSection() {
                   className="text-primary-600 dark:text-primary-400 mb-4 text-3xl font-bold"
                   data-content="pricing.tier.price"
                 >
-                  ${option.price}
+                  {pricePrefix}
+                  {option.price}
                 </div>
                 <ul className="mb-4 items-start space-y-4 text-left text-accent-600 dark:text-accent-300">
                   {option.features.map((feature, index) => (
@@ -73,7 +78,7 @@ export default function PricingSection() {
                   href={`/book?duration=${option.duration}`}
                   className="bg-primary-600 hover:bg-primary-700 border-primary-500 mt-auto inline-block rounded border-2 px-4 py-2 font-semibold text-white transition-colors"
                 >
-                  Book Now
+                  {bookNowButton}
                 </Link>
               </div>
             </div>

@@ -6,9 +6,11 @@ import { FiMapPin } from 'react-icons/fi'
 import { HiSparkles } from 'react-icons/hi2'
 import { GradientText } from '@/components/ui/GradientText'
 import { home, site } from '@/app/content'
+import landing from '@/data/landing.json'
 
 const { hero } = home
 const { neighborhood, serviceArea } = site.location
+const { bookButton, exploreButton, openDays, basedLabel } = landing.hero
 
 export default function HeroSection() {
   return (
@@ -95,24 +97,26 @@ function ButtonContent({ positionClasses }: { positionClasses?: string }) {
             href="/book"
             className="bg-primary-600 hover:bg-primary-700 border-primary-500 mt-auto inline-block w-full rounded border-2 px-4 py-2 text-center font-semibold text-white transition-colors"
           >
-            Book a session
+            {bookButton}
           </Link>
 
           <Link
             href="/services"
             className="text-md border-primary-500 text-primary-600 mt-auto inline-block w-full rounded border-2 bg-surface-50 px-4 py-2 text-center font-semibold transition-colors hover:bg-surface-200"
           >
-            Explore Services
+            {exploreButton}
           </Link>
         </div>
         <div className="xs:flex-col flex flex-col flex-wrap justify-around gap-2 gap-y-6 sm:flex-row md:flex-col xl:flex-row">
           <div className="flex items-center gap-2">
             <FaRegClock className="h-5 w-5 text-primary-600" />
-            <span className="text-sm whitespace-nowrap">Open 7 days</span>
+            <span className="text-sm whitespace-nowrap">{openDays}</span>
           </div>
           <div className="flex items-center gap-2">
             <FiMapPin className="h-5 w-5 text-primary-600" />
-            <span className="text-sm whitespace-nowrap">{neighborhood} Based</span>
+            <span className="text-sm whitespace-nowrap">
+              {neighborhood} {basedLabel}
+            </span>
           </div>
           <div className="flex items-center gap-2">
             <FaCar className="h-5 w-5 text-primary-600" />

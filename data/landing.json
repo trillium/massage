@@ -1,0 +1,30 @@
+{
+  "hero": {
+    "bookButton": "Book a session",
+    "exploreButton": "Explore Services",
+    "openDays": "Open 7 days",
+    "basedLabel": "Based",
+    "serviceAreaLabel": "Service Area"
+  },
+  "contact": {
+    "heading": "Contact Us",
+    "callRequestText": "Have questions? Request a call!"
+  },
+  "pricing": {
+    "heading": "Pricing",
+    "mostPopularBadge": "Most Popular",
+    "bookNowButton": "Book Now",
+    "pricePrefix": "$"
+  },
+  "testimonials": {
+    "defaultHeading": "What Clients Are Saying",
+    "previousReviewAriaLabel": "Previous review",
+    "nextReviewAriaLabel": "Next review",
+    "reviewQuotePrefix": "\"",
+    "reviewQuoteSuffix": "\"",
+    "goToReviewLabel": "Go to review"
+  },
+  "howItWorks": {
+    "heading": "How it Works"
+  }
+}

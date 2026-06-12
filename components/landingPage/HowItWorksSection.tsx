@@ -3,6 +3,9 @@ import { FaStopwatch } from 'react-icons/fa6'
 
 import { MdEventAvailable } from 'react-icons/md'
 import { HiSparkles } from 'react-icons/hi2'
+import landing from '@/data/landing.json'
+
+const { heading } = landing.howItWorks
 
 export default function HowItWorksSection() {
   const steps = [
@@ -32,7 +35,7 @@ export default function HowItWorksSection() {
     <section className="bg-surface-50 dark:bg-surface-950">
       <div className="container">
         <h2 className="mb-8 text-center text-3xl font-bold md:text-4xl dark:text-white">
-          How it Works
+          {heading}
         </h2>
         <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
           {steps.map((step, index) => (

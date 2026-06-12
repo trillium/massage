@@ -8,8 +8,17 @@ import Link from 'next/link'
 import React, { useEffect, useState, useCallback } from 'react'
 import { FaChevronLeft, FaChevronRight, FaAirbnb } from 'react-icons/fa'
 import Logo from '../Logo'
+import landing from '@/data/landing.json'
 
 const AIRBNB_REVIEWS_URL = 'https://www.airbnb.com/services/6527842?modal=reviews'
+const {
+  defaultHeading,
+  previousReviewAriaLabel,
+  nextReviewAriaLabel,
+  reviewQuotePrefix,
+  reviewQuoteSuffix,
+  goToReviewLabel,
+} = landing.testimonials
 
 function SourceIcon({ source }: { source: string }) {
   if (source.toLowerCase().includes('airbnb')) {
@@ -55,7 +64,7 @@ export default function TestimonialsSection({
     <section>
       <div className="w-full">
         <h2 className="xs:mb-2 mb-0 text-center text-3xl font-bold sm:mb-4 md:text-4xl dark:text-white">
-          {text || 'What Clients Are Saying'}
+          {text || defaultHeading}
         </h2>
         <TestimonialsCarousel reviews={reviews} />
       </div>
@@ -129,7 +138,7 @@ export function TestimonialsCarousel({ reviews }: { reviews: ReviewType[] }) {
     <div className="relative mx-auto flex flex-col items-center py-4">
       <div className="flex w-full items-center justify-between">
         {/* Review body: first in DOM, visually in the center */}
-        <div
+        <section
           id="review-body"
           aria-label="Review content - use arrow keys to navigate"
           className="focus:ring-primary-500 relative order-2 flex h-80 w-full flex-1 flex-col items-start justify-between rounded-lg bg-surface-100 p-6 text-left shadow transition-all duration-300 focus:ring-2 focus:outline-none dark:bg-surface-800"
@@ -145,7 +154,9 @@ export function TestimonialsCarousel({ reviews }: { reviews: ReviewType[] }) {
           <div className="flex min-h-0 w-full flex-1 items-center my-4 visible-scrollbar overflow-y-auto">
             {r.comment && (
               <p className="text-sm text-accent-700 italic sm:text-base md:text-lg xl:text-2xl dark:text-accent-200">
-                "{r.spellcheck || r.comment}"
+                {reviewQuotePrefix}
+                {r.spellcheck || r.comment}
+                {reviewQuoteSuffix}
               </p>
             )}
           </div>
@@ -159,13 +170,13 @@ export function TestimonialsCarousel({ reviews }: { reviews: ReviewType[] }) {
           <div className="absolute top-4 left-4">
             <SourceIcon source={r.source} />
           </div>
-        </div>
+        </section>
         {/* Left button: visually first */}
         <DirectionButton
           ref={leftButtonRef}
           icon={FaChevronLeft}
           onClick={goLeft}
-          ariaLabel="Previous review"
+          ariaLabel={previousReviewAriaLabel}
           placementClasses="mr-2 order-1"
         />
         {/* Right button: visually last */}
@@ -173,7 +184,7 @@ export function TestimonialsCarousel({ reviews }: { reviews: ReviewType[] }) {
           ref={rightButtonRef}
           icon={FaChevronRight}
           onClick={goRight}
-          ariaLabel="Next review"
+          ariaLabel={nextReviewAriaLabel}
           placementClasses="ml-2 order-3"
         />
       </div>
@@ -196,7 +207,9 @@ export function TestimonialsCarousel({ reviews }: { reviews: ReviewType[] }) {
                 'bg-surface-300 dark:bg-surface-600': idx !== current,
               })}
             >
-              <span className="sr-only">Go to review {idx + 1}</span>
+              <span className="sr-only">
+                {goToReviewLabel} {idx + 1}
+              </span>
             </label>
           </React.Fragment>
         ))}
