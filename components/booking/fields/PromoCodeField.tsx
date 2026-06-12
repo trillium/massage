@@ -23,7 +23,7 @@ export default function PromoCodeField({ promoCode, onChange, error }: PromoCode
   )
   const [promoMessage_, setPromoMessage] = useState<string | null>(null)
 
-  async function handleBlur() {
+  async function handleBlur(): Promise<void> {
     if (!promoCode.trim()) {
       setValidationState('idle')
       setPromoMessage(null)
@@ -71,6 +71,9 @@ export default function PromoCodeField({ promoCode, onChange, error }: PromoCode
         }}
         onBlur={handleBlur}
       />
+      {validationState === 'checking' && (
+        <p className="mt-1 text-sm text-accent-500" aria-live="polite">Checking...</p>
+      )}
       {validationState === 'valid' && promoMessage_ && (
         <p className="mt-1 text-sm text-primary-600 dark:text-primary-400">✓ {promoMessage_}</p>
       )}

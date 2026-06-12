@@ -169,18 +169,13 @@ export default function BookingFormFields({
         )}
 
         {showPromoField && (
-          <>
-            <PromoCodeField
-              promoCode={values.promo ?? ''}
-              error={touched.promo && errors.promo ? errors.promo : undefined}
-              onChange={(e) => {
-                setFieldValue('promo', e.target.value)
-              }}
-            />
-            {touched.promo && errors.promo && (
-              <div className="mt-1 text-sm text-red-600">{errors.promo}</div>
-            )}
-          </>
+          <PromoCodeField
+            promoCode={values.promo ?? ''}
+            error={touched.promo && errors.promo ? errors.promo : undefined}
+            onChange={(e) => {
+              setFieldValue('promo', e.target.value)
+            }}
+          />
         )}
       </div>
 

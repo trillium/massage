@@ -1,7 +1,7 @@
-import { readFileSync, writeFileSync } from 'fs'
-import { execSync } from 'child_process'
-import { join } from 'path'
-import { tmpdir, homedir } from 'os'
+import { readFileSync, writeFileSync, unlinkSync } from 'node:fs'
+import { execFileSync } from 'node:child_process'
+import { join } from 'node:path'
+import { tmpdir, homedir } from 'node:os'
 
 const SVG_PATH = join(import.meta.dir, '../public/static/images/logo.svg')
 const OUT_DIR = join(homedir(), 'Desktop')
@@ -17,10 +17,14 @@ function buildSvg(restColor: 'white' | 'black'): string {
     .replace('<g class="rest">', `<g class="rest" fill="${restColor}">`)
 }
 
-function renderPng(svg: string, outPath: string) {
+function renderPng(svg: string, outPath: string): void {
   const tmpFile = join(tmpdir(), `logo-${Date.now()}.svg`)
-  writeFileSync(tmpFile, svg, 'utf8')
-  execSync(`rsvg-convert -w ${SIZE} -h ${SIZE} --keep-aspect-ratio -o "${outPath}" "${tmpFile}"`)
+  try {
+    writeFileSync(tmpFile, svg, 'utf8')
+    execFileSync('rsvg-convert', ['-w', String(SIZE), '-h', String(SIZE), '--keep-aspect-ratio', '-o', outPath, tmpFile])
+  } finally {
+    try { unlinkSync(tmpFile) } catch { /* ignore */ }
+  }
 }
 
 const variants: { name: string; color: 'white' | 'black' }[] = [
