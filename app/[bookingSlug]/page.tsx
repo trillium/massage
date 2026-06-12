@@ -27,7 +27,11 @@ export async function generateMetadata({
   const config = configMap[bookingSlug]
   const title = config?.title ?? 'Book a massage'
   const description = firstLineOfText(config?.text ?? null) || siteMetadata.description
-  return genPageMetadata({ title, description })
+  return genPageMetadata({
+    title,
+    description,
+    image: `${siteMetadata.siteUrl}/${bookingSlug}/opengraph-image`,
+  })
 }
 
 export default async function Page({
