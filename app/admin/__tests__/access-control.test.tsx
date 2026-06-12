@@ -1,4 +1,5 @@
 /* content-ok-file */
+// biome-ignore-all lint/style/noJsxLiterals: test file — literals are expected test fixtures
 import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { render, screen, waitFor } from '@testing-library/react'
 import { AdminAuthWrapper } from '@/components/auth/admin/AdminAuthWrapper'

@@ -20,8 +20,8 @@ export const DS_RULES: DsRule[] = [
     component: '<Input>',
     importPath: '@/components/ui/input',
     selfExempt: true,
-    patterns: [{ jsx: /<input\b[^>]*\bclassName=/ }],
-    rawPattern: '<input className=…>',
+    patterns: [{ jsx: /<input\b/ }],
+    rawPattern: '<input …>',
     description: 'Labeled input with error state and themed focus ring',
   },
   {
@@ -29,8 +29,8 @@ export const DS_RULES: DsRule[] = [
     component: '<Textarea>',
     importPath: '@/components/ui/textarea',
     selfExempt: true,
-    patterns: [{ jsx: /<textarea\b[^>]*\bclassName=/ }],
-    rawPattern: '<textarea className=…>',
+    patterns: [{ jsx: /<textarea\b/ }],
+    rawPattern: '<textarea …>',
     description: 'Labeled textarea with error state and themed focus ring',
   },
   {
@@ -38,8 +38,8 @@ export const DS_RULES: DsRule[] = [
     component: '<Button>',
     importPath: '@/components/ui/button',
     selfExempt: true,
-    patterns: [{ jsx: /<button\b[^>]*\bclassName=/ }],
-    rawPattern: '<button className=…>',
+    patterns: [{ jsx: /<button\b/ }],
+    rawPattern: '<button …>',
     description: 'Themed button — variants: default, secondary, outline, ghost, destructive',
   },
   {

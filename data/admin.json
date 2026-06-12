@@ -120,5 +120,34 @@
     "noContainerEventsMessage": "No container events found. Create events with names containing:",
     "memberEventsLabel": "Member Events",
     "noMemberEventsMessage": "No member events found. These are created when bookings are made within container events."
+  },
+  "activeEventContainersPage": {
+    "heading": "Active Event Containers",
+    "overview": {
+      "heading": "System Overview",
+      "monitoringPrefix": "Monitoring period: ",
+      "monitoringTo": " to ",
+      "totalContainersLabel": "Total Containers",
+      "totalMembersLabel": "Total Members"
+    },
+    "empty": {
+      "heading": "No Event Containers Found",
+      "message": "No slug configurations with eventContainer property or scheduled-site type were found."
+    },
+    "howItWorks": {
+      "heading": "How Event Containers Work",
+      "containerEvents": {
+        "label": "Container Events:",
+        "description": "Define available time slots. Create Google Calendar events with names containing "
+      },
+      "memberEvents": {
+        "label": "Member Events:",
+        "description": "Represent booked appointments within containers. These are automatically created when users book appointments, with names containing "
+      },
+      "availability": {
+        "label": "Availability:",
+        "description": " The system generates time slots within container events that don't overlap with member events."
+      }
+    }
   }
 }
