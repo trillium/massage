@@ -1,0 +1,45 @@
+{
+  "eventCard": {
+    "labels": {
+      "date": "Date:",
+      "time": "Time:",
+      "duration": "Duration:",
+      "price": "Price:",
+      "location": "Location:",
+      "phone": "Phone:",
+      "email": "Email:",
+      "to": "To:"
+    },
+    "separators": {
+      "timeSeparator": " - ",
+      "priceCurrency": "$"
+    },
+    "durationUnit": "min",
+    "buttons": {
+      "accept": "Accept",
+      "decline": "Decline"
+    },
+    "status": {
+      "pending": "Pending",
+      "confirmed": "Confirmed",
+      "declined": "Declined"
+    }
+  },
+  "emailCard": {
+    "types": {
+      "admin-approval": "Admin Approval Email",
+      "client-request": "Client Request Confirmation",
+      "client-confirm": "Client Booking Confirmed"
+    }
+  },
+  "adminView": {
+    "empty": "No appointments yet. Switch to \"Book a Massage\" to create one.",
+    "sections": {
+      "pending": "Pending Requests",
+      "confirmed": "Confirmed",
+      "declined": "Declined",
+      "emails": "Captured Emails"
+    },
+    "countFormat": " ({})"
+  }
+}

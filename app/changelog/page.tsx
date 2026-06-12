@@ -15,6 +15,7 @@ import {
   FaCode,
   FaGlobe,
 } from 'react-icons/fa'
+import pages from '@/data/pages.json'
 import { changelog, type ChangelogIcon, type ChangelogCategory } from './changelog.list'
 import { buildQuarters, type QuarterGroup } from './buildQuarters'
 
@@ -48,12 +49,13 @@ function ConnectedBlock({
     <div>
       <div className="rounded-t-lg border border-primary-200 bg-primary-50/50 p-4 dark:border-primary-800 dark:bg-primary-950/20">
         <p className="mb-2 text-xs font-semibold tracking-widest text-primary-600 uppercase dark:text-primary-400">
-          Highlights
+          {pages.changelog.header.highlights}
         </p>
         <ul className="space-y-1">
           {highlights.map((h) => (
             <li key={h} className="text-sm font-medium text-accent-800 dark:text-accent-200">
-              &bull; {h}
+              {pages.changelog.symbols.bullet}
+              {h}
             </li>
           ))}
         </ul>
@@ -73,7 +75,8 @@ function ConnectedBlock({
                 key={item}
                 className="text-sm leading-relaxed text-accent-600 dark:text-accent-400"
               >
-                &bull; {item}
+                {pages.changelog.symbols.bullet}
+                {item}
               </li>
             ))}
           </ul>
@@ -103,7 +106,7 @@ function QuarterSection({
                 {quarter.dateRange}
               </span>
               <span className="text-xs text-accent-400 dark:text-accent-600">
-                {quarter.commitCount} commits
+                {quarter.commitCount} {pages.changelog.labels.commits}
               </span>
               <ChevronUpIcon
                 className={`${open ? '' : 'rotate-180'} ml-auto h-5 w-5 text-accent-400 transition-transform`}
@@ -121,7 +124,7 @@ function QuarterSection({
               <DisclosurePanel className="mt-6">
                 {quarter.repos.length > 1 && (
                   <p className="mb-4 text-xs text-accent-400 dark:text-accent-600">
-                    Repos: {quarter.repos.join(', ')}
+                    {pages.changelog.labels.repos} {quarter.repos.join(', ')}
                   </p>
                 )}
 
@@ -137,7 +140,7 @@ function QuarterSection({
                             })}
                           </h3>
                           <span className="text-xs text-accent-400 dark:text-accent-600">
-                            {month.commitCount} commits
+                            {month.commitCount} {pages.changelog.labels.commits}
                           </span>
                         </div>
                         <ConnectedBlock
@@ -165,13 +168,13 @@ export default function Page() {
       <div className="py-12">
         <div className="mb-12 text-center">
           <p className="mb-2 text-sm font-semibold tracking-widest text-primary-600 uppercase dark:text-primary-400">
-            What&apos;s New
+            {pages.changelog.header.label}
           </p>
           <h1 className="mb-4 text-4xl font-bold tracking-tight text-accent-900 dark:text-accent-100">
-            Changelog
+            {pages.changelog.header.title}
           </h1>
           <p className="mx-auto max-w-2xl text-lg text-accent-600 dark:text-accent-400">
-            A timeline of features, fixes, and improvements to the booking platform.
+            {pages.changelog.header.description}
           </p>
         </div>
 
@@ -182,7 +185,9 @@ export default function Page() {
         </div>
 
         <p className="mt-16 text-center text-xs text-accent-400 dark:text-accent-600">
-          Compiled from {totalCommits.toLocaleString()}+ commits spanning {dateRange}.
+          {pages.changelog.footer
+            .replace('{commits}', totalCommits.toLocaleString())
+            .replace('{dateRange}', dateRange)}
         </p>
       </div>
     </SectionContainer>

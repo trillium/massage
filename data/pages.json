@@ -59,5 +59,67 @@
   "tags": {
     "heading": "Tags",
     "empty": "No tags found."
+  },
+  "changelog": {
+    "header": {
+      "label": "What's New",
+      "title": "Changelog",
+      "description": "A timeline of features, fixes, and improvements to the booking platform.",
+      "highlights": "Highlights"
+    },
+    "footer": "Compiled from {commits}+ commits spanning {dateRange}.",
+    "symbols": {
+      "bullet": "• "
+    },
+    "labels": {
+      "commits": "commits",
+      "repos": "Repos:"
+    }
+  },
+  "adminRequestAccess": {
+    "header": {
+      "title": "Request Admin Access",
+      "subtitle": "Submit your email to receive a secure admin access link"
+    },
+    "form": {
+      "emailLabel": "Email Address",
+      "emailPlaceholder": "your.email@example.com",
+      "reasonLabel": "Reason for Access",
+      "reasonPlaceholder": "Please describe why you need admin access...",
+      "submitButton": "Request Admin Access",
+      "loadingButton": "Sending..."
+    },
+    "messages": {
+      "successTitle": "Success!",
+      "successDefault": "Admin access link sent successfully!",
+      "errorTitle": "Error",
+      "errorDefault": "Failed to send admin access link",
+      "networkError": "Network error. Please try again."
+    },
+    "security": {
+      "title": "Security Information",
+      "items": [
+        "Only authorized admin emails will receive access links",
+        "Access links expire after 4 hours",
+        "Each access attempt is logged for security",
+        "Rate limiting prevents abuse"
+      ]
+    }
+  },
+  "test": {
+    "heading": "Double Booking Fix Verification",
+    "description": "Simulates two users booking the same 11:00 AM slot. User 1 should succeed, User 2 should get a 409 conflict.",
+    "runTestButton": "Run Test",
+    "runningButton": "Running...",
+    "passMessage": "PASS — Double booking prevented",
+    "failMessage": "FAIL — Double booking allowed"
+  },
+  "projects": {
+    "heading": "Projects",
+    "description": "Showcase your projects with a hero image (16 x 9)"
+  },
+  "adminPage": {
+    "noConnectionBanner": "Google Calendar is not connected.",
+    "connectNow": "Connect now →"
   }
 }

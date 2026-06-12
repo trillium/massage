@@ -6,6 +6,7 @@ import DOMPurify from 'dompurify'
 import { useSandbox } from '../SandboxProvider'
 import { formatLocalDate, formatLocalTime } from '@/lib/availability/helpers'
 import { flattenLocation } from '@/lib/helpers/locationHelpers'
+import sandbox from '@/data/sandbox.json'
 import type { SandboxEvent, SandboxEmail } from '../api/sandboxStore'
 
 function EventCard({
@@ -27,11 +28,7 @@ function EventCard({
     declined: 'border-red-400 bg-red-50 dark:bg-red-950/30',
   }
 
-  const statusLabels = {
-    pending: 'Pending',
-    confirmed: 'Confirmed',
-    declined: 'Declined',
-  }
+  const statusLabels = sandbox.eventCard.status
 
   return (
     <div className={clsx('rounded-lg border-2 p-4', statusColors[status])}>
@@ -52,44 +49,51 @@ function EventCard({
 
       <div className="space-y-1 text-sm text-accent-700 dark:text-accent-300">
         <p>
-          <span className="font-medium">Date:</span> {formatLocalDate(data.start, { timeZone })}
+          <span className="font-medium">{sandbox.eventCard.labels.date}</span>{' '}
+          {formatLocalDate(data.start, { timeZone })}
         </p>
         <p>
-          <span className="font-medium">Time:</span> {formatLocalTime(data.start, { timeZone })} -{' '}
+          <span className="font-medium">{sandbox.eventCard.labels.time}</span>{' '}
+          {formatLocalTime(data.start, { timeZone })} {sandbox.eventCard.separators.timeSeparator}
           {formatLocalTime(data.end, { timeZone, timeZoneName: 'shortGeneric' })}
         </p>
         <p>
-          <span className="font-medium">Duration:</span> {data.duration} min
+          <span className="font-medium">{sandbox.eventCard.labels.duration}</span> {data.duration}{' '}
+          {sandbox.eventCard.durationUnit}
         </p>
         {data.price && (
           <p>
-            <span className="font-medium">Price:</span> ${data.price}
+            <span className="font-medium">{sandbox.eventCard.labels.price}</span>{' '}
+            {sandbox.eventCard.separators.priceCurrency}
+            {data.price}
           </p>
         )}
         <p>
-          <span className="font-medium">Location:</span> {location}
+          <span className="font-medium">{sandbox.eventCard.labels.location}</span> {location}
         </p>
         <p>
-          <span className="font-medium">Phone:</span> {data.phone}
+          <span className="font-medium">{sandbox.eventCard.labels.phone}</span> {data.phone}
         </p>
         <p>
-          <span className="font-medium">Email:</span> {data.email}
+          <span className="font-medium">{sandbox.eventCard.labels.email}</span> {data.email}
         </p>
       </div>
 
       {status === 'pending' && (
         <div className="mt-4 flex gap-2">
           <button
+            type="button"
             onClick={onApprove}
             className="rounded-md bg-green-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-green-700"
           >
-            Accept
+            {sandbox.eventCard.buttons.accept}
           </button>
           <button
+            type="button"
             onClick={onDecline}
             className="rounded-md bg-red-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-red-700"
           >
-            Decline
+            {sandbox.eventCard.buttons.decline}
           </button>
         </div>
       )}
@@ -100,15 +104,12 @@ function EventCard({
 function EmailCard({ email }: { email: SandboxEmail }) {
   const [expanded, setExpanded] = useState(false)
 
-  const typeLabels = {
-    'admin-approval': 'Admin Approval Email',
-    'client-request': 'Client Request Confirmation',
-    'client-confirm': 'Client Booking Confirmed',
-  }
+  const typeLabels = sandbox.emailCard.types
 
   return (
     <div className="rounded-lg border border-accent-200 bg-surface-50 dark:border-accent-700 dark:bg-surface-900">
       <button
+        type="button"
         onClick={() => setExpanded(!expanded)}
         className="flex w-full items-center justify-between p-3 text-left"
       >
@@ -116,7 +117,9 @@ function EmailCard({ email }: { email: SandboxEmail }) {
           <span className="text-xs font-medium uppercase text-accent-500 dark:text-accent-400">
             {typeLabels[email.type]}
           </span>
-          <p className="text-sm font-medium text-accent-900 dark:text-accent-100">To: {email.to}</p>
+          <p className="text-sm font-medium text-accent-900 dark:text-accent-100">
+            {sandbox.eventCard.labels.to} {email.to}
+          </p>
           <p className="text-sm text-accent-600 dark:text-accent-300">{email.subject}</p>
         </div>
         <span className="text-accent-400">{expanded ? '\u25B2' : '\u25BC'}</span>
@@ -147,16 +150,15 @@ export default function AdminView() {
     <div className="space-y-8">
       {!hasEvents && !hasEmails && (
         <div className="rounded-lg border-2 border-dashed border-accent-300 p-12 text-center dark:border-accent-600">
-          <p className="text-lg text-accent-500 dark:text-accent-400">
-            No appointments yet. Switch to &quot;Book a Massage&quot; to create one.
-          </p>
+          <p className="text-lg text-accent-500 dark:text-accent-400">{sandbox.adminView.empty}</p>
         </div>
       )}
 
       {pendingEvents.length > 0 && (
         <section>
           <h2 className="mb-3 text-xl font-bold text-accent-900 dark:text-accent-100">
-            Pending Requests ({pendingEvents.length})
+            {sandbox.adminView.sections.pending}
+            {sandbox.adminView.countFormat.replace('{}', String(pendingEvents.length))}
           </h2>
           <div className="space-y-3">
             {pendingEvents.map((event) => (
@@ -174,7 +176,8 @@ export default function AdminView() {
       {confirmedEvents.length > 0 && (
         <section>
           <h2 className="mb-3 text-xl font-bold text-accent-900 dark:text-accent-100">
-            Confirmed ({confirmedEvents.length})
+            {sandbox.adminView.sections.confirmed}
+            {sandbox.adminView.countFormat.replace('{}', String(confirmedEvents.length))}
           </h2>
           <div className="space-y-3">
             {confirmedEvents.map((event) => (
@@ -187,7 +190,8 @@ export default function AdminView() {
       {declinedEvents.length > 0 && (
         <section>
           <h2 className="mb-3 text-xl font-bold text-accent-900 dark:text-accent-100">
-            Declined ({declinedEvents.length})
+            {sandbox.adminView.sections.declined}
+            {sandbox.adminView.countFormat.replace('{}', String(declinedEvents.length))}
           </h2>
           <div className="space-y-3">
             {declinedEvents.map((event) => (
@@ -200,7 +204,8 @@ export default function AdminView() {
       {hasEmails && (
         <section>
           <h2 className="mb-3 text-xl font-bold text-accent-900 dark:text-accent-100">
-            Captured Emails ({state.emails.length})
+            {sandbox.adminView.sections.emails}
+            {sandbox.adminView.countFormat.replace('{}', String(state.emails.length))}
           </h2>
           <div className="space-y-2">
             {[...state.emails].reverse().map((email, i) => (

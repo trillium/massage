@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import { AdminAccessRequestSchema } from '@/lib/schema'
 import SectionContainer from '@/components/SectionContainer'
+import pages from '@/data/pages.json'
 
 interface FormValues {
   email: string
@@ -73,10 +74,10 @@ export default function AdminAccessRequestPage() {
       <div className="mx-auto max-w-2xl py-16">
         <div className="mb-8 text-center">
           <h1 className="mb-4 text-3xl font-bold text-accent-900 dark:text-accent-100">
-            Request Admin Access
+            {pages.adminRequestAccess.header.title}
           </h1>
           <p className="text-accent-600 dark:text-accent-400">
-            Submit your email to receive a secure admin access link
+            {pages.adminRequestAccess.header.subtitle}
           </p>
         </div>
 
@@ -96,14 +97,14 @@ export default function AdminAccessRequestPage() {
                     htmlFor="email"
                     className="mb-2 block text-sm font-medium text-accent-700 dark:text-accent-300"
                   >
-                    Email Address
+                    {pages.adminRequestAccess.form.emailLabel}
                   </label>
                   <Field
                     type="email"
                     id="email"
                     name="email"
                     className="w-full rounded-md border border-accent-300 px-3 py-2 placeholder-accent-400 shadow-sm focus:border-blue-500 focus:ring-blue-500 focus:outline-none dark:border-accent-600 dark:bg-surface-700 dark:text-white dark:placeholder-accent-400"
-                    placeholder="your.email@example.com"
+                    placeholder={pages.adminRequestAccess.form.emailPlaceholder}
                     disabled={isSubmitting || submitStatus.type === 'loading'}
                   />
                   <ErrorMessage
@@ -118,7 +119,7 @@ export default function AdminAccessRequestPage() {
                     htmlFor="requestReason"
                     className="mb-2 block text-sm font-medium text-accent-700 dark:text-accent-300"
                   >
-                    Reason for Access
+                    {pages.adminRequestAccess.form.reasonLabel}
                   </label>
                   <Field
                     as="textarea"
@@ -126,7 +127,7 @@ export default function AdminAccessRequestPage() {
                     name="requestReason"
                     rows={4}
                     className="w-full rounded-md border border-accent-300 px-3 py-2 placeholder-accent-400 shadow-sm focus:border-blue-500 focus:ring-blue-500 focus:outline-none dark:border-accent-600 dark:bg-surface-700 dark:text-white dark:placeholder-accent-400"
-                    placeholder="Please describe why you need admin access..."
+                    placeholder={pages.adminRequestAccess.form.reasonPlaceholder}
                     disabled={isSubmitting || submitStatus.type === 'loading'}
                   />
                   <ErrorMessage
@@ -162,10 +163,10 @@ export default function AdminAccessRequestPage() {
                           d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                         ></path>
                       </svg>
-                      Sending...
+                      {pages.adminRequestAccess.form.loadingButton}
                     </>
                   ) : (
-                    'Request Admin Access'
+                    pages.adminRequestAccess.form.submitButton
                   )}
                 </button>
               </Form>
@@ -184,7 +185,9 @@ export default function AdminAccessRequestPage() {
                   />
                 </svg>
                 <div className="ml-3">
-                  <p className="text-sm font-medium text-green-800 dark:text-green-200">Success!</p>
+                  <p className="text-sm font-medium text-green-800 dark:text-green-200">
+                    {pages.adminRequestAccess.messages.successTitle}
+                  </p>
                   <p className="mt-1 text-sm text-green-700 dark:text-green-300">
                     {submitStatus.message}
                   </p>
@@ -204,7 +207,9 @@ export default function AdminAccessRequestPage() {
                   />
                 </svg>
                 <div className="ml-3">
-                  <p className="text-sm font-medium text-red-800 dark:text-red-200">Error</p>
+                  <p className="text-sm font-medium text-red-800 dark:text-red-200">
+                    {pages.adminRequestAccess.messages.errorTitle}
+                  </p>
                   <p className="mt-1 text-sm text-red-700 dark:text-red-300">
                     {submitStatus.message}
                   </p>
@@ -231,13 +236,12 @@ export default function AdminAccessRequestPage() {
               </svg>
               <div className="ml-3">
                 <p className="text-sm font-medium text-blue-800 dark:text-blue-200">
-                  Security Information
+                  {pages.adminRequestAccess.security.title}
                 </p>
                 <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-blue-700 dark:text-blue-300">
-                  <li>Only authorized admin emails will receive access links</li>
-                  <li>Access links expire after 4 hours</li>
-                  <li>Each access attempt is logged for security</li>
-                  <li>Rate limiting prevents abuse</li>
+                  {pages.adminRequestAccess.security.items.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
                 </ul>
               </div>
             </div>
