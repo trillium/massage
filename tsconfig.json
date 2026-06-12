@@ -17,6 +17,7 @@
     "types": ["vitest", "node"],
     "paths": {
       "@/components/*": ["./components/*"],
+      "@/data": ["./data/index.ts"],
       "@/data/*": ["./data/*"],
       "@/layouts/*": ["./layouts/*"],
       "@/css/*": ["./css/*"],
