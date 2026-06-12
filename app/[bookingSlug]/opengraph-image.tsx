@@ -60,7 +60,8 @@ function formatDiscountLabel(
   return `$${dollars} off`
 }
 
-function deriveDomainLabel(siteUrl: string): string {
+function deriveDomainLabel(siteUrl: string | undefined): string {
+  if (!siteUrl) return 'trilliummassage.la'
   try {
     return new URL(siteUrl).host.replace(/^www\./, '')
   } catch {
