@@ -1,10 +1,10 @@
-#!/usr/bin/env node
+#!/usr/bin/env bun
 /**
- * check-design-system.mjs — pattern-based guard against raw HTML elements
+ * check-design-system.ts — pattern-based guard against raw HTML elements
  * that should use design-system components.
  *
  * Usage (lint-staged passes file paths as argv):
- *   node scripts/check-design-system.mjs <file> [<file> ...]
+ *   bun scripts/check-design-system.ts <file> [<file> ...]
  *
  * Exit codes:
  *   0  clean
@@ -16,9 +16,24 @@
  */
 
 import { readFileSync, existsSync, statSync } from 'node:fs'
-import process from 'node:process'
 
-const RULES = [
+interface Rule {
+  name: string
+  pattern: RegExp
+  component: string
+  importPath: string
+}
+
+interface Finding {
+  file: string
+  line: number
+  rule: string
+  component: string
+  importPath: string
+  excerpt: string
+}
+
+const RULES: Rule[] = [
   {
     name: 'raw-input',
     pattern: /<input\b[^>]*\bclassName=/,
@@ -48,11 +63,11 @@ const RULES = [
 const FILE_OPT_OUT = '/* ds-ignore-file */'
 const LINE_OPT_OUT = '// ds-ignore'
 
-function isSourceFile(file) {
+function isSourceFile(file: string): boolean {
   return /\.(tsx|ts|jsx|js)$/.test(file)
 }
 
-function shouldSkipPath(file) {
+function shouldSkipPath(file: string): boolean {
   if (file.includes('/node_modules/')) return true
   if (file.includes('/.next/')) return true
   if (file.endsWith('.test.ts') || file.endsWith('.test.tsx')) return true
@@ -62,11 +77,10 @@ function shouldSkipPath(file) {
   return false
 }
 
-function checkFile(file) {
+function checkFile(file: string): Finding[] {
   if (!existsSync(file)) return []
   try {
-    const st = statSync(file)
-    if (!st.isFile()) return []
+    if (!statSync(file).isFile()) return []
   } catch {
     return []
   }
@@ -74,7 +88,7 @@ function checkFile(file) {
   if (source.includes(FILE_OPT_OUT)) return []
 
   const lines = source.split('\n')
-  const findings = []
+  const findings: Finding[] = []
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i]
     if (line.includes(LINE_OPT_OUT)) continue
@@ -94,35 +108,22 @@ function checkFile(file) {
   return findings
 }
 
-function main() {
-  const args = process.argv.slice(2).filter((a) => !a.startsWith('-'))
-  const files = args.filter(isSourceFile).filter((f) => !shouldSkipPath(f))
-  if (files.length === 0) {
-    process.exit(0)
-  }
+const args = process.argv.slice(2).filter((a) => !a.startsWith('-'))
+const files = args.filter(isSourceFile).filter((f) => !shouldSkipPath(f))
+if (files.length === 0) process.exit(0)
 
-  let allFindings = []
-  for (const f of files) {
-    allFindings = allFindings.concat(checkFile(f))
-  }
+const allFindings = files.flatMap(checkFile)
+if (allFindings.length === 0) process.exit(0)
 
-  if (allFindings.length === 0) {
-    process.exit(0)
-  }
-
+process.stderr.write(
+  `check-design-system: raw HTML element where a design-system component is expected\n\n`
+)
+for (const f of allFindings) {
   process.stderr.write(
-    `check-design-system: raw HTML element where a design-system component is expected\n\n`
+    `  ${f.file}:${f.line}  [${f.rule}] use ${f.component} from ${f.importPath}\n      ${f.excerpt}\n\n`
   )
-  for (const f of allFindings) {
-    process.stderr.write(
-      `  ${f.file}:${f.line}  [${f.rule}] use ${f.component} from ${f.importPath}\n` +
-        `      ${f.excerpt}\n\n`
-    )
-  }
-  process.stderr.write(
-    `Escape hatch: add \`// ds-ignore\` on the line, or \`/* ds-ignore-file */\` at top of file.\n`
-  )
-  process.exit(1)
 }
-
-main()
+process.stderr.write(
+  `Escape hatch: add \`// ds-ignore\` on the line, or \`/* ds-ignore-file */\` at top of file.\n`
+)
+process.exit(1)

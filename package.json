@@ -169,8 +169,8 @@
   "lint-staged": {
     "*.+(js|jsx|ts|tsx)": [
       "biome check --write --no-errors-on-unmatched",
-      "node scripts/check-design-system.mjs",
-      "node scripts/check-brand-purity.mjs",
+      "bun scripts/check-design-system.ts",
+      "bun scripts/check-brand-purity.ts",
       "bash scripts/lint-content.sh",
       "bash -c '.husky/tsc-staged.sh'",
       "bash -c 'cspell --no-progress \"$@\" || exit 0' --"
