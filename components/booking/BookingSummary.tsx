@@ -3,6 +3,7 @@ import { DiscountType } from '@/lib/types'
 import { GeneratePrice } from '@/components/ui/atoms/GeneratePriceAtom'
 import { BookingFormData } from '@/lib/types'
 import { flattenLocation } from '@/lib/helpers/locationHelpers'
+import { validatePromoCode } from '@/lib/promoCodes'
 
 interface BookingSummaryProps {
   dateString: string
@@ -29,8 +30,13 @@ const BookingSummary: React.FC<BookingSummaryProps> = ({
       ? `${formData.firstName || ''} ${formData.lastName || ''}`.trim()
       : ''
 
-  // Format location
   const location = formData?.location ? flattenLocation(formData.location) : ''
+
+  const appliedPromo = formData?.promo ? validatePromoCode(formData.promo) : null
+  const promoLine =
+    appliedPromo?.discount.type === 'minutes'
+      ? `+${appliedPromo.discount.bonusMinutes} min upgrade`
+      : null
 
   return (
     <div className="border-l-primary-400 dark:bg-primary-50/10 mt-3 mb-4 rounded-md border-l-4 bg-surface-50 p-3">
@@ -57,6 +63,11 @@ const BookingSummary: React.FC<BookingSummaryProps> = ({
           )}
         </span>
       </div>
+      {promoLine && (
+        <div className="mt-1 flex items-start text-xs text-primary-600 md:text-sm dark:text-primary-400">
+          <span className="font-medium">✓ {promoLine}</span>
+        </div>
+      )}
       <div className="flex items-start text-xs text-accent-700 md:text-sm dark:text-accent-300">
         <span className="w-18 shrink-0 font-medium">Location:&nbsp;</span>
         <span className="break-words">
