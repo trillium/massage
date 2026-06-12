@@ -2,7 +2,6 @@
 import React from 'react'
 import { ImageResponse } from 'next/og'
 import { fetchSlugConfigurationData } from '@/lib/slugConfigurations/fetchSlugConfigurationData'
-import siteMetadata from '@/data/siteMetadata'
 import type { OgImageData } from './designs/types'
 import { render as renderVintagePostcard } from './designs/vintage-postcard'
 import { render as renderAiFrom2089 } from './designs/ai-from-2089'
@@ -136,7 +135,7 @@ export default async function Image({ params }: { params: Promise<{ bookingSlug:
     bodyText,
     durations,
     discountLabel,
-    domainLabel: deriveDomainLabel(siteMetadata?.siteUrl),
+    domainLabel: 'trilliummassage.la',
     eyebrow: deriveEyebrow(bookingSlug, title),
     giftMode,
     accentColor,
