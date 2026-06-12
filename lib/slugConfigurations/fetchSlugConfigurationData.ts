@@ -484,8 +484,8 @@ const slugConfigurations: SlugConfigurationType[] = [
     ...initialStateWithoutType,
     bookingSlug: ['rachel-birthday-2026'],
     type: 'area-wide',
-    title: 'Happy Birthday, Paige! 🎂',
-    text: 'A gift from someone who cares. Book your complimentary 60 or 90 minute massage — no payment needed.',
+    title: 'Happy Birthday Rachel!',
+    text: "I didn't get you a gift but I thought this would suffice. Please enjoy a 60 or 90 minute massage from me at a location of your choosing. Happy birthday!",
     allowedDurations: [60, 90],
     pricing: { 60: 140, 90: 210 },
     discount: {
