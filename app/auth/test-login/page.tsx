@@ -14,6 +14,8 @@ import { getSupabaseBrowserClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { notFound } from 'next/navigation'
+import { H1 } from '@/components/ui/heading'
+import { TextSmMuted } from '@/components/ui/text'
 
 export const dynamic = 'force-dynamic'
 
@@ -72,8 +74,8 @@ export default function TestLoginPage() {
   return (
     <div className="flex min-h-screen items-center justify-center">
       <div className="w-full max-w-md p-8">
-        <h1 className="mb-4 text-2xl font-bold">Test Login</h1>
-        <p className="mb-4 text-sm text-accent-600">For E2E testing only</p>
+        <H1 className="mb-4">Test Login</H1>
+        <TextSmMuted className="mb-4">For E2E testing only</TextSmMuted>
 
         {error && <div className="mb-4 rounded bg-red-50 p-3 text-sm text-red-800">{error}</div>}
 

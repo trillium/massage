@@ -18,6 +18,8 @@ import {
 import pages from '@/data/pages.json'
 import { changelog, type ChangelogIcon, type ChangelogCategory } from './changelog.list'
 import { buildQuarters, type QuarterGroup } from './buildQuarters'
+import { H1, H2, H3 } from '@/components/ui/heading'
+import { TextLgMuted, TextSmMuted, TextSmSemibold, TextXsMuted } from '@/components/ui/text'
 
 const iconMap: Record<ChangelogIcon, React.ReactNode> = {
   calendar: <FaCalendarCheck className="text-primary-500" />,
@@ -65,10 +67,10 @@ function ConnectedBlock({
           key={cat.label}
           className="border border-t-0 border-accent-200 p-4 last:rounded-b-lg dark:border-accent-700"
         >
-          <h3 className="mb-3 flex items-center gap-2 font-semibold text-accent-900 dark:text-accent-100">
+          <H3 className="mb-3 flex items-center gap-2">
             {iconMap[cat.icon]}
             {cat.label}
-          </h3>
+          </H3>
           <ul className="space-y-1.5">
             {cat.items.map((item) => (
               <li
@@ -99,15 +101,15 @@ function QuarterSection({
         {({ open }) => (
           <>
             <DisclosureButton className="flex w-full items-baseline gap-4 text-left">
-              <h2 className="text-2xl font-bold text-accent-900 dark:text-accent-100">
+              <H2>
                 {quarter.label}
-              </h2>
-              <span className="text-sm text-accent-500 dark:text-accent-400">
+              </H2>
+              <TextSmMuted>
                 {quarter.dateRange}
-              </span>
-              <span className="text-xs text-accent-400 dark:text-accent-600">
+              </TextSmMuted>
+              <TextXsMuted>
                 {quarter.commitCount} {pages.changelog.labels.commits}
-              </span>
+              </TextXsMuted>
               <ChevronUpIcon
                 className={`${open ? '' : 'rotate-180'} ml-auto h-5 w-5 text-accent-400 transition-transform`}
               />
@@ -123,9 +125,9 @@ function QuarterSection({
             >
               <DisclosurePanel className="mt-6">
                 {quarter.repos.length > 1 && (
-                  <p className="mb-4 text-xs text-accent-400 dark:text-accent-600">
+                  <TextXsMuted className="mb-4">
                     {pages.changelog.labels.repos} {quarter.repos.join(', ')}
-                  </p>
+                  </TextXsMuted>
                 )}
 
                 {quarter.months ? (
@@ -133,15 +135,15 @@ function QuarterSection({
                     {quarter.months.map((month) => (
                       <div key={month.date}>
                         <div className="mb-4 flex items-baseline gap-3">
-                          <h3 className="text-lg font-semibold text-accent-800 dark:text-accent-200">
+                          <H3>
                             {new Date(`${month.date}-15`).toLocaleDateString('en-US', {
                               month: 'long',
                               year: 'numeric',
                             })}
-                          </h3>
-                          <span className="text-xs text-accent-400 dark:text-accent-600">
+                          </H3>
+                          <TextXsMuted>
                             {month.commitCount} {pages.changelog.labels.commits}
-                          </span>
+                          </TextXsMuted>
                         </div>
                         <ConnectedBlock
                           highlights={month.highlights}
@@ -167,15 +169,15 @@ export default function Page() {
     <SectionContainer>
       <div className="py-12">
         <div className="mb-12 text-center">
-          <p className="mb-2 text-sm font-semibold tracking-widest text-primary-600 uppercase dark:text-primary-400">
+          <TextSmSemibold className="mb-2 uppercase">
             {pages.changelog.header.label}
-          </p>
-          <h1 className="mb-4 text-4xl font-bold tracking-tight text-accent-900 dark:text-accent-100">
+          </TextSmSemibold>
+          <H1 className="mb-4">
             {pages.changelog.header.title}
-          </h1>
-          <p className="mx-auto max-w-2xl text-lg text-accent-600 dark:text-accent-400">
+          </H1>
+          <TextLgMuted className="mx-auto max-w-2xl">
             {pages.changelog.header.description}
-          </p>
+          </TextLgMuted>
         </div>
 
         <div className="space-y-16">
@@ -184,11 +186,11 @@ export default function Page() {
           ))}
         </div>
 
-        <p className="mt-16 text-center text-xs text-accent-400 dark:text-accent-600">
+        <TextXsMuted className="mt-16 text-center">
           {pages.changelog.footer
             .replace('{commits}', totalCommits.toLocaleString())
             .replace('{dateRange}', dateRange)}
-        </p>
+        </TextXsMuted>
       </div>
     </SectionContainer>
   )

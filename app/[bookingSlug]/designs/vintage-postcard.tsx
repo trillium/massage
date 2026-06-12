@@ -4,7 +4,15 @@ import type { OgImageData } from './types'
 const BROWN = '#2c1810'
 const CREAM = '#f5f0e8'
 
-export function render({ title, bodyText, durations, discountLabel, domainLabel, eyebrow, tableImageSrc }: OgImageData) {
+export function render({
+  title,
+  bodyText,
+  durations,
+  discountLabel,
+  domainLabel,
+  eyebrow,
+  tableImageSrc,
+}: OgImageData) {
   return (
     <div
       style={{
@@ -184,7 +192,9 @@ export function render({ title, bodyText, durations, discountLabel, domainLabel,
             </div>
 
             {/* Bottom: domain */}
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10 }}>
+            <div
+              style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10 }}
+            >
               <div
                 style={{
                   display: 'flex',

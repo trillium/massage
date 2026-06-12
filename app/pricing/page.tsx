@@ -3,6 +3,7 @@ import { DEFAULT_PRICING } from 'config'
 import Link from '@/components/Link'
 import { home } from '@/app/content'
 import pages from '@/data/pages.json'
+import { H1 } from '@/components/ui/heading'
 
 const pricingStart = [{ duration: 60 }, { duration: 90 }, { duration: 120 }, { duration: 150 }]
 
@@ -14,7 +15,7 @@ const pricing = pricingStart.map((item) => ({
 export default function PricingPage() {
   return (
     <SectionContainer>
-      <h1 className="mb-4 text-3xl font-bold">{pages.pricing.heading}</h1>
+      <H1 className="mb-4">{pages.pricing.heading}</H1>
       <p className="mb-6" data-content="pricing.pageLead">
         {home.pricing.pageLead}
       </p>

@@ -2,6 +2,7 @@
 
 import Link from '@/components/Link'
 import system from '@/data/system.json'
+import { H1 } from '@/components/ui/heading'
 
 export default function GlobalError({
   error: _error,
@@ -12,9 +13,9 @@ export default function GlobalError({
 }) {
   return (
     <div className="flex flex-col items-center justify-center px-4 py-24 text-center">
-      <h1 className="text-6xl font-extrabold tracking-tight text-accent-900 dark:text-accent-100">
+      <H1 className="text-6xl">
         {system.globalError.title}
-      </h1>
+      </H1>
       <p className="mt-4 text-xl font-bold text-accent-700 dark:text-accent-300">
         {system.globalError.message}
       </p>

@@ -34,9 +34,7 @@ const CONFETTI_PIECES = [
 ]
 
 async function loadTableImage(): Promise<string> {
-  const buf = await sharp(
-    join(process.cwd(), 'public/static/images/table/table_square_02.webp')
-  )
+  const buf = await sharp(join(process.cwd(), 'public/static/images/table/table_square_02.webp'))
     .resize(380, 630, { fit: 'cover', position: 'centre' })
     .jpeg({ quality: 90 })
     .toBuffer()
@@ -47,173 +45,171 @@ export default async function Image() {
   const tableImg = await loadTableImage()
 
   return new ImageResponse(
-    (
+    <div
+      style={{
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        position: 'relative',
+        backgroundColor: '#ffffff',
+      }}
+    >
+      {CONFETTI_PIECES.map((piece, i) => (
+        <div
+          key={i}
+          style={{
+            display: 'flex',
+            position: 'absolute',
+            left: piece.left,
+            top: piece.top,
+            width: 10,
+            height: 24,
+            backgroundColor: piece.color,
+            borderRadius: 2,
+            transform: `rotate(${piece.rotate}deg)`,
+          }}
+        />
+      ))}
+
       <div
         style={{
-          width: '100%',
-          height: '100%',
           display: 'flex',
-          position: 'relative',
-          backgroundColor: '#ffffff',
+          flex: 1,
+          flexDirection: 'column',
+          justifyContent: 'center',
+          paddingLeft: 72,
+          paddingRight: 48,
+          paddingTop: 60,
+          paddingBottom: 60,
         }}
       >
-        {CONFETTI_PIECES.map((piece, i) => (
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            marginBottom: 20,
+            gap: 10,
+          }}
+        >
           <div
-            key={i}
             style={{
               display: 'flex',
-              position: 'absolute',
-              left: piece.left,
-              top: piece.top,
-              width: 10,
-              height: 24,
-              backgroundColor: piece.color,
-              borderRadius: 2,
-              transform: `rotate(${piece.rotate}deg)`,
+              width: 32,
+              height: 3,
+              backgroundColor: '#ff6b6b',
             }}
           />
-        ))}
-
-        <div
-          style={{
-            display: 'flex',
-            flex: 1,
-            flexDirection: 'column',
-            justifyContent: 'center',
-            paddingLeft: 72,
-            paddingRight: 48,
-            paddingTop: 60,
-            paddingBottom: 60,
-          }}
-        >
           <div
             style={{
               display: 'flex',
-              alignItems: 'center',
-              marginBottom: 20,
-              gap: 10,
+              fontSize: 14,
+              fontWeight: 700,
+              letterSpacing: 3,
+              color: '#ff6b6b',
+              textTransform: 'uppercase',
             }}
           >
-            <div
-              style={{
-                display: 'flex',
-                width: 32,
-                height: 3,
-                backgroundColor: '#ff6b6b',
-              }}
-            />
-            <div
-              style={{
-                display: 'flex',
-                fontSize: 14,
-                fontWeight: 700,
-                letterSpacing: 3,
-                color: '#ff6b6b',
-                textTransform: 'uppercase',
-              }}
-            >
-              {EYEBROW}
-            </div>
-          </div>
-
-          <div
-            style={{
-              display: 'flex',
-              fontSize: 72,
-              fontWeight: 800,
-              color: '#1a1a1a',
-              lineHeight: 1.05,
-              marginBottom: 28,
-              letterSpacing: -1,
-            }}
-          >
-            {TITLE}
-          </div>
-
-          <div
-            style={{
-              display: 'flex',
-              fontSize: 18,
-              color: '#444444',
-              lineHeight: 1.55,
-              marginBottom: 36,
-              maxWidth: 560,
-            }}
-          >
-            {BODY}
-          </div>
-
-          <div
-            style={{
-              display: 'flex',
-              gap: 12,
-              marginBottom: 40,
-            }}
-          >
-            {DURATIONS.map((d, i) => (
-              <div
-                key={d}
-                style={{
-                  display: 'flex',
-                  paddingTop: 10,
-                  paddingBottom: 10,
-                  paddingLeft: 22,
-                  paddingRight: 22,
-                  borderRadius: 100,
-                  backgroundColor: i === 0 ? '#ff6b6b' : '#4ecdc4',
-                  color: '#ffffff',
-                  fontSize: 16,
-                  fontWeight: 700,
-                  letterSpacing: 0.5,
-                }}
-              >
-                {d}
-              </div>
-            ))}
-          </div>
-
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 8,
-            }}
-          >
-            <div
-              style={{
-                display: 'flex',
-                width: 8,
-                height: 8,
-                borderRadius: 100,
-                backgroundColor: '#ffe66d',
-                border: '2px solid #1a1a1a',
-              }}
-            />
-            <div
-              style={{
-                display: 'flex',
-                fontSize: 15,
-                color: '#888888',
-                letterSpacing: 1,
-              }}
-            >
-              {DOMAIN}
-            </div>
+            {EYEBROW}
           </div>
         </div>
 
         <div
           style={{
             display: 'flex',
-            width: 380,
-            height: 630,
-            flexShrink: 0,
+            fontSize: 72,
+            fontWeight: 800,
+            color: '#1a1a1a',
+            lineHeight: 1.05,
+            marginBottom: 28,
+            letterSpacing: -1,
           }}
         >
-          <img src={tableImg} width={380} height={630} alt="" aria-hidden="true" />
+          {TITLE}
+        </div>
+
+        <div
+          style={{
+            display: 'flex',
+            fontSize: 18,
+            color: '#444444',
+            lineHeight: 1.55,
+            marginBottom: 36,
+            maxWidth: 560,
+          }}
+        >
+          {BODY}
+        </div>
+
+        <div
+          style={{
+            display: 'flex',
+            gap: 12,
+            marginBottom: 40,
+          }}
+        >
+          {DURATIONS.map((d, i) => (
+            <div
+              key={d}
+              style={{
+                display: 'flex',
+                paddingTop: 10,
+                paddingBottom: 10,
+                paddingLeft: 22,
+                paddingRight: 22,
+                borderRadius: 100,
+                backgroundColor: i === 0 ? '#ff6b6b' : '#4ecdc4',
+                color: '#ffffff',
+                fontSize: 16,
+                fontWeight: 700,
+                letterSpacing: 0.5,
+              }}
+            >
+              {d}
+            </div>
+          ))}
+        </div>
+
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 8,
+          }}
+        >
+          <div
+            style={{
+              display: 'flex',
+              width: 8,
+              height: 8,
+              borderRadius: 100,
+              backgroundColor: '#ffe66d',
+              border: '2px solid #1a1a1a',
+            }}
+          />
+          <div
+            style={{
+              display: 'flex',
+              fontSize: 15,
+              color: '#888888',
+              letterSpacing: 1,
+            }}
+          >
+            {DOMAIN}
+          </div>
         </div>
       </div>
-    ),
+
+      <div
+        style={{
+          display: 'flex',
+          width: 380,
+          height: 630,
+          flexShrink: 0,
+        }}
+      >
+        <img src={tableImg} width={380} height={630} alt="" aria-hidden="true" />
+      </div>
+    </div>,
     { ...size }
   )
 }

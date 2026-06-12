@@ -18,6 +18,7 @@ import SlotTakenAlert from '@/components/booking/SlotTakenAlert'
 import Calendar from '@/components/availability/date/Calendar'
 import TimeList from '@/components/availability/time/TimeList'
 import DurationPicker from '@/components/availability/controls/DurationPicker'
+import { H2 } from '@/components/ui/heading'
 
 // Need to refactor fetchData so it's easier to extend to other pages
 const possibleDurations = [15, 30, 45, 60]
@@ -119,9 +120,9 @@ function ClientPage({ duration, children }: { duration: number; children?: React
     <>
       <SlotTakenAlert />
       <div className="flex w-full items-center justify-center align-middle">
-        <h2 className="text-primary-500 dark:text-primary-400 py-2 text-lg font-bold">
+        <H2 className="py-2" status="primary">
           {admin.onsite.yourLink} {pathString}
-        </h2>
+        </H2>
       </div>
       <form onBlur={formik.handleBlur}>
         <ol>

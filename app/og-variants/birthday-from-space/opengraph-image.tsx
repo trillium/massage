@@ -38,9 +38,7 @@ const STARS: { top: number; left: number; size: number; opacity: number }[] = [
 ]
 
 async function loadTableImage(): Promise<string> {
-  const buf = await sharp(
-    join(process.cwd(), 'public/static/images/table/table_square_02.webp'),
-  )
+  const buf = await sharp(join(process.cwd(), 'public/static/images/table/table_square_02.webp'))
     .resize(380, 630, { fit: 'cover', position: 'centre' })
     .jpeg({ quality: 90 })
     .toBuffer()
@@ -51,187 +49,185 @@ export default async function Image() {
   const tableImg = await loadTableImage()
 
   return new ImageResponse(
-    (
+    <div
+      style={{
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        background: '#000008',
+        position: 'relative',
+        overflow: 'hidden',
+      }}
+    >
+      {/* Stars scattered across full image */}
+      {STARS.map((star, i) => (
+        <div
+          key={i}
+          style={{
+            display: 'flex',
+            position: 'absolute',
+            top: star.top,
+            left: star.left,
+            width: star.size,
+            height: star.size,
+            borderRadius: '50%',
+            background: '#ffffff',
+            opacity: star.opacity,
+          }}
+        />
+      ))}
+
+      {/* Left panel — text */}
       <div
         style={{
-          width: '100%',
-          height: '100%',
           display: 'flex',
-          background: '#000008',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          flex: 1,
+          padding: '56px 52px 56px 64px',
           position: 'relative',
-          overflow: 'hidden',
         }}
       >
-        {/* Stars scattered across full image */}
-        {STARS.map((star, i) => (
-          <div
-            key={i}
-            style={{
-              display: 'flex',
-              position: 'absolute',
-              top: star.top,
-              left: star.left,
-              width: star.size,
-              height: star.size,
-              borderRadius: '50%',
-              background: '#ffffff',
-              opacity: star.opacity,
-            }}
-          />
-        ))}
-
-        {/* Left panel — text */}
+        {/* Pale blue planet — upper right of text panel */}
         <div
           style={{
             display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            flex: 1,
-            padding: '56px 52px 56px 64px',
-            position: 'relative',
+            position: 'absolute',
+            top: 38,
+            right: 44,
+            width: 90,
+            height: 90,
+            borderRadius: '50%',
+            background: '#1a3a6e',
+            border: '2px solid #4a7aae',
+          }}
+        />
+
+        {/* Eyebrow */}
+        <div
+          style={{
+            display: 'flex',
+            fontSize: 13,
+            letterSpacing: 4,
+            color: '#88aadd',
+            fontWeight: 600,
+            marginBottom: 18,
+            textTransform: 'uppercase',
           }}
         >
-          {/* Pale blue planet — upper right of text panel */}
-          <div
-            style={{
-              display: 'flex',
-              position: 'absolute',
-              top: 38,
-              right: 44,
-              width: 90,
-              height: 90,
-              borderRadius: '50%',
-              background: '#1a3a6e',
-              border: '2px solid #4a7aae',
-            }}
-          />
-
-          {/* Eyebrow */}
-          <div
-            style={{
-              display: 'flex',
-              fontSize: 13,
-              letterSpacing: 4,
-              color: '#88aadd',
-              fontWeight: 600,
-              marginBottom: 18,
-              textTransform: 'uppercase',
-            }}
-          >
-            {EYEBROW}
-          </div>
-
-          {/* Title */}
-          <div
-            style={{
-              display: 'flex',
-              fontSize: 70,
-              fontWeight: 700,
-              color: '#f0f0ff',
-              lineHeight: 1.1,
-              marginBottom: 24,
-              letterSpacing: -1,
-            }}
-          >
-            {TITLE}
-          </div>
-
-          {/* Body */}
-          <div
-            style={{
-              display: 'flex',
-              fontSize: 18,
-              color: '#7788aa',
-              lineHeight: 1.6,
-              marginBottom: 36,
-              maxWidth: 520,
-            }}
-          >
-            {BODY}
-          </div>
-
-          {/* Duration pills */}
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              gap: 12,
-              marginBottom: 40,
-            }}
-          >
-            {DURATIONS.map((d) => (
-              <div
-                key={d}
-                style={{
-                  display: 'flex',
-                  border: '1px solid #88aadd',
-                  borderRadius: 20,
-                  paddingTop: 7,
-                  paddingBottom: 7,
-                  paddingLeft: 18,
-                  paddingRight: 18,
-                  fontSize: 14,
-                  color: '#88aadd',
-                  letterSpacing: 1,
-                }}
-              >
-                {d}
-              </div>
-            ))}
-          </div>
-
-          {/* Domain */}
-          <div
-            style={{
-              display: 'flex',
-              fontSize: 13,
-              color: '#4a6a9a',
-              letterSpacing: 2,
-              textTransform: 'lowercase',
-            }}
-          >
-            {DOMAIN}
-          </div>
+          {EYEBROW}
         </div>
 
-        {/* Right panel — photo with deep space overlay */}
+        {/* Title */}
         <div
           style={{
             display: 'flex',
-            position: 'relative',
-            width: 380,
-            height: 630,
+            fontSize: 70,
+            fontWeight: 700,
+            color: '#f0f0ff',
+            lineHeight: 1.1,
+            marginBottom: 24,
+            letterSpacing: -1,
           }}
         >
-          <img src={tableImg} width={380} height={630} alt="" aria-hidden="true" />
-          {/* Deep blue space overlay */}
-          <div
-            style={{
-              display: 'flex',
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              width: 380,
-              height: 630,
-              background: 'rgba(0,0,40,0.45)',
-            }}
-          />
-          {/* Faint horizontal scan lines for alien transmission feel */}
-          <div
-            style={{
-              display: 'flex',
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              width: 380,
-              height: 630,
-              background:
-                'linear-gradient(180deg, transparent 0%, rgba(0,20,60,0.12) 50%, transparent 100%)',
-            }}
-          />
+          {TITLE}
+        </div>
+
+        {/* Body */}
+        <div
+          style={{
+            display: 'flex',
+            fontSize: 18,
+            color: '#7788aa',
+            lineHeight: 1.6,
+            marginBottom: 36,
+            maxWidth: 520,
+          }}
+        >
+          {BODY}
+        </div>
+
+        {/* Duration pills */}
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            gap: 12,
+            marginBottom: 40,
+          }}
+        >
+          {DURATIONS.map((d) => (
+            <div
+              key={d}
+              style={{
+                display: 'flex',
+                border: '1px solid #88aadd',
+                borderRadius: 20,
+                paddingTop: 7,
+                paddingBottom: 7,
+                paddingLeft: 18,
+                paddingRight: 18,
+                fontSize: 14,
+                color: '#88aadd',
+                letterSpacing: 1,
+              }}
+            >
+              {d}
+            </div>
+          ))}
+        </div>
+
+        {/* Domain */}
+        <div
+          style={{
+            display: 'flex',
+            fontSize: 13,
+            color: '#4a6a9a',
+            letterSpacing: 2,
+            textTransform: 'lowercase',
+          }}
+        >
+          {DOMAIN}
         </div>
       </div>
-    ),
-    { ...size },
+
+      {/* Right panel — photo with deep space overlay */}
+      <div
+        style={{
+          display: 'flex',
+          position: 'relative',
+          width: 380,
+          height: 630,
+        }}
+      >
+        <img src={tableImg} width={380} height={630} alt="" aria-hidden="true" />
+        {/* Deep blue space overlay */}
+        <div
+          style={{
+            display: 'flex',
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: 380,
+            height: 630,
+            background: 'rgba(0,0,40,0.45)',
+          }}
+        />
+        {/* Faint horizontal scan lines for alien transmission feel */}
+        <div
+          style={{
+            display: 'flex',
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: 380,
+            height: 630,
+            background:
+              'linear-gradient(180deg, transparent 0%, rgba(0,20,60,0.12) 50%, transparent 100%)',
+          }}
+        />
+      </div>
+    </div>,
+    { ...size }
   )
 }

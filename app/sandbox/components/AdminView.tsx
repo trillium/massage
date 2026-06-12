@@ -8,6 +8,8 @@ import { formatLocalDate, formatLocalTime } from '@/lib/availability/helpers'
 import { flattenLocation } from '@/lib/helpers/locationHelpers'
 import sandbox from '@/data/sandbox.json'
 import type { SandboxEvent, SandboxEmail } from '../api/sandboxStore'
+import { H2, H3 } from '@/components/ui/heading'
+import { TextLgMuted, TextSmMedium, TextSmMuted, TextXsMedium } from '@/components/ui/text'
 
 function EventCard({
   event,
@@ -33,9 +35,9 @@ function EventCard({
   return (
     <div className={clsx('rounded-lg border-2 p-4', statusColors[status])}>
       <div className="mb-3 flex items-center justify-between">
-        <h3 className="text-lg font-semibold text-accent-900 dark:text-accent-100">
+        <H3>
           {data.firstName} {data.lastName}
-        </h3>
+        </H3>
         <span
           className={clsx('rounded-full px-3 py-1 text-xs font-bold uppercase', {
             'bg-yellow-200 text-yellow-800': status === 'pending',
@@ -114,13 +116,13 @@ function EmailCard({ email }: { email: SandboxEmail }) {
         className="flex w-full items-center justify-between p-3 text-left"
       >
         <div>
-          <span className="text-xs font-medium uppercase text-accent-500 dark:text-accent-400">
+          <TextXsMedium className="uppercase" status="muted">
             {typeLabels[email.type]}
-          </span>
-          <p className="text-sm font-medium text-accent-900 dark:text-accent-100">
+          </TextXsMedium>
+          <TextSmMedium>
             {sandbox.eventCard.labels.to} {email.to}
-          </p>
-          <p className="text-sm text-accent-600 dark:text-accent-300">{email.subject}</p>
+          </TextSmMedium>
+          <TextSmMuted>{email.subject}</TextSmMuted>
         </div>
         <span className="text-accent-400">{expanded ? '\u25B2' : '\u25BC'}</span>
       </button>
@@ -150,16 +152,16 @@ export default function AdminView() {
     <div className="space-y-8">
       {!hasEvents && !hasEmails && (
         <div className="rounded-lg border-2 border-dashed border-accent-300 p-12 text-center dark:border-accent-600">
-          <p className="text-lg text-accent-500 dark:text-accent-400">{sandbox.adminView.empty}</p>
+          <TextLgMuted>{sandbox.adminView.empty}</TextLgMuted>
         </div>
       )}
 
       {pendingEvents.length > 0 && (
         <section>
-          <h2 className="mb-3 text-xl font-bold text-accent-900 dark:text-accent-100">
+          <H2 className="mb-3">
             {sandbox.adminView.sections.pending}
             {sandbox.adminView.countFormat.replace('{}', String(pendingEvents.length))}
-          </h2>
+          </H2>
           <div className="space-y-3">
             {pendingEvents.map((event) => (
               <EventCard
@@ -175,10 +177,10 @@ export default function AdminView() {
 
       {confirmedEvents.length > 0 && (
         <section>
-          <h2 className="mb-3 text-xl font-bold text-accent-900 dark:text-accent-100">
+          <H2 className="mb-3">
             {sandbox.adminView.sections.confirmed}
             {sandbox.adminView.countFormat.replace('{}', String(confirmedEvents.length))}
-          </h2>
+          </H2>
           <div className="space-y-3">
             {confirmedEvents.map((event) => (
               <EventCard key={event.calendarEventId} event={event} />
@@ -189,10 +191,10 @@ export default function AdminView() {
 
       {declinedEvents.length > 0 && (
         <section>
-          <h2 className="mb-3 text-xl font-bold text-accent-900 dark:text-accent-100">
+          <H2 className="mb-3">
             {sandbox.adminView.sections.declined}
             {sandbox.adminView.countFormat.replace('{}', String(declinedEvents.length))}
-          </h2>
+          </H2>
           <div className="space-y-3">
             {declinedEvents.map((event) => (
               <EventCard key={event.calendarEventId} event={event} />
@@ -203,10 +205,10 @@ export default function AdminView() {
 
       {hasEmails && (
         <section>
-          <h2 className="mb-3 text-xl font-bold text-accent-900 dark:text-accent-100">
+          <H2 className="mb-3">
             {sandbox.adminView.sections.emails}
             {sandbox.adminView.countFormat.replace('{}', String(state.emails.length))}
-          </h2>
+          </H2>
           <div className="space-y-2">
             {[...state.emails].reverse().map((email, i) => (
               <EmailCard key={`${email.timestamp}-${i}`} email={email} />

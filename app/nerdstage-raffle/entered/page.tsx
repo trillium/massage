@@ -7,6 +7,8 @@ import Link from 'next/link'
 import { useReduxFormData } from '@/redux/hooks'
 
 import { RAFFLE_INTEREST_LABELS } from '@/lib/schema'
+import { H1 } from '@/components/ui/heading'
+import { TextLg, TextSmMuted } from '@/components/ui/text'
 
 export default function NerdstageRaffleEnteredPage() {
   const router = useRouter()
@@ -26,11 +28,11 @@ export default function NerdstageRaffleEnteredPage() {
   return (
     <SectionContainer>
       <div className="flex min-h-[40vh] flex-col items-center justify-center text-center">
-        <h1 className="mb-4 text-3xl font-bold">You're Entered!</h1>
+        <H1 className="mb-4">You're Entered!</H1>
         {raffleName && (
-          <p className="mb-2 text-lg">
+          <TextLg className="mb-2">
             Raffle: <span className="font-semibold">{raffleName}</span>
-          </p>
+          </TextLg>
         )}
         <p className="mb-6 text-surface-600 dark:text-surface-400">
           Thanks for entering! We'll reach out if you're selected.
@@ -38,20 +40,20 @@ export default function NerdstageRaffleEnteredPage() {
 
         <div className="mb-8 w-full max-w-lg rounded-lg border-2 border-surface-200 bg-surface-50 text-left shadow-md dark:border-surface-700 dark:bg-surface-900">
           <div className="border-b border-surface-200 px-5 py-3 dark:border-surface-700">
-            <p className="text-sm text-surface-500 dark:text-surface-400">Name</p>
+            <TextSmMuted>Name</TextSmMuted>
             <p className="font-semibold">{name}</p>
           </div>
           <div className="border-b border-surface-200 px-5 py-3 dark:border-surface-700">
-            <p className="text-sm text-surface-500 dark:text-surface-400">Email</p>
+            <TextSmMuted>Email</TextSmMuted>
             <p>{email}</p>
           </div>
           <div className="border-b border-surface-200 px-5 py-3 dark:border-surface-700">
-            <p className="text-sm text-surface-500 dark:text-surface-400">Phone</p>
+            <TextSmMuted>Phone</TextSmMuted>
             <p>{phone}</p>
           </div>
           {interests && interests.length > 0 && (
             <div className="px-5 py-3">
-              <p className="text-sm text-surface-500 dark:text-surface-400">Interested in</p>
+              <TextSmMuted>Interested in</TextSmMuted>
               <p>{interests.map((i) => RAFFLE_INTEREST_LABELS[i] || i).join(', ')}</p>
             </div>
           )}

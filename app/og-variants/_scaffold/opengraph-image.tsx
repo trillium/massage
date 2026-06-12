@@ -20,9 +20,7 @@ const DOMAIN = 'trilliummassage.la'
 const DURATIONS = ['60 min', '90 min']
 
 async function loadTableImage(): Promise<string> {
-  const buf = await sharp(
-    join(process.cwd(), 'public/static/images/table/table_square_02.webp')
-  )
+  const buf = await sharp(join(process.cwd(), 'public/static/images/table/table_square_02.webp'))
     .resize(380, 630, { fit: 'cover', position: 'centre' })
     .jpeg({ quality: 90 })
     .toBuffer()
@@ -52,7 +50,16 @@ export default async function Image() {
   return new ImageResponse(
     <div style={{ width: '100%', height: '100%', display: 'flex', background: '#1a1a1a' }}>
       {/* YOUR DESIGN HERE */}
-      <div style={{ display: 'flex', flex: 1, alignItems: 'center', justifyContent: 'center', color: '#ffffff', fontSize: 48 }}>
+      <div
+        style={{
+          display: 'flex',
+          flex: 1,
+          alignItems: 'center',
+          justifyContent: 'center',
+          color: '#ffffff',
+          fontSize: 48,
+        }}
+      >
         {TITLE}
       </div>
     </div>,

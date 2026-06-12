@@ -24,9 +24,7 @@ function buildStripes() {
 }
 
 async function loadTableImage(): Promise<string> {
-  const buf = await sharp(
-    join(process.cwd(), 'public/static/images/table/table_square_02.webp')
-  )
+  const buf = await sharp(join(process.cwd(), 'public/static/images/table/table_square_02.webp'))
     .resize(380, 630, { fit: 'cover', position: 'centre' })
     .jpeg({ quality: 90 })
     .toBuffer()
@@ -38,186 +36,184 @@ export default async function Image() {
   const stripes = buildStripes()
 
   return new ImageResponse(
-    (
+    <div
+      style={{
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        backgroundColor: '#0d0d0d',
+        position: 'relative',
+      }}
+    >
+      {/* Left stripe column */}
       <div
         style={{
-          width: '100%',
-          height: '100%',
           display: 'flex',
-          backgroundColor: '#0d0d0d',
-          position: 'relative',
+          flexDirection: 'column',
+          width: 28,
+          height: 630,
+          flexShrink: 0,
         }}
       >
-        {/* Left stripe column */}
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            width: 28,
-            height: 630,
-            flexShrink: 0,
-          }}
-        >
-          {stripes.map((s, i) => (
-            <div
-              key={i}
-              style={{
-                display: 'flex',
-                width: 28,
-                height: s.height,
-                backgroundColor: s.color,
-                flexShrink: 0,
-              }}
-            />
-          ))}
-        </div>
+        {stripes.map((s, i) => (
+          <div
+            key={i}
+            style={{
+              display: 'flex',
+              width: 28,
+              height: s.height,
+              backgroundColor: s.color,
+              flexShrink: 0,
+            }}
+          />
+        ))}
+      </div>
 
-        {/* Main content area */}
+      {/* Main content area */}
+      <div
+        style={{
+          display: 'flex',
+          flex: 1,
+          flexDirection: 'row',
+          alignItems: 'stretch',
+        }}
+      >
+        {/* Text panel */}
         <div
           style={{
             display: 'flex',
             flex: 1,
-            flexDirection: 'row',
-            alignItems: 'stretch',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            paddingLeft: 56,
+            paddingRight: 40,
+            paddingTop: 48,
+            paddingBottom: 48,
           }}
         >
-          {/* Text panel */}
+          {/* Eyebrow */}
           <div
             style={{
               display: 'flex',
-              flex: 1,
-              flexDirection: 'column',
-              justifyContent: 'center',
-              paddingLeft: 56,
-              paddingRight: 40,
-              paddingTop: 48,
-              paddingBottom: 48,
+              color: '#f59e0b',
+              fontSize: 13,
+              fontWeight: 700,
+              letterSpacing: 3,
+              textTransform: 'uppercase',
+              marginBottom: 20,
             }}
           >
-            {/* Eyebrow */}
-            <div
-              style={{
-                display: 'flex',
-                color: '#f59e0b',
-                fontSize: 13,
-                fontWeight: 700,
-                letterSpacing: 3,
-                textTransform: 'uppercase',
-                marginBottom: 20,
-              }}
-            >
-              {EYEBROW}
-            </div>
-
-            {/* Title */}
-            <div
-              style={{
-                display: 'flex',
-                color: '#ffffff',
-                fontSize: 72,
-                fontWeight: 700,
-                lineHeight: 1.05,
-                marginBottom: 28,
-              }}
-            >
-              {TITLE}
-            </div>
-
-            {/* Body */}
-            <div
-              style={{
-                display: 'flex',
-                color: '#888888',
-                fontSize: 20,
-                lineHeight: 1.55,
-                marginBottom: 40,
-                maxWidth: 520,
-              }}
-            >
-              {BODY}
-            </div>
-
-            {/* Duration pills */}
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'row',
-                gap: 12,
-                marginBottom: 40,
-              }}
-            >
-              {DURATIONS.map((d) => (
-                <div
-                  key={d}
-                  style={{
-                    display: 'flex',
-                    paddingTop: 8,
-                    paddingBottom: 8,
-                    paddingLeft: 20,
-                    paddingRight: 20,
-                    border: '1px solid #f59e0b',
-                    color: '#f59e0b',
-                    fontSize: 14,
-                    fontWeight: 600,
-                    letterSpacing: 1,
-                  }}
-                >
-                  {d}
-                </div>
-              ))}
-            </div>
-
-            {/* Domain */}
-            <div
-              style={{
-                display: 'flex',
-                color: '#444444',
-                fontSize: 13,
-                letterSpacing: 1,
-              }}
-            >
-              {DOMAIN}
-            </div>
+            {EYEBROW}
           </div>
 
-          {/* Photo panel */}
+          {/* Title */}
           <div
             style={{
               display: 'flex',
-              width: 380,
-              height: 630,
-              flexShrink: 0,
+              color: '#ffffff',
+              fontSize: 72,
+              fontWeight: 700,
+              lineHeight: 1.05,
+              marginBottom: 28,
             }}
           >
-            <img src={tableImg} width={380} height={630} alt="" aria-hidden="true" />
+            {TITLE}
+          </div>
+
+          {/* Body */}
+          <div
+            style={{
+              display: 'flex',
+              color: '#888888',
+              fontSize: 20,
+              lineHeight: 1.55,
+              marginBottom: 40,
+              maxWidth: 520,
+            }}
+          >
+            {BODY}
+          </div>
+
+          {/* Duration pills */}
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              gap: 12,
+              marginBottom: 40,
+            }}
+          >
+            {DURATIONS.map((d) => (
+              <div
+                key={d}
+                style={{
+                  display: 'flex',
+                  paddingTop: 8,
+                  paddingBottom: 8,
+                  paddingLeft: 20,
+                  paddingRight: 20,
+                  border: '1px solid #f59e0b',
+                  color: '#f59e0b',
+                  fontSize: 14,
+                  fontWeight: 600,
+                  letterSpacing: 1,
+                }}
+              >
+                {d}
+              </div>
+            ))}
+          </div>
+
+          {/* Domain */}
+          <div
+            style={{
+              display: 'flex',
+              color: '#444444',
+              fontSize: 13,
+              letterSpacing: 1,
+            }}
+          >
+            {DOMAIN}
           </div>
         </div>
 
-        {/* Right stripe column */}
+        {/* Photo panel */}
         <div
           style={{
             display: 'flex',
-            flexDirection: 'column',
-            width: 28,
+            width: 380,
             height: 630,
             flexShrink: 0,
           }}
         >
-          {stripes.map((s, i) => (
-            <div
-              key={i}
-              style={{
-                display: 'flex',
-                width: 28,
-                height: s.height,
-                backgroundColor: s.color,
-                flexShrink: 0,
-              }}
-            />
-          ))}
+          <img src={tableImg} width={380} height={630} alt="" aria-hidden="true" />
         </div>
       </div>
-    ),
+
+      {/* Right stripe column */}
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          width: 28,
+          height: 630,
+          flexShrink: 0,
+        }}
+      >
+        {stripes.map((s, i) => (
+          <div
+            key={i}
+            style={{
+              display: 'flex',
+              width: 28,
+              height: s.height,
+              backgroundColor: s.color,
+              flexShrink: 0,
+            }}
+          />
+        ))}
+      </div>
+    </div>,
     { ...size }
   )
 }

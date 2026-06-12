@@ -25,155 +25,153 @@ async function loadTableImage(): Promise<string> {
 export default async function Image() {
   const tableImg = await loadTableImage()
   return new ImageResponse(
-    (
+    <div
+      style={{
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        backgroundColor: '#ffffff',
+        fontFamily: 'Georgia, serif',
+      }}
+    >
+      {/* Red strip — leftmost 80px */}
       <div
         style={{
-          width: '100%',
-          height: '100%',
+          width: 80,
+          height: 630,
+          backgroundColor: '#dc2626',
           display: 'flex',
-          backgroundColor: '#ffffff',
-          fontFamily: 'Georgia, serif',
+          alignItems: 'center',
+          justifyContent: 'center',
+          flexShrink: 0,
         }}
       >
-        {/* Red strip — leftmost 80px */}
         <div
           style={{
-            width: 80,
-            height: 630,
-            backgroundColor: '#dc2626',
             display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            flexShrink: 0,
+            color: '#ffffff',
+            fontSize: 14,
+            letterSpacing: 3,
+            fontFamily: 'Helvetica Neue, Helvetica, Arial, sans-serif',
+            fontWeight: 700,
+            textTransform: 'uppercase',
+            transform: 'rotate(-90deg)',
+            whiteSpace: 'nowrap',
           }}
         >
-          <div
-            style={{
-              display: 'flex',
-              color: '#ffffff',
-              fontSize: 14,
-              letterSpacing: 3,
-              fontFamily: 'Helvetica Neue, Helvetica, Arial, sans-serif',
-              fontWeight: 700,
-              textTransform: 'uppercase',
-              transform: 'rotate(-90deg)',
-              whiteSpace: 'nowrap',
-            }}
-          >
-            {EYEBROW}
-          </div>
-        </div>
-
-        {/* Main content area */}
-        <div
-          style={{
-            flex: 1,
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            padding: '60px 56px 60px 56px',
-          }}
-        >
-          {/* Title */}
-          <div
-            style={{
-              display: 'flex',
-              fontSize: 76,
-              fontWeight: 700,
-              color: '#000000',
-              lineHeight: 1.0,
-              fontFamily: 'Georgia, serif',
-              marginBottom: 28,
-              letterSpacing: -1,
-            }}
-          >
-            {TITLE}
-          </div>
-
-          {/* Thin rule */}
-          <div
-            style={{
-              display: 'flex',
-              width: 60,
-              height: 3,
-              backgroundColor: '#dc2626',
-              marginBottom: 28,
-            }}
-          />
-
-          {/* Body */}
-          <div
-            style={{
-              display: 'flex',
-              fontSize: 26,
-              color: '#444444',
-              lineHeight: 1.5,
-              fontFamily: 'Georgia, serif',
-              marginBottom: 40,
-            }}
-          >
-            {BODY}
-          </div>
-
-          {/* Duration pills */}
-          <div
-            style={{
-              display: 'flex',
-              gap: 12,
-              marginBottom: 40,
-            }}
-          >
-            {DURATIONS.map((d) => (
-              <div
-                key={d}
-                style={{
-                  display: 'flex',
-                  paddingTop: 8,
-                  paddingBottom: 8,
-                  paddingLeft: 20,
-                  paddingRight: 20,
-                  border: '2px solid #000000',
-                  fontSize: 16,
-                  fontFamily: 'Helvetica Neue, Helvetica, Arial, sans-serif',
-                  fontWeight: 600,
-                  color: '#000000',
-                  letterSpacing: 1,
-                  textTransform: 'uppercase',
-                }}
-              >
-                {d}
-              </div>
-            ))}
-          </div>
-
-          {/* Domain */}
-          <div
-            style={{
-              display: 'flex',
-              fontSize: 18,
-              color: '#888888',
-              fontFamily: 'Helvetica Neue, Helvetica, Arial, sans-serif',
-              letterSpacing: 2,
-              textTransform: 'lowercase',
-            }}
-          >
-            {DOMAIN}
-          </div>
-        </div>
-
-        {/* Photo — right 380px */}
-        <div
-          style={{
-            width: 380,
-            height: 630,
-            display: 'flex',
-            flexShrink: 0,
-          }}
-        >
-          <img src={tableImg} width={380} height={630} alt="" aria-hidden="true" />
+          {EYEBROW}
         </div>
       </div>
-    ),
+
+      {/* Main content area */}
+      <div
+        style={{
+          flex: 1,
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          padding: '60px 56px 60px 56px',
+        }}
+      >
+        {/* Title */}
+        <div
+          style={{
+            display: 'flex',
+            fontSize: 76,
+            fontWeight: 700,
+            color: '#000000',
+            lineHeight: 1.0,
+            fontFamily: 'Georgia, serif',
+            marginBottom: 28,
+            letterSpacing: -1,
+          }}
+        >
+          {TITLE}
+        </div>
+
+        {/* Thin rule */}
+        <div
+          style={{
+            display: 'flex',
+            width: 60,
+            height: 3,
+            backgroundColor: '#dc2626',
+            marginBottom: 28,
+          }}
+        />
+
+        {/* Body */}
+        <div
+          style={{
+            display: 'flex',
+            fontSize: 26,
+            color: '#444444',
+            lineHeight: 1.5,
+            fontFamily: 'Georgia, serif',
+            marginBottom: 40,
+          }}
+        >
+          {BODY}
+        </div>
+
+        {/* Duration pills */}
+        <div
+          style={{
+            display: 'flex',
+            gap: 12,
+            marginBottom: 40,
+          }}
+        >
+          {DURATIONS.map((d) => (
+            <div
+              key={d}
+              style={{
+                display: 'flex',
+                paddingTop: 8,
+                paddingBottom: 8,
+                paddingLeft: 20,
+                paddingRight: 20,
+                border: '2px solid #000000',
+                fontSize: 16,
+                fontFamily: 'Helvetica Neue, Helvetica, Arial, sans-serif',
+                fontWeight: 600,
+                color: '#000000',
+                letterSpacing: 1,
+                textTransform: 'uppercase',
+              }}
+            >
+              {d}
+            </div>
+          ))}
+        </div>
+
+        {/* Domain */}
+        <div
+          style={{
+            display: 'flex',
+            fontSize: 18,
+            color: '#888888',
+            fontFamily: 'Helvetica Neue, Helvetica, Arial, sans-serif',
+            letterSpacing: 2,
+            textTransform: 'lowercase',
+          }}
+        >
+          {DOMAIN}
+        </div>
+      </div>
+
+      {/* Photo — right 380px */}
+      <div
+        style={{
+          width: 380,
+          height: 630,
+          display: 'flex',
+          flexShrink: 0,
+        }}
+      >
+        <img src={tableImg} width={380} height={630} alt="" aria-hidden="true" />
+      </div>
+    </div>,
     { ...size }
   )
 }

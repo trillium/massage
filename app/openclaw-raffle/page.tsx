@@ -3,6 +3,7 @@ import PageTitle from '@/components/PageTitle'
 import { getSupabaseAdminClient } from '@/lib/supabase/server'
 import RaffleForm from './RaffleForm'
 import raffleData from '@/data/raffle.json'
+import { Caption } from '@/components/ui/text'
 
 const openclawData = raffleData.openclaw
 
@@ -42,9 +43,9 @@ export default async function OpenClawRafflePage() {
     <SectionContainer>
       <PageTitle>{raffle.name}</PageTitle>
       <p className="mb-2 text-surface-600 dark:text-surface-400">{openclawData.pageSubtext}</p>
-      <p className="mb-6 text-xs text-surface-400 dark:text-surface-500">
+      <Caption className="mb-6">
         {openclawData.redeemDeadline}
-      </p>
+      </Caption>
       <div className="mx-auto max-w-2xl">
         <RaffleForm raffleId={raffle.id} raffleName={raffle.name} />
       </div>

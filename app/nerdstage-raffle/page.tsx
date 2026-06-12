@@ -3,6 +3,7 @@ import PageTitle from '@/components/PageTitle'
 import { getSupabaseAdminClient } from '@/lib/supabase/server'
 import raffleData from '@/data/raffle.json'
 import RaffleForm from './RaffleForm'
+import { Caption } from '@/components/ui/text'
 
 interface Raffle {
   id: string
@@ -42,9 +43,9 @@ export default async function NerdstageRafflePage() {
       <p className="mb-2 text-surface-600 dark:text-surface-400">
         {raffleData.nerdstage.pageSubtext}
       </p>
-      <p className="mb-6 text-xs text-surface-400 dark:text-surface-500">
+      <Caption className="mb-6">
         {raffleData.nerdstage.redeemDeadline}
-      </p>
+      </Caption>
       <div className="mx-auto max-w-2xl">
         <RaffleForm raffleId={raffle.id} raffleName={raffle.name} />
       </div>

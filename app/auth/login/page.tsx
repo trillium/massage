@@ -14,6 +14,8 @@
 import { LoginForm } from '@/components/auth/supabase/LoginForm'
 import Link from 'next/link'
 import { Suspense } from 'react'
+import { H1, H3 } from '@/components/ui/heading'
+import { TextSm, TextSmMuted, TextXs } from '@/components/ui/text'
 
 function LoginContent({
   searchParams,
@@ -28,24 +30,24 @@ function LoginContent({
       <div className="w-full max-w-md">
         <div className="rounded-lg bg-surface-50 px-8 py-10 shadow-md dark:bg-surface-800">
           <div className="mb-8 text-center">
-            <h1 className="text-3xl font-bold text-accent-900 dark:text-white">Sign In</h1>
-            <p className="mt-2 text-sm text-accent-600 dark:text-accent-400">
+            <H1 className="dark:text-white">Sign In</H1>
+            <TextSmMuted className="mt-2">
               Sign in to manage your account
-            </p>
+            </TextSmMuted>
           </div>
 
           {error && (
             <div className="mb-6 rounded-md border border-red-200 bg-red-50 p-4 dark:border-red-900 dark:bg-red-950">
-              <h3 className="text-sm font-medium text-red-800 dark:text-red-300">
+              <H3 status="error">
                 Authentication Error
-              </h3>
-              <p className="mt-1 text-sm text-red-700 dark:text-red-400">
+              </H3>
+              <TextSm className="mt-1" status="error">
                 {errorDescription || error}
-              </p>
+              </TextSm>
               {error === 'server_error' && (
-                <p className="mt-2 text-xs text-red-600 dark:text-red-500">
+                <TextXs className="mt-2" status="error">
                   This may be a database configuration issue. Check the server logs for details.
-                </p>
+                </TextXs>
               )}
             </div>
           )}
@@ -53,7 +55,7 @@ function LoginContent({
           <LoginForm />
         </div>
 
-        <p className="mt-6 text-center text-sm text-accent-600 dark:text-accent-400">
+        <TextSmMuted className="mt-6 text-center">
           New here?{' '}
           <Link
             href="/"
@@ -61,7 +63,7 @@ function LoginContent({
           >
             Learn more
           </Link>
-        </p>
+        </TextSmMuted>
       </div>
     </div>
   )

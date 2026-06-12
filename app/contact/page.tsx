@@ -2,6 +2,7 @@ import SectionContainer from '@/components/SectionContainer'
 import Image from 'next/image'
 import ContactForm from '@/components/ContactForm'
 import { pages } from '@/data'
+import { H1 } from '@/components/ui/heading'
 
 export default async function ContactPage({
   searchParams,
@@ -13,7 +14,7 @@ export default async function ContactPage({
 
   return (
     <SectionContainer>
-      <h1 className="mb-4 text-3xl font-bold">{pages.contact.heading}</h1>
+      <H1 className="mb-4">{pages.contact.heading}</H1>
       <p className="mb-6">{pages.contact.intro}</p>
       <div className="mb-8 grid grid-cols-1 gap-8 md:grid-cols-2">
         <ContactForm defaultSubject={defaultSubject} />

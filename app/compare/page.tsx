@@ -2,6 +2,8 @@ import SectionContainer from '@/components/SectionContainer'
 import { FaCheck, FaTimes, FaStar } from 'react-icons/fa'
 import { siteConfig } from '@/lib/siteConfig'
 import compareData from '@/data/compare.json'
+import { TextLgMuted, TextSmMuted, TextSmSemibold, TextXsMedium, TextXsMuted } from '@/components/ui/text'
+import { H1, H2, H3 } from '@/components/ui/heading'
 
 const Check = () => <FaCheck className="text-lg text-emerald-600 dark:text-emerald-400" />
 const Cross = () => <FaTimes className="text-lg text-accent-300 dark:text-accent-600" />
@@ -11,7 +13,7 @@ interface SoonProps {
 }
 
 const Soon = ({ label }: SoonProps) => (
-  <span className="text-xs font-medium text-amber-600 dark:text-amber-400">{label}</span>
+  <TextXsMedium className="text-amber-600 dark:text-amber-400">{label}</TextXsMedium>
 )
 const Star = () => <FaStar className="text-lg text-amber-500" />
 
@@ -32,55 +34,55 @@ export default function Page() {
     <SectionContainer>
       <div className="py-12">
         <div className="mb-12 text-center">
-          <p className="mb-2 text-sm font-semibold tracking-widest text-primary-600 uppercase dark:text-primary-400">
+          <TextSmSemibold className="mb-2 uppercase">
             {compareData.pageLabel}
-          </p>
-          <h1 className="mb-4 text-4xl font-bold tracking-tight text-accent-900 dark:text-accent-100">
+          </TextSmSemibold>
+          <H1 className="mb-4">
             {compareData.pageTitle}
-          </h1>
-          <p className="mx-auto max-w-2xl text-lg text-accent-600 dark:text-accent-400">
+          </H1>
+          <TextLgMuted className="mx-auto max-w-2xl">
             {compareData.pageDescription}
-          </p>
+          </TextLgMuted>
         </div>
 
-        <h2 className="mb-4 text-2xl font-bold text-accent-900 dark:text-accent-100">
+        <H2 className="mb-4">
           {compareData.whereWeLeadHeading}
-        </h2>
+        </H2>
         <div className="mb-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {compareData.advantages.map((a) => (
             <div
               key={a.title}
               className="rounded-lg border border-accent-200 p-4 dark:border-accent-700"
             >
-              <h3 className="mb-1 font-semibold text-accent-900 dark:text-accent-100">{a.title}</h3>
-              <p className="text-sm text-accent-600 dark:text-accent-400">{a.desc}</p>
+              <H3 className="mb-1">{a.title}</H3>
+              <TextSmMuted>{a.desc}</TextSmMuted>
             </div>
           ))}
         </div>
 
-        <h2 className="mb-4 text-2xl font-bold text-accent-900 dark:text-accent-100">
+        <H2 className="mb-4">
           {compareData.whereWeCatchingUpHeading}
-        </h2>
-        <p className="mb-4 text-sm text-accent-600 dark:text-accent-400">
+        </H2>
+        <TextSmMuted className="mb-4">
           {compareData.whereWeCatchingUpSubtext}
-        </p>
+        </TextSmMuted>
         <div className="mb-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {compareData.roadmap.map((r) => (
             <div
               key={r.feature}
               className="rounded-lg border border-amber-200 bg-amber-50/50 p-4 dark:border-amber-800 dark:bg-amber-950/20"
             >
-              <h3 className="mb-1 font-semibold text-accent-900 dark:text-accent-100">
+              <H3 className="mb-1">
                 <Soon label="Soon" /> <span className="ml-1">{r.feature}</span>
-              </h3>
-              <p className="text-sm text-accent-600 dark:text-accent-400">{r.desc}</p>
+              </H3>
+              <TextSmMuted>{r.desc}</TextSmMuted>
             </div>
           ))}
         </div>
 
-        <h2 className="mb-4 text-2xl font-bold text-accent-900 dark:text-accent-100">
+        <H2 className="mb-4">
           {compareData.fullFeatureGridHeading}
-        </h2>
+        </H2>
         <div className="-mx-4 overflow-x-auto sm:mx-0">
           <table className="w-full min-w-[720px] border-collapse text-left">
             <thead>
@@ -127,9 +129,9 @@ export default function Page() {
         </div>
 
         <div className="mt-14 rounded-lg bg-surface-100 p-8 dark:bg-surface-800/50">
-          <h2 className="mb-3 text-xl font-bold text-accent-900 dark:text-accent-100">
+          <H2 className="mb-3">
             {compareData.honestTakeHeading}
-          </h2>
+          </H2>
           <div className="space-y-3 text-sm leading-relaxed text-accent-600 dark:text-accent-400">
             <p>{compareData.honestTakeParagraph1}</p>
             <p>{compareData.honestTakeParagraph2}</p>
@@ -141,9 +143,9 @@ export default function Page() {
           </div>
         </div>
 
-        <p className="mt-8 text-center text-xs text-accent-400 dark:text-accent-600">
+        <TextXsMuted className="mt-8 text-center">
           {compareData.dataSourceAttribution}
-        </p>
+        </TextXsMuted>
       </div>
     </SectionContainer>
   )

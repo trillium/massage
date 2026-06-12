@@ -11,6 +11,8 @@
 
 import { LoginForm } from '@/components/auth/supabase/LoginForm'
 import { Suspense } from 'react'
+import { H1 } from '@/components/ui/heading'
+import { TextSmMuted } from '@/components/ui/text'
 
 function LoginContent({ redirectTo }: { redirectTo?: string }) {
   return (
@@ -18,19 +20,19 @@ function LoginContent({ redirectTo }: { redirectTo?: string }) {
       <div className="w-full max-w-md">
         <div className="rounded-lg bg-surface-50 px-8 py-10 shadow-md">
           <div className="mb-8 text-center">
-            <h1 className="text-3xl font-bold text-accent-900">Sign In</h1>
-            <p className="mt-2 text-sm text-accent-600">Enter your email to receive a magic link</p>
+            <H1>Sign In</H1>
+            <TextSmMuted className="mt-2">Enter your email to receive a magic link</TextSmMuted>
           </div>
 
           <LoginForm redirectTo={redirectTo} />
         </div>
 
-        <p className="mt-6 text-center text-sm text-accent-600">
+        <TextSmMuted className="mt-6 text-center">
           New here?{' '}
           <a href="/" className="font-medium text-blue-600 hover:text-blue-500">
             Learn more
           </a>
-        </p>
+        </TextSmMuted>
       </div>
     </div>
   )

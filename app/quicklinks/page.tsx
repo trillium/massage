@@ -1,6 +1,7 @@
 import SectionContainer from '@/components/SectionContainer'
 import Link from '@/components/Link'
 import { quickLinks } from '@/data/paymentLinks'
+import { TextSmMuted } from '@/components/ui/text'
 
 export default function QuicklinksPage() {
   return (
@@ -18,7 +19,7 @@ export default function QuicklinksPage() {
                 <span className="font-semibold text-accent-900 dark:text-accent-100">
                   {link.label}
                 </span>
-                <p className="text-sm text-accent-500 dark:text-accent-400">{link.description}</p>
+                <TextSmMuted>{link.description}</TextSmMuted>
               </div>
             </Link>
           ))}

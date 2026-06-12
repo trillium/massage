@@ -6,6 +6,7 @@ import SandboxProvider, { useSandbox } from './SandboxProvider'
 import UserView from './components/UserView'
 import AdminView from './components/AdminView'
 import pagesData from '@/data/pages.json'
+import { TextXs, TextXsMuted } from '@/components/ui/text'
 
 function TabBar() {
   const { state, dispatch, resetSession } = useSandbox()
@@ -34,15 +35,15 @@ function TabBar() {
           >
             {sandbox.tabs[tab]}
             {tab === 'admin' && pendingCount > 0 && (
-              <span className="ml-2 inline-flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs text-white">
+              <TextXs className="ml-2 inline-flex h-5 w-5 items-center justify-center rounded-full bg-red-500">
                 {pendingCount}
-              </span>
+              </TextXs>
             )}
           </button>
         ))}
       </div>
       <div className="flex items-center gap-3">
-        <span className="hidden text-xs text-accent-400 sm:inline">{sandbox.labels.mode}</span>
+        <TextXsMuted className="hidden sm:inline">{sandbox.labels.mode}</TextXsMuted>
         <button
           onClick={handleReset}
           className="rounded-md bg-surface-200 px-3 py-1.5 text-sm font-medium text-accent-700 transition-colors hover:bg-surface-300 dark:bg-surface-700 dark:text-accent-300 dark:hover:bg-surface-600"

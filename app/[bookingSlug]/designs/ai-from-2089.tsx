@@ -7,7 +7,15 @@ const TEXT = '#ffffff'
 const MUTED = '#cccccc'
 const MUTED_DIM = '#555555'
 
-export function render({ title, bodyText, durations, discountLabel, domainLabel, eyebrow, tableImageSrc }: OgImageData) {
+export function render({
+  title,
+  bodyText,
+  durations,
+  discountLabel,
+  domainLabel,
+  eyebrow,
+  tableImageSrc,
+}: OgImageData) {
   const showPills = durations.length > 0
 
   return (
@@ -34,7 +42,9 @@ export function render({ title, bodyText, durations, discountLabel, domainLabel,
       >
         {/* Eyebrow */}
         <div style={{ display: 'flex', alignItems: 'center', marginBottom: 28 }}>
-          <div style={{ display: 'flex', width: 28, height: 2, background: GOLD, marginRight: 12 }} />
+          <div
+            style={{ display: 'flex', width: 28, height: 2, background: GOLD, marginRight: 12 }}
+          />
           <div
             style={{
               display: 'flex',
