@@ -26,7 +26,7 @@ const iconMap: Record<ChangelogIcon, React.ReactNode> = {
   tools: <FaTools className="text-accent-500" />,
   bell: <FaBell className="text-amber-500" />,
   map: <FaMapMarkerAlt className="text-blue-500" />,
-  images: <FaImages className="text-teal-500" />,
+  images: <FaImages className="text-primary-500" />,
   code: <FaCode className="text-emerald-500" />,
   globe: <FaGlobe className="text-sky-500" />,
 }
