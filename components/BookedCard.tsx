@@ -1,5 +1,6 @@
 import clsx from 'clsx'
 import { siteConfig } from '@/lib/siteConfig'
+import ui from '@/data/ui.json'
 
 export function BookedCard({
   dateString,
@@ -37,20 +38,24 @@ export function BookedCard({
   additionalNotes?: string
 }) {
   const cards = [
-    { title: 'Name', text: `${firstName} ${lastName}`, emphasize: true },
-    { title: 'Location', text: location, emphasize: false },
-    { title: 'Phone', text: phone, emphasize: false },
-    { title: 'Email', text: email, emphasize: false },
-    ...(promo ? [{ title: 'Promo', text: promo, emphasize: false }] : []),
-    ...(hotelRoomNumber ? [{ title: 'Room', text: hotelRoomNumber, emphasize: false }] : []),
-    ...(parkingInstructions
-      ? [{ title: 'Parking', text: parkingInstructions, emphasize: false }]
+    { title: ui.bookedCard.name, text: `${firstName} ${lastName}`, emphasize: true },
+    { title: ui.bookedCard.location, text: location, emphasize: false },
+    { title: ui.bookedCard.phone, text: phone, emphasize: false },
+    { title: ui.bookedCard.email, text: email, emphasize: false },
+    ...(promo ? [{ title: ui.bookedCard.promo, text: promo, emphasize: false }] : []),
+    ...(hotelRoomNumber
+      ? [{ title: ui.bookedCard.room, text: hotelRoomNumber, emphasize: false }]
       : []),
-    ...(additionalNotes ? [{ title: 'Notes', text: additionalNotes, emphasize: false }] : []),
+    ...(parkingInstructions
+      ? [{ title: ui.bookedCard.parking, text: parkingInstructions, emphasize: false }]
+      : []),
+    ...(additionalNotes
+      ? [{ title: ui.bookedCard.notes, text: additionalNotes, emphasize: false }]
+      : []),
     ...(bookingUrl
       ? [
           {
-            title: 'Source',
+            title: ui.bookedCard.source,
             text:
               (typeof window !== 'undefined'
                 ? window.location.host
@@ -73,12 +78,19 @@ export function BookedCard({
             <div>
               <p className="text-primary-800 dark:text-primary-400 text-base font-semibold md:text-lg">
                 {dateString}
-                {duration && ` - ${duration}m Massage`}
+                {duration && ` - ${duration}${ui.bookedCard.massageLabel}`}
               </p>
               <p className="text-sm md:text-base">
-                {startString} - {endString}
+                {startString}
+                {ui.bookedCard.separator}
+                {endString}
               </p>
-              {price && <p className="text-base">${price}</p>}
+              {price && (
+                <p className="text-base">
+                  {ui.bookedCard.currencySymbol}
+                  {price}
+                </p>
+              )}
             </div>
             <p className="text-base font-bold md:text-xl">{state}</p>
           </div>
@@ -108,7 +120,8 @@ function CardItem({
           { 'font-bold': emphasize }
         )}
       >
-        {title}:
+        {title}
+        {ui.bookedCard.titleSeparator}
       </span>
       <span className={clsx({ 'text-lg font-bold': emphasize })}>{text}</span>
     </p>

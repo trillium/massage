@@ -1,0 +1,37 @@
+{
+  "socialIcons": {
+    "facebook": "Facebook",
+    "github": "GitHub",
+    "linkedin": "Linkedin",
+    "mail": "Mail",
+    "twitter": "Twitter",
+    "x": "X",
+    "youtube": "Youtube",
+    "mastodon": "Mastodon",
+    "threads": "Threads",
+    "instagram": "Instagram",
+    "medium": "Medium",
+    "bluesky": "Bluesky"
+  },
+  "themeSwitch": {
+    "ariaLabel": "Theme switcher",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
+  "bookedCard": {
+    "name": "Name",
+    "location": "Location",
+    "phone": "Phone",
+    "email": "Email",
+    "promo": "Promo",
+    "room": "Room",
+    "parking": "Parking",
+    "notes": "Notes",
+    "source": "Source",
+    "massageLabel": "m Massage",
+    "separator": " - ",
+    "currencySymbol": "$",
+    "titleSeparator": ":"
+  }
+}

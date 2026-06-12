@@ -11,6 +11,7 @@ import {
   RadioGroup,
   Transition,
 } from '@headlessui/react'
+import ui from '@/data/ui.json'
 
 const Sun = () => (
   <svg
@@ -68,7 +69,7 @@ const ThemeSwitch = () => {
           className="hover:text-primary-500 dark:hover:text-primary-400 flex items-center justify-center"
           suppressHydrationWarning={true}
         >
-          <MenuButton aria-label="Theme switcher">
+          <MenuButton aria-label={ui.themeSwitch.ariaLabel}>
             {mounted ? resolvedTheme === 'dark' ? <Moon /> : <Sun /> : <Blank />}
           </MenuButton>
         </div>
@@ -93,7 +94,7 @@ const ThemeSwitch = () => {
                         <div className="mr-2">
                           <Sun />
                         </div>
-                        Light
+                        {ui.themeSwitch.light}
                       </button>
                     )}
                   </MenuItem>
@@ -109,7 +110,7 @@ const ThemeSwitch = () => {
                         <div className="mr-2">
                           <Moon />
                         </div>
-                        Dark
+                        {ui.themeSwitch.dark}
                       </button>
                     )}
                   </MenuItem>
@@ -125,7 +126,7 @@ const ThemeSwitch = () => {
                         <div className="mr-2">
                           <Monitor />
                         </div>
-                        System
+                        {ui.themeSwitch.system}
                       </button>
                     )}
                   </MenuItem>
