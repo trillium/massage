@@ -33,5 +33,10 @@
     "separator": " - ",
     "currencySymbol": "$",
     "titleSeparator": ":"
+  },
+  "misc": {
+    "loadComments": "Load Comments",
+    "learnMore": "Learn more →",
+    "chooseDate": "Choose a Date"
   }
 }

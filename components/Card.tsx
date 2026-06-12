@@ -1,5 +1,6 @@
 import Image from './Image'
 import Link from './Link'
+import uiData from '@/data/ui.json'
 
 const Card = ({
   title,
@@ -55,7 +56,7 @@ const Card = ({
             className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400 text-base leading-6 font-medium"
             aria-label={`Link to ${title}`}
           >
-            Learn more &rarr;
+            {uiData.misc.learnMore}
           </Link>
         )}
       </div>

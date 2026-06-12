@@ -31,11 +31,15 @@ function AppointmentDetails({ appointment }: { appointment: Appointment }) {
     <div className="mt-4 space-y-2 text-sm text-accent-600 dark:text-accent-400">
       <DetailRow label={admin.notesModal.labels.time}>
         <span>
+          {/* biome-ignore lint/style/noJsxLiterals: time range separator */}
           {formatLocalTime(appointment.start_time)} – {formatLocalTime(appointment.end_time)}
         </span>
       </DetailRow>
       <DetailRow label={admin.notesModal.labels.duration}>
-        <span>{appointment.duration_minutes}min</span>
+        <span>
+          {/* biome-ignore lint/style/noJsxLiterals: duration suffix */}
+          {appointment.duration_minutes}min
+        </span>
       </DetailRow>
       <DetailRow label={admin.notesModal.labels.email}>
         <span>{appointment.client_email}</span>

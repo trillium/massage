@@ -4,6 +4,7 @@ import { GeneratePrice } from '@/components/ui/atoms/GeneratePriceAtom'
 import { BookingFormData } from '@/lib/types'
 import { flattenLocation } from '@/lib/helpers/locationHelpers'
 import { validatePromoCode } from '@/lib/promoCodes'
+import bookingData from '@/data/booking.json'
 
 interface BookingSummaryProps {
   dateString: string
@@ -46,7 +47,9 @@ const BookingSummary: React.FC<BookingSummaryProps> = ({
             {dateString}
           </p>
           <p className="text-xs md:text-sm">
-            {startString} - {endString}
+            {startString}
+            {bookingData.summary.timeSeparator}
+            {endString}
           </p>
         </div>
         {acceptingPayment && (
@@ -56,27 +59,36 @@ const BookingSummary: React.FC<BookingSummaryProps> = ({
         )}
       </div>
       <div className="mt-1 flex items-start text-xs text-accent-700 md:text-sm dark:text-accent-300">
-        <span className="w-18 shrink-0 font-medium">Client:&nbsp;</span>
+        <span className="w-18 shrink-0 font-medium">{bookingData.summary.clientLabel}</span>
         <span className="break-words">
           {clientName || (
-            <span className="text-accent-400 italic dark:text-accent-500">(enter name below)</span>
+            <span className="text-accent-400 italic dark:text-accent-500">
+              {bookingData.summary.clientPlaceholder}
+            </span>
           )}
         </span>
       </div>
       {promoLine && (
         <div className="mt-1 flex items-start text-xs text-primary-600 md:text-sm dark:text-primary-400">
-          <span className="font-medium">✓ {promoLine}</span>
+          <span className="font-medium">
+            {bookingData.summary.promoCheckmark} {promoLine}
+          </span>
         </div>
       )}
       <div className="flex items-start text-xs text-accent-700 md:text-sm dark:text-accent-300">
-        <span className="w-18 shrink-0 font-medium">Location:&nbsp;</span>
+        <span className="w-18 shrink-0 font-medium">{bookingData.summary.locationLabel}</span>
         <span className="break-words">
           {location || (
             <span className="text-accent-400 italic dark:text-accent-500">
-              (enter location below)
+              {bookingData.summary.locationPlaceholder}
             </span>
           )}
-          {formData?.hotelRoomNumber && <span>, Room: #{formData.hotelRoomNumber}</span>}
+          {formData?.hotelRoomNumber && (
+            <span>
+              {bookingData.summary.roomPrefix}
+              {formData.hotelRoomNumber}
+            </span>
+          )}
         </span>
       </div>
     </div>

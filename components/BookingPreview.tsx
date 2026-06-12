@@ -4,6 +4,7 @@ import DurationPicker from '@/components/availability/controls/DurationPicker'
 import Calendar from '@/components/availability/date/Calendar'
 import { buildDurationProps } from '@/lib/slugConfigurations/helpers/buildDurationProps'
 import { DEFAULT_DURATION } from 'config'
+import uiData from '@/data/ui.json'
 
 interface BookingPreviewProps {
   title?: string
@@ -22,7 +23,9 @@ export default function BookingPreview({ title = 'Select Your Session' }: Bookin
         </div>
 
         <div>
-          <h4 className="mb-4 text-lg font-semibold dark:text-accent-100">Choose a Date</h4>
+          <h4 className="mb-4 text-lg font-semibold dark:text-accent-100">
+            {uiData.misc.chooseDate}
+          </h4>
           <Calendar weeksDisplayOverride={6} />
         </div>
       </div>

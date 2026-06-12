@@ -89,5 +89,14 @@
     "slotTakenTitle": "That time slot was just booked by someone else.",
     "slotTakenMessage": "Please pick a different time below — availability has been refreshed.",
     "slotTakenDismiss": "Dismiss"
+  },
+  "summary": {
+    "clientLabel": "Client: ",
+    "clientPlaceholder": "(enter name below)",
+    "locationLabel": "Location: ",
+    "locationPlaceholder": "(enter location below)",
+    "roomPrefix": ", Room: #",
+    "timeSeparator": " - ",
+    "promoCheckmark": "✓"
   }
 }

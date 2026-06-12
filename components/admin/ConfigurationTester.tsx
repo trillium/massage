@@ -111,6 +111,7 @@ export default function ConfigurationTester({ onConfigurationChange }: Configura
           </option>
           {Object.entries(configurations).map(([slug, config]) => (
             <option key={slug} value={slug}>
+              {/* biome-ignore lint/style/noJsxLiterals: dynamic interpolated configuration display */}
               {slug} ({config.type}) {config.title ? `- ${config.title}` : ''}
             </option>
           ))}

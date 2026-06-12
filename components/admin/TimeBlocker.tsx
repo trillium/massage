@@ -170,6 +170,7 @@ export default function TimeBlocker({ eventContainer }: TimeBlockerProps) {
               className="flex items-center justify-between rounded border border-accent-100 bg-white px-3 py-2 text-sm dark:border-accent-600 dark:bg-surface-700"
             >
               <span className="font-medium text-accent-800 dark:text-accent-200">
+                {/* biome-ignore lint/style/noJsxLiterals: time range separator */}
                 {formatTime(b.start.dateTime)} – {formatTime(b.end.dateTime)}
               </span>
               <button
