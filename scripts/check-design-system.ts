@@ -13,16 +13,14 @@
  * Escape hatches:
  *   - `// ds-ignore` on a line — skips that single line
  *   - `/* ds-ignore-file *\/` anywhere in the file — skips the whole file
+ *
+ * Rules are sourced from components/ui/manifest.ts — the single source of
+ * truth shared with audit-ui.ts and the design-system page.
  */
 
 import { readFileSync, existsSync, statSync } from 'node:fs'
-
-interface Rule {
-  name: string
-  pattern: RegExp
-  component: string
-  importPath: string
-}
+import { resolve, sep, posix } from 'node:path'
+import { DS_RULES, type DsRule } from '../components/ui/manifest'
 
 interface Finding {
   file: string
@@ -32,33 +30,6 @@ interface Finding {
   importPath: string
   excerpt: string
 }
-
-const RULES: Rule[] = [
-  {
-    name: 'raw-input',
-    pattern: /<input\b[^>]*\bclassName=/,
-    component: '<Input>',
-    importPath: '@/components/ui/',
-  },
-  {
-    name: 'raw-textarea',
-    pattern: /<textarea\b[^>]*\bclassName=/,
-    component: '<Textarea>',
-    importPath: '@/components/ui/',
-  },
-  {
-    name: 'raw-button',
-    pattern: /<button\b[^>]*\bclassName=/,
-    component: '<Button>',
-    importPath: '@/components/ui/',
-  },
-  {
-    name: 'raw-badge',
-    pattern: /<span\b[^>]*badge/,
-    component: '<Badge>',
-    importPath: '@/components/ui/',
-  },
-]
 
 const FILE_OPT_OUT = '/* ds-ignore-file */'
 const LINE_OPT_OUT = '// ds-ignore'
@@ -77,6 +48,25 @@ function shouldSkipPath(file: string): boolean {
   return false
 }
 
+function toPosix(p: string): string {
+  return sep === posix.sep ? p : p.split(sep).join(posix.sep)
+}
+
+function isSelfFile(absFile: string, rule: DsRule): boolean {
+  if (!rule.selfExempt) return false
+  const posixFile = toPosix(absFile)
+  const importPath = rule.importPath.replace(/^@\//, '/')
+  return posixFile.includes(importPath + '.tsx') || posixFile.includes(importPath + '.ts')
+}
+
+function lineMatches(line: string, rule: DsRule): boolean {
+  for (const p of rule.patterns) {
+    if (p.jsx?.test(line)) return true
+    if (p.className?.test(line)) return true
+  }
+  return false
+}
+
 function checkFile(file: string): Finding[] {
   if (!existsSync(file)) return []
   try {
@@ -87,13 +77,15 @@ function checkFile(file: string): Finding[] {
   const source = readFileSync(file, 'utf8')
   if (source.includes(FILE_OPT_OUT)) return []
 
+  const absFile = resolve(file)
   const lines = source.split('\n')
   const findings: Finding[] = []
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i]
     if (line.includes(LINE_OPT_OUT)) continue
-    for (const rule of RULES) {
-      if (rule.pattern.test(line)) {
+    for (const rule of DS_RULES) {
+      if (isSelfFile(absFile, rule)) continue
+      if (lineMatches(line, rule)) {
         findings.push({
           file,
           line: i + 1,

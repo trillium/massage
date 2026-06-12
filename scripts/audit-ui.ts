@@ -5,6 +5,9 @@
  * Mirrors check-design-system.ts logic but sweeps the whole repo instead of
  * running per-file in lint-staged. Use this to see the full violation backlog.
  *
+ * Rules are sourced from components/ui/manifest.ts — the single source of
+ * truth shared with check-design-system.ts and the design-system page.
+ *
  * Usage:
  *   bun scripts/audit-ui.ts              # prints JSON report
  *   bun scripts/audit-ui.ts --summary    # prints summary table only
@@ -12,25 +15,8 @@
  */
 
 import { readFileSync, existsSync } from 'node:fs'
-import { resolve, relative, join } from 'node:path'
-import { globSync } from 'node:fs'
-
-interface Rule {
-  name: string
-  pattern: RegExp
-  component: string
-}
-
-const RULES: Rule[] = [
-  { name: 'raw-input', pattern: /<input\b[^>]*\bclassName=/, component: '<Input>' },
-  { name: 'raw-textarea', pattern: /<textarea\b[^>]*\bclassName=/, component: '<Textarea>' },
-  { name: 'raw-button', pattern: /<button\b[^>]*\bclassName=/, component: '<Button>' },
-  {
-    name: 'raw-gradient-text',
-    pattern: /\bbg-clip-text\b.*\btext-transparent\b|\btext-transparent\b.*\bbg-clip-text\b/,
-    component: '<GradientText>',
-  },
-]
+import { resolve, relative, join, sep, posix } from 'node:path'
+import { DS_RULES, type DsRule } from '../components/ui/manifest'
 
 const DS_IGNORE_FILE = /\/\*\s*ds-ignore-file\s*\*\//
 const DS_IGNORE_LINE = /\/\/\s*ds-ignore/
@@ -59,6 +45,25 @@ const summaryOnly = args.includes('--summary')
 const singleFile = args.includes('--file') ? args[args.indexOf('--file') + 1] : null
 
 const SKIP_DIRS = ['.next', 'node_modules', '.contentlayer', 'coverage', '.claude']
+
+function toPosix(p: string): string {
+  return sep === posix.sep ? p : p.split(sep).join(posix.sep)
+}
+
+function isSelfFile(absFile: string, rule: DsRule): boolean {
+  if (!rule.selfExempt) return false
+  const posixFile = toPosix(absFile)
+  const importPath = rule.importPath.replace(/^@\//, '/')
+  return posixFile.includes(importPath + '.tsx') || posixFile.includes(importPath + '.ts')
+}
+
+function lineMatches(line: string, rule: DsRule): boolean {
+  for (const p of rule.patterns) {
+    if (p.jsx?.test(line)) return true
+    if (p.className?.test(line)) return true
+  }
+  return false
+}
 
 function collectFiles(): string[] {
   if (singleFile) return [resolve(REPO_ROOT, singleFile)]
@@ -97,8 +102,9 @@ function scanFile(absPath: string): Violation[] {
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i]
     if (DS_IGNORE_LINE.test(line)) continue
-    for (const rule of RULES) {
-      if (rule.pattern.test(line)) {
+    for (const rule of DS_RULES) {
+      if (isSelfFile(absPath, rule)) continue
+      if (lineMatches(line, rule)) {
         violations.push({
           line: i + 1,
           rule: rule.name,

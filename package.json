@@ -17,6 +17,7 @@
     "audit:content:summary": "bun scripts/audit-content.ts --summary",
     "audit:ui": "bun scripts/audit-ui.ts",
     "audit:ui:summary": "bun scripts/audit-ui.ts --summary",
+    "audit:ds-coverage": "bun scripts/check-ds-coverage.ts",
     "prepare": "husky",
     "test": "vitest run --changed --reporter=dot",
     "test:all": "vitest run --reporter=dot",
@@ -172,6 +173,7 @@
     "*.+(js|jsx|ts|tsx)": [
       "biome check --write --no-errors-on-unmatched",
       "bun scripts/check-design-system.ts",
+      "bun scripts/check-ds-coverage.ts",
       "bun scripts/check-brand-purity.ts",
       "bash -c '.husky/tsc-staged.sh'",
       "bash -c 'cspell --no-progress \"$@\" || exit 0' --"

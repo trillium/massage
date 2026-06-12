@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { GradientText } from '@/components/ui/GradientText'
+import { DS_RULES } from '@/components/ui/manifest'
 
 const PALETTE_SCALES = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950]
 
@@ -23,32 +24,13 @@ const PALETTES = [
   { name: 'accent', label: 'Accent', description: 'Text, borders, dividers, structural neutrals' },
 ]
 
-const ENFORCEMENT_RULES = [
-  {
-    rule: '<input className=…>',
-    fix: '<Input> from @/components/ui/',
-    guard: 'check-design-system.mjs',
-  },
-  {
-    rule: '<textarea className=…>',
-    fix: '<Textarea> from @/components/ui/',
-    guard: 'check-design-system.mjs',
-  },
-  {
-    rule: '<button className=…>',
-    fix: '<Button> from @/components/ui/',
-    guard: 'check-design-system.mjs',
-  },
-  {
-    rule: '<span className=…badge…>',
-    fix: '<Badge> from @/components/ui/',
-    guard: 'check-design-system.mjs',
-  },
-  {
-    rule: 'bg-clip-text text-transparent bg-gradient-to-*',
-    fix: '<GradientText> from @/components/ui/GradientText',
-    guard: 'audit-ui.ts',
-  },
+const MANIFEST_RULES = DS_RULES.map((r) => ({
+  rule: r.rawPattern,
+  fix: `${r.component} from ${r.importPath}`,
+  guard: 'check-design-system.ts + audit-ui.ts (manifest)',
+}))
+
+const NON_MANIFEST_RULES = [
   {
     rule: 'Bare JSX text node',
     fix: 'Move string to data/*.json, import via @/data',
@@ -57,9 +39,11 @@ const ENFORCEMENT_RULES = [
   {
     rule: '@/data import in brand/OG file',
     fix: 'Brand files own their strings — remove the import',
-    guard: 'check-brand-purity.mjs',
+    guard: 'check-brand-purity.ts',
   },
 ]
+
+const ENFORCEMENT_RULES = [...MANIFEST_RULES, ...NON_MANIFEST_RULES]
 
 const OPT_OUTS = [
   {
