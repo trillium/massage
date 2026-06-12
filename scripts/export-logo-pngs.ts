@@ -12,7 +12,7 @@ const base = readFileSync(SVG_PATH, 'utf8')
 
 function buildSvg(restColor: 'white' | 'black'): string {
   return base
-    .replace(/<style>[\s\S]*?<\/style>/, '')
+    .replace(/<style>[\s\S]*?<\/style>/u, '') // content-ok: regex pattern, not UI text
     .replace('fill="#0d9488"', `fill="${RED}"`)
     .replace('<g class="rest">', `<g class="rest" fill="${restColor}">`)
 }
@@ -21,9 +21,22 @@ function renderPng(svg: string, outPath: string): void {
   const tmpFile = join(tmpdir(), `logo-${Date.now()}.svg`)
   try {
     writeFileSync(tmpFile, svg, 'utf8')
-    execFileSync('rsvg-convert', ['-w', String(SIZE), '-h', String(SIZE), '--keep-aspect-ratio', '-o', outPath, tmpFile])
+    execFileSync('rsvg-convert', [
+      '-w',
+      String(SIZE),
+      '-h',
+      String(SIZE),
+      '--keep-aspect-ratio',
+      '-o',
+      outPath,
+      tmpFile,
+    ])
   } finally {
-    try { unlinkSync(tmpFile) } catch { /* ignore */ }
+    try {
+      unlinkSync(tmpFile)
+    } catch {
+      /* ignore */
+    }
   }
 }
 

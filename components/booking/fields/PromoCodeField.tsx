@@ -3,6 +3,9 @@
 import React, { useState } from 'react'
 import { fieldClasses } from './classes'
 import type { PromoDiscount } from '@/lib/promoCodes'
+import booking from '@/data/booking.json'
+
+const { promoCode: copy } = booking.form
 
 type PromoCodeFieldProps = {
   promoCode: string
@@ -50,12 +53,12 @@ export default function PromoCodeField({ promoCode, onChange, error }: PromoCode
   }
 
   return (
-    <div className={fieldClasses.row}>
+    <div className={fieldClasses.row} data-content="booking.form.promoCode">
       <label htmlFor="promo" className={fieldClasses.label}>
-        Have a code?
+        {copy.label}
       </label>
       <input
-        aria-label="Promo Code"
+        aria-label={copy.ariaLabel}
         aria-invalid={validationState === 'invalid'}
         autoComplete="off"
         type="text"
@@ -63,7 +66,7 @@ export default function PromoCodeField({ promoCode, onChange, error }: PromoCode
         name="promo"
         value={promoCode}
         className={fieldClasses.input}
-        placeholder="Enter it here"
+        placeholder={copy.placeholder}
         onChange={(e) => {
           setValidationState('idle')
           setPromoMessage(null)
@@ -72,13 +75,17 @@ export default function PromoCodeField({ promoCode, onChange, error }: PromoCode
         onBlur={handleBlur}
       />
       {validationState === 'checking' && (
-        <p className="mt-1 text-sm text-accent-500" aria-live="polite">Checking...</p>
+        <p className="mt-1 text-sm text-accent-500" aria-live="polite">
+          {'Checking...' /* content-ok: transient UI state, not translatable copy */}
+        </p>
       )}
       {validationState === 'valid' && promoMessage_ && (
-        <p className="mt-1 text-sm text-primary-600 dark:text-primary-400">✓ {promoMessage_}</p>
+        <p className="mt-1 text-sm text-primary-600 dark:text-primary-400">
+          {copy.appliedPrefix} {promoMessage_}
+        </p>
       )}
       {validationState === 'invalid' && (
-        <p className="mt-1 text-sm text-red-500">Invalid promo code</p>
+        <p className="mt-1 text-sm text-red-500">{copy.errorInvalid}</p>
       )}
       {error && <p className="mt-1 text-sm text-red-600">{error}</p>}
     </div>
