@@ -2,6 +2,7 @@ import SectionContainer from '@/components/SectionContainer'
 import { DEFAULT_PRICING } from 'config'
 import Link from '@/components/Link'
 import { home } from '@/app/content'
+import pages from '@/data/pages.json'
 
 const pricingStart = [{ duration: 60 }, { duration: 90 }, { duration: 120 }, { duration: 150 }]
 
@@ -13,22 +14,22 @@ const pricing = pricingStart.map((item) => ({
 export default function PricingPage() {
   return (
     <SectionContainer>
-      <h1 className="mb-4 text-3xl font-bold">Pricing</h1>
+      <h1 className="mb-4 text-3xl font-bold">{pages.pricing.heading}</h1>
       <p className="mb-6" data-content="pricing.pageLead">
         {home.pricing.pageLead}
       </p>
       <table className="mb-6 w-full table-auto border-collapse overflow-hidden rounded-lg">
         <thead className="bg-primary-500 dark:bg-primary-600 text-accent-100">
           <tr>
-            <th className="px-4 py-2 text-left">Session Duration (min)</th>
-            <th className="px-4 py-2 text-left">Price (USD)</th>
+            <th className="px-4 py-2 text-left">{pages.pricing.tableHeaders.duration}</th>
+            <th className="px-4 py-2 text-left">{pages.pricing.tableHeaders.price}</th>
           </tr>
         </thead>
         <tbody>
           {pricing.map((row) => (
             <tr key={row.duration} className="border-b last:border-b-0">
               <td className="px-4 py-2">{row.duration}</td>
-              <td className="px-4 py-2">${row.price}</td>
+              <td className="px-4 py-2">{`${pages.pricing.currencySymbol}${row.price}`}</td>
             </tr>
           ))}
         </tbody>
@@ -46,7 +47,7 @@ export default function PricingPage() {
         href="/book"
         className="bg-primary-600 hover:bg-primary-700 rounded px-4 py-2 font-semibold text-white"
       >
-        Book a Session
+        {pages.pricing.button}
       </Link>
     </SectionContainer>
   )

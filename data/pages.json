@@ -3,5 +3,14 @@
     "heading": "Contact Us",
     "intro": "Thanks for reaching out! Happy to answer any questions you have :)",
     "serviceArea": "Serving the LA Metro Area"
+  },
+  "pricing": {
+    "heading": "Pricing",
+    "tableHeaders": {
+      "duration": "Session Duration (min)",
+      "price": "Price (USD)"
+    },
+    "currencySymbol": "$",
+    "button": "Book a Session"
   }
 }
