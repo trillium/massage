@@ -1,8 +1,6 @@
 /* ds-ignore-file */
 import React from 'react'
 import { ImageResponse } from 'next/og'
-import { join } from 'node:path'
-import sharp from 'sharp'
 import { fetchSlugConfigurationData } from '@/lib/slugConfigurations/fetchSlugConfigurationData'
 import siteMetadata from '@/data/siteMetadata'
 import type { OgImageData } from './designs/types'
@@ -26,12 +24,8 @@ const DESIGNS: Record<string, (data: OgImageData) => React.JSX.Element> = {
 }
 const DEFAULT_DESIGN = 'vintage-postcard'
 
-async function loadTableImageAsJpeg(): Promise<string> {
-  const buf = await sharp(join(process.cwd(), 'public/static/images/table/table_square_02.webp'))
-    .resize(380, 630, { fit: 'cover', position: 'centre' })
-    .jpeg({ quality: 90 })
-    .toBuffer()
-  return `data:image/jpeg;base64,${buf.toString('base64')}`
+function tableImageUrl(baseUrl: string): string {
+  return `${baseUrl}/static/images/table/table_square_02.webp`
 }
 
 function firstLineOfText(text: string | string[] | null): string {
@@ -130,7 +124,7 @@ export default async function Image({ params }: { params: Promise<{ bookingSlug:
     eyebrow: deriveEyebrow(bookingSlug, title),
     giftMode,
     accentColor,
-    tableImageSrc: await loadTableImageAsJpeg(),
+    tableImageSrc: tableImageUrl(siteMetadata.siteUrl),
   }
 
   const renderFn = DESIGNS[ogDesign] ?? DESIGNS[DEFAULT_DESIGN]

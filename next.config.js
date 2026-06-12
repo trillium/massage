@@ -77,9 +77,6 @@ const nextConfig = () => {
     outputFileTracingExcludes: {
       '*': ['./node_modules/googleapis/**', './node_modules/maplibre-gl/**'],
     },
-    outputFileTracingIncludes: {
-      '/[bookingSlug]/opengraph-image': ['./public/static/images/table/**'],
-    },
     pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
     images: {
       remotePatterns: [
