@@ -1,11 +1,34 @@
+import { Metadata } from 'next'
 import { SearchParamsType } from '@/lib/types'
 import NotFound from 'app/not-found'
 import { createPageConfiguration } from '@/lib/slugConfigurations/createPageConfiguration'
 import ExpiredPromoPage from '@/components/ExpiredPromoPage'
 import GeneralBookingFeature from '@/components/booking/features/GeneralBookingFeature'
 import SlugAnalytics from '@/components/SlugAnalytics'
+import { fetchSlugConfigurationData } from '@/lib/slugConfigurations/fetchSlugConfigurationData'
+import { genPageMetadata } from 'app/seo'
+import siteMetadata from '@/data/siteMetadata'
 
 export const dynamic = 'force-dynamic'
+
+function firstLineOfText(text: string | string[] | null): string {
+  if (!text) return ''
+  if (Array.isArray(text)) return text[0] ?? ''
+  return text
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ bookingSlug: string }>
+}): Promise<Metadata> {
+  const { bookingSlug } = await params
+  const configMap = await fetchSlugConfigurationData()
+  const config = configMap[bookingSlug]
+  const title = config?.title ?? 'Book a massage'
+  const description = firstLineOfText(config?.text ?? null) || siteMetadata.description
+  return genPageMetadata({ title, description })
+}
 
 export default async function Page({
   searchParams,
