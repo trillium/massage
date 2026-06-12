@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import type { LocationObject } from '@/lib/locationTypes'
+import eventContent from '@/data/event.json'
 
 interface EditFormProps {
   eventId: string
@@ -73,14 +74,14 @@ export default function EditForm({ eventId, token, initialValues }: EditFormProp
         onClick={() => setEditing(!editing)}
         className="rounded-lg border border-accent-300 px-5 py-2.5 text-sm font-medium text-accent-700 transition-colors hover:bg-surface-100 dark:border-accent-600 dark:text-accent-300 dark:hover:bg-surface-800"
       >
-        {editing ? 'Close' : 'Edit Info'}
+        {editing ? eventContent.editForm.button.close : eventContent.editForm.button.edit}
       </button>
       {editing && (
         <div className="mt-4 basis-full space-y-4 rounded-2xl border-2 border-accent-200 bg-surface-50 p-6 dark:border-accent-700 dark:bg-surface-800">
           <div className="grid gap-4 sm:grid-cols-2">
             <label className="block">
               <span className="text-sm font-medium text-accent-700 dark:text-accent-300">
-                First Name
+                {eventContent.editForm.fields.firstName}
               </span>
               <input
                 type="text"
@@ -91,7 +92,7 @@ export default function EditForm({ eventId, token, initialValues }: EditFormProp
             </label>
             <label className="block">
               <span className="text-sm font-medium text-accent-700 dark:text-accent-300">
-                Last Name
+                {eventContent.editForm.fields.lastName}
               </span>
               <input
                 type="text"
@@ -103,7 +104,9 @@ export default function EditForm({ eventId, token, initialValues }: EditFormProp
           </div>
 
           <label className="block">
-            <span className="text-sm font-medium text-accent-700 dark:text-accent-300">Email</span>
+            <span className="text-sm font-medium text-accent-700 dark:text-accent-300">
+              {eventContent.editForm.fields.email}
+            </span>
             <input
               type="email"
               value={values.email}
@@ -113,7 +116,9 @@ export default function EditForm({ eventId, token, initialValues }: EditFormProp
           </label>
 
           <label className="block">
-            <span className="text-sm font-medium text-accent-700 dark:text-accent-300">Phone</span>
+            <span className="text-sm font-medium text-accent-700 dark:text-accent-300">
+              {eventContent.editForm.fields.phone}
+            </span>
             <input
               type="tel"
               value={values.phone}
@@ -123,7 +128,9 @@ export default function EditForm({ eventId, token, initialValues }: EditFormProp
           </label>
 
           <label className="block">
-            <span className="text-sm font-medium text-accent-700 dark:text-accent-300">Street</span>
+            <span className="text-sm font-medium text-accent-700 dark:text-accent-300">
+              {eventContent.editForm.fields.street}
+            </span>
             <input
               type="text"
               value={values.location.street}
@@ -136,7 +143,9 @@ export default function EditForm({ eventId, token, initialValues }: EditFormProp
 
           <div className="grid gap-4 sm:grid-cols-2">
             <label className="block">
-              <span className="text-sm font-medium text-accent-700 dark:text-accent-300">City</span>
+              <span className="text-sm font-medium text-accent-700 dark:text-accent-300">
+                {eventContent.editForm.fields.city}
+              </span>
               <input
                 type="text"
                 value={values.location.city}
@@ -148,7 +157,7 @@ export default function EditForm({ eventId, token, initialValues }: EditFormProp
             </label>
             <label className="block">
               <span className="text-sm font-medium text-accent-700 dark:text-accent-300">
-                Zip Code
+                {eventContent.editForm.fields.zipCode}
               </span>
               <input
                 type="text"
@@ -171,7 +180,7 @@ export default function EditForm({ eventId, token, initialValues }: EditFormProp
               disabled={loading}
               className="bg-primary-600 hover:bg-primary-700 rounded-lg px-5 py-2.5 text-sm font-medium text-white transition-colors disabled:opacity-50"
             >
-              {loading ? 'Saving...' : 'Save Changes'}
+              {loading ? eventContent.editForm.button.saving : eventContent.editForm.button.save}
             </button>
             <button
               onClick={() => {
@@ -182,7 +191,7 @@ export default function EditForm({ eventId, token, initialValues }: EditFormProp
               disabled={loading}
               className="rounded-lg border border-accent-300 px-5 py-2.5 text-sm font-medium text-accent-600 transition-colors hover:bg-surface-100 dark:border-accent-600 dark:text-accent-400 dark:hover:bg-surface-800"
             >
-              Cancel
+              {eventContent.editForm.button.cancel}
             </button>
           </div>
         </div>

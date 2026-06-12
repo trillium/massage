@@ -1,0 +1,88 @@
+{
+  "page": {
+    "accessDenied": {
+      "heading": "Access Denied",
+      "message": "A valid token is required to view this appointment."
+    },
+    "invalidLink": {
+      "heading": "Invalid Link",
+      "expiredMessage": "This link has expired. The appointment may have already passed.",
+      "invalidMessage": "This link is not valid. Please check the link from your email."
+    },
+    "notFound": {
+      "heading": "Appointment Not Found",
+      "message": "This appointment may have been cancelled or removed."
+    },
+    "statusBadge": {
+      "pending": "Pending Request",
+      "confirmed": "Confirmed",
+      "cancelled": "Cancelled"
+    },
+    "heading": "Your Appointment",
+    "pendingMessage": "Your request has been received and is awaiting confirmation. You'll receive an email once it's been reviewed.",
+    "massageLabel": "min Massage",
+    "dateTimeSeparator": " — ",
+    "timeRangeSeparator": " – ",
+    "detailRow": {
+      "name": "Name",
+      "location": "Location",
+      "email": "Email"
+    },
+    "appreciation": "Show Appreciation",
+    "cancelledMessage": "This appointment has been cancelled.",
+    "bookNewAppointment": "Book a New Appointment",
+    "bookAnotherSession": "Book Another Session",
+    "allBookingsPrompt": "Want to see all your bookings? ",
+    "signIn": "Sign in with Google"
+  },
+  "editForm": {
+    "button": {
+      "edit": "Edit Info",
+      "close": "Close",
+      "save": "Save Changes",
+      "saving": "Saving...",
+      "cancel": "Cancel"
+    },
+    "fields": {
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "email": "Email",
+      "phone": "Phone",
+      "street": "Street",
+      "city": "City",
+      "zipCode": "Zip Code"
+    }
+  },
+  "next": {
+    "errorLoading": {
+      "heading": "Error Loading Event",
+      "message": "Event not found"
+    },
+    "heading": "Book Next Available Slot",
+    "currentEvent": "Current Event: ",
+    "endsAt": "Event ends at:",
+    "location": "Location:",
+    "duration": "Duration",
+    "backLink": "Back to Event Details"
+  },
+  "cancelButton": {
+    "buttonLabel": "Cancel Appointment",
+    "modalTitle": "Cancel Appointment",
+    "modalMessage": "This action cannot be undone. Type ",
+    "modalConfirmWord": "cancel",
+    "modalConfirmSuffix": " to confirm.",
+    "placeholder": "Type cancel",
+    "neverMind": "Never mind",
+    "confirm": "Confirm Cancel",
+    "confirming": "Cancelling...",
+    "errors": {
+      "network": "Network error. Please try again.",
+      "default": "Failed to cancel"
+    }
+  },
+  "notFound": {
+    "heading": "Event Not Found",
+    "message": "The calendar event you're looking for doesn't exist or may have been removed.",
+    "homeLink": "Go Back Home"
+  }
+}

@@ -16,6 +16,7 @@ import { parseEditableFields } from '@/lib/helpers/parseEventDescription'
 import { stringToLocationObject } from '@/lib/slugConfigurations/helpers/parseLocationFromSlug'
 import { FaHourglassHalf, FaCheckCircle, FaTimesCircle } from 'react-icons/fa'
 import { gratuityLinks } from '@/data/paymentLinks'
+import eventContent from '@/data/event.json'
 
 interface EventPageProps {
   params: Promise<{ event_id: string }>
@@ -77,9 +78,11 @@ export default async function EventPage({ params, searchParams }: EventPageProps
     return (
       <SectionContainer>
         <div className="py-16 text-center">
-          <h1 className="text-2xl font-bold text-accent-900 dark:text-white">Access Denied</h1>
+          <h1 className="text-2xl font-bold text-accent-900 dark:text-white">
+            {eventContent.page.accessDenied.heading}
+          </h1>
           <p className="mt-2 text-accent-600 dark:text-accent-400">
-            A valid token is required to view this appointment.
+            {eventContent.page.accessDenied.message}
           </p>
         </div>
       </SectionContainer>
@@ -92,11 +95,13 @@ export default async function EventPage({ params, searchParams }: EventPageProps
     return (
       <SectionContainer>
         <div className="py-16 text-center">
-          <h1 className="text-2xl font-bold text-accent-900 dark:text-white">Invalid Link</h1>
+          <h1 className="text-2xl font-bold text-accent-900 dark:text-white">
+            {eventContent.page.invalidLink.heading}
+          </h1>
           <p className="mt-2 text-accent-600 dark:text-accent-400">
             {result.error === 'Token expired'
-              ? 'This link has expired. The appointment may have already passed.'
-              : 'This link is not valid. Please check the link from your email.'}
+              ? eventContent.page.invalidLink.expiredMessage
+              : eventContent.page.invalidLink.invalidMessage}
           </p>
         </div>
       </SectionContainer>
@@ -110,10 +115,10 @@ export default async function EventPage({ params, searchParams }: EventPageProps
       <SectionContainer>
         <div className="py-16 text-center">
           <h1 className="text-2xl font-bold text-accent-900 dark:text-white">
-            Appointment Not Found
+            {eventContent.page.notFound.heading}
           </h1>
           <p className="mt-2 text-accent-600 dark:text-accent-400">
-            This appointment may have been cancelled or removed.
+            {eventContent.page.notFound.message}
           </p>
         </div>
       </SectionContainer>
@@ -152,7 +157,7 @@ export default async function EventPage({ params, searchParams }: EventPageProps
       <div className="py-8 sm:py-12">
         <div className="mx-auto max-w-2xl">
           <h1 className="text-primary-500 dark:text-primary-400 text-3xl font-bold tracking-tight sm:text-4xl">
-            Your Appointment
+            {eventContent.page.heading}
           </h1>
 
           <div className="mt-6">
@@ -161,8 +166,7 @@ export default async function EventPage({ params, searchParams }: EventPageProps
 
           {status === 'pending' && (
             <p className="mt-4 text-sm text-accent-600 dark:text-accent-400">
-              Your request has been received and is awaiting confirmation. You&#39;ll receive an
-              email once it&#39;s been reviewed.
+              {eventContent.page.pendingMessage}
             </p>
           )}
 
@@ -170,19 +174,28 @@ export default async function EventPage({ params, searchParams }: EventPageProps
             {dateString && duration && (
               <div className="border-l-primary-400 bg-primary-50/30 dark:bg-primary-50/10 mb-4 rounded-md border-l-4 p-3">
                 <p className="text-primary-800 dark:text-primary-400 text-lg font-semibold">
-                  {dateString} &mdash; {duration}min Massage
+                  {dateString}
+                  {eventContent.page.dateTimeSeparator}
+                  {duration}
+                  {eventContent.page.massageLabel}
                 </p>
                 {startString && endString && (
                   <p className="text-sm text-accent-600 dark:text-accent-400">
-                    {startString} &ndash; {endString}
+                    {startString}
+                    {eventContent.page.timeRangeSeparator}
+                    {endString}
                   </p>
                 )}
               </div>
             )}
 
-            {clientName && <DetailRow label="Name" value={clientName} />}
-            {event.location && <DetailRow label="Location" value={event.location} />}
-            <DetailRow label="Email" value={displayEmail} />
+            {clientName && (
+              <DetailRow label={eventContent.page.detailRow.name} value={clientName} />
+            )}
+            {event.location && (
+              <DetailRow label={eventContent.page.detailRow.location} value={event.location} />
+            )}
+            <DetailRow label={eventContent.page.detailRow.email} value={displayEmail} />
           </div>
 
           {status !== 'cancelled' && (
@@ -212,7 +225,7 @@ export default async function EventPage({ params, searchParams }: EventPageProps
               <div className="mb-3 flex items-center gap-3">
                 <div className="h-px flex-1 bg-surface-200 dark:bg-surface-700" />
                 <span className="text-sm font-medium text-accent-500 dark:text-accent-400">
-                  Show Appreciation
+                  {eventContent.page.appreciation}
                 </span>
                 <div className="h-px flex-1 bg-surface-200 dark:bg-surface-700" />
               </div>
@@ -241,13 +254,13 @@ export default async function EventPage({ params, searchParams }: EventPageProps
           {status === 'cancelled' && (
             <div className="mt-8 rounded-2xl border-2 border-accent-200 bg-surface-100 p-6 text-center dark:border-accent-700 dark:bg-surface-800/50">
               <p className="text-lg font-medium text-accent-800 dark:text-accent-200">
-                This appointment has been cancelled.
+                {eventContent.page.cancelledMessage}
               </p>
               <Link
                 href={bookingUrl}
                 className="bg-primary-600 hover:bg-primary-700 mt-4 inline-block rounded-lg px-6 py-2.5 font-medium text-white transition-colors"
               >
-                Book a New Appointment
+                {eventContent.page.bookNewAppointment}
               </Link>
             </div>
           )}
@@ -259,16 +272,16 @@ export default async function EventPage({ params, searchParams }: EventPageProps
                   href={bookingUrl}
                   className="text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 text-sm font-medium"
                 >
-                  Book Another Session
+                  {eventContent.page.bookAnotherSession}
                 </Link>
               )}
               <p className="text-xs text-accent-500 dark:text-accent-500">
-                Want to see all your bookings?{' '}
+                {eventContent.page.allBookingsPrompt}
                 <Link
                   href="/auth/login?redirectedFrom=/my_events"
                   className="text-primary-500 hover:text-primary-600 dark:text-primary-400 font-medium"
                 >
-                  Sign in with Google
+                  {eventContent.page.signIn}
                 </Link>
               </p>
             </div>

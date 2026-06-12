@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
+import eventContent from '@/data/event.json'
 
 export default function CancelButton({ eventId, token }: { eventId: string; token: string }) {
   const router = useRouter()
@@ -56,7 +57,7 @@ export default function CancelButton({ eventId, token }: { eventId: string; toke
         onClick={() => setOpen(true)}
         className="rounded-lg border border-red-300 px-5 py-2.5 text-sm font-medium text-red-600 transition-colors hover:bg-red-50 dark:border-red-700 dark:text-red-400 dark:hover:bg-red-900/20"
       >
-        Cancel Appointment
+        {eventContent.cancelButton.buttonLabel}
       </button>
 
       {open && (
@@ -68,10 +69,12 @@ export default function CancelButton({ eventId, token }: { eventId: string; toke
         >
           <div className="w-full max-w-md rounded-2xl bg-surface-50 p-6 shadow-xl dark:bg-surface-800">
             <h2 className="text-lg font-semibold text-accent-900 dark:text-white">
-              Cancel Appointment
+              {eventContent.cancelButton.modalTitle}
             </h2>
             <p className="mt-2 text-sm text-accent-600 dark:text-accent-400">
-              This action cannot be undone. Type <strong>cancel</strong> to confirm.
+              {eventContent.cancelButton.modalMessage}
+              <strong>{eventContent.cancelButton.modalConfirmWord}</strong>
+              {eventContent.cancelButton.modalConfirmSuffix}
             </p>
 
             <input
@@ -83,7 +86,7 @@ export default function CancelButton({ eventId, token }: { eventId: string; toke
                 if (e.key === 'Enter' && canConfirm) handleCancel()
                 if (e.key === 'Escape') setOpen(false)
               }}
-              placeholder="Type cancel"
+              placeholder={eventContent.cancelButton.placeholder}
               className="mt-4 block w-full rounded-lg border border-accent-300 px-3 py-2 text-accent-900 placeholder:text-accent-400 dark:border-accent-600 dark:bg-surface-700 dark:text-white dark:placeholder:text-accent-500"
             />
 
@@ -95,14 +98,14 @@ export default function CancelButton({ eventId, token }: { eventId: string; toke
                 disabled={loading}
                 className="rounded-lg px-4 py-2 text-sm font-medium text-accent-600 hover:text-accent-800 dark:text-accent-400 dark:hover:text-accent-200"
               >
-                Never mind
+                {eventContent.cancelButton.neverMind}
               </button>
               <button
                 onClick={handleCancel}
                 disabled={!canConfirm || loading}
                 className="rounded-lg bg-red-600 px-5 py-2 text-sm font-medium text-white transition-colors hover:bg-red-700 disabled:opacity-50"
               >
-                {loading ? 'Cancelling...' : 'Confirm Cancel'}
+                {loading ? eventContent.cancelButton.confirming : eventContent.cancelButton.confirm}
               </button>
             </div>
           </div>

@@ -18,6 +18,7 @@ import DurationPicker from '@/components/availability/controls/DurationPicker'
 import InitializeBookingState from '@/components/booking/InitializeBookingState'
 import DurationSlotManager from '@/components/booking/DurationSlotManager'
 import { createPageConfiguration } from '@/lib/slugConfigurations/createPageConfiguration'
+import eventContent from '@/data/event.json'
 
 interface NextBookingPageProps {
   params: Promise<{ event_id: string }>
@@ -67,9 +68,11 @@ export default async function NextBookingPage({ params, searchParams }: NextBook
         <div className="mx-auto max-w-4xl">
           <div className="rounded-lg bg-red-50 p-6 dark:bg-red-900/20">
             <h2 className="mb-4 text-2xl font-semibold text-red-800 dark:text-red-200">
-              Error Loading Event
+              {eventContent.next.errorLoading.heading}
             </h2>
-            <p className="text-red-700 dark:text-red-300">Event not found</p>
+            <p className="text-red-700 dark:text-red-300">
+              {eventContent.next.errorLoading.message}
+            </p>
           </div>
         </div>
       </div>
@@ -118,19 +121,20 @@ export default async function NextBookingPage({ params, searchParams }: NextBook
         <div className="mx-auto max-w-6xl">
           <div className="mb-8">
             <h1 className="mb-4 text-3xl font-bold text-accent-900 dark:text-white">
-              Book Next Available Slot
+              {eventContent.next.heading}
             </h1>
             <div className="rounded-lg bg-blue-50 p-4 dark:bg-blue-900/20">
               <h2 className="mb-2 text-lg font-semibold text-accent-900 dark:text-white">
-                Current Event: {currentEvent.summary || 'Untitled Event'}
+                {eventContent.next.currentEvent}
+                {currentEvent.summary || 'Untitled Event'}
               </h2>
               <div className="space-y-1 text-sm text-accent-600 dark:text-accent-400">
                 <p>
-                  <strong>Event ends at:</strong> {eventEndTimeStr}
+                  <strong>{eventContent.next.endsAt}</strong> {eventEndTimeStr}
                 </p>
                 {currentEvent.location && (
                   <p>
-                    <strong>Location:</strong> {currentEvent.location}
+                    <strong>{eventContent.next.location}</strong> {currentEvent.location}
                   </p>
                 )}
               </div>
@@ -142,7 +146,7 @@ export default async function NextBookingPage({ params, searchParams }: NextBook
             <div className="space-y-6">
               <div className="xs:p-6 rounded-lg bg-surface-50 p-3 shadow-sm dark:bg-surface-800">
                 <h3 className="mb-4 text-lg font-semibold text-accent-900 dark:text-white">
-                  Duration
+                  {eventContent.next.duration}
                 </h3>
                 <SlotHoldProvider>
                   <DurationPicker
@@ -186,7 +190,7 @@ export default async function NextBookingPage({ params, searchParams }: NextBook
                   d="M15 19l-7-7 7-7"
                 />
               </svg>
-              Back to Event Details
+              {eventContent.next.backLink}
             </Link>
           </div>
         </div>
