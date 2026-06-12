@@ -1,0 +1,19 @@
+{
+  "couponTable": {
+    "columnHeading": "Discount",
+    "directPrefix": "Direct: $",
+    "airbnbPrefix": "Airbnb: $",
+    "pricePrefix": "$",
+    "compensationRowLabel": "My Compensation from Airbnb",
+    "unusedExcessSuffix": "unused excess",
+    "compensationNotePrefix": "(85% of $",
+    "compensationNoteSuffix": ")"
+  },
+  "expiredPromo": {
+    "heading": "Promotion Expired",
+    "reassurancePrefix": "Don't worry, you can still book a",
+    "reassuranceSuffix": "!",
+    "bookButtonText": "Book A Session Here",
+    "homeButtonText": "Back to Home"
+  }
+}

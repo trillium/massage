@@ -2,6 +2,7 @@
 
 import { Fragment, useState } from 'react'
 import { Dialog, DialogPanel, DialogTitle, Transition, TransitionChild } from '@headlessui/react'
+import admin from '@/data/admin.json'
 
 type ConfirmDialogProps = {
   open: boolean
@@ -20,7 +21,7 @@ export default function ConfirmDialog({
   onConfirm,
   title,
   message,
-  confirmLabel = 'Confirm',
+  confirmLabel = admin.confirmDialog.buttons.confirm,
   confirmClassName = 'bg-primary-500 hover:bg-primary-600 text-white',
   typeToConfirm,
 }: ConfirmDialogProps) {
@@ -75,7 +76,8 @@ export default function ConfirmDialog({
                   {typeToConfirm && (
                     <div className="mt-4">
                       <label className="text-sm text-accent-600 dark:text-accent-400">
-                        Type <span className="font-semibold">{typeToConfirm}</span> to confirm
+                        {admin.confirmDialog.labels.typeToConfirm.replace('{typeToConfirm}', '')}
+                        <span className="font-semibold">{typeToConfirm}</span> to confirm
                       </label>
                       <input
                         type="text"
@@ -92,7 +94,7 @@ export default function ConfirmDialog({
                       onClick={handleClose}
                       className="rounded border border-accent-300 px-4 py-2 text-sm font-semibold text-accent-700 hover:bg-surface-100 dark:border-accent-600 dark:text-accent-300 dark:hover:bg-surface-700"
                     >
-                      Cancel
+                      {admin.confirmDialog.buttons.cancel}
                     </button>
                     <button
                       type="submit"

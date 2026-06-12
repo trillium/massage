@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from 'react'
 import { toast } from 'sonner'
+import admin from '@/data/admin.json'
 import { adminFetch } from '@/lib/adminFetch'
 import clsx from 'clsx'
 
@@ -125,14 +126,16 @@ export default function TimeBlocker({ eventContainer }: TimeBlockerProps) {
   return (
     <div className="rounded-lg border border-accent-200 bg-surface-50 p-4 dark:border-accent-700 dark:bg-surface-800">
       <div className="mb-3 flex items-center justify-between">
-        <h3 className="font-semibold text-accent-900 dark:text-accent-100">Block Time</h3>
+        <h3 className="font-semibold text-accent-900 dark:text-accent-100">
+          {admin.timeBlocker.title}
+        </h3>
         <button
           type="button"
           onClick={fetchBlocks}
           disabled={fetching}
           className="text-xs text-primary-600 hover:text-primary-800 dark:text-primary-400"
         >
-          {fetching ? 'Loading...' : 'Refresh'}
+          {fetching ? admin.timeBlocker.buttons.loading : admin.timeBlocker.buttons.refresh}
         </button>
       </div>
 
@@ -150,13 +153,15 @@ export default function TimeBlocker({ eventContainer }: TimeBlockerProps) {
               loading && 'cursor-not-allowed opacity-50'
             )}
           >
-            {mins < 60 ? `Block ${mins}min` : `Block 1hr`}
+            {mins < 60
+              ? admin.timeBlocker.buttons.block15.replace('15', String(mins))
+              : admin.timeBlocker.buttons.block60}
           </button>
         ))}
       </div>
 
       {blocks.length === 0 ? (
-        <p className="text-sm text-accent-400">No active blocks</p>
+        <p className="text-sm text-accent-400">{admin.timeBlocker.states.noActiveBlocks}</p>
       ) : (
         <ul className="space-y-2">
           {blocks.map((b) => (
@@ -172,7 +177,7 @@ export default function TimeBlocker({ eventContainer }: TimeBlockerProps) {
                 onClick={() => deleteBlock(b.id)}
                 className="text-xs text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300"
               >
-                Remove
+                {admin.timeBlocker.buttons.remove}
               </button>
             </li>
           ))}

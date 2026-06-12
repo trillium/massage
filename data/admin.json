@@ -1,0 +1,57 @@
+{
+  "configurationTester": {
+    "title": "Configuration Tester",
+    "selectLabel": "Select Configuration:",
+    "selectPlaceholder": "Select a configuration..."
+  },
+  "timeBlocker": {
+    "title": "Block Time",
+    "buttons": {
+      "loading": "Loading...",
+      "refresh": "Refresh",
+      "block15": "Block 15min",
+      "block30": "Block 30min",
+      "block60": "Block 1hr",
+      "remove": "Remove"
+    },
+    "states": {
+      "noActiveBlocks": "No active blocks"
+    }
+  },
+  "notesModal": {
+    "labels": {
+      "time": "Time",
+      "duration": "Duration",
+      "email": "Email",
+      "phone": "Phone",
+      "location": "Location",
+      "promo": "Promo",
+      "notes": "Notes"
+    },
+    "placeholders": {
+      "notes": "Add notes about this appointment..."
+    },
+    "buttons": {
+      "delete": "Delete",
+      "deleting": "Deleting...",
+      "cancel": "Cancel",
+      "save": "Save",
+      "saving": "Saving..."
+    }
+  },
+  "confirmDialog": {
+    "labels": {
+      "typeToConfirm": "Type {typeToConfirm} to confirm"
+    },
+    "buttons": {
+      "cancel": "Cancel",
+      "confirm": "Confirm"
+    }
+  },
+  "debugPanel": {
+    "titles": {
+      "leadTimeDebug": "Lead Time Debug Information",
+      "fullDebug": "Full Debug Information"
+    }
+  }
+}

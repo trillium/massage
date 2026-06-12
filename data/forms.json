@@ -1,0 +1,58 @@
+{
+  "review": {
+    "heading": "Review",
+    "timeSeparator": " - ",
+    "fields": {
+      "firstName": {
+        "label": "First Name",
+        "placeholder": "First"
+      },
+      "lastName": {
+        "label": "Last Name",
+        "placeholder": "Last"
+      },
+      "date": {
+        "label": "Date"
+      },
+      "rating": {
+        "label": "Rating",
+        "selectDefault": "Select a rating"
+      },
+      "comment": {
+        "label": "Comment",
+        "placeholder": "Leave blank or leave a comment"
+      }
+    },
+    "messages": {
+      "error": "There was an error submitting your request."
+    },
+    "buttons": {
+      "submit": "Submit",
+      "submitting": "Submitting ...",
+      "cancel": "Cancel"
+    }
+  },
+  "contact": {
+    "fields": {
+      "subject": {
+        "label": "Subject"
+      },
+      "name": {
+        "label": "Name"
+      },
+      "email": {
+        "label": "Email"
+      },
+      "phone": {
+        "label": "Phone Number"
+      },
+      "message": {
+        "label": "Message"
+      }
+    },
+    "buttons": {
+      "submit": "Send Message",
+      "submitting": "Sending..."
+    }
+  }
+}

@@ -2,6 +2,7 @@ import Template from '@/components/Template'
 import Link from '@/components/Link'
 import { FaClock } from 'react-icons/fa'
 import { siteConfig } from '@/lib/siteConfig'
+import promo from '@/data/promo.json'
 
 interface ExpiredPromoPageProps {
   title: string
@@ -30,7 +31,7 @@ export default function ExpiredPromoPage({
           </div>
 
           <h1 className="mb-4 text-3xl font-bold text-accent-900 dark:text-white">
-            Promotion Expired
+            {promo.expiredPromo.heading}
           </h1>
 
           <Template title={title} text={`This offer expired on ${formattedDate}.`} />
@@ -38,7 +39,8 @@ export default function ExpiredPromoPage({
 
         <div className="space-y-4">
           <p className="text-lg text-accent-600 dark:text-accent-300">
-            Don't worry, you can still book a {siteConfig.business.serviceNoun}!
+            {promo.expiredPromo.reassurancePrefix} {siteConfig.business.serviceNoun}
+            {promo.expiredPromo.reassuranceSuffix}
           </p>
 
           <div className="flex flex-col items-center space-y-3 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4">
@@ -46,14 +48,14 @@ export default function ExpiredPromoPage({
               href="/book"
               className="bg-primary-600 hover:bg-primary-700 focus:ring-primary-500 inline-flex items-center rounded-md px-6 py-3 text-base font-medium text-white shadow-sm focus:ring-2 focus:ring-offset-2 focus:outline-none"
             >
-              Book A Session Here
+              {promo.expiredPromo.bookButtonText}
             </Link>
 
             <Link
               href="/"
               className="focus:ring-primary-500 inline-flex items-center rounded-md border border-accent-300 bg-surface-50 px-6 py-3 text-base font-medium text-accent-700 shadow-sm hover:bg-surface-100 focus:ring-2 focus:ring-offset-2 focus:outline-none dark:border-accent-600 dark:bg-surface-800 dark:text-accent-300 dark:hover:bg-surface-700"
             >
-              Back to Home
+              {promo.expiredPromo.homeButtonText}
             </Link>
           </div>
         </div>

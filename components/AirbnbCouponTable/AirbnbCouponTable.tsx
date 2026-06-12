@@ -1,4 +1,5 @@
 import { directPrices, servicesWebsite, servicesAirbnb, coupons } from './constants'
+import promo from '@/data/promo.json'
 
 export default function AirbnbCouponTable() {
   const getDirectPriceForService = (service: (typeof servicesAirbnb)[0]) => {
@@ -40,7 +41,7 @@ export default function AirbnbCouponTable() {
         <thead>
           <tr className="bg-surface-200 dark:bg-surface-800">
             <th className="border border-accent-300 px-3 py-2 text-left dark:border-accent-700">
-              Discount
+              {promo.couponTable.columnHeading}
             </th>
             {servicesAirbnb.map((service) => {
               const directPrice = getDirectPriceForService(service)
@@ -51,9 +52,15 @@ export default function AirbnbCouponTable() {
                 >
                   <div className="font-semibold">{service.name}</div>
                   {directPrice > 0 && (
-                    <div className="text-xs font-normal">Direct: ${directPrice}</div>
+                    <div className="text-xs font-normal">
+                      {promo.couponTable.directPrefix}
+                      {directPrice}
+                    </div>
                   )}
-                  <div className="text-xs font-normal">Airbnb: ${service.price}</div>
+                  <div className="text-xs font-normal">
+                    {promo.couponTable.airbnbPrefix}
+                    {service.price}
+                  </div>
                 </th>
               )
             })}
@@ -82,7 +89,10 @@ export default function AirbnbCouponTable() {
                     key={`${service.duration}-${service.name}`}
                     className="border border-accent-300 px-3 py-2 dark:border-accent-700"
                   >
-                    <div className="font-semibold">${afterCoupon}</div>
+                    <div className="font-semibold">
+                      {promo.couponTable.pricePrefix}
+                      {afterCoupon}
+                    </div>
                     {directPrice > 0 && (
                       <div className={`text-xs ${getComparisonColor(afterCoupon, directPrice)}`}>
                         {formatComparison(afterCoupon, directPrice, service)}
@@ -90,7 +100,8 @@ export default function AirbnbCouponTable() {
                     )}
                     {wastedValue > 0 && (
                       <div className="text-xs text-orange-600 italic dark:text-orange-400">
-                        ${wastedValue} unused excess
+                        {promo.couponTable.pricePrefix}
+                        {wastedValue} {promo.couponTable.unusedExcessSuffix}
                       </div>
                     )}
                   </td>
@@ -100,7 +111,7 @@ export default function AirbnbCouponTable() {
           ))}
           <tr className="bg-blue-50 font-medium dark:bg-blue-950">
             <td className="border border-accent-300 px-3 py-2 dark:border-accent-700">
-              My Compensation from Airbnb
+              {promo.couponTable.compensationRowLabel}
             </td>
             {servicesAirbnb.map((service) => {
               const myCompensation = (service.price * 0.85).toFixed(2) // 85% after 15% fee
@@ -110,9 +121,14 @@ export default function AirbnbCouponTable() {
                   key={`${service.duration}-${service.name}-compensation`}
                   className="border border-accent-300 px-3 py-2 dark:border-accent-700"
                 >
-                  <div className="font-semibold">${myCompensation}</div>
+                  <div className="font-semibold">
+                    {promo.couponTable.pricePrefix}
+                    {myCompensation}
+                  </div>
                   <div className="text-xs text-accent-600 dark:text-accent-400">
-                    (85% of ${service.price})
+                    {promo.couponTable.compensationNotePrefix}
+                    {service.price}
+                    {promo.couponTable.compensationNoteSuffix}
                   </div>
                 </td>
               )

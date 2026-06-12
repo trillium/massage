@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 import { toast } from 'sonner'
+import admin from '@/data/admin.json'
 import { fetchSlugConfigurationData } from '@/lib/slugConfigurations/fetchSlugConfigurationData'
 import { SlugConfigurationType } from '@/lib/types'
 import { useAppDispatch } from '@/redux/hooks'
@@ -89,7 +90,7 @@ export default function ConfigurationTester({ onConfigurationChange }: Configura
   return (
     <div className="rounded-lg border bg-surface-50 p-6 shadow-sm dark:bg-surface-800">
       <h2 className="mb-4 text-xl font-semibold text-accent-900 dark:text-accent-100">
-        Configuration Tester
+        {admin.configurationTester.title}
       </h2>
 
       <div className="mb-6">
@@ -97,7 +98,7 @@ export default function ConfigurationTester({ onConfigurationChange }: Configura
           htmlFor="config-select"
           className="mb-2 block text-sm font-medium text-accent-700 dark:text-accent-300"
         >
-          Select Configuration:
+          {admin.configurationTester.selectLabel}
         </label>
         <select
           id="config-select"
@@ -106,7 +107,7 @@ export default function ConfigurationTester({ onConfigurationChange }: Configura
           className="w-full rounded-md border border-accent-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none dark:border-accent-600 dark:bg-surface-700 dark:text-accent-100"
         >
           <option value="" disabled>
-            Select a configuration...
+            {admin.configurationTester.selectPlaceholder}
           </option>
           {Object.entries(configurations).map(([slug, config]) => (
             <option key={slug} value={slug}>
