@@ -255,7 +255,8 @@ export default async function Image({ params }: { params: Promise<{ bookingSlug:
           flexShrink: 0,
         }}
       >
-        <img src={tableImageSrc} width={380} height={630} />
+        {/* biome-ignore lint/performance/noImgElement: required for Satori ImageResponse — next/image not supported */}
+        <img src={tableImageSrc} width={380} height={630} alt="" aria-hidden="true" />
         {/* Left fade into dark bg */}
         <div
           style={{
