@@ -15,6 +15,8 @@
     "lint": "biome check --write app components lib layouts scripts",
     "audit:content": "bun scripts/audit-content.ts",
     "audit:content:summary": "bun scripts/audit-content.ts --summary",
+    "audit:ui": "bun scripts/audit-ui.ts",
+    "audit:ui:summary": "bun scripts/audit-ui.ts --summary",
     "prepare": "husky",
     "test": "vitest run --changed --reporter=dot",
     "test:all": "vitest run --reporter=dot",
