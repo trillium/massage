@@ -12,5 +12,26 @@
     },
     "currencySymbol": "$",
     "button": "Book a Session"
+  },
+  "services": {
+    "heading": "Our Massage Services",
+    "intro": "Explore our range of massage services. Book your session today!",
+    "serviceItem": {
+      "labels": {
+        "duration": "Duration:",
+        "price": "Price:",
+        "perParticipant": "per participant",
+        "pricePrefix": "$"
+      },
+      "notes": {
+        "splitChair": "Booked in 30 minute blocks from 1h - 4h",
+        "backToBack": "Price and duration is per person"
+      },
+      "durationSuffix": " min"
+    },
+    "buttons": {
+      "book": "Book Now",
+      "contact": "Request Callback"
+    }
   }
 }

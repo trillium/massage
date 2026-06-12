@@ -3,13 +3,14 @@ import Image from 'next/image'
 import Link from '@/components/Link'
 
 import { services } from '@/data/servicesData'
+import pages from '@/data/pages.json'
 import type { ServiceTypePriced } from '@/lib/types'
 
 export default function ServicesPage() {
   return (
     <SectionContainer>
-      <h1 className="mb-4 text-3xl font-bold">Our Massage Services</h1>
-      <p className="mb-8">Explore our range of massage services. Book your session today!</p>
+      <h1 className="mb-4 text-3xl font-bold">{pages.services.heading}</h1>
+      <p className="mb-8">{pages.services.intro}</p>
       <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
         {services.map((service) => (
           <ServiceItem {...service} key={service.name} />
@@ -40,20 +41,26 @@ function ServiceItem({
       <h2 className="text-primary-600 dark:text-primary-400 mb-2 text-xl font-semibold">{name}</h2>
       <p className="mb-2 text-accent-700 dark:text-accent-300">{description}</p>
       <div className="mb-2 text-accent-600 dark:text-accent-400">
-        <span className="font-medium">Duration:</span> {duration.join(' / ')} min
+        <span className="font-medium">{pages.services.serviceItem.labels.duration}</span>{' '}
+        {duration.join(' / ')}
+        {pages.services.serviceItem.durationSuffix}
       </div>
       <div className="mb-4 text-accent-600 dark:text-accent-400">
-        <span className="font-medium">Price:</span> ${price.join(' / $')}{' '}
-        {type === 'split-chair' && <span className="font-medium">per participant</span>}
+        <span className="font-medium">{pages.services.serviceItem.labels.price}</span>{' '}
+        {pages.services.serviceItem.labels.pricePrefix}
+        {price.join(' / ' + pages.services.serviceItem.labels.pricePrefix)}{' '}
+        {type === 'split-chair' && (
+          <span className="font-medium">{pages.services.serviceItem.labels.perParticipant}</span>
+        )}
       </div>
       {type === 'split-chair' && (
         <div className="mb-4 text-accent-600 dark:text-accent-400">
-          <span className="font-medium">Booked in 30 minute blocks from 1h - 4h</span>
+          <span className="font-medium">{pages.services.serviceItem.notes.splitChair}</span>
         </div>
       )}
       {type === 'back-to-back' && (
         <div className="mb-4 text-accent-600 dark:text-accent-400">
-          <span className="font-medium">Price and duration is per person</span>
+          <span className="font-medium">{pages.services.serviceItem.notes.backToBack}</span>
         </div>
       )}
       <div className="flex space-x-4">
@@ -61,13 +68,13 @@ function ServiceItem({
           href={bookHref}
           className="bg-primary-600 hover:bg-primary-700 rounded px-4 py-2 font-semibold text-white"
         >
-          Book Now
+          {pages.services.buttons.book}
         </Link>
         <Link
           href={contactHref}
           className="bg-primary-600 hover:bg-primary-700 rounded px-4 py-2 font-semibold text-white"
         >
-          Request Callback
+          {pages.services.buttons.contact}
         </Link>
       </div>
     </div>
