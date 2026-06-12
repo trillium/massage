@@ -1,8 +1,6 @@
 /* ds-ignore-file */
 import React from 'react'
-import { join } from 'node:path'
 import { ImageResponse } from 'next/og'
-import sharp from 'sharp'
 import { fetchSlugConfigurationData } from '@/lib/slugConfigurations/fetchSlugConfigurationData'
 import siteMetadata from '@/data/siteMetadata'
 import type { OgImageData } from './designs/types'
@@ -26,11 +24,14 @@ const DESIGNS: Record<string, (data: OgImageData) => React.JSX.Element> = {
 }
 const DEFAULT_DESIGN = 'vintage-postcard'
 
+const TABLE_IMAGE_URL = 'https://trilliummassage.la/static/images/table/table_square_02.jpg'
+
 async function tableImageDataUrl(): Promise<string> {
-  const buf = await sharp(join(process.cwd(), 'public/static/images/table/table_square_02.webp'))
-    .resize(380, 630, { fit: 'cover', position: 'centre' })
-    .jpeg({ quality: 90 })
-    .toBuffer()
+  const res = await fetch(TABLE_IMAGE_URL, {
+    headers: { 'User-Agent': 'Mozilla/5.0 (compatible; OGImageBot/1.0)', Accept: 'image/*' },
+  })
+  if (!res.ok) throw new Error(`table image fetch failed: ${res.status}`)
+  const buf = Buffer.from(await res.arrayBuffer())
   return `data:image/jpeg;base64,${buf.toString('base64')}`
 }
 
