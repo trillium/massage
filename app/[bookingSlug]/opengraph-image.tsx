@@ -1,4 +1,5 @@
 /* ds-ignore-file */
+import React from 'react'
 import { ImageResponse } from 'next/og'
 import { join } from 'node:path'
 import sharp from 'sharp'
@@ -19,7 +20,7 @@ const GOLD = '#f59e0b'
 const TITLE_FALLBACK = 'Book a massage'
 const TEXT_TRUNCATE_LIMIT = 160
 
-const DESIGNS: Record<string, (data: OgImageData) => JSX.Element> = {
+const DESIGNS: Record<string, (data: OgImageData) => React.JSX.Element> = {
   'vintage-postcard': renderVintagePostcard,
   'ai-from-2089': renderAiFrom2089,
 }
