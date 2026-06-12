@@ -26,10 +26,13 @@ const DEFAULT_DESIGN = 'vintage-postcard'
 
 async function tableImageDataUrl(baseUrl: string): Promise<string> {
   const url = `${baseUrl}/static/images/table/table_square_02.jpg`
-  const res = await fetch(url)
-  const buf = await res.arrayBuffer()
-  const b64 = Buffer.from(buf).toString('base64')
-  return `data:image/jpeg;base64,${b64}`
+  const res = await fetch(url, {
+    headers: { 'User-Agent': 'Mozilla/5.0 (compatible; OGImageBot/1.0)', Accept: 'image/*' },
+    cache: 'force-cache',
+  })
+  const contentType = res.headers.get('content-type') || 'image/jpeg'
+  const b64 = Buffer.from(await res.arrayBuffer()).toString('base64')
+  return `data:${contentType};base64,${b64}`
 }
 
 function firstLineOfText(text: string | string[] | null): string {
