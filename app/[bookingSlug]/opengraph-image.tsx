@@ -24,8 +24,12 @@ const DESIGNS: Record<string, (data: OgImageData) => React.JSX.Element> = {
 }
 const DEFAULT_DESIGN = 'vintage-postcard'
 
-function tableImageUrl(baseUrl: string): string {
-  return `${baseUrl}/static/images/table/table_square_02.jpg`
+async function tableImageDataUrl(baseUrl: string): Promise<string> {
+  const url = `${baseUrl}/static/images/table/table_square_02.jpg`
+  const res = await fetch(url)
+  const buf = await res.arrayBuffer()
+  const b64 = Buffer.from(buf).toString('base64')
+  return `data:image/jpeg;base64,${b64}`
 }
 
 function firstLineOfText(text: string | string[] | null): string {
@@ -124,7 +128,7 @@ export default async function Image({ params }: { params: Promise<{ bookingSlug:
     eyebrow: deriveEyebrow(bookingSlug, title),
     giftMode,
     accentColor,
-    tableImageSrc: tableImageUrl(siteMetadata.siteUrl),
+    tableImageSrc: await tableImageDataUrl(siteMetadata.siteUrl),
   }
 
   const renderFn = DESIGNS[ogDesign] ?? DESIGNS[DEFAULT_DESIGN]
