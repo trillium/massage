@@ -136,7 +136,7 @@ export default async function Image({ params }: { params: Promise<{ bookingSlug:
     bodyText,
     durations,
     discountLabel,
-    domainLabel: deriveDomainLabel(siteMetadata.siteUrl),
+    domainLabel: deriveDomainLabel(siteMetadata?.siteUrl),
     eyebrow: deriveEyebrow(bookingSlug, title),
     giftMode,
     accentColor,
