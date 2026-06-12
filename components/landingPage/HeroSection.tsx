@@ -72,7 +72,7 @@ function ImageContent({ positionClasses }: { positionClasses?: string }) {
             priority
           />
         }
-        <div className="absolute inset-0 bg-gradient-to-r from-teal-600/20 to-transparent"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-primary-600/20 to-transparent"></div>
       </div>
       <div className="bg-primary-100 absolute -bottom-6 -left-6 flex h-24 w-24 items-center justify-center rounded-full">
         <HiSparkles className="text-primary-600 h-10 w-10" />
@@ -107,15 +107,15 @@ function ButtonContent({ positionClasses }: { positionClasses?: string }) {
         </div>
         <div className="xs:flex-col flex flex-col flex-wrap justify-around gap-2 gap-y-6 sm:flex-row md:flex-col xl:flex-row">
           <div className="flex items-center gap-2">
-            <FaRegClock className="h-5 w-5 text-teal-600" />
+            <FaRegClock className="h-5 w-5 text-primary-600" />
             <span className="text-sm whitespace-nowrap">Open 7 days</span>
           </div>
           <div className="flex items-center gap-2">
-            <FiMapPin className="h-5 w-5 text-teal-600" />
+            <FiMapPin className="h-5 w-5 text-primary-600" />
             <span className="text-sm whitespace-nowrap">{neighborhood} Based</span>
           </div>
           <div className="flex items-center gap-2">
-            <FaCar className="h-5 w-5 text-teal-600" />
+            <FaCar className="h-5 w-5 text-primary-600" />
             <span className="text-sm whitespace-nowrap">{serviceArea}</span>
           </div>
         </div>

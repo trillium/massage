@@ -15,7 +15,7 @@ function Section({ children, className = '' }: { children: React.ReactNode; clas
 
 function SectionTitle({ children }: { children: React.ReactNode }) {
   return (
-    <h2 className="mb-4 border-b-2 border-teal-600 pb-2 text-2xl font-bold text-teal-700 print:text-xl">
+    <h2 className="mb-4 border-b-2 border-primary-600 pb-2 text-2xl font-bold text-primary-700 print:text-xl">
       {children}
     </h2>
   )
@@ -30,7 +30,7 @@ function Table({ headers, rows }: { headers: string[]; rows: (string | React.Rea
             <th
               key={`${i}-${h || 'detail'}`}
               scope="col"
-              className="border border-gray-200 bg-teal-50 px-4 py-2 text-left font-semibold text-teal-800"
+              className="border border-gray-200 bg-primary-50 px-4 py-2 text-left font-semibold text-primary-800"
             >
               {h || <span className="sr-only">Detail</span>}
             </th>
@@ -73,12 +73,12 @@ export default async function ProposalPage({
   return (
     <div className="mx-auto max-w-3xl px-6 py-12 font-sans text-gray-800 print:max-w-none print:px-0 print:py-0">
       {/* Header */}
-      <header className="mb-12 flex items-start justify-between border-b-4 border-teal-600 pb-8">
+      <header className="mb-12 flex items-start justify-between border-b-4 border-primary-600 pb-8">
         <div>
           <h1 className="text-3xl font-bold text-gray-900 print:text-2xl">
             Chair Massage Services
             <br />
-            <span className="text-teal-600">for CodeRabbit</span>
+            <span className="text-primary-600">for CodeRabbit</span>
           </h1>
           <p className="mt-2 text-lg text-gray-500">AI Engineer Miami & React Miami — April 2026</p>
         </div>
@@ -145,21 +145,21 @@ export default async function ProposalPage({
         </p>
         <p className="mb-4 leading-relaxed">
           I&apos;ve been a licensed massage therapist for 11 years with a{' '}
-          <strong className="text-teal-700">4.9-star rating</strong> across every platform I&apos;ve
-          worked on. I&apos;ve staffed corporate events for Airbnb, Cedars-Sinai, and TJ Maxx, and
-          I&apos;m very comfortable working long hours in conference and corporate environments. I
-          know the pace, I know how to read a room, and I know how to keep a line moving without
-          rushing anyone.
+          <strong className="text-primary-700">4.9-star rating</strong> across every platform
+          I&apos;ve worked on. I&apos;ve staffed corporate events for Airbnb, Cedars-Sinai, and TJ
+          Maxx, and I&apos;m very comfortable working long hours in conference and corporate
+          environments. I know the pace, I know how to read a room, and I know how to keep a line
+          moving without rushing anyone.
         </p>
-        <div className="rounded-lg border-l-4 border-teal-600 bg-teal-50 p-5">
-          <p className="font-semibold text-teal-800">What makes this different</p>
-          <p className="mt-2 leading-relaxed text-teal-900">
+        <div className="rounded-lg border-l-4 border-primary-600 bg-primary-50 p-5">
+          <p className="font-semibold text-primary-800">What makes this different</p>
+          <p className="mt-2 leading-relaxed text-primary-900">
             I&apos;m also a software developer. I understand the audience at these conferences
             because I&apos;m part of it. I can talk to attendees about what CodeRabbit does — not
             from a script, but from real experience. By April, I&apos;ll be a CodeRabbit power user
             and a genuine advocate for the product.
           </p>
-          <p className="mt-2 leading-relaxed text-teal-900">
+          <p className="mt-2 leading-relaxed text-primary-900">
             Your booth doesn&apos;t just offer a massage — it offers a conversation with someone who
             speaks the audience&apos;s language and knows your product.
           </p>
@@ -217,7 +217,7 @@ export default async function ProposalPage({
               key={item.title}
               className="rounded-lg border border-gray-200 p-4 print:border-gray-300"
             >
-              <p className="mb-1 font-bold text-teal-700">{item.title}</p>
+              <p className="mb-1 font-bold text-primary-700">{item.title}</p>
               <p className="text-sm leading-relaxed text-gray-600">{item.text}</p>
             </div>
           ))}
@@ -229,8 +229,8 @@ export default async function ProposalPage({
         <SectionTitle>Proof of Concept: SCaLE 23x</SectionTitle>
         <p className="mb-4 leading-relaxed">
           At SCaLE 23x in March 2026, I delivered{' '}
-          <strong className="text-teal-700">50 massage sessions</strong> over 3 days — 12 hours of
-          total massage time.
+          <strong className="text-primary-700">50 massage sessions</strong> over 3 days — 12 hours
+          of total massage time.
         </p>
         <Table
           headers={['Day', 'Sessions', 'Notes']}
@@ -250,8 +250,8 @@ export default async function ProposalPage({
       {/* Investment — page break before this section for print */}
       <Section className="print:break-before-page print:pt-8">
         <SectionTitle>Investment</SectionTitle>
-        <div className="overflow-hidden rounded-lg border-2 border-teal-600">
-          <div className="bg-teal-600 px-6 py-4 text-white">
+        <div className="overflow-hidden rounded-lg border-2 border-primary-600">
+          <div className="bg-primary-600 px-6 py-4 text-white">
             <p className="text-lg font-bold">Both Conferences — 4 Days</p>
           </div>
           <div className="p-6">
@@ -264,8 +264,8 @@ export default async function ProposalPage({
               <span className="text-gray-900">4 (April 20–21 + April 23–24)</span>
             </div>
             <div className="flex items-baseline justify-between">
-              <span className="text-lg font-bold text-teal-700">Total</span>
-              <span className="text-2xl font-bold text-teal-700">$4,000</span>
+              <span className="text-lg font-bold text-primary-700">Total</span>
+              <span className="text-2xl font-bold text-primary-700">$4,000</span>
             </div>
           </div>
         </div>
@@ -300,7 +300,7 @@ export default async function ProposalPage({
       </Section>
 
       {/* Footer */}
-      <footer className="mt-12 border-t-2 border-teal-600 pt-6">
+      <footer className="mt-12 border-t-2 border-primary-600 pt-6">
         <div className="flex items-center gap-4">
           <Image
             src="/static/images/gallery/headshot_branded_hat.jpg"
@@ -312,7 +312,7 @@ export default async function ProposalPage({
           <div>
             <p className="text-lg font-bold text-gray-900">Trillium Smith, LMT</p>
             <p className="text-sm text-gray-500">trilliummassagela@gmail.com</p>
-            <p className="text-sm text-teal-600">www.trilliummassage.la</p>
+            <p className="text-sm text-primary-600">www.trilliummassage.la</p>
           </div>
         </div>
       </footer>
