@@ -480,6 +480,16 @@ const slugConfigurations: SlugConfigurationType[] = [
       showNotesField: true,
     },
   },
+  {
+    ...initialStateWithoutType,
+    bookingSlug: ['rachel-birthday-2026'],
+    type: 'area-wide',
+    title: 'Happy Birthday, Paige! 🎂',
+    text: 'A gift from someone who cares. Book your complimentary 60 or 90 minute massage — no payment needed.',
+    allowedDurations: [60, 90],
+    pricing: { 60: 0, 90: 0 },
+    acceptingPayment: false,
+  },
 ]
 
 export async function fetchSlugConfigurationData(): Promise<{
