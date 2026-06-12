@@ -4,6 +4,7 @@ import { Menu, MenuItems, MenuItem, MenuButton } from '@headlessui/react'
 import Link from '@/components/Link'
 import authHeaderNavLinks from '@/data/authHeaderNavLinks'
 import { FaCheck, FaChevronDown } from 'react-icons/fa'
+import auth from '@/data/auth.json'
 
 interface AdminAuthChipProps {
   adminEmail?: string | null
@@ -21,7 +22,7 @@ export function AdminAuthChip({ adminEmail, onLogout }: AdminAuthChipProps) {
         <MenuButton className="rounded-br-3xl border-b border-l bg-blue-50 px-4 py-2 text-sm transition-colors hover:bg-blue-100 dark:bg-blue-900/20 dark:hover:bg-blue-900/30">
           <div className="flex items-center justify-between">
             <span className="flex items-center text-blue-800 dark:text-blue-200">
-              <FaCheck className="mr-1" /> Admin {adminEmail}
+              <FaCheck className="mr-1" /> {auth.authChip.admin} {adminEmail}
             </span>
             <span className="pl-2 text-blue-600 dark:text-blue-300">
               <FaChevronDown />
@@ -47,7 +48,7 @@ export function AdminAuthChip({ adminEmail, onLogout }: AdminAuthChipProps) {
                 onClick={onLogout}
                 className="group flex w-full items-center rounded-md px-2 py-2 text-sm text-accent-900 hover:bg-red-500 hover:text-white dark:text-accent-100 dark:hover:bg-red-500 dark:hover:text-white"
               >
-                Logout
+                {auth.authChip.logout}
               </button>
             </MenuItem>
           </div>

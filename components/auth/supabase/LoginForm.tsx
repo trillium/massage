@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { signInWithOAuth, signInWithMagicLink } from '@/lib/supabase/auth-helpers'
+import auth from '@/data/auth.json'
 
 interface LoginFormProps {
   redirectTo?: string
@@ -46,9 +47,9 @@ export function LoginForm({ redirectTo: rawRedirectTo, onSuccess, onError }: Log
   if (submitted) {
     return (
       <div className="rounded-lg border border-green-200 bg-green-50 p-4">
-        <h3 className="font-medium text-green-900">Check your email</h3>
+        <h3 className="font-medium text-green-900">{auth.loginForm.checkYourEmail}</h3>
         <p className="mt-1 text-sm text-green-700">
-          We sent a magic link to <strong>{email}</strong>
+          {auth.loginForm.magicLinkSent} <strong>{email}</strong>
         </p>
         <button
           onClick={() => {
@@ -57,7 +58,7 @@ export function LoginForm({ redirectTo: rawRedirectTo, onSuccess, onError }: Log
           }}
           className="mt-3 text-sm text-green-600 underline hover:text-green-700"
         >
-          Use a different email
+          {auth.loginForm.useDifferentEmail}
         </button>
       </div>
     )
@@ -88,7 +89,7 @@ export function LoginForm({ redirectTo: rawRedirectTo, onSuccess, onError }: Log
             fill="#EA4335"
           />
         </svg>
-        {loading ? 'Signing in...' : 'Sign in with Google'}
+        {loading ? auth.loginForm.signingIn : auth.loginForm.signInGoogle}
       </button>
 
       {error && (
@@ -103,7 +104,7 @@ export function LoginForm({ redirectTo: rawRedirectTo, onSuccess, onError }: Log
         </div>
         <div className="relative flex justify-center text-sm">
           <span className="bg-surface-50 px-2 text-accent-500 dark:bg-surface-800 dark:text-accent-400">
-            or
+            {auth.loginForm.or}
           </span>
         </div>
       </div>
@@ -117,14 +118,14 @@ export function LoginForm({ redirectTo: rawRedirectTo, onSuccess, onError }: Log
             required
             disabled={loading}
             className="block w-full rounded-md border border-accent-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 disabled:opacity-50 dark:border-accent-600 dark:bg-surface-700 dark:text-white"
-            placeholder="you@example.com"
+            placeholder={auth.loginForm.emailPlaceholder}
           />
           <button
             type="submit"
             disabled={loading}
             className="w-full rounded-md bg-blue-600 px-4 py-2 text-sm text-white hover:bg-blue-700 disabled:opacity-50"
           >
-            {loading ? 'Sending...' : 'Send magic link'}
+            {loading ? auth.loginForm.sending : auth.loginForm.sendMagicLink}
           </button>
         </form>
       ) : (
@@ -132,7 +133,7 @@ export function LoginForm({ redirectTo: rawRedirectTo, onSuccess, onError }: Log
           onClick={() => setShowEmail(true)}
           className="w-full text-center text-sm text-accent-500 hover:text-accent-700 dark:text-accent-400 dark:hover:text-accent-200"
         >
-          Sign in with email instead
+          {auth.loginForm.signInWithEmail}
         </button>
       )}
     </div>

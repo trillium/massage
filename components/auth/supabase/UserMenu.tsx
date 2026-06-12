@@ -13,6 +13,7 @@
 
 import { useAuth } from './SupabaseAuthProvider'
 import { useState } from 'react'
+import auth from '@/data/auth.json'
 
 export function UserMenu() {
   const { user, profile, isAdmin, loading, signOut } = useAuth()
@@ -45,7 +46,7 @@ export function UserMenu() {
         </div>
         <div className="text-left">
           <div className="font-medium">{user.email}</div>
-          {isAdmin && <div className="text-xs text-blue-600">Admin</div>}
+          {isAdmin && <div className="text-xs text-blue-600">{auth.userMenu.admin}</div>}
         </div>
       </button>
 
@@ -57,7 +58,7 @@ export function UserMenu() {
               <p className="text-sm font-medium text-accent-900">{user.email}</p>
               {isAdmin && (
                 <span className="mt-1 inline-block rounded bg-blue-100 px-2 py-1 text-xs font-medium text-blue-800">
-                  Administrator
+                  {auth.userMenu.administrator}
                 </span>
               )}
             </div>
@@ -65,14 +66,15 @@ export function UserMenu() {
             <div className="p-2">
               <div className="px-3 py-2 text-sm text-accent-700">
                 <div>
-                  <span className="font-medium">User ID:</span>
+                  <span className="font-medium">{auth.userMenu.userIdLabel}</span>
                   <div className="mt-1 font-mono text-xs text-accent-500">
-                    {user.id.slice(0, 8)}...
+                    {user.id.slice(0, 8)}
+                    {auth.userMenu.userIdEllipsis}
                   </div>
                 </div>
                 {profile?.created_at && (
                   <div className="mt-2">
-                    <span className="font-medium">Member since:</span>
+                    <span className="font-medium">{auth.userMenu.memberSinceLabel}</span>
                     <div className="text-xs text-accent-500">
                       {new Date(profile.created_at).toLocaleDateString()}
                     </div>
@@ -87,7 +89,7 @@ export function UserMenu() {
                 disabled={isSigningOut}
                 className="w-full rounded px-3 py-2 text-left text-sm text-red-600 hover:bg-red-50 disabled:text-accent-400"
               >
-                {isSigningOut ? 'Signing out...' : 'Sign out'}
+                {isSigningOut ? auth.userMenu.signingOut : auth.userMenu.signOut}
               </button>
             </div>
           </div>

@@ -7,6 +7,7 @@ import { getSupabaseBrowserClient } from '@/lib/supabase/client'
 import Spinner from '@/components/Spinner'
 import { AdminAuthChip } from '@/components/auth/admin/AdminAuthChip'
 import { identifyAuthenticatedUser } from '@/lib/posthog-utils'
+import auth from '@/data/auth.json'
 
 interface AdminAuthProviderProps {
   children: React.ReactNode
@@ -65,7 +66,7 @@ export function AdminAuthProvider({ children }: AdminAuthProviderProps) {
             isAuthenticated: false,
             isLoading: false,
             adminEmail: null,
-            error: 'Please log in to access admin panel.',
+            error: auth.adminAuth.loginRequired,
           })
           return
         }
@@ -93,7 +94,7 @@ export function AdminAuthProvider({ children }: AdminAuthProviderProps) {
             isAuthenticated: false,
             isLoading: false,
             adminEmail: null,
-            error: 'Admin access required. Your account does not have admin privileges.',
+            error: auth.adminAuth.privilegesRequired,
           })
           return
         }
@@ -112,7 +113,7 @@ export function AdminAuthProvider({ children }: AdminAuthProviderProps) {
           isAuthenticated: false,
           isLoading: false,
           adminEmail: null,
-          error: 'An error occurred while checking admin access.',
+          error: auth.adminAuth.error,
         })
       }
     }
@@ -142,7 +143,7 @@ export function AdminAuthProvider({ children }: AdminAuthProviderProps) {
       <div className="flex min-h-screen items-center justify-center">
         <div className="text-center">
           <Spinner />
-          <p className="mt-4 text-accent-600 dark:text-accent-400">Verifying admin access...</p>
+          <p className="mt-4 text-accent-600 dark:text-accent-400">{auth.adminAuth.verifying}</p>
         </div>
       </div>
     )
@@ -168,19 +169,19 @@ export function AdminAuthProvider({ children }: AdminAuthProviderProps) {
             </svg>
           </div>
           <h1 className="mb-2 text-2xl font-bold text-accent-900 dark:text-accent-100">
-            Admin Access Required
+            {auth.adminAuth.heading}
           </h1>
           <p className="mb-4 text-accent-600 dark:text-accent-400">{authState.error}</p>
           <div className="text-sm text-accent-500 dark:text-accent-400">
             <p>
-              Please{' '}
+              {auth.adminAuth.loginPromptPrefix}{' '}
               <Link
                 href={`/auth/supabase-login?redirectTo=${encodeURIComponent(pathname)}`}
                 className="text-blue-600 hover:underline"
               >
-                log in
+                {auth.adminAuth.loginLink}
               </Link>{' '}
-              with an admin account.
+              {auth.adminAuth.loginPromptSuffix}
             </p>
           </div>
         </div>
