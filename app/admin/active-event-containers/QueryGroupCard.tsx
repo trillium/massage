@@ -100,13 +100,20 @@ export function QueryGroupCard({ group }: { group: QueryGroup }) {
               <FaSearch className="mr-1 inline" />
               {admin.activeEventContainers.debugHeaderPrefix}
               {group.searchQuery}
-              {admin.activeEventContainers.debugHeaderSuffix} ({group.allEvents.length})
+              {admin.activeEventContainers.debugHeaderSuffix}
+              {admin.activeEventContainers.debugCounterOpen}
+              {group.allEvents.length}
+              {admin.activeEventContainers.debugCounterClose}
             </h4>
             <div className="max-h-40 overflow-y-auto">
               {group.allEvents.map((event) => (
                 <div key={event.id} className="mb-1 text-xs">
                   <span className="font-mono text-blue-800 dark:text-blue-200">
-                    "{event.summary}" - {formatDateTime(event.start.dateTime)}
+                    {admin.activeEventContainers.eventQuotePrefix}
+                    {event.summary}
+                    {admin.activeEventContainers.eventQuoteSuffix}
+                    {admin.activeEventContainers.eventSummaryEventDateSeparator}
+                    {formatDateTime(event.start.dateTime)}
                   </span>
                 </div>
               ))}
