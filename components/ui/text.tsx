@@ -1,34 +1,55 @@
 /* ds-ignore-file */
 import { cn } from '@/lib/cn'
-import type { HTMLAttributes } from 'react'
 
-type TextProps = HTMLAttributes<HTMLParagraphElement> & {
+export type TextStatus = 'default' | 'muted' | 'error' | 'success' | 'warning' | 'info' | 'primary'
+
+type TextProps = React.HTMLAttributes<HTMLParagraphElement | HTMLSpanElement> & {
+  status?: TextStatus
   as?: 'p' | 'span' | 'div'
-  size?: 'xs' | 'sm' | 'base' | 'lg'
-  muted?: boolean
 }
 
-const sizeMap: Record<NonNullable<TextProps['size']>, string> = {
-  xs: 'text-xs',
-  sm: 'text-sm',
-  base: 'text-base',
-  lg: 'text-lg',
+const statusClasses: Record<TextStatus, string> = {
+  default: 'text-accent-900 dark:text-accent-100',
+  muted: 'text-accent-500 dark:text-accent-400',
+  error: 'text-red-600 dark:text-red-400',
+  success: 'text-green-600 dark:text-green-400',
+  warning: 'text-yellow-600 dark:text-yellow-400',
+  info: 'text-blue-600 dark:text-blue-400',
+  primary: 'text-primary-600 dark:text-primary-400',
 }
 
-export function Text({
-  as: Tag = 'p',
-  size = 'base',
-  muted,
-  className,
-  children,
-  ...props
-}: TextProps) {
+function makeText(baseClasses: string, defaultStatus: TextStatus = 'default') {
+  return function TextVariant({
+    status = defaultStatus,
+    as: Tag = 'p',
+    className,
+    ...props
+  }: TextProps) {
+    return <Tag className={cn(baseClasses, statusClasses[status], className)} {...props} />
+  }
+}
+
+export const TextBase = makeText('text-base')
+export const TextBaseMuted = makeText('text-base', 'muted')
+export const TextBaseMedium = makeText('text-base font-medium')
+export const TextSm = makeText('text-sm')
+export const TextSmMuted = makeText('text-sm', 'muted')
+export const TextSmMedium = makeText('text-sm font-medium')
+export const TextSmSemibold = makeText('text-sm font-semibold')
+export const TextXs = makeText('text-xs')
+export const TextXsMuted = makeText('text-xs', 'muted')
+export const TextXsMedium = makeText('text-xs font-medium')
+export const TextLg = makeText('text-lg')
+export const TextLgMuted = makeText('text-lg', 'muted')
+export const TextMuted = makeText('text-base', 'muted')
+export const TextPrimary = makeText('text-sm', 'primary')
+
+type CaptionProps = React.HTMLAttributes<HTMLParagraphElement | HTMLSpanElement> & {
+  as?: 'p' | 'span' | 'div'
+}
+
+export function Caption({ as: Tag = 'p', className, ...props }: CaptionProps) {
   return (
-    <Tag
-      className={cn(sizeMap[size], muted && 'text-accent-500 dark:text-accent-400', className)}
-      {...props}
-    >
-      {children}
-    </Tag>
+    <Tag className={cn('text-xs text-surface-500 dark:text-surface-400', className)} {...props} />
   )
 }

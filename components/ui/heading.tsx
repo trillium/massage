@@ -1,36 +1,53 @@
 /* ds-ignore-file */
 import { cn } from '@/lib/cn'
-import type { HTMLAttributes } from 'react'
 
-type Level = 1 | 2 | 3 | 4
-type Size = 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl'
+type HeadingStatus = 'default' | 'primary' | 'muted' | 'error' | 'success' | 'warning' | 'info'
 
-type HeadingProps = HTMLAttributes<HTMLHeadingElement> & {
-  level?: Level
-  size?: Size
+type HeadingProps = React.HTMLAttributes<HTMLHeadingElement> & {
+  status?: HeadingStatus
 }
 
-const levelMap: Record<Level, 'h1' | 'h2' | 'h3' | 'h4'> = {
-  1: 'h1',
-  2: 'h2',
-  3: 'h3',
-  4: 'h4',
+const statusClasses: Record<HeadingStatus, string> = {
+  default: 'text-accent-900 dark:text-accent-100',
+  muted: 'text-accent-500 dark:text-accent-400',
+  error: 'text-red-600 dark:text-red-400',
+  success: 'text-green-600 dark:text-green-400',
+  warning: 'text-yellow-600 dark:text-yellow-400',
+  info: 'text-blue-600 dark:text-blue-400',
+  primary: 'text-primary-600 dark:text-primary-400',
 }
 
-const sizeMap: Record<Size, string> = {
-  sm: 'text-sm',
-  md: 'text-base',
-  lg: 'text-lg',
-  xl: 'text-xl',
-  '2xl': 'text-2xl',
-  '3xl': 'text-3xl',
-}
-
-export function Heading({ level = 2, size = 'xl', className, children, ...props }: HeadingProps) {
-  const Tag = levelMap[level] as React.ElementType
+export function H1({ status = 'default', className, ...props }: HeadingProps) {
   return (
-    <Tag className={cn('font-bold', sizeMap[size], className)} {...props}>
-      {children}
-    </Tag>
+    <h1
+      className={cn('text-3xl font-bold tracking-tight', statusClasses[status], className)}
+      {...props}
+    />
+  )
+}
+
+export function H1Hero({ status = 'default', className, ...props }: HeadingProps) {
+  return (
+    <h1
+      className={cn('text-4xl font-extrabold tracking-tight', statusClasses[status], className)}
+      {...props}
+    />
+  )
+}
+
+export function H2({ status = 'default', className, ...props }: HeadingProps) {
+  return <h2 className={cn('text-2xl font-bold', statusClasses[status], className)} {...props} />
+}
+
+export function H3({ status = 'default', className, ...props }: HeadingProps) {
+  return <h3 className={cn('text-lg font-semibold', statusClasses[status], className)} {...props} />
+}
+
+export function H4({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) {
+  return (
+    <h4
+      className={cn('text-base font-medium text-accent-700 dark:text-accent-300', className)}
+      {...props}
+    />
   )
 }

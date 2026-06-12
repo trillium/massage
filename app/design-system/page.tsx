@@ -7,8 +7,25 @@ import { Textarea } from '@/components/ui/textarea'
 import { GradientText } from '@/components/ui/GradientText'
 import { Box } from '@/components/ui/box'
 import { Stack } from '@/components/ui/stack'
-import { Text } from '@/components/ui/text'
-import { Heading } from '@/components/ui/heading'
+import {
+  TextBase,
+  TextBaseMuted,
+  TextBaseMedium,
+  TextSm,
+  TextSmMuted,
+  TextSmMedium,
+  TextSmSemibold,
+  TextXs,
+  TextXsMuted,
+  TextXsMedium,
+  TextLg,
+  TextLgMuted,
+  TextMuted,
+  TextPrimary,
+  Caption,
+} from '@/components/ui/text'
+import { H1, H1Hero, H2, H3, H4 } from '@/components/ui/heading'
+import { LabelSm } from '@/components/ui/label'
 import { Code } from '@/components/ui/code'
 import { DS_RULES, type DsRuleCategory } from '@/components/ui/manifest'
 
@@ -413,16 +430,14 @@ export default function DesignSystemPage() {
                 <Badge variant="outline">align=center</Badge>
               </Stack>
               <Stack direction="row" gap={4} justify="between" align="center">
-                <Text size="sm">justify=between</Text>
+                <TextSm>justify=between</TextSm>
                 <Button variant="outline" size="sm">
                   Action
                 </Button>
               </Stack>
               <Stack gap={2}>
-                <Text size="sm">Column stack</Text>
-                <Text size="sm" muted>
-                  Stacked vertically with gap=2
-                </Text>
+                <TextSm>Column stack</TextSm>
+                <TextSmMuted>Stacked vertically with gap=2</TextSmMuted>
               </Stack>
             </Stack>
           </div>
@@ -430,58 +445,89 @@ export default function DesignSystemPage() {
           {/* Text */}
           <div className="mb-8">
             <h3 className="mb-1 text-sm font-semibold text-accent-700 dark:text-accent-300">
-              Text
+              Text — Named Size + Weight Variants
             </h3>
             <p className="mb-3 font-mono text-xs text-accent-400">
-              import {'{ Text }'} from @/components/ui/text
+              import {'{ TextSm, TextSmMuted, TextBase, … }'} from @/components/ui/text
             </p>
             <p className="mb-3 text-xs text-accent-500">
-              Paragraph text — size (xs/sm/base/lg) and muted variants. Use as=&quot;span&quot; for
-              inline.
+              Canonical text components by size and weight. Each accepts a status prop for semantic
+              color (default / muted / error / success / warning / info / primary).
             </p>
             <Stack
               gap={2}
               className="rounded-lg border border-accent-200 p-4 dark:border-accent-700"
             >
-              <Text size="xs">Extra small text (xs)</Text>
-              <Text size="sm">Small text (sm)</Text>
-              <Text size="base">Base text (base)</Text>
-              <Text size="lg">Large text (lg)</Text>
-              <Text muted>Muted variant for secondary content</Text>
-              <Text as="span" size="sm">
-                Rendered as a span (inline)
-              </Text>
+              <TextLg>TextLg — large paragraph</TextLg>
+              <TextLgMuted>TextLgMuted — large, muted</TextLgMuted>
+              <TextBase>TextBase — base paragraph</TextBase>
+              <TextBaseMedium>TextBaseMedium — base, medium weight</TextBaseMedium>
+              <TextBaseMuted>TextBaseMuted — base, muted</TextBaseMuted>
+              <TextSm>TextSm — small paragraph</TextSm>
+              <TextSmMedium>TextSmMedium — small, medium weight</TextSmMedium>
+              <TextSmSemibold>TextSmSemibold — small, semibold</TextSmSemibold>
+              <TextSmMuted>TextSmMuted — small, muted</TextSmMuted>
+              <TextXs>TextXs — extra small</TextXs>
+              <TextXsMedium>TextXsMedium — extra small, medium</TextXsMedium>
+              <TextXsMuted>TextXsMuted — extra small, muted</TextXsMuted>
+              <TextMuted>TextMuted — base size, muted color shortcut</TextMuted>
+              <TextPrimary>TextPrimary — small, primary color</TextPrimary>
+              <Caption>Caption — fixed surface color, no status prop</Caption>
+              <TextSm status="error">TextSm with status=&quot;error&quot;</TextSm>
+              <TextSm status="success">TextSm with status=&quot;success&quot;</TextSm>
+              <TextSm status="warning">TextSm with status=&quot;warning&quot;</TextSm>
+              <TextSm status="info">TextSm with status=&quot;info&quot;</TextSm>
             </Stack>
           </div>
 
           {/* Heading */}
           <div className="mb-8">
             <h3 className="mb-1 text-sm font-semibold text-accent-700 dark:text-accent-300">
-              Heading
+              Heading — Named H1 / H1Hero / H2 / H3 / H4
             </h3>
             <p className="mb-3 font-mono text-xs text-accent-400">
-              import {'{ Heading }'} from @/components/ui/heading
+              import {'{ H1, H1Hero, H2, H3, H4 }'} from @/components/ui/heading
             </p>
             <p className="mb-3 text-xs text-accent-500">
-              Semantic h1-h4 with independent size prop. Level controls the tag, size controls the
-              visual weight.
+              Semantic headings — each name renders the matching tag with its canonical size and
+              weight. H1Hero is the extra-bold display variant.
             </p>
             <Stack
               gap={3}
               className="rounded-lg border border-accent-200 p-4 dark:border-accent-700"
             >
-              <Heading level={1} size="3xl">
-                Heading level=1 size=3xl
-              </Heading>
-              <Heading level={2} size="2xl">
-                Heading level=2 size=2xl
-              </Heading>
-              <Heading level={3} size="xl">
-                Heading level=3 size=xl
-              </Heading>
-              <Heading level={4} size="lg">
-                Heading level=4 size=lg
-              </Heading>
+              <H1Hero>H1Hero — hero display heading</H1Hero>
+              <H1>H1 — primary heading</H1>
+              <H2>H2 — secondary heading</H2>
+              <H3>H3 — tertiary heading</H3>
+              <H4>H4 — quaternary heading</H4>
+              <H2 status="primary">H2 with status=&quot;primary&quot;</H2>
+              <H3 status="error">H3 with status=&quot;error&quot;</H3>
+            </Stack>
+          </div>
+
+          {/* Label */}
+          <div className="mb-8">
+            <h3 className="mb-1 text-sm font-semibold text-accent-700 dark:text-accent-300">
+              Label — LabelSm
+            </h3>
+            <p className="mb-3 font-mono text-xs text-accent-400">
+              import {'{ LabelSm }'} from @/components/ui/label
+            </p>
+            <p className="mb-3 text-xs text-accent-500">
+              Small label-style text (text-xs font-medium tracking-wide). Use as=&quot;span&quot;
+              for inline.
+            </p>
+            <Stack
+              gap={2}
+              className="rounded-lg border border-accent-200 p-4 dark:border-accent-700"
+            >
+              <LabelSm>LabelSm — default</LabelSm>
+              <LabelSm status="primary">LabelSm — primary</LabelSm>
+              <LabelSm status="success">LabelSm — success</LabelSm>
+              <LabelSm status="error">LabelSm — error</LabelSm>
+              <LabelSm status="warning">LabelSm — warning</LabelSm>
+              <LabelSm status="info">LabelSm — info</LabelSm>
             </Stack>
           </div>
 
@@ -500,9 +546,9 @@ export default function DesignSystemPage() {
               gap={3}
               className="rounded-lg border border-accent-200 p-4 dark:border-accent-700"
             >
-              <Text size="sm">
+              <TextSm>
                 Inline: call <Code>pnpm dev</Code> to start the dev server.
-              </Text>
+              </TextSm>
               <Code
                 block
               >{`const greet = (name: string) => \`hello, \${name}\`\ngreet('trillium')`}</Code>
