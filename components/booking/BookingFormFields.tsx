@@ -9,6 +9,7 @@ import PaymentMethodField from './fields/PaymentMethodField'
 import HotelField from './fields/HotelField'
 import ParkingField from './fields/ParkingField'
 import NotesField from './fields/NotesField'
+import PromoCodeField from './fields/PromoCodeField'
 import RaffleOptInField from './fields/RaffleOptInField'
 
 import { setForm } from '@/redux/slices/formSlice'
@@ -34,6 +35,7 @@ type BookingFormFieldsProps = {
   showHotelField?: boolean
   showParkingField?: boolean
   showNotesField?: boolean
+  showPromoField?: boolean
   showRaffleOptIn?: boolean
 }
 
@@ -49,6 +51,7 @@ export default function BookingFormFields({
   showHotelField,
   showParkingField,
   showNotesField,
+  showPromoField,
   showRaffleOptIn,
 }: BookingFormFieldsProps) {
   const dispatch = useAppDispatch()
@@ -163,6 +166,16 @@ export default function BookingFormFields({
               <div className="mt-1 text-sm text-red-600">{errors.additionalNotes}</div>
             )}
           </>
+        )}
+
+        {showPromoField && (
+          <PromoCodeField
+            promoCode={values.promo ?? ''}
+            error={touched.promo && errors.promo ? errors.promo : undefined}
+            onChange={(e) => {
+              setFieldValue('promo', e.target.value)
+            }}
+          />
         )}
       </div>
 

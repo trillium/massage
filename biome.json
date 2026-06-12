@@ -59,7 +59,8 @@
         "useImportType": "off",
         "noParameterAssign": "off",
         "useDefaultParameterLast": "off",
-        "useTemplate": "off"
+        "useTemplate": "off",
+        "noJsxLiterals": "warn"
       },
       "complexity": {
         "noForEach": "off",
@@ -102,5 +103,15 @@
       }
     }
   },
-  "assist": { "actions": { "source": { "organizeImports": "off" } } }
+  "assist": { "actions": { "source": { "organizeImports": "off" } } },
+  "overrides": [
+    {
+      "includes": ["app/api/og/**"],
+      "linter": {
+        "rules": {
+          "style": { "noJsxLiterals": "off" }
+        }
+      }
+    }
+  ]
 }

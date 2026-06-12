@@ -1,0 +1,52 @@
+{
+  "form": {
+    "firstName": {
+      "label": "First Name",
+      "placeholder": "First",
+      "ariaLabel": "Name"
+    },
+    "lastName": {
+      "label": "Last Name",
+      "placeholder": "Last",
+      "ariaLabel": "Name"
+    },
+    "phone": {
+      "label": "Phone Number",
+      "placeholder": "(555) 444 - 3333",
+      "ariaLabel": "Phone Number"
+    },
+    "email": {
+      "label": "Email Address",
+      "placeholder": "name@example.com",
+      "ariaLabel": "Email"
+    },
+    "hotelRoomNumber": {
+      "label": "Hotel Room Number",
+      "placeholder": "e.g. 1205",
+      "ariaLabel": "Hotel Room Number"
+    },
+    "parkingInstructions": {
+      "label": "Parking Instructions",
+      "ariaLabel": "Parking Instructions",
+      "options": {
+        "empty": "Select parking option",
+        "street": "Street Parking Available",
+        "garage": "Parking Garage",
+        "valet": "Valet Service",
+        "none": "No Parking Needed"
+      }
+    },
+    "notes": {
+      "label": "Additional Notes",
+      "placeholder": "Any special requests, accessibility needs, or additional information",
+      "ariaLabel": "Additional Notes"
+    },
+    "promoCode": {
+      "label": "Have a code?",
+      "placeholder": "Enter it here",
+      "ariaLabel": "Promo Code",
+      "errorInvalid": "Invalid promo code",
+      "appliedPrefix": "✓"
+    }
+  }
+}

@@ -46,6 +46,7 @@ export type CustomFieldsType = {
   showParkingField?: boolean
   showNotesField?: boolean
   showRaffleOptIn?: boolean
+  showPromoField?: boolean
 }
 
 export type SlugConfigurationType = {

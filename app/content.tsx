@@ -1,8 +1,10 @@
 import siteContent from '@/data/site.json'
 import homeContent from '@/data/home.json'
+import bookingContent from '@/data/booking.json'
 
 export const site = siteContent
 export const home = homeContent
+export const booking = bookingContent
 
 export function withBreaks(text: string): React.ReactNode {
   const parts = text.split('\n')
