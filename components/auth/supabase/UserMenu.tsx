@@ -14,6 +14,7 @@
 import { useAuth } from './SupabaseAuthProvider'
 import { useState } from 'react'
 import auth from '@/data/auth.json'
+import { TextSmMedium, TextXsMedium } from '@/components/ui/text'
 
 export function UserMenu() {
   const { user, profile, isAdmin, loading, signOut } = useAuth()
@@ -55,11 +56,11 @@ export function UserMenu() {
           <div className="fixed inset-0 z-10" onClick={() => setIsOpen(false)} />
           <div className="absolute right-0 z-20 mt-2 w-64 rounded-lg border border-accent-200 bg-surface-50 shadow-lg">
             <div className="border-b border-accent-100 p-4">
-              <p className="text-sm font-medium text-accent-900">{user.email}</p>
+              <TextSmMedium>{user.email}</TextSmMedium>
               {isAdmin && (
-                <span className="mt-1 inline-block rounded bg-blue-100 px-2 py-1 text-xs font-medium text-blue-800">
+                <TextXsMedium className="mt-1 inline-block rounded bg-blue-100 px-2 py-1" status="info">
                   {auth.userMenu.administrator}
-                </span>
+                </TextXsMedium>
               )}
             </div>
 

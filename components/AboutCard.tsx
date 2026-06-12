@@ -3,6 +3,7 @@ import siteMetadata from '@/data/siteMetadata'
 import SocialIcon from '@/components/social-icons'
 import Link from '@/components/Link'
 import { home } from '@/app/content'
+import { H3 } from '@/components/ui/heading'
 
 const { bio, focus, stats, rating, statsClose } = home.about
 
@@ -23,9 +24,9 @@ const AuthorCard = () => {
           </div>
         )}
         <div>
-          <h3 className="pt-4 pb-2 text-2xl leading-8 font-bold tracking-tight sm:text-3xl md:text-4xl">
+          <H3 className="pt-4 pb-2 sm:text-3xl md:text-4xl">
             {author}
-          </h3>
+          </H3>
           <div className="md:text-md text-base text-accent-500 dark:text-accent-400">
             {occupation}
           </div>

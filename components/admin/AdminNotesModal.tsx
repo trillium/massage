@@ -8,6 +8,7 @@ import { formatLocalTime } from 'lib/availability/helpers'
 import ConfirmDialog from '@/components/admin/ConfirmDialog'
 import clsx from 'clsx'
 import { Appointment, STATUS_STYLES } from '@/components/admin/appointmentTypes'
+import { TextSm, TextXs } from '@/components/ui/text'
 
 type AdminNotesModalProps = {
   open: boolean
@@ -56,9 +57,9 @@ function AppointmentDetails({ appointment }: { appointment: Appointment }) {
       )}
       {appointment.promo && (
         <DetailRow label={admin.notesModal.labels.promo}>
-          <span className="rounded bg-purple-100 px-1.5 text-xs text-purple-700 dark:bg-purple-900 dark:text-purple-300">
+          <TextXs className="rounded bg-purple-100 px-1.5 dark:bg-purple-900">
             {appointment.promo}
-          </span>
+          </TextXs>
         </DetailRow>
       )}
     </div>
@@ -237,7 +238,7 @@ export default function AdminNotesModal({
                   </label>
                 </div>
 
-                {error && <p className="mt-2 text-sm text-red-600 dark:text-red-400">{error}</p>}
+                {error && <TextSm className="mt-2" status="error">{error}</TextSm>}
 
                 <ModalActions
                   saving={saving}

@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { getSupabaseBrowserClient } from '@/lib/supabase/client'
 import clsx from 'clsx'
 import admin from '@/data/admin.json'
+import { H4 } from '@/components/ui/heading'
 
 export function StatusDot({ subscribed }: { subscribed: boolean }) {
   return (
@@ -25,9 +26,9 @@ export function SocketsDebugPanel({
 }) {
   return (
     <div className="rounded bg-surface-100 p-3 text-xs dark:bg-surface-800">
-      <h4 className="mb-1.5 font-semibold text-accent-600 dark:text-accent-400">
+      <H4 className="mb-1.5" status="muted">
         {admin.slugDashboard.socketsDebugPanel.title}
-      </h4>
+      </H4>
       <div className="space-y-1 text-accent-500 dark:text-accent-400">
         <div className="flex items-center gap-2">
           <StatusDot subscribed={debug.channelStatus === 'SUBSCRIBED'} />

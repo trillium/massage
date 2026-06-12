@@ -13,6 +13,8 @@ import {
   SocketsDebugPanel,
   useAppointmentsChannel,
 } from '@/components/admin/SlugDashboardHelpers'
+import { H2, H3 } from '@/components/ui/heading'
+import { TextSmMuted, TextXs, TextXsMuted } from '@/components/ui/text'
 
 interface SlugDashboardProps {
   slug: string
@@ -31,7 +33,7 @@ export default function SlugDashboard({ slug, appointments, eventContainer }: Sl
   return (
     <div className="mb-8 space-y-4">
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold text-accent-900 dark:text-accent-100">{slug}</h2>
+        <H2>{slug}</H2>
         <button
           type="button"
           onClick={() => setExpanded((e) => !e)}
@@ -72,13 +74,13 @@ function HoldsPanel({
   return (
     <div className="rounded-lg border border-accent-200 bg-surface-50 p-4 dark:border-accent-700 dark:bg-surface-800">
       <div className="mb-3">
-        <h3 className="font-semibold text-accent-900 dark:text-accent-100">
+        <H3>
           Active Holds ({heldSlots.length})
-        </h3>
+        </H3>
       </div>
 
       {heldSlots.length === 0 ? (
-        <p className="text-sm text-accent-400">No active holds</p>
+        <TextSmMuted>No active holds</TextSmMuted>
       ) : (
         <ul className="space-y-2">
           {heldSlots.map((h) => (
@@ -90,13 +92,13 @@ function HoldsPanel({
                 {formatLocalTime(h.start_time)} – {formatLocalTime(h.end_time)}
               </span>
               <span className="flex items-center gap-2">
-                <span className="font-mono text-xs text-accent-400">
+                <TextXsMuted className="font-mono">
                   {h.session_id.slice(0, 8)}
-                </span>
+                </TextXsMuted>
                 {h.shoo_count > 0 && (
-                  <span className="rounded bg-red-100 px-1.5 text-xs text-red-700 dark:bg-red-900 dark:text-red-300">
+                  <TextXs className="rounded bg-red-100 px-1.5 dark:bg-red-900" status="error">
                     shoo: {h.shoo_count}
-                  </span>
+                  </TextXs>
                 )}
               </span>
             </li>
@@ -144,15 +146,15 @@ function AppointmentRow({
         </span>
         <span>{a.duration_minutes}min</span>
         {a.promo && (
-          <span className="rounded bg-purple-100 px-1.5 text-xs text-purple-700 dark:bg-purple-900 dark:text-purple-300">
+          <TextXs className="rounded bg-purple-100 px-1.5 dark:bg-purple-900">
             {a.promo}
-          </span>
+          </TextXs>
         )}
       </div>
       {a.admin_notes && (
-        <p className="mt-1 truncate text-xs text-accent-500 dark:text-accent-400">
+        <TextXsMuted className="mt-1 truncate">
           {a.admin_notes}
-        </p>
+        </TextXsMuted>
       )}
     </li>
   )
@@ -176,9 +178,9 @@ function AppointmentsPanel({
   return (
     <div className="rounded-lg border border-accent-200 bg-surface-50 p-4 dark:border-accent-700 dark:bg-surface-800">
       <div className="mb-3 flex items-center justify-between">
-        <h3 className="font-semibold text-accent-900 dark:text-accent-100">
+        <H3>
           Appointments ({sorted.length})
-        </h3>
+        </H3>
         <button
           type="button"
           onClick={onRefresh}
@@ -189,7 +191,7 @@ function AppointmentsPanel({
       </div>
 
       {sorted.length === 0 ? (
-        <p className="text-sm text-accent-400">No appointments yet</p>
+        <TextSmMuted>No appointments yet</TextSmMuted>
       ) : (
         <ul className="space-y-2">
           {sorted.map((a) => (

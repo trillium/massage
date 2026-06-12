@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback, Fragment } from 'react'
 import { Dialog, DialogPanel, Transition, TransitionChild } from '@headlessui/react'
 import { IoClose, IoChevronBack, IoChevronForward } from 'react-icons/io5'
 import Image from '@/components/Image'
+import { TextSm, TextSmMedium } from '@/components/ui/text'
 
 export interface GalleryImage {
   src: string
@@ -63,7 +64,7 @@ export default function Gallery({ images, columns = 3 }: GalleryProps) {
               />
               {image.caption && (
                 <div className="absolute right-0 bottom-0 left-0 translate-y-full bg-gradient-to-t from-black/60 to-transparent p-4 transition-transform duration-300 group-hover:translate-y-0">
-                  <p className="text-sm font-medium text-white">{image.caption}</p>
+                  <TextSmMedium>{image.caption}</TextSmMedium>
                 </div>
               )}
             </div>
@@ -132,9 +133,9 @@ export default function Gallery({ images, columns = 3 }: GalleryProps) {
                     />
                     {images[selectedIndex].caption && (
                       <div className="absolute right-0 bottom-0 left-0 rounded-b-lg bg-gradient-to-t from-black/70 to-transparent p-4">
-                        <p className="text-center text-sm text-white">
+                        <TextSm className="text-center">
                           {images[selectedIndex].caption}
-                        </p>
+                        </TextSm>
                       </div>
                     )}
                   </div>

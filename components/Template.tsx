@@ -1,5 +1,6 @@
 import clsx from 'clsx'
 import Link from 'next/link'
+import { H1 } from '@/components/ui/heading'
 
 interface TemplateProps {
   title: string
@@ -38,9 +39,9 @@ export default function Template({ title, text, links, classes, center = false }
         'text-center': center,
       })}
     >
-      <h1 className="text-primary-500 dark:text-primary-400 text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">
+      <H1 className="sm:text-4xl md:text-5xl" status="primary">
         {title}
-      </h1>
+      </H1>
       {renderText()}
       {links?.map((link) => (
         <p key={link.href} className="mt-2 font-medium sm:mt-4 sm:text-xl">

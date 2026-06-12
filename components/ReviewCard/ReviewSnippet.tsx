@@ -1,5 +1,6 @@
 import { Star } from './Stars'
 import type { ReviewSnippetProps } from '@/lib/types'
+import { TextBaseMedium, TextLgMuted } from '@/components/ui/text'
 
 export const ReviewSnippet = ({
   text,
@@ -34,11 +35,11 @@ export const ReviewSnippet = ({
           <h6 className="text-lg leading-8 font-semibold text-accent-950 capitalize dark:text-white">
             {displayName}
           </h6>
-          {displayDate && <p className="text-base leading-7 font-medium text-accent-400">{date}</p>}
+          {displayDate && <TextBaseMedium status="muted">{date}</TextBaseMedium>}
         </div>
       </div>
 
-      <p className="text-lg leading-8 font-normal text-accent-800 dark:text-accent-400">{text}</p>
+      <TextLgMuted>{text}</TextLgMuted>
     </div>
   )
 }

@@ -1,6 +1,7 @@
 import Image from './Image'
 import Link from './Link'
 import uiData from '@/data/ui.json'
+import { H2 } from '@/components/ui/heading'
 
 const Card = ({
   title,
@@ -40,7 +41,7 @@ const Card = ({
           />
         ))}
       <div className="p-6">
-        <h2 className="mb-3 text-2xl leading-8 font-bold tracking-tight">
+        <H2 className="mb-3">
           {href ? (
             <Link href={href} aria-label={`Link to ${title}`}>
               {title}
@@ -48,7 +49,7 @@ const Card = ({
           ) : (
             title
           )}
-        </h2>
+        </H2>
         <p className="prose mb-3 max-w-none text-accent-500 dark:text-accent-400">{description}</p>
         {href && (
           <Link

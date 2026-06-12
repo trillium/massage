@@ -5,6 +5,8 @@ import { toast } from 'sonner'
 import admin from '@/data/admin.json'
 import { adminFetch } from '@/lib/adminFetch'
 import clsx from 'clsx'
+import { H3 } from '@/components/ui/heading'
+import { TextSmMuted } from '@/components/ui/text'
 
 interface TimeBlock {
   id: string
@@ -126,9 +128,9 @@ export default function TimeBlocker({ eventContainer }: TimeBlockerProps) {
   return (
     <div className="rounded-lg border border-accent-200 bg-surface-50 p-4 dark:border-accent-700 dark:bg-surface-800">
       <div className="mb-3 flex items-center justify-between">
-        <h3 className="font-semibold text-accent-900 dark:text-accent-100">
+        <H3>
           {admin.timeBlocker.title}
-        </h3>
+        </H3>
         <button
           type="button"
           onClick={fetchBlocks}
@@ -161,7 +163,7 @@ export default function TimeBlocker({ eventContainer }: TimeBlockerProps) {
       </div>
 
       {blocks.length === 0 ? (
-        <p className="text-sm text-accent-400">{admin.timeBlocker.states.noActiveBlocks}</p>
+        <TextSmMuted>{admin.timeBlocker.states.noActiveBlocks}</TextSmMuted>
       ) : (
         <ul className="space-y-2">
           {blocks.map((b) => (

@@ -9,6 +9,7 @@ import { useAppDispatch } from '@/redux/hooks'
 import { setBulkConfigSliceState } from '@/redux/slices/configSlice'
 import { setEventContainers } from '@/redux/slices/eventContainersSlice'
 import ConfigDetailsPanel from './configuration-tester/ConfigDetailsPanel'
+import { H2 } from '@/components/ui/heading'
 
 type ConfigurationTesterProps = {
   onConfigurationChange?: (config: SlugConfigurationType, slug: string) => void
@@ -89,9 +90,9 @@ export default function ConfigurationTester({ onConfigurationChange }: Configura
 
   return (
     <div className="rounded-lg border bg-surface-50 p-6 shadow-sm dark:bg-surface-800">
-      <h2 className="mb-4 text-xl font-semibold text-accent-900 dark:text-accent-100">
+      <H2 className="mb-4">
         {admin.configurationTester.title}
-      </h2>
+      </H2>
 
       <div className="mb-6">
         <label

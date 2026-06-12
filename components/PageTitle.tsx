@@ -1,4 +1,5 @@
 import { ReactNode } from 'react'
+import { H1 } from '@/components/ui/heading'
 
 interface Props {
   children: ReactNode
@@ -6,8 +7,8 @@ interface Props {
 
 export default function PageTitle({ children }: Props) {
   return (
-    <h1 className="text-3xl leading-9 font-extrabold tracking-tight text-accent-900 sm:text-4xl sm:leading-10 md:text-5xl md:leading-14 dark:text-accent-100">
+    <H1 className="sm:text-4xl sm:leading-10 md:text-5xl md:leading-14">
       {children}
-    </h1>
+    </H1>
   )
 }

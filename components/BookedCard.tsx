@@ -1,6 +1,7 @@
 import clsx from 'clsx'
 import { siteConfig } from '@/lib/siteConfig'
 import ui from '@/data/ui.json'
+import { TextBase, TextSm } from '@/components/ui/text'
 
 export function BookedCard({
   dateString,
@@ -80,19 +81,19 @@ export function BookedCard({
                 {dateString}
                 {duration && ` - ${duration}${ui.bookedCard.massageLabel}`}
               </p>
-              <p className="text-sm md:text-base">
+              <TextSm className="md:text-base">
                 {startString}
                 {ui.bookedCard.separator}
                 {endString}
-              </p>
+              </TextSm>
               {price && (
-                <p className="text-base">
+                <TextBase>
                   {ui.bookedCard.currencySymbol}
                   {price}
-                </p>
+                </TextBase>
               )}
             </div>
-            <p className="text-base font-bold md:text-xl">{state}</p>
+            <TextBase className="md:text-xl">{state}</TextBase>
           </div>
         </div>
         {cards.map((item) => (

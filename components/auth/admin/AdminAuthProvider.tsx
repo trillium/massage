@@ -8,6 +8,7 @@ import Spinner from '@/components/Spinner'
 import { AdminAuthChip } from '@/components/auth/admin/AdminAuthChip'
 import { identifyAuthenticatedUser } from '@/lib/posthog-utils'
 import auth from '@/data/auth.json'
+import { H1 } from '@/components/ui/heading'
 
 interface AdminAuthProviderProps {
   children: React.ReactNode
@@ -168,9 +169,9 @@ export function AdminAuthProvider({ children }: AdminAuthProviderProps) {
               />
             </svg>
           </div>
-          <h1 className="mb-2 text-2xl font-bold text-accent-900 dark:text-accent-100">
+          <H1 className="mb-2">
             {auth.adminAuth.heading}
-          </h1>
+          </H1>
           <p className="mb-4 text-accent-600 dark:text-accent-400">{authState.error}</p>
           <div className="text-sm text-accent-500 dark:text-accent-400">
             <p>

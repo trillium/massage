@@ -3,6 +3,8 @@ import Link from '@/components/Link'
 import { FaClock } from 'react-icons/fa'
 import { siteConfig } from '@/lib/siteConfig'
 import promo from '@/data/promo.json'
+import { H1 } from '@/components/ui/heading'
+import { TextLgMuted } from '@/components/ui/text'
 
 interface ExpiredPromoPageProps {
   title: string
@@ -30,18 +32,18 @@ export default function ExpiredPromoPage({
             <FaClock className="text-4xl" />
           </div>
 
-          <h1 className="mb-4 text-3xl font-bold text-accent-900 dark:text-white">
+          <H1 className="mb-4 dark:text-white">
             {promo.expiredPromo.heading}
-          </h1>
+          </H1>
 
           <Template title={title} text={`This offer expired on ${formattedDate}.`} />
         </div>
 
         <div className="space-y-4">
-          <p className="text-lg text-accent-600 dark:text-accent-300">
+          <TextLgMuted>
             {promo.expiredPromo.reassurancePrefix} {siteConfig.business.serviceNoun}
             {promo.expiredPromo.reassuranceSuffix}
-          </p>
+          </TextLgMuted>
 
           <div className="flex flex-col items-center space-y-3 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4">
             <Link

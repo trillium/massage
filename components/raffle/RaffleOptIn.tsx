@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { RAFFLE_INTEREST_OPTIONS } from '@/lib/schema'
 import raffle from '@/data/raffle.json'
+import { TextPrimary, TextSm, TextSmMedium, TextSmMuted } from '@/components/ui/text'
 
 interface RaffleOptInProps {
   name: string
@@ -16,9 +17,9 @@ function SuccessBanner() {
       <p className="text-lg font-semibold text-primary-700 dark:text-primary-300">
         {raffle.successBannerTitle}
       </p>
-      <p className="mt-1 text-sm text-primary-600 dark:text-primary-400">
+      <TextPrimary className="mt-1">
         {raffle.successBannerMessage}
-      </p>
+      </TextPrimary>
     </div>
   )
 }
@@ -32,9 +33,9 @@ function InterestCheckboxes({
 }) {
   return (
     <div>
-      <p className="block text-sm font-medium text-accent-900 dark:text-accent-100">
+      <TextSmMedium className="block">
         {raffle.interestedLabel} <span className="text-primary-500">{raffle.requiredAsterisk}</span>
-      </p>
+      </TextSmMedium>
       <div className="mt-1 space-y-2">
         {RAFFLE_INTEREST_OPTIONS.map(({ value, label }) => (
           <div className="flex items-center" key={value}>
@@ -122,7 +123,7 @@ export default function RaffleOptIn({ name, email, phone }: RaffleOptInProps) {
       <p className="text-lg font-semibold text-accent-900 dark:text-accent-100">
         {raffle.raffleTitle}
       </p>
-      <p className="mt-1 text-sm text-accent-600 dark:text-accent-400">{raffle.raffleSubtitle}</p>
+      <TextSmMuted className="mt-1">{raffle.raffleSubtitle}</TextSmMuted>
 
       <form onSubmit={handleSubmit} className="mt-4 space-y-4">
         <div>
@@ -145,7 +146,7 @@ export default function RaffleOptIn({ name, email, phone }: RaffleOptInProps) {
 
         <InterestCheckboxes interests={interests} onToggle={toggleInterest} />
 
-        {errorMessage && <p className="text-sm text-red-600 dark:text-red-400">{errorMessage}</p>}
+        {errorMessage && <TextSm status="error">{errorMessage}</TextSm>}
 
         <button
           type="submit"

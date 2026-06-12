@@ -3,6 +3,8 @@
 import { useState } from 'react'
 import { signInWithOAuth, signInWithMagicLink } from '@/lib/supabase/auth-helpers'
 import auth from '@/data/auth.json'
+import { H3 } from '@/components/ui/heading'
+import { TextSm } from '@/components/ui/text'
 
 interface LoginFormProps {
   redirectTo?: string
@@ -47,10 +49,10 @@ export function LoginForm({ redirectTo: rawRedirectTo, onSuccess, onError }: Log
   if (submitted) {
     return (
       <div className="rounded-lg border border-green-200 bg-green-50 p-4">
-        <h3 className="font-medium text-green-900">{auth.loginForm.checkYourEmail}</h3>
-        <p className="mt-1 text-sm text-green-700">
+        <H3 status="success">{auth.loginForm.checkYourEmail}</H3>
+        <TextSm className="mt-1" status="success">
           {auth.loginForm.magicLinkSent} <strong>{email}</strong>
-        </p>
+        </TextSm>
         <button
           onClick={() => {
             setSubmitted(false)
@@ -94,7 +96,7 @@ export function LoginForm({ redirectTo: rawRedirectTo, onSuccess, onError }: Log
 
       {error && (
         <div className="rounded-md bg-red-50 p-3 dark:bg-red-950">
-          <p className="text-sm text-red-800 dark:text-red-300">{error}</p>
+          <TextSm status="error">{error}</TextSm>
         </div>
       )}
 

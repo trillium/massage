@@ -9,6 +9,8 @@ import { servicesLinks } from '@/data/servicesData'
 import { createContactUrl } from '@/lib/helpers'
 import { home, site } from '@/app/content'
 import footer from '@/data/footer.json'
+import { H2 } from '@/components/ui/heading'
+import { TextBaseMuted } from '@/components/ui/text'
 
 export default function Footer() {
   return (
@@ -33,7 +35,7 @@ export default function Footer() {
 function QuicklinkContainer({ displayClasses }: { displayClasses?: string }) {
   return (
     <div className={clsx(displayClasses, 'flex flex-col items-start')}>
-      <h2 className="mb-6 text-base font-bold text-white">{footer.quickLinks.heading}</h2>
+      <H2 className="mb-6">{footer.quickLinks.heading}</H2>
       <ul className="xs:mb-8 mb-0 space-y-3">
         {footer.quickLinks.links.map((item) => (
           <ListItem positionClasses="pl-4" key={item.text} {...item} />
@@ -69,16 +71,16 @@ function ServiceIsContainer({ displayClasses }: { displayClasses?: string }) {
 
   return (
     <div className={clsx(displayClasses, 'flex flex-col items-start')}>
-      <h2 className="mb-6 text-base font-bold text-white">{footer.services.heading}</h2>
-      <h2 className="mb-2 ml-4 text-base font-bold text-white">{footer.services.inHome.heading}</h2>
+      <H2 className="mb-6">{footer.services.heading}</H2>
+      <H2 className="mb-2 ml-4">{footer.services.inHome.heading}</H2>
       <ul className="mb-8 space-y-1">
         {tableServiceLinks.map((item) => (
           <ListItem positionClasses="pl-8 whitespace-nowrap" key={item.text} {...item} />
         ))}
       </ul>
-      <h2 className="mb-2 ml-4 text-base font-bold text-white">
+      <H2 className="mb-2 ml-4">
         {footer.services.inOfficeEvent.heading}
-      </h2>
+      </H2>
       <ul className="mb-8 space-y-1">
         {eventServiceLinks.map((item) => (
           <ListItem positionClasses="pl-8 whitespace-nowrap" key={item.text} {...item} />
@@ -170,7 +172,7 @@ function ContactItem({
   return (
     <li className="flex items-start gap-3 pl-4">
       <span className={clsx('mt-1 text-lg text-primary-400', iconClass)}>{icon}</span>
-      <span className="text-base text-accent-400">{children}</span>
+      <TextBaseMuted>{children}</TextBaseMuted>
     </li>
   )
 }
@@ -178,7 +180,7 @@ function ContactItem({
 function ContactFooterSection({ displayClasses }: { displayClasses: string }) {
   return (
     <div className={clsx(displayClasses)}>
-      <h2 className="mb-6 font-bold text-white">{footer.contact.heading}</h2>
+      <H2 className="mb-6">{footer.contact.heading}</H2>
       <ul className="space-y-4">
         {contactItems.map((item, index) => (
           <ContactItem key={index} icon={item.icon}>

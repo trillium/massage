@@ -6,6 +6,8 @@ import TestimonialsSection from '../landingPage/TestimonialsSection'
 import { fetchReviews } from '@/lib/reviews/fetchReviews'
 import { filterTestimonialReviews } from '@/lib/reviews/filterTestimonialReviews'
 import { Star, LittleStar } from './Stars'
+import { H2 } from '@/components/ui/heading'
+import { TextLgMuted } from '@/components/ui/text'
 
 const slice_size = 50
 
@@ -150,9 +152,9 @@ const ScoreDisplay = ({
         'last:border-t first:sm:pr-3 last:sm:border-t-0 last:sm:border-l last:sm:pl-3'
       )}
     >
-      <h2 className="mb-4 text-center text-5xl font-bold text-accent-950 dark:text-accent-200">
+      <H2 className="mb-4 text-center">
         {averageStr}
-      </h2>
+      </H2>
       <div className="text-primary-400 mb-4 flex items-center gap-3">
         <Star />
         <Star />
@@ -160,7 +162,7 @@ const ScoreDisplay = ({
         <Star />
         <Star percent={0.6 / 5} />
       </div>
-      <p className="text-lg leading-8 font-normal text-accent-400">{text}</p>
+      <TextLgMuted>{text}</TextLgMuted>
     </div>
   )
 }

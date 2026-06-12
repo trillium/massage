@@ -3,6 +3,7 @@
 import { Fragment, useState } from 'react'
 import { Dialog, DialogPanel, DialogTitle, Transition, TransitionChild } from '@headlessui/react'
 import admin from '@/data/admin.json'
+import { TextSmMuted } from '@/components/ui/text'
 
 type ConfirmDialogProps = {
   open: boolean
@@ -72,7 +73,7 @@ export default function ConfirmDialog({
                   <DialogTitle className="text-lg font-semibold text-accent-900 dark:text-accent-100">
                     {title}
                   </DialogTitle>
-                  <p className="mt-2 text-sm text-accent-600 dark:text-accent-400">{message}</p>
+                  <TextSmMuted className="mt-2">{message}</TextSmMuted>
                   {typeToConfirm && (
                     <div className="mt-4">
                       <label
