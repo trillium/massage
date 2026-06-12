@@ -122,6 +122,14 @@ export default async function Image({ params }: { params: Promise<{ bookingSlug:
 
   const giftMode = isGiftSlug(bookingSlug, title)
   const accentColor = giftMode ? GOLD : ACCENT
+
+  let tableImageSrc = ''
+  try {
+    tableImageSrc = await tableImageDataUrl()
+  } catch (e) {
+    console.error('[og-image] tableImageDataUrl failed:', e)
+  }
+
   const data: OgImageData = {
     title,
     bodyText,
@@ -131,7 +139,7 @@ export default async function Image({ params }: { params: Promise<{ bookingSlug:
     eyebrow: deriveEyebrow(bookingSlug, title),
     giftMode,
     accentColor,
-    tableImageSrc: await tableImageDataUrl(),
+    tableImageSrc,
   }
 
   const renderFn = DESIGNS[ogDesign] ?? DESIGNS[DEFAULT_DESIGN]
