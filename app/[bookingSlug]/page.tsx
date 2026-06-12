@@ -17,6 +17,8 @@ function firstLineOfText(text: string | string[] | null): string {
   return text
 }
 
+const SITE_ORIGIN = 'https://trilliummassage.la'
+
 export async function generateMetadata({
   params,
 }: {
@@ -27,10 +29,11 @@ export async function generateMetadata({
   const config = configMap[bookingSlug]
   const title = config?.title ?? 'Book a massage'
   const description = firstLineOfText(config?.text ?? null) || siteMetadata.description
+  const origin = (process.env.NEXT_PUBLIC_SITE_URL ?? SITE_ORIGIN).replace(/\/$/, '')
   return genPageMetadata({
     title,
     description,
-    image: `${(siteMetadata.siteUrl ?? process.env.NEXT_PUBLIC_SITE_URL ?? 'https://trilliummassage.la').replace(/\/$/, '')}/${bookingSlug}/opengraph-image`,
+    image: `${origin}/${bookingSlug}/opengraph-image`,
   })
 }
 
