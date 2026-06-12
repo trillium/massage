@@ -4,10 +4,13 @@ export interface DsRulePattern {
   className?: RegExp
 }
 
+export type DsRuleCategory = 'interactive' | 'layout' | 'typography' | 'feedback' | 'navigation'
+
 export interface DsRule {
   name: string
   component: string
   importPath: string
+  category: DsRuleCategory
   selfExempt?: boolean
   patterns: DsRulePattern[]
   description: string
@@ -19,6 +22,7 @@ export const DS_RULES: DsRule[] = [
     name: 'raw-input',
     component: '<Input>',
     importPath: '@/components/ui/input',
+    category: 'interactive',
     selfExempt: true,
     patterns: [{ jsx: /<input\b/ }],
     rawPattern: '<input …>',
@@ -28,6 +32,7 @@ export const DS_RULES: DsRule[] = [
     name: 'raw-textarea',
     component: '<Textarea>',
     importPath: '@/components/ui/textarea',
+    category: 'interactive',
     selfExempt: true,
     patterns: [{ jsx: /<textarea\b/ }],
     rawPattern: '<textarea …>',
@@ -37,6 +42,7 @@ export const DS_RULES: DsRule[] = [
     name: 'raw-button',
     component: '<Button>',
     importPath: '@/components/ui/button',
+    category: 'interactive',
     selfExempt: true,
     patterns: [{ jsx: /<button\b/ }],
     rawPattern: '<button …>',
@@ -46,6 +52,7 @@ export const DS_RULES: DsRule[] = [
     name: 'raw-badge',
     component: '<Badge>',
     importPath: '@/components/ui/badge',
+    category: 'typography',
     selfExempt: true,
     patterns: [{ jsx: /<span\b[^>]*badge/ }],
     rawPattern: '<span className=…badge…>',
@@ -55,6 +62,7 @@ export const DS_RULES: DsRule[] = [
     name: 'raw-gradient-text',
     component: '<GradientText>',
     importPath: '@/components/ui/GradientText',
+    category: 'typography',
     selfExempt: true,
     patterns: [
       {
@@ -63,5 +71,55 @@ export const DS_RULES: DsRule[] = [
     ],
     rawPattern: 'bg-clip-text text-transparent bg-gradient-to-*',
     description: 'Gradient-clipped text span for headline emphasis words',
+  },
+  {
+    name: 'raw-div',
+    component: '<Box> or <Stack>',
+    importPath: '@/components/ui/box',
+    category: 'layout',
+    selfExempt: true,
+    patterns: [{ jsx: /<div\b/ }],
+    rawPattern: '<div …>',
+    description: 'Generic container (Box) or flex layout wrapper (Stack)',
+  },
+  {
+    name: 'raw-p',
+    component: '<Text>',
+    importPath: '@/components/ui/text',
+    category: 'typography',
+    selfExempt: true,
+    patterns: [{ jsx: /<p\b/ }],
+    rawPattern: '<p …>',
+    description: 'Paragraph text with size and muted variants',
+  },
+  {
+    name: 'raw-heading',
+    component: '<Heading>',
+    importPath: '@/components/ui/heading',
+    category: 'typography',
+    selfExempt: true,
+    patterns: [{ jsx: /<h[1-6]\b/ }],
+    rawPattern: '<h1>…<h6> …>',
+    description: 'Semantic heading with level and size props',
+  },
+  {
+    name: 'raw-code',
+    component: '<Code>',
+    importPath: '@/components/ui/code',
+    category: 'typography',
+    selfExempt: true,
+    patterns: [{ jsx: /<code\b/ }],
+    rawPattern: '<code …>',
+    description: 'Inline or block code with monospace styling',
+  },
+  {
+    name: 'raw-stack',
+    component: '<Stack>',
+    importPath: '@/components/ui/stack',
+    category: 'layout',
+    selfExempt: true,
+    patterns: [{ jsx: /<div\b[^>]*\bflex\b/ }],
+    rawPattern: '<div className="flex …">',
+    description: 'Flex row or column layout with gap, align, justify props',
   },
 ]

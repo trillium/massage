@@ -5,7 +5,12 @@ import { Badge } from '@/components/ui/badge'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { GradientText } from '@/components/ui/GradientText'
-import { DS_RULES } from '@/components/ui/manifest'
+import { Box } from '@/components/ui/box'
+import { Stack } from '@/components/ui/stack'
+import { Text } from '@/components/ui/text'
+import { Heading } from '@/components/ui/heading'
+import { Code } from '@/components/ui/code'
+import { DS_RULES, type DsRuleCategory } from '@/components/ui/manifest'
 
 const PALETTE_SCALES = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950]
 
@@ -24,26 +29,56 @@ const PALETTES = [
   { name: 'accent', label: 'Accent', description: 'Text, borders, dividers, structural neutrals' },
 ]
 
-const MANIFEST_RULES = DS_RULES.map((r) => ({
+type EnforcementRow = {
+  rule: string
+  fix: string
+  guard: string
+  category: DsRuleCategory | 'content'
+}
+
+const MANIFEST_RULES: EnforcementRow[] = DS_RULES.map((r) => ({
   rule: r.rawPattern,
   fix: `${r.component} from ${r.importPath}`,
   guard: 'check-design-system.ts + audit-ui.ts (manifest)',
+  category: r.category,
 }))
 
-const NON_MANIFEST_RULES = [
+const NON_MANIFEST_RULES: EnforcementRow[] = [
   {
     rule: 'Bare JSX text node',
     fix: 'Move string to data/*.json, import via @/data',
     guard: 'lint-content.sh',
+    category: 'content',
   },
   {
     rule: '@/data import in brand/OG file',
     fix: 'Brand files own their strings — remove the import',
     guard: 'check-brand-purity.ts',
+    category: 'content',
   },
 ]
 
-const ENFORCEMENT_RULES = [...MANIFEST_RULES, ...NON_MANIFEST_RULES]
+const CATEGORY_ORDER: ReadonlyArray<EnforcementRow['category']> = [
+  'layout',
+  'typography',
+  'interactive',
+  'feedback',
+  'navigation',
+  'content',
+]
+
+const CATEGORY_LABELS: Record<EnforcementRow['category'], string> = {
+  layout: 'Layout',
+  typography: 'Typography',
+  interactive: 'Interactive',
+  feedback: 'Feedback',
+  navigation: 'Navigation',
+  content: 'Content',
+}
+
+const ENFORCEMENT_RULES: EnforcementRow[] = [...MANIFEST_RULES, ...NON_MANIFEST_RULES].sort(
+  (a, b) => CATEGORY_ORDER.indexOf(a.category) - CATEGORY_ORDER.indexOf(b.category)
+)
 
 const OPT_OUTS = [
   {
@@ -161,6 +196,9 @@ export default function DesignSystemPage() {
               <thead className="bg-surface-100 dark:bg-surface-800">
                 <tr>
                   <th className="px-4 py-2 text-left font-semibold text-accent-700 dark:text-accent-300">
+                    Category
+                  </th>
+                  <th className="px-4 py-2 text-left font-semibold text-accent-700 dark:text-accent-300">
                     Pattern blocked
                   </th>
                   <th className="px-4 py-2 text-left font-semibold text-accent-700 dark:text-accent-300">
@@ -172,8 +210,11 @@ export default function DesignSystemPage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-accent-100 dark:divide-accent-800">
-                {ENFORCEMENT_RULES.map(({ rule, fix, guard }) => (
+                {ENFORCEMENT_RULES.map(({ rule, fix, guard, category }) => (
                   <tr key={rule} className="hover:bg-surface-50 dark:hover:bg-surface-900">
+                    <td className="px-4 py-2">
+                      <Badge variant="outline">{CATEGORY_LABELS[category]}</Badge>
+                    </td>
                     <td className="px-4 py-2 font-mono text-xs text-primary-600 dark:text-primary-400">
                       {rule}
                     </td>
@@ -327,6 +368,145 @@ export default function DesignSystemPage() {
               <Textarea label="Notes" placeholder="Enter notes..." />
               <Textarea label="With error" placeholder="..." error="Required" />
             </div>
+          </div>
+
+          {/* Box */}
+          <div className="mb-8">
+            <h3 className="mb-1 text-sm font-semibold text-accent-700 dark:text-accent-300">Box</h3>
+            <p className="mb-3 font-mono text-xs text-accent-400">
+              import {'{ Box }'} from @/components/ui/box
+            </p>
+            <p className="mb-3 text-xs text-accent-500">
+              Generic container — replaces bare div/section/article/main/aside/nav/header/footer.
+            </p>
+            <Box className="rounded-lg border border-accent-200 p-4 dark:border-accent-700">
+              <Box as="section" className="text-sm text-accent-700 dark:text-accent-300">
+                Default Box (div)
+              </Box>
+              <Box
+                as="article"
+                className="mt-2 rounded bg-surface-100 p-2 text-sm text-accent-700 dark:bg-surface-800 dark:text-accent-300"
+              >
+                Box as article
+              </Box>
+            </Box>
+          </div>
+
+          {/* Stack */}
+          <div className="mb-8">
+            <h3 className="mb-1 text-sm font-semibold text-accent-700 dark:text-accent-300">
+              Stack
+            </h3>
+            <p className="mb-3 font-mono text-xs text-accent-400">
+              import {'{ Stack }'} from @/components/ui/stack
+            </p>
+            <p className="mb-3 text-xs text-accent-500">
+              Flex layout primitive — direction, gap, align, justify, wrap props.
+            </p>
+            <Stack
+              gap={4}
+              className="rounded-lg border border-accent-200 p-4 dark:border-accent-700"
+            >
+              <Stack direction="row" gap={2} align="center">
+                <Badge variant="default">Row</Badge>
+                <Badge variant="secondary">gap=2</Badge>
+                <Badge variant="outline">align=center</Badge>
+              </Stack>
+              <Stack direction="row" gap={4} justify="between" align="center">
+                <Text size="sm">justify=between</Text>
+                <Button variant="outline" size="sm">
+                  Action
+                </Button>
+              </Stack>
+              <Stack gap={2}>
+                <Text size="sm">Column stack</Text>
+                <Text size="sm" muted>
+                  Stacked vertically with gap=2
+                </Text>
+              </Stack>
+            </Stack>
+          </div>
+
+          {/* Text */}
+          <div className="mb-8">
+            <h3 className="mb-1 text-sm font-semibold text-accent-700 dark:text-accent-300">
+              Text
+            </h3>
+            <p className="mb-3 font-mono text-xs text-accent-400">
+              import {'{ Text }'} from @/components/ui/text
+            </p>
+            <p className="mb-3 text-xs text-accent-500">
+              Paragraph text — size (xs/sm/base/lg) and muted variants. Use as=&quot;span&quot; for
+              inline.
+            </p>
+            <Stack
+              gap={2}
+              className="rounded-lg border border-accent-200 p-4 dark:border-accent-700"
+            >
+              <Text size="xs">Extra small text (xs)</Text>
+              <Text size="sm">Small text (sm)</Text>
+              <Text size="base">Base text (base)</Text>
+              <Text size="lg">Large text (lg)</Text>
+              <Text muted>Muted variant for secondary content</Text>
+              <Text as="span" size="sm">
+                Rendered as a span (inline)
+              </Text>
+            </Stack>
+          </div>
+
+          {/* Heading */}
+          <div className="mb-8">
+            <h3 className="mb-1 text-sm font-semibold text-accent-700 dark:text-accent-300">
+              Heading
+            </h3>
+            <p className="mb-3 font-mono text-xs text-accent-400">
+              import {'{ Heading }'} from @/components/ui/heading
+            </p>
+            <p className="mb-3 text-xs text-accent-500">
+              Semantic h1-h4 with independent size prop. Level controls the tag, size controls the
+              visual weight.
+            </p>
+            <Stack
+              gap={3}
+              className="rounded-lg border border-accent-200 p-4 dark:border-accent-700"
+            >
+              <Heading level={1} size="3xl">
+                Heading level=1 size=3xl
+              </Heading>
+              <Heading level={2} size="2xl">
+                Heading level=2 size=2xl
+              </Heading>
+              <Heading level={3} size="xl">
+                Heading level=3 size=xl
+              </Heading>
+              <Heading level={4} size="lg">
+                Heading level=4 size=lg
+              </Heading>
+            </Stack>
+          </div>
+
+          {/* Code */}
+          <div className="mb-8">
+            <h3 className="mb-1 text-sm font-semibold text-accent-700 dark:text-accent-300">
+              Code
+            </h3>
+            <p className="mb-3 font-mono text-xs text-accent-400">
+              import {'{ Code }'} from @/components/ui/code
+            </p>
+            <p className="mb-3 text-xs text-accent-500">
+              Inline by default. Pass block for a pre-wrapped block.
+            </p>
+            <Stack
+              gap={3}
+              className="rounded-lg border border-accent-200 p-4 dark:border-accent-700"
+            >
+              <Text size="sm">
+                Inline: call <Code>pnpm dev</Code> to start the dev server.
+              </Text>
+              <Code
+                block
+              >{`const greet = (name: string) => \`hello, \${name}\`\ngreet('trillium')`}</Code>
+            </Stack>
           </div>
         </Section>
 
