@@ -75,13 +75,17 @@ export default function ConfirmDialog({
                   <p className="mt-2 text-sm text-accent-600 dark:text-accent-400">{message}</p>
                   {typeToConfirm && (
                     <div className="mt-4">
-                      <label className="text-sm text-accent-600 dark:text-accent-400">
+                      <label
+                        htmlFor="confirm-input"
+                        className="text-sm text-accent-600 dark:text-accent-400"
+                      >
                         {admin.confirmDialog.labels.typeToConfirm.replace('{typeToConfirm}', '')}
                         <span className="font-semibold">{typeToConfirm}</span>
                         {/* biome-ignore lint/style/noJsxLiterals: confirmation instruction suffix */}
                         to confirm
                       </label>
                       <input
+                        id="confirm-input"
                         type="text"
                         value={typed}
                         onChange={(e) => setTyped(e.target.value)}
