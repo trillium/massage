@@ -15,5 +15,21 @@
     "buttons": {
       "home": "Back to homepage"
     }
+  },
+  "bookingError": {
+    "title": "Booking Unavailable",
+    "description": "We couldn't load the booking page. Please try again in a moment.",
+    "buttons": {
+      "retry": "Try again",
+      "home": "Back to homepage"
+    }
+  },
+  "bookingSlugError": {
+    "title": "Booking Unavailable",
+    "description": "We couldn't load this booking page. Please try again in a moment.",
+    "buttons": {
+      "retry": "Try again",
+      "home": "Back to booking"
+    }
   }
 }

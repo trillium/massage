@@ -33,5 +33,31 @@
       "book": "Book Now",
       "contact": "Request Callback"
     }
+  },
+  "myEvents": {
+    "heading": "My Events",
+    "subtitle": "Showing appointments for",
+    "empty": "No appointments found."
+  },
+  "instantConfirm": {
+    "heading": "Thanks!",
+    "subheading": "Your appointment has been booked!",
+    "button": "Book Another Session!"
+  },
+  "sandbox": {
+    "tabs": {
+      "user": "Book a Massage",
+      "admin": "Therapist Dashboard"
+    },
+    "buttons": {
+      "reset": "Reset"
+    },
+    "labels": {
+      "mode": "Sandbox Mode"
+    }
+  },
+  "tags": {
+    "heading": "Tags",
+    "empty": "No tags found."
   }
 }

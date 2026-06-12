@@ -5,11 +5,13 @@ import type { PageConfigurationReturnType } from '@/lib/componentTypes'
 import SandboxProvider, { useSandbox } from './SandboxProvider'
 import UserView from './components/UserView'
 import AdminView from './components/AdminView'
+import pagesData from '@/data/pages.json'
 
 function TabBar() {
   const { state, dispatch, resetSession } = useSandbox()
   const { activeTab } = state
   const pendingCount = state.events.filter((e) => e.status === 'pending').length
+  const { sandbox } = pagesData
 
   const handleReset = async () => {
     await resetSession()
@@ -30,7 +32,7 @@ function TabBar() {
                 : 'text-accent-600 hover:bg-surface-200 dark:text-accent-300 dark:hover:bg-surface-700'
             )}
           >
-            {tab === 'user' ? 'Book a Massage' : 'Therapist Dashboard'}
+            {sandbox.tabs[tab]}
             {tab === 'admin' && pendingCount > 0 && (
               <span className="ml-2 inline-flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs text-white">
                 {pendingCount}
@@ -40,12 +42,12 @@ function TabBar() {
         ))}
       </div>
       <div className="flex items-center gap-3">
-        <span className="hidden text-xs text-accent-400 sm:inline">Sandbox Mode</span>
+        <span className="hidden text-xs text-accent-400 sm:inline">{sandbox.labels.mode}</span>
         <button
           onClick={handleReset}
           className="rounded-md bg-surface-200 px-3 py-1.5 text-sm font-medium text-accent-700 transition-colors hover:bg-surface-300 dark:bg-surface-700 dark:text-accent-300 dark:hover:bg-surface-600"
         >
-          Reset
+          {sandbox.buttons.reset}
         </button>
       </div>
     </nav>

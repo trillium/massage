@@ -3,6 +3,7 @@ import { getUser } from '@/lib/supabase/server'
 import { getEventsBySearchQuery } from '@/lib/availability/getEventsBySearchQuery'
 import { createEventToken } from '@/lib/eventToken'
 import { CategorizedEventList } from './components/EventComponents'
+import pagesData from '@/data/pages.json'
 
 export default async function MyEventsPage() {
   const user = await getUser()
@@ -36,18 +37,22 @@ export default async function MyEventsPage() {
     eventTokens[event.id] = createEventToken(event.id, user.email, endTime)
   }
 
+  const { myEvents } = pagesData
+
   return (
     <div className="min-h-screen bg-surface-50 dark:bg-surface-900">
       <div className="container mx-auto px-4 py-8">
         <div className="mx-auto max-w-4xl">
-          <h1 className="mb-2 text-3xl font-bold text-accent-900 dark:text-white">My Events</h1>
+          <h1 className="mb-2 text-3xl font-bold text-accent-900 dark:text-white">
+            {myEvents.heading}
+          </h1>
           <p className="mb-8 text-sm text-accent-600 dark:text-accent-400">
-            Showing appointments for {user.email}
+            {myEvents.subtitle} {user.email}
           </p>
 
           {sortedEvents.length === 0 ? (
             <div className="rounded-lg bg-surface-100 p-8 text-center dark:bg-surface-800">
-              <p className="text-accent-600 dark:text-accent-400">No appointments found.</p>
+              <p className="text-accent-600 dark:text-accent-400">{myEvents.empty}</p>
             </div>
           ) : (
             <CategorizedEventList events={sortedEvents} eventTokens={eventTokens} />

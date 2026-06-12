@@ -1,6 +1,7 @@
 'use client'
 
 import Link from '@/components/Link'
+import systemData from '@/data/system.json'
 
 export default function BookingSlugError({
   error,
@@ -9,26 +10,27 @@ export default function BookingSlugError({
   error: Error & { digest?: string }
   reset: () => void
 }) {
+  const { bookingSlugError } = systemData
   return (
     <div className="flex flex-col items-center justify-center px-4 py-24 text-center">
       <h1 className="text-4xl font-extrabold tracking-tight text-accent-900 dark:text-accent-100">
-        Booking Unavailable
+        {bookingSlugError.title}
       </h1>
       <p className="mt-4 text-lg text-accent-700 dark:text-accent-300">
-        We couldn't load this booking page. Please try again in a moment.
+        {bookingSlugError.description}
       </p>
       <div className="mt-8 flex gap-4">
         <button
           onClick={reset}
           className="rounded-lg bg-primary-600 px-4 py-2 text-sm font-medium text-white shadow-xs transition-colors hover:bg-blue-700 focus:outline-hidden dark:hover:bg-blue-500"
         >
-          Try again
+          {bookingSlugError.buttons.retry}
         </button>
         <Link
           href="/book"
           className="rounded-lg border border-accent-300 px-4 py-2 text-sm font-medium text-accent-700 transition-colors hover:bg-surface-200 dark:border-accent-600 dark:text-accent-300 dark:hover:bg-surface-800"
         >
-          Back to booking
+          {bookingSlugError.buttons.home}
         </Link>
       </div>
     </div>

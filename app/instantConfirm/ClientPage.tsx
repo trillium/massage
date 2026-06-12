@@ -6,6 +6,7 @@ import { formatLocalDate, formatLocalTime } from 'lib/availability/helpers'
 import BookSessionButton from 'components/BookSessionButton'
 import { BookedCard } from 'components/BookedCard'
 import { flattenLocation } from '@/lib/helpers/locationHelpers'
+import pagesData from '@/data/pages.json'
 
 export default function Confirmation() {
   const { selectedTime, timeZone, duration } = useReduxAvailability()
@@ -49,21 +50,23 @@ export default function Confirmation() {
     duration,
   }
 
+  const { instantConfirm } = pagesData
+
   return (
     <>
       <div className="w-full max-w-2xl px-4 py-4 sm:px-0 sm:py-8">
         <h1 className="text-primary-500 dark:text-primary-400 text-3xl font-bold tracking-tight sm:text-5xl">
-          Thanks!
+          {instantConfirm.heading}
         </h1>
         <p className="mt-6 text-xl font-medium text-accent-800 dark:text-accent-200">
-          Your appointment has been booked!
+          {instantConfirm.subheading}
         </p>
       </div>
 
       <BookedCard {...bookedData} />
 
       <div className="flex flex-grow items-center justify-center pt-12">
-        <BookSessionButton title="Book Another Session!" href="/book" />
+        <BookSessionButton title={instantConfirm.button} href="/book" />
       </div>
     </>
   )
