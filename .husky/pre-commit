@@ -10,7 +10,7 @@ git diff --cached --name-only --diff-filter=ACM | \
         continue
       fi
 
-      if [ -f "$ALLOWLIST_FILE" ] && grep -q "^${file}$" "$ALLOWLIST_FILE"; then
+      if [ -f "$ALLOWLIST_FILE" ] && grep -qxF "$file" "$ALLOWLIST_FILE"; then
         continue
       fi
 
