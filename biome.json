@@ -106,7 +106,11 @@
   "assist": { "actions": { "source": { "organizeImports": "off" } } },
   "overrides": [
     {
-      "includes": ["app/api/og/**", "app/[bookingSlug]/opengraph-image.tsx", "app/admin/og-preview/**"],
+      "includes": [
+        "app/api/og/**",
+        "app/\\[bookingSlug\\]/opengraph-image.tsx",
+        "app/admin/og-preview/**"
+      ],
       "linter": {
         "rules": {
           "style": { "noJsxLiterals": "off" }
