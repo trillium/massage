@@ -30,7 +30,7 @@ export async function generateMetadata({
   return genPageMetadata({
     title,
     description,
-    image: `${siteMetadata.siteUrl.replace(/\/$/, '')}/${bookingSlug}/opengraph-image`,
+    image: `${(siteMetadata.siteUrl ?? process.env.NEXT_PUBLIC_SITE_URL ?? 'https://trilliummassage.la').replace(/\/$/, '')}/${bookingSlug}/opengraph-image`,
   })
 }
 
