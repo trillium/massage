@@ -281,30 +281,87 @@ export default async function Image({ params }: { params: Promise<{ bookingSlug:
               top: 0,
               width: '100%',
               height: '100%',
-              background: 'rgba(245,158,11,0.15)',
+              background: 'rgba(245,158,11,0.12)',
               display: 'flex',
             }}
           />
         )}
-        {/* Gift: corner badge */}
+        {/* Gift: horizontal ribbon */}
         {giftMode && (
           <div
             style={{
               position: 'absolute',
-              top: 20,
-              right: 20,
+              left: 0,
+              top: 120,
+              width: '100%',
+              height: 20,
               background: GOLD,
-              color: '#0f0f0f',
-              fontSize: 20,
-              fontWeight: 700,
-              padding: '6px 16px',
-              borderRadius: 999,
               display: 'flex',
-              letterSpacing: 1,
+              opacity: 0.9,
             }}
-          >
-            {'GIFT' /* content-ok: OG image badge label, not translatable copy */}
-          </div>
+          />
+        )}
+        {/* Gift: vertical ribbon */}
+        {giftMode && (
+          <div
+            style={{
+              position: 'absolute',
+              left: 190,
+              top: 0,
+              width: 20,
+              height: '100%',
+              background: GOLD,
+              display: 'flex',
+              opacity: 0.9,
+            }}
+          />
+        )}
+        {/* Gift bow — left loop */}
+        {giftMode && (
+          <div
+            style={{
+              position: 'absolute',
+              top: 78,
+              left: 118,
+              width: 68,
+              height: 52,
+              background: GOLD,
+              borderRadius: '50% 10% 50% 10%',
+              transform: 'rotate(-20deg)',
+              display: 'flex',
+            }}
+          />
+        )}
+        {/* Gift bow — right loop */}
+        {giftMode && (
+          <div
+            style={{
+              position: 'absolute',
+              top: 78,
+              left: 194,
+              width: 68,
+              height: 52,
+              background: GOLD,
+              borderRadius: '10% 50% 10% 50%',
+              transform: 'rotate(20deg)',
+              display: 'flex',
+            }}
+          />
+        )}
+        {/* Gift bow — knot */}
+        {giftMode && (
+          <div
+            style={{
+              position: 'absolute',
+              top: 97,
+              left: 176,
+              width: 28,
+              height: 34,
+              background: '#d97706',
+              borderRadius: 8,
+              display: 'flex',
+            }}
+          />
         )}
       </div>
     </div>,
