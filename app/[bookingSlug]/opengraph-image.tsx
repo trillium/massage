@@ -1,5 +1,7 @@
 /* ds-ignore-file */
 import React from 'react'
+import { readFile } from 'node:fs/promises'
+import { join } from 'node:path'
 import { ImageResponse } from 'next/og'
 import { fetchSlugConfigurationData } from '@/lib/slugConfigurations/fetchSlugConfigurationData'
 import siteMetadata from '@/data/siteMetadata'
@@ -24,15 +26,9 @@ const DESIGNS: Record<string, (data: OgImageData) => React.JSX.Element> = {
 }
 const DEFAULT_DESIGN = 'vintage-postcard'
 
-async function tableImageDataUrl(baseUrl: string): Promise<string> {
-  const url = `${baseUrl.replace(/\/$/, '')}/static/images/table/table_square_02.jpg`
-  const res = await fetch(url, {
-    headers: { 'User-Agent': 'Mozilla/5.0 (compatible; OGImageBot/1.0)', Accept: 'image/*' },
-    cache: 'force-cache',
-  })
-  const contentType = res.headers.get('content-type') || 'image/jpeg'
-  const b64 = Buffer.from(await res.arrayBuffer()).toString('base64')
-  return `data:${contentType};base64,${b64}`
+async function tableImageDataUrl(): Promise<string> {
+  const buf = await readFile(join(process.cwd(), 'public/static/images/table/table_square_02.jpg'))
+  return `data:image/jpeg;base64,${buf.toString('base64')}`
 }
 
 function firstLineOfText(text: string | string[] | null): string {
@@ -131,7 +127,7 @@ export default async function Image({ params }: { params: Promise<{ bookingSlug:
     eyebrow: deriveEyebrow(bookingSlug, title),
     giftMode,
     accentColor,
-    tableImageSrc: await tableImageDataUrl(siteMetadata.siteUrl),
+    tableImageSrc: await tableImageDataUrl(),
   }
 
   const renderFn = DESIGNS[ogDesign] ?? DESIGNS[DEFAULT_DESIGN]
