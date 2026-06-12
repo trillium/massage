@@ -25,7 +25,7 @@ const DESIGNS: Record<string, (data: OgImageData) => React.JSX.Element> = {
 const DEFAULT_DESIGN = 'vintage-postcard'
 
 function tableImageUrl(baseUrl: string): string {
-  return `${baseUrl}/static/images/table/table_square_02.webp`
+  return `${baseUrl}/static/images/table/table_square_02.jpg`
 }
 
 function firstLineOfText(text: string | string[] | null): string {
