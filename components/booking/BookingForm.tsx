@@ -71,6 +71,7 @@ export default function BookingForm({
     additionalData?.showParkingField || config?.customFields?.showParkingField
   )
   const showNotesField = !!(additionalData?.showNotesField || config?.customFields?.showNotesField)
+  const showPromoField = !!(additionalData?.showPromoField || config?.customFields?.showPromoField)
   const resolvedShowRaffleOptIn = !!(
     showRaffleOptIn ??
     additionalData?.showRaffleOptIn ??
@@ -167,6 +168,7 @@ export default function BookingForm({
                   showHotelField={showHotelField}
                   showParkingField={showParkingField}
                   showNotesField={showNotesField}
+                  showPromoField={showPromoField}
                   showRaffleOptIn={resolvedShowRaffleOptIn}
                 />
 

@@ -73,11 +73,7 @@ export function useBookingInitialValues({
       bookingUrl: config?.bookingSlug
         ? `/${Array.isArray(config.bookingSlug) ? config.bookingSlug[0] : config.bookingSlug}`
         : undefined,
-      promo: config?.discount
-        ? config.discount.type === 'percent'
-          ? `${(config.discount.amountPercent || 0) * 100}% off`
-          : `$${config.discount.amountDollars || 0} off`
-        : undefined,
+      promo: formData.promo ?? '',
       rescheduleEventId: config?.rescheduleEventId,
       rescheduleToken: config?.rescheduleToken,
     }
