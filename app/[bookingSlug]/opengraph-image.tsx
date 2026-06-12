@@ -9,6 +9,7 @@ import { render as renderVintagePostcard } from './designs/vintage-postcard'
 import { render as renderAiFrom2089 } from './designs/ai-from-2089'
 
 export const runtime = 'nodejs'
+export const dynamic = 'force-dynamic'
 export const contentType = 'image/png'
 export const size = { width: 1200, height: 630 }
 export const alt = 'Trillium Massage — Book a session'
@@ -69,7 +70,12 @@ function deriveDomainLabel(siteUrl: string): string {
 function isGiftSlug(slug: string, title: string): boolean {
   const s = slug.toLowerCase()
   const t = title.toLowerCase()
-  return s.includes('birthday') || s.includes('gift') || t.includes('happy birthday') || t.includes('gift')
+  return (
+    s.includes('birthday') ||
+    s.includes('gift') ||
+    t.includes('happy birthday') ||
+    t.includes('gift')
+  )
 }
 
 function deriveEyebrow(slug: string, title: string): string {
@@ -77,7 +83,12 @@ function deriveEyebrow(slug: string, title: string): string {
   const t = title.toLowerCase()
   if (s.includes('birthday') || t.includes('birthday')) return 'BIRTHDAY GIFT'
   if (s.includes('gift') || t.includes('gift')) return 'GIFT'
-  if (s.includes('event') || s.includes('nerdstage') || s.includes('scale') || s.includes('openclaw'))
+  if (
+    s.includes('event') ||
+    s.includes('nerdstage') ||
+    s.includes('scale') ||
+    s.includes('openclaw')
+  )
     return 'EVENT MASSAGE'
   if (s.includes('hotel') || s.includes('kinn')) return 'IN-ROOM MASSAGE'
   if (s.includes('free') || s.includes('barter')) return 'COMPLIMENTARY'
