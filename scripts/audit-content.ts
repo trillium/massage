@@ -1,10 +1,10 @@
 #!/usr/bin/env bun
 /**
- * audit-content.ts — full-codebase content violation scanner
+ * audit-content.ts — full-codebase noJsxLiterals violation scanner
  *
- * Runs the _lint-content-extract.py helper against every .tsx/.ts file in
- * the repo and produces a structured JSON report of all bare JSX text nodes
- * that should live in the content layer.
+ * Runs `biome check --reporter=json` across the repo and extracts all
+ * lint/style/noJsxLiterals violations. Biome is the source of truth —
+ * no separate Python parser needed.
  *
  * Usage:
  *   bun scripts/audit-content.ts              # prints JSON report
@@ -19,8 +19,7 @@
  *     {
  *       "path": "components/Footer.tsx",
  *       "violations": [
- *         { "line": 44, "text": "Quick Links" },
- *         { "line": 80, "text": "Services" }
+ *         { "line": 44, "text": "Incorrect use of string literal detected." }
  *       ]
  *     }
  *   ]
@@ -28,8 +27,19 @@
  */
 
 import { execSync } from 'node:child_process'
-import { readdirSync, existsSync } from 'node:fs'
-import { join, relative } from 'node:path'
+
+interface BiomeDiagnostic {
+  category: string
+  message: string
+  location: {
+    path: string
+    start: { line: number; column: number }
+  }
+}
+
+interface BiomeOutput {
+  diagnostics: BiomeDiagnostic[]
+}
 
 interface Violation {
   line: number
@@ -47,76 +57,49 @@ interface AuditReport {
   files: FileReport[]
 }
 
-const REPO_ROOT = process.cwd()
-const HELPER = join(REPO_ROOT, 'scripts/_lint-content-extract.py')
-const PY = process.env.PYTHON ?? 'python3'
-
-const SKIP_DIRS = new Set([
-  'node_modules',
-  '.next',
-  '.contentlayer',
-  'coverage',
-  '__tests__',
-  'og-variants',
-  'design-system',
-  'designs',
-  'og-preview',
-  '.git',
-  '.claude',
-])
-
-const SKIP_PATH_PATTERNS = [/\.test\.(ts|tsx)$/, /\.spec\.(ts|tsx)$/, /\/data\//]
-
-function* walkTs(dir: string): Generator<string> {
-  for (const entry of readdirSync(dir, { withFileTypes: true })) {
-    if (entry.isDirectory()) {
-      if (SKIP_DIRS.has(entry.name)) continue
-      yield* walkTs(join(dir, entry.name))
-    } else if (entry.name.endsWith('.tsx') || entry.name.endsWith('.ts')) {
-      const full = join(dir, entry.name)
-      const rel = relative(REPO_ROOT, full)
-      if (!SKIP_PATH_PATTERNS.some((p) => p.test(rel))) yield full
-    }
-  }
-}
-
-function scanFile(filePath: string): Violation[] {
-  try {
-    const out = execSync(`"${PY}" "${HELPER}" "${filePath}"`, {
-      encoding: 'utf8',
-      stdio: ['pipe', 'pipe', 'pipe'],
-    }).trim()
-    if (!out) return []
-    return out
-      .split('\n')
-      .filter(Boolean)
-      .map((line) => {
-        const colonIdx = line.indexOf(':')
-        return {
-          line: Number.parseInt(line.slice(0, colonIdx), 10),
-          text: line.slice(colonIdx + 1),
-        }
-      })
-  } catch {
-    return []
-  }
-}
-
 const args = process.argv.slice(2)
 const summaryOnly = args.includes('--summary')
 const singleFile = args.includes('--file') ? args[args.indexOf('--file') + 1] : null
 
-const files = singleFile ? [join(REPO_ROOT, singleFile)] : [...walkTs(REPO_ROOT)]
+const target = singleFile ?? '.'
 
-const report: AuditReport = { totalViolations: 0, totalFiles: 0, files: [] }
+let raw: string
+try {
+  raw = execSync(`bunx biome check --reporter=json ${target}`, {
+    encoding: 'utf8',
+    stdio: ['pipe', 'pipe', 'ignore'],
+    maxBuffer: 50 * 1024 * 1024,
+  })
+} catch (e) {
+  // biome exits 1 when violations found — capture stdout anyway
+  raw = (e as { stdout?: string }).stdout ?? ''
+}
 
-for (const file of files) {
-  if (!existsSync(file)) continue
-  const violations = scanFile(file)
-  if (violations.length === 0) continue
+let parsed: BiomeOutput
+try {
+  parsed = JSON.parse(raw) as BiomeOutput
+} catch {
+  process.stderr.write('audit-content: failed to parse biome JSON output\n')
+  process.exit(2)
+}
+
+const byFile = new Map<string, Violation[]>()
+for (const d of parsed.diagnostics ?? []) {
+  if (d.category !== 'lint/style/noJsxLiterals') continue
+  const path = d.location?.path ?? 'unknown'
+  if (!byFile.has(path)) byFile.set(path, [])
+  byFile.get(path)!.push({ line: d.location?.start?.line ?? 0, text: d.message })
+}
+
+const report: AuditReport = {
+  totalViolations: 0,
+  totalFiles: byFile.size,
+  files: [],
+}
+
+for (const [path, violations] of byFile) {
   report.totalViolations += violations.length
-  report.totalFiles += 1
-  report.files.push({ path: relative(REPO_ROOT, file), violations })
+  report.files.push({ path, violations })
 }
 
 report.files.sort((a, b) => b.violations.length - a.violations.length)

@@ -171,7 +171,6 @@
       "biome check --write --no-errors-on-unmatched",
       "bun scripts/check-design-system.ts",
       "bun scripts/check-brand-purity.ts",
-      "bash scripts/lint-content.sh",
       "bash -c '.husky/tsc-staged.sh'",
       "bash -c 'cspell --no-progress \"$@\" || exit 0' --"
     ],
