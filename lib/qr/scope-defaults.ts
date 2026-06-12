@@ -1,5 +1,10 @@
 export const SCOPE_DEFAULTS: Record<string, string> = {
   BC01: 'https://trilliummassage.la',
+  BC02: 'https://trilliummassage.la',
+  BC03: 'https://trilliummassage.la',
+  BC04: 'https://trilliummassage.la',
+  BC05: 'https://trilliummassage.la',
+  BC06: 'https://trilliummassage.la',
   HB01: 'https://trilliummassage.la/blog/airbnb-host-promo-2026-03',
 }
 

@@ -1,5 +1,6 @@
 export const qrColors = {
   teal: '#2dd4bf',
+  red: '#dc2626',
   slate: '#1f1f1f',
   golden: '#ffbd4a',
   white: '#ffffff',
@@ -17,11 +18,11 @@ export interface QRColorScheme {
 
 export const colorPresets: Record<QRColorPreset, QRColorScheme> = {
   default: {
-    body: qrColors.teal,
+    body: qrColors.red,
     background: qrColors.slate,
-    eyeFrame: qrColors.teal,
+    eyeFrame: qrColors.red,
     eyeBall: qrColors.golden,
-    containerBg: qrColors.teal,
+    containerBg: qrColors.red,
   },
   light: {
     body: qrColors.slate,

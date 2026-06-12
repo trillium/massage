@@ -1,8 +1,8 @@
 /* ds-ignore-file */
 import React from 'react'
-import { readFile } from 'node:fs/promises'
 import { join } from 'node:path'
 import { ImageResponse } from 'next/og'
+import sharp from 'sharp'
 import { fetchSlugConfigurationData } from '@/lib/slugConfigurations/fetchSlugConfigurationData'
 import siteMetadata from '@/data/siteMetadata'
 import type { OgImageData } from './designs/types'
@@ -27,7 +27,10 @@ const DESIGNS: Record<string, (data: OgImageData) => React.JSX.Element> = {
 const DEFAULT_DESIGN = 'vintage-postcard'
 
 async function tableImageDataUrl(): Promise<string> {
-  const buf = await readFile(join(process.cwd(), 'public/static/images/table/table_square_02.jpg'))
+  const buf = await sharp(join(process.cwd(), 'public/static/images/table/table_square_02.webp'))
+    .resize(380, 630, { fit: 'cover', position: 'centre' })
+    .jpeg({ quality: 90 })
+    .toBuffer()
   return `data:image/jpeg;base64,${buf.toString('base64')}`
 }
 
