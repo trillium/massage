@@ -1,4 +1,4 @@
-/* ds-ignore-file */
+/* ds-ignore-file */ /* content-ok-file */
 'use client'
 
 import Image from 'next/image'

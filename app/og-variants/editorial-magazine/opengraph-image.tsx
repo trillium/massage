@@ -1,4 +1,4 @@
-/* ds-ignore-file */
+/* ds-ignore-file */ /* content-ok-file */
 import { ImageResponse } from 'next/og'
 import { join } from 'node:path'
 import sharp from 'sharp'

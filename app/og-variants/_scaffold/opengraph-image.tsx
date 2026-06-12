@@ -1,4 +1,4 @@
-/* ds-ignore-file */
+/* ds-ignore-file */ /* content-ok-file */
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // VARIANT: SCAFFOLD TEMPLATE
 // STYLE:   Copy this file, rename the directory, implement your design

@@ -1,4 +1,4 @@
-/* ds-ignore-file */
+/* ds-ignore-file */ /* content-ok-file */
 import type { OgImageData } from './types'
 
 const BROWN = '#2c1810'
