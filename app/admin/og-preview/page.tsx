@@ -1,4 +1,6 @@
 /* ds-ignore-file */
+/* biome-ignore-file lint/style/noJsxLiterals: admin internal tool, strings are UI chrome not content */
+import Image from 'next/image'
 import { fetchSlugConfigurationData } from '@/lib/slugConfigurations/fetchSlugConfigurationData'
 import SectionContainer from '@/components/SectionContainer'
 import Link from '@/components/Link'
@@ -10,8 +12,8 @@ export default async function OgPreviewPage() {
   return (
     <SectionContainer>
       <div className="mx-auto max-w-6xl py-8">
-        <h1 className="mb-2 text-3xl font-bold">OG Image Preview</h1>
-        <p className="mb-8 text-sm text-accent-500">{slugs.length} slugs</p>
+        <h1 className="mb-2 text-3xl font-bold">{'OG Image Preview'}</h1>
+        <p className="mb-8 text-sm text-accent-500">{slugs.length}{' slugs'}</p>
 
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
           {slugs.map((slug) => {
@@ -22,10 +24,10 @@ export default async function OgPreviewPage() {
               <div key={slug} className="overflow-hidden rounded-lg border border-accent-200 dark:border-accent-700">
                 <div className="bg-surface-100 px-4 py-2 dark:bg-surface-800">
                   <div className="flex items-center justify-between gap-2">
-                    <code className="text-xs font-mono text-accent-600 dark:text-accent-400 truncate">{slug}</code>
+                    <code className="truncate font-mono text-xs text-accent-600 dark:text-accent-400">{slug}</code>
                     <div className="flex shrink-0 gap-3 text-xs">
-                      <Link href={bookUrl} className="text-primary-600 hover:underline">book</Link>
-                      <Link href={ogUrl} className="text-primary-600 hover:underline">raw</Link>
+                      <Link href={bookUrl} className="text-primary-600 hover:underline">{'book'}</Link>
+                      <Link href={ogUrl} className="text-primary-600 hover:underline">{'raw'}</Link>
                     </div>
                   </div>
                   {config.title && (
@@ -33,14 +35,13 @@ export default async function OgPreviewPage() {
                   )}
                 </div>
                 <Link href={ogUrl}>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
+                  <Image
                     src={ogUrl}
-                    alt={`OG image for ${slug}`}
+                    alt={slug}
                     width={1200}
                     height={630}
                     className="w-full"
-                    loading="lazy"
+                    unoptimized
                   />
                 </Link>
               </div>
