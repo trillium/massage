@@ -16,6 +16,7 @@ import { ReviewSnippet } from './ReviewCard/ReviewSnippet'
 import { Star } from './ReviewCard/Stars'
 import { handleReviewSubmit } from './ReviewForm.handleSubmit'
 import { siteConfig } from '@/lib/siteConfig'
+import forms from '@/data/forms.json'
 
 export default function ReviewForm({
   error,
@@ -41,6 +42,8 @@ export default function ReviewForm({
     dispatch(setReviewForm({ [target.name]: target.value }))
   }
 
+  const reviewForms = forms.review
+
   return (
     <div className="mx-auto w-full max-w-7xl px-4 md:px-0">
       <div className="mb-11 grid grid-cols-12">
@@ -55,7 +58,9 @@ export default function ReviewForm({
               {formatLocalDate(start, { timeZone })}
             </p>
             <p className="text-sm md:text-base">
-              {formatLocalTime(start, { timeZone })} - {formatLocalTime(end, { timeZone })}
+              {formatLocalTime(start, { timeZone })}
+              {reviewForms.timeSeparator}
+              {formatLocalTime(end, { timeZone })}
             </p>
           </div>
 
@@ -72,7 +77,7 @@ export default function ReviewForm({
                     htmlFor="name"
                     className="block text-sm font-medium text-accent-900 dark:text-accent-100"
                   >
-                    First Name
+                    {reviewForms.fields.firstName.label}
                   </label>
                   <input
                     aria-label="Name"
@@ -84,7 +89,7 @@ export default function ReviewForm({
                     name="firstName"
                     id="firstName"
                     value={firstName}
-                    placeholder="First"
+                    placeholder={reviewForms.fields.firstName.placeholder}
                     onChange={formOnChange}
                     className="mb-1 block w-full border-0 p-0 py-1 pl-2 text-accent-900 placeholder:text-accent-400 focus:ring-0 sm:text-base sm:leading-6 dark:text-accent-100"
                   />
@@ -94,7 +99,7 @@ export default function ReviewForm({
                     htmlFor="name"
                     className="block text-sm font-medium text-accent-900 dark:text-accent-100"
                   >
-                    Last Name
+                    {reviewForms.fields.lastName.label}
                   </label>
                   <input
                     aria-label="Name"
@@ -106,7 +111,7 @@ export default function ReviewForm({
                     name="lastName"
                     id="lastName"
                     value={lastName}
-                    placeholder="Last"
+                    placeholder={reviewForms.fields.lastName.placeholder}
                     onChange={formOnChange}
                     className="mb-1 block w-full border-0 p-0 py-1 pl-2 text-accent-900 placeholder:text-accent-400 focus:ring-0 sm:text-base sm:leading-6 dark:text-accent-100"
                   />
@@ -117,7 +122,7 @@ export default function ReviewForm({
                   htmlFor="date"
                   className="block text-sm font-medium text-accent-900 dark:text-accent-100"
                 >
-                  Date
+                  {reviewForms.fields.date.label}
                 </label>
                 <input
                   aria-label="Phone Number"
@@ -136,7 +141,7 @@ export default function ReviewForm({
                   htmlFor="rating"
                   className="mt-2 block text-sm font-medium text-accent-900 dark:text-accent-100"
                 >
-                  Rating
+                  {reviewForms.fields.rating.label}
                 </label>
                 <select
                   id="rating"
@@ -148,7 +153,7 @@ export default function ReviewForm({
                   className="mb-1 block w-full border-0 p-0 py-1 pl-2 text-accent-900 placeholder:text-accent-400 focus:ring-0 sm:text-base sm:leading-6 dark:text-accent-100"
                 >
                   <option disabled value="">
-                    Select a rating
+                    {reviewForms.fields.rating.selectDefault}
                   </option>
                   {[5, 4, 3, 2, 1].map((rating) => (
                     <option key={rating} value={rating}>
@@ -177,7 +182,7 @@ export default function ReviewForm({
                   htmlFor="comment"
                   className="block text-sm font-medium text-accent-900 dark:text-accent-100"
                 >
-                  Comment
+                  {reviewForms.fields.comment.label}
                 </label>
                 <input
                   aria-label="Comment"
@@ -186,7 +191,7 @@ export default function ReviewForm({
                   id="text"
                   value={text}
                   className="mb-1 block w-full border-0 p-0 py-1 pl-2 text-accent-900 placeholder:text-accent-400 focus:ring-0 sm:text-base sm:leading-6 dark:text-accent-100"
-                  placeholder="Leave blank or leave a comment"
+                  placeholder={reviewForms.fields.comment.placeholder}
                   onChange={formOnChange}
                   maxLength={300}
                 />
@@ -194,9 +199,7 @@ export default function ReviewForm({
             </div>
           </div>
           {modal === 'error' && (
-            <div className="bg-red-50 text-red-600">
-              There was an error submitting your request.
-            </div>
+            <div className="bg-red-50 text-red-600">{reviewForms.messages.error}</div>
           )}
           <div className="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
             <button
@@ -206,10 +209,10 @@ export default function ReviewForm({
             >
               {modal === 'busy' ? (
                 <>
-                  Submitting ... <Spinner className="ml-2" />
+                  {reviewForms.buttons.submitting} <Spinner className="ml-2" />
                 </>
               ) : (
-                <>Submit</>
+                reviewForms.buttons.submit
               )}
             </button>
             <button
@@ -219,7 +222,7 @@ export default function ReviewForm({
                 dispatch(setModal({ status: 'closed' }))
               }}
             >
-              Cancel
+              {reviewForms.buttons.cancel}
             </button>
           </div>
         </form>

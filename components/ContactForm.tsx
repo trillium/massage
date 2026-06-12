@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { ContactFormType } from '@/lib/types'
 import { useAppDispatch } from '@/redux/hooks'
 import { setContactForm } from '@/redux/slices/contactFormSlice'
+import forms from '@/data/forms.json'
 
 interface ContactFormProps {
   defaultSubject?: string
@@ -16,6 +17,7 @@ export default function ContactForm({ defaultSubject = '' }: ContactFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'error'>('idle')
   const [errorMessage, setErrorMessage] = useState('')
+  const contactForms = forms.contact
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -81,7 +83,7 @@ export default function ContactForm({ defaultSubject = '' }: ContactFormProps) {
 
       <div className="w-full">
         <label htmlFor="subject" className="block font-medium">
-          Subject
+          {contactForms.fields.subject.label}
         </label>
         <input
           id="subject"
@@ -95,7 +97,7 @@ export default function ContactForm({ defaultSubject = '' }: ContactFormProps) {
 
       <div className="w-full">
         <label htmlFor="name" className="block font-medium">
-          Name
+          {contactForms.fields.name.label}
         </label>
         <input
           id="name"
@@ -108,7 +110,7 @@ export default function ContactForm({ defaultSubject = '' }: ContactFormProps) {
 
       <div className="w-full">
         <label htmlFor="email" className="block font-medium">
-          Email
+          {contactForms.fields.email.label}
         </label>
         <input
           id="email"
@@ -121,7 +123,7 @@ export default function ContactForm({ defaultSubject = '' }: ContactFormProps) {
 
       <div className="w-full">
         <label htmlFor="phone" className="block font-medium">
-          Phone Number
+          {contactForms.fields.phone.label}
         </label>
         <input
           id="phone"
@@ -134,7 +136,7 @@ export default function ContactForm({ defaultSubject = '' }: ContactFormProps) {
 
       <div className="w-full">
         <label htmlFor="message" className="block font-medium">
-          Message
+          {contactForms.fields.message.label}
         </label>
         <textarea
           id="message"
@@ -150,7 +152,7 @@ export default function ContactForm({ defaultSubject = '' }: ContactFormProps) {
         disabled={isSubmitting}
         className="bg-primary-600 hover:bg-primary-700 border-primary-500 rounded border-2 px-4 py-2 font-semibold text-white transition-colors disabled:cursor-not-allowed disabled:bg-surface-400"
       >
-        {isSubmitting ? 'Sending...' : 'Send Message'}
+        {isSubmitting ? contactForms.buttons.submitting : contactForms.buttons.submit}
       </button>
     </form>
   )
