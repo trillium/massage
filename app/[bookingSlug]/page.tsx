@@ -38,7 +38,7 @@ export async function generateMetadata({
     })
   } catch (e) {
     console.error('[generateMetadata] failed:', e)
-    return genPageMetadata({ title: 'Book a massage' })
+    return { title: 'Book a massage', openGraph: { title: 'Book a massage', type: 'website' } }
   }
 }
 
