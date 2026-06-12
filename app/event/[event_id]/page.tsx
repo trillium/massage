@@ -17,7 +17,13 @@ import { stringToLocationObject } from '@/lib/slugConfigurations/helpers/parseLo
 import { FaHourglassHalf, FaCheckCircle, FaTimesCircle } from 'react-icons/fa'
 import { gratuityLinks } from '@/data/paymentLinks'
 import eventContent from '@/data/event.json'
-import { TextLg, TextSmMedium, TextSmMuted, TextSmSemibold, TextXsMuted } from '@/components/ui/text'
+import {
+  TextLg,
+  TextSmMedium,
+  TextSmMuted,
+  TextSmSemibold,
+  TextXsMuted,
+} from '@/components/ui/text'
 import { H1 } from '@/components/ui/heading'
 
 interface EventPageProps {
@@ -52,7 +58,7 @@ function StatusBadge({ status }: { status: 'pending' | 'confirmed' | 'cancelled'
 
   const c = config[status]
   return (
-    <TextSmSemibold className="inline-flex items-center gap-2 rounded-full border px-4 py-1.5 ${c.bg} ${c.text} ${c.border}" >
+    <TextSmSemibold className="inline-flex items-center gap-2 rounded-full border px-4 py-1.5 ${c.bg} ${c.text} ${c.border}">
       {c.icon}
       {c.label}
     </TextSmSemibold>
@@ -62,9 +68,7 @@ function StatusBadge({ status }: { status: 'pending' | 'confirmed' | 'cancelled'
 function DetailRow({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex flex-col gap-0.5 sm:flex-row sm:items-baseline sm:gap-3">
-      <TextSmMedium className="min-w-24 uppercase">
-        {label}
-      </TextSmMedium>
+      <TextSmMedium className="min-w-24 uppercase">{label}</TextSmMedium>
       <TextLg>{value}</TextLg>
     </div>
   )
@@ -78,9 +82,7 @@ export default async function EventPage({ params, searchParams }: EventPageProps
     return (
       <SectionContainer>
         <div className="py-16 text-center">
-          <H1 className="dark:text-white">
-            {eventContent.page.accessDenied.heading}
-          </H1>
+          <H1 className="dark:text-white">{eventContent.page.accessDenied.heading}</H1>
           <p className="mt-2 text-accent-600 dark:text-accent-400">
             {eventContent.page.accessDenied.message}
           </p>
@@ -95,9 +97,7 @@ export default async function EventPage({ params, searchParams }: EventPageProps
     return (
       <SectionContainer>
         <div className="py-16 text-center">
-          <H1 className="dark:text-white">
-            {eventContent.page.invalidLink.heading}
-          </H1>
+          <H1 className="dark:text-white">{eventContent.page.invalidLink.heading}</H1>
           <p className="mt-2 text-accent-600 dark:text-accent-400">
             {result.error === 'Token expired'
               ? eventContent.page.invalidLink.expiredMessage
@@ -114,9 +114,7 @@ export default async function EventPage({ params, searchParams }: EventPageProps
     return (
       <SectionContainer>
         <div className="py-16 text-center">
-          <H1 className="dark:text-white">
-            {eventContent.page.notFound.heading}
-          </H1>
+          <H1 className="dark:text-white">{eventContent.page.notFound.heading}</H1>
           <p className="mt-2 text-accent-600 dark:text-accent-400">
             {eventContent.page.notFound.message}
           </p>
@@ -165,9 +163,7 @@ export default async function EventPage({ params, searchParams }: EventPageProps
           </div>
 
           {status === 'pending' && (
-            <TextSmMuted className="mt-4">
-              {eventContent.page.pendingMessage}
-            </TextSmMuted>
+            <TextSmMuted className="mt-4">{eventContent.page.pendingMessage}</TextSmMuted>
           )}
 
           <div className="mt-8 space-y-3 rounded-2xl border-2 border-accent-200 bg-surface-100 p-6 dark:border-accent-700 dark:bg-surface-800/50">
@@ -224,9 +220,7 @@ export default async function EventPage({ params, searchParams }: EventPageProps
             <div className="mt-8">
               <div className="mb-3 flex items-center gap-3">
                 <div className="h-px flex-1 bg-surface-200 dark:bg-surface-700" />
-                <TextSmMedium status="muted">
-                  {eventContent.page.appreciation}
-                </TextSmMedium>
+                <TextSmMedium status="muted">{eventContent.page.appreciation}</TextSmMedium>
                 <div className="h-px flex-1 bg-surface-200 dark:bg-surface-700" />
               </div>
               <div className="flex flex-col gap-3">
@@ -241,9 +235,7 @@ export default async function EventPage({ params, searchParams }: EventPageProps
                       <span className="font-semibold text-accent-900 dark:text-accent-100">
                         {link.label}
                       </span>
-                      <TextSmMuted>
-                        {link.description}
-                      </TextSmMuted>
+                      <TextSmMuted>{link.description}</TextSmMuted>
                     </div>
                   </Link>
                 ))}

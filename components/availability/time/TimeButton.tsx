@@ -4,6 +4,7 @@ import type { DetailedHTMLProps, HTMLAttributes } from 'react'
 import { formatLocalTime } from 'lib/availability/helpers'
 import type { StringDateTimeInterval, LocationObject } from 'lib/types'
 import SlotCritter from './SlotCritter'
+import { TextXs } from '@/components/ui/text'
 
 type TimeProps = {
   time: StringDateTimeInterval
@@ -71,9 +72,9 @@ export default function TimeButton({
         <SlotCritter holderSessionId={holderSessionId} shooCount={shooCount} onShoo={onShoo} />
       )}
       {presenceCount != null && presenceCount > 0 ? (
-        <span className="absolute -top-1.5 -right-1.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-amber-500 px-1 text-xs font-bold text-white">
+        <TextXs className="absolute -top-1.5 -right-1.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-amber-500 px-1">
           {presenceCount}
-        </span>
+        </TextXs>
       ) : null}
     </button>
   )

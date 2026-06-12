@@ -177,9 +177,7 @@
     "cli-progress",
     "jest-environment-jsdom"
   ],
-  "circular_dependencies": [
-    "lib/availabilityTypes.ts->lib/calendarTypes.ts"
-  ],
+  "circular_dependencies": ["lib/availabilityTypes.ts->lib/calendarTypes.ts"],
   "unused_optional_dependencies": [],
   "unused_enum_members": [],
   "unused_class_members": [
@@ -196,9 +194,7 @@
     "scripts/seed-reviews.ts:../data/ratings-trillium",
     "scripts/seed-reviews.ts:../data/ratings-airbnb"
   ],
-  "unlisted_dependencies": [
-    "katex"
-  ],
+  "unlisted_dependencies": ["katex"],
   "duplicate_exports": [
     "OnSiteRequestType|lib/configTypes.ts|lib/schema.ts",
     "convertToTimeListFormat|lib/availability/availabilityHelpers.ts|lib/availability/getNextSlotAvailability.ts|lib/availability/getPreviousSlotAvailability.ts",

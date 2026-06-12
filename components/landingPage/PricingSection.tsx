@@ -3,6 +3,8 @@ import { FaLeaf } from 'react-icons/fa'
 import clsx from 'clsx'
 import { home } from '@/app/content'
 import landing from '@/data/landing.json'
+import { H2, H3 } from '@/components/ui/heading'
+import { TextSmMedium } from '@/components/ui/text'
 
 const pricingOptions = home.pricing.tiers.map((tier) => ({
   ...tier,
@@ -14,9 +16,7 @@ export default function PricingSection() {
   return (
     <section className="flex w-full flex-col items-center bg-surface-50 dark:bg-surface-950">
       <div className="container">
-        <h2 className="mb-8 text-center text-3xl font-bold md:text-4xl dark:text-white">
-          {heading}
-        </h2>
+        <H2 className="mb-8 text-center md:text-4xl dark:text-white">{heading}</H2>
         <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
           {pricingOptions.map((option, i) => (
             <div key={i} className="group relative">
@@ -42,17 +42,14 @@ export default function PricingSection() {
               >
                 {option.mostPopular && (
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2 transform">
-                    <span className="bg-primary-500 rounded-full px-3 py-1 text-sm font-medium whitespace-nowrap text-white">
+                    <TextSmMedium className="bg-primary-500 rounded-full px-3 py-1 whitespace-nowrap">
                       {mostPopularBadge}
-                    </span>
+                    </TextSmMedium>
                   </div>
                 )}
-                <h3
-                  className="mb-2 text-xl font-semibold dark:text-white"
-                  data-content="pricing.tier.title"
-                >
+                <H3 className="mb-2 dark:text-white" data-content="pricing.tier.title">
                   {option.title}
-                </h3>
+                </H3>
                 <div
                   className="text-primary-600 dark:text-primary-400 mb-4 text-3xl font-bold"
                   data-content="pricing.tier.price"

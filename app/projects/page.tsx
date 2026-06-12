@@ -16,9 +16,7 @@ export default function Projects() {
         <H1 className="sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">
           {projectsText.heading}
         </H1>
-        <TextLgMuted>
-          {projectsText.description}
-        </TextLgMuted>
+        <TextLgMuted>{projectsText.description}</TextLgMuted>
       </div>
       <div className="container py-12">
         <div className="-m-4 flex flex-wrap">

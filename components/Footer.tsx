@@ -78,9 +78,7 @@ function ServiceIsContainer({ displayClasses }: { displayClasses?: string }) {
           <ListItem positionClasses="pl-8 whitespace-nowrap" key={item.text} {...item} />
         ))}
       </ul>
-      <H2 className="mb-2 ml-4">
-        {footer.services.inOfficeEvent.heading}
-      </H2>
+      <H2 className="mb-2 ml-4">{footer.services.inOfficeEvent.heading}</H2>
       <ul className="mb-8 space-y-1">
         {eventServiceLinks.map((item) => (
           <ListItem positionClasses="pl-8 whitespace-nowrap" key={item.text} {...item} />

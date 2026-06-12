@@ -1,6 +1,8 @@
 import Image from 'next/image'
 import Link from '@/components/Link'
 import { GradientText } from '@/components/ui/GradientText'
+import { H2 } from '@/components/ui/heading'
+import { TextLgMuted } from '@/components/ui/text'
 import type { ReactNode } from 'react'
 
 interface AboutSectionProps {
@@ -33,16 +35,13 @@ export function AboutLayout({
           />
         </div>
         <div className="flex h-full flex-col justify-center space-y-4 text-left">
-          <h2 className="text-left text-4xl font-bold tracking-tight md:text-5xl lg:text-6xl">
+          <H2 className="text-left md:text-5xl lg:text-6xl">
             {title} <GradientText classes="whitespace-nowrap">{titleGradient}</GradientText>
-          </h2>
+          </H2>
           {paragraphs.map((paragraph, idx) => (
-            <p
-              key={idx}
-              className={`text-lg text-accent-600 dark:text-accent-300 ${idx === 0 ? 'mt-4' : ''}`}
-            >
+            <TextLgMuted key={idx} className="${idx === 0 ? 'mt-4' : ''}">
               {paragraph}
-            </p>
+            </TextLgMuted>
           ))}
         </div>
       </div>

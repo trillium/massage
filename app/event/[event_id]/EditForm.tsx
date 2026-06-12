@@ -81,9 +81,7 @@ export default function EditForm({ eventId, token, initialValues }: EditFormProp
         <div className="mt-4 basis-full space-y-4 rounded-2xl border-2 border-accent-200 bg-surface-50 p-6 dark:border-accent-700 dark:bg-surface-800">
           <div className="grid gap-4 sm:grid-cols-2">
             <label className="block">
-              <TextSmMedium>
-                {eventContent.editForm.fields.firstName}
-              </TextSmMedium>
+              <TextSmMedium>{eventContent.editForm.fields.firstName}</TextSmMedium>
               <input
                 type="text"
                 value={values.firstName}
@@ -92,9 +90,7 @@ export default function EditForm({ eventId, token, initialValues }: EditFormProp
               />
             </label>
             <label className="block">
-              <TextSmMedium>
-                {eventContent.editForm.fields.lastName}
-              </TextSmMedium>
+              <TextSmMedium>{eventContent.editForm.fields.lastName}</TextSmMedium>
               <input
                 type="text"
                 value={values.lastName}
@@ -105,9 +101,7 @@ export default function EditForm({ eventId, token, initialValues }: EditFormProp
           </div>
 
           <label className="block">
-            <TextSmMedium>
-              {eventContent.editForm.fields.email}
-            </TextSmMedium>
+            <TextSmMedium>{eventContent.editForm.fields.email}</TextSmMedium>
             <input
               type="email"
               value={values.email}
@@ -117,9 +111,7 @@ export default function EditForm({ eventId, token, initialValues }: EditFormProp
           </label>
 
           <label className="block">
-            <TextSmMedium>
-              {eventContent.editForm.fields.phone}
-            </TextSmMedium>
+            <TextSmMedium>{eventContent.editForm.fields.phone}</TextSmMedium>
             <input
               type="tel"
               value={values.phone}
@@ -129,9 +121,7 @@ export default function EditForm({ eventId, token, initialValues }: EditFormProp
           </label>
 
           <label className="block">
-            <TextSmMedium>
-              {eventContent.editForm.fields.street}
-            </TextSmMedium>
+            <TextSmMedium>{eventContent.editForm.fields.street}</TextSmMedium>
             <input
               type="text"
               value={values.location.street}
@@ -144,9 +134,7 @@ export default function EditForm({ eventId, token, initialValues }: EditFormProp
 
           <div className="grid gap-4 sm:grid-cols-2">
             <label className="block">
-              <TextSmMedium>
-                {eventContent.editForm.fields.city}
-              </TextSmMedium>
+              <TextSmMedium>{eventContent.editForm.fields.city}</TextSmMedium>
               <input
                 type="text"
                 value={values.location.city}
@@ -157,9 +145,7 @@ export default function EditForm({ eventId, token, initialValues }: EditFormProp
               />
             </label>
             <label className="block">
-              <TextSmMedium>
-                {eventContent.editForm.fields.zipCode}
-              </TextSmMedium>
+              <TextSmMedium>{eventContent.editForm.fields.zipCode}</TextSmMedium>
               <input
                 type="text"
                 inputMode="numeric"

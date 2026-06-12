@@ -4,9 +4,7 @@ const summary: MonthEntry = {
   date: '2023-07',
   repos: ['www-massage'],
   commitCount: 12,
-  highlights: [
-    'Added pricing and session details to calendar events and email confirmations',
-  ],
+  highlights: ['Added pricing and session details to calendar events and email confirmations'],
   categories: [
     {
       label: 'Booking Notifications',

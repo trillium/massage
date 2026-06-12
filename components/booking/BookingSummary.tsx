@@ -1,6 +1,7 @@
 import React from 'react'
 import { DiscountType } from '@/lib/types'
 import { GeneratePrice } from '@/components/ui/atoms/GeneratePriceAtom'
+import { TextSmSemibold, TextXs } from '@/components/ui/text'
 import { BookingFormData } from '@/lib/types'
 import { flattenLocation } from '@/lib/helpers/locationHelpers'
 import { validatePromoCode } from '@/lib/promoCodes'
@@ -43,14 +44,12 @@ const BookingSummary: React.FC<BookingSummaryProps> = ({
     <div className="border-l-primary-400 dark:bg-primary-50/10 mt-3 mb-4 rounded-md border-l-4 bg-surface-50 p-3">
       <div className="flex items-start justify-between">
         <div>
-          <p className="text-primary-800 dark:text-primary-400 text-sm font-semibold md:text-base">
-            {dateString}
-          </p>
-          <p className="text-xs md:text-sm">
+          <TextSmSemibold className="md:text-base">{dateString}</TextSmSemibold>
+          <TextXs className="md:text-sm">
             {startString}
             {bookingData.summary.timeSeparator}
             {endString}
-          </p>
+          </TextXs>
         </div>
         {acceptingPayment && (
           <div className="text-primary-800 dark:text-primary-400 ml-4 min-w-[60px] text-right text-base font-semibold">

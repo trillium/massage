@@ -71,7 +71,9 @@ export function ActionButtons({
           {cancelState === 'loading' ? 'Cancelling...' : 'Cancel Request'}
         </button>
         {cancelState === 'error' && (
-          <TextXs className="mt-1" status="error">Failed to cancel</TextXs>
+          <TextXs className="mt-1" status="error">
+            Failed to cancel
+          </TextXs>
         )}
       </div>
     )

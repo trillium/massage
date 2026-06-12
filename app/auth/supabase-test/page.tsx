@@ -51,7 +51,7 @@ function AuthTestContent() {
             <div className="space-y-3">
               <div>
                 <span className="font-medium">Status: </span>
-                <TextSm className="rounded px-2 py-1 ${ user ? 'bg-green-100 text-green-800' : 'bg-surface-200 text-accent-800' }" >
+                <TextSm className="rounded px-2 py-1 ${ user ? 'bg-green-100 text-green-800' : 'bg-surface-200 text-accent-800' }">
                   {user ? 'Authenticated' : 'Not authenticated'}
                 </TextSm>
               </div>
@@ -99,7 +99,9 @@ function AuthTestContent() {
 
         {user && (
           <div className="mt-6 rounded-lg border-2 border-blue-200 bg-blue-50 p-6">
-            <H2 className="mb-4" status="info">Protected Content Example</H2>
+            <H2 className="mb-4" status="info">
+              Protected Content Example
+            </H2>
             <p className="mb-4 text-blue-800">
               This content is only visible because you are authenticated.
             </p>

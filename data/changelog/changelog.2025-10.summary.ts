@@ -5,7 +5,7 @@ const summary: MonthEntry = {
   repos: ['massage'],
   commitCount: 75,
   highlights: [
-    'Built DriveTimeCalculator showing a map and travel estimate based on the client\'s device location',
+    "Built DriveTimeCalculator showing a map and travel estimate based on the client's device location",
     'Upgraded to Next.js 16 and React 19.2',
     'Added environment-based PostHog key selection and user identification on form submissions',
   ],

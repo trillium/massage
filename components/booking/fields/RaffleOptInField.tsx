@@ -2,6 +2,7 @@
 
 import { RAFFLE_INTEREST_OPTIONS } from '@/lib/schema'
 import { fieldClasses } from './classes'
+import { TextSmSemibold, TextXsMuted } from '@/components/ui/text'
 
 type RaffleOptInFieldProps = {
   optIn: boolean
@@ -27,12 +28,10 @@ export default function RaffleOptInField({
           className="mt-0.5 h-4 w-4 rounded border-accent-300 text-primary-600 focus:ring-primary-500"
         />
         <label htmlFor="raffleOptIn" className="cursor-pointer">
-          <span className="block text-sm font-semibold text-accent-900 dark:text-accent-100">
-            Enter me in the raffle
-          </span>
-          <span className="block text-xs text-accent-500 dark:text-accent-400">
+          <TextSmSemibold className="block">Enter me in the raffle</TextSmSemibold>
+          <TextXsMuted className="block">
             Win a free massage session — drawing held at the end of the event
-          </span>
+          </TextXsMuted>
         </label>
       </div>
 

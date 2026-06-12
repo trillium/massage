@@ -128,9 +128,7 @@ export default function TimeBlocker({ eventContainer }: TimeBlockerProps) {
   return (
     <div className="rounded-lg border border-accent-200 bg-surface-50 p-4 dark:border-accent-700 dark:bg-surface-800">
       <div className="mb-3 flex items-center justify-between">
-        <H3>
-          {admin.timeBlocker.title}
-        </H3>
+        <H3>{admin.timeBlocker.title}</H3>
         <button
           type="button"
           onClick={fetchBlocks}

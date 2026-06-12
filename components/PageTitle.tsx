@@ -6,9 +6,5 @@ interface Props {
 }
 
 export default function PageTitle({ children }: Props) {
-  return (
-    <H1 className="sm:text-4xl sm:leading-10 md:text-5xl md:leading-14">
-      {children}
-    </H1>
-  )
+  return <H1 className="sm:text-4xl sm:leading-10 md:text-5xl md:leading-14">{children}</H1>
 }

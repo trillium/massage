@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import { fieldClasses } from './classes'
 import type { PromoDiscount } from '@/lib/promoCodes'
 import booking from '@/data/booking.json'
+import { TextPrimary, TextSm, TextSmMuted } from '@/components/ui/text'
 
 const { promoCode: copy } = booking.form
 
@@ -75,19 +76,25 @@ export default function PromoCodeField({ promoCode, onChange, error }: PromoCode
         onBlur={handleBlur}
       />
       {validationState === 'checking' && (
-        <p className="mt-1 text-sm text-accent-500" aria-live="polite">
+        <TextSmMuted className="mt-1" aria-live="polite">
           {'Checking...' /* content-ok: transient UI state, not translatable copy */}
-        </p>
+        </TextSmMuted>
       )}
       {validationState === 'valid' && promoMessage_ && (
-        <p className="mt-1 text-sm text-primary-600 dark:text-primary-400">
+        <TextPrimary className="mt-1">
           {copy.appliedPrefix} {promoMessage_}
-        </p>
+        </TextPrimary>
       )}
       {validationState === 'invalid' && (
-        <p className="mt-1 text-sm text-red-500">{copy.errorInvalid}</p>
+        <TextSm className="mt-1" status="error">
+          {copy.errorInvalid}
+        </TextSm>
       )}
-      {error && <p className="mt-1 text-sm text-red-600">{error}</p>}
+      {error && (
+        <TextSm className="mt-1" status="error">
+          {error}
+        </TextSm>
+      )}
     </div>
   )
 }

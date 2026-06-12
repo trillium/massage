@@ -1,6 +1,7 @@
 import CachedTileMap from '@/components/CachedTileMap'
 import clsx from 'clsx'
 import { home, site } from '@/app/content'
+import { H2 } from '@/components/ui/heading'
 
 const serviceAreaBlurb = home.serviceAreaBlurb
 const title = "What's the service area?"
@@ -27,9 +28,9 @@ function ServiceArea({ text, imageLeft, imageRight }: ServiceAreaProps) {
 
   return (
     <div className="bg-hero grid w-full grid-flow-row auto-rows-min grid-cols-2 gap-4 overflow-hidden pb-10">
-      <h2 className="col-span-2 text-left text-4xl font-bold tracking-tight sm:col-span-1 md:text-center md:text-5xl lg:text-6xl">
+      <H2 className="col-span-2 text-left sm:col-span-1 md:text-center md:text-5xl lg:text-6xl">
         {title || 'Title Missing'}
-      </h2>
+      </H2>
 
       <div
         className={clsx(

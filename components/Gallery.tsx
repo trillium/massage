@@ -133,9 +133,7 @@ export default function Gallery({ images, columns = 3 }: GalleryProps) {
                     />
                     {images[selectedIndex].caption && (
                       <div className="absolute right-0 bottom-0 left-0 rounded-b-lg bg-gradient-to-t from-black/70 to-transparent p-4">
-                        <TextSm className="text-center">
-                          {images[selectedIndex].caption}
-                        </TextSm>
+                        <TextSm className="text-center">{images[selectedIndex].caption}</TextSm>
                       </div>
                     )}
                   </div>

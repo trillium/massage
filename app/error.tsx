@@ -13,9 +13,7 @@ export default function GlobalError({
 }) {
   return (
     <div className="flex flex-col items-center justify-center px-4 py-24 text-center">
-      <H1 className="text-6xl">
-        {system.globalError.title}
-      </H1>
+      <H1 className="text-6xl">{system.globalError.title}</H1>
       <p className="mt-4 text-xl font-bold text-accent-700 dark:text-accent-300">
         {system.globalError.message}
       </p>

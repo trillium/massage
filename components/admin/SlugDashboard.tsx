@@ -74,9 +74,7 @@ function HoldsPanel({
   return (
     <div className="rounded-lg border border-accent-200 bg-surface-50 p-4 dark:border-accent-700 dark:bg-surface-800">
       <div className="mb-3">
-        <H3>
-          Active Holds ({heldSlots.length})
-        </H3>
+        <H3>Active Holds ({heldSlots.length})</H3>
       </div>
 
       {heldSlots.length === 0 ? (
@@ -92,9 +90,7 @@ function HoldsPanel({
                 {formatLocalTime(h.start_time)} – {formatLocalTime(h.end_time)}
               </span>
               <span className="flex items-center gap-2">
-                <TextXsMuted className="font-mono">
-                  {h.session_id.slice(0, 8)}
-                </TextXsMuted>
+                <TextXsMuted className="font-mono">{h.session_id.slice(0, 8)}</TextXsMuted>
                 {h.shoo_count > 0 && (
                   <TextXs className="rounded bg-red-100 px-1.5 dark:bg-red-900" status="error">
                     shoo: {h.shoo_count}
@@ -146,16 +142,10 @@ function AppointmentRow({
         </span>
         <span>{a.duration_minutes}min</span>
         {a.promo && (
-          <TextXs className="rounded bg-purple-100 px-1.5 dark:bg-purple-900">
-            {a.promo}
-          </TextXs>
+          <TextXs className="rounded bg-purple-100 px-1.5 dark:bg-purple-900">{a.promo}</TextXs>
         )}
       </div>
-      {a.admin_notes && (
-        <TextXsMuted className="mt-1 truncate">
-          {a.admin_notes}
-        </TextXsMuted>
-      )}
+      {a.admin_notes && <TextXsMuted className="mt-1 truncate">{a.admin_notes}</TextXsMuted>}
     </li>
   )
 }
@@ -178,9 +168,7 @@ function AppointmentsPanel({
   return (
     <div className="rounded-lg border border-accent-200 bg-surface-50 p-4 dark:border-accent-700 dark:bg-surface-800">
       <div className="mb-3 flex items-center justify-between">
-        <H3>
-          Appointments ({sorted.length})
-        </H3>
+        <H3>Appointments ({sorted.length})</H3>
         <button
           type="button"
           onClick={onRefresh}

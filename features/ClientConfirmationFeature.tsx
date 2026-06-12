@@ -84,11 +84,7 @@ export default function Confirmation() {
       <BookedCard {...BookedData} />
 
       {bookingUrl === 'openclaw' && (
-        <RaffleOptIn
-          name={`${firstName} ${lastName}`}
-          email={email!}
-          phone={phone!}
-        />
+        <RaffleOptIn name={`${firstName} ${lastName}`} email={email!} phone={phone!} />
       )}
 
       <div className="flex flex-grow items-center justify-center pt-12">

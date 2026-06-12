@@ -15,12 +15,8 @@ export default function BookingError({
   const { bookingError } = systemData
   return (
     <div className="flex flex-col items-center justify-center px-4 py-24 text-center">
-      <H1Hero>
-        {bookingError.title}
-      </H1Hero>
-      <TextLg className="mt-4">
-        {bookingError.description}
-      </TextLg>
+      <H1Hero>{bookingError.title}</H1Hero>
+      <TextLg className="mt-4">{bookingError.description}</TextLg>
       <div className="mt-8 flex gap-4">
         <button
           onClick={reset}

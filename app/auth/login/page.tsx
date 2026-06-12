@@ -31,16 +31,12 @@ function LoginContent({
         <div className="rounded-lg bg-surface-50 px-8 py-10 shadow-md dark:bg-surface-800">
           <div className="mb-8 text-center">
             <H1 className="dark:text-white">Sign In</H1>
-            <TextSmMuted className="mt-2">
-              Sign in to manage your account
-            </TextSmMuted>
+            <TextSmMuted className="mt-2">Sign in to manage your account</TextSmMuted>
           </div>
 
           {error && (
             <div className="mb-6 rounded-md border border-red-200 bg-red-50 p-4 dark:border-red-900 dark:bg-red-950">
-              <H3 status="error">
-                Authentication Error
-              </H3>
+              <H3 status="error">Authentication Error</H3>
               <TextSm className="mt-1" status="error">
                 {errorDescription || error}
               </TextSm>

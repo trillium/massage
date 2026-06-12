@@ -41,28 +41,20 @@ export default function RaffleEnteredPage() {
 
         <div className="mb-8 w-full max-w-lg rounded-lg border-2 border-surface-200 bg-surface-50 text-left shadow-md dark:border-surface-700 dark:bg-surface-900">
           <div className="border-b border-surface-200 px-5 py-3 dark:border-surface-700">
-            <TextSmMuted>
-              {enteredText.nameLabel}
-            </TextSmMuted>
+            <TextSmMuted>{enteredText.nameLabel}</TextSmMuted>
             <p className="font-semibold">{name}</p>
           </div>
           <div className="border-b border-surface-200 px-5 py-3 dark:border-surface-700">
-            <TextSmMuted>
-              {enteredText.emailLabel}
-            </TextSmMuted>
+            <TextSmMuted>{enteredText.emailLabel}</TextSmMuted>
             <p>{email}</p>
           </div>
           <div className="border-b border-surface-200 px-5 py-3 dark:border-surface-700">
-            <TextSmMuted>
-              {enteredText.phoneLabel}
-            </TextSmMuted>
+            <TextSmMuted>{enteredText.phoneLabel}</TextSmMuted>
             <p>{phone}</p>
           </div>
           {interests && interests.length > 0 && (
             <div className="px-5 py-3">
-              <TextSmMuted>
-                {enteredText.interestedInLabel}
-              </TextSmMuted>
+              <TextSmMuted>{enteredText.interestedInLabel}</TextSmMuted>
               <p>{interests.map((i) => RAFFLE_INTEREST_LABELS[i] || i).join(', ')}</p>
             </div>
           )}

@@ -169,9 +169,7 @@ export function AdminAuthProvider({ children }: AdminAuthProviderProps) {
               />
             </svg>
           </div>
-          <H1 className="mb-2">
-            {auth.adminAuth.heading}
-          </H1>
+          <H1 className="mb-2">{auth.adminAuth.heading}</H1>
           <p className="mb-4 text-accent-600 dark:text-accent-400">{authState.error}</p>
           <div className="text-sm text-accent-500 dark:text-accent-400">
             <p>

@@ -27,16 +27,12 @@ export default function AdminDebugPanel({ debug }: AdminDebugPanelProps) {
 
   return (
     <div className="mt-8 rounded border border-accent-300 bg-surface-200 p-4 dark:border-accent-600 dark:bg-surface-800">
-      <H2 className="mb-4">
-        {admin.debugPanel.titles.leadTimeDebug}
-      </H2>
+      <H2 className="mb-4">{admin.debugPanel.titles.leadTimeDebug}</H2>
       <pre className="overflow-auto rounded border border-accent-200 bg-surface-50 p-3 text-sm text-accent-900 dark:border-accent-700 dark:bg-surface-900 dark:text-accent-100">
         {JSON.stringify(leadTimeData, null, 2)}
       </pre>
 
-      <H3 className="mt-6 mb-2">
-        {admin.debugPanel.titles.fullDebug}
-      </H3>
+      <H3 className="mt-6 mb-2">{admin.debugPanel.titles.fullDebug}</H3>
       <pre className="overflow-auto rounded border border-accent-200 bg-surface-50 p-3 text-sm text-accent-900 dark:border-accent-700 dark:bg-surface-900 dark:text-accent-100">
         {JSON.stringify(debug.intermediateResults, null, 2)}
       </pre>

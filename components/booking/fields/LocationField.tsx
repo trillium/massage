@@ -6,6 +6,7 @@ import { LocationObject } from 'lib/types'
 import { fieldClasses } from './classes'
 import { LocationValidationConfig } from './validations/locationValidation'
 import booking from '@/data/booking.json'
+import { TextSm } from '@/components/ui/text'
 
 const { location: copy } = booking.form
 
@@ -36,7 +37,11 @@ export default function LocationField({
     <div className={fieldClasses.row}>
       <label htmlFor="location" className={fieldClasses.label}>
         {copy.street.label}{' '}
-        {errors.street && <span className="mt-1 text-sm text-red-600">{errors.street}</span>}
+        {errors.street && (
+          <TextSm className="mt-1" status="error">
+            {errors.street}
+          </TextSm>
+        )}
       </label>
       <input
         aria-label={copy.street.ariaLabel}
@@ -60,7 +65,11 @@ export default function LocationField({
         <div className={fieldClasses.flexHalfWidth}>
           <label htmlFor="city" className={fieldClasses.label}>
             {copy.city.label}{' '}
-            {errors.city && <span className="mt-1 text-sm text-red-600">{errors.city}</span>}
+            {errors.city && (
+              <TextSm className="mt-1" status="error">
+                {errors.city}
+              </TextSm>
+            )}
           </label>
           <input
             aria-label={copy.city.ariaLabel}
@@ -87,7 +96,11 @@ export default function LocationField({
         <div className={fieldClasses.flexHalfWidth}>
           <label htmlFor="zipCode" className={fieldClasses.label}>
             {copy.zip.label}{' '}
-            {errors.zip && <span className="mt-1 text-sm text-red-600">{errors.zip}</span>}
+            {errors.zip && (
+              <TextSm className="mt-1" status="error">
+                {errors.zip}
+              </TextSm>
+            )}
           </label>
           <input
             aria-label={copy.zip.ariaLabel}

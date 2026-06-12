@@ -9,6 +9,8 @@ import React, { useEffect, useState, useCallback } from 'react'
 import { FaChevronLeft, FaChevronRight, FaAirbnb } from 'react-icons/fa'
 import Logo from '../Logo'
 import landing from '@/data/landing.json'
+import { H2 } from '@/components/ui/heading'
+import { TextSm, TextSmSemibold } from '@/components/ui/text'
 
 const AIRBNB_REVIEWS_URL = 'https://www.airbnb.com/services/6527842?modal=reviews'
 const {
@@ -63,9 +65,9 @@ export default function TestimonialsSection({
   return (
     <section>
       <div className="w-full">
-        <h2 className="xs:mb-2 mb-0 text-center text-3xl font-bold sm:mb-4 md:text-4xl dark:text-white">
+        <H2 className="xs:mb-2 mb-0 text-center sm:mb-4 md:text-4xl dark:text-white">
           {text || defaultHeading}
-        </h2>
+        </H2>
         <TestimonialsCarousel reviews={reviews} />
       </div>
     </section>
@@ -153,18 +155,18 @@ export function TestimonialsCarousel({ reviews }: { reviews: ReviewType[] }) {
           </div>
           <div className="flex min-h-0 w-full flex-1 items-center my-4 visible-scrollbar overflow-y-auto">
             {r.comment && (
-              <p className="text-sm text-accent-700 italic sm:text-base md:text-lg xl:text-2xl dark:text-accent-200">
+              <TextSm className="sm:text-base md:text-lg xl:text-2xl">
                 {reviewQuotePrefix}
                 {r.spellcheck || r.comment}
                 {reviewQuoteSuffix}
-              </p>
+              </TextSm>
             )}
           </div>
           <div className="flex w-full items-end">
             <div className="flex w-full flex-col items-start">
-              <span className="block text-sm font-semibold text-primary-700 sm:text-base md:text-lg xl:text-2xl dark:text-primary-300">
+              <TextSmSemibold className="block sm:text-base md:text-lg xl:text-2xl">
                 {r.name}
-              </span>
+              </TextSmSemibold>
             </div>
           </div>
           <div className="absolute top-4 left-4">

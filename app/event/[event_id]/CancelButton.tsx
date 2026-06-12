@@ -70,9 +70,7 @@ export default function CancelButton({ eventId, token }: { eventId: string; toke
           }}
         >
           <div className="w-full max-w-md rounded-2xl bg-surface-50 p-6 shadow-xl dark:bg-surface-800">
-            <H2 className="dark:text-white">
-              {eventContent.cancelButton.modalTitle}
-            </H2>
+            <H2 className="dark:text-white">{eventContent.cancelButton.modalTitle}</H2>
             <TextSmMuted className="mt-2">
               {eventContent.cancelButton.modalMessage}
               <strong>{eventContent.cancelButton.modalConfirmWord}</strong>
@@ -92,7 +90,11 @@ export default function CancelButton({ eventId, token }: { eventId: string; toke
               className="mt-4 block w-full rounded-lg border border-accent-300 px-3 py-2 text-accent-900 placeholder:text-accent-400 dark:border-accent-600 dark:bg-surface-700 dark:text-white dark:placeholder:text-accent-500"
             />
 
-            {error && <TextSm className="mt-2" status="error">{error}</TextSm>}
+            {error && (
+              <TextSm className="mt-2" status="error">
+                {error}
+              </TextSm>
+            )}
 
             <div className="mt-4 flex justify-end gap-3">
               <button

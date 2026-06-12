@@ -58,7 +58,10 @@ export function UserMenu() {
             <div className="border-b border-accent-100 p-4">
               <TextSmMedium>{user.email}</TextSmMedium>
               {isAdmin && (
-                <TextXsMedium className="mt-1 inline-block rounded bg-blue-100 px-2 py-1" status="info">
+                <TextXsMedium
+                  className="mt-1 inline-block rounded bg-blue-100 px-2 py-1"
+                  status="info"
+                >
                   {auth.userMenu.administrator}
                 </TextXsMedium>
               )}

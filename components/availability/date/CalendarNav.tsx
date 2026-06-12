@@ -1,6 +1,7 @@
 'use client'
 
 import { format, isSameMonth } from 'date-fns'
+import { TextSmSemibold } from '@/components/ui/text'
 
 interface CalendarNavProps {
   pageStartDate: Date
@@ -45,7 +46,7 @@ export default function CalendarNav({
           />
         </svg>
       </button>
-      <span className="text-sm font-semibold text-accent-700 dark:text-accent-300">{label}</span>
+      <TextSmSemibold>{label}</TextSmSemibold>
       <button
         type="button"
         onClick={onNext}

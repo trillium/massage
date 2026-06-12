@@ -5,6 +5,7 @@ import { StringDateTimeIntervalAndLocation } from '@/lib/types'
 import { DEFAULT_DURATION } from 'config'
 import TimeList from '@/components/availability/time/TimeList'
 import booking from '@/data/booking.json'
+import { TextXs } from '@/components/ui/text'
 
 type DynamicTimeListProps = {
   multiDurationSlots: Record<number, StringDateTimeIntervalAndLocation[]>
@@ -40,7 +41,7 @@ export function DynamicTimeList({ multiDurationSlots }: DynamicTimeListProps) {
             {booking.availability.dash}
             {booking.availability.minuteSlots}
           </p>
-          <p className="mt-1 text-xs">{booking.availability.tryDifferentDuration}</p>
+          <TextXs className="mt-1">{booking.availability.tryDifferentDuration}</TextXs>
         </div>
       )}
     </div>

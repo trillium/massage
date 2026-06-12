@@ -4,6 +4,7 @@ import { FaStopwatch } from 'react-icons/fa6'
 import { MdEventAvailable } from 'react-icons/md'
 import { HiSparkles } from 'react-icons/hi2'
 import landing from '@/data/landing.json'
+import { H2, H3 } from '@/components/ui/heading'
 
 const { heading } = landing.howItWorks
 
@@ -34,9 +35,7 @@ export default function HowItWorksSection() {
   return (
     <section className="bg-surface-50 dark:bg-surface-950">
       <div className="container">
-        <h2 className="mb-8 text-center text-3xl font-bold md:text-4xl dark:text-white">
-          {heading}
-        </h2>
+        <H2 className="mb-8 text-center md:text-4xl dark:text-white">{heading}</H2>
         <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
           {steps.map((step, index) => (
             <div
@@ -44,7 +43,7 @@ export default function HowItWorksSection() {
               className="flex flex-col items-center rounded-lg bg-surface-50 p-6 text-center shadow dark:bg-surface-800 dark:text-accent-100"
             >
               <step.icon className="mb-4 h-10 w-10 text-primary-600 dark:text-primary-400" />
-              <h3 className="mb-2 text-xl font-semibold dark:text-white">{step.title}</h3>
+              <H3 className="mb-2 dark:text-white">{step.title}</H3>
               <p className="mt-auto text-center text-accent-600 dark:text-accent-300">
                 {step.description}
               </p>

@@ -4,9 +4,7 @@ const summary: MonthEntry = {
   date: '2025-06',
   repos: ['massage'],
   commitCount: 1,
-  highlights: [
-    'Migrated test suite from Jest to Vitest with updated mocks and type usage',
-  ],
+  highlights: ['Migrated test suite from Jest to Vitest with updated mocks and type usage'],
   categories: [
     {
       label: 'Testing',

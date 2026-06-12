@@ -5,6 +5,8 @@ import { FaCar, FaRegClock } from 'react-icons/fa'
 import { FiMapPin } from 'react-icons/fi'
 import { HiSparkles } from 'react-icons/hi2'
 import { GradientText } from '@/components/ui/GradientText'
+import { H1, H2 } from '@/components/ui/heading'
+import { TextSm } from '@/components/ui/text'
 import { home, site } from '@/app/content'
 import landing from '@/data/landing.json'
 
@@ -36,20 +38,14 @@ function TextContent({ positionClasses }: { positionClasses?: string }) {
       )}
     >
       <div>
-        <h1
-          className="text-4xl font-bold tracking-tight md:text-5xl lg:text-6xl"
-          data-content="hero.headline"
-        >
+        <H1 className="md:text-5xl lg:text-6xl" data-content="hero.headline">
           {headlineParts[0]}
           <GradientText>{hero.gradientWord}</GradientText>
           {headlineParts[1]}
-        </h1>
-        <h2
-          className="mx-auto mt-4 max-w-lg text-3xl font-semibold text-accent-600 md:mx-0 dark:text-accent-300"
-          data-content="hero.subheading"
-        >
+        </H1>
+        <H2 className="mx-auto mt-4 max-w-lg md:mx-0" data-content="hero.subheading" status="muted">
           {hero.subheading}
-        </h2>
+        </H2>
         <p
           className="mx-auto mt-4 max-w-lg text-xl text-accent-600 md:mx-0 dark:text-accent-300"
           data-content="hero.description"
@@ -110,17 +106,17 @@ function ButtonContent({ positionClasses }: { positionClasses?: string }) {
         <div className="xs:flex-col flex flex-col flex-wrap justify-around gap-2 gap-y-6 sm:flex-row md:flex-col xl:flex-row">
           <div className="flex items-center gap-2">
             <FaRegClock className="h-5 w-5 text-primary-600" />
-            <span className="text-sm whitespace-nowrap">{openDays}</span>
+            <TextSm className="whitespace-nowrap">{openDays}</TextSm>
           </div>
           <div className="flex items-center gap-2">
             <FiMapPin className="h-5 w-5 text-primary-600" />
-            <span className="text-sm whitespace-nowrap">
+            <TextSm className="whitespace-nowrap">
               {neighborhood} {basedLabel}
-            </span>
+            </TextSm>
           </div>
           <div className="flex items-center gap-2">
             <FaCar className="h-5 w-5 text-primary-600" />
-            <span className="text-sm whitespace-nowrap">{serviceArea}</span>
+            <TextSm className="whitespace-nowrap">{serviceArea}</TextSm>
           </div>
         </div>
       </div>

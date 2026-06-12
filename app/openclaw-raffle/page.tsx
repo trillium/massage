@@ -43,9 +43,7 @@ export default async function OpenClawRafflePage() {
     <SectionContainer>
       <PageTitle>{raffle.name}</PageTitle>
       <p className="mb-2 text-surface-600 dark:text-surface-400">{openclawData.pageSubtext}</p>
-      <Caption className="mb-6">
-        {openclawData.redeemDeadline}
-      </Caption>
+      <Caption className="mb-6">{openclawData.redeemDeadline}</Caption>
       <div className="mx-auto max-w-2xl">
         <RaffleForm raffleId={raffle.id} raffleName={raffle.name} />
       </div>

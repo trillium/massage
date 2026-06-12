@@ -24,9 +24,7 @@ export default function BookingPreview({ title = 'Select Your Session' }: Bookin
         </div>
 
         <div>
-          <H4 className="mb-4">
-            {uiData.misc.chooseDate}
-          </H4>
+          <H4 className="mb-4">{uiData.misc.chooseDate}</H4>
           <Calendar weeksDisplayOverride={6} />
         </div>
       </div>

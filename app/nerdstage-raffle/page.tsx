@@ -43,9 +43,7 @@ export default async function NerdstageRafflePage() {
       <p className="mb-2 text-surface-600 dark:text-surface-400">
         {raffleData.nerdstage.pageSubtext}
       </p>
-      <Caption className="mb-6">
-        {raffleData.nerdstage.redeemDeadline}
-      </Caption>
+      <Caption className="mb-6">{raffleData.nerdstage.redeemDeadline}</Caption>
       <div className="mx-auto max-w-2xl">
         <RaffleForm raffleId={raffle.id} raffleName={raffle.name} />
       </div>

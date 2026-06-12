@@ -7,12 +7,8 @@ export default function NotFound() {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mx-auto max-w-2xl text-center">
-        <H1 className="mb-4 dark:text-white">
-          {eventContent.notFound.heading}
-        </H1>
-        <TextLgMuted className="mb-8">
-          {eventContent.notFound.message}
-        </TextLgMuted>
+        <H1 className="mb-4 dark:text-white">{eventContent.notFound.heading}</H1>
+        <TextLgMuted className="mb-8">{eventContent.notFound.message}</TextLgMuted>
         <Link
           href="/"
           className="inline-block rounded-lg bg-blue-600 px-4 py-2 font-medium text-white transition-colors hover:bg-blue-700"

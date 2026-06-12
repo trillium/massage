@@ -39,7 +39,9 @@ function ServiceItem({
           <Image src={image} alt={name} fill className="object-cover" />
         </div>
       </div>
-      <H2 className="mb-2" status="primary">{name}</H2>
+      <H2 className="mb-2" status="primary">
+        {name}
+      </H2>
       <p className="mb-2 text-accent-700 dark:text-accent-300">{description}</p>
       <div className="mb-2 text-accent-600 dark:text-accent-400">
         <span className="font-medium">{pages.services.serviceItem.labels.duration}</span>{' '}

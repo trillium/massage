@@ -45,9 +45,7 @@ export default async function MyEventsPage() {
     <div className="min-h-screen bg-surface-50 dark:bg-surface-900">
       <div className="container mx-auto px-4 py-8">
         <div className="mx-auto max-w-4xl">
-          <H1 className="mb-2 dark:text-white">
-            {myEvents.heading}
-          </H1>
+          <H1 className="mb-2 dark:text-white">{myEvents.heading}</H1>
           <TextSmMuted className="mb-8">
             {myEvents.subtitle} {user.email}
           </TextSmMuted>

@@ -32,9 +32,7 @@ export default function ExpiredPromoPage({
             <FaClock className="text-4xl" />
           </div>
 
-          <H1 className="mb-4 dark:text-white">
-            {promo.expiredPromo.heading}
-          </H1>
+          <H1 className="mb-4 dark:text-white">{promo.expiredPromo.heading}</H1>
 
           <Template title={title} text={`This offer expired on ${formattedDate}.`} />
         </div>

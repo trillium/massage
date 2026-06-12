@@ -6,6 +6,8 @@ import { useAppDispatch, useReduxFormData, useReduxAvailability } from '@/redux/
 import { setForm } from '@/redux/slices/formSlice'
 import { setDriveTime } from '@/redux/slices/availabilitySlice'
 import { GoogleCalendarV3Event, LocationObject } from '@/lib/types'
+import { H3 } from '@/components/ui/heading'
+import { TextSm } from '@/components/ui/text'
 
 function formatDriveTime(minutes: number): string {
   if (minutes <= 5) return 'Extremely short'
@@ -172,9 +174,7 @@ export default function DriveTimeCalculator({ currentEvent }: DriveTimeCalculato
   return (
     <div className="focus-within:border-primary-500 dark:focus-within:border-primary-500 rounded-lg border-2 border-accent-300 bg-surface-200 p-6 dark:border-accent-700 dark:bg-surface-800">
       <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
-        <h3 className="text-base leading-6 font-semibold text-accent-900 dark:text-accent-100">
-          Want to be next? Calculate Drive Time
-        </h3>
+        <H3>Want to be next? Calculate Drive Time</H3>
         <button
           onClick={handleUseDeviceLocation}
           disabled={isGettingLocation}
@@ -185,10 +185,10 @@ export default function DriveTimeCalculator({ currentEvent }: DriveTimeCalculato
       </div>
       {deviceCoordinates ? (
         <div className="rounded-md border-2 border-blue-200 bg-blue-50 p-3 dark:border-blue-800 dark:bg-blue-950/50">
-          <p className="text-sm text-blue-800 dark:text-blue-400">
+          <TextSm status="info">
             <strong>Device Location:</strong> {deviceCoordinates.lat.toFixed(6)},{' '}
             {deviceCoordinates.lng.toFixed(6)}
-          </p>
+          </TextSm>
         </div>
       ) : (
         <div className="isolate -space-y-px rounded-md shadow-sm">
@@ -202,7 +202,7 @@ export default function DriveTimeCalculator({ currentEvent }: DriveTimeCalculato
       )}
       {error && (
         <div className="mt-4 rounded-md border-2 border-red-200 bg-red-50 p-3 dark:border-red-800 dark:bg-red-950/50">
-          <p className="text-sm text-red-800 dark:text-red-400">{error}</p>
+          <TextSm status="error">{error}</TextSm>
         </div>
       )}
       <button

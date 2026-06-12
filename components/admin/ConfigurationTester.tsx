@@ -90,9 +90,7 @@ export default function ConfigurationTester({ onConfigurationChange }: Configura
 
   return (
     <div className="rounded-lg border bg-surface-50 p-6 shadow-sm dark:bg-surface-800">
-      <H2 className="mb-4">
-        {admin.configurationTester.title}
-      </H2>
+      <H2 className="mb-4">{admin.configurationTester.title}</H2>
 
       <div className="mb-6">
         <label

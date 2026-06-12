@@ -17,9 +17,7 @@ function SuccessBanner() {
       <p className="text-lg font-semibold text-primary-700 dark:text-primary-300">
         {raffle.successBannerTitle}
       </p>
-      <TextPrimary className="mt-1">
-        {raffle.successBannerMessage}
-      </TextPrimary>
+      <TextPrimary className="mt-1">{raffle.successBannerMessage}</TextPrimary>
     </div>
   )
 }

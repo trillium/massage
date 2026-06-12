@@ -121,9 +121,7 @@ export default async function NextBookingPage({ params, searchParams }: NextBook
       <div className="container mx-auto px-4 py-8">
         <div className="mx-auto max-w-6xl">
           <div className="mb-8">
-            <H1 className="mb-4 dark:text-white">
-              {eventContent.next.heading}
-            </H1>
+            <H1 className="mb-4 dark:text-white">{eventContent.next.heading}</H1>
             <div className="rounded-lg bg-blue-50 p-4 dark:bg-blue-900/20">
               <H2 className="mb-2 dark:text-white">
                 {eventContent.next.currentEvent}
@@ -146,9 +144,7 @@ export default async function NextBookingPage({ params, searchParams }: NextBook
             {/* Left Column - Booking Configuration */}
             <div className="space-y-6">
               <div className="xs:p-6 rounded-lg bg-surface-50 p-3 shadow-sm dark:bg-surface-800">
-                <H3 className="mb-4 dark:text-white">
-                  {eventContent.next.duration}
-                </H3>
+                <H3 className="mb-4 dark:text-white">{eventContent.next.duration}</H3>
                 <SlotHoldProvider>
                   <DurationPicker
                     title={`${selectedDuration} minute session - $${DEFAULT_PRICING[selectedDuration]}`}

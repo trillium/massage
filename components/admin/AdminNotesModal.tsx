@@ -238,7 +238,11 @@ export default function AdminNotesModal({
                   </label>
                 </div>
 
-                {error && <TextSm className="mt-2" status="error">{error}</TextSm>}
+                {error && (
+                  <TextSm className="mt-2" status="error">
+                    {error}
+                  </TextSm>
+                )}
 
                 <ModalActions
                   saving={saving}

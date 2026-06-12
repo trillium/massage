@@ -101,12 +101,8 @@ function QuarterSection({
         {({ open }) => (
           <>
             <DisclosureButton className="flex w-full items-baseline gap-4 text-left">
-              <H2>
-                {quarter.label}
-              </H2>
-              <TextSmMuted>
-                {quarter.dateRange}
-              </TextSmMuted>
+              <H2>{quarter.label}</H2>
+              <TextSmMuted>{quarter.dateRange}</TextSmMuted>
               <TextXsMuted>
                 {quarter.commitCount} {pages.changelog.labels.commits}
               </TextXsMuted>
@@ -169,12 +165,8 @@ export default function Page() {
     <SectionContainer>
       <div className="py-12">
         <div className="mb-12 text-center">
-          <TextSmSemibold className="mb-2 uppercase">
-            {pages.changelog.header.label}
-          </TextSmSemibold>
-          <H1 className="mb-4">
-            {pages.changelog.header.title}
-          </H1>
+          <TextSmSemibold className="mb-2 uppercase">{pages.changelog.header.label}</TextSmSemibold>
+          <H1 className="mb-4">{pages.changelog.header.title}</H1>
           <TextLgMuted className="mx-auto max-w-2xl">
             {pages.changelog.header.description}
           </TextLgMuted>

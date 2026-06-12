@@ -2,7 +2,13 @@ import SectionContainer from '@/components/SectionContainer'
 import { FaCheck, FaTimes, FaStar } from 'react-icons/fa'
 import { siteConfig } from '@/lib/siteConfig'
 import compareData from '@/data/compare.json'
-import { TextLgMuted, TextSmMuted, TextSmSemibold, TextXsMedium, TextXsMuted } from '@/components/ui/text'
+import {
+  TextLgMuted,
+  TextSmMuted,
+  TextSmSemibold,
+  TextXsMedium,
+  TextXsMuted,
+} from '@/components/ui/text'
 import { H1, H2, H3 } from '@/components/ui/heading'
 
 const Check = () => <FaCheck className="text-lg text-emerald-600 dark:text-emerald-400" />
@@ -34,20 +40,12 @@ export default function Page() {
     <SectionContainer>
       <div className="py-12">
         <div className="mb-12 text-center">
-          <TextSmSemibold className="mb-2 uppercase">
-            {compareData.pageLabel}
-          </TextSmSemibold>
-          <H1 className="mb-4">
-            {compareData.pageTitle}
-          </H1>
-          <TextLgMuted className="mx-auto max-w-2xl">
-            {compareData.pageDescription}
-          </TextLgMuted>
+          <TextSmSemibold className="mb-2 uppercase">{compareData.pageLabel}</TextSmSemibold>
+          <H1 className="mb-4">{compareData.pageTitle}</H1>
+          <TextLgMuted className="mx-auto max-w-2xl">{compareData.pageDescription}</TextLgMuted>
         </div>
 
-        <H2 className="mb-4">
-          {compareData.whereWeLeadHeading}
-        </H2>
+        <H2 className="mb-4">{compareData.whereWeLeadHeading}</H2>
         <div className="mb-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {compareData.advantages.map((a) => (
             <div
@@ -60,12 +58,8 @@ export default function Page() {
           ))}
         </div>
 
-        <H2 className="mb-4">
-          {compareData.whereWeCatchingUpHeading}
-        </H2>
-        <TextSmMuted className="mb-4">
-          {compareData.whereWeCatchingUpSubtext}
-        </TextSmMuted>
+        <H2 className="mb-4">{compareData.whereWeCatchingUpHeading}</H2>
+        <TextSmMuted className="mb-4">{compareData.whereWeCatchingUpSubtext}</TextSmMuted>
         <div className="mb-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {compareData.roadmap.map((r) => (
             <div
@@ -80,9 +74,7 @@ export default function Page() {
           ))}
         </div>
 
-        <H2 className="mb-4">
-          {compareData.fullFeatureGridHeading}
-        </H2>
+        <H2 className="mb-4">{compareData.fullFeatureGridHeading}</H2>
         <div className="-mx-4 overflow-x-auto sm:mx-0">
           <table className="w-full min-w-[720px] border-collapse text-left">
             <thead>
@@ -129,9 +121,7 @@ export default function Page() {
         </div>
 
         <div className="mt-14 rounded-lg bg-surface-100 p-8 dark:bg-surface-800/50">
-          <H2 className="mb-3">
-            {compareData.honestTakeHeading}
-          </H2>
+          <H2 className="mb-3">{compareData.honestTakeHeading}</H2>
           <div className="space-y-3 text-sm leading-relaxed text-accent-600 dark:text-accent-400">
             <p>{compareData.honestTakeParagraph1}</p>
             <p>{compareData.honestTakeParagraph2}</p>
@@ -143,9 +133,7 @@ export default function Page() {
           </div>
         </div>
 
-        <TextXsMuted className="mt-8 text-center">
-          {compareData.dataSourceAttribution}
-        </TextXsMuted>
+        <TextXsMuted className="mt-8 text-center">{compareData.dataSourceAttribution}</TextXsMuted>
       </div>
     </SectionContainer>
   )

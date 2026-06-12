@@ -5,6 +5,7 @@ import { createContactUrl } from '@/lib/helpers'
 import Link from '@/components/Link'
 import { siteConfig } from '@/lib/siteConfig'
 import landing from '@/data/landing.json'
+import { H2 } from '@/components/ui/heading'
 
 const { name } = siteConfig.business
 const { mapLatitude, mapLongitude, serviceArea } = siteConfig.location
@@ -14,14 +15,12 @@ export default function ContactSection() {
   return (
     <section className="dark:bg-grey-950 flex w-full flex-col items-center">
       <div className="container">
-        <h2 className="mb-8 text-center text-3xl font-bold md:text-4xl dark:text-white">
-          {heading}
-        </h2>
+        <H2 className="mb-8 text-center md:text-4xl dark:text-white">{heading}</H2>
         <div className="flex flex-col gap-6 rounded-lg bg-surface-50 px-4 py-8 shadow sm:px-8 dark:bg-surface-800 dark:shadow-lg">
           <div className="mb-8 grid grid-cols-1 gap-8 md:grid-cols-2">
             <ContactForm />
             <div className="flex flex-col justify-center space-y-4">
-              <h2 className="text-center text-3xl font-bold md:text-4xl dark:text-white">{name}</h2>
+              <H2 className="text-center md:text-4xl dark:text-white">{name}</H2>
               <CachedTileMap
                 latitude={mapLatitude}
                 longitude={mapLongitude}

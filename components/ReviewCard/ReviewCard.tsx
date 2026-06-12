@@ -152,9 +152,7 @@ const ScoreDisplay = ({
         'last:border-t first:sm:pr-3 last:sm:border-t-0 last:sm:border-l last:sm:pl-3'
       )}
     >
-      <H2 className="mb-4 text-center">
-        {averageStr}
-      </H2>
+      <H2 className="mb-4 text-center">{averageStr}</H2>
       <div className="text-primary-400 mb-4 flex items-center gap-3">
         <Star />
         <Star />

@@ -24,9 +24,7 @@ const AuthorCard = () => {
           </div>
         )}
         <div>
-          <H3 className="pt-4 pb-2 sm:text-3xl md:text-4xl">
-            {author}
-          </H3>
+          <H3 className="pt-4 pb-2 sm:text-3xl md:text-4xl">{author}</H3>
           <div className="md:text-md text-base text-accent-500 dark:text-accent-400">
             {occupation}
           </div>
