@@ -18,6 +18,8 @@
     "audit:ui": "bun scripts/audit-ui.ts",
     "audit:ui:summary": "bun scripts/audit-ui.ts --summary",
     "audit:ds-coverage": "bun scripts/check-ds-coverage.ts",
+    "migrate:ds-elements": "bun scripts/migrate-ds-elements.ts",
+    "migrate:ds-elements:dry": "bun scripts/migrate-ds-elements.ts --dry-run",
     "prepare": "husky",
     "test": "vitest run --changed --reporter=dot",
     "test:all": "vitest run --reporter=dot",
