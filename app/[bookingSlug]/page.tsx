@@ -30,7 +30,7 @@ export async function generateMetadata({
   return genPageMetadata({
     title,
     description,
-    image: `${siteMetadata.siteUrl}/${bookingSlug}/opengraph-image`,
+    image: `${siteMetadata.siteUrl.replace(/\/$/, '')}/${bookingSlug}/opengraph-image`,
   })
 }
 

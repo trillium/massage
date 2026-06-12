@@ -22,6 +22,7 @@
     "migrate:ds-elements:dry": "bun scripts/migrate-ds-elements.ts --dry-run",
     "migrate:text-variants": "bun scripts/migrate-text-variants.ts",
     "migrate:text-variants:dry": "bun scripts/migrate-text-variants.ts --dry-run",
+    "check-og": "bun scripts/check-og.ts",
     "prepare": "husky",
     "test": "vitest run --changed --reporter=dot",
     "test:all": "vitest run --reporter=dot",

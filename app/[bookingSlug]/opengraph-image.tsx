@@ -25,7 +25,7 @@ const DESIGNS: Record<string, (data: OgImageData) => React.JSX.Element> = {
 const DEFAULT_DESIGN = 'vintage-postcard'
 
 async function tableImageDataUrl(baseUrl: string): Promise<string> {
-  const url = `${baseUrl}/static/images/table/table_square_02.jpg`
+  const url = `${baseUrl.replace(/\/$/, '')}/static/images/table/table_square_02.jpg`
   const res = await fetch(url, {
     headers: { 'User-Agent': 'Mozilla/5.0 (compatible; OGImageBot/1.0)', Accept: 'image/*' },
     cache: 'force-cache',
