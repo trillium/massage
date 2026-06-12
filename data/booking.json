@@ -20,6 +20,23 @@
       "placeholder": "name@example.com",
       "ariaLabel": "Email"
     },
+    "location": {
+      "street": {
+        "label": "Street",
+        "ariaLabel": "street address",
+        "placeholder": "123 Address Road, Beverly Hills, CA 90210"
+      },
+      "city": {
+        "label": "City",
+        "ariaLabel": "city",
+        "placeholder": "Los Angeles"
+      },
+      "zip": {
+        "label": "Zip Code",
+        "ariaLabel": "zip code",
+        "placeholder": "90210"
+      }
+    },
     "hotelRoomNumber": {
       "label": "Hotel Room Number",
       "placeholder": "e.g. 1205",

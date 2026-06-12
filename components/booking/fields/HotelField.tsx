@@ -1,5 +1,8 @@
 import React from 'react'
 import { fieldClasses } from './classes'
+import booking from '@/data/booking.json'
+
+const { hotelRoomNumber: copy } = booking.form
 
 type HotelFieldProps = {
   hotelRoomNumber: string
@@ -10,10 +13,10 @@ export default function HotelField({ hotelRoomNumber, onChange }: HotelFieldProp
   return (
     <div className={fieldClasses.row}>
       <label htmlFor="hotelRoomNumber" className={fieldClasses.label}>
-        Hotel Room Number
+        {copy.label}
       </label>
       <input
-        aria-label="Hotel Room Number"
+        aria-label={copy.ariaLabel}
         required
         autoComplete="off"
         aria-required
@@ -21,7 +24,7 @@ export default function HotelField({ hotelRoomNumber, onChange }: HotelFieldProp
         id="hotelRoomNumber"
         value={hotelRoomNumber}
         className={fieldClasses.input}
-        placeholder="e.g. 1205"
+        placeholder={copy.placeholder}
         onChange={onChange}
       />
     </div>

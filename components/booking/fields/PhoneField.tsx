@@ -1,5 +1,8 @@
 import React from 'react'
 import { fieldClasses } from './classes'
+import booking from '@/data/booking.json'
+
+const { phone: copy } = booking.form
 
 type PhoneFieldProps = {
   phone: string
@@ -10,10 +13,10 @@ export default function PhoneField({ phone, onChange }: PhoneFieldProps) {
   return (
     <div className={fieldClasses.row}>
       <label htmlFor="phone" className={fieldClasses.label}>
-        Phone Number
+        {copy.label}
       </label>
       <input
-        aria-label="Phone Number"
+        aria-label={copy.ariaLabel}
         required
         autoComplete="tel"
         aria-required
@@ -21,7 +24,7 @@ export default function PhoneField({ phone, onChange }: PhoneFieldProps) {
         name="phone"
         value={phone}
         className={fieldClasses.input}
-        placeholder="(555) 444 - 3333"
+        placeholder={copy.placeholder}
         onChange={onChange}
       />
     </div>

@@ -1,5 +1,8 @@
 import React from 'react'
 import { fieldClasses } from './classes'
+import booking from '@/data/booking.json'
+
+const { parkingInstructions: copy } = booking.form
 
 type ParkingFieldProps = {
   parkingInstructions: string
@@ -10,10 +13,10 @@ export default function ParkingField({ parkingInstructions, onChange }: ParkingF
   return (
     <div className={fieldClasses.row}>
       <label htmlFor="parkingInstructions" className={fieldClasses.label}>
-        Parking Instructions
+        {copy.label}
       </label>
       <select
-        aria-label="Parking Instructions"
+        aria-label={copy.ariaLabel}
         autoComplete="off"
         aria-required
         id="parkingInstructions"
@@ -21,11 +24,11 @@ export default function ParkingField({ parkingInstructions, onChange }: ParkingF
         className={fieldClasses.input}
         onChange={onChange}
       >
-        <option value="">Select parking option</option>
-        <option value="street">Street Parking Available</option>
-        <option value="garage">Parking Garage</option>
-        <option value="valet">Valet Service</option>
-        <option value="none">No Parking Needed</option>
+        <option value="">{copy.options.empty}</option>
+        <option value="street">{copy.options.street}</option>
+        <option value="garage">{copy.options.garage}</option>
+        <option value="valet">{copy.options.valet}</option>
+        <option value="none">{copy.options.none}</option>
       </select>
     </div>
   )

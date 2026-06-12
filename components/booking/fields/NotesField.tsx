@@ -1,5 +1,8 @@
 import React from 'react'
 import { fieldClasses } from './classes'
+import booking from '@/data/booking.json'
+
+const { notes: copy } = booking.form
 
 type NotesFieldProps = {
   additionalNotes: string
@@ -10,15 +13,15 @@ export default function NotesField({ additionalNotes, onChange }: NotesFieldProp
   return (
     <div className={fieldClasses.row}>
       <label htmlFor="additionalNotes" className={fieldClasses.label}>
-        Additional Notes
+        {copy.label}
       </label>
       <textarea
-        aria-label="Additional Notes"
+        aria-label={copy.ariaLabel}
         id="additionalNotes"
         rows={3}
         value={additionalNotes}
         className={fieldClasses.input}
-        placeholder="Any special requests, accessibility needs, or additional information"
+        placeholder={copy.placeholder}
         onChange={onChange}
       />
     </div>

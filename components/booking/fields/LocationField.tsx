@@ -5,6 +5,9 @@ import clsx from 'clsx'
 import { LocationObject } from 'lib/types'
 import { fieldClasses } from './classes'
 import { LocationValidationConfig } from './validations/locationValidation'
+import booking from '@/data/booking.json'
+
+const { location: copy } = booking.form
 
 type LocationFieldErrors = {
   street?: string
@@ -32,10 +35,11 @@ export default function LocationField({
   return (
     <div className={fieldClasses.row}>
       <label htmlFor="location" className={fieldClasses.label}>
-        Street {errors.street && <span className="mt-1 text-sm text-red-600">{errors.street}</span>}
+        {copy.street.label}{' '}
+        {errors.street && <span className="mt-1 text-sm text-red-600">{errors.street}</span>}
       </label>
       <input
-        aria-label="street address"
+        aria-label={copy.street.ariaLabel}
         required
         autoComplete="street-address"
         aria-required
@@ -49,16 +53,17 @@ export default function LocationField({
           [fieldClasses.inputReadOnly]: readOnly,
           'border-red-500': errors.street && !readOnly,
         })}
-        placeholder="123 Address Road, Beverly Hills, CA 90210"
+        placeholder={copy.street.placeholder}
         onChange={onChange}
       />
       <div className={fieldClasses.flexRowWithMargin}>
         <div className={fieldClasses.flexHalfWidth}>
           <label htmlFor="city" className={fieldClasses.label}>
-            City {errors.city && <span className="mt-1 text-sm text-red-600">{errors.city}</span>}
+            {copy.city.label}{' '}
+            {errors.city && <span className="mt-1 text-sm text-red-600">{errors.city}</span>}
           </label>
           <input
-            aria-label="city"
+            aria-label={copy.city.ariaLabel}
             required
             autoComplete="address-level2"
             aria-required
@@ -74,17 +79,18 @@ export default function LocationField({
                 'border-red-500': errors.city && !readOnly,
               }
             )}
-            placeholder="Los Angeles"
+            placeholder={copy.city.placeholder}
             onChange={onChange}
             onBlur={onBlur}
           />
         </div>
         <div className={fieldClasses.flexHalfWidth}>
           <label htmlFor="zipCode" className={fieldClasses.label}>
-            Zip Code {errors.zip && <span className="mt-1 text-sm text-red-600">{errors.zip}</span>}
+            {copy.zip.label}{' '}
+            {errors.zip && <span className="mt-1 text-sm text-red-600">{errors.zip}</span>}
           </label>
           <input
-            aria-label="zip code"
+            aria-label={copy.zip.ariaLabel}
             required
             autoComplete="postal-code"
             aria-required
@@ -100,7 +106,7 @@ export default function LocationField({
                 'border-red-500': errors.zip && !readOnly,
               }
             )}
-            placeholder="90210"
+            placeholder={copy.zip.placeholder}
             pattern="\d{5}(-\d{4})?"
             inputMode="numeric"
             maxLength={10}
