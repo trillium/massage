@@ -292,12 +292,12 @@ export default async function Image({ params }: { params: Promise<{ bookingSlug:
             style={{
               position: 'absolute',
               left: 0,
-              top: 120,
+              top: 80,
               width: '100%',
-              height: 20,
+              height: 14,
               background: GOLD,
               display: 'flex',
-              opacity: 0.9,
+              opacity: 0.85,
             }}
           />
         )}
@@ -306,13 +306,45 @@ export default async function Image({ params }: { params: Promise<{ bookingSlug:
           <div
             style={{
               position: 'absolute',
-              left: 190,
+              left: 120,
               top: 0,
-              width: 20,
+              width: 14,
               height: '100%',
               background: GOLD,
               display: 'flex',
-              opacity: 0.9,
+              opacity: 0.85,
+            }}
+          />
+        )}
+        {/* Gift bow — left ribbon tail */}
+        {giftMode && (
+          <div
+            style={{
+              position: 'absolute',
+              top: 94,
+              left: 121,
+              width: 12,
+              height: 60,
+              background: '#d97706',
+              transform: 'rotate(-35deg)',
+              transformOrigin: 'top center',
+              display: 'flex',
+            }}
+          />
+        )}
+        {/* Gift bow — right ribbon tail */}
+        {giftMode && (
+          <div
+            style={{
+              position: 'absolute',
+              top: 94,
+              left: 121,
+              width: 12,
+              height: 60,
+              background: '#d97706',
+              transform: 'rotate(35deg)',
+              transformOrigin: 'top center',
+              display: 'flex',
             }}
           />
         )}
@@ -321,13 +353,13 @@ export default async function Image({ params }: { params: Promise<{ bookingSlug:
           <div
             style={{
               position: 'absolute',
-              top: 78,
-              left: 118,
-              width: 68,
-              height: 52,
+              top: 50,
+              left: 79,
+              width: 48,
+              height: 36,
               background: GOLD,
-              borderRadius: '50% 10% 50% 10%',
-              transform: 'rotate(-20deg)',
+              borderRadius: '50% 8% 50% 8%',
+              transform: 'rotate(-25deg)',
               display: 'flex',
             }}
           />
@@ -337,13 +369,13 @@ export default async function Image({ params }: { params: Promise<{ bookingSlug:
           <div
             style={{
               position: 'absolute',
-              top: 78,
-              left: 194,
-              width: 68,
-              height: 52,
+              top: 50,
+              left: 127,
+              width: 48,
+              height: 36,
               background: GOLD,
-              borderRadius: '10% 50% 10% 50%',
-              transform: 'rotate(20deg)',
+              borderRadius: '8% 50% 8% 50%',
+              transform: 'rotate(25deg)',
               display: 'flex',
             }}
           />
@@ -353,12 +385,12 @@ export default async function Image({ params }: { params: Promise<{ bookingSlug:
           <div
             style={{
               position: 'absolute',
-              top: 97,
-              left: 176,
-              width: 28,
-              height: 34,
+              top: 76,
+              left: 118,
+              width: 18,
+              height: 22,
               background: '#d97706',
-              borderRadius: 8,
+              borderRadius: 5,
               display: 'flex',
             }}
           />
