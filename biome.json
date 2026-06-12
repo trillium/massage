@@ -109,8 +109,11 @@
       "includes": [
         "app/api/og/**",
         "app/\\[bookingSlug\\]/opengraph-image.tsx",
+        "app/\\[bookingSlug\\]/designs/**",
         "app/admin/og-preview/**",
-        "app/og-preview/**"
+        "app/og-preview/**",
+        "app/og-variants/**",
+        "app/design-system/**"
       ],
       "linter": {
         "rules": {
