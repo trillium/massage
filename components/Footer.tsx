@@ -8,6 +8,7 @@ import { FaMapMarkerAlt, FaPhoneAlt, FaEnvelope, FaClock, FaRegCalendarAlt } fro
 import { servicesLinks } from '@/data/servicesData'
 import { createContactUrl } from '@/lib/helpers'
 import { home, site } from '@/app/content'
+import footer from '@/data/footer.json'
 
 export default function Footer() {
   return (
@@ -30,20 +31,11 @@ export default function Footer() {
 }
 
 function QuicklinkContainer({ displayClasses }: { displayClasses?: string }) {
-  const quickLinks = [
-    { text: 'Services', href: '/services' },
-    { text: 'About Us', href: '/about' },
-    { text: 'Testimonials', href: '/reviews' },
-    { text: 'Pricing', href: '/pricing' },
-    { text: 'Contact', href: '/contact' },
-    { text: 'Blog', href: '/blog' },
-    { text: 'Frequently Ask Questions', href: '/faq' },
-  ]
   return (
     <div className={clsx(displayClasses, 'flex flex-col items-start')}>
-      <h2 className="mb-6 text-base font-bold text-white">Quick Links</h2>
+      <h2 className="mb-6 text-base font-bold text-white">{footer.quickLinks.heading}</h2>
       <ul className="xs:mb-8 mb-0 space-y-3">
-        {quickLinks.map((item) => (
+        {footer.quickLinks.links.map((item) => (
           <ListItem positionClasses="pl-4" key={item.text} {...item} />
         ))}
       </ul>
@@ -77,14 +69,16 @@ function ServiceIsContainer({ displayClasses }: { displayClasses?: string }) {
 
   return (
     <div className={clsx(displayClasses, 'flex flex-col items-start')}>
-      <h2 className="mb-6 text-base font-bold text-white">Services</h2>
-      <h2 className="mb-2 ml-4 text-base font-bold text-white">In-Home Massage Services</h2>
+      <h2 className="mb-6 text-base font-bold text-white">{footer.services.heading}</h2>
+      <h2 className="mb-2 ml-4 text-base font-bold text-white">{footer.services.inHome.heading}</h2>
       <ul className="mb-8 space-y-1">
         {tableServiceLinks.map((item) => (
           <ListItem positionClasses="pl-8 whitespace-nowrap" key={item.text} {...item} />
         ))}
       </ul>
-      <h2 className="mb-2 ml-4 text-base font-bold text-white">In-Office/Event Massage Services</h2>
+      <h2 className="mb-2 ml-4 text-base font-bold text-white">
+        {footer.services.inOfficeEvent.heading}
+      </h2>
       <ul className="mb-8 space-y-1">
         {eventServiceLinks.map((item) => (
           <ListItem positionClasses="pl-8 whitespace-nowrap" key={item.text} {...item} />
@@ -184,7 +178,7 @@ function ContactItem({
 function ContactFooterSection({ displayClasses }: { displayClasses: string }) {
   return (
     <div className={clsx(displayClasses)}>
-      <h2 className="mb-6 font-bold text-white">Contact Us</h2>
+      <h2 className="mb-6 font-bold text-white">{footer.contact.heading}</h2>
       <ul className="space-y-4">
         {contactItems.map((item, index) => (
           <ContactItem key={index} icon={item.icon}>
@@ -218,18 +212,18 @@ const contactItems = [
         classes="group outline-transparent"
       >
         <div className="group-focus-within:outline-primary-500 inline-block rounded-md outline-2 outline-offset-2 outline-transparent hover:text-white">
-          <span className="block">Availabile by phone</span>{' '}
-          <span className="block">Request a call</span>
+          <span className="block">{footer.contact.phone.label}</span>{' '}
+          <span className="block">{footer.contact.phone.cta}</span>
         </div>
       </Link>
     ),
   },
   {
     icon: <FaRegCalendarAlt />,
-    content: 'Open 7 Days a Week',
+    content: footer.contact.hours,
   },
   {
     icon: <FaClock />,
-    content: 'By Appointment Daily',
+    content: footer.contact.appointment,
   },
 ]

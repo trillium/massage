@@ -1,0 +1,32 @@
+{
+  "quickLinks": {
+    "heading": "Quick Links",
+    "links": [
+      { "text": "Services", "href": "/services" },
+      { "text": "About Us", "href": "/about" },
+      { "text": "Testimonials", "href": "/reviews" },
+      { "text": "Pricing", "href": "/pricing" },
+      { "text": "Contact", "href": "/contact" },
+      { "text": "Blog", "href": "/blog" },
+      { "text": "Frequently Ask Questions", "href": "/faq" }
+    ]
+  },
+  "services": {
+    "heading": "Services",
+    "inHome": {
+      "heading": "In-Home Massage Services"
+    },
+    "inOfficeEvent": {
+      "heading": "In-Office/Event Massage Services"
+    }
+  },
+  "contact": {
+    "heading": "Contact Us",
+    "phone": {
+      "label": "Availabile by phone",
+      "cta": "Request a call"
+    },
+    "hours": "Open 7 Days a Week",
+    "appointment": "By Appointment Daily"
+  }
+}
