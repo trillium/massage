@@ -170,7 +170,7 @@ function ContactItem({
   return (
     <li className="flex items-start gap-3 pl-4">
       <span className={clsx('mt-1 text-lg text-primary-400', iconClass)}>{icon}</span>
-      <TextBaseMuted>{children}</TextBaseMuted>
+      <TextBaseMuted as="div">{children}</TextBaseMuted>
     </li>
   )
 }
