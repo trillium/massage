@@ -14,7 +14,7 @@ import { TextBaseMuted } from '@/components/ui/text'
 
 export default function Footer() {
   return (
-    <footer className="bg-surface-900 p-4">
+    <footer className="dark bg-surface-900 p-4">
       <div
         className={clsx(
           'items-start gap-8',

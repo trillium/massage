@@ -141,7 +141,7 @@ export default function TimeList({}) {
         </div>
       )}
       {showDebug && (
-        <div className="mt-2 flex items-center gap-2 text-xs text-surface-400">
+        <div className="mt-2 flex items-center gap-2 text-xs text-surface-600 dark:text-surface-400">
           <span
             className={`h-1.5 w-1.5 rounded-full ${heldSlotsDebug.channelStatus === 'SUBSCRIBED' ? 'bg-green-500' : 'bg-amber-500'}`}
           />
