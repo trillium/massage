@@ -29,7 +29,7 @@ try:
 except ImportError:
     sys.exit("pymupdf not installed.  Run: pip3 install pymupdf")
 
-REPO_ROOT = Path(__file__).parent.parent
+REPO_ROOT = Path(__file__).parent.parent.parent
 QR_DIR = REPO_ROOT / "print" / "qr"
 DEFAULT_TEMPLATE = REPO_ROOT / "print" / "business-cards" / "template-v3.pdf"
 COLORS_PATH = REPO_ROOT / "lib" / "qr" / "print-colors.json"
