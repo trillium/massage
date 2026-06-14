@@ -99,8 +99,8 @@ export default function TimeList({}) {
       <DataFreshnessPill />
       {hasNoAvailability ? (
         <div className="flex flex-col items-center gap-2 py-6 text-center text-sm text-surface-400">
-          <span>No times available on {formattedSelectedDate}.</span>
-          <span>Finding next available date…</span>
+          <span>{`No times available on ${formattedSelectedDate}.`}</span>
+          <span>{'Finding next available date…'}</span>
         </div>
       ) : (
         <div className="grid grid-cols-2 gap-2">
@@ -146,14 +146,14 @@ export default function TimeList({}) {
             className={`h-1.5 w-1.5 rounded-full ${heldSlotsDebug.channelStatus === 'SUBSCRIBED' ? 'bg-green-500' : 'bg-amber-500'}`}
           />
           <span>{heldSlotsDebug.channelStatus}</span>
-          <span>·</span>
+          <span>{'·'}</span>
           <span>{heldSlotsDebug.mode}</span>
-          <span>·</span>
-          <span>{heldSlots.length} holds</span>
-          <span>·</span>
-          <span>{activeUsers} users</span>
-          <span>·</span>
-          <span>logging to debug/slot-holds.jsonl</span>
+          <span>{'·'}</span>
+          <span>{`${heldSlots.length} holds`}</span>
+          <span>{'·'}</span>
+          <span>{`${activeUsers} users`}</span>
+          <span>{'·'}</span>
+          <span>{'logging to debug/slot-holds.jsonl'}</span>
         </div>
       )}
     </div>

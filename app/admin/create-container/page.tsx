@@ -43,7 +43,7 @@ export default function CreateContainerPage() {
 
       toast.success(
         <div className="space-y-1">
-          <div>Container created!</div>
+          <div>{'Container created!'}</div>
           <div className="flex gap-3">
             <a
               href={result.event.htmlLink}
@@ -51,13 +51,13 @@ export default function CreateContainerPage() {
               rel="noopener noreferrer"
               className="text-blue-600 underline hover:text-blue-800"
             >
-              Open in Calendar
+              {'Open in Calendar'}
             </a>
             <a
               href="/admin/active-event-containers"
               className="text-blue-600 underline hover:text-blue-800"
             >
-              View all containers
+              {'View all containers'}
             </a>
           </div>
         </div>
@@ -75,7 +75,7 @@ export default function CreateContainerPage() {
 
   return (
     <div className="mx-auto max-w-xl p-4 lg:p-6">
-      <H1 className="mb-6">Create Event Container</H1>
+      <H1 className="mb-6">{'Create Event Container'}</H1>
 
       <div className="space-y-4 rounded-lg border border-accent-200 bg-surface-50 p-4 dark:border-accent-700 dark:bg-surface-800">
         <div>
@@ -83,7 +83,7 @@ export default function CreateContainerPage() {
             htmlFor="containerQuery"
             className="mb-1 block text-sm font-medium text-accent-700 dark:text-accent-300"
           >
-            Container query
+            {'Container query'}
           </label>
           <input
             id="containerQuery"
@@ -106,7 +106,7 @@ export default function CreateContainerPage() {
             htmlFor="date"
             className="mb-1 block text-sm font-medium text-accent-700 dark:text-accent-300"
           >
-            Date
+            {'Date'}
           </label>
           <input
             id="date"
@@ -123,7 +123,7 @@ export default function CreateContainerPage() {
               htmlFor="startTime"
               className="mb-1 block text-sm font-medium text-accent-700 dark:text-accent-300"
             >
-              Start (LA time)
+              {'Start (LA time)'}
             </label>
             <input
               id="startTime"
@@ -138,7 +138,7 @@ export default function CreateContainerPage() {
               htmlFor="endTime"
               className="mb-1 block text-sm font-medium text-accent-700 dark:text-accent-300"
             >
-              End (LA time)
+              {'End (LA time)'}
             </label>
             <input
               id="endTime"
@@ -155,8 +155,8 @@ export default function CreateContainerPage() {
             htmlFor="titlePrefix"
             className="mb-1 block text-sm font-medium text-accent-700 dark:text-accent-300"
           >
-            Title prefix{' '}
-            <span className="font-normal text-accent-500 dark:text-accent-400">(optional)</span>
+            {'Title prefix'}{' '}
+            <span className="font-normal text-accent-500 dark:text-accent-400">{'(optional)'}</span>
           </label>
           <input
             id="titlePrefix"
@@ -169,11 +169,12 @@ export default function CreateContainerPage() {
         </div>
 
         <div className="rounded-md border border-accent-200 bg-accent-50 px-3 py-2 text-sm dark:border-accent-700 dark:bg-surface-900">
-          <span className="text-accent-500 dark:text-accent-400">Event title: </span>
+          <span className="text-accent-500 dark:text-accent-400">{'Event title: '}</span>
           <span className="font-mono text-accent-900 dark:text-accent-100">{eventTitle}</span>
         </div>
 
         <button
+          type="button"
           onClick={handleSubmit}
           disabled={!canSubmit}
           className="w-full rounded-md bg-primary-500 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-primary-600 disabled:cursor-not-allowed disabled:bg-surface-300 dark:disabled:bg-surface-600"
