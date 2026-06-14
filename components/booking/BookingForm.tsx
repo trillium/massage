@@ -79,6 +79,7 @@ export default function BookingForm({
     config?.customFields?.showRaffleOptIn
   )
   const locationReadOnly = !!eventContainers?.location || config.locationIsReadOnly
+  const hideLocation = !!config.hideLocation
 
   const dateString =
     selectedTime && timeZone ? formatLocalDate(selectedTime.start, { timeZone }) : ''
@@ -165,6 +166,7 @@ export default function BookingForm({
                   setFieldTouched={setFieldTouched}
                   locationReadOnly={locationReadOnly}
                   locationWarning={locationWarning}
+                  hideLocation={hideLocation}
                   acceptingPayment={acceptingPayment}
                   showHotelField={showHotelField}
                   showParkingField={showParkingField}

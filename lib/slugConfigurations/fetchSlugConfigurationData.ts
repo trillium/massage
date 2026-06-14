@@ -484,6 +484,8 @@ const slugConfigurations: SlugConfigurationType[] = [
     ...initialStateWithoutType,
     bookingSlug: ['overtime'],
     type: 'fixed-location',
+    hideCalendar: true,
+    hideLocation: true,
     title: 'Overtime',
     location: createLocationObject('Beaches Tropicana', 'West Hollywood', '90069'),
     locationIsReadOnly: true,
@@ -503,7 +505,9 @@ const slugConfigurations: SlugConfigurationType[] = [
     acceptingPayment: false,
     customFields: {
       showNotesField: true,
+      showRaffleOptIn: true,
     },
+    links: [{ label: 'Enter the raffle →', href: '/overtime-raffle' }],
   },
   {
     ...initialStateWithoutType,

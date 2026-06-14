@@ -31,6 +31,7 @@ type BookingFormFieldsProps = {
   setFieldTouched: (field: string, isTouched?: boolean, shouldValidate?: boolean) => void
   locationReadOnly?: boolean
   locationWarning?: string
+  hideLocation?: boolean
   acceptingPayment: boolean
   showHotelField?: boolean
   showParkingField?: boolean
@@ -47,6 +48,7 @@ export default function BookingFormFields({
   setFieldTouched,
   locationReadOnly,
   locationWarning,
+  hideLocation,
   acceptingPayment,
   showHotelField,
   showParkingField,
@@ -83,7 +85,7 @@ export default function BookingFormFields({
           <div className="mt-1 text-sm text-red-600">{errors.phone}</div>
         )}
 
-        <LocationField
+        {!hideLocation && <LocationField
           location={values.location}
           readOnly={!!locationReadOnly}
           onChange={(e) => {
@@ -114,7 +116,7 @@ export default function BookingFormFields({
               touched.location?.city && errors.location?.city ? errors.location.city : undefined,
             zip: touched.location?.zip && errors.location?.zip ? errors.location.zip : undefined,
           }}
-        />
+        />}
 
         <EmailField
           email={values.email}

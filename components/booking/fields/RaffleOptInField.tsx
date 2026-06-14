@@ -1,5 +1,6 @@
 'use client'
 
+import { Transition } from '@headlessui/react'
 import { RAFFLE_INTEREST_OPTIONS } from '@/lib/schema'
 import { fieldClasses } from './classes'
 import { TextSmSemibold, TextXsMuted } from '@/components/ui/text'
@@ -35,11 +36,19 @@ export default function RaffleOptInField({
         </label>
       </div>
 
-      {optIn && (
-        <div className="mt-4 space-y-4 border-t border-primary-200 pt-4 dark:border-primary-700">
+      <Transition
+        show={optIn}
+        enter="transition-opacity ease-out duration-200"
+        enterFrom="opacity-0"
+        enterTo="opacity-100"
+        leave="transition-opacity ease-in duration-150"
+        leaveFrom="opacity-100"
+        leaveTo="opacity-0"
+      >
+        <div className="mt-4 space-y-4 border-t border-primary-200 pb-3 pt-4 dark:border-primary-700">
           <div>
             <label htmlFor="raffleZipCode" className={fieldClasses.label}>
-              Your zip code <span className="text-primary-500">*</span>
+              Home zip code <span className="text-primary-500">*</span>
             </label>
             <input
               type="text"
@@ -82,7 +91,7 @@ export default function RaffleOptInField({
             </div>
           </div>
         </div>
-      )}
+      </Transition>
     </div>
   )
 }

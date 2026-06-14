@@ -66,6 +66,7 @@ export type SlugConfigurationType = {
   discount: DiscountType | null
   leadTimeMinimum: number | null // in minutes
   hideCalendar?: boolean
+  hideLocation?: boolean
   instantConfirm?: boolean
   allowConcurrentBookings?: boolean
   acceptingPayment?: boolean
