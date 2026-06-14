@@ -14,6 +14,7 @@ const KNOWN_QUERIES = [
   'chat',
   'the_kinn',
   'mr_pasadena',
+  'overtime',
 ]
 
 export default function CreateContainerPage() {

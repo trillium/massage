@@ -485,7 +485,7 @@ const slugConfigurations: SlugConfigurationType[] = [
     bookingSlug: ['overtime'],
     type: 'fixed-location',
     title: 'Overtime',
-    location: createLocationObject('', '', ''),
+    location: createLocationObject('Beaches Tropicana', 'West Hollywood', '90069'),
     locationIsReadOnly: true,
     eventContainer: 'overtime',
     defaultDuration: 5,
