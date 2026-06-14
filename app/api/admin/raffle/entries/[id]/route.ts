@@ -3,9 +3,10 @@ import { z } from 'zod'
 import { requireAdminWithFlag } from '@/lib/adminAuthBridge'
 import { getSupabaseAdminClient } from '@/lib/supabase/server'
 
-const PatchSchema = z.object({
-  excluded: z.boolean(),
-})
+const PatchSchema = z.union([
+  z.object({ excluded: z.boolean() }),
+  z.object({ pick_as_winner: z.literal(true) }),
+])
 
 export async function PATCH(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const authResult = await requireAdminWithFlag(request)
@@ -25,6 +26,48 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
   const supabase = getSupabaseAdminClient()
   if (!supabase) {
     return NextResponse.json({ error: 'Service unavailable' }, { status: 503 })
+  }
+
+  if ('pick_as_winner' in parsed.data) {
+    const { data: entry } = await supabase
+      .from('raffle_entries' as never)
+      .select('raffle_id')
+      .eq('id', id)
+      .single()
+
+    const raffleId = (entry as { raffle_id: string } | null)?.raffle_id
+    if (!raffleId) {
+      return NextResponse.json({ error: 'Entry not found' }, { status: 404 })
+    }
+
+    const { error: clearError } = await supabase
+      .from('raffle_entries' as never)
+      .update({ is_winner: false } as never)
+      .eq('raffle_id', raffleId)
+
+    if (clearError) {
+      return NextResponse.json({ error: clearError.message }, { status: 500 })
+    }
+
+    const { error: pickError } = await supabase
+      .from('raffle_entries' as never)
+      .update({ is_winner: true } as never)
+      .eq('id', id)
+
+    if (pickError) {
+      return NextResponse.json({ error: pickError.message }, { status: 500 })
+    }
+
+    const { error: raffleError } = await supabase
+      .from('raffles' as never)
+      .update({ status: 'drawn', drawn_at: new Date().toISOString() } as never)
+      .eq('id', raffleId)
+
+    if (raffleError) {
+      return NextResponse.json({ error: raffleError.message }, { status: 500 })
+    }
+
+    return NextResponse.json({ success: true })
   }
 
   const { data: entry } = await supabase

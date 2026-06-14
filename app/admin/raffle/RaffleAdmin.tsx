@@ -8,7 +8,10 @@ import ConfirmDialog from '@/components/admin/ConfirmDialog'
 
 import { RAFFLE_INTEREST_LABELS } from '@/lib/schema'
 import { H2, H3 } from '@/components/ui/heading'
-import { TextSm, TextSmMuted, TextXsMedium, TextXsMuted } from '@/components/ui/text'
+import { TextSm, TextSmMuted, TextLg, TextXsMedium, TextXsMuted } from '@/components/ui/text'
+import { Button } from '@/components/ui/button'
+import { Box } from '@/components/ui/box'
+import { Stack } from '@/components/ui/stack'
 
 interface Raffle {
   id: string
@@ -65,6 +68,7 @@ export function RaffleAdmin({ raffle, entries: initialEntries, stats }: RaffleAd
     setStatus(raffle.status)
     setIsActive(raffle.is_active)
   }, [initialEntries, raffle.status, raffle.is_active])
+
   const [confirmDialog, setConfirmDialog] = useState<{
     title: string
     message: string
@@ -188,6 +192,31 @@ export function RaffleAdmin({ raffle, entries: initialEntries, stats }: RaffleAd
     })
   }
 
+  const handlePickWinner = (entry: RaffleEntry) => {
+    showConfirm({
+      title: 'Pick as Winner',
+      message: `Pick ${entry.name} as the winner? This will clear any existing winner.`,
+      confirmLabel: 'Pick Winner',
+      confirmClassName: 'bg-yellow-500 hover:bg-yellow-600 text-white',
+      onConfirm: async () => {
+        try {
+          const res = await adminFetch(`/api/admin/raffle/entries/${entry.id}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ pick_as_winner: true }),
+          })
+          const data = await res.json()
+          if (!res.ok) throw new Error(data.error)
+          setEntryList((prev) => prev.map((e) => ({ ...e, is_winner: e.id === entry.id })))
+          setStatus('drawn')
+          toast.success(`Winner picked: ${entry.name}`)
+        } catch (err) {
+          toast.error(err instanceof Error ? err.message : 'Failed to pick winner')
+        }
+      },
+    })
+  }
+
   const handleDelete = (entryId: string) => {
     showConfirm({
       title: 'Delete Entry',
@@ -217,13 +246,13 @@ export function RaffleAdmin({ raffle, entries: initialEntries, stats }: RaffleAd
     'rounded-lg border border-accent-200 bg-surface-50 p-6 dark:border-accent-700 dark:bg-surface-800'
 
   return (
-    <div className="space-y-6">
-      <div className={cardClass}>
-        <div className="flex items-center justify-between">
-          <div>
+    <Stack gap={6}>
+      <Box className={cardClass}>
+        <Stack direction="row" align="center" justify="between">
+          <Box>
             <H2>{raffle.name}</H2>
             <TextXsMuted className="mt-0.5 font-mono">{raffle.id}</TextXsMuted>
-            <div className="mt-1 flex items-center gap-2">
+            <Stack direction="row" align="center" gap={2} className="mt-1">
               <TextXsMedium
                 className="inline-block rounded-full px-3 py-1 ${ isDrawn ? 'bg-purple-100 dark:bg-purple-900/30 dark:text-purple-300' : 'bg-green-100 dark:bg-green-900/30 dark:text-green-300' }"
                 status="success"
@@ -235,35 +264,39 @@ export function RaffleAdmin({ raffle, entries: initialEntries, stats }: RaffleAd
                   className="inline-block rounded-full bg-blue-100 px-3 py-1 dark:bg-blue-900/30"
                   status="info"
                 >
-                  active
+                  {'active'}
                 </TextXsMedium>
               )}
-            </div>
-          </div>
-          <div className="flex items-center gap-2">
+            </Stack>
+          </Box>
+          <Stack direction="row" align="center" gap={2}>
             {!isActive && (
-              <button
+              <Button
+                type="button"
+                size="sm"
                 onClick={handleSetActive}
                 disabled={settingActive}
-                className="rounded bg-blue-500 px-3 py-1.5 text-sm text-white hover:bg-blue-600 disabled:bg-surface-300 dark:disabled:bg-surface-600"
+                className="bg-blue-500 text-white hover:bg-blue-600"
               >
                 {settingActive ? 'Setting…' : 'Set as Active'}
-              </button>
+              </Button>
             )}
-            <button
+            <Button
+              type="button"
+              size="sm"
+              variant="outline"
               onClick={() => {
                 router.refresh()
                 toast.success('Data refreshed')
               }}
-              className="rounded border border-accent-300 px-3 py-1.5 text-sm text-accent-600 hover:bg-surface-100 dark:border-accent-600 dark:text-accent-400 dark:hover:bg-surface-700"
             >
-              Refresh
-            </button>
-          </div>
-        </div>
-      </div>
+              {'Refresh'}
+            </Button>
+          </Stack>
+        </Stack>
+      </Box>
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <Box className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <StatCard label="Unique Entries" value={stats.uniqueEntries} />
         <StatCard label="Total Submissions" value={stats.totalEntries} />
         <StatCard label="Local %" value={`${stats.localPercent}%`} />
@@ -274,30 +307,37 @@ export function RaffleAdmin({ raffle, entries: initialEntries, stats }: RaffleAd
             value={count}
           />
         ))}
-      </div>
+      </Box>
 
-      <div className={cardClass}>
-        <H3 className="mb-4">Entries</H3>
-        <div className="overflow-x-auto">
+      <Box className={cardClass}>
+        <H3 className="mb-4">{'Entries'}</H3>
+        <Box className="overflow-x-auto">
           <table className="w-full text-left text-sm">
             <thead>
               <tr className="border-b border-accent-200 dark:border-accent-700">
-                <th className="px-3 py-2 font-medium text-accent-500 dark:text-accent-400">Name</th>
                 <th className="px-3 py-2 font-medium text-accent-500 dark:text-accent-400">
-                  Email
+                  {'Name'}
                 </th>
                 <th className="px-3 py-2 font-medium text-accent-500 dark:text-accent-400">
-                  Phone
+                  {'Email'}
                 </th>
-                <th className="px-3 py-2 font-medium text-accent-500 dark:text-accent-400">Zip</th>
                 <th className="px-3 py-2 font-medium text-accent-500 dark:text-accent-400">
-                  Interested In
+                  {'Phone'}
                 </th>
-                <th className="px-3 py-2 font-medium text-accent-500 dark:text-accent-400">Date</th>
                 <th className="px-3 py-2 font-medium text-accent-500 dark:text-accent-400">
-                  Exclude
+                  {'Zip'}
                 </th>
-                <th className="px-3 py-2"></th>
+                <th className="px-3 py-2 font-medium text-accent-500 dark:text-accent-400">
+                  {'Interested In'}
+                </th>
+                <th className="px-3 py-2 font-medium text-accent-500 dark:text-accent-400">
+                  {'Date'}
+                </th>
+                <th className="px-3 py-2 font-medium text-accent-500 dark:text-accent-400">
+                  {'Exclude'}
+                </th>
+                <th className="px-3 py-2" />
+                <th className="px-3 py-2" />
               </tr>
             </thead>
             <tbody>
@@ -319,7 +359,7 @@ export function RaffleAdmin({ raffle, entries: initialEntries, stats }: RaffleAd
                     {new Date(entry.created_at).toLocaleDateString()}
                   </td>
                   <td className="px-3 py-2 text-center">
-                    <input
+                    <input // ds-ignore - checkbox; Input component is for text fields
                       type="checkbox"
                       checked={entry.excluded ?? false}
                       disabled={entry.is_winner || togglingExcludeId === entry.id}
@@ -328,70 +368,85 @@ export function RaffleAdmin({ raffle, entries: initialEntries, stats }: RaffleAd
                     />
                   </td>
                   <td className="px-3 py-2">
-                    <button
+                    {!entry.is_winner && !entry.excluded && (
+                      <Button
+                        type="button"
+                        size="sm"
+                        variant="ghost"
+                        onClick={() => handlePickWinner(entry)}
+                        className="text-yellow-600 hover:text-yellow-800 dark:text-yellow-400 dark:hover:text-yellow-200"
+                      >
+                        {'Pick'}
+                      </Button>
+                    )}
+                    {entry.is_winner && (
+                      <TextXsMedium as="span" status="warning">
+                        {'Winner'}
+                      </TextXsMedium>
+                    )}
+                  </td>
+                  <td className="px-3 py-2">
+                    <Button
+                      type="button"
+                      size="sm"
+                      variant="ghost"
                       onClick={() => handleDelete(entry.id)}
                       disabled={deletingId === entry.id}
-                      className="text-xs text-red-400 hover:text-red-600 disabled:opacity-50 dark:text-red-500 dark:hover:text-red-400"
+                      className="text-red-400 hover:text-red-600 dark:text-red-500 dark:hover:text-red-400"
                     >
                       {deletingId === entry.id ? 'Deleting…' : 'Delete'}
-                    </button>
+                    </Button>
                   </td>
                 </tr>
               ))}
               {entryList.length === 0 && (
                 <tr>
-                  <td colSpan={8} className="px-3 py-6 text-center text-accent-400">
-                    No entries yet
+                  <td colSpan={9} className="px-3 py-6 text-center text-accent-400">
+                    {'No entries yet'}
                   </td>
                 </tr>
               )}
             </tbody>
           </table>
-        </div>
-      </div>
+        </Box>
+      </Box>
 
       {winner && (
-        <div className="rounded-lg border border-yellow-300 bg-yellow-50 p-6 dark:border-yellow-700 dark:bg-yellow-900/20">
-          <H3 status="warning">Winner</H3>
-          <p className="mt-2 text-lg font-semibold text-yellow-900 dark:text-yellow-100">
+        <Box className="rounded-lg border border-yellow-300 bg-yellow-50 p-6 dark:border-yellow-700 dark:bg-yellow-900/20">
+          <H3 status="warning">{'Winner'}</H3>
+          <TextLg className="mt-2 font-semibold text-yellow-900 dark:text-yellow-100">
             {winner.name}
-          </p>
+          </TextLg>
           <TextSm status="warning">{winner.email}</TextSm>
           <TextSm status="warning">{winner.phone}</TextSm>
-          {winner.zip_code && <TextSm status="warning">Zip: {winner.zip_code}</TextSm>}
+          {winner.zip_code && <TextSm status="warning">{`Zip: ${winner.zip_code}`}</TextSm>}
           {Array.isArray(winner.interested_in) && winner.interested_in.length > 0 && (
             <TextSm status="warning">
               {winner.interested_in.map((i) => RAFFLE_INTEREST_LABELS[i] || i).join(', ')}
             </TextSm>
           )}
           {isDrawn && (
-            <div className="mt-4 flex gap-3">
-              <button
+            <Stack direction="row" gap={3} className="mt-4">
+              <Button
+                type="button"
                 onClick={handleRedraw}
                 disabled={drawing}
-                className="rounded bg-amber-500 px-4 py-2 text-sm text-white hover:bg-amber-600 disabled:bg-surface-300 dark:disabled:bg-surface-600"
+                className="bg-amber-500 text-white hover:bg-amber-600"
               >
                 {drawing ? 'Drawing...' : 'Redraw Winner'}
-              </button>
-              <button
-                onClick={handleClearWinner}
-                className="rounded border border-accent-300 px-4 py-2 text-sm text-accent-700 hover:bg-surface-100 dark:border-accent-600 dark:text-accent-300 dark:hover:bg-surface-700"
-              >
-                Clear Winner
-              </button>
-            </div>
+              </Button>
+              <Button type="button" variant="outline" onClick={handleClearWinner}>
+                {'Clear Winner'}
+              </Button>
+            </Stack>
           )}
-        </div>
+        </Box>
       )}
 
       {!isDrawn && (
-        <button
-          onClick={handleDraw}
-          disabled={drawing || stats.uniqueEntries === 0}
-          className="rounded bg-primary-500 px-4 py-2 text-white hover:bg-primary-600 disabled:bg-surface-300 dark:disabled:bg-surface-600"
-        >
+        <Button type="button" onClick={handleDraw} disabled={drawing || stats.uniqueEntries === 0}>
           {drawing ? 'Drawing...' : 'Draw Winner'}
-        </button>
+        </Button>
       )}
 
       <ConfirmDialog
@@ -403,15 +458,15 @@ export function RaffleAdmin({ raffle, entries: initialEntries, stats }: RaffleAd
         confirmLabel={confirmDialog?.confirmLabel}
         confirmClassName={confirmDialog?.confirmClassName}
       />
-    </div>
+    </Stack>
   )
 }
 
 function StatCard({ label, value }: { label: string; value: string | number }) {
   return (
-    <div className="rounded-lg border border-accent-200 bg-surface-50 p-4 dark:border-accent-700 dark:bg-surface-800">
+    <Box className="rounded-lg border border-accent-200 bg-surface-50 p-4 dark:border-accent-700 dark:bg-surface-800">
       <TextSmMuted>{label}</TextSmMuted>
-      <p className="mt-1 text-2xl font-bold text-accent-900 dark:text-accent-100">{value}</p>
-    </div>
+      <TextLg className="mt-1 text-2xl font-bold">{value}</TextLg>
+    </Box>
   )
 }

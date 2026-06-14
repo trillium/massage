@@ -17,20 +17,6 @@ git diff --cached --name-only --diff-filter=ACM | \
       lines=$(wc -l < "$file" | tr -d ' ')
       if [ "$lines" -gt "$LINE_LIMIT" ]; then
         echo "⚠️  Large file committed: $file ($lines lines, limit $LINE_LIMIT)"
-        if command -v bd &> /dev/null; then
-          existing=$(bd query "status:open label:large-file" 2>/dev/null | grep "$file" || true)
-          if [ -z "$existing" ]; then
-            desc=$(sed "s|{LINE_LIMIT}|$LINE_LIMIT|g; s|{LINES}|$lines|g; s|{FILE}|$file|g" "$TICKET_TEMPLATE")
-            bd create "Refactor $file ($lines lines)" \
-              -d "$desc" \
-              -p 2 \
-              -l "large-file,refactor" \
-              --silent
-            echo "   📋 Beads ticket created"
-          else
-            echo "   📋 Ticket already exists"
-          fi
-        fi
       fi
     fi
   done
