@@ -62,18 +62,28 @@ export async function checkSlotAvailability({
       const { members: memberEvents } = filterEventsForQuery(allEvents, eventBaseString)
 
       if (hasOverlap(slotInterval, memberEventsToIntervals(memberEvents), padding)) {
+        console.log('[checkSlotAvailability] blocked by member event overlap', {
+          eventBaseString,
+          memberEvents: memberEvents.map((e) => e.summary),
+        })
         return { available: false }
       }
 
       if (blockingScope === 'general') {
         const { blockingEvents } = filterEventsForGeneralBlocking(allEvents)
         if (hasOverlap(slotInterval, memberEventsToIntervals(blockingEvents ?? []), padding)) {
+          console.log('[checkSlotAvailability] blocked by general blocking event', {
+            blockingEvents: (blockingEvents ?? []).map((e) => e.summary),
+          })
           return { available: false }
         }
       }
     } else {
       const busyTimes = await getBusyTimesFn(slotInterval)
       if (hasOverlap(slotInterval, busyTimes, padding)) {
+        console.log('[checkSlotAvailability] blocked by busy time (no eventBaseString)', {
+          busyTimes,
+        })
         return { available: false }
       }
     }
@@ -81,6 +91,7 @@ export async function checkSlotAvailability({
     if (getActiveHoldsFn) {
       const activeHolds = await getActiveHoldsFn(start, end, sessionId)
       if (hasOverlap(slotInterval, activeHolds, 0)) {
+        console.log('[checkSlotAvailability] blocked by active hold', { activeHolds, sessionId })
         return { available: false }
       }
     }

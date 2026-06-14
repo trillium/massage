@@ -13,6 +13,10 @@ export async function getEventsBySearchQuery({
   end?: string | Date
   noCache?: boolean
 }) {
+  if (process.env.USE_MOCK_CALENDAR_DATA === 'true') {
+    return []
+  }
+
   const accessToken = await getAccessToken()
   const calendarId = 'primary' // Use 'primary' for the primary calendar or specify another calendar ID
   const urlBase = `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(
