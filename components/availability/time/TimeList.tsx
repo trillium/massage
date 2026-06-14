@@ -18,6 +18,8 @@ import type {
 
 import { format } from 'date-fns-tz'
 import { formatLocalTime } from 'lib/availability/helpers'
+import { Box } from '@/components/ui/box'
+import { Stack } from '@/components/ui/stack'
 
 export default function TimeList({}) {
   const searchParams = useSearchParams()
@@ -95,15 +97,15 @@ export default function TimeList({}) {
     : null
 
   return (
-    <div className="relative pt-2">
+    <Box className="relative pt-2">
       <DataFreshnessPill />
       {hasNoAvailability ? (
-        <div className="flex flex-col items-center gap-2 py-6 text-center text-sm text-surface-400">
+        <Stack gap={2} align="center" className="py-6 text-center text-sm text-surface-400">
           <span>{`No times available on ${formattedSelectedDate}.`}</span>
           <span>{'Finding next available date…'}</span>
-        </div>
+        </Stack>
       ) : (
-        <div className="grid grid-cols-2 gap-2">
+        <Box className="grid grid-cols-2 gap-2">
           {availability?.map(({ start, end, location, className }) => {
             const slotKey = start + end
             const isActive = selectedTime ? slotKey === timeSignature : false
@@ -138,10 +140,15 @@ export default function TimeList({}) {
               />
             )
           })}
-        </div>
+        </Box>
       )}
       {showDebug && (
-        <div className="mt-2 flex items-center gap-2 text-xs text-surface-600 dark:text-surface-400">
+        <Stack
+          direction="row"
+          gap={2}
+          align="center"
+          className="mt-2 text-xs text-surface-600 dark:text-surface-400"
+        >
           <span
             className={`h-1.5 w-1.5 rounded-full ${heldSlotsDebug.channelStatus === 'SUBSCRIBED' ? 'bg-green-500' : 'bg-amber-500'}`}
           />
@@ -154,8 +161,8 @@ export default function TimeList({}) {
           <span>{`${activeUsers} users`}</span>
           <span>{'·'}</span>
           <span>{'logging to debug/slot-holds.jsonl'}</span>
-        </div>
+        </Stack>
       )}
-    </div>
+    </Box>
   )
 }

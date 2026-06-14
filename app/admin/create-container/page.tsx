@@ -4,6 +4,10 @@ import { useState } from 'react'
 import { toast } from 'sonner'
 import { adminFetch } from '@/lib/adminFetch'
 import { H1 } from '@/components/ui/heading'
+import { Box } from '@/components/ui/box'
+import { Stack } from '@/components/ui/stack'
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
 
 const KNOWN_QUERIES = [
   'free-30',
@@ -42,9 +46,9 @@ export default function CreateContainerPage() {
       if (!response.ok) throw new Error(result.error || 'Failed to create container')
 
       toast.success(
-        <div className="space-y-1">
-          <div>{'Container created!'}</div>
-          <div className="flex gap-3">
+        <Stack gap={1}>
+          <Box>{'Container created!'}</Box>
+          <Stack direction="row" gap={3}>
             <a
               href={result.event.htmlLink}
               target="_blank"
@@ -59,8 +63,8 @@ export default function CreateContainerPage() {
             >
               {'View all containers'}
             </a>
-          </div>
-        </div>
+          </Stack>
+        </Stack>
       )
       setDate('')
       setStartTime('')
@@ -74,114 +78,73 @@ export default function CreateContainerPage() {
   }
 
   return (
-    <div className="mx-auto max-w-xl p-4 lg:p-6">
+    <Box className="mx-auto max-w-xl p-4 lg:p-6">
       <H1 className="mb-6">{'Create Event Container'}</H1>
 
-      <div className="space-y-4 rounded-lg border border-accent-200 bg-surface-50 p-4 dark:border-accent-700 dark:bg-surface-800">
-        <div>
-          <label
-            htmlFor="containerQuery"
-            className="mb-1 block text-sm font-medium text-accent-700 dark:text-accent-300"
-          >
-            {'Container query'}
-          </label>
-          <input
+      <Stack
+        gap={4}
+        className="rounded-lg border border-accent-200 bg-surface-50 p-4 dark:border-accent-700 dark:bg-surface-800"
+      >
+        <Box>
+          <Input
             id="containerQuery"
+            label="Container query"
             type="text"
             list="known-queries"
             value={containerQuery}
             onChange={(e) => setContainerQuery(e.target.value)}
             placeholder="e.g. my-new-event"
-            className="w-full rounded-md border border-accent-300 px-3 py-2 text-sm dark:border-accent-600 dark:bg-surface-800 dark:text-accent-100"
           />
           <datalist id="known-queries">
             {KNOWN_QUERIES.map((q) => (
               <option key={q} value={q} />
             ))}
           </datalist>
-        </div>
+        </Box>
 
-        <div>
-          <label
-            htmlFor="date"
-            className="mb-1 block text-sm font-medium text-accent-700 dark:text-accent-300"
-          >
-            {'Date'}
-          </label>
-          <input
-            id="date"
-            type="date"
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
-            className="w-full rounded-md border border-accent-300 px-3 py-2 text-sm dark:border-accent-600 dark:bg-surface-800 dark:text-accent-100"
+        <Input
+          id="date"
+          label="Date"
+          type="date"
+          value={date}
+          onChange={(e) => setDate(e.target.value)}
+        />
+
+        <Box className="grid grid-cols-2 gap-3">
+          <Input
+            id="startTime"
+            label="Start (LA time)"
+            type="time"
+            value={startTime}
+            onChange={(e) => setStartTime(e.target.value)}
           />
-        </div>
-
-        <div className="grid grid-cols-2 gap-3">
-          <div>
-            <label
-              htmlFor="startTime"
-              className="mb-1 block text-sm font-medium text-accent-700 dark:text-accent-300"
-            >
-              {'Start (LA time)'}
-            </label>
-            <input
-              id="startTime"
-              type="time"
-              value={startTime}
-              onChange={(e) => setStartTime(e.target.value)}
-              className="w-full rounded-md border border-accent-300 px-3 py-2 text-sm dark:border-accent-600 dark:bg-surface-800 dark:text-accent-100"
-            />
-          </div>
-          <div>
-            <label
-              htmlFor="endTime"
-              className="mb-1 block text-sm font-medium text-accent-700 dark:text-accent-300"
-            >
-              {'End (LA time)'}
-            </label>
-            <input
-              id="endTime"
-              type="time"
-              value={endTime}
-              onChange={(e) => setEndTime(e.target.value)}
-              className="w-full rounded-md border border-accent-300 px-3 py-2 text-sm dark:border-accent-600 dark:bg-surface-800 dark:text-accent-100"
-            />
-          </div>
-        </div>
-
-        <div>
-          <label
-            htmlFor="titlePrefix"
-            className="mb-1 block text-sm font-medium text-accent-700 dark:text-accent-300"
-          >
-            {'Title prefix'}{' '}
-            <span className="font-normal text-accent-500 dark:text-accent-400">{'(optional)'}</span>
-          </label>
-          <input
-            id="titlePrefix"
-            type="text"
-            value={titlePrefix}
-            onChange={(e) => setTitlePrefix(e.target.value)}
-            placeholder="e.g. Morning session"
-            className="w-full rounded-md border border-accent-300 px-3 py-2 text-sm dark:border-accent-600 dark:bg-surface-800 dark:text-accent-100"
+          <Input
+            id="endTime"
+            label="End (LA time)"
+            type="time"
+            value={endTime}
+            onChange={(e) => setEndTime(e.target.value)}
           />
-        </div>
+        </Box>
 
-        <div className="rounded-md border border-accent-200 bg-accent-50 px-3 py-2 text-sm dark:border-accent-700 dark:bg-surface-900">
+        <Input
+          id="titlePrefix"
+          label="Title prefix (optional)"
+          type="text"
+          value={titlePrefix}
+          onChange={(e) => setTitlePrefix(e.target.value)}
+          placeholder="e.g. Morning session"
+        />
+
+        <Box className="rounded-md border border-accent-200 bg-accent-50 px-3 py-2 text-sm dark:border-accent-700 dark:bg-surface-900">
           <span className="text-accent-500 dark:text-accent-400">{'Event title: '}</span>
           <span className="font-mono text-accent-900 dark:text-accent-100">{eventTitle}</span>
-        </div>
+        </Box>
 
-        <button
-          type="button"
-          onClick={handleSubmit}
-          disabled={!canSubmit}
-          className="w-full rounded-md bg-primary-500 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-primary-600 disabled:cursor-not-allowed disabled:bg-surface-300 dark:disabled:bg-surface-600"
-        >
+        <Button onClick={handleSubmit} disabled={!canSubmit} className="w-full">
           {loading ? 'Creating…' : 'Create Container'}
-        </button>
-      </div>
-    </div>
+        </Button>
+      </Stack>
+    </Box>
   )
 }
