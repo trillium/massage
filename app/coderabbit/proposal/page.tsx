@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation'
 
 import { H1, H2 } from '@/components/ui/heading'
 
-import { TextLg, TextBase, TextSm } from '@/components/ui/text'
+import { TextBase, TextSm, TextLg } from '@/components/ui/text'
 
 export const metadata: Metadata = {
   title: 'Proposal — CodeRabbit Miami 2026',
@@ -36,7 +36,7 @@ function Table({ headers, rows }: { headers: string[]; rows: (string | React.Rea
               scope="col"
               className="border border-gray-200 bg-primary-50 px-4 py-2 text-left font-semibold text-primary-800"
             >
-              {h || <span className="sr-only">Detail</span>}
+              {h || <TextBase as="span" className="sr-only">Detail</TextBase>}
             </th>
           ))}
         </tr>
@@ -82,7 +82,7 @@ export default async function ProposalPage({
           <H1 className="text-3xl font-bold text-gray-900 print:text-2xl">
             Chair Massage Services
             <br />
-            <span className="text-primary-600">for CodeRabbit</span>
+            <TextBase as="span" className="text-primary-600">for CodeRabbit</TextBase>
           </H1>
           <TextLg className="mt-2 text-lg text-gray-500">AI Engineer Miami & React Miami — April 2026</TextLg>
         </div>
@@ -98,12 +98,12 @@ export default async function ProposalPage({
       {/* Meta */}
       <div className="mb-10 grid grid-cols-1 gap-4 rounded-lg bg-gray-50 p-6 text-sm print:border print:border-gray-200 print:bg-white sm:grid-cols-2">
         <div>
-          <span className="font-semibold text-gray-500">Prepared for</span>
+          <TextBase as="span" className="font-semibold text-gray-500">Prepared for</TextBase>
           <TextBase className="text-gray-900">Theresa Ensminger & Team</TextBase>
           <TextBase className="text-gray-500">CodeRabbit</TextBase>
         </div>
         <div>
-          <span className="font-semibold text-gray-500">Prepared by</span>
+          <TextBase as="span" className="font-semibold text-gray-500">Prepared by</TextBase>
           <TextBase className="text-gray-900">Trillium Smith, LMT</TextBase>
           <TextBase className="text-gray-500">March 2026</TextBase>
         </div>
@@ -260,16 +260,16 @@ export default async function ProposalPage({
           </div>
           <div className="p-6">
             <div className="mb-4 flex items-baseline justify-between border-b border-gray-200 pb-4">
-              <span className="text-gray-600">Daily rate</span>
-              <span className="text-xl font-bold text-gray-900">$1,000/day</span>
+              <TextBase as="span" className="text-gray-600">Daily rate</TextBase>
+              <TextBase as="span" className="text-xl font-bold text-gray-900">$1,000/day</TextBase>
             </div>
             <div className="mb-4 flex items-baseline justify-between border-b border-gray-200 pb-4">
-              <span className="text-gray-600">Conference days</span>
-              <span className="text-gray-900">4 (April 20–21 + April 23–24)</span>
+              <TextBase as="span" className="text-gray-600">Conference days</TextBase>
+              <TextBase as="span" className="text-gray-900">4 (April 20–21 + April 23–24)</TextBase>
             </div>
             <div className="flex items-baseline justify-between">
-              <span className="text-lg font-bold text-primary-700">Total</span>
-              <span className="text-2xl font-bold text-primary-700">$4,000</span>
+              <TextLg as="span" className="text-lg font-bold text-primary-700">Total</TextLg>
+              <TextBase as="span" className="text-2xl font-bold text-primary-700">$4,000</TextBase>
             </div>
           </div>
         </div>

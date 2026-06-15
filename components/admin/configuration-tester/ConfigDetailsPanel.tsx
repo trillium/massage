@@ -5,7 +5,11 @@ import { Button } from '@/components/ui/button'
 import { H3 } from '@/components/ui/heading'
 import { Code } from '@/components/ui/code'
 
-import { TextBase } from '@/components/ui/text'
+import {
+  TextBase,
+  TextSm,
+  TextXs,
+} from '@/components/ui/text'
 
 interface ConfigDetailsPanelProps {
   config: SlugConfigurationType
@@ -33,12 +37,12 @@ function LocationWarning({
       <strong className="text-accent-700 dark:text-accent-300">Location Warning:</strong>
       <div className="mt-1 rounded border-2 border-amber-200 bg-amber-50 p-2 text-sm text-amber-700 dark:bg-amber-950/50 dark:text-amber-300">
         <div className="flex items-center gap-2">
-          <span className="rounded bg-amber-200 px-2 py-1 text-xs font-medium text-amber-800 dark:bg-amber-800 dark:text-amber-200">
+          <TextXs as="span" className="rounded bg-amber-200 px-2 py-1 text-xs font-medium text-amber-800 dark:bg-amber-800 dark:text-amber-200">
             {'city' in warning ? `CITY: ${warning.city}` : `ZIP: ${warning.zip}`}
-          </span>
-          <span>
+          </TextXs>
+          <TextBase as="span">
             <FaExclamationTriangle className="mr-1 inline text-amber-500" /> {warning.message}
-          </span>
+          </TextBase>
         </div>
       </div>
     </div>
@@ -48,9 +52,9 @@ function LocationWarning({
 function CustomFieldBadge({ show, label }: { show?: boolean; label: string }) {
   if (!show) return null
   return (
-    <span className="rounded bg-indigo-100 px-2 py-1 text-sm text-indigo-800 dark:bg-indigo-800 dark:text-indigo-200">
+    <TextSm as="span" className="rounded bg-indigo-100 px-2 py-1 text-sm text-indigo-800 dark:bg-indigo-800 dark:text-indigo-200">
       {label}
-    </span>
+    </TextSm>
   )
 }
 
@@ -72,32 +76,32 @@ export default function ConfigDetailsPanel({
 
         <div className="mb-4 grid grid-cols-1 gap-4 md:grid-cols-2">
           <KeyProperty label="Type">
-            <span className="ml-2 rounded bg-blue-100 px-2 py-1 text-sm text-blue-800 dark:bg-blue-800 dark:text-blue-200">
+            <TextSm as="span" className="ml-2 rounded bg-blue-100 px-2 py-1 text-sm text-blue-800 dark:bg-blue-800 dark:text-blue-200">
               {config.type}
-            </span>
+            </TextSm>
           </KeyProperty>
 
           {config.eventContainer && (
             <KeyProperty label="Event Container">
-              <span className="ml-2 rounded bg-green-100 px-2 py-1 text-sm text-green-800 dark:bg-green-800 dark:text-green-200">
+              <TextSm as="span" className="ml-2 rounded bg-green-100 px-2 py-1 text-sm text-green-800 dark:bg-green-800 dark:text-green-200">
                 {config.eventContainer}
-              </span>
+              </TextSm>
             </KeyProperty>
           )}
 
           {config.blockingScope && (
             <KeyProperty label="Blocking Scope">
-              <span className="ml-2 rounded bg-purple-100 px-2 py-1 text-sm text-purple-800 dark:bg-purple-800 dark:text-purple-200">
+              <TextSm as="span" className="ml-2 rounded bg-purple-100 px-2 py-1 text-sm text-purple-800 dark:bg-purple-800 dark:text-purple-200">
                 {config.blockingScope}
-              </span>
+              </TextSm>
             </KeyProperty>
           )}
 
           {config.leadTimeMinimum && (
             <KeyProperty label="Lead Time">
-              <span className="ml-2 text-accent-600 dark:text-accent-400">
+              <TextBase as="span" className="ml-2 text-accent-600 dark:text-accent-400">
                 {config.leadTimeMinimum} hours
-              </span>
+              </TextBase>
             </KeyProperty>
           )}
         </div>
@@ -130,9 +134,9 @@ export default function ConfigDetailsPanel({
             <TextBase className="mt-1 text-accent-600 dark:text-accent-400">
               {config.location.street}, {config.location.city}, {config.location.zip}
               {config.locationIsReadOnly && (
-                <span className="ml-2 rounded bg-yellow-100 px-2 py-1 text-xs text-yellow-800 dark:bg-yellow-800 dark:text-yellow-200">
+                <TextXs as="span" className="ml-2 rounded bg-yellow-100 px-2 py-1 text-xs text-yellow-800 dark:bg-yellow-800 dark:text-yellow-200">
                   Read Only
-                </span>
+                </TextXs>
               )}
             </TextBase>
           </div>
@@ -145,12 +149,12 @@ export default function ConfigDetailsPanel({
             <strong className="text-accent-700 dark:text-accent-300">Custom Pricing:</strong>
             <div className="mt-1 flex flex-wrap gap-2">
               {Object.entries(config.pricing).map(([duration, price]) => (
-                <span
+                <TextSm as="span"
                   key={duration}
                   className="rounded bg-surface-200 px-2 py-1 text-sm dark:bg-surface-600"
                 >
                   {duration}min: ${price}
-                </span>
+                </TextSm>
               ))}
             </div>
           </div>
@@ -159,20 +163,20 @@ export default function ConfigDetailsPanel({
         {config.discount && (
           <div className="mb-3">
             <strong className="text-accent-700 dark:text-accent-300">Discount:</strong>
-            <span className="ml-2 rounded bg-red-100 px-2 py-1 text-sm text-red-800 dark:bg-red-800 dark:text-red-200">
+            <TextSm as="span" className="ml-2 rounded bg-red-100 px-2 py-1 text-sm text-red-800 dark:bg-red-800 dark:text-red-200">
               {config.discount.type === 'percent' && config.discount.amountPercent
                 ? `${(config.discount.amountPercent * 100).toFixed(0)}% off`
                 : config.discount.amountDollars
                   ? `$${config.discount.amountDollars} off`
                   : 'Discount applied'}
-            </span>
+            </TextSm>
           </div>
         )}
 
         {config.promoEndDate && (
           <div className="mb-3">
             <strong className="text-accent-700 dark:text-accent-300">Promo Ends:</strong>
-            <span className="ml-2 text-accent-600 dark:text-accent-400">{config.promoEndDate}</span>
+            <TextBase as="span" className="ml-2 text-accent-600 dark:text-accent-400">{config.promoEndDate}</TextBase>
           </div>
         )}
 
