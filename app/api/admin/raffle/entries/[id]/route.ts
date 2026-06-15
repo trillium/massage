@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 import { requireAdminWithFlag } from '@/lib/adminAuthBridge'
+import { deleteEntry, getEntryById, pickEntryAsWinner, updateEntry } from '@/lib/raffle'
 import { getSupabaseAdminClient } from '@/lib/supabase/server'
 
 const PatchSchema = z.union([
@@ -30,76 +31,42 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
   }
 
   if ('pick_as_winner' in parsed.data) {
-    const { data: entry } = await supabase
-      .from('raffle_entries' as never)
-      .select('raffle_id')
-      .eq('id', id)
-      .single()
-
-    const raffleId = (entry as { raffle_id: string } | null)?.raffle_id
-    if (!raffleId) {
+    const entry = await getEntryById(supabase, id)
+    if (!entry) {
       return NextResponse.json({ error: 'Entry not found' }, { status: 404 })
     }
 
-    const { error: clearError } = await supabase
-      .from('raffle_entries' as never)
-      .update({ is_winner: false } as never)
-      .eq('raffle_id', raffleId)
-
-    if (clearError) {
-      return NextResponse.json({ error: clearError.message }, { status: 500 })
+    try {
+      await pickEntryAsWinner(supabase, id, entry.raffle_id)
+      return NextResponse.json({ success: true })
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Failed to pick winner'
+      return NextResponse.json({ error: message }, { status: 500 })
     }
-
-    const { error: pickError } = await supabase
-      .from('raffle_entries' as never)
-      .update({ is_winner: true } as never)
-      .eq('id', id)
-
-    if (pickError) {
-      return NextResponse.json({ error: pickError.message }, { status: 500 })
-    }
-
-    const { error: raffleError } = await supabase
-      .from('raffles' as never)
-      .update({ status: 'drawn', drawn_at: new Date().toISOString() } as never)
-      .eq('id', raffleId)
-
-    if (raffleError) {
-      return NextResponse.json({ error: raffleError.message }, { status: 500 })
-    }
-
-    return NextResponse.json({ success: true })
   }
 
   if ('sms_sent_at' in parsed.data) {
-    const { error } = await supabase
-      .from('raffle_entries' as never)
-      .update({ sms_sent_at: parsed.data.sms_sent_at } as never)
-      .eq('id', id)
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 })
-    return NextResponse.json({ success: true })
+    try {
+      await updateEntry(supabase, id, { sms_sent_at: parsed.data.sms_sent_at })
+      return NextResponse.json({ success: true })
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Failed to update entry'
+      return NextResponse.json({ error: message }, { status: 500 })
+    }
   }
 
-  const { data: entry } = await supabase
-    .from('raffle_entries' as never)
-    .select('is_winner')
-    .eq('id', id)
-    .single()
-
-  if ((entry as { is_winner: boolean } | null)?.is_winner) {
+  const entry = await getEntryById(supabase, id)
+  if (entry?.is_winner) {
     return NextResponse.json({ error: 'Cannot modify a winning entry' }, { status: 400 })
   }
 
-  const { error } = await supabase
-    .from('raffle_entries' as never)
-    .update({ excluded: parsed.data.excluded } as never)
-    .eq('id', id)
-
-  if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 })
+  try {
+    await updateEntry(supabase, id, { excluded: parsed.data.excluded })
+    return NextResponse.json({ success: true })
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Failed to update entry'
+    return NextResponse.json({ error: message }, { status: 500 })
   }
-
-  return NextResponse.json({ success: true })
 }
 
 export async function DELETE(
@@ -116,24 +83,16 @@ export async function DELETE(
     return NextResponse.json({ error: 'Service unavailable' }, { status: 503 })
   }
 
-  const { data: entry } = await supabase
-    .from('raffle_entries' as never)
-    .select('is_winner')
-    .eq('id', id)
-    .single()
-
-  if ((entry as { is_winner: boolean } | null)?.is_winner) {
+  const entry = await getEntryById(supabase, id)
+  if (entry?.is_winner) {
     return NextResponse.json({ error: 'Cannot delete a winning entry' }, { status: 400 })
   }
 
-  const { error } = await supabase
-    .from('raffle_entries' as never)
-    .delete()
-    .eq('id', id)
-
-  if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 })
+  try {
+    await deleteEntry(supabase, id)
+    return NextResponse.json({ success: true })
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Failed to delete entry'
+    return NextResponse.json({ error: message }, { status: 500 })
   }
-
-  return NextResponse.json({ success: true })
 }

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 import { requireAdminWithFlag } from '@/lib/adminAuthBridge'
+import { createRaffle } from '@/lib/raffle'
 import { getSupabaseAdminClient } from '@/lib/supabase/server'
 
 const CreateRaffleSchema = z.object({
@@ -26,15 +27,11 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Server configuration error' }, { status: 500 })
   }
 
-  const { data, error } = await supabase
-    .from('raffles' as never)
-    .insert({ name: parsed.data.name, status: 'open' } as never)
-    .select()
-    .single()
-
-  if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 })
+  try {
+    const raffle = await createRaffle(supabase, parsed.data.name)
+    return NextResponse.json({ raffle }, { status: 201 })
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Failed to create raffle'
+    return NextResponse.json({ error: message }, { status: 500 })
   }
-
-  return NextResponse.json({ raffle: data }, { status: 201 })
 }

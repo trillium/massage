@@ -1,17 +1,6 @@
-import { getSupabaseAdminClient } from '@/lib/supabase/server'
 import { healthResponse } from '@/lib/health/shared'
-
-interface RaffleRow {
-  id: string
-  name: string
-  is_active: boolean
-  status: string
-  created_at: string
-}
-
-interface EntryRow {
-  raffle_id: string
-}
+import { getRaffleEntryCounts, listRaffles } from '@/lib/raffle'
+import { getSupabaseAdminClient } from '@/lib/supabase/server'
 
 export async function GET() {
   const supabase = getSupabaseAdminClient()
@@ -30,37 +19,9 @@ export async function GET() {
   }
 
   try {
-    const { data: rafflesData, error: rafflesError } = await supabase
-      .from('raffles' as never)
-      .select('id, name, is_active, status, created_at')
-      .order('created_at', { ascending: false })
-
-    if (rafflesError) {
-      return healthResponse(
-        {
-          db: 'unhealthy',
-          error: rafflesError.message,
-          raffles: null,
-          active_raffle: null,
-          entry_counts: null,
-        },
-        503
-      )
-    }
-
-    const raffles = (rafflesData ?? []) as RaffleRow[]
+    const raffles = await listRaffles(supabase)
     const activeRaffle = raffles.find((r) => r.status === 'open') ?? null
-
-    const { data: entriesData, error: countsError } = await supabase
-      .from('raffle_entries' as never)
-      .select('raffle_id')
-
-    const entryCounts: Record<string, number> = {}
-    if (!countsError && entriesData) {
-      for (const row of entriesData as unknown as EntryRow[]) {
-        entryCounts[row.raffle_id] = (entryCounts[row.raffle_id] ?? 0) + 1
-      }
-    }
+    const entryCounts = await getRaffleEntryCounts(supabase)
 
     const rafflesSummary = raffles.map((r) => ({
       id: r.id,
@@ -92,7 +53,7 @@ export async function GET() {
         active_raffle: null,
         entry_counts: null,
       },
-      500
+      503
     )
   }
 }

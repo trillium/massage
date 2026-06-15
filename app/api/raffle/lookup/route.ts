@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { LRUCache } from 'lru-cache'
 import { checkRateLimitFactory } from '@/lib/checkRateLimitFactory'
+import { getEntryByEmail } from '@/lib/raffle'
 import { getSupabaseAdminClient } from '@/lib/supabase/server'
 
 const rateLimitLRU = new LRUCache({
@@ -10,14 +11,6 @@ const rateLimitLRU = new LRUCache({
 const REQUESTS_PER_IP_PER_MINUTE_LIMIT = 10
 
 const checkRateLimit = checkRateLimitFactory(rateLimitLRU, REQUESTS_PER_IP_PER_MINUTE_LIMIT)
-
-interface RaffleEntryRow {
-  name: string
-  email: string
-  phone: string
-  zip_code: string | null
-  interested_in: string[]
-}
 
 export async function GET(request: NextRequest) {
   try {
@@ -38,20 +31,11 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Service unavailable' }, { status: 503 })
     }
 
-    const { data, error } = await supabase
-      .from('raffle_entries' as never)
-      .select('name, email, phone, zip_code, interested_in')
-      .eq('email', email)
-      .eq('raffle_id', raffleId)
-      .order('created_at', { ascending: false })
-      .limit(1)
-      .single()
+    const entry = await getEntryByEmail(supabase, email, raffleId)
 
-    if (error || !data) {
+    if (!entry) {
       return NextResponse.json({ entry: null })
     }
-
-    const entry = data as unknown as RaffleEntryRow
 
     return NextResponse.json({
       entry: {

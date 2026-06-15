@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { LRUCache } from 'lru-cache'
 import { checkRateLimitFactory } from '@/lib/checkRateLimitFactory'
+import { getEntryByEmail, getOpenRaffle, insertEntry, updateEntry } from '@/lib/raffle'
 import { RaffleEntrySchema } from '@/lib/schema'
 import { getSupabaseAdminClient } from '@/lib/supabase/server'
 import { distanceFromWestchester } from '@/lib/zipDistance'
@@ -34,71 +35,50 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Service unavailable' }, { status: 503 })
     }
 
-    const { data: raffleData, error: raffleError } = await supabase
-      .from('raffles' as never)
-      .select('id')
-      .eq('status', 'open')
-      .limit(1)
-      .single()
-
-    const raffle = raffleData as { id: string } | null
-
-    if (raffleError || !raffle) {
+    const raffle = await getOpenRaffle(supabase)
+    if (!raffle) {
       return NextResponse.json({ error: 'No active raffle' }, { status: 400 })
     }
 
-    const { data: existingData } = await supabase
-      .from('raffle_entries' as never)
-      .select('id, is_winner')
-      .eq('email', parsed.data.email)
-      .eq('raffle_id', raffle.id)
-      .order('created_at', { ascending: false })
-      .limit(1)
-      .single()
-
-    const existing = existingData as { id: string; is_winner: boolean } | null
+    const existing = await getEntryByEmail(supabase, parsed.data.email, raffle.id)
 
     if (existing?.is_winner) {
       return NextResponse.json({ error: 'Cannot edit a winning entry' }, { status: 400 })
     }
 
     if (existing) {
-      const { error: updateError } = await supabase
-        .from('raffle_entries' as never)
-        .update({
+      try {
+        await updateEntry(supabase, existing.id, {
           name: parsed.data.name,
           phone: parsed.data.phone,
           is_local: parsed.data.is_local,
           zip_code: parsed.data.zip_code,
           interested_in: parsed.data.interested_in,
           distance_from_90045_mi: distanceFromWestchester(parsed.data.zip_code),
-        } as never)
-        .eq('id', existing.id)
-
-      if (updateError) {
-        return NextResponse.json({ error: updateError.message }, { status: 500 })
+        })
+        return NextResponse.json({ success: true, entryId: existing.id })
+      } catch (error) {
+        const message = error instanceof Error ? error.message : 'Update failed'
+        return NextResponse.json({ error: message }, { status: 500 })
       }
-
-      return NextResponse.json({ success: true, entryId: existing.id })
     }
 
-    const { data: entryData, error } = await supabase
-      .from('raffle_entries' as never)
-      .insert({
+    try {
+      const entry = await insertEntry(supabase, {
         raffle_id: raffle.id,
-        ...parsed.data,
+        name: parsed.data.name,
+        email: parsed.data.email,
+        phone: parsed.data.phone,
+        is_local: parsed.data.is_local,
+        zip_code: parsed.data.zip_code,
+        interested_in: parsed.data.interested_in,
         distance_from_90045_mi: distanceFromWestchester(parsed.data.zip_code),
-      } as never)
-      .select('id')
-      .single()
-
-    const entry = entryData as { id: string } | null
-
-    if (error || !entry) {
-      return NextResponse.json({ error: error?.message ?? 'Insert failed' }, { status: 500 })
+      })
+      return NextResponse.json({ success: true, entryId: entry.id })
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Insert failed'
+      return NextResponse.json({ error: message }, { status: 500 })
     }
-
-    return NextResponse.json({ success: true, entryId: entry.id })
   } catch (error) {
     console.error('Error in raffle submit API route:', error)
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
