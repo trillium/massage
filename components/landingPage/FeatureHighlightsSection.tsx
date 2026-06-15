@@ -35,7 +35,7 @@ export default function FeatureHighlightsSection() {
 
 function FeatureItem({ icon, title, description }: FeatureItemProps) {
   return (
-    <div className="flex items-center gap-4 sm:items-start">
+    <Stack direction="row" align="center" gap={4} className="sm:items-start">
       <Stack
         className="bg-primary-100 relative rounded-full p-8"
         direction="row"
@@ -48,6 +48,6 @@ function FeatureItem({ icon, title, description }: FeatureItemProps) {
         <div className="text-lg font-bold sm:text-base">{title}</div>
         <div className="text-base text-accent-500">{description}</div>
       </div>
-    </div>
+    </Stack>
   )
 }

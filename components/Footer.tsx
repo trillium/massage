@@ -35,14 +35,14 @@ export default function Footer() {
 
 function QuicklinkContainer({ displayClasses }: { displayClasses?: string }) {
   return (
-    <div className={clsx(displayClasses, 'flex flex-col items-start')}>
+    <Stack direction="col" align="start" className={displayClasses}>
       <H2 className="mb-6">{footer.quickLinks.heading}</H2>
       <ul className="xs:mb-8 mb-0 space-y-3">
         {footer.quickLinks.links.map((item) => (
           <ListItem positionClasses="pl-4" key={item.text} {...item} />
         ))}
       </ul>
-    </div>
+    </Stack>
   )
 }
 
@@ -71,7 +71,7 @@ function ServiceIsContainer({ displayClasses }: { displayClasses?: string }) {
   const { event: eventServiceLinks, table: tableServiceLinks } = servicesLinks
 
   return (
-    <div className={clsx(displayClasses, 'flex flex-col items-start')}>
+    <Stack direction="col" align="start" className={displayClasses}>
       <H2 className="mb-6">{footer.services.heading}</H2>
       <H2 className="mb-2 ml-4">{footer.services.inHome.heading}</H2>
       <ul className="mb-8 space-y-1">
@@ -85,7 +85,7 @@ function ServiceIsContainer({ displayClasses }: { displayClasses?: string }) {
           <ListItem positionClasses="pl-8 whitespace-nowrap" key={item.text} {...item} />
         ))}
       </ul>
-    </div>
+    </Stack>
   )
 }
 
@@ -136,11 +136,10 @@ function LogoAndBlurb({ displayClasses }: { displayClasses: string }) {
   return (
     <div className={clsx(displayClasses, 'text-white')}>
       <Link href="/" aria-label={siteMetadata.headerTitle} className="group">
-        <div
-          className={clsx(
-            'group-focus-within: flex items-center',
-            'group-focus-within:outline-primary-500 rounded-md outline-2 outline-offset-2 outline-transparent'
-          )}
+        <Stack
+          direction="row"
+          align="center"
+          className="group-focus-within: group-focus-within:outline-primary-500 rounded-md outline-2 outline-offset-2 outline-transparent"
         >
           {site.branding.siteLogo && (
             <div className="mr-3">
@@ -155,7 +154,7 @@ function LogoAndBlurb({ displayClasses }: { displayClasses: string }) {
           >
             {siteMetadata.headerTitle}
           </div>
-        </div>
+        </Stack>
       </Link>
       <TextBase className="text-accent-400" data-content="footer.blurb">
         {home.footer.blurb}

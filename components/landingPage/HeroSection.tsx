@@ -32,11 +32,10 @@ export default function HeroSection() {
 function TextContent({ positionClasses }: { positionClasses?: string }) {
   const headlineParts = hero.headline.split(hero.gradientWord)
   return (
-    <div
-      className={clsx(
-        'flex h-full flex-col items-center space-y-4 text-center md:text-left',
-        positionClasses
-      )}
+    <Stack
+      direction="col"
+      align="center"
+      className={clsx('h-full space-y-4 text-center md:text-left', positionClasses)}
     >
       <div>
         <H1 className="md:text-5xl lg:text-6xl" data-content="hero.headline">
@@ -54,7 +53,7 @@ function TextContent({ positionClasses }: { positionClasses?: string }) {
           {hero.description}
         </TextBase>
       </div>
-    </div>
+    </Stack>
   )
 }
 
@@ -87,11 +86,10 @@ function ImageContent({ positionClasses }: { positionClasses?: string }) {
 
 function ButtonContent({ positionClasses }: { positionClasses?: string }) {
   return (
-    <div
-      className={clsx(
-        'flex h-full flex-col justify-end space-y-4 text-center md:text-left',
-        positionClasses
-      )}
+    <Stack
+      direction="col"
+      justify="end"
+      className={clsx('h-full space-y-4 text-center md:text-left', positionClasses)}
     >
       <Stack className="gap-y-4" direction="col">
         <div className="sm:grid-span-1 col-span-2 grid grid-cols-1 gap-2 sm:col-span-1 sm:grid-cols-2">
@@ -126,6 +124,6 @@ function ButtonContent({ positionClasses }: { positionClasses?: string }) {
           </Stack>
         </div>
       </Stack>
-    </div>
+    </Stack>
   )
 }

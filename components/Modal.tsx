@@ -2,6 +2,7 @@ import React from 'react'
 import { Dialog, DialogPanel, Transition, TransitionChild } from '@headlessui/react'
 import type { PropsWithChildren } from 'react'
 import { Fragment } from 'react'
+import { Stack } from '@/components/ui/stack'
 
 type ModalProps = {
   open: boolean
@@ -24,7 +25,12 @@ export default function Modal({ open, setOpen, children }: PropsWithChildren<Mod
         </TransitionChild>
 
         <div className="fixed inset-0 z-10 overflow-y-auto">
-          <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+          <Stack
+            direction="row"
+            align="end"
+            justify="center"
+            className="min-h-full p-4 text-center sm:items-center sm:p-0"
+          >
             <TransitionChild
               as={Fragment}
               enter="ease-out duration-300"
@@ -38,7 +44,7 @@ export default function Modal({ open, setOpen, children }: PropsWithChildren<Mod
                 {children}
               </DialogPanel>
             </TransitionChild>
-          </div>
+          </Stack>
         </div>
       </Dialog>
     </Transition>

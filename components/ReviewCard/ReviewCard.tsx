@@ -106,11 +106,11 @@ const OtherCard = ({
             </Stack>
           </Stack>
           <div className="col-span-12 min-h-60 w-full max-xl:mt-8 xl:col-span-7 xl:pl-8">
-            <div
-              className={clsx(
-                'flex h-full w-full items-center justify-center rounded-3xl max-xl:mx-auto max-xl:max-w-3xl max-lg:py-8',
-                'border-primary-400 border-2 bg-surface-200 dark:bg-surface-900'
-              )}
+            <Stack
+              direction="row"
+              align="center"
+              justify="center"
+              className="h-full w-full rounded-3xl max-xl:mx-auto max-xl:max-w-3xl max-lg:py-8 border-primary-400 border-2 bg-surface-200 dark:bg-surface-900"
             >
               <Stack className="w-full" direction="row" align="center" justify="between">
                 <div className="flex h-full w-full flex-col items-center justify-center sm:flex-row">
@@ -130,7 +130,7 @@ const OtherCard = ({
                   />
                 </div>
               </Stack>
-            </div>
+            </Stack>
           </div>
         </div>
 
@@ -152,11 +152,11 @@ const ScoreDisplay = ({
   if (test === false) return <></>
 
   return (
-    <div
-      className={clsx(
-        'flex flex-col items-center justify-center border-accent-200 pt-6 sm:pt-0',
-        'last:border-t first:sm:pr-3 last:sm:border-t-0 last:sm:border-l last:sm:pl-3'
-      )}
+    <Stack
+      direction="col"
+      align="center"
+      justify="center"
+      className="border-accent-200 pt-6 sm:pt-0 last:border-t first:sm:pr-3 last:sm:border-t-0 last:sm:border-l last:sm:pl-3"
     >
       <H2 className="mb-4 text-center">{averageStr}</H2>
       <Stack className="text-primary-400 mb-4" direction="row" align="center" gap={3}>
@@ -167,7 +167,7 @@ const ScoreDisplay = ({
         <Star percent={0.6 / 5} />
       </Stack>
       <TextLgMuted>{text}</TextLgMuted>
-    </div>
+    </Stack>
   )
 }
 

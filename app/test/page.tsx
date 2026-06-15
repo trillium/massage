@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button'
 import { H1 } from '@/components/ui/heading'
 
 import { TextBase } from '@/components/ui/text'
+import { Stack } from '@/components/ui/stack'
 
 const testText = pagesData.test
 
@@ -64,9 +65,12 @@ export default function DoubleBookingTestPage() {
 
           <div className="space-y-3">
             {result.steps.map((step, i) => (
-              <div
+              <Stack
+                direction="row"
+                align="start"
+                gap={4}
+                className="rounded-lg border border-accent-200 p-4 dark:border-accent-700"
                 key={i}
-                className="flex items-start gap-4 rounded-lg border border-accent-200 p-4 dark:border-accent-700"
               >
                 <div
                   className={`shrink-0 rounded-full px-3 py-1 text-sm font-medium ${
@@ -90,7 +94,7 @@ export default function DoubleBookingTestPage() {
                 >
                   {step.status}
                 </div>
-              </div>
+              </Stack>
             ))}
           </div>
         </div>

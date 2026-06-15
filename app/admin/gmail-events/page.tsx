@@ -176,7 +176,7 @@ export default function GmailTestPage() {
   }
 
   return (
-    <div className="mx-auto flex max-w-6xl flex-col gap-3 p-3 sm:gap-4 sm:p-4 lg:p-6">
+    <Stack direction="col" gap={3} className="mx-auto max-w-6xl p-3 sm:gap-4 sm:p-4 lg:p-6">
       <div>
         <H1 className="mb-4 sm:text-3xl">Gmail Soothe Booking Search</H1>
 
@@ -310,7 +310,7 @@ export default function GmailTestPage() {
           </div>
         </div>
       )}
-    </div>
+    </Stack>
   )
 }
 
@@ -367,7 +367,7 @@ function BookingItem({
 
         {(booking.payout || booking.tip) && (
           <div>
-            <div className="flex flex-wrap gap-1 text-xs sm:gap-2 sm:text-sm">
+            <Stack direction="row" wrap gap={1} className="text-xs sm:gap-2 sm:text-sm">
               <span className="font-semibold text-accent-900 dark:text-accent-100">
                 Total: ${parseInt(booking.payout || '0', 10) + parseInt(booking.tip || '0', 10)}
               </span>
@@ -377,7 +377,7 @@ function BookingItem({
               </span>
               <span className="font-semibold text-accent-900 dark:text-accent-100">+</span>
               <span className="text-green-600 dark:text-green-400">${String(booking.tip)}</span>
-            </div>
+            </Stack>
           </div>
         )}
 
