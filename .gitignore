@@ -139,5 +139,8 @@ interceptor-screenshot-*.png
 # Build artifacts
 bundle.js
 
+# Lockfile — pnpm only
+bun.lock
+
 # Playwright MCP tooling
 .playwright-mcp/
