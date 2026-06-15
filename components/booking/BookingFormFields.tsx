@@ -12,6 +12,9 @@ import NotesField from './fields/NotesField'
 import PromoCodeField from './fields/PromoCodeField'
 import RaffleOptInField from './fields/RaffleOptInField'
 
+import { Box } from '@/components/ui/box'
+import { Stack } from '@/components/ui/stack'
+import { TextSm } from '@/components/ui/text'
 import { setForm } from '@/redux/slices/formSlice'
 import { useAppDispatch } from '@/redux/hooks'
 import { PaymentMethodType } from 'lib/types'
@@ -59,8 +62,8 @@ export default function BookingFormFields({
   const dispatch = useAppDispatch()
 
   return (
-    <div className="flex flex-col space-y-4">
-      <div className="isolate -space-y-px rounded-md shadow-sm">
+    <Stack direction="col" gap={4}>
+      <Box className="isolate -space-y-px rounded-md shadow-sm">
         <NameFields
           firstName={values.firstName}
           lastName={values.lastName}
@@ -69,10 +72,14 @@ export default function BookingFormFields({
           }}
         />
         {touched.firstName && errors.firstName && (
-          <div className="mt-1 text-sm text-red-600">{errors.firstName}</div>
+          <TextSm as="div" status="error" className="mt-1">
+            {errors.firstName}
+          </TextSm>
         )}
         {touched.lastName && errors.lastName && (
-          <div className="mt-1 text-sm text-red-600">{errors.lastName}</div>
+          <TextSm as="div" status="error" className="mt-1">
+            {errors.lastName}
+          </TextSm>
         )}
 
         <PhoneField
@@ -82,41 +89,45 @@ export default function BookingFormFields({
           }}
         />
         {touched.phone && errors.phone && (
-          <div className="mt-1 text-sm text-red-600">{errors.phone}</div>
+          <TextSm as="div" status="error" className="mt-1">
+            {errors.phone}
+          </TextSm>
         )}
 
-        {!hideLocation && <LocationField
-          location={values.location}
-          readOnly={!!locationReadOnly}
-          onChange={(e) => {
-            const locationField = LOCATION_FIELD_MAP[e.target.name]
-            if (!locationField) return
+        {!hideLocation && (
+          <LocationField
+            location={values.location}
+            readOnly={!!locationReadOnly}
+            onChange={(e) => {
+              const locationField = LOCATION_FIELD_MAP[e.target.name]
+              if (!locationField) return
 
-            setFieldValue(`location.${locationField}`, e.target.value)
+              setFieldValue(`location.${locationField}`, e.target.value)
 
-            const updatedLocation = {
-              ...values.location,
-              [locationField]: e.target.value,
-            }
-            dispatch(setForm({ location: updatedLocation }))
-          }}
-          onBlur={(e) => {
-            const locationField = LOCATION_FIELD_MAP[e.target.name]
-            if (!locationField) return
+              const updatedLocation = {
+                ...values.location,
+                [locationField]: e.target.value,
+              }
+              dispatch(setForm({ location: updatedLocation }))
+            }}
+            onBlur={(e) => {
+              const locationField = LOCATION_FIELD_MAP[e.target.name]
+              if (!locationField) return
 
-            setFieldTouched(`location.${locationField}`, true, true)
-          }}
-          validationConfig={{ cities: ['Playa Vista'] }}
-          errors={{
-            street:
-              touched.location?.street && errors.location?.street
-                ? errors.location.street
-                : undefined,
-            city:
-              touched.location?.city && errors.location?.city ? errors.location.city : undefined,
-            zip: touched.location?.zip && errors.location?.zip ? errors.location.zip : undefined,
-          }}
-        />}
+              setFieldTouched(`location.${locationField}`, true, true)
+            }}
+            validationConfig={{ cities: ['Playa Vista'] }}
+            errors={{
+              street:
+                touched.location?.street && errors.location?.street
+                  ? errors.location.street
+                  : undefined,
+              city:
+                touched.location?.city && errors.location?.city ? errors.location.city : undefined,
+              zip: touched.location?.zip && errors.location?.zip ? errors.location.zip : undefined,
+            }}
+          />
+        )}
 
         <EmailField
           email={values.email}
@@ -125,7 +136,9 @@ export default function BookingFormFields({
           }}
         />
         {touched.email && errors.email && (
-          <div className="mt-1 text-sm text-red-600">{errors.email}</div>
+          <TextSm as="div" status="error" className="mt-1">
+            {errors.email}
+          </TextSm>
         )}
 
         {showHotelField && (
@@ -137,7 +150,9 @@ export default function BookingFormFields({
               }}
             />
             {touched.hotelRoomNumber && errors.hotelRoomNumber && (
-              <div className="mt-1 text-sm text-red-600">{errors.hotelRoomNumber}</div>
+              <TextSm as="div" status="error" className="mt-1">
+                {errors.hotelRoomNumber}
+              </TextSm>
             )}
           </>
         )}
@@ -151,7 +166,9 @@ export default function BookingFormFields({
               }}
             />
             {touched.parkingInstructions && errors.parkingInstructions && (
-              <div className="mt-1 text-sm text-red-600">{errors.parkingInstructions}</div>
+              <TextSm as="div" status="error" className="mt-1">
+                {errors.parkingInstructions}
+              </TextSm>
             )}
           </>
         )}
@@ -165,7 +182,9 @@ export default function BookingFormFields({
               }}
             />
             {touched.additionalNotes && errors.additionalNotes && (
-              <div className="mt-1 text-sm text-red-600">{errors.additionalNotes}</div>
+              <TextSm as="div" status="error" className="mt-1">
+                {errors.additionalNotes}
+              </TextSm>
             )}
           </>
         )}
@@ -179,9 +198,9 @@ export default function BookingFormFields({
             }}
           />
         )}
-      </div>
+      </Box>
 
-      <div
+      <Box
         className={clsx(
           'mt-1 transform rounded border-2 border-amber-200 bg-amber-50 p-2 text-sm text-amber-600 transition-all duration-300 ease-in-out dark:bg-amber-950/50 dark:text-amber-500',
           {
@@ -192,7 +211,7 @@ export default function BookingFormFields({
         aria-live="polite"
       >
         {locationWarning}
-      </div>
+      </Box>
 
       {acceptingPayment && (
         <>
@@ -203,7 +222,9 @@ export default function BookingFormFields({
             }}
           />
           {touched.paymentMethod && errors.paymentMethod && (
-            <div className="mt-1 text-sm text-red-600">{errors.paymentMethod}</div>
+            <TextSm as="div" status="error" className="mt-1">
+              {errors.paymentMethod}
+            </TextSm>
           )}
         </>
       )}
@@ -216,6 +237,6 @@ export default function BookingFormFields({
           onChange={setFieldValue}
         />
       )}
-    </div>
+    </Stack>
   )
 }
