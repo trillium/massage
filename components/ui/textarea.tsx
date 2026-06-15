@@ -1,6 +1,8 @@
 import { cn } from '@/lib/cn'
 import type { TextareaHTMLAttributes } from 'react'
 
+import { TextXs } from '@/components/ui/text'
+
 interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   label?: string
   error?: string
@@ -27,7 +29,7 @@ export function Textarea({ label, error, className, id, ...props }: TextareaProp
         )}
         {...props}
       />
-      {error && <p className="text-xs text-red-600 dark:text-red-400">{error}</p>}
+      {error && <TextXs className="text-xs text-red-600 dark:text-red-400">{error}</TextXs>}
     </div>
   )
 }

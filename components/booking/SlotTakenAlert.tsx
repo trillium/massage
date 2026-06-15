@@ -3,7 +3,9 @@
 import { useSearchParams, useRouter, usePathname } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 import booking from '@/data/booking.json'
-import { TextSm } from '@/components/ui/text'
+import { TextSm,
+  TextBase,
+} from '@/components/ui/text'
 
 import { Button } from '@/components/ui/button'
 
@@ -31,7 +33,7 @@ export default function SlotTakenAlert() {
 
   return (
     <div className="rounded-md border border-amber-300 bg-amber-50 p-4 text-amber-800 dark:border-amber-600 dark:bg-amber-900/30 dark:text-amber-200">
-      <p className="font-medium">{booking.flow.slotTakenTitle}</p>
+      <TextBase className="font-medium">{booking.flow.slotTakenTitle}</TextBase>
       <TextSm className="mt-1">{booking.flow.slotTakenMessage}</TextSm>
       <Button
         type="button"

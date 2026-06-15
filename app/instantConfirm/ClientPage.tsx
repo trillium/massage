@@ -9,6 +9,8 @@ import { flattenLocation } from '@/lib/helpers/locationHelpers'
 import pagesData from '@/data/pages.json'
 import { H1 } from '@/components/ui/heading'
 
+import { TextBase } from '@/components/ui/text'
+
 export default function Confirmation() {
   const { selectedTime, timeZone, duration } = useReduxAvailability()
 
@@ -59,9 +61,9 @@ export default function Confirmation() {
         <H1 className="sm:text-5xl" status="primary">
           {instantConfirm.heading}
         </H1>
-        <p className="mt-6 text-xl font-medium text-accent-800 dark:text-accent-200">
+        <TextBase className="mt-6 text-xl font-medium text-accent-800 dark:text-accent-200">
           {instantConfirm.subheading}
-        </p>
+        </TextBase>
       </div>
 
       <BookedCard {...bookedData} />

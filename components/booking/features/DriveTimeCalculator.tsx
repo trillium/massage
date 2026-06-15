@@ -240,7 +240,7 @@ export default function DriveTimeCalculator({ currentEvent }: DriveTimeCalculato
               : 'mt-4 rounded-md border-2 border-green-200 bg-green-50 p-3 dark:border-green-800 dark:bg-green-950/50'
           }
         >
-          <p
+          <TextSm
             className={
               driveTimeIsStale
                 ? 'text-sm text-accent-600 dark:text-accent-400'
@@ -249,7 +249,7 @@ export default function DriveTimeCalculator({ currentEvent }: DriveTimeCalculato
           >
             Drive time: <strong>{formatDriveTime(driveTime)}</strong>
             {driveTimeIsStale && ' (from previous location)'}
-          </p>
+          </TextSm>
         </div>
       )}
     </div>

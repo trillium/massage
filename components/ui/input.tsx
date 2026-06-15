@@ -1,6 +1,8 @@
 import { cn } from '@/lib/cn'
 import type { InputHTMLAttributes } from 'react'
 
+import { TextXs } from '@/components/ui/text'
+
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string
   error?: string
@@ -27,7 +29,7 @@ export function Input({ label, error, className, id, ...props }: InputProps) {
         )}
         {...props}
       />
-      {error && <p className="text-xs text-red-600 dark:text-red-400">{error}</p>}
+      {error && <TextXs className="text-xs text-red-600 dark:text-red-400">{error}</TextXs>}
     </div>
   )
 }

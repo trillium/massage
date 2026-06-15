@@ -5,6 +5,8 @@ import { Button } from '@/components/ui/button'
 import { H3 } from '@/components/ui/heading'
 import { Code } from '@/components/ui/code'
 
+import { TextBase } from '@/components/ui/text'
+
 interface ConfigDetailsPanelProps {
   config: SlugConfigurationType
   slug: string
@@ -103,7 +105,7 @@ export default function ConfigDetailsPanel({
         {config.title && (
           <div className="mb-3">
             <strong className="text-accent-700 dark:text-accent-300">Title:</strong>
-            <p className="mt-1 text-accent-600 dark:text-accent-400">{config.title}</p>
+            <TextBase className="mt-1 text-accent-600 dark:text-accent-400">{config.title}</TextBase>
           </div>
         )}
 
@@ -112,12 +114,12 @@ export default function ConfigDetailsPanel({
             <strong className="text-accent-700 dark:text-accent-300">Text:</strong>
             {Array.isArray(config.text) ? (
               config.text.map((paragraph, index) => (
-                <p key={index} className="mt-1 text-accent-600 dark:text-accent-400">
+                <TextBase key={index} className="mt-1 text-accent-600 dark:text-accent-400">
                   {paragraph}
-                </p>
+                </TextBase>
               ))
             ) : (
-              <p className="mt-1 text-accent-600 dark:text-accent-400">{config.text}</p>
+              <TextBase className="mt-1 text-accent-600 dark:text-accent-400">{config.text}</TextBase>
             )}
           </div>
         )}
@@ -125,14 +127,14 @@ export default function ConfigDetailsPanel({
         {config.location && (
           <div className="mb-3">
             <strong className="text-accent-700 dark:text-accent-300">Location:</strong>
-            <p className="mt-1 text-accent-600 dark:text-accent-400">
+            <TextBase className="mt-1 text-accent-600 dark:text-accent-400">
               {config.location.street}, {config.location.city}, {config.location.zip}
               {config.locationIsReadOnly && (
                 <span className="ml-2 rounded bg-yellow-100 px-2 py-1 text-xs text-yellow-800 dark:bg-yellow-800 dark:text-yellow-200">
                   Read Only
                 </span>
               )}
-            </p>
+            </TextBase>
           </div>
         )}
 

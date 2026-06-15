@@ -8,7 +8,9 @@ import { ActionButtons } from './ActionButtons'
 import { adminFetch } from '@/lib/adminFetch'
 import { getCleanSummary } from '@/lib/helpers/eventHelpers'
 import { H3 } from '@/components/ui/heading'
-import { TextXs, TextXsMedium } from '@/components/ui/text'
+import { TextXs, TextXsMedium,
+  TextBase,
+} from '@/components/ui/text'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -133,12 +135,12 @@ export function EventCard({
           </div>
 
           <div className="mt-2 space-y-1 text-sm text-accent-600 dark:text-accent-400">
-            <p>
+            <TextBase>
               <strong>Start:</strong> {formatDate(event.start?.dateTime, event.start?.date)}
-            </p>
-            <p>
+            </TextBase>
+            <TextBase>
               <strong>End:</strong> {formatDate(event.end?.dateTime, event.end?.date)}
-            </p>
+            </TextBase>
 
             {/* Location with edit functionality */}
             <div>
@@ -189,18 +191,18 @@ export function EventCard({
             </div>
 
             {event.creator && (
-              <p>
+              <TextBase>
                 <strong>Created by:</strong> {event.creator.displayName || event.creator.email}
-              </p>
+              </TextBase>
             )}
 
             {event.attendees && event.attendees.length > 0 && (
-              <p>
+              <TextBase>
                 <strong>Attendees:</strong>{' '}
                 {event.attendees
                   .map((attendee) => attendee.displayName || attendee.email)
                   .join(', ')}
-              </p>
+              </TextBase>
             )}
 
             {/* Status Messages */}

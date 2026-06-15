@@ -9,6 +9,8 @@ import { flattenLocation } from '@/lib/helpers/locationHelpers'
 import Link from '@/components/Link'
 import { H1 } from '@/components/ui/heading'
 
+import { TextBase } from '@/components/ui/text'
+
 export default async function Page({
   searchParams,
 }: {
@@ -29,7 +31,7 @@ export default async function Page({
       <SectionContainer>
         <div className="mx-auto max-w-xl py-8 sm:py-16">
           <H1 status="error">Error</H1>
-          <p className="mt-4 text-accent-600">Invalid appointment data. Please try again.</p>
+          <TextBase className="mt-4 text-accent-600">Invalid appointment data. Please try again.</TextBase>
         </div>
       </SectionContainer>
     )
@@ -75,11 +77,11 @@ export default async function Page({
     <SectionContainer>
       <div className="mx-auto max-w-xl py-8 sm:py-16">
         <H1 status="primary">{h1Message}</H1>
-        <p className="mt-6 text-xl font-medium text-accent-800 dark:text-accent-200">
+        <TextBase className="mt-6 text-xl font-medium text-accent-800 dark:text-accent-200">
           It's now on your calendar and an invite has been sent to the client's email at:{' '}
           {attendees || 'them'}.
-        </p>
-        <p className="mt-6 text-xl font-medium text-accent-800 dark:text-accent-200">
+        </TextBase>
+        <TextBase className="mt-6 text-xl font-medium text-accent-800 dark:text-accent-200">
           <Link
             href={'https://www.google.com/calendar/event?eid=' + url}
             target="_blank"
@@ -88,7 +90,7 @@ export default async function Page({
           >
             View it on Google Calendar
           </Link>
-        </p>
+        </TextBase>
       </div>
 
       <BookedCard

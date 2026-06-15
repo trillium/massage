@@ -17,7 +17,9 @@ import { Star } from './ReviewCard/Stars'
 import { handleReviewSubmit } from './ReviewForm.handleSubmit'
 import { siteConfig } from '@/lib/siteConfig'
 import forms from '@/data/forms.json'
-import { TextSm } from '@/components/ui/text'
+import { TextSm,
+  TextLg,
+} from '@/components/ui/text'
 
 import { Button } from '@/components/ui/button'
 import { Select } from '@/components/ui/select'
@@ -58,9 +60,9 @@ export default function ReviewForm({
           }}
         >
           <div className="border-l-primary-400 bg-primary-100/30 dark:bg-primary-50/10 mt-3 mb-4 rounded-md border-l-4 p-3">
-            <p className="text-primary-800 dark:text-primary-400 text-base font-semibold md:text-lg">
+            <TextLg className="text-primary-800 dark:text-primary-400 text-base font-semibold md:text-lg">
               {formatLocalDate(start, { timeZone })}
-            </p>
+            </TextLg>
             <TextSm className="md:text-base">
               {formatLocalTime(start, { timeZone })}
               {reviewForms.timeSeparator}

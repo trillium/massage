@@ -6,6 +6,8 @@ import { AppointmentRequestType } from '@/lib/types'
 import { flattenLocation } from '@/lib/helpers/locationHelpers'
 import { H2 } from '@/components/ui/heading'
 
+import { TextBase } from '@/components/ui/text'
+
 interface Step4FinalConfirmationProps {
   isConfirmed: boolean
   submittedData: AppointmentRequestType | null
@@ -35,9 +37,9 @@ export default function Step4FinalConfirmation({
       className="rounded-lg bg-surface-50 p-6 shadow dark:bg-surface-800"
     >
       <H2 className="mb-4">Step 4: Booking Confirmed</H2>
-      <p className="mb-4 text-accent-600 dark:text-accent-400">
+      <TextBase className="mb-4 text-accent-600 dark:text-accent-400">
         After approval, the user would see a confirmation page like this:
-      </p>
+      </TextBase>
       <MockedConfirmationPage data={transformedData} />
     </div>
   )

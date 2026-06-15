@@ -5,6 +5,8 @@ import { home } from '@/app/content'
 import pages from '@/data/pages.json'
 import { H1 } from '@/components/ui/heading'
 
+import { TextBase } from '@/components/ui/text'
+
 const pricingStart = [{ duration: 60 }, { duration: 90 }, { duration: 120 }, { duration: 150 }]
 
 const pricing = pricingStart.map((item) => ({
@@ -16,9 +18,9 @@ export default function PricingPage() {
   return (
     <SectionContainer>
       <H1 className="mb-4">{pages.pricing.heading}</H1>
-      <p className="mb-6" data-content="pricing.pageLead">
+      <TextBase className="mb-6" data-content="pricing.pageLead">
         {home.pricing.pageLead}
-      </p>
+      </TextBase>
       <table className="mb-6 w-full table-auto border-collapse overflow-hidden rounded-lg">
         <thead className="bg-primary-500 dark:bg-primary-600 text-accent-100">
           <tr>

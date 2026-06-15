@@ -6,7 +6,9 @@ import { FiMapPin } from 'react-icons/fi'
 import { HiSparkles } from 'react-icons/hi2'
 import { GradientText } from '@/components/ui/GradientText'
 import { H1, H2 } from '@/components/ui/heading'
-import { TextSm } from '@/components/ui/text'
+import { TextSm,
+  TextBase,
+} from '@/components/ui/text'
 import { home, site } from '@/app/content'
 import landing from '@/data/landing.json'
 
@@ -46,12 +48,12 @@ function TextContent({ positionClasses }: { positionClasses?: string }) {
         <H2 className="mx-auto mt-4 max-w-lg md:mx-0" data-content="hero.subheading" status="muted">
           {hero.subheading}
         </H2>
-        <p
+        <TextBase
           className="mx-auto mt-4 max-w-lg text-xl text-accent-600 md:mx-0 dark:text-accent-300"
           data-content="hero.description"
         >
           {hero.description}
-        </p>
+        </TextBase>
       </div>
     </div>
   )

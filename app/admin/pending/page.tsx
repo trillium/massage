@@ -5,6 +5,8 @@ import SectionContainer from '@/components/SectionContainer'
 import { DeclineButton } from './DeclineButton'
 import { H1, H3 } from '@/components/ui/heading'
 
+import { TextBase } from '@/components/ui/text'
+
 export const dynamic = 'force-dynamic'
 
 function formatDate(dateTime?: string, date?: string) {
@@ -26,7 +28,7 @@ export default async function PendingPage() {
         <H1 className="mb-6 dark:text-white">Pending Requests ({pendingEvents.length})</H1>
 
         {pendingEvents.length === 0 && (
-          <p className="text-accent-500 dark:text-accent-400">No pending requests.</p>
+          <TextBase className="text-accent-500 dark:text-accent-400">No pending requests.</TextBase>
         )}
 
         <div className="space-y-4">
@@ -40,16 +42,16 @@ export default async function PendingPage() {
                 <H3 className="dark:text-white">{getCleanSummary(event)}</H3>
 
                 <div className="mt-2 space-y-1 text-sm text-accent-600 dark:text-accent-400">
-                  <p>
+                  <TextBase>
                     <strong>Start:</strong> {formatDate(event.start?.dateTime, event.start?.date)}
-                  </p>
-                  <p>
+                  </TextBase>
+                  <TextBase>
                     <strong>End:</strong> {formatDate(event.end?.dateTime, event.end?.date)}
-                  </p>
+                  </TextBase>
                   {event.location && (
-                    <p>
+                    <TextBase>
                       <strong>Location:</strong> {event.location}
-                    </p>
+                    </TextBase>
                   )}
                 </div>
 

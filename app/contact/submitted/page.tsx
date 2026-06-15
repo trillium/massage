@@ -6,7 +6,9 @@ import SectionContainer from '@/components/SectionContainer'
 import Link from 'next/link'
 import { useReduxContactForm } from '@/redux/hooks'
 import { H1 } from '@/components/ui/heading'
-import { Caption, TextLg, TextSmMuted } from '@/components/ui/text'
+import { Caption, TextLg, TextSmMuted,
+  TextBase,
+} from '@/components/ui/text'
 
 export default function ContactSubmittedPage() {
   return (
@@ -27,9 +29,9 @@ function ContactSubmittedContent() {
       <SectionContainer>
         <div className="flex min-h-[40vh] flex-col items-center justify-center text-center">
           <H1 className="mb-4">Something went wrong</H1>
-          <p className="mb-8 text-surface-600 dark:text-surface-400">
+          <TextBase className="mb-8 text-surface-600 dark:text-surface-400">
             We couldn't confirm your submission. Please try again.
-          </p>
+          </TextBase>
           <Link
             href="/contact"
             className="bg-primary-600 hover:bg-primary-700 rounded px-6 py-2 font-semibold text-white transition-colors"
@@ -51,23 +53,23 @@ function ContactSubmittedContent() {
               Thank you, {contactForm.name}. We've received your message and sent a confirmation to{' '}
               <span className="font-semibold">{contactForm.email}</span>.
             </TextLg>
-            <p className="mb-6 text-surface-600 dark:text-surface-400">
+            <TextBase className="mb-6 text-surface-600 dark:text-surface-400">
               We'll get back to you as soon as possible.
-            </p>
+            </TextBase>
             <div className="mb-8 w-full max-w-lg rounded-lg border-2 border-surface-200 bg-surface-50 text-left shadow-md dark:border-surface-700 dark:bg-surface-900">
               <div className="border-b border-surface-200 px-5 py-3 dark:border-surface-700">
                 <TextSmMuted>Subject</TextSmMuted>
-                <p className="font-semibold">{contactForm.subject}</p>
+                <TextBase className="font-semibold">{contactForm.subject}</TextBase>
               </div>
               <div className="border-b border-surface-200 px-5 py-3 dark:border-surface-700">
                 <TextSmMuted>From</TextSmMuted>
-                <p>
+                <TextBase>
                   {contactForm.name} · {contactForm.email} · {contactForm.phone}
-                </p>
+                </TextBase>
               </div>
               <div className="px-5 py-3">
                 <TextSmMuted className="mb-1">Message</TextSmMuted>
-                <p className="whitespace-pre-wrap">{contactForm.message}</p>
+                <TextBase className="whitespace-pre-wrap">{contactForm.message}</TextBase>
               </div>
             </div>
           </>

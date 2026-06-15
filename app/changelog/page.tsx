@@ -19,7 +19,9 @@ import pages from '@/data/pages.json'
 import { changelog, type ChangelogIcon, type ChangelogCategory } from './changelog.list'
 import { buildQuarters, type QuarterGroup } from './buildQuarters'
 import { H1, H2, H3 } from '@/components/ui/heading'
-import { TextLgMuted, TextSmMuted, TextSmSemibold, TextXsMuted } from '@/components/ui/text'
+import { TextLgMuted, TextSmMuted, TextSmSemibold, TextXsMuted,
+  TextXs,
+} from '@/components/ui/text'
 
 const iconMap: Record<ChangelogIcon, React.ReactNode> = {
   calendar: <FaCalendarCheck className="text-primary-500" />,
@@ -50,9 +52,9 @@ function ConnectedBlock({
   return (
     <div>
       <div className="rounded-t-lg border border-primary-200 bg-primary-50/50 p-4 dark:border-primary-800 dark:bg-primary-950/20">
-        <p className="mb-2 text-xs font-semibold tracking-widest text-primary-600 uppercase dark:text-primary-400">
+        <TextXs className="mb-2 text-xs font-semibold tracking-widest text-primary-600 uppercase dark:text-primary-400">
           {pages.changelog.header.highlights}
-        </p>
+        </TextXs>
         <ul className="space-y-1">
           {highlights.map((h) => (
             <li key={h} className="text-sm font-medium text-accent-800 dark:text-accent-200">

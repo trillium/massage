@@ -5,7 +5,9 @@ import { isPromoExpired } from '@/lib/utilities/promoValidation'
 import SectionContainer from '@/components/SectionContainer'
 import { FaCrosshairs, FaDollarSign, FaTimes, FaClock, FaClipboardList } from 'react-icons/fa'
 import { H2, H3, H4 } from '@/components/ui/heading'
-import { TextSmMedium, TextSmMuted, TextXs, TextXsMedium } from '@/components/ui/text'
+import { TextSmMedium, TextSmMuted, TextXs, TextXsMedium,
+  TextBase,
+} from '@/components/ui/text'
 
 export default async function PromoRoutesPage() {
   const slugConfigurations = await fetchSlugConfigurationData()
@@ -83,12 +85,12 @@ export default async function PromoRoutesPage() {
                           <div className="mt-1 text-sm text-accent-500 dark:text-accent-400">
                             {Array.isArray(config.text) ? (
                               config.text.map((paragraph, index) => (
-                                <p key={index} className={index > 0 ? 'mt-1' : ''}>
+                                <TextBase key={index} className={index > 0 ? 'mt-1' : ''}>
                                   {paragraph}
-                                </p>
+                                </TextBase>
                               ))
                             ) : (
-                              <p>{config.text}</p>
+                              <TextBase>{config.text}</TextBase>
                             )}
                           </div>
                         )}

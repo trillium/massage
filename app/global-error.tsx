@@ -5,6 +5,8 @@ import system from '@/data/system.json'
 import { Button } from '@/components/ui/button'
 import { H1 } from '@/components/ui/heading'
 
+import { TextBase } from '@/components/ui/text'
+
 export default function GlobalError({
   error: _error,
   reset,
@@ -17,7 +19,7 @@ export default function GlobalError({
       <body>
         <div style={{ padding: '2rem', textAlign: 'center' }}>
           <H1>{system.globalError.message}</H1>
-          <p>{system.globalError.description}</p>
+          <TextBase>{system.globalError.description}</TextBase>
           <Button
             type="button"
             onClick={reset}

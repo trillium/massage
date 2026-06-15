@@ -8,6 +8,7 @@ import {
   TextSmSemibold,
   TextXsMedium,
   TextXsMuted,
+  TextBase,
 } from '@/components/ui/text'
 import { H1, H2, H3 } from '@/components/ui/heading'
 
@@ -123,13 +124,13 @@ export default function Page() {
         <div className="mt-14 rounded-lg bg-surface-100 p-8 dark:bg-surface-800/50">
           <H2 className="mb-3">{compareData.honestTakeHeading}</H2>
           <div className="space-y-3 text-sm leading-relaxed text-accent-600 dark:text-accent-400">
-            <p>{compareData.honestTakeParagraph1}</p>
-            <p>{compareData.honestTakeParagraph2}</p>
-            <p>
+            <TextBase>{compareData.honestTakeParagraph1}</TextBase>
+            <TextBase>{compareData.honestTakeParagraph2}</TextBase>
+            <TextBase>
               {compareData.honestTakeParagraph3.replace('<Soon />', '')}
               <Soon label="Soon" />
               {compareData.honestTakeParagraph3.split('<Soon />')[1] || ''}
-            </p>
+            </TextBase>
           </div>
         </div>
 

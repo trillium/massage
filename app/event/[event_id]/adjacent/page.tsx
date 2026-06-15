@@ -19,7 +19,9 @@ import InitializeBookingState from '@/components/booking/InitializeBookingState'
 import DurationSlotManager from '@/components/booking/DurationSlotManager'
 import { createPageConfiguration } from '@/lib/slugConfigurations/createPageConfiguration'
 import { H1, H2, H3 } from '@/components/ui/heading'
-import { TextXs } from '@/components/ui/text'
+import { TextXs,
+  TextBase,
+} from '@/components/ui/text'
 
 interface AdjacentBookingPageProps {
   params: Promise<{ event_id: string }>
@@ -72,7 +74,7 @@ export default async function AdjacentBookingPage({
             <H2 className="mb-4" status="error">
               Error Loading Event
             </H2>
-            <p className="text-red-700 dark:text-red-300">Event not found</p>
+            <TextBase className="text-red-700 dark:text-red-300">Event not found</TextBase>
           </div>
         </div>
       </div>
@@ -124,16 +126,16 @@ export default async function AdjacentBookingPage({
                 Current Event: {currentEvent.summary || 'Untitled Event'}
               </H2>
               <div className="space-y-1 text-sm text-accent-600 dark:text-accent-400">
-                <p>
+                <TextBase>
                   <strong>Event starts at:</strong> {eventStartTimeStr}
-                </p>
-                <p>
+                </TextBase>
+                <TextBase>
                   <strong>Event ends at:</strong> {eventEndTimeStr}
-                </p>
+                </TextBase>
                 {currentEvent.location && (
-                  <p>
+                  <TextBase>
                     <strong>Location:</strong> {currentEvent.location}
-                  </p>
+                  </TextBase>
                 )}
                 <TextXs className="mt-2">
                   Available slots are shown before and after this event with a 30-minute buffer.

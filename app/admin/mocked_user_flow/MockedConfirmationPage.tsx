@@ -7,6 +7,8 @@ import { formatLocalDate, formatLocalTime } from 'lib/availability/helpers'
 import { useReduxAvailability } from '@/redux/hooks'
 import { H1 } from '@/components/ui/heading'
 
+import { TextBase } from '@/components/ui/text'
+
 interface MockedConfirmationPageProps {
   data: {
     firstName?: string
@@ -59,9 +61,9 @@ export default function MockedConfirmationPage({ data }: MockedConfirmationPageP
         <H1 className="sm:text-5xl" status="primary">
           Thanks!
         </H1>
-        <p className="mt-6 text-xl font-medium text-accent-800 dark:text-accent-200">
+        <TextBase className="mt-6 text-xl font-medium text-accent-800 dark:text-accent-200">
           Your appointment has been booked!
-        </p>
+        </TextBase>
       </div>
 
       <BookedCard {...bookedData} />

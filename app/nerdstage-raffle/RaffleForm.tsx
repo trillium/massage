@@ -9,6 +9,7 @@ import { RAFFLE_INTEREST_OPTIONS } from '@/lib/schema'
 import raffleData from '@/data/raffle.json'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { TextBase } from '@/components/ui/text'
 import {
   type RaffleFormProps,
   type FormValues,
@@ -204,10 +205,10 @@ export default function RaffleForm({ raffleId, raffleName }: RaffleFormProps) {
             </div>
 
             <div>
-              <p className={labelClasses}>
+              <TextBase className={labelClasses}>
                 {formText.interestedLabel}{' '}
                 <span className="text-primary-500">{formText.requiredAsterisk}</span>
-              </p>
+              </TextBase>
               <div className="space-y-2">
                 {RAFFLE_INTEREST_OPTIONS.map(({ value, label }) => (
                   <div className="flex items-center" key={value}>

@@ -7,7 +7,10 @@ import { fetchReviews } from '@/lib/reviews/fetchReviews'
 import { filterTestimonialReviews } from '@/lib/reviews/filterTestimonialReviews'
 import { Star, LittleStar } from './Stars'
 import { H2 } from '@/components/ui/heading'
-import { TextLgMuted } from '@/components/ui/text'
+import { TextLgMuted,
+  TextLg,
+  TextBase,
+} from '@/components/ui/text'
 
 const slice_size = 50
 
@@ -82,19 +85,19 @@ const OtherCard = ({
             <div className="box mx-auto flex w-full flex-col gap-y-4 max-xl:max-w-3xl">
               {[5, 4, 3, 2, 1].map((num) => (
                 <div key={'num' + num} className="text-primary-400 flex w-full items-center">
-                  <p className="mr-2 py-1 text-lg font-medium text-accent-950 dark:text-white">
+                  <TextLg className="mr-2 py-1 text-lg font-medium text-accent-950 dark:text-white">
                     {num}
-                  </p>
+                  </TextLg>
                   <LittleStar />
-                  <p className="mr-3 ml-5 h-2 w-full rounded-3xl bg-surface-200 sm:min-w-72">
+                  <TextBase className="mr-3 ml-5 h-2 w-full rounded-3xl bg-surface-200 sm:min-w-72">
                     <span
                       style={{ width: `${ratingPercent[num]}%` }}
                       className={`bg-primary-500 flex h-full rounded-3xl`}
                     ></span>
-                  </p>
-                  <p className="mr-2 w-5 py-1 text-lg font-medium text-accent-950 dark:text-white">
+                  </TextBase>
+                  <TextLg className="mr-2 w-5 py-1 text-lg font-medium text-accent-950 dark:text-white">
                     {reviews[num]}
-                  </p>
+                  </TextLg>
                 </div>
               ))}
             </div>

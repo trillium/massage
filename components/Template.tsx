@@ -2,6 +2,8 @@ import clsx from 'clsx'
 import Link from 'next/link'
 import { H1 } from '@/components/ui/heading'
 
+import { TextBase } from '@/components/ui/text'
+
 interface TemplateProps {
   title: string
   text?: string | string[]
@@ -15,19 +17,19 @@ export default function Template({ title, text, links, classes, center = false }
     if (!text) return null
     if (typeof text === 'string') {
       return (
-        <p className="mt-2 mb-2 font-medium text-accent-800 sm:mt-6 sm:text-xl dark:text-accent-100">
+        <TextBase className="mt-2 mb-2 font-medium text-accent-800 sm:mt-6 sm:text-xl dark:text-accent-100">
           {text}
-        </p>
+        </TextBase>
       )
     }
     if (Array.isArray(text)) {
       return text.map((paragraph, index) => (
-        <p
+        <TextBase
           key={index}
           className="mt-2 font-medium text-accent-800 last:mb-2 sm:mt-6 sm:text-xl dark:text-accent-100"
         >
           {paragraph}
-        </p>
+        </TextBase>
       ))
     }
     return null
@@ -44,14 +46,14 @@ export default function Template({ title, text, links, classes, center = false }
       </H1>
       {renderText()}
       {links?.map((link) => (
-        <p key={link.href} className="mt-2 font-medium sm:mt-4 sm:text-xl">
+        <TextBase key={link.href} className="mt-2 font-medium sm:mt-4 sm:text-xl">
           <Link
             href={link.href}
             className="text-primary-500 dark:text-primary-400 underline hover:text-primary-600 dark:hover:text-primary-300"
           >
             {link.label}
           </Link>
-        </p>
+        </TextBase>
       ))}
     </div>
   )

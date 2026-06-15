@@ -5,7 +5,9 @@ import { createEventToken } from '@/lib/eventToken'
 import { CategorizedEventList } from './components/EventComponents'
 import pagesData from '@/data/pages.json'
 import { H1 } from '@/components/ui/heading'
-import { TextSmMuted } from '@/components/ui/text'
+import { TextSmMuted,
+  TextBase,
+} from '@/components/ui/text'
 
 export default async function MyEventsPage() {
   const user = await getUser()
@@ -52,7 +54,7 @@ export default async function MyEventsPage() {
 
           {sortedEvents.length === 0 ? (
             <div className="rounded-lg bg-surface-100 p-8 text-center dark:bg-surface-800">
-              <p className="text-accent-600 dark:text-accent-400">{myEvents.empty}</p>
+              <TextBase className="text-accent-600 dark:text-accent-400">{myEvents.empty}</TextBase>
             </div>
           ) : (
             <CategorizedEventList events={sortedEvents} eventTokens={eventTokens} />

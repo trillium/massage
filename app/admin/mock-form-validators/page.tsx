@@ -4,7 +4,9 @@ import React from 'react'
 import SectionContainer from '@/components/SectionContainer'
 import { FaCheck, FaFolder } from 'react-icons/fa'
 import { H1, H2, H3, H4 } from '@/components/ui/heading'
-import { TextSm } from '@/components/ui/text'
+import { TextSm,
+  TextBase,
+} from '@/components/ui/text'
 
 export default function MockFormValidatorsPage() {
   return (
@@ -17,11 +19,11 @@ export default function MockFormValidatorsPage() {
             {/* Updated BookingForm */}
             <section>
               <H2 className="mb-4">BookingForm with Formik + Zod Integration</H2>
-              <p className="mb-6 text-accent-600 dark:text-accent-400">
+              <TextBase className="mb-6 text-accent-600 dark:text-accent-400">
                 The existing BookingForm component has been updated to use Formik for form state
                 management and Zod for validation. This provides type-safe form handling with
                 real-time validation while keeping all existing field components unchanged.
-              </p>
+              </TextBase>
 
               <div className="rounded-lg bg-green-50 p-4 dark:bg-green-900/20">
                 <H3 status="success">
@@ -106,17 +108,17 @@ const validationSchema = toFormikValidationSchema(
             <section>
               <H3 className="mb-4">Updated Files</H3>
               <div className="rounded-lg bg-surface-900 p-4 font-mono text-sm text-green-400">
-                <p>
+                <TextBase>
                   <FaFolder className="mr-1 inline" /> components/booking/BookingForm.tsx (
                   <FaCheck className="mr-1 inline" /> Updated with Formik + Zod)
-                </p>
-                <p>
+                </TextBase>
+                <TextBase>
                   <FaFolder className="mr-1 inline" />{' '}
                   components/booking/fields/validations/locationValidation.ts
-                </p>
-                <p>
+                </TextBase>
+                <TextBase>
                   <FaFolder className="mr-1 inline" /> docs/FORMIK_ZOD_GUIDE.md
-                </p>
+                </TextBase>
               </div>
 
               <div className="mt-4 rounded-lg bg-surface-100 p-4 dark:bg-surface-800">

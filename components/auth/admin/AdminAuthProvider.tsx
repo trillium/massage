@@ -10,6 +10,8 @@ import { identifyAuthenticatedUser } from '@/lib/posthog-utils'
 import auth from '@/data/auth.json'
 import { H1 } from '@/components/ui/heading'
 
+import { TextBase } from '@/components/ui/text'
+
 interface AdminAuthProviderProps {
   children: React.ReactNode
 }
@@ -144,7 +146,7 @@ export function AdminAuthProvider({ children }: AdminAuthProviderProps) {
       <div className="flex min-h-screen items-center justify-center">
         <div className="text-center">
           <Spinner />
-          <p className="mt-4 text-accent-600 dark:text-accent-400">{auth.adminAuth.verifying}</p>
+          <TextBase className="mt-4 text-accent-600 dark:text-accent-400">{auth.adminAuth.verifying}</TextBase>
         </div>
       </div>
     )
@@ -170,9 +172,9 @@ export function AdminAuthProvider({ children }: AdminAuthProviderProps) {
             </svg>
           </div>
           <H1 className="mb-2">{auth.adminAuth.heading}</H1>
-          <p className="mb-4 text-accent-600 dark:text-accent-400">{authState.error}</p>
+          <TextBase className="mb-4 text-accent-600 dark:text-accent-400">{authState.error}</TextBase>
           <div className="text-sm text-accent-500 dark:text-accent-400">
-            <p>
+            <TextBase>
               {auth.adminAuth.loginPromptPrefix}{' '}
               <Link
                 href={`/auth/supabase-login?redirectTo=${encodeURIComponent(pathname)}`}
@@ -181,7 +183,7 @@ export function AdminAuthProvider({ children }: AdminAuthProviderProps) {
                 {auth.adminAuth.loginLink}
               </Link>{' '}
               {auth.adminAuth.loginPromptSuffix}
-            </p>
+            </TextBase>
           </div>
         </div>
       </div>

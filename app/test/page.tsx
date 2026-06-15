@@ -6,6 +6,8 @@ import pagesData from '@/data/pages.json'
 import { Button } from '@/components/ui/button'
 import { H1 } from '@/components/ui/heading'
 
+import { TextBase } from '@/components/ui/text'
+
 const testText = pagesData.test
 
 type Step = {
@@ -36,7 +38,7 @@ export default function DoubleBookingTestPage() {
   return (
     <div className="mx-auto max-w-2xl px-4 py-12">
       <H1 className="mb-2 text-2xl font-bold">{testText.heading}</H1>
-      <p className="mb-6 text-accent-500 dark:text-accent-400">{testText.description}</p>
+      <TextBase className="mb-6 text-accent-500 dark:text-accent-400">{testText.description}</TextBase>
 
       <Button
         onClick={runTest}

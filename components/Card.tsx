@@ -3,6 +3,8 @@ import Link from './Link'
 import uiData from '@/data/ui.json'
 import { H2 } from '@/components/ui/heading'
 
+import { TextBase } from '@/components/ui/text'
+
 const Card = ({
   title,
   description,
@@ -50,7 +52,7 @@ const Card = ({
             title
           )}
         </H2>
-        <p className="prose mb-3 max-w-none text-accent-500 dark:text-accent-400">{description}</p>
+        <TextBase className="prose mb-3 max-w-none text-accent-500 dark:text-accent-400">{description}</TextBase>
         {href && (
           <Link
             href={href}

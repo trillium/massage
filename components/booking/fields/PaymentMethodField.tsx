@@ -5,6 +5,8 @@ import { fieldClasses } from './classes'
 
 import { Input } from '@/components/ui/input'
 
+import { TextBase } from '@/components/ui/text'
+
 type PaymentMethodFieldProps = {
   selected: PaymentMethodType | undefined
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
@@ -14,7 +16,7 @@ export default function PaymentMethodField({ selected, onChange }: PaymentMethod
   const selectedHint = paymentMethod.find((p) => p.value === selected)?.hint
   return (
     <div>
-      <p className={fieldClasses.paymentTitle}>Intended payment method</p>
+      <TextBase className={fieldClasses.paymentTitle}>Intended payment method</TextBase>
       <fieldset className={fieldClasses.paymentFieldset}>
         <div className={fieldClasses.paymentOptions}>
           {paymentMethod.map((payType) => (
@@ -34,7 +36,7 @@ export default function PaymentMethodField({ selected, onChange }: PaymentMethod
             </div>
           ))}
         </div>
-        <p className={fieldClasses.paymentHint}>* {selectedHint}</p>
+        <TextBase className={fieldClasses.paymentHint}>* {selectedHint}</TextBase>
       </fieldset>
     </div>
   )

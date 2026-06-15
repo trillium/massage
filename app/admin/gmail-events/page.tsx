@@ -10,7 +10,9 @@ import { generateTimeSlots } from './generateTimeSlots'
 import { toast } from 'sonner'
 import { adminFetch } from '@/lib/adminFetch'
 import { H1, H3 } from '@/components/ui/heading'
-import { TextSm, TextSmSemibold, TextXs } from '@/components/ui/text'
+import { TextSm, TextSmSemibold, TextXs,
+  TextBase,
+} from '@/components/ui/text'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -243,9 +245,9 @@ export default function GmailTestPage() {
           <TextSm status="error">{error}</TextSm>
           {error.includes('Gmail API has not been used') && (
             <div className="mt-2 text-xs text-red-600 sm:text-sm dark:text-red-400">
-              <p>
+              <TextBase>
                 <strong>Gmail API needs to be enabled:</strong>
-              </p>
+              </TextBase>
               <ol className="mt-1 list-inside list-decimal space-y-1">
                 <li>
                   <a

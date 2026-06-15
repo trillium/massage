@@ -4,6 +4,8 @@ import ContactForm from '@/components/ContactForm'
 import { pages } from '@/data'
 import { H1 } from '@/components/ui/heading'
 
+import { TextBase } from '@/components/ui/text'
+
 export default async function ContactPage({
   searchParams,
 }: {
@@ -15,7 +17,7 @@ export default async function ContactPage({
   return (
     <SectionContainer>
       <H1 className="mb-4">{pages.contact.heading}</H1>
-      <p className="mb-6">{pages.contact.intro}</p>
+      <TextBase className="mb-6">{pages.contact.intro}</TextBase>
       <div className="mb-8 grid grid-cols-1 gap-8 md:grid-cols-2">
         <ContactForm defaultSubject={defaultSubject} />
         <div className="flex flex-col justify-center space-y-4">

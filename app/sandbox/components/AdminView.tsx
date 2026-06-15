@@ -9,7 +9,9 @@ import { flattenLocation } from '@/lib/helpers/locationHelpers'
 import sandbox from '@/data/sandbox.json'
 import type { SandboxEvent, SandboxEmail } from '../api/sandboxStore'
 import { H2, H3 } from '@/components/ui/heading'
-import { TextLgMuted, TextSmMedium, TextSmMuted, TextXsMedium } from '@/components/ui/text'
+import { TextLgMuted, TextSmMedium, TextSmMuted, TextXsMedium,
+  TextBase,
+} from '@/components/ui/text'
 
 import { Button } from '@/components/ui/button'
 
@@ -52,35 +54,35 @@ function EventCard({
       </div>
 
       <div className="space-y-1 text-sm text-accent-700 dark:text-accent-300">
-        <p>
+        <TextBase>
           <span className="font-medium">{sandbox.eventCard.labels.date}</span>{' '}
           {formatLocalDate(data.start, { timeZone })}
-        </p>
-        <p>
+        </TextBase>
+        <TextBase>
           <span className="font-medium">{sandbox.eventCard.labels.time}</span>{' '}
           {formatLocalTime(data.start, { timeZone })} {sandbox.eventCard.separators.timeSeparator}
           {formatLocalTime(data.end, { timeZone, timeZoneName: 'shortGeneric' })}
-        </p>
-        <p>
+        </TextBase>
+        <TextBase>
           <span className="font-medium">{sandbox.eventCard.labels.duration}</span> {data.duration}{' '}
           {sandbox.eventCard.durationUnit}
-        </p>
+        </TextBase>
         {data.price && (
-          <p>
+          <TextBase>
             <span className="font-medium">{sandbox.eventCard.labels.price}</span>{' '}
             {sandbox.eventCard.separators.priceCurrency}
             {data.price}
-          </p>
+          </TextBase>
         )}
-        <p>
+        <TextBase>
           <span className="font-medium">{sandbox.eventCard.labels.location}</span> {location}
-        </p>
-        <p>
+        </TextBase>
+        <TextBase>
           <span className="font-medium">{sandbox.eventCard.labels.phone}</span> {data.phone}
-        </p>
-        <p>
+        </TextBase>
+        <TextBase>
           <span className="font-medium">{sandbox.eventCard.labels.email}</span> {data.email}
-        </p>
+        </TextBase>
       </div>
 
       {status === 'pending' && (

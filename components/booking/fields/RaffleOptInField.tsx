@@ -3,7 +3,9 @@
 import { Transition } from '@headlessui/react'
 import { RAFFLE_INTEREST_OPTIONS } from '@/lib/schema'
 import { fieldClasses } from './classes'
-import { TextSmSemibold, TextXsMuted } from '@/components/ui/text'
+import { TextSmSemibold, TextXsMuted,
+  TextBase,
+} from '@/components/ui/text'
 
 import { Input } from '@/components/ui/input'
 
@@ -64,9 +66,9 @@ export default function RaffleOptInField({
           </div>
 
           <div>
-            <p className={fieldClasses.label}>
+            <TextBase className={fieldClasses.label}>
               Interested in <span className="text-primary-500">*</span>
-            </p>
+            </TextBase>
             <div className="mt-1 space-y-2">
               {RAFFLE_INTEREST_OPTIONS.map(({ value, label }) => (
                 <div key={value} className="flex items-center">

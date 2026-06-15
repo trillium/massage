@@ -5,7 +5,9 @@ import { Formik, Form, Field, ErrorMessage } from 'formik'
 import { AdminAccessRequestSchema } from '@/lib/schema'
 import SectionContainer from '@/components/SectionContainer'
 import { H1 } from '@/components/ui/heading'
-import { TextSm, TextSmMedium } from '@/components/ui/text'
+import { TextSm, TextSmMedium,
+  TextBase,
+} from '@/components/ui/text'
 
 import { Button } from '@/components/ui/button'
 
@@ -77,9 +79,9 @@ export default function AdminAccessRequestPage() {
       <div className="mx-auto max-w-2xl py-16">
         <div className="mb-8 text-center">
           <H1 className="mb-4">Request Admin Access</H1>
-          <p className="text-accent-600 dark:text-accent-400">
+          <TextBase className="text-accent-600 dark:text-accent-400">
             Submit your email to receive a secure admin access link
-          </p>
+          </TextBase>
         </div>
 
         <div className="rounded-lg bg-surface-50 p-8 shadow-lg dark:bg-surface-800">

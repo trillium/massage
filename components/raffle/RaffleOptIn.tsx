@@ -3,7 +3,9 @@
 import { useState } from 'react'
 import { RAFFLE_INTEREST_OPTIONS } from '@/lib/schema'
 import raffle from '@/data/raffle.json'
-import { TextPrimary, TextSm, TextSmMedium, TextSmMuted } from '@/components/ui/text'
+import { TextPrimary, TextSm, TextSmMedium, TextSmMuted,
+  TextLg,
+} from '@/components/ui/text'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -17,9 +19,9 @@ interface RaffleOptInProps {
 function SuccessBanner() {
   return (
     <div className="mt-8 rounded-lg border-2 border-primary-300 bg-primary-50 p-6 dark:border-primary-700 dark:bg-primary-950">
-      <p className="text-lg font-semibold text-primary-700 dark:text-primary-300">
+      <TextLg className="text-lg font-semibold text-primary-700 dark:text-primary-300">
         {raffle.successBannerTitle}
-      </p>
+      </TextLg>
       <TextPrimary className="mt-1">{raffle.successBannerMessage}</TextPrimary>
     </div>
   )
@@ -121,9 +123,9 @@ export default function RaffleOptIn({ name, email, phone }: RaffleOptInProps) {
 
   return (
     <div className="mt-8 rounded-lg border-2 border-primary-300 bg-surface-50 p-6 shadow-md dark:border-primary-700 dark:bg-surface-900">
-      <p className="text-lg font-semibold text-accent-900 dark:text-accent-100">
+      <TextLg className="text-lg font-semibold text-accent-900 dark:text-accent-100">
         {raffle.raffleTitle}
-      </p>
+      </TextLg>
       <TextSmMuted className="mt-1">{raffle.raffleSubtitle}</TextSmMuted>
 
       <form onSubmit={handleSubmit} className="mt-4 space-y-4">

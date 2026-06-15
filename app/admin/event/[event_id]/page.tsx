@@ -5,7 +5,9 @@ import { GoogleCalendarV3Event } from '@/lib/types'
 import { fetchSingleEvent } from 'lib/fetch/fetchSingleEvent'
 import Link from '@/components/Link'
 import { H1, H2, H3 } from '@/components/ui/heading'
-import { TextSm, TextSmMuted, TextXs, TextXsMuted } from '@/components/ui/text'
+import { TextSm, TextSmMuted, TextXs, TextXsMuted,
+  TextBase,
+} from '@/components/ui/text'
 
 // Helper function to extract booking slug from event data
 function extractBookingSlug(event: GoogleCalendarV3Event): string | null {
@@ -133,47 +135,47 @@ export default async function EventPage({ params }: { params: Promise<{ event_id
                 {matchingEvent.description && (
                   <div>
                     <H3>Description:</H3>
-                    <p className="whitespace-pre-wrap text-accent-900 dark:text-white">
+                    <TextBase className="whitespace-pre-wrap text-accent-900 dark:text-white">
                       {matchingEvent.description}
-                    </p>
+                    </TextBase>
                   </div>
                 )}
 
                 {(matchingEvent.start?.dateTime || matchingEvent.start?.date) && (
                   <div>
                     <H3>Start Time:</H3>
-                    <p className="text-accent-900 dark:text-white">
+                    <TextBase className="text-accent-900 dark:text-white">
                       {matchingEvent.start.dateTime
                         ? new Date(matchingEvent.start.dateTime).toLocaleString()
                         : matchingEvent.start.date}
-                    </p>
+                    </TextBase>
                   </div>
                 )}
 
                 {(matchingEvent.end?.dateTime || matchingEvent.end?.date) && (
                   <div>
                     <H3>End Time:</H3>
-                    <p className="text-accent-900 dark:text-white">
+                    <TextBase className="text-accent-900 dark:text-white">
                       {matchingEvent.end.dateTime
                         ? new Date(matchingEvent.end.dateTime).toLocaleString()
                         : matchingEvent.end.date}
-                    </p>
+                    </TextBase>
                   </div>
                 )}
 
                 {matchingEvent.location && (
                   <div>
                     <H3>Location:</H3>
-                    <p className="text-accent-900 dark:text-white">{matchingEvent.location}</p>
+                    <TextBase className="text-accent-900 dark:text-white">{matchingEvent.location}</TextBase>
                   </div>
                 )}
 
                 {matchingEvent.creator && (
                   <div>
                     <H3>Created by:</H3>
-                    <p className="text-accent-900 dark:text-white">
+                    <TextBase className="text-accent-900 dark:text-white">
                       {matchingEvent.creator.displayName || matchingEvent.creator.email}
-                    </p>
+                    </TextBase>
                   </div>
                 )}
 
@@ -196,9 +198,9 @@ export default async function EventPage({ params }: { params: Promise<{ event_id
                 {matchingEvent.status && (
                   <div>
                     <H3>Status:</H3>
-                    <p className="text-accent-900 capitalize dark:text-white">
+                    <TextBase className="text-accent-900 capitalize dark:text-white">
                       {matchingEvent.status}
-                    </p>
+                    </TextBase>
                   </div>
                 )}
 
@@ -254,12 +256,12 @@ export default async function EventPage({ params }: { params: Promise<{ event_id
             <H2 className="mb-4" status="error">
               Event Not Found
             </H2>
-            <p className="text-red-700 dark:text-red-300">
+            <TextBase className="text-red-700 dark:text-red-300">
               No event found with ID: <TextSm className="font-mono">{event_id}</TextSm>
-            </p>
-            <p className="mt-2 text-red-600 dark:text-red-400">
+            </TextBase>
+            <TextBase className="mt-2 text-red-600 dark:text-red-400">
               Check the search results below for available events.
-            </p>
+            </TextBase>
           </div>
         )}
 
@@ -275,37 +277,37 @@ export default async function EventPage({ params }: { params: Promise<{ event_id
                 >
                   <H3 className="dark:text-white">{event.summary || 'Untitled Event'}</H3>
                   <div className="mt-2 space-y-1 text-sm text-accent-600 dark:text-accent-400">
-                    <p>
+                    <TextBase>
                       <strong>ID:</strong> <TextXs className="font-mono">{event.id}</TextXs>
-                    </p>
+                    </TextBase>
                     {(event.start?.dateTime || event.start?.date) && (
-                      <p>
+                      <TextBase>
                         <strong>Start:</strong>{' '}
                         {event.start.dateTime
                           ? new Date(event.start.dateTime).toLocaleString()
                           : event.start.date}
-                      </p>
+                      </TextBase>
                     )}
                     {(event.end?.dateTime || event.end?.date) && (
-                      <p>
+                      <TextBase>
                         <strong>End:</strong>{' '}
                         {event.end.dateTime
                           ? new Date(event.end.dateTime).toLocaleString()
                           : event.end.date}
-                      </p>
+                      </TextBase>
                     )}
                     {event.location && (
-                      <p>
+                      <TextBase>
                         <strong>Location:</strong> {event.location}
-                      </p>
+                      </TextBase>
                     )}
                     {event.description && (
-                      <p>
+                      <TextBase>
                         <strong>Description:</strong>{' '}
                         {event.description.length > 100
                           ? `${event.description.substring(0, 100)}...`
                           : event.description}
-                      </p>
+                      </TextBase>
                     )}
                   </div>
                   <div className="mt-3">
@@ -320,9 +322,9 @@ export default async function EventPage({ params }: { params: Promise<{ event_id
               ))}
             </div>
           ) : (
-            <p className="text-accent-600 dark:text-accent-400">
+            <TextBase className="text-accent-600 dark:text-accent-400">
               No events found containing "massage"
-            </p>
+            </TextBase>
           )}
         </div>
       </div>

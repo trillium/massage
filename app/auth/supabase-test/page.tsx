@@ -14,7 +14,9 @@ import { LoginForm } from '@/components/auth/supabase/LoginForm'
 import { UserMenu } from '@/components/auth/supabase/UserMenu'
 import { AuthGuard } from '@/components/auth/supabase/AuthGuard'
 import { H1, H2, H3 } from '@/components/ui/heading'
-import { TextSm } from '@/components/ui/text'
+import { TextSm,
+  TextBase,
+} from '@/components/ui/text'
 
 function AuthTestContent() {
   const { user, profile, session, loading, isAdmin } = useAuth()
@@ -24,7 +26,7 @@ function AuthTestContent() {
       <div className="flex min-h-screen items-center justify-center">
         <div className="text-center">
           <div className="h-8 w-8 animate-spin rounded-full border-4 border-accent-200 border-t-blue-600"></div>
-          <p className="mt-2 text-accent-600">Loading auth state...</p>
+          <TextBase className="mt-2 text-accent-600">Loading auth state...</TextBase>
         </div>
       </div>
     )
@@ -102,16 +104,16 @@ function AuthTestContent() {
             <H2 className="mb-4" status="info">
               Protected Content Example
             </H2>
-            <p className="mb-4 text-blue-800">
+            <TextBase className="mb-4 text-blue-800">
               This content is only visible because you are authenticated.
-            </p>
+            </TextBase>
 
             {isAdmin && (
               <div className="mt-4 rounded-lg border-2 border-purple-200 bg-purple-50 p-4">
                 <H3>Admin-Only Content</H3>
-                <p className="text-purple-800">
+                <TextBase className="text-purple-800">
                   This content is only visible because you are an admin.
-                </p>
+                </TextBase>
               </div>
             )}
           </div>

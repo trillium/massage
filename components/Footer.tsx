@@ -10,7 +10,9 @@ import { createContactUrl } from '@/lib/helpers'
 import { home, site } from '@/app/content'
 import footer from '@/data/footer.json'
 import { H2 } from '@/components/ui/heading'
-import { TextBaseMuted } from '@/components/ui/text'
+import { TextBaseMuted,
+  TextBase,
+} from '@/components/ui/text'
 
 export default function Footer() {
   return (
@@ -150,9 +152,9 @@ function LogoAndBlurb({ displayClasses }: { displayClasses: string }) {
           </div>
         </div>
       </Link>
-      <p className="text-accent-400" data-content="footer.blurb">
+      <TextBase className="text-accent-400" data-content="footer.blurb">
         {home.footer.blurb}
-      </p>
+      </TextBase>
       <Socials />
     </div>
   )

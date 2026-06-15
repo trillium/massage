@@ -9,7 +9,9 @@ import { useReduxFormData } from '@/redux/hooks'
 import { RAFFLE_INTEREST_LABELS } from '@/lib/schema'
 import raffleData from '@/data/raffle.json'
 import { H1 } from '@/components/ui/heading'
-import { TextLg, TextSmMuted } from '@/components/ui/text'
+import { TextLg, TextSmMuted,
+  TextBase,
+} from '@/components/ui/text'
 
 const enteredText = raffleData.openclawEntered
 
@@ -37,25 +39,25 @@ export default function RaffleEnteredPage() {
             {enteredText.raffleLabel} <span className="font-semibold">{raffleName}</span>
           </TextLg>
         )}
-        <p className="mb-6 text-surface-600 dark:text-surface-400">{enteredText.successMessage}</p>
+        <TextBase className="mb-6 text-surface-600 dark:text-surface-400">{enteredText.successMessage}</TextBase>
 
         <div className="mb-8 w-full max-w-lg rounded-lg border-2 border-surface-200 bg-surface-50 text-left shadow-md dark:border-surface-700 dark:bg-surface-900">
           <div className="border-b border-surface-200 px-5 py-3 dark:border-surface-700">
             <TextSmMuted>{enteredText.nameLabel}</TextSmMuted>
-            <p className="font-semibold">{name}</p>
+            <TextBase className="font-semibold">{name}</TextBase>
           </div>
           <div className="border-b border-surface-200 px-5 py-3 dark:border-surface-700">
             <TextSmMuted>{enteredText.emailLabel}</TextSmMuted>
-            <p>{email}</p>
+            <TextBase>{email}</TextBase>
           </div>
           <div className="border-b border-surface-200 px-5 py-3 dark:border-surface-700">
             <TextSmMuted>{enteredText.phoneLabel}</TextSmMuted>
-            <p>{phone}</p>
+            <TextBase>{phone}</TextBase>
           </div>
           {interests && interests.length > 0 && (
             <div className="px-5 py-3">
               <TextSmMuted>{enteredText.interestedInLabel}</TextSmMuted>
-              <p>{interests.map((i) => RAFFLE_INTEREST_LABELS[i] || i).join(', ')}</p>
+              <TextBase>{interests.map((i) => RAFFLE_INTEREST_LABELS[i] || i).join(', ')}</TextBase>
             </div>
           )}
         </div>

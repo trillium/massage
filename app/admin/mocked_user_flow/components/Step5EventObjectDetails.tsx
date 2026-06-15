@@ -9,7 +9,9 @@ import { flattenLocation } from '@/lib/helpers/locationHelpers'
 import AttendeeList from './step5/AttendeeList'
 import MockCalendarEventJson from './step5/MockCalendarEventJson'
 import { H2, H3, H4 } from '@/components/ui/heading'
-import { TextSm, TextSmMuted } from '@/components/ui/text'
+import { TextSm, TextSmMuted,
+  TextBase,
+} from '@/components/ui/text'
 
 interface Step5EventObjectDetailsProps {
   submittedData: Partial<AppointmentProps> | null
@@ -37,11 +39,11 @@ export default function Step5EventObjectDetails({
     return (
       <div className="mb-8 rounded-lg bg-surface-50 p-6 shadow-lg dark:bg-surface-800">
         <H2 className="mb-4 dark:text-white">Step 5: Calendar Event Details</H2>
-        <p className="text-accent-600 dark:text-accent-400">
+        <TextBase className="text-accent-600 dark:text-accent-400">
           {!submittedData
             ? 'Complete the booking form to see calendar event details.'
             : 'Waiting for therapist approval to generate calendar event...'}
-        </p>
+        </TextBase>
       </div>
     )
   }
@@ -97,30 +99,30 @@ export default function Step5EventObjectDetails({
         <div>
           <H3 className="mb-2 dark:text-white">Event Title</H3>
           <div className="rounded bg-surface-200 p-3 dark:bg-surface-700">
-            <p className="font-medium text-accent-900 dark:text-white">{summary}</p>
+            <TextBase className="font-medium text-accent-900 dark:text-white">{summary}</TextBase>
           </div>
         </div>
 
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <div>
             <H3 className="mb-2 dark:text-white">Start Time</H3>
-            <p className="text-accent-700 dark:text-accent-300">
+            <TextBase className="text-accent-700 dark:text-accent-300">
               {formatDateTime(submittedData.start)}
-            </p>
+            </TextBase>
           </div>
           <div>
             <H3 className="mb-2 dark:text-white">End Time</H3>
-            <p className="text-accent-700 dark:text-accent-300">
+            <TextBase className="text-accent-700 dark:text-accent-300">
               {formatDateTime(submittedData.end)}
-            </p>
+            </TextBase>
           </div>
         </div>
 
         <div>
           <H3 className="mb-2 dark:text-white">Location</H3>
-          <p className="text-accent-700 dark:text-accent-300">
+          <TextBase className="text-accent-700 dark:text-accent-300">
             {submittedData.location ? flattenLocation(submittedData.location) : 'Not specified'}
-          </p>
+          </TextBase>
         </div>
 
         <AttendeeList attendees={attendees} />

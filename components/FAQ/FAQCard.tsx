@@ -8,6 +8,8 @@ import Link from '@/components/Link'
 import { questions, type FAQItem } from './questions'
 import DynamicGridMasonry from '@/components/masonry/DynamicGridMasonry'
 
+import { TextBase } from '@/components/ui/text'
+
 type ContentItem = {
   type: 'text' | 'image' | 'list' | 'link' | 'imageMosaic'
   content?: string
@@ -29,7 +31,7 @@ type ContentItem = {
 
 const renderContent = (content: string | ContentItem[]) => {
   if (typeof content === 'string') {
-    return <p className="text-accent-700 dark:text-accent-300">{content}</p>
+    return <TextBase className="text-accent-700 dark:text-accent-300">{content}</TextBase>
   }
 
   // Find first image or imageMosaic index
@@ -53,9 +55,9 @@ const renderContent = (content: string | ContentItem[]) => {
           switch (item.type) {
             case 'text':
               return (
-                <p key={index} className="text-accent-700 dark:text-accent-300">
+                <TextBase key={index} className="text-accent-700 dark:text-accent-300">
                   {item.content}
-                </p>
+                </TextBase>
               )
             case 'list':
               return (
@@ -70,14 +72,14 @@ const renderContent = (content: string | ContentItem[]) => {
               )
             case 'link':
               return (
-                <p key={index} className="text-accent-700 dark:text-accent-300">
+                <TextBase key={index} className="text-accent-700 dark:text-accent-300">
                   <Link
                     href={item.href!}
                     className="text-primary-600 hover:text-primary-800 dark:text-primary-400 dark:hover:text-primary-300 underline"
                   >
                     {item.text || item.href}
                   </Link>
-                </p>
+                </TextBase>
               )
             default:
               return null
@@ -87,9 +89,9 @@ const renderContent = (content: string | ContentItem[]) => {
           switch (item.type) {
             case 'text':
               return (
-                <p key={index + before.length} className="text-accent-700 dark:text-accent-300">
+                <TextBase key={index + before.length} className="text-accent-700 dark:text-accent-300">
                   {item.content}
-                </p>
+                </TextBase>
               )
             case 'list':
               return (
@@ -104,14 +106,14 @@ const renderContent = (content: string | ContentItem[]) => {
               )
             case 'link':
               return (
-                <p key={index + before.length} className="text-accent-700 dark:text-accent-300">
+                <TextBase key={index + before.length} className="text-accent-700 dark:text-accent-300">
                   <Link
                     href={item.href!}
                     className="text-primary-600 hover:text-primary-800 dark:text-primary-400 dark:hover:text-primary-300 underline"
                   >
                     {item.text || item.href}
                   </Link>
-                </p>
+                </TextBase>
               )
             default:
               return null
@@ -164,9 +166,9 @@ const renderContent = (content: string | ContentItem[]) => {
         switch (item.type) {
           case 'text':
             return (
-              <p key={index} className="text-accent-700 dark:text-accent-300">
+              <TextBase key={index} className="text-accent-700 dark:text-accent-300">
                 {item.content}
-              </p>
+              </TextBase>
             )
           case 'list':
             return (
@@ -181,14 +183,14 @@ const renderContent = (content: string | ContentItem[]) => {
             )
           case 'link':
             return (
-              <p key={index} className="text-accent-700 dark:text-accent-300">
+              <TextBase key={index} className="text-accent-700 dark:text-accent-300">
                 <Link
                   href={item.href!}
                   className="text-primary-600 hover:text-primary-800 dark:text-primary-400 dark:hover:text-primary-300 underline"
                 >
                   {item.text || item.href}
                 </Link>
-              </p>
+              </TextBase>
             )
           default:
             return null

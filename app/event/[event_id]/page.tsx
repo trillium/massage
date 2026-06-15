@@ -23,6 +23,7 @@ import {
   TextSmMuted,
   TextSmSemibold,
   TextXsMuted,
+  TextBase,
 } from '@/components/ui/text'
 import { H1 } from '@/components/ui/heading'
 
@@ -83,9 +84,9 @@ export default async function EventPage({ params, searchParams }: EventPageProps
       <SectionContainer>
         <div className="py-16 text-center">
           <H1 className="dark:text-white">{eventContent.page.accessDenied.heading}</H1>
-          <p className="mt-2 text-accent-600 dark:text-accent-400">
+          <TextBase className="mt-2 text-accent-600 dark:text-accent-400">
             {eventContent.page.accessDenied.message}
-          </p>
+          </TextBase>
         </div>
       </SectionContainer>
     )
@@ -98,11 +99,11 @@ export default async function EventPage({ params, searchParams }: EventPageProps
       <SectionContainer>
         <div className="py-16 text-center">
           <H1 className="dark:text-white">{eventContent.page.invalidLink.heading}</H1>
-          <p className="mt-2 text-accent-600 dark:text-accent-400">
+          <TextBase className="mt-2 text-accent-600 dark:text-accent-400">
             {result.error === 'Token expired'
               ? eventContent.page.invalidLink.expiredMessage
               : eventContent.page.invalidLink.invalidMessage}
-          </p>
+          </TextBase>
         </div>
       </SectionContainer>
     )
@@ -115,9 +116,9 @@ export default async function EventPage({ params, searchParams }: EventPageProps
       <SectionContainer>
         <div className="py-16 text-center">
           <H1 className="dark:text-white">{eventContent.page.notFound.heading}</H1>
-          <p className="mt-2 text-accent-600 dark:text-accent-400">
+          <TextBase className="mt-2 text-accent-600 dark:text-accent-400">
             {eventContent.page.notFound.message}
-          </p>
+          </TextBase>
         </div>
       </SectionContainer>
     )
@@ -169,12 +170,12 @@ export default async function EventPage({ params, searchParams }: EventPageProps
           <div className="mt-8 space-y-3 rounded-2xl border-2 border-accent-200 bg-surface-100 p-6 dark:border-accent-700 dark:bg-surface-800/50">
             {dateString && duration && (
               <div className="border-l-primary-400 bg-primary-50/30 dark:bg-primary-50/10 mb-4 rounded-md border-l-4 p-3">
-                <p className="text-primary-800 dark:text-primary-400 text-lg font-semibold">
+                <TextLg className="text-primary-800 dark:text-primary-400 text-lg font-semibold">
                   {dateString}
                   {eventContent.page.dateTimeSeparator}
                   {duration}
                   {eventContent.page.massageLabel}
-                </p>
+                </TextLg>
                 {startString && endString && (
                   <TextSmMuted>
                     {startString}
@@ -245,9 +246,9 @@ export default async function EventPage({ params, searchParams }: EventPageProps
 
           {status === 'cancelled' && (
             <div className="mt-8 rounded-2xl border-2 border-accent-200 bg-surface-100 p-6 text-center dark:border-accent-700 dark:bg-surface-800/50">
-              <p className="text-lg font-medium text-accent-800 dark:text-accent-200">
+              <TextLg className="text-lg font-medium text-accent-800 dark:text-accent-200">
                 {eventContent.page.cancelledMessage}
-              </p>
+              </TextLg>
               <Link
                 href={bookingUrl}
                 className="bg-primary-600 hover:bg-primary-700 mt-4 inline-block rounded-lg px-6 py-2.5 font-medium text-white transition-colors"

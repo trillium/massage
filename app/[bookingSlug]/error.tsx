@@ -6,6 +6,8 @@ import systemData from '@/data/system.json'
 import { Button } from '@/components/ui/button'
 import { H1 } from '@/components/ui/heading'
 
+import { TextLg } from '@/components/ui/text'
+
 export default function BookingSlugError({
   error,
   reset,
@@ -19,9 +21,9 @@ export default function BookingSlugError({
       <H1 className="text-4xl font-extrabold tracking-tight text-accent-900 dark:text-accent-100">
         {bookingSlugError.title}
       </H1>
-      <p className="mt-4 text-lg text-accent-700 dark:text-accent-300">
+      <TextLg className="mt-4 text-lg text-accent-700 dark:text-accent-300">
         {bookingSlugError.description}
-      </p>
+      </TextLg>
       <div className="mt-8 flex gap-4">
         <Button
           onClick={reset}

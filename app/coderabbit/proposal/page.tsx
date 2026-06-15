@@ -4,6 +4,8 @@ import { notFound } from 'next/navigation'
 
 import { H1, H2 } from '@/components/ui/heading'
 
+import { TextLg, TextBase, TextSm } from '@/components/ui/text'
+
 export const metadata: Metadata = {
   title: 'Proposal — CodeRabbit Miami 2026',
   robots: { index: false, follow: false },
@@ -82,7 +84,7 @@ export default async function ProposalPage({
             <br />
             <span className="text-primary-600">for CodeRabbit</span>
           </H1>
-          <p className="mt-2 text-lg text-gray-500">AI Engineer Miami & React Miami — April 2026</p>
+          <TextLg className="mt-2 text-lg text-gray-500">AI Engineer Miami & React Miami — April 2026</TextLg>
         </div>
         <Image
           src="/static/images/logo.svg"
@@ -97,27 +99,27 @@ export default async function ProposalPage({
       <div className="mb-10 grid grid-cols-1 gap-4 rounded-lg bg-gray-50 p-6 text-sm print:border print:border-gray-200 print:bg-white sm:grid-cols-2">
         <div>
           <span className="font-semibold text-gray-500">Prepared for</span>
-          <p className="text-gray-900">Theresa Ensminger & Team</p>
-          <p className="text-gray-500">CodeRabbit</p>
+          <TextBase className="text-gray-900">Theresa Ensminger & Team</TextBase>
+          <TextBase className="text-gray-500">CodeRabbit</TextBase>
         </div>
         <div>
           <span className="font-semibold text-gray-500">Prepared by</span>
-          <p className="text-gray-900">Trillium Smith, LMT</p>
-          <p className="text-gray-500">March 2026</p>
+          <TextBase className="text-gray-900">Trillium Smith, LMT</TextBase>
+          <TextBase className="text-gray-500">March 2026</TextBase>
         </div>
       </div>
 
       {/* Intro */}
       <Section>
-        <p className="text-base leading-relaxed">
+        <TextBase className="text-base leading-relaxed">
           Hi Theresa — it was great meeting you and the team at SCaLE 23x. I&apos;m excited about
           the opportunity to work together again in Miami. You&apos;ve experienced my work firsthand
           at the convention center, so you already know what I bring to the table.
-        </p>
-        <p className="mt-3 text-base leading-relaxed">
+        </TextBase>
+        <TextBase className="mt-3 text-base leading-relaxed">
           I&apos;d love to provide chair massage services at both AI Engineer Miami and React Miami
           this April. Here&apos;s what I&apos;m proposing.
-        </p>
+        </TextBase>
       </Section>
 
       {/* Events */}
@@ -131,40 +133,40 @@ export default async function ProposalPage({
             [<strong key="a">Attendance</strong>, '500+', '~500'],
           ]}
         />
-        <p className="mt-3 text-sm text-gray-500">
+        <TextSm className="mt-3 text-sm text-gray-500">
           Both conferences at the same venue, back-to-back. One trip, seamless coverage across the
           full week.
-        </p>
+        </TextSm>
       </Section>
 
       {/* What I Provide */}
       <Section>
         <SectionTitle>What I Provide</SectionTitle>
-        <p className="mb-4 leading-relaxed">
+        <TextBase className="mb-4 leading-relaxed">
           Professional chair massage at or near the CodeRabbit booth throughout each conference day
           — approximately six hours of service per day, scheduled flexibly around the rhythm of the
           event. Busy during breaks and between sessions, lighter during keynotes.
-        </p>
-        <p className="mb-4 leading-relaxed">
+        </TextBase>
+        <TextBase className="mb-4 leading-relaxed">
           I&apos;ve been a licensed massage therapist for 11 years with a{' '}
           <strong className="text-primary-700">4.9-star rating</strong> across every platform
           I&apos;ve worked on. I&apos;ve staffed corporate events for Airbnb, Cedars-Sinai, and TJ
           Maxx, and I&apos;m very comfortable working long hours in conference and corporate
           environments. I know the pace, I know how to read a room, and I know how to keep a line
           moving without rushing anyone.
-        </p>
+        </TextBase>
         <div className="rounded-lg border-l-4 border-primary-600 bg-primary-50 p-5">
-          <p className="font-semibold text-primary-800">What makes this different</p>
-          <p className="mt-2 leading-relaxed text-primary-900">
+          <TextBase className="font-semibold text-primary-800">What makes this different</TextBase>
+          <TextBase className="mt-2 leading-relaxed text-primary-900">
             I&apos;m also a software developer. I understand the audience at these conferences
             because I&apos;m part of it. I can talk to attendees about what CodeRabbit does — not
             from a script, but from real experience. By April, I&apos;ll be a CodeRabbit power user
             and a genuine advocate for the product.
-          </p>
-          <p className="mt-2 leading-relaxed text-primary-900">
+          </TextBase>
+          <TextBase className="mt-2 leading-relaxed text-primary-900">
             Your booth doesn&apos;t just offer a massage — it offers a conversation with someone who
             speaks the audience&apos;s language and knows your product.
-          </p>
+          </TextBase>
         </div>
       </Section>
 
@@ -219,8 +221,8 @@ export default async function ProposalPage({
               key={item.title}
               className="rounded-lg border border-gray-200 p-4 print:border-gray-300"
             >
-              <p className="mb-1 font-bold text-primary-700">{item.title}</p>
-              <p className="text-sm leading-relaxed text-gray-600">{item.text}</p>
+              <TextBase className="mb-1 font-bold text-primary-700">{item.title}</TextBase>
+              <TextSm className="text-sm leading-relaxed text-gray-600">{item.text}</TextSm>
             </div>
           ))}
         </div>
@@ -229,11 +231,11 @@ export default async function ProposalPage({
       {/* SCaLE Proof */}
       <Section>
         <SectionTitle>Proof of Concept: SCaLE 23x</SectionTitle>
-        <p className="mb-4 leading-relaxed">
+        <TextBase className="mb-4 leading-relaxed">
           At SCaLE 23x in March 2026, I delivered{' '}
           <strong className="text-primary-700">50 massage sessions</strong> over 3 days — 12 hours
           of total massage time.
-        </p>
+        </TextBase>
         <Table
           headers={['Day', 'Sessions', 'Notes']}
           rows={[
@@ -243,10 +245,10 @@ export default async function ProposalPage({
             [<strong key="t">Total</strong>, <strong key="tv">50</strong>, ''],
           ]}
         />
-        <p className="mt-3 text-sm leading-relaxed text-gray-500">
+        <TextSm className="mt-3 text-sm leading-relaxed text-gray-500">
           Three attendees came back for repeat sessions. The demand was real and it grew organically
           each day.
-        </p>
+        </TextSm>
       </Section>
 
       {/* Investment — page break before this section for print */}
@@ -254,7 +256,7 @@ export default async function ProposalPage({
         <SectionTitle>Investment</SectionTitle>
         <div className="overflow-hidden rounded-lg border-2 border-primary-600">
           <div className="bg-primary-600 px-6 py-4 text-white">
-            <p className="text-lg font-bold">Both Conferences — 4 Days</p>
+            <TextLg className="text-lg font-bold">Both Conferences — 4 Days</TextLg>
           </div>
           <div className="p-6">
             <div className="mb-4 flex items-baseline justify-between border-b border-gray-200 pb-4">
@@ -272,13 +274,13 @@ export default async function ProposalPage({
           </div>
         </div>
 
-        <p className="mt-4 text-sm leading-relaxed text-gray-600">
+        <TextSm className="mt-4 text-sm leading-relaxed text-gray-600">
           This covers approximately six hours of chair massage service per day, all equipment,
           setup, and teardown.
-        </p>
+        </TextSm>
 
         <div className="mt-6 rounded-lg bg-gray-50 p-5 print:bg-white print:border print:border-gray-200">
-          <p className="mb-2 font-semibold text-gray-700">CodeRabbit arranges:</p>
+          <TextBase className="mb-2 font-semibold text-gray-700">CodeRabbit arranges:</TextBase>
           <ul className="space-y-1 text-sm text-gray-600">
             <li>• Round-trip flight (Los Angeles to Miami)</li>
             <li>• Hotel accommodations (April 19–24)</li>
@@ -286,19 +288,19 @@ export default async function ProposalPage({
           </ul>
         </div>
 
-        <p className="mt-4 text-sm text-gray-500">
+        <TextSm className="mt-4 text-sm text-gray-500">
           I carry full liability insurance and can provide documentation as needed.
-        </p>
+        </TextSm>
       </Section>
 
       {/* Next Steps */}
       <Section>
         <SectionTitle>Next Steps</SectionTitle>
-        <p className="leading-relaxed">
+        <TextBase className="leading-relaxed">
           I&apos;d love to hop on a quick call <strong>the week of March 17</strong> to talk through
           any questions and get the details locked in. Let me know what works for you.
-        </p>
-        <p className="mt-4 leading-relaxed">Looking forward to it.</p>
+        </TextBase>
+        <TextBase className="mt-4 leading-relaxed">Looking forward to it.</TextBase>
       </Section>
 
       {/* Footer */}
@@ -312,9 +314,9 @@ export default async function ProposalPage({
             className="rounded-full object-cover"
           />
           <div>
-            <p className="text-lg font-bold text-gray-900">Trillium Smith, LMT</p>
-            <p className="text-sm text-gray-500">trilliummassagela@gmail.com</p>
-            <p className="text-sm text-primary-600">www.trilliummassage.la</p>
+            <TextLg className="text-lg font-bold text-gray-900">Trillium Smith, LMT</TextLg>
+            <TextSm className="text-sm text-gray-500">trilliummassagela@gmail.com</TextSm>
+            <TextSm className="text-sm text-primary-600">www.trilliummassage.la</TextSm>
           </div>
         </div>
       </footer>

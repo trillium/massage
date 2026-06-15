@@ -11,6 +11,8 @@ import raffleData from '@/data/raffle.json'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 
+import { TextBase } from '@/components/ui/text'
+
 const openclawData = raffleData.openclaw
 
 interface RaffleFormProps {
@@ -231,10 +233,10 @@ export default function RaffleForm({ raffleId, raffleName }: RaffleFormProps) {
             </div>
 
             <div>
-              <p className={labelClasses}>
+              <TextBase className={labelClasses}>
                 {openclawData.interestedLabel}{' '}
                 <span className="text-primary-500">{openclawData.requiredAsterisk}</span>
-              </p>
+              </TextBase>
               <div className="space-y-2">
                 {RAFFLE_INTEREST_OPTIONS.map(({ value, label }) => (
                   <div className="flex items-center" key={value}>

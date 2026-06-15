@@ -21,6 +21,8 @@ import { createPageConfiguration } from '@/lib/slugConfigurations/createPageConf
 import eventContent from '@/data/event.json'
 import { H1, H2, H3 } from '@/components/ui/heading'
 
+import { TextBase } from '@/components/ui/text'
+
 interface NextBookingPageProps {
   params: Promise<{ event_id: string }>
   searchParams: Promise<SearchParamsType>
@@ -71,9 +73,9 @@ export default async function NextBookingPage({ params, searchParams }: NextBook
             <H2 className="mb-4" status="error">
               {eventContent.next.errorLoading.heading}
             </H2>
-            <p className="text-red-700 dark:text-red-300">
+            <TextBase className="text-red-700 dark:text-red-300">
               {eventContent.next.errorLoading.message}
-            </p>
+            </TextBase>
           </div>
         </div>
       </div>
@@ -128,13 +130,13 @@ export default async function NextBookingPage({ params, searchParams }: NextBook
                 {currentEvent.summary || 'Untitled Event'}
               </H2>
               <div className="space-y-1 text-sm text-accent-600 dark:text-accent-400">
-                <p>
+                <TextBase>
                   <strong>{eventContent.next.endsAt}</strong> {eventEndTimeStr}
-                </p>
+                </TextBase>
                 {currentEvent.location && (
-                  <p>
+                  <TextBase>
                     <strong>{eventContent.next.location}</strong> {currentEvent.location}
-                  </p>
+                  </TextBase>
                 )}
               </div>
             </div>

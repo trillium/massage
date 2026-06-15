@@ -8,6 +8,8 @@ import { H1, H2, H3 } from '@/components/ui/heading'
 
 import { Code } from '@/components/ui/code'
 
+import { TextBase } from '@/components/ui/text'
+
 export const dynamic = 'force-dynamic'
 
 const p = admin.activeEventContainersPage
@@ -31,12 +33,12 @@ export default async function ActiveEventContainersPage() {
             <div className="flex items-center justify-between">
               <div>
                 <H2 status="info">{p.overview.heading}</H2>
-                <p className="text-blue-700 dark:text-blue-200">
+                <TextBase className="text-blue-700 dark:text-blue-200">
                   {p.overview.monitoringPrefix}
                   {Day.todayWithOffset(0).toString()}
                   {p.overview.monitoringTo}
                   {Day.todayWithOffset(21).toString()}
-                </p>
+                </TextBase>
               </div>
               <div className="text-right">
                 <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">
@@ -64,7 +66,7 @@ export default async function ActiveEventContainersPage() {
           {queryGroups.length === 0 && (
             <div className="rounded-lg bg-surface-100 p-8 text-center dark:bg-surface-800">
               <H3 className="mb-2 dark:text-white">{p.empty.heading}</H3>
-              <p className="text-accent-600 dark:text-accent-400">{p.empty.message}</p>
+              <TextBase className="text-accent-600 dark:text-accent-400">{p.empty.message}</TextBase>
             </div>
           )}
         </div>
@@ -72,28 +74,28 @@ export default async function ActiveEventContainersPage() {
         <div className="mt-8 rounded-lg bg-surface-100 p-6 dark:bg-surface-800">
           <H3 className="mb-4 dark:text-white">{p.howItWorks.heading}</H3>
           <div className="space-y-3 text-sm text-accent-600 dark:text-accent-400">
-            <p>
+            <TextBase>
               <strong className="text-green-600 dark:text-green-400">
                 {p.howItWorks.containerEvents.label}
               </strong>{' '}
               {p.howItWorks.containerEvents.description}
               {/* biome-ignore lint/style/noJsxLiterals: calendar event naming convention identifier */}
               <Code>QUERY__EVENT__CONTAINER__</Code>
-            </p>
-            <p>
+            </TextBase>
+            <TextBase>
               <strong className="text-orange-600 dark:text-orange-400">
                 {p.howItWorks.memberEvents.label}
               </strong>{' '}
               {p.howItWorks.memberEvents.description}
               {/* biome-ignore lint/style/noJsxLiterals: calendar event naming convention identifier */}
               <Code>QUERY__EVENT__MEMBER__</Code>
-            </p>
-            <p>
+            </TextBase>
+            <TextBase>
               <strong className="text-accent-700 dark:text-accent-300">
                 {p.howItWorks.availability.label}
               </strong>
               {p.howItWorks.availability.description}
-            </p>
+            </TextBase>
           </div>
         </div>
       </div>

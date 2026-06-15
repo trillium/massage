@@ -7,11 +7,13 @@ import pages from '@/data/pages.json'
 import type { ServiceTypePriced } from '@/lib/types'
 import { H1, H2 } from '@/components/ui/heading'
 
+import { TextBase } from '@/components/ui/text'
+
 export default function ServicesPage() {
   return (
     <SectionContainer>
       <H1 className="mb-4">{pages.services.heading}</H1>
-      <p className="mb-8">{pages.services.intro}</p>
+      <TextBase className="mb-8">{pages.services.intro}</TextBase>
       <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
         {services.map((service) => (
           <ServiceItem {...service} key={service.name} />
@@ -42,7 +44,7 @@ function ServiceItem({
       <H2 className="mb-2" status="primary">
         {name}
       </H2>
-      <p className="mb-2 text-accent-700 dark:text-accent-300">{description}</p>
+      <TextBase className="mb-2 text-accent-700 dark:text-accent-300">{description}</TextBase>
       <div className="mb-2 text-accent-600 dark:text-accent-400">
         <span className="font-medium">{pages.services.serviceItem.labels.duration}</span>{' '}
         {duration.join(' / ')}

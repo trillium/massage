@@ -9,6 +9,8 @@ import pages from '@/data/pages.json'
 import { Button } from '@/components/ui/button'
 import { H1 } from '@/components/ui/heading'
 
+import { TextBase, TextSm } from '@/components/ui/text'
+
 interface FormValues {
   email: string
   requestReason: string
@@ -79,9 +81,9 @@ export default function AdminAccessRequestPage() {
           <H1 className="mb-4 text-3xl font-bold text-accent-900 dark:text-accent-100">
             {pages.adminRequestAccess.header.title}
           </H1>
-          <p className="text-accent-600 dark:text-accent-400">
+          <TextBase className="text-accent-600 dark:text-accent-400">
             {pages.adminRequestAccess.header.subtitle}
-          </p>
+          </TextBase>
         </div>
 
         <div className="rounded-lg bg-surface-50 p-8 shadow-lg dark:bg-surface-800">
@@ -188,12 +190,12 @@ export default function AdminAccessRequestPage() {
                   />
                 </svg>
                 <div className="ml-3">
-                  <p className="text-sm font-medium text-green-800 dark:text-green-200">
+                  <TextSm className="text-sm font-medium text-green-800 dark:text-green-200">
                     {pages.adminRequestAccess.messages.successTitle}
-                  </p>
-                  <p className="mt-1 text-sm text-green-700 dark:text-green-300">
+                  </TextSm>
+                  <TextSm className="mt-1 text-sm text-green-700 dark:text-green-300">
                     {submitStatus.message}
-                  </p>
+                  </TextSm>
                 </div>
               </div>
             </div>
@@ -210,12 +212,12 @@ export default function AdminAccessRequestPage() {
                   />
                 </svg>
                 <div className="ml-3">
-                  <p className="text-sm font-medium text-red-800 dark:text-red-200">
+                  <TextSm className="text-sm font-medium text-red-800 dark:text-red-200">
                     {pages.adminRequestAccess.messages.errorTitle}
-                  </p>
-                  <p className="mt-1 text-sm text-red-700 dark:text-red-300">
+                  </TextSm>
+                  <TextSm className="mt-1 text-sm text-red-700 dark:text-red-300">
                     {submitStatus.message}
-                  </p>
+                  </TextSm>
                 </div>
               </div>
             </div>
@@ -238,9 +240,9 @@ export default function AdminAccessRequestPage() {
                 />
               </svg>
               <div className="ml-3">
-                <p className="text-sm font-medium text-blue-800 dark:text-blue-200">
+                <TextSm className="text-sm font-medium text-blue-800 dark:text-blue-200">
                   {pages.adminRequestAccess.security.title}
-                </p>
+                </TextSm>
                 <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-blue-700 dark:text-blue-300">
                   {pages.adminRequestAccess.security.items.map((item) => (
                     <li key={item}>{item}</li>

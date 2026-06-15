@@ -5,6 +5,8 @@ import Link from '@/components/Link'
 import { home } from '@/app/content'
 import { H3 } from '@/components/ui/heading'
 
+import { TextBase } from '@/components/ui/text'
+
 const { bio, focus, stats, rating, statsClose } = home.about
 
 const AuthorCard = () => {
@@ -40,7 +42,7 @@ const AuthorCard = () => {
       </div>
       <div className="flex max-w-full flex-col items-center justify-center">
         <div className="prose dark:prose-invert max-w-full pt-10 pb-8 xl:text-xl">
-          <p className="py-2 text-justify">
+          <TextBase className="py-2 text-justify">
             {bio} {focus} {stats}{' '}
             <Link
               className="text-primary-500 dark:text-primary-400 font-bold underline-offset-0 transition-transform duration-300 hover:scale-105 hover:underline"
@@ -49,7 +51,7 @@ const AuthorCard = () => {
               {rating}
             </Link>
             {statsClose}
-          </p>
+          </TextBase>
         </div>
       </div>
     </div>

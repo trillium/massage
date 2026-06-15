@@ -5,6 +5,8 @@ import { H2 } from '@/components/ui/heading'
 
 import { Button } from '@/components/ui/button'
 
+import { TextBase } from '@/components/ui/text'
+
 interface ConnectGoogleClientProps {
   connectedEmail: string | null
   successEmail: string | null
@@ -77,9 +79,9 @@ export default function ConnectGoogleClient({
           Connected Account
         </H2>
         {isConnected ? (
-          <p className="text-accent-900 dark:text-accent-100">{displayEmail}</p>
+          <TextBase className="text-accent-900 dark:text-accent-100">{displayEmail}</TextBase>
         ) : (
-          <p className="text-surface-500 dark:text-surface-400">No account connected</p>
+          <TextBase className="text-surface-500 dark:text-surface-400">No account connected</TextBase>
         )}
       </div>
 

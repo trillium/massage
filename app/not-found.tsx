@@ -2,6 +2,8 @@ import Link from '@/components/Link'
 import system from '@/data/system.json'
 import { H1 } from '@/components/ui/heading'
 
+import { TextBase } from '@/components/ui/text'
+
 export default function NotFound() {
   return (
     <div className="flex flex-col items-start justify-start md:mt-24 md:flex-row md:items-center md:justify-center md:space-x-6">
@@ -11,8 +13,8 @@ export default function NotFound() {
         </H1>
       </div>
       <div className="max-w-md">
-        <p className="mb-4 text-xl leading-normal font-bold md:text-2xl">{system.notFound.title}</p>
-        <p className="mb-8">{system.notFound.description}</p>
+        <TextBase className="mb-4 text-xl leading-normal font-bold md:text-2xl">{system.notFound.title}</TextBase>
+        <TextBase className="mb-8">{system.notFound.description}</TextBase>
         <Link
           href="/"
           className="focus:shadow-outline-blue bg-primary-600 inline rounded-lg border border-transparent px-4 py-2 text-sm leading-5 font-medium text-white shadow-xs transition-colors duration-150 hover:bg-blue-700 focus:outline-hidden dark:hover:bg-blue-500"

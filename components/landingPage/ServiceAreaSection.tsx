@@ -3,6 +3,8 @@ import clsx from 'clsx'
 import { home, site } from '@/app/content'
 import { H2 } from '@/components/ui/heading'
 
+import { TextBase } from '@/components/ui/text'
+
 const serviceAreaBlurb = home.serviceAreaBlurb
 const title = "What's the service area?"
 
@@ -51,14 +53,14 @@ function ServiceArea({ text, imageLeft, imageRight }: ServiceAreaProps) {
         />
       </div>
 
-      <p
+      <TextBase
         className={clsx(
           'text-md col-span-2 row-span-2 leading-relaxed font-light tracking-wider sm:col-span-1 sm:text-base md:text-left lg:text-xl'
         )}
         data-content="serviceAreaBlurb"
       >
         {text || 'Missing text'}
-      </p>
+      </TextBase>
     </div>
   )
 }

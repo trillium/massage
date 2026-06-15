@@ -15,6 +15,8 @@ import { setEventContainers } from '@/redux/slices/eventContainersSlice'
 import { BookingFormValues } from '@/lib/bookingFormSchema'
 import { H2, H3 } from '@/components/ui/heading'
 
+import { TextBase } from '@/components/ui/text'
+
 interface Step1BookingSelectionProps {
   selectedDuration: number
   onSubmit: (
@@ -58,9 +60,9 @@ export default function Step1BookingSelection({
     <div className="mb-12 rounded-lg bg-surface-50 p-6 shadow dark:bg-surface-800">
       <H2 className="mb-4">Step 1: Booking Form</H2>
       <div className="space-y-4">
-        <p className="text-accent-600 dark:text-accent-400">
+        <TextBase className="text-accent-600 dark:text-accent-400">
           Fill out the form below to simulate a booking request:
-        </p>
+        </TextBase>
 
         {/* Duration Picker */}
         <div className="rounded bg-purple-50 p-4 dark:bg-purple-900/20">

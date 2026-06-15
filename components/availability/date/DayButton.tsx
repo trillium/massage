@@ -7,6 +7,8 @@ import Day from 'lib/day'
 
 import { Input } from '@/components/ui/input'
 
+import { TextBase } from '@/components/ui/text'
+
 type DayProps = {
   date: Day
   availabilityScore: number
@@ -62,7 +64,7 @@ export default function DayButton({
           checked={isSelected}
         />
         <div className="m-4 flex flex-col items-center justify-between gap-2 leading-none">
-          <p
+          <TextBase
             className={clsx('flex h-3 items-center text-[0.55rem] leading-0 font-semibold', {
               'text-white': isSelected,
               'text-accent-500 dark:text-accent-500': isDisabled && !isSelected,
@@ -70,7 +72,7 @@ export default function DayButton({
             })}
           >
             {isToday && 'TODAY'}
-          </p>
+          </TextBase>
           <time className="flex items-center text-base leading-0">{date.getDay()}</time>
           <figure className="flex h-3 items-center justify-center space-x-0.5" aria-hidden="true">
             {Array.from({ length: isDisabled ? 0 : availabilityScore }).map((_, index) => (

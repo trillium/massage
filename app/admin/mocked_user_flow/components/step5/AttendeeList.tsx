@@ -1,5 +1,7 @@
 import { H3 } from '@/components/ui/heading'
-import { TextSmMuted, TextXs, TextXsMedium } from '@/components/ui/text'
+import { TextSmMuted, TextXs, TextXsMedium,
+  TextBase,
+} from '@/components/ui/text'
 interface Attendee {
   email?: string
   displayName: string
@@ -18,7 +20,7 @@ export default function AttendeeList({ attendees }: { attendees: Attendee[] }) {
             className="flex items-center justify-between rounded bg-surface-200 p-3 dark:bg-surface-700"
           >
             <div>
-              <p className="font-medium text-accent-900 dark:text-white">
+              <TextBase className="font-medium text-accent-900 dark:text-white">
                 {attendee.displayName}
                 {attendee.organizer && (
                   <TextXs
@@ -28,7 +30,7 @@ export default function AttendeeList({ attendees }: { attendees: Attendee[] }) {
                     Organizer
                   </TextXs>
                 )}
-              </p>
+              </TextBase>
               <TextSmMuted>{attendee.email}</TextSmMuted>
             </div>
             <TextXsMedium

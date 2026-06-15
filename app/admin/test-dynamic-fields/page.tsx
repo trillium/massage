@@ -11,6 +11,8 @@ import { H1, H2, H3 } from '@/components/ui/heading'
 import { Button } from '@/components/ui/button'
 import { Code } from '@/components/ui/code'
 
+import { TextBase } from '@/components/ui/text'
+
 // Create store instance
 const store = makeStore()
 
@@ -36,9 +38,9 @@ export default function TestDynamicFieldsPage() {
       <div className="mx-auto max-w-4xl px-4">
         <div className="mb-8">
           <H1 className="mb-4">Dynamic Booking Form Test Page</H1>
-          <p className="text-accent-600">
+          <TextBase className="text-accent-600">
             This page demonstrates the booking form with additional specific fields:
-          </p>
+          </TextBase>
           <ul className="mt-4 space-y-2 text-sm text-accent-600">
             <li>• Hotel Room Number (required text field)</li>
             <li>• Parking Instructions (select dropdown)</li>
@@ -48,10 +50,10 @@ export default function TestDynamicFieldsPage() {
 
         <div className="rounded-lg bg-surface-50 p-6 shadow-lg">
           <H2 className="mb-4">Test the Booking Form</H2>
-          <p className="mb-6 text-accent-600">
+          <TextBase className="mb-6 text-accent-600">
             Click on any available time slot to open the booking modal and see the dynamic fields in
             action.
-          </p>
+          </TextBase>
 
           <Provider store={store}>
             <div className="space-y-4">
@@ -163,13 +165,13 @@ export default function TestDynamicFieldsPage() {
             Implementation Notes
           </H3>
           <div className="space-y-2 text-sm text-blue-800">
-            <p>
+            <TextBase>
               • The additional fields are controlled via boolean flags: <Code>showHotelField</Code>,{' '}
               <Code>showParkingField</Code>, <Code>showNotesField</Code>
-            </p>
-            <p>• All form data is stored in Redux state with proper typing</p>
-            <p>• Each field type has its own dedicated component</p>
-            <p>• The form maintains backward compatibility with existing implementations</p>
+            </TextBase>
+            <TextBase>• All form data is stored in Redux state with proper typing</TextBase>
+            <TextBase>• Each field type has its own dedicated component</TextBase>
+            <TextBase>• The form maintains backward compatibility with existing implementations</TextBase>
           </div>
         </div>
       </div>

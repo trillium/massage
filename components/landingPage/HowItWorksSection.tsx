@@ -6,6 +6,8 @@ import { HiSparkles } from 'react-icons/hi2'
 import landing from '@/data/landing.json'
 import { H2, H3 } from '@/components/ui/heading'
 
+import { TextBase } from '@/components/ui/text'
+
 const { heading } = landing.howItWorks
 
 export default function HowItWorksSection() {
@@ -44,9 +46,9 @@ export default function HowItWorksSection() {
             >
               <step.icon className="mb-4 h-10 w-10 text-primary-600 dark:text-primary-400" />
               <H3 className="mb-2 dark:text-white">{step.title}</H3>
-              <p className="mt-auto text-center text-accent-600 dark:text-accent-300">
+              <TextBase className="mt-auto text-center text-accent-600 dark:text-accent-300">
                 {step.description}
-              </p>
+              </TextBase>
             </div>
           ))}
         </div>
