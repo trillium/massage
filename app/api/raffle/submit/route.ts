@@ -3,6 +3,7 @@ import { LRUCache } from 'lru-cache'
 import { checkRateLimitFactory } from '@/lib/checkRateLimitFactory'
 import { RaffleEntrySchema } from '@/lib/schema'
 import { getSupabaseAdminClient } from '@/lib/supabase/server'
+import { distanceFromWestchester } from '@/lib/zipDistance'
 
 const rateLimitLRU = new LRUCache({
   max: 500,
@@ -70,6 +71,7 @@ export async function POST(request: NextRequest) {
           is_local: parsed.data.is_local,
           zip_code: parsed.data.zip_code,
           interested_in: parsed.data.interested_in,
+          distance_from_90045_mi: distanceFromWestchester(parsed.data.zip_code),
         } as never)
         .eq('id', existing.id)
 
@@ -85,6 +87,7 @@ export async function POST(request: NextRequest) {
       .insert({
         raffle_id: raffle.id,
         ...parsed.data,
+        distance_from_90045_mi: distanceFromWestchester(parsed.data.zip_code),
       } as never)
       .select('id')
       .single()

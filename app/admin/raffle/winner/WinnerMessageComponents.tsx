@@ -2,8 +2,12 @@
 
 import { toast } from 'sonner'
 import { RAFFLE_INTEREST_LABELS } from '@/lib/schema'
-import { TextSmMedium } from '@/components/ui/text'
-import { H2 } from '@/components/ui/heading'
+import { TextSm, TextBase } from '@/components/ui/text'
+import { Button } from '@/components/ui/button'
+import { Box } from '@/components/ui/box'
+import { Stack } from '@/components/ui/stack'
+import { Textarea } from '@/components/ui/textarea'
+import { Code } from '@/components/ui/code'
 
 export interface Entry {
   id: string
@@ -13,6 +17,7 @@ export interface Entry {
   zip_code: string | null
   interested_in: string[]
   is_winner: boolean
+  sms_sent_at: string | null
 }
 
 export const VARS: Record<string, string> = {
@@ -23,9 +28,9 @@ export const VARS: Record<string, string> = {
   '{expiration}': 'Expiration date',
 }
 
-export const DEFAULT_WINNER_TEMPLATE = `Hey {firstName}! 🎉 You won the OpenClaw raffle — a free 60-minute massage! Book here before {expiration}: https://trilliummassage.la/openclaw-raffle-prize`
+export const DEFAULT_WINNER_TEMPLATE = `Hey {firstName}! 🎉 You won the raffle — a free 60-minute massage! Book here before {expiration}: https://trilliummassage.la/book`
 
-export const DEFAULT_NON_WINNER_TEMPLATE = `Hey {firstName}! Unfortunately you didn't win the raffle, BUT! I wanted to extend a free 30-minute upgrade to you, valid through {expiration}. Book here: https://trilliummassage.la/openclaw-appreciation`
+export const DEFAULT_NON_WINNER_TEMPLATE = `Hey {firstName}! Unfortunately you didn't win this time, BUT I wanted to extend a free 30-minute upgrade to you, valid through {expiration}. Book here: https://trilliummassage.la/book`
 
 function ordinal(n: number) {
   if (n % 100 >= 11 && n % 100 <= 13) return `${n}th`
@@ -47,13 +52,14 @@ export function capitalizeName(name: string) {
   return name.split(' ').map(capitalize).join(' ')
 }
 
-export function resolveTemplate(template: string, entry: Entry, expiration: string) {
+export function resolveTemplate(template: string, entry: Entry, expiration: string | null) {
+  const expirationStr = expiration ? formatExpiration(expiration) : 'TBD'
   return template
     .replace(/\{firstName\}/g, capitalize(entry.name.split(' ')[0]))
     .replace(/\{name\}/g, capitalizeName(entry.name))
     .replace(/\{email\}/g, entry.email)
     .replace(/\{phone\}/g, entry.phone)
-    .replace(/\{expiration\}/g, formatExpiration(expiration))
+    .replace(/\{expiration\}/g, expirationStr)
 }
 
 function copyToClipboard(text: string, label: string) {
@@ -71,31 +77,25 @@ export function CopyButton({
   children: string
 }) {
   return (
-    <button
-      type="button"
-      onClick={() => copyToClipboard(text, label)}
-      className="shrink-0 rounded bg-primary-500 px-3 py-1.5 text-sm text-white hover:bg-primary-600"
-    >
+    <Button type="button" size="sm" onClick={() => copyToClipboard(text, label)}>
       {children}
-    </button>
+    </Button>
   )
 }
 
 export function EntryDetails({ entry }: { entry: Entry }) {
   return (
-    <div className="space-y-1 text-sm">
-      <p className="font-semibold text-accent-900 dark:text-accent-100">{entry.name}</p>
-      <p className="text-accent-600 dark:text-accent-400">{entry.email}</p>
-      <p className="text-accent-600 dark:text-accent-400">{entry.phone}</p>
-      {entry.zip_code && (
-        <p className="text-accent-600 dark:text-accent-400">Zip: {entry.zip_code}</p>
-      )}
+    <Stack gap={1} className="text-sm">
+      <TextSm className="font-semibold">{entry.name}</TextSm>
+      <TextSm status="muted">{entry.email}</TextSm>
+      <TextSm status="muted">{entry.phone}</TextSm>
+      {entry.zip_code && <TextSm status="muted">{`Zip: ${entry.zip_code}`}</TextSm>}
       {Array.isArray(entry.interested_in) && entry.interested_in.length > 0 && (
-        <p className="text-accent-600 dark:text-accent-400">
+        <TextSm status="muted">
           {entry.interested_in.map((i) => RAFFLE_INTEREST_LABELS[i] || i).join(', ')}
-        </p>
+        </TextSm>
       )}
-    </div>
+    </Stack>
   )
 }
 
@@ -109,16 +109,13 @@ export function TemplateEditor({
   onChange: (value: string) => void
 }) {
   return (
-    <label className="block">
-      <TextSmMedium className="mb-1 block">{label}</TextSmMedium>
-      <textarea
-        value={template}
-        onChange={(e) => onChange(e.target.value)}
-        rows={2}
-        style={{ fieldSizing: 'content' } as React.CSSProperties}
-        className="w-full rounded border border-accent-300 bg-white px-3 py-2 text-sm text-accent-900 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500 dark:border-accent-600 dark:bg-surface-700 dark:text-accent-100"
-      />
-    </label>
+    <Textarea
+      label={label}
+      value={template}
+      onChange={(e) => onChange(e.target.value)}
+      rows={2}
+      style={{ fieldSizing: 'content' } as React.CSSProperties}
+    />
   )
 }
 
@@ -132,38 +129,48 @@ export function EditableMessage({
   onChange: (value: string) => void
 }) {
   return (
-    <div className="flex items-start gap-3 rounded border border-accent-200 bg-surface-100 p-3 dark:border-accent-700 dark:bg-surface-900">
-      <textarea
-        value={message}
-        onChange={(e) => onChange(e.target.value)}
-        rows={2}
-        style={{ fieldSizing: 'content' } as React.CSSProperties}
-        className="flex-1 resize-none border-none bg-transparent text-sm text-accent-800 focus:outline-none dark:text-accent-200"
-      />
+    <Stack
+      direction="row"
+      align="start"
+      gap={3}
+      className="rounded border border-accent-200 bg-surface-100 p-3 dark:border-accent-700 dark:bg-surface-900"
+    >
+      <Box className="flex-1">
+        <Textarea
+          value={message}
+          onChange={(e) => onChange(e.target.value)}
+          rows={2}
+          style={{ fieldSizing: 'content' } as React.CSSProperties}
+          className="resize-none border-none bg-transparent shadow-none focus-visible:ring-0 focus-visible:ring-offset-0 dark:bg-transparent"
+        />
+      </Box>
       <CopyButton text={message} label={label}>
-        Copy Message
+        {'Copy Message'}
       </CopyButton>
-    </div>
+    </Stack>
   )
 }
 
 export function TemplateVarsPanel() {
   return (
-    <div className="rounded-lg border border-accent-200 bg-surface-50 p-6 dark:border-accent-700 dark:bg-surface-800">
-      <H2 className="mb-3">Template Variables</H2>
-      <div className="flex flex-wrap gap-2">
+    <Box className="rounded-lg border border-accent-200 bg-surface-50 p-6 dark:border-accent-700 dark:bg-surface-800">
+      <TextBase className="mb-3 font-semibold">{'Template Variables'}</TextBase>
+      <Stack direction="row" wrap className="gap-2">
         {Object.entries(VARS).map(([key, desc]) => (
-          <button
+          <Button
             type="button"
             key={key}
+            variant="outline"
+            size="sm"
             onClick={() => copyToClipboard(key, key)}
-            className="rounded border border-accent-200 bg-surface-100 px-2.5 py-1 text-sm hover:border-primary-400 dark:border-accent-700 dark:bg-surface-900"
           >
-            <code className="font-semibold text-primary-600 dark:text-primary-400">{key}</code>
-            <span className="ml-1.5 text-accent-500 dark:text-accent-400">{desc}</span>
-          </button>
+            <Code className="font-semibold text-primary-600 dark:text-primary-400">{key}</Code>
+            <TextSm as="span" status="muted" className="ml-1.5">
+              {desc}
+            </TextSm>
+          </Button>
         ))}
-      </div>
-    </div>
+      </Stack>
+    </Box>
   )
 }

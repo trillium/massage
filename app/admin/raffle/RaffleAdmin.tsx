@@ -33,6 +33,7 @@ interface RaffleEntry {
   is_winner: boolean
   excluded: boolean
   created_at: string
+  distance_from_90045_mi: number | null
 }
 
 interface RaffleStats {
@@ -328,6 +329,9 @@ export function RaffleAdmin({ raffle, entries: initialEntries, stats }: RaffleAd
                   {'Zip'}
                 </th>
                 <th className="px-3 py-2 font-medium text-accent-500 dark:text-accent-400">
+                  {'Dist (mi)'}
+                </th>
+                <th className="px-3 py-2 font-medium text-accent-500 dark:text-accent-400">
                   {'Interested In'}
                 </th>
                 <th className="px-3 py-2 font-medium text-accent-500 dark:text-accent-400">
@@ -350,6 +354,9 @@ export function RaffleAdmin({ raffle, entries: initialEntries, stats }: RaffleAd
                   <td className="px-3 py-2">{entry.email}</td>
                   <td className="px-3 py-2">{entry.phone}</td>
                   <td className="px-3 py-2">{entry.zip_code || '—'}</td>
+                  <td className="px-3 py-2 text-accent-500 dark:text-accent-400">
+                    {entry.distance_from_90045_mi != null ? `${entry.distance_from_90045_mi}` : '—'}
+                  </td>
                   <td className="px-3 py-2">
                     {Array.isArray(entry.interested_in)
                       ? entry.interested_in.map((i) => RAFFLE_INTEREST_LABELS[i] || i).join(', ')
@@ -401,7 +408,7 @@ export function RaffleAdmin({ raffle, entries: initialEntries, stats }: RaffleAd
               ))}
               {entryList.length === 0 && (
                 <tr>
-                  <td colSpan={9} className="px-3 py-6 text-center text-accent-400">
+                  <td colSpan={10} className="px-3 py-6 text-center text-accent-400">
                     {'No entries yet'}
                   </td>
                 </tr>

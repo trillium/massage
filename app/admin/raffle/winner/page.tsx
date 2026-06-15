@@ -3,6 +3,8 @@ import { getSupabaseAdminClient } from '@/lib/supabase/server'
 import { WinnerMessages } from './WinnerMessages'
 import { H1 } from '@/components/ui/heading'
 import { TextSmMuted } from '@/components/ui/text'
+import { Box } from '@/components/ui/box'
+import { Stack } from '@/components/ui/stack'
 
 interface RaffleEntry {
   id: string
@@ -13,6 +15,13 @@ interface RaffleEntry {
   interested_in: string[]
   is_winner: boolean
   excluded: boolean
+  sms_sent_at: string | null
+}
+
+interface Raffle {
+  id: string
+  name: string
+  expiration_date: string | null
 }
 
 export default async function RaffleWinnerPage() {
@@ -20,7 +29,7 @@ export default async function RaffleWinnerPage() {
 
   const { data: raffleData } = await supabase!
     .from('raffles' as never)
-    .select('*')
+    .select('id, name, expiration_date')
     .eq('status', 'drawn')
     .order('created_at', { ascending: false })
     .limit(1)
@@ -28,19 +37,19 @@ export default async function RaffleWinnerPage() {
 
   if (!raffleData) {
     return (
-      <div className="py-4">
-        <H1 className="mb-6">Raffle Winner</H1>
-        <p className="text-accent-600 dark:text-accent-400">
-          No drawn raffle found.{' '}
+      <Box className="py-4">
+        <H1 className="mb-6">{'Raffle Winner'}</H1>
+        <TextSmMuted>
+          {'No drawn raffle found. '}
           <Link href="/admin/raffle" className="text-primary-500 hover:underline">
-            Go to Raffle Admin
+            {'Go to Raffle Admin'}
           </Link>
-        </p>
-      </div>
+        </TextSmMuted>
+      </Box>
     )
   }
 
-  const raffle = raffleData as { id: string; name: string }
+  const raffle = raffleData as Raffle
 
   const { data: entriesData } = await supabase!
     .from('raffle_entries' as never)
@@ -53,31 +62,36 @@ export default async function RaffleWinnerPage() {
 
   if (!winner) {
     return (
-      <div className="py-4">
-        <H1 className="mb-6">Raffle Winner</H1>
-        <p className="text-accent-600 dark:text-accent-400">
-          Raffle &quot;{raffle.name}&quot; is drawn but no winner found.{' '}
+      <Box className="py-4">
+        <H1 className="mb-6">{'Raffle Winner'}</H1>
+        <TextSmMuted>
+          {`Raffle "${raffle.name}" is drawn but no winner found. `}
           <Link href="/admin/raffle" className="text-primary-500 hover:underline">
-            Go to Raffle Admin
+            {'Go to Raffle Admin'}
           </Link>
-        </p>
-      </div>
+        </TextSmMuted>
+      </Box>
     )
   }
 
   return (
-    <div className="py-4">
-      <div className="mb-6 flex items-center justify-between">
-        <H1>Raffle Winner</H1>
+    <Box className="py-4">
+      <Stack direction="row" align="center" justify="between" className="mb-6">
+        <H1>{'Raffle Winner'}</H1>
         <Link
           href="/admin/raffle"
           className="rounded border border-accent-300 px-3 py-1.5 text-sm text-accent-600 hover:bg-surface-100 dark:border-accent-600 dark:text-accent-400 dark:hover:bg-surface-700"
         >
-          Back to Raffle
+          {'Back to Raffle'}
         </Link>
-      </div>
+      </Stack>
       <TextSmMuted className="mb-6">{raffle.name}</TextSmMuted>
-      <WinnerMessages winner={winner} nonWinners={nonWinners} expirationDate="2026-05-23" />
-    </div>
+      <WinnerMessages
+        winner={winner}
+        nonWinners={nonWinners}
+        expirationDate={raffle.expiration_date}
+        raffleName={raffle.name}
+      />
+    </Box>
   )
 }
