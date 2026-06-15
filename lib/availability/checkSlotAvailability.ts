@@ -38,60 +38,25 @@ export type SlotCheckParams = {
 
 export type CheckSlotAvailabilityFn = (params: SlotCheckParams) => Promise<{ available: boolean }>
 
-export async function checkSlotAvailability({
-  start,
-  end,
-  padding,
-  eventBaseString,
-  blockingScope,
-  sessionId,
-  getBusyTimesFn,
-  getEventsBySearchQueryFn,
-  getActiveHoldsFn,
-}: CheckSlotAvailabilityParams): Promise<{ available: boolean }> {
+export async function checkSlotAvailability(
+  params: CheckSlotAvailabilityParams
+): Promise<{ available: boolean }> {
   try {
-    const slotInterval = { start: new Date(start), end: new Date(end) }
+    const slotInterval = { start: new Date(params.start), end: new Date(params.end) }
 
-    if (eventBaseString) {
-      const allEvents = await getEventsBySearchQueryFn({
-        query: '',
-        start,
-        end,
-      })
+    const blocked = params.eventBaseString
+      ? await isBlockedByEventSearch(slotInterval, params)
+      : await isBlockedByBusyTimes(slotInterval, params)
 
-      const { members: memberEvents } = filterEventsForQuery(allEvents, eventBaseString)
+    if (blocked) return { available: false }
 
-      if (hasOverlap(slotInterval, memberEventsToIntervals(memberEvents), padding)) {
-        console.log('[checkSlotAvailability] blocked by member event overlap', {
-          eventBaseString,
-          memberEvents: memberEvents.map((e) => e.summary),
-        })
-        return { available: false }
-      }
-
-      if (blockingScope === 'general') {
-        const { blockingEvents } = filterEventsForGeneralBlocking(allEvents)
-        if (hasOverlap(slotInterval, memberEventsToIntervals(blockingEvents ?? []), padding)) {
-          console.log('[checkSlotAvailability] blocked by general blocking event', {
-            blockingEvents: (blockingEvents ?? []).map((e) => e.summary),
-          })
-          return { available: false }
-        }
-      }
-    } else {
-      const busyTimes = await getBusyTimesFn(slotInterval)
-      if (hasOverlap(slotInterval, busyTimes, padding)) {
-        console.log('[checkSlotAvailability] blocked by busy time (no eventBaseString)', {
-          busyTimes,
-        })
-        return { available: false }
-      }
-    }
-
-    if (getActiveHoldsFn) {
-      const activeHolds = await getActiveHoldsFn(start, end, sessionId)
+    if (params.getActiveHoldsFn) {
+      const activeHolds = await params.getActiveHoldsFn(params.start, params.end, params.sessionId)
       if (hasOverlap(slotInterval, activeHolds, 0)) {
-        console.log('[checkSlotAvailability] blocked by active hold', { activeHolds, sessionId })
+        console.log('[checkSlotAvailability] blocked by active hold', {
+          activeHolds,
+          sessionId: params.sessionId,
+        })
         return { available: false }
       }
     }
@@ -101,6 +66,50 @@ export async function checkSlotAvailability({
     console.error('Availability check failed, rejecting booking (fail-closed):', error)
     return { available: false }
   }
+}
+
+async function isBlockedByEventSearch(
+  slotInterval: { start: Date; end: Date },
+  params: CheckSlotAvailabilityParams
+): Promise<boolean> {
+  const allEvents = await params.getEventsBySearchQueryFn({
+    query: '',
+    start: params.start,
+    end: params.end,
+  })
+
+  const { members: memberEvents } = filterEventsForQuery(allEvents, params.eventBaseString!)
+  if (hasOverlap(slotInterval, memberEventsToIntervals(memberEvents), params.padding)) {
+    console.log('[checkSlotAvailability] blocked by member event overlap', {
+      eventBaseString: params.eventBaseString,
+      memberEvents: memberEvents.map((e) => e.summary),
+    })
+    return true
+  }
+
+  if (params.blockingScope === 'general') {
+    const { blockingEvents } = filterEventsForGeneralBlocking(allEvents)
+    if (hasOverlap(slotInterval, memberEventsToIntervals(blockingEvents ?? []), params.padding)) {
+      console.log('[checkSlotAvailability] blocked by general blocking event', {
+        blockingEvents: (blockingEvents ?? []).map((e) => e.summary),
+      })
+      return true
+    }
+  }
+
+  return false
+}
+
+async function isBlockedByBusyTimes(
+  slotInterval: { start: Date; end: Date },
+  params: CheckSlotAvailabilityParams
+): Promise<boolean> {
+  const busyTimes = await params.getBusyTimesFn(slotInterval)
+  if (hasOverlap(slotInterval, busyTimes, params.padding)) {
+    console.log('[checkSlotAvailability] blocked by busy time (no eventBaseString)', { busyTimes })
+    return true
+  }
+  return false
 }
 
 export function createCheckSlotAvailability({
