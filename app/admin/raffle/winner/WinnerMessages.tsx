@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef, useCallback } from 'react'
 import {
   type Entry,
   type RaffleVars,
@@ -18,7 +18,7 @@ import {
   TemplateVarsPanel,
 } from './WinnerMessageComponents'
 import { H2 } from '@/components/ui/heading'
-import { TextSmMuted, TextXsMuted } from '@/components/ui/text'
+import { TextSmMuted, TextXsMuted, TextXsMedium } from '@/components/ui/text'
 import { Button } from '@/components/ui/button'
 import { Box } from '@/components/ui/box'
 import { Stack } from '@/components/ui/stack'
@@ -171,6 +171,9 @@ export function WinnerMessages({
   )
   const [overrides, setOverrides] = useState<Record<string, string>>({})
   const [entryVarOverrides, setEntryVarOverrides] = useState<Record<string, VarOverrides>>({})
+  const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved'>('idle')
+  const saveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const statusTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const [smsSent, setSmsSent] = useState<Record<string, boolean>>(() => {
     const init: Record<string, boolean> = {}
     if (winner.sms_sent_at) init[winner.id] = true
@@ -206,12 +209,33 @@ export function WinnerMessages({
     setOverrides({})
   }
 
-  async function saveRaffleField(field: string, value: unknown) {
+  const debouncedSaveRaffleField = useCallback(
+    (field: string, value: unknown) => {
+      if (saveTimerRef.current) clearTimeout(saveTimerRef.current)
+      if (statusTimerRef.current) clearTimeout(statusTimerRef.current)
+      setSaveStatus('saving')
+      saveTimerRef.current = setTimeout(async () => {
+        await adminFetch(`/api/admin/raffle/${raffleId}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ [field]: value }),
+        })
+        setSaveStatus('saved')
+        statusTimerRef.current = setTimeout(() => setSaveStatus('idle'), 2000)
+      }, 800)
+    },
+    [raffleId]
+  )
+
+  async function saveRaffleFieldNow(field: string, value: unknown) {
+    setSaveStatus('saving')
     await adminFetch(`/api/admin/raffle/${raffleId}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ [field]: value }),
     })
+    setSaveStatus('saved')
+    statusTimerRef.current = setTimeout(() => setSaveStatus('idle'), 2000)
   }
 
   async function toggleSmsSent(entry: Entry) {
@@ -228,26 +252,26 @@ export function WinnerMessages({
     }
   }
 
-  async function handleTemplateChange(
+  function handleTemplateChange(
     field: 'sms_template_winner' | 'sms_template_non_winner',
     setter: (v: string) => void,
     value: string
   ) {
     setter(value)
     clearOverrides()
-    await saveRaffleField(field, value)
+    debouncedSaveRaffleField(field, value)
   }
 
   async function handleUpgradeMinutesChange(v: number) {
     setUpgradeMinutes(v)
     clearOverrides()
-    await saveRaffleField('upgrade_minutes', v)
+    await saveRaffleFieldNow('upgrade_minutes', v)
   }
 
   async function handleBookingLinkChange(v: string) {
     setBookingLink(v)
     clearOverrides()
-    await saveRaffleField('booking_link', v)
+    debouncedSaveRaffleField('booking_link', v)
   }
 
   function exportJson() {
@@ -300,15 +324,16 @@ export function WinnerMessages({
             onBookingLinkChange={handleBookingLinkChange}
           />
         </Box>
-        <Button
-          type="button"
-          variant="outline"
-          size="sm"
-          onClick={exportJson}
-          className="ml-4 mt-1 shrink-0"
-        >
-          {`Export JSON (${sentCount}/${totalCount} sent)`}
-        </Button>
+        <Stack gap={2} align="end" className="ml-4 mt-1 shrink-0">
+          <Button type="button" variant="outline" size="sm" onClick={exportJson}>
+            {`Export JSON (${sentCount}/${totalCount} sent)`}
+          </Button>
+          {saveStatus !== 'idle' && (
+            <TextXsMedium status={saveStatus === 'saved' ? 'success' : 'muted'}>
+              {saveStatus === 'saving' ? 'Saving…' : 'Saved'}
+            </TextXsMedium>
+          )}
+        </Stack>
       </Stack>
 
       <WinnerCard
