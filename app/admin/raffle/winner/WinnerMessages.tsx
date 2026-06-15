@@ -173,7 +173,7 @@ export function WinnerMessages({
   const [nonWinnerTemplate, setNonWinnerTemplate] = useState(
     savedNonWinnerTemplate ?? DEFAULT_NON_WINNER_TEMPLATE
   )
-  const [upgradeMinutes, setUpgradeMinutes] = useState(savedUpgradeMinutes)
+  const [upgradeMinutes, setUpgradeMinutes] = useState(savedUpgradeMinutes ?? 30)
   const [bookingLink, setBookingLink] = useState(
     savedBookingLink ?? 'https://trilliummassage.la/book'
   )
