@@ -1,30 +1,12 @@
 import { getSupabaseAdminClient } from '@/lib/supabase/server'
+import { listRaffles, getEntriesByRaffle, computeRaffleStats } from '@/lib/raffle'
 import { CreateRaffleForm } from './CreateRaffleForm'
 import { RaffleAdmin } from './RaffleAdmin'
 import { RaffleSelector } from './RaffleSelector'
 import { H1 } from '@/components/ui/heading'
-
-interface Raffle {
-  id: string
-  name: string
-  status: string
-  is_active: boolean
-  created_at: string
-  drawn_at: string | null
-}
-
-interface RaffleEntry {
-  id: string
-  name: string
-  email: string
-  phone: string
-  zip_code: string | null
-  is_local: boolean
-  interested_in: string[]
-  is_winner: boolean
-  excluded: boolean
-  created_at: string
-}
+import { Box } from '@/components/ui/box'
+import { TextSmMuted } from '@/components/ui/text'
+import Link from 'next/link'
 
 export default async function RafflePage({
   searchParams,
@@ -34,54 +16,45 @@ export default async function RafflePage({
   const resolvedParams = await searchParams
   const supabase = getSupabaseAdminClient()
 
-  const { data: allRafflesData } = await supabase!
-    .from('raffles' as never)
-    .select('*')
-    .order('created_at', { ascending: false })
-
-  const allRaffles = (allRafflesData ?? []) as Raffle[]
-
-  let raffle: Raffle | null = null
-
-  if (resolvedParams.id) {
-    raffle = allRaffles.find((r) => r.id === resolvedParams.id) ?? null
-  }
-
-  if (!raffle) {
-    raffle = allRaffles.find((r) => r.status === 'open') ?? null
-  }
-
-  if (!raffle) {
-    raffle = allRaffles.find((r) => r.status === 'drawn') ?? null
-  }
-
-  if (!raffle) {
+  if (!supabase) {
     return (
-      <div className="py-4">
-        <H1 className="mb-6">Raffle</H1>
-        <div className="mb-6">
-          <CreateRaffleForm />
-        </div>
-        <p className="text-accent-600 dark:text-accent-400">No active raffle found.</p>
-      </div>
+      <Box className="py-4">
+        <H1 className="mb-6">{'Raffle'}</H1>
+        <TextSmMuted>{'Database unavailable.'}</TextSmMuted>
+      </Box>
     )
   }
 
-  const { data: entriesData } = await supabase!
-    .from('raffle_entries' as never)
-    .select('*')
-    .eq('raffle_id', raffle.id)
+  const allRaffles = await listRaffles(supabase)
 
-  const entries = (entriesData ?? []) as RaffleEntry[]
-  const stats = computeStats(entries)
+  let raffle = resolvedParams.id
+    ? (allRaffles.find((r) => r.id === resolvedParams.id) ?? null)
+    : null
+  if (!raffle) raffle = allRaffles.find((r) => r.status === 'open') ?? null
+  if (!raffle) raffle = allRaffles.find((r) => r.status === 'drawn') ?? null
+
+  if (!raffle) {
+    return (
+      <Box className="py-4">
+        <H1 className="mb-6">{'Raffle'}</H1>
+        <Box className="mb-6">
+          <CreateRaffleForm />
+        </Box>
+        <TextSmMuted>{'No active raffle found.'}</TextSmMuted>
+      </Box>
+    )
+  }
+
+  const entries = await getEntriesByRaffle(supabase, raffle.id)
+  const stats = computeRaffleStats(entries)
 
   return (
-    <div className="py-4">
-      <H1 className="mb-6">Raffle</H1>
-      <div className="mb-6">
+    <Box className="py-4">
+      <H1 className="mb-6">{'Raffle'}</H1>
+      <Box className="mb-6">
         <CreateRaffleForm />
-      </div>
-      <div className="mb-6">
+      </Box>
+      <Box className="mb-6">
         <RaffleSelector
           raffles={allRaffles.map((r) => ({
             id: r.id,
@@ -91,36 +64,13 @@ export default async function RafflePage({
           }))}
           currentRaffleId={raffle.id}
         />
-      </div>
+      </Box>
       <RaffleAdmin raffle={raffle} entries={entries} stats={stats} />
-    </div>
+      <Box className="mt-6">
+        <Link href="/admin/raffle/winner" className="text-sm text-primary-500 hover:underline">
+          {'View winner & SMS messages →'}
+        </Link>
+      </Box>
+    </Box>
   )
-}
-
-function computeStats(entries: RaffleEntry[]) {
-  const eligible = entries.filter((e) => !e.excluded)
-  const uniqueEmails = new Set(eligible.map((e) => e.email))
-  const localCount = eligible.filter((e) => e.is_local).length
-  const uniqueLocal = new Set(eligible.filter((e) => e.is_local).map((e) => e.email))
-  const uniqueNonLocal = new Set(eligible.filter((e) => !e.is_local).map((e) => e.email))
-
-  const interestedInCounts: Record<string, number> = {}
-  for (const entry of eligible) {
-    const interests = Array.isArray(entry.interested_in) ? entry.interested_in : []
-    for (const interest of interests) {
-      interestedInCounts[interest] = (interestedInCounts[interest] || 0) + 1
-    }
-  }
-
-  return {
-    totalEntries: eligible.length,
-    uniqueEntries: uniqueEmails.size,
-    localCount,
-    nonLocalCount: eligible.length - localCount,
-    localPercent:
-      eligible.length > 0 ? Math.round((uniqueLocal.size / uniqueEmails.size) * 100) : 0,
-    uniqueLocal: uniqueLocal.size,
-    uniqueNonLocal: uniqueNonLocal.size,
-    interestedInCounts,
-  }
 }
