@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import {
   type Entry,
+  type RaffleVars,
   DEFAULT_WINNER_TEMPLATE,
   DEFAULT_NON_WINNER_TEMPLATE,
   capitalizeName,
@@ -23,11 +24,13 @@ import { adminFetch } from '@/lib/adminFetch'
 interface WinnerMessagesProps {
   winner: Entry
   nonWinners: Entry[]
-  expirationDate: string | null
   raffleName: string
   raffleId: string
   savedWinnerTemplate: string | null
   savedNonWinnerTemplate: string | null
+  savedUpgradeMinutes: number
+  savedBookingLink: string | null
+  expirationDate: string | null
 }
 
 function WinnerCard({
@@ -38,7 +41,7 @@ function WinnerCard({
   onTemplateChange,
   resolvedMessage,
   onMessageOverride,
-  expirationDate,
+  noExpiration,
 }: {
   winner: Entry
   smsSent: boolean
@@ -47,7 +50,7 @@ function WinnerCard({
   onTemplateChange: (v: string) => void
   resolvedMessage: string
   onMessageOverride: (v: string) => void
-  expirationDate: string | null
+  noExpiration: boolean
 }) {
   return (
     <Box className="rounded-lg border border-yellow-300 bg-yellow-50 p-6 dark:border-yellow-700 dark:bg-yellow-900/20">
@@ -66,7 +69,7 @@ function WinnerCard({
       <EntryDetails entry={winner} />
       <Stack gap={3} className="mt-4">
         <TemplateEditor
-          label={`Winner SMS Template${expirationDate ? '' : ' (no expiration set)'}`}
+          label={`Winner SMS Template${noExpiration ? ' (no expiration set)' : ''}`}
           template={winnerTemplate}
           onChange={onTemplateChange}
         />
@@ -126,17 +129,23 @@ function NonWinnerCard({
 export function WinnerMessages({
   winner,
   nonWinners,
-  expirationDate,
   raffleName,
   raffleId,
   savedWinnerTemplate,
   savedNonWinnerTemplate,
+  savedUpgradeMinutes,
+  savedBookingLink,
+  expirationDate,
 }: WinnerMessagesProps) {
   const [winnerTemplate, setWinnerTemplate] = useState(
     savedWinnerTemplate ?? DEFAULT_WINNER_TEMPLATE
   )
   const [nonWinnerTemplate, setNonWinnerTemplate] = useState(
     savedNonWinnerTemplate ?? DEFAULT_NON_WINNER_TEMPLATE
+  )
+  const [upgradeMinutes, setUpgradeMinutes] = useState(savedUpgradeMinutes)
+  const [bookingLink, setBookingLink] = useState(
+    savedBookingLink ?? 'https://trilliummassage.la/book'
   )
   const [overrides, setOverrides] = useState<Record<string, string>>({})
   const [smsSent, setSmsSent] = useState<Record<string, boolean>>(() => {
@@ -146,14 +155,28 @@ export function WinnerMessages({
     return init
   })
 
+  const raffleVars: RaffleVars = { upgradeMinutes, bookingLink, expiration: expirationDate }
+
   function getResolvedMessage(entryId: string, template: string, entry: Entry) {
     return overrides[entryId] !== undefined
       ? overrides[entryId]
-      : resolveTemplate(template, entry, expirationDate)
+      : resolveTemplate(template, entry, raffleVars)
   }
 
   function setOverride(entryId: string, value: string) {
     setOverrides((prev) => ({ ...prev, [entryId]: value }))
+  }
+
+  function clearOverrides() {
+    setOverrides({})
+  }
+
+  async function saveRaffleField(field: string, value: unknown) {
+    await adminFetch(`/api/admin/raffle/${raffleId}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ [field]: value }),
+    })
   }
 
   async function toggleSmsSent(entry: Entry) {
@@ -176,12 +199,20 @@ export function WinnerMessages({
     value: string
   ) {
     setter(value)
-    setOverrides({})
-    await adminFetch(`/api/admin/raffle/${raffleId}`, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ [field]: value }),
-    })
+    clearOverrides()
+    await saveRaffleField(field, value)
+  }
+
+  async function handleUpgradeMinutesChange(v: number) {
+    setUpgradeMinutes(v)
+    clearOverrides()
+    await saveRaffleField('upgrade_minutes', v)
+  }
+
+  async function handleBookingLinkChange(v: string) {
+    setBookingLink(v)
+    clearOverrides()
+    await saveRaffleField('booking_link', v)
   }
 
   function exportJson() {
@@ -224,14 +255,21 @@ export function WinnerMessages({
 
   return (
     <Stack gap={6}>
-      <Stack direction="row" align="center" justify="between">
-        <TemplateVarsPanel />
+      <Stack direction="row" align="start" justify="between">
+        <Box className="flex-1">
+          <TemplateVarsPanel
+            upgradeMinutes={upgradeMinutes}
+            bookingLink={bookingLink}
+            onUpgradeMinutesChange={handleUpgradeMinutesChange}
+            onBookingLinkChange={handleBookingLinkChange}
+          />
+        </Box>
         <Button
           type="button"
           variant="outline"
           size="sm"
           onClick={exportJson}
-          className="ml-4 shrink-0"
+          className="ml-4 mt-1 shrink-0"
         >
           {`Export JSON (${sentCount}/${totalCount} sent)`}
         </Button>
@@ -245,7 +283,7 @@ export function WinnerMessages({
         onTemplateChange={(v) => handleTemplateChange('sms_template_winner', setWinnerTemplate, v)}
         resolvedMessage={getResolvedMessage(winner.id, winnerTemplate, winner)}
         onMessageOverride={(v) => setOverride(winner.id, v)}
-        expirationDate={expirationDate}
+        noExpiration={!expirationDate}
       />
 
       <Box className="rounded-lg border border-accent-200 bg-surface-50 p-6 dark:border-accent-700 dark:bg-surface-800">

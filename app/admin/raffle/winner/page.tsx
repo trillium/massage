@@ -93,6 +93,8 @@ export default async function RaffleWinnerPage({
             raffleId={raffle.id}
             savedWinnerTemplate={raffle.sms_template_winner}
             savedNonWinnerTemplate={raffle.sms_template_non_winner}
+            savedUpgradeMinutes={raffle.upgrade_minutes}
+            savedBookingLink={raffle.booking_link}
           />
         </>
       )}

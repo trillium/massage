@@ -2,11 +2,12 @@
 
 import { toast } from 'sonner'
 import { RAFFLE_INTEREST_LABELS } from '@/lib/schema'
-import { TextSm, TextBase } from '@/components/ui/text'
+import { TextSm, TextSmMedium, TextBase } from '@/components/ui/text'
 import { Button } from '@/components/ui/button'
 import { Box } from '@/components/ui/box'
 import { Stack } from '@/components/ui/stack'
 import { Textarea } from '@/components/ui/textarea'
+import { Input } from '@/components/ui/input'
 import { Code } from '@/components/ui/code'
 
 export interface Entry {
@@ -20,17 +21,25 @@ export interface Entry {
   sms_sent_at: string | null
 }
 
-export const VARS: Record<string, string> = {
+export interface RaffleVars {
+  upgradeMinutes: number
+  bookingLink: string
+  expiration: string | null
+}
+
+export const ENTRY_VARS: Record<string, string> = {
   '{firstName}': 'First name',
   '{name}': 'Full name',
   '{email}': 'Email',
   '{phone}': 'Phone',
   '{expiration}': 'Expiration date',
+  '{upgradeMinutes}': 'Upgrade minutes',
+  '{bookingLink}': 'Booking link',
 }
 
-export const DEFAULT_WINNER_TEMPLATE = `Hey {firstName}! 🎉 You won the raffle — a free 60-minute massage! Book here before {expiration}: https://trilliummassage.la/book`
+export const DEFAULT_WINNER_TEMPLATE = `Hey {firstName}! 🎉 You won the raffle — a free 60-minute massage! Book here before {expiration}: {bookingLink}`
 
-export const DEFAULT_NON_WINNER_TEMPLATE = `Hey {firstName}! Unfortunately you didn't win this time, BUT I wanted to extend a free 30-minute upgrade to you, valid through {expiration}. Book here: https://trilliummassage.la/book`
+export const DEFAULT_NON_WINNER_TEMPLATE = `Hey {firstName}! Unfortunately you didn't win this time, BUT I wanted to extend a free {upgradeMinutes}-minute upgrade to you, valid through {expiration}. Book here: {bookingLink}`
 
 function ordinal(n: number) {
   if (n % 100 >= 11 && n % 100 <= 13) return `${n}th`
@@ -52,14 +61,16 @@ export function capitalizeName(name: string) {
   return name.split(' ').map(capitalize).join(' ')
 }
 
-export function resolveTemplate(template: string, entry: Entry, expiration: string | null) {
-  const expirationStr = expiration ? formatExpiration(expiration) : 'TBD'
+export function resolveTemplate(template: string, entry: Entry, raffleVars: RaffleVars) {
+  const expirationStr = raffleVars.expiration ? formatExpiration(raffleVars.expiration) : 'TBD'
   return template
     .replace(/\{firstName\}/g, capitalize(entry.name.split(' ')[0]))
     .replace(/\{name\}/g, capitalizeName(entry.name))
     .replace(/\{email\}/g, entry.email)
     .replace(/\{phone\}/g, entry.phone)
     .replace(/\{expiration\}/g, expirationStr)
+    .replace(/\{upgradeMinutes\}/g, String(raffleVars.upgradeMinutes))
+    .replace(/\{bookingLink\}/g, raffleVars.bookingLink)
 }
 
 function copyToClipboard(text: string, label: string) {
@@ -151,25 +162,65 @@ export function EditableMessage({
   )
 }
 
-export function TemplateVarsPanel() {
+export function TemplateVarsPanel({
+  upgradeMinutes,
+  bookingLink,
+  onUpgradeMinutesChange,
+  onBookingLinkChange,
+}: {
+  upgradeMinutes: number
+  bookingLink: string
+  onUpgradeMinutesChange: (v: number) => void
+  onBookingLinkChange: (v: string) => void
+}) {
   return (
     <Box className="rounded-lg border border-accent-200 bg-surface-50 p-6 dark:border-accent-700 dark:bg-surface-800">
-      <TextBase className="mb-3 font-semibold">{'Template Variables'}</TextBase>
-      <Stack direction="row" wrap className="gap-2">
-        {Object.entries(VARS).map(([key, desc]) => (
-          <Button
-            type="button"
-            key={key}
-            variant="outline"
-            size="sm"
-            onClick={() => copyToClipboard(key, key)}
-          >
-            <Code className="font-semibold text-primary-600 dark:text-primary-400">{key}</Code>
-            <TextSm as="span" status="muted" className="ml-1.5">
-              {desc}
-            </TextSm>
-          </Button>
-        ))}
+      <TextBase className="mb-4 font-semibold">{'Template Variables'}</TextBase>
+
+      <Stack gap={4}>
+        <Box>
+          <TextSmMedium className="mb-2 block">{'Insert (click to copy)'}</TextSmMedium>
+          <Stack direction="row" wrap className="gap-2">
+            {Object.entries(ENTRY_VARS).map(([key, desc]) => (
+              <Button
+                type="button"
+                key={key}
+                variant="outline"
+                size="sm"
+                onClick={() => copyToClipboard(key, key)}
+              >
+                <Code className="font-semibold text-primary-600 dark:text-primary-400">{key}</Code>
+                <TextSm as="span" status="muted" className="ml-1.5">
+                  {desc}
+                </TextSm>
+              </Button>
+            ))}
+          </Stack>
+        </Box>
+
+        <Box>
+          <TextSmMedium className="mb-2 block">{'Raffle values'}</TextSmMedium>
+          <Stack direction="row" gap={3} align="end">
+            <Box className="w-32">
+              <Input
+                label="Upgrade minutes"
+                type="number"
+                min={1}
+                value={upgradeMinutes}
+                onChange={(e) => onUpgradeMinutesChange(Number(e.target.value))}
+              />
+            </Box>
+            <Box className="flex-1">
+              <Input
+                label="Booking link"
+                type="url"
+                value={bookingLink}
+                onChange={(e) => onBookingLinkChange(e.target.value)}
+                placeholder="https://trilliummassage.la/..."
+              />
+            </Box>
+          </Stack>
+        </Box>
       </Stack>
     </Box>
   )

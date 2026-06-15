@@ -8,6 +8,8 @@ export type Raffle = {
   expiration_date: string | null
   sms_template_winner: string | null
   sms_template_non_winner: string | null
+  upgrade_minutes: number
+  booking_link: string | null
 }
 
 export type RaffleEntry = {
