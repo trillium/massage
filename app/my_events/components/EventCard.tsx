@@ -8,12 +8,11 @@ import { ActionButtons } from './ActionButtons'
 import { adminFetch } from '@/lib/adminFetch'
 import { getCleanSummary } from '@/lib/helpers/eventHelpers'
 import { H3 } from '@/components/ui/heading'
-import { TextXs, TextXsMedium,
-  TextBase,
-} from '@/components/ui/text'
+import { TextXs, TextXsMedium, TextBase } from '@/components/ui/text'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { Stack } from '@/components/ui/stack'
 
 interface EventCardProps {
   event: GoogleCalendarV3Event
@@ -123,16 +122,16 @@ export function EventCard({
       key={event.id || `${keyPrefix}-${index}`}
       className={clsx('border-l-4 p-4', colorClasses.container)}
     >
-      <div className="flex items-start justify-between">
+      <Stack direction="row" align="start" justify="between">
         <div className="flex-1">
-          <div className="flex items-center gap-2">
+          <Stack direction="row" align="center" gap={2}>
             <H3 className="dark:text-white">{displaySummary}</H3>
             {isPending && (
               <TextXsMedium className="rounded-full bg-amber-200 px-2 py-0.5 text-amber-800 dark:bg-amber-800 dark:text-amber-200">
                 Pending
               </TextXsMedium>
             )}
-          </div>
+          </Stack>
 
           <div className="mt-2 space-y-1 text-sm text-accent-600 dark:text-accent-400">
             <TextBase>
@@ -166,7 +165,7 @@ export function EventCard({
                     className="block w-full rounded border border-accent-300 px-2 py-1 text-sm dark:border-accent-600 dark:bg-surface-700 dark:text-white"
                     placeholder="Enter new location..."
                   />
-                  <div className="flex space-x-2">
+                  <Stack className="space-x-2" direction="row">
                     <Button
                       onClick={handleUpdateLocation}
                       disabled={updateLocationLoading}
@@ -185,7 +184,7 @@ export function EventCard({
                     >
                       Cancel
                     </Button>
-                  </div>
+                  </Stack>
                 </div>
               )}
             </div>
@@ -241,7 +240,7 @@ export function EventCard({
           isPending={isPending}
           token={token}
         />
-      </div>
+      </Stack>
     </div>
   )
 }

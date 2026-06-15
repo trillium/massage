@@ -17,6 +17,7 @@ import { H2, H3 } from '@/components/ui/heading'
 import { TextSmMuted, TextXs, TextXsMuted } from '@/components/ui/text'
 
 import { Button } from '@/components/ui/button'
+import { Stack } from '@/components/ui/stack'
 
 interface SlugDashboardProps {
   slug: string
@@ -34,7 +35,7 @@ export default function SlugDashboard({ slug, appointments, eventContainer }: Sl
 
   return (
     <div className="mb-8 space-y-4">
-      <div className="flex items-center justify-between">
+      <Stack direction="row" align="center" justify="between">
         <H2>{slug}</H2>
         <Button
           type="button"
@@ -43,9 +44,14 @@ export default function SlugDashboard({ slug, appointments, eventContainer }: Sl
         >
           {expanded ? 'Collapse' : 'Expand'}
         </Button>
-      </div>
+      </Stack>
 
-      <div className="flex items-center gap-4 text-sm text-accent-600 dark:text-accent-400">
+      <Stack
+        className="text-sm text-accent-600 dark:text-accent-400"
+        direction="row"
+        align="center"
+        gap={4}
+      >
         <span className="flex items-center gap-1.5">
           <StatusDot subscribed={debug.channelStatus === 'SUBSCRIBED'} />
           {debug.mode === 'realtime' ? 'Live' : 'Polling'}
@@ -53,7 +59,7 @@ export default function SlugDashboard({ slug, appointments, eventContainer }: Sl
         <span className="font-medium">
           {Math.max(0, activeUsers - 1)} active {activeUsers - 1 === 1 ? 'user' : 'users'}
         </span>
-      </div>
+      </Stack>
 
       {expanded && (
         <div className="grid gap-4 md:grid-cols-2">
@@ -125,7 +131,7 @@ function AppointmentRow({
       }}
       className="cursor-pointer rounded border border-accent-100 bg-white px-3 py-2 transition-colors hover:border-primary-300 hover:bg-primary-50/30 dark:border-accent-600 dark:bg-surface-700 dark:hover:border-primary-600 dark:hover:bg-primary-900/20"
     >
-      <div className="flex items-center justify-between">
+      <Stack direction="row" align="center" justify="between">
         <span className="font-medium text-accent-800 dark:text-accent-200">
           {a.client_first_name} {a.client_last_name.charAt(0)}.
         </span>
@@ -137,8 +143,13 @@ function AppointmentRow({
         >
           {a.status}
         </span>
-      </div>
-      <div className="mt-1 flex items-center gap-3 text-sm text-accent-500 dark:text-accent-400">
+      </Stack>
+      <Stack
+        className="mt-1 text-sm text-accent-500 dark:text-accent-400"
+        direction="row"
+        align="center"
+        gap={3}
+      >
         <span>
           {formatLocalTime(a.start_time)} – {formatLocalTime(a.end_time)}
         </span>
@@ -146,7 +157,7 @@ function AppointmentRow({
         {a.promo && (
           <TextXs className="rounded bg-purple-100 px-1.5 dark:bg-purple-900">{a.promo}</TextXs>
         )}
-      </div>
+      </Stack>
       {a.admin_notes && <TextXsMuted className="mt-1 truncate">{a.admin_notes}</TextXsMuted>}
     </li>
   )
@@ -169,7 +180,7 @@ function AppointmentsPanel({
 
   return (
     <div className="rounded-lg border border-accent-200 bg-surface-50 p-4 dark:border-accent-700 dark:bg-surface-800">
-      <div className="mb-3 flex items-center justify-between">
+      <Stack className="mb-3" direction="row" align="center" justify="between">
         <H3>Appointments ({sorted.length})</H3>
         <Button
           type="button"
@@ -178,7 +189,7 @@ function AppointmentsPanel({
         >
           Refresh
         </Button>
-      </div>
+      </Stack>
 
       {sorted.length === 0 ? (
         <TextSmMuted>No appointments yet</TextSmMuted>

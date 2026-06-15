@@ -13,7 +13,9 @@ import { readFileSync, writeFileSync } from 'node:fs'
 const write = process.argv.includes('--write')
 const audit = JSON.parse(readFileSync('/dev/stdin', 'utf8'))
 const files = audit.files
-  .filter((f: { violations: { rule: string }[] }) => f.violations.some((v: { rule: string }) => v.rule === 'raw-p'))
+  .filter((f: { violations: { rule: string }[] }) =>
+    f.violations.some((v: { rule: string }) => v.rule === 'raw-p')
+  )
   .map((f: { path: string }) => f.path)
   .sort()
 
@@ -32,17 +34,17 @@ function mergeImport(existing: string, newNames: string[]): string | null {
   // Single-line: import { A, B } from '...'
   const single = existing.match(/^import\s+\{\s*([^}]+)\s*}\s*from\s*['"]([^'"]+)['"]/)
   if (single) {
-    const current = single[1].split(',').map(s => s.trim())
+    const current = single[1].split(',').map((s) => s.trim())
     const merged = [...new Set([...current, ...newNames])]
     return `import { ${merged.join(', ')} } from '${single[2]}'`
   }
   // Multi-line: import {\n  A,\n  B,\n} from '...'
   const multi = existing.match(/^import\s+\{([\s\S]*?)\}\s*from\s*['"]([^'"]+)['"]/)
   if (multi) {
-    const current = multi[1].split(',').map(s => s.trim().replace(/\n\s*$/, ''))
+    const current = multi[1].split(',').map((s) => s.trim().replace(/\n\s*$/, ''))
     // Add new names that aren't already present
     for (const n of newNames) {
-      if (!current.some(c => c.replace(/^type\s+/, '') === n)) {
+      if (!current.some((c) => c.replace(/^type\s+/, '') === n)) {
         current.push(n)
       }
     }
@@ -71,7 +73,12 @@ for (const file of files) {
 
   while (i < chars.length) {
     // Check for opening <p tag (exact match — not <path, <pre, etc.)
-    if (chars[i] === '<' && chars[i + 1] === 'p' && chars[i + 2] !== '/' && !/[a-z]/i.test(chars[i + 2] ?? '')) {
+    if (
+      chars[i] === '<' &&
+      chars[i + 1] === 'p' &&
+      chars[i + 2] !== '/' &&
+      !/[a-z]/i.test(chars[i + 2] ?? '')
+    ) {
       const start = i
       // Find the end of the opening tag
       let end = i + 2
@@ -91,12 +98,7 @@ for (const file of files) {
     }
 
     // Check for closing </p> tag
-    if (
-      chars[i] === '<' &&
-      chars[i + 1] === '/' &&
-      chars[i + 2] === 'p' &&
-      chars[i + 3] === '>'
-    ) {
+    if (chars[i] === '<' && chars[i + 1] === '/' && chars[i + 2] === 'p' && chars[i + 3] === '>') {
       const variant = variantStack.pop() || 'TextBase'
       out.push(`</${variant}>`)
       i += 4
@@ -125,7 +127,7 @@ for (const file of files) {
     const importPath = '@/components/ui/text'
     // Match full import block (single or multi-line)
     const importRegex = new RegExp(
-      `import\\s*\\{[\\s\\S]*?\\}\\s*from\\s*['"]${importPath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}['"]`,
+      `import\\s*\\{[\\s\\S]*?\\}\\s*from\\s*['"]${importPath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}['"]`
     )
     const existingImport = result.match(importRegex)
 
@@ -136,15 +138,20 @@ for (const file of files) {
       if (namesMatch) {
         const existingNames = namesMatch[1]
           .split(',')
-          .map(s => s.trim().replace(/\n/g, ''))
+          .map((s) => s.trim().replace(/\n/g, ''))
           .filter(Boolean)
-        const toAdd = [...needed].filter(n => !existingNames.some(e => e.replace(/^type\s+/, '') === n))
+        const toAdd = [...needed].filter(
+          (n) => !existingNames.some((e) => e.replace(/^type\s+/, '') === n)
+        )
         if (toAdd.length > 0) {
           const isMultiLine = fullBlock.includes('\n')
           let replacement: string
           if (isMultiLine) {
             const nameList = namesMatch[1].trimEnd().replace(/,+\s*$/, '')
-            replacement = fullBlock.replace(namesMatch[1], nameList + `,\n  ${toAdd.join(',\n  ')},\n`)
+            replacement = fullBlock.replace(
+              namesMatch[1],
+              nameList + `,\n  ${toAdd.join(',\n  ')},\n`
+            )
           } else {
             replacement = fullBlock.replace(/\}(?=\s*from)/, `${toAdd.join(', ')}}`)
           }
@@ -161,7 +168,12 @@ for (const file of files) {
         if (/^import\s/.test(lines[i2])) lastImportIdx = i2
       }
       if (lastImportIdx >= 0) {
-        lines.splice(lastImportIdx + 1, 0, '', `import { ${[...needed].join(', ')} } from '${importPath}'`)
+        lines.splice(
+          lastImportIdx + 1,
+          0,
+          '',
+          `import { ${[...needed].join(', ')} } from '${importPath}'`
+        )
       }
       writeFileSync(file, lines.join('\n'))
       modified++

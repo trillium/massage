@@ -5,9 +5,7 @@ import { StringDateTimeIntervalAndLocation } from '@/lib/types'
 import { DEFAULT_DURATION } from 'config'
 import TimeList from '@/components/availability/time/TimeList'
 import booking from '@/data/booking.json'
-import { TextXs,
-  TextBase,
-} from '@/components/ui/text'
+import { TextXs, TextBase } from '@/components/ui/text'
 
 type DynamicTimeListProps = {
   multiDurationSlots: Record<number, StringDateTimeIntervalAndLocation[]>

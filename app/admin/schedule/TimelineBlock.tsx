@@ -2,6 +2,7 @@
 
 import type { TimelineBlockData } from './computeTimelineBlocks'
 import { TextSm, TextXs, TextXsMuted } from '@/components/ui/text'
+import { Stack } from '@/components/ui/stack'
 
 function formatTime(iso: string): string {
   return new Date(iso).toLocaleTimeString('en-US', {
@@ -57,10 +58,10 @@ export function TimelineBlock({ block, isPast, isInProgress }: Props) {
             : 'border-l-green-500 bg-surface-50 shadow-sm dark:bg-surface-700'
       }`}
     >
-      <div className="flex items-center justify-between">
+      <Stack direction="row" align="center" justify="between">
         <span className="font-medium text-accent-900 dark:text-accent-100">{name}</span>
         <TextXsMuted>{duration}</TextXsMuted>
-      </div>
+      </Stack>
       <div className="mt-1 text-sm text-accent-600 dark:text-accent-300">{timeLabel}</div>
       {block.event?.location && (
         <div className="mt-0.5 text-xs text-accent-400 dark:text-accent-500">

@@ -5,6 +5,7 @@ import { pages } from '@/data'
 import { H1 } from '@/components/ui/heading'
 
 import { TextBase } from '@/components/ui/text'
+import { Stack } from '@/components/ui/stack'
 
 export default async function ContactPage({
   searchParams,
@@ -20,8 +21,13 @@ export default async function ContactPage({
       <TextBase className="mb-6">{pages.contact.intro}</TextBase>
       <div className="mb-8 grid grid-cols-1 gap-8 md:grid-cols-2">
         <ContactForm defaultSubject={defaultSubject} />
-        <div className="flex flex-col justify-center space-y-4">
-          <div className="border-primary-500 flex w-full items-center justify-center rounded border-2 bg-surface-200 text-center text-accent-500">
+        <Stack className="space-y-4" direction="col" justify="center">
+          <Stack
+            className="border-primary-500 w-full rounded border-2 bg-surface-200 text-center text-accent-500"
+            direction="row"
+            align="center"
+            justify="center"
+          >
             <Image
               src="/static/images/service-area.jpg"
               alt="Los Angeles map"
@@ -29,11 +35,11 @@ export default async function ContactPage({
               height={400}
               className="rounded object-cover"
             />
-          </div>
+          </Stack>
           <div>
             <span className="font-semibold">{pages.contact.serviceArea}</span>
           </div>
-        </div>
+        </Stack>
       </div>
     </SectionContainer>
   )

@@ -7,10 +7,8 @@ import { fetchReviews } from '@/lib/reviews/fetchReviews'
 import { filterTestimonialReviews } from '@/lib/reviews/filterTestimonialReviews'
 import { Star, LittleStar } from './Stars'
 import { H2 } from '@/components/ui/heading'
-import { TextLgMuted,
-  TextLg,
-  TextBase,
-} from '@/components/ui/text'
+import { TextLgMuted, TextLg, TextBase } from '@/components/ui/text'
+import { Stack } from '@/components/ui/stack'
 
 const slice_size = 50
 
@@ -81,10 +79,15 @@ const OtherCard = ({
         <Template title="Customer Reviews & Ratings" />
 
         <div className="mb-11 grid grid-cols-12">
-          <div className="col-span-12 flex items-center xl:col-span-5">
-            <div className="box mx-auto flex w-full flex-col gap-y-4 max-xl:max-w-3xl">
+          <Stack className="col-span-12 xl:col-span-5" direction="row" align="center">
+            <Stack className="box mx-auto w-full gap-y-4 max-xl:max-w-3xl" direction="col">
               {[5, 4, 3, 2, 1].map((num) => (
-                <div key={'num' + num} className="text-primary-400 flex w-full items-center">
+                <Stack
+                  key={'num' + num}
+                  className="text-primary-400 w-full"
+                  direction="row"
+                  align="center"
+                >
                   <TextLg className="mr-2 py-1 text-lg font-medium text-accent-950 dark:text-white">
                     {num}
                   </TextLg>
@@ -98,10 +101,10 @@ const OtherCard = ({
                   <TextLg className="mr-2 w-5 py-1 text-lg font-medium text-accent-950 dark:text-white">
                     {reviews[num]}
                   </TextLg>
-                </div>
+                </Stack>
               ))}
-            </div>
-          </div>
+            </Stack>
+          </Stack>
           <div className="col-span-12 min-h-60 w-full max-xl:mt-8 xl:col-span-7 xl:pl-8">
             <div
               className={clsx(
@@ -109,7 +112,7 @@ const OtherCard = ({
                 'border-primary-400 border-2 bg-surface-200 dark:bg-surface-900'
               )}
             >
-              <div className="flex w-full items-center justify-between">
+              <Stack className="w-full" direction="row" align="center" justify="between">
                 <div className="flex h-full w-full flex-col items-center justify-center sm:flex-row">
                   <ScoreDisplay
                     test={true}
@@ -126,7 +129,7 @@ const OtherCard = ({
                     text={`${slice_size} Most Recent`}
                   />
                 </div>
-              </div>
+              </Stack>
             </div>
           </div>
         </div>
@@ -156,13 +159,13 @@ const ScoreDisplay = ({
       )}
     >
       <H2 className="mb-4 text-center">{averageStr}</H2>
-      <div className="text-primary-400 mb-4 flex items-center gap-3">
+      <Stack className="text-primary-400 mb-4" direction="row" align="center" gap={3}>
         <Star />
         <Star />
         <Star />
         <Star />
         <Star percent={0.6 / 5} />
-      </div>
+      </Stack>
       <TextLgMuted>{text}</TextLgMuted>
     </div>
   )

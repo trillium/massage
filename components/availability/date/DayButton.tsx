@@ -8,6 +8,7 @@ import Day from 'lib/day'
 import { Input } from '@/components/ui/input'
 
 import { TextBase } from '@/components/ui/text'
+import { Stack } from '@/components/ui/stack'
 
 type DayProps = {
   date: Day
@@ -63,7 +64,13 @@ export default function DayButton({
           disabled={isDisabled}
           checked={isSelected}
         />
-        <div className="m-4 flex flex-col items-center justify-between gap-2 leading-none">
+        <Stack
+          className="m-4 leading-none"
+          direction="col"
+          align="center"
+          justify="between"
+          gap={2}
+        >
           <TextBase
             className={clsx('flex h-3 items-center text-[0.55rem] leading-0 font-semibold', {
               'text-white': isSelected,
@@ -85,7 +92,7 @@ export default function DayButton({
               />
             ))}
           </figure>
-        </div>
+        </Stack>
       </label>
     </div>
   )

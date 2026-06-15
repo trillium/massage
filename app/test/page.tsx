@@ -38,7 +38,9 @@ export default function DoubleBookingTestPage() {
   return (
     <div className="mx-auto max-w-2xl px-4 py-12">
       <H1 className="mb-2 text-2xl font-bold">{testText.heading}</H1>
-      <TextBase className="mb-6 text-accent-500 dark:text-accent-400">{testText.description}</TextBase>
+      <TextBase className="mb-6 text-accent-500 dark:text-accent-400">
+        {testText.description}
+      </TextBase>
 
       <Button
         onClick={runTest}

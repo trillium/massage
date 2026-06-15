@@ -16,6 +16,7 @@ import Link from 'next/link'
 import { Suspense } from 'react'
 import { H1, H3 } from '@/components/ui/heading'
 import { TextSm, TextSmMuted, TextXs } from '@/components/ui/text'
+import { Stack } from '@/components/ui/stack'
 
 function LoginContent({
   searchParams,
@@ -26,7 +27,12 @@ function LoginContent({
   const errorDescription = searchParams.error_description
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-surface-100 px-4 dark:bg-surface-900">
+    <Stack
+      className="min-h-screen bg-surface-100 px-4 dark:bg-surface-900"
+      direction="row"
+      align="center"
+      justify="center"
+    >
       <div className="w-full max-w-md">
         <div className="rounded-lg bg-surface-50 px-8 py-10 shadow-md dark:bg-surface-800">
           <div className="mb-8 text-center">
@@ -61,7 +67,7 @@ function LoginContent({
           </Link>
         </TextSmMuted>
       </div>
-    </div>
+    </Stack>
   )
 }
 
@@ -75,11 +81,16 @@ export default async function LoginPage({
   return (
     <Suspense
       fallback={
-        <div className="flex min-h-screen items-center justify-center bg-surface-100 dark:bg-surface-900">
+        <Stack
+          className="min-h-screen bg-surface-100 dark:bg-surface-900"
+          direction="row"
+          align="center"
+          justify="center"
+        >
           <div className="text-center">
             <div className="h-8 w-8 animate-spin rounded-full border-4 border-accent-200 border-t-blue-600 dark:border-accent-700 dark:border-t-blue-400"></div>
           </div>
-        </div>
+        </Stack>
       }
     >
       <LoginContent searchParams={params} />

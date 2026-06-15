@@ -5,6 +5,7 @@ import { getSupabaseBrowserClient } from '@/lib/supabase/client'
 import clsx from 'clsx'
 import admin from '@/data/admin.json'
 import { H4 } from '@/components/ui/heading'
+import { Stack } from '@/components/ui/stack'
 
 export function StatusDot({ subscribed }: { subscribed: boolean }) {
   return (
@@ -30,7 +31,7 @@ export function SocketsDebugPanel({
         {admin.slugDashboard.socketsDebugPanel.title}
       </H4>
       <div className="space-y-1 text-accent-500 dark:text-accent-400">
-        <div className="flex items-center gap-2">
+        <Stack direction="row" align="center" gap={2}>
           <StatusDot subscribed={debug.channelStatus === 'SUBSCRIBED'} />
           <span>
             {admin.slugDashboard.socketsDebugPanel.slotHoldsLabel} {debug.channelStatus}
@@ -42,8 +43,8 @@ export function SocketsDebugPanel({
             {admin.slugDashboard.socketsDebugPanel.separator} {debug.fetchCount}{' '}
             {admin.slugDashboard.socketsDebugPanel.fetches}
           </span>
-        </div>
-        <div className="flex items-center gap-2">
+        </Stack>
+        <Stack direction="row" align="center" gap={2}>
           <StatusDot subscribed={appointmentsChannel.status === 'SUBSCRIBED'} />
           <span>
             {admin.slugDashboard.socketsDebugPanel.appointmentsLabel} {appointmentsChannel.status}
@@ -52,7 +53,7 @@ export function SocketsDebugPanel({
             {admin.slugDashboard.socketsDebugPanel.separator} {appointmentsChannel.eventCount}{' '}
             {admin.slugDashboard.socketsDebugPanel.eventsReceived}
           </span>
-        </div>
+        </Stack>
       </div>
     </div>
   )

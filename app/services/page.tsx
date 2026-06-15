@@ -8,6 +8,7 @@ import type { ServiceTypePriced } from '@/lib/types'
 import { H1, H2 } from '@/components/ui/heading'
 
 import { TextBase } from '@/components/ui/text'
+import { Stack } from '@/components/ui/stack'
 
 export default function ServicesPage() {
   return (
@@ -68,7 +69,7 @@ function ServiceItem({
           <span className="font-medium">{pages.services.serviceItem.notes.backToBack}</span>
         </div>
       )}
-      <div className="flex space-x-4">
+      <Stack className="space-x-4" direction="row">
         <Link
           href={bookHref}
           className="bg-primary-600 hover:bg-primary-700 rounded px-4 py-2 font-semibold text-white"
@@ -81,7 +82,7 @@ function ServiceItem({
         >
           {pages.services.buttons.contact}
         </Link>
-      </div>
+      </Stack>
     </div>
   )
 }

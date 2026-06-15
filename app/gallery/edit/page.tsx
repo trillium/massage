@@ -6,6 +6,7 @@ import SectionContainer from '@/components/SectionContainer'
 import { IoClose } from 'react-icons/io5'
 
 import { Button } from '@/components/ui/button'
+import { Stack } from '@/components/ui/stack'
 
 interface GalleryImage {
   src: string
@@ -173,7 +174,7 @@ export default function Page() {
 
   return (
     <SectionContainer>
-      <div className="mb-4 flex items-center gap-4 text-sm text-accent-500">
+      <Stack className="mb-4 text-sm text-accent-500" direction="row" align="center" gap={4}>
         <span>
           {saving ? 'Saving...' : `${visibleImages.length} visible, ${hidden.size} hidden`}
         </span>
@@ -189,8 +190,8 @@ export default function Page() {
             Show all
           </Button>
         )}
-      </div>
-      <div className="flex flex-col gap-4">
+      </Stack>
+      <Stack direction="col" gap={4}>
         {visibleImages.map((image, index) => (
           <div
             key={image.src}
@@ -203,7 +204,7 @@ export default function Page() {
               height={600}
               className="h-auto w-full object-cover"
             />
-            <div className="absolute top-2 right-2 flex flex-col gap-1">
+            <Stack className="absolute top-2 right-2" direction="col" gap={1}>
               {index > 0 && (
                 <Button
                   onClick={() => move(index, 'up')}
@@ -220,7 +221,7 @@ export default function Page() {
                   ↓
                 </Button>
               )}
-            </div>
+            </Stack>
             <div className="absolute top-2 left-2">
               <Button
                 onClick={() => toggleHide(image.src)}
@@ -234,7 +235,7 @@ export default function Page() {
             </div>
           </div>
         ))}
-      </div>
+      </Stack>
     </SectionContainer>
   )
 }

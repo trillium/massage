@@ -3,11 +3,10 @@
 import { Transition } from '@headlessui/react'
 import { RAFFLE_INTEREST_OPTIONS } from '@/lib/schema'
 import { fieldClasses } from './classes'
-import { TextSmSemibold, TextXsMuted,
-  TextBase,
-} from '@/components/ui/text'
+import { TextSmSemibold, TextXsMuted, TextBase } from '@/components/ui/text'
 
 import { Input } from '@/components/ui/input'
+import { Stack } from '@/components/ui/stack'
 
 type RaffleOptInFieldProps = {
   optIn: boolean
@@ -24,7 +23,7 @@ export default function RaffleOptInField({
 }: RaffleOptInFieldProps) {
   return (
     <div className="rounded-md border-2 border-primary-200 bg-primary-50 p-3 dark:border-primary-800 dark:bg-primary-950/30">
-      <div className="flex items-start gap-3">
+      <Stack direction="row" align="start" gap={3}>
         <Input
           type="checkbox"
           id="raffleOptIn"
@@ -38,7 +37,7 @@ export default function RaffleOptInField({
             Win a free massage session — drawing held at the end of the event
           </TextXsMuted>
         </label>
-      </div>
+      </Stack>
 
       <Transition
         show={optIn}
@@ -71,7 +70,7 @@ export default function RaffleOptInField({
             </TextBase>
             <div className="mt-1 space-y-2">
               {RAFFLE_INTEREST_OPTIONS.map(({ value, label }) => (
-                <div key={value} className="flex items-center">
+                <Stack key={value} direction="row" align="center">
                   <Input
                     type="checkbox"
                     id={`raffle-interest-${value}`}
@@ -90,7 +89,7 @@ export default function RaffleOptInField({
                   >
                     {label}
                   </label>
-                </div>
+                </Stack>
               ))}
             </div>
           </div>

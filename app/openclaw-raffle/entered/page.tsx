@@ -9,9 +9,8 @@ import { useReduxFormData } from '@/redux/hooks'
 import { RAFFLE_INTEREST_LABELS } from '@/lib/schema'
 import raffleData from '@/data/raffle.json'
 import { H1 } from '@/components/ui/heading'
-import { TextLg, TextSmMuted,
-  TextBase,
-} from '@/components/ui/text'
+import { TextLg, TextSmMuted, TextBase } from '@/components/ui/text'
+import { Stack } from '@/components/ui/stack'
 
 const enteredText = raffleData.openclawEntered
 
@@ -32,14 +31,16 @@ export default function RaffleEnteredPage() {
 
   return (
     <SectionContainer>
-      <div className="flex min-h-[40vh] flex-col items-center justify-center text-center">
+      <Stack className="min-h-[40vh] text-center" direction="col" align="center" justify="center">
         <H1 className="mb-4">{enteredText.successHeading}</H1>
         {raffleName && (
           <TextLg className="mb-2">
             {enteredText.raffleLabel} <span className="font-semibold">{raffleName}</span>
           </TextLg>
         )}
-        <TextBase className="mb-6 text-surface-600 dark:text-surface-400">{enteredText.successMessage}</TextBase>
+        <TextBase className="mb-6 text-surface-600 dark:text-surface-400">
+          {enteredText.successMessage}
+        </TextBase>
 
         <div className="mb-8 w-full max-w-lg rounded-lg border-2 border-surface-200 bg-surface-50 text-left shadow-md dark:border-surface-700 dark:bg-surface-900">
           <div className="border-b border-surface-200 px-5 py-3 dark:border-surface-700">
@@ -62,7 +63,7 @@ export default function RaffleEnteredPage() {
           )}
         </div>
 
-        <div className="flex gap-4">
+        <Stack direction="row" gap={4}>
           <Link
             href="/openclaw-raffle"
             className="rounded border-2 border-surface-300 px-6 py-2 font-semibold text-surface-600 transition-colors hover:bg-surface-100 dark:border-surface-600 dark:text-surface-300 dark:hover:bg-surface-800"
@@ -75,8 +76,8 @@ export default function RaffleEnteredPage() {
           >
             {enteredText.backToHomeButton}
           </Link>
-        </div>
-      </div>
+        </Stack>
+      </Stack>
     </SectionContainer>
   )
 }

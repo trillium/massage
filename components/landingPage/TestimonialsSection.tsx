@@ -14,6 +14,7 @@ import { TextSm, TextSmSemibold } from '@/components/ui/text'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { Stack } from '@/components/ui/stack'
 
 const AIRBNB_REVIEWS_URL = 'https://www.airbnb.com/services/6527842?modal=reviews'
 const {
@@ -140,23 +141,33 @@ export function TestimonialsCarousel({ reviews }: { reviews: ReviewType[] }) {
   const r = reviews[current]
 
   return (
-    <div className="relative mx-auto flex flex-col items-center py-4">
-      <div className="flex w-full items-center justify-between">
+    <Stack className="relative mx-auto py-4" direction="col" align="center">
+      <Stack className="w-full" direction="row" align="center" justify="between">
         {/* Review body: first in DOM, visually in the center */}
         <section
           id="review-body"
           aria-label="Review content - use arrow keys to navigate"
           className="focus:ring-primary-500 relative order-2 flex h-80 w-full flex-1 flex-col items-start justify-between rounded-lg bg-surface-100 p-6 text-left shadow transition-all duration-300 focus:ring-2 focus:outline-none dark:bg-surface-800"
         >
-          <div className="text-primary-400 flex w-full justify-center items-center gap-1">
+          <Stack
+            className="text-primary-400 w-full"
+            direction="row"
+            justify="center"
+            align="center"
+            gap={1}
+          >
             {Array.from({ length: r.rating }, (_, i) => (
               <Star key={i} size={24} />
             ))}
             {Array.from({ length: 5 - r.rating }, (_, i) => (
               <Star key={i + r.rating} size={24} fillClasses="opacity-30" />
             ))}
-          </div>
-          <div className="flex min-h-0 w-full flex-1 items-center my-4 visible-scrollbar overflow-y-auto">
+          </Stack>
+          <Stack
+            className="min-h-0 w-full flex-1 my-4 visible-scrollbar overflow-y-auto"
+            direction="row"
+            align="center"
+          >
             {r.comment && (
               <TextSm className="sm:text-base md:text-lg xl:text-2xl">
                 {reviewQuotePrefix}
@@ -164,14 +175,14 @@ export function TestimonialsCarousel({ reviews }: { reviews: ReviewType[] }) {
                 {reviewQuoteSuffix}
               </TextSm>
             )}
-          </div>
-          <div className="flex w-full items-end">
-            <div className="flex w-full flex-col items-start">
+          </Stack>
+          <Stack className="w-full" direction="row" align="end">
+            <Stack className="w-full" direction="col" align="start">
               <TextSmSemibold className="block sm:text-base md:text-lg xl:text-2xl">
                 {r.name}
               </TextSmSemibold>
-            </div>
-          </div>
+            </Stack>
+          </Stack>
           <div className="absolute top-4 left-4">
             <SourceIcon source={r.source} />
           </div>
@@ -192,8 +203,13 @@ export function TestimonialsCarousel({ reviews }: { reviews: ReviewType[] }) {
           ariaLabel={nextReviewAriaLabel}
           placementClasses="ml-2 order-3"
         />
-      </div>
-      <div className="focus-within:ring-primary-500 mt-2 flex justify-center gap-2 rounded p-2 focus-within:ring-2">
+      </Stack>
+      <Stack
+        className="focus-within:ring-primary-500 mt-2 rounded p-2 focus-within:ring-2"
+        direction="row"
+        justify="center"
+        gap={2}
+      >
         {reviews.map((_, idx) => (
           <React.Fragment key={idx}>
             <Input
@@ -218,8 +234,8 @@ export function TestimonialsCarousel({ reviews }: { reviews: ReviewType[] }) {
             </label>
           </React.Fragment>
         ))}
-      </div>
-    </div>
+      </Stack>
+    </Stack>
   )
 }
 

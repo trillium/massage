@@ -8,9 +8,8 @@ import { useReduxFormData } from '@/redux/hooks'
 
 import { RAFFLE_INTEREST_LABELS } from '@/lib/schema'
 import { H1 } from '@/components/ui/heading'
-import { TextLg, TextSmMuted,
-  TextBase,
-} from '@/components/ui/text'
+import { TextLg, TextSmMuted, TextBase } from '@/components/ui/text'
+import { Stack } from '@/components/ui/stack'
 
 export default function NerdstageRaffleEnteredPage() {
   const router = useRouter()
@@ -29,7 +28,7 @@ export default function NerdstageRaffleEnteredPage() {
 
   return (
     <SectionContainer>
-      <div className="flex min-h-[40vh] flex-col items-center justify-center text-center">
+      <Stack className="min-h-[40vh] text-center" direction="col" align="center" justify="center">
         <H1 className="mb-4">You're Entered!</H1>
         {raffleName && (
           <TextLg className="mb-2">
@@ -61,7 +60,7 @@ export default function NerdstageRaffleEnteredPage() {
           )}
         </div>
 
-        <div className="flex gap-4">
+        <Stack direction="row" gap={4}>
           <Link
             href="/nerdstage-raffle"
             className="rounded border-2 border-surface-300 px-6 py-2 font-semibold text-surface-600 transition-colors hover:bg-surface-100 dark:border-surface-600 dark:text-surface-300 dark:hover:bg-surface-800"
@@ -74,8 +73,8 @@ export default function NerdstageRaffleEnteredPage() {
           >
             Back to Home
           </Link>
-        </div>
-      </div>
+        </Stack>
+      </Stack>
     </SectionContainer>
   )
 }

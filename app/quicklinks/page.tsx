@@ -2,12 +2,13 @@ import SectionContainer from '@/components/SectionContainer'
 import Link from '@/components/Link'
 import { quickLinks } from '@/data/paymentLinks'
 import { TextSmMuted } from '@/components/ui/text'
+import { Stack } from '@/components/ui/stack'
 
 export default function QuicklinksPage() {
   return (
     <SectionContainer>
-      <div className="flex min-h-[60vh] flex-col items-center py-12">
-        <div className="flex w-full max-w-md flex-col gap-4">
+      <Stack className="min-h-[60vh] py-12" direction="col" align="center">
+        <Stack className="w-full max-w-md" direction="col" gap={4}>
           {quickLinks.map((link) => (
             <Link
               key={link.label}
@@ -23,8 +24,8 @@ export default function QuicklinksPage() {
               </div>
             </Link>
           ))}
-        </div>
-      </div>
+        </Stack>
+      </Stack>
     </SectionContainer>
   )
 }

@@ -1,6 +1,7 @@
 import Link from '@/components/Link'
 
 import { TextBase } from '@/components/ui/text'
+import { Stack } from '@/components/ui/stack'
 
 interface BookSessionButtonProps {
   href: string // href must be a string within headerNavLinks { href: __THIS__ }
@@ -14,7 +15,7 @@ const BookSessionButton: React.FC<BookSessionButtonProps> = ({ href, title }) =>
     className="group border-primary-500 dark:border-primary-400 relative mb-4 inline-flex h-[calc(48px+8px)] items-center justify-center rounded-full border-4 pr-14 pl-6 font-medium"
   >
     <div className="bg-primary-500 group-hover:from-primary-400 group-hover:via-primary-500 group-hover:to-primary-500 absolute right-0 -z-0 inline-flex h-12 w-12 items-center justify-end rounded-full transition-[width] group-hover:w-[calc(100%)] group-hover:bg-gradient-to-r group-hover:text-white">
-      <div className="mr-3.5 flex items-center justify-center">
+      <Stack className="mr-3.5" direction="row" align="center" justify="center">
         <svg
           width="15"
           height="15"
@@ -30,9 +31,12 @@ const BookSessionButton: React.FC<BookSessionButtonProps> = ({ href, title }) =>
             clipRule="evenodd"
           />
         </svg>
-      </div>
+      </Stack>
     </div>
-    <TextBase as="span" className="text-accent-950 z-0 pr-2 text-xl font-bold group-hover:text-white dark:text-white">
+    <TextBase
+      as="span"
+      className="text-accent-950 z-0 pr-2 text-xl font-bold group-hover:text-white dark:text-white"
+    >
       {title}
     </TextBase>
   </Link>

@@ -10,6 +10,7 @@ import BookSessionButton from '@/components/BookSessionButton'
 import { ServiceAreaSection } from '@/components/landingPage/ServiceAreaSection'
 import { fetchReviews } from '@/lib/reviews/fetchReviews'
 import { filterTestimonialReviews } from '@/lib/reviews/filterTestimonialReviews'
+import { Stack } from '@/components/ui/stack'
 
 export default async function Page() {
   const allReviews = await fetchReviews()
@@ -18,7 +19,7 @@ export default async function Page() {
   return (
     <SectionContainer>
       {/* Nav */}
-      <div className="flex flex-col items-center space-y-12 sm:space-y-16 md:space-y-24">
+      <Stack className="space-y-12 sm:space-y-16 md:space-y-24" direction="col" align="center">
         <HeroSection />
         <FeatureHighlightsSection />
         <AboutSection />
@@ -28,7 +29,7 @@ export default async function Page() {
         <PricingSection />
         <ContactSection />
         <BookSessionButton title="Book a Session!" href="/book" />
-      </div>
+      </Stack>
       {/* Footer */}
     </SectionContainer>
   )

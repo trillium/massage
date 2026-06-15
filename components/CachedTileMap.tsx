@@ -2,6 +2,7 @@
 
 import * as React from 'react'
 import { twMerge } from 'tailwind-merge'
+import { Stack } from '@/components/ui/stack'
 
 interface CachedTileMapProps {
   longitude: number
@@ -177,7 +178,12 @@ export function Marker({ showMarker }: MarkerProps) {
   if (!showMarker) return null
 
   return (
-    <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+    <Stack
+      className="pointer-events-none absolute inset-0"
+      direction="row"
+      align="center"
+      justify="center"
+    >
       <svg width="200" height="200" className="overflow-visible">
         <circle
           cx="100"
@@ -186,6 +192,6 @@ export function Marker({ showMarker }: MarkerProps) {
           className="fill-primary-500/20 stroke-primary-500 stroke-2"
         />
       </svg>
-    </div>
+    </Stack>
   )
 }

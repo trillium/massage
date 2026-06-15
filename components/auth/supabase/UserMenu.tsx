@@ -17,6 +17,7 @@ import auth from '@/data/auth.json'
 import { TextSmMedium, TextXsMedium } from '@/components/ui/text'
 
 import { Button } from '@/components/ui/button'
+import { Stack } from '@/components/ui/stack'
 
 export function UserMenu() {
   const { user, profile, isAdmin, loading, signOut } = useAuth()
@@ -44,9 +45,14 @@ export function UserMenu() {
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center space-x-2 rounded-lg border border-accent-200 bg-surface-50 px-3 py-2 text-sm hover:bg-surface-100"
       >
-        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-600 text-white">
+        <Stack
+          className="h-8 w-8 rounded-full bg-blue-600 text-white"
+          direction="row"
+          align="center"
+          justify="center"
+        >
           {user.email?.[0]?.toUpperCase() || 'U'}
-        </div>
+        </Stack>
         <div className="text-left">
           <div className="font-medium">{user.email}</div>
           {isAdmin && <div className="text-xs text-blue-600">{auth.userMenu.admin}</div>}

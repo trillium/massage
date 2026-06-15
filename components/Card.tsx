@@ -52,7 +52,9 @@ const Card = ({
             title
           )}
         </H2>
-        <TextBase className="prose mb-3 max-w-none text-accent-500 dark:text-accent-400">{description}</TextBase>
+        <TextBase className="prose mb-3 max-w-none text-accent-500 dark:text-accent-400">
+          {description}
+        </TextBase>
         {href && (
           <Link
             href={href}

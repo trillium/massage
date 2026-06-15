@@ -14,6 +14,7 @@ import {
 import ui from '@/data/ui.json'
 
 import { Button } from '@/components/ui/button'
+import { Stack } from '@/components/ui/stack'
 
 const Sun = () => (
   <svg
@@ -65,7 +66,7 @@ const ThemeSwitch = () => {
   useEffect(() => setMounted(true), [])
 
   return (
-    <div className="mr-5 flex items-center">
+    <Stack className="mr-5" direction="row" align="center">
       <Menu as="div" className="relative inline-block text-left">
         <div
           className="hover:text-primary-500 dark:hover:text-primary-400 flex items-center justify-center"
@@ -138,7 +139,7 @@ const ThemeSwitch = () => {
           </MenuItems>
         </Transition>
       </Menu>
-    </div>
+    </Stack>
   )
 }
 

@@ -6,11 +6,10 @@ import { FiMapPin } from 'react-icons/fi'
 import { HiSparkles } from 'react-icons/hi2'
 import { GradientText } from '@/components/ui/GradientText'
 import { H1, H2 } from '@/components/ui/heading'
-import { TextSm,
-  TextBase,
-} from '@/components/ui/text'
+import { TextSm, TextBase } from '@/components/ui/text'
 import { home, site } from '@/app/content'
 import landing from '@/data/landing.json'
+import { Stack } from '@/components/ui/stack'
 
 const { hero } = home
 const { neighborhood, serviceArea } = site.location
@@ -74,9 +73,14 @@ function ImageContent({ positionClasses }: { positionClasses?: string }) {
         }
         <div className="absolute inset-0 bg-gradient-to-r from-primary-600/20 to-transparent"></div>
       </div>
-      <div className="bg-primary-100 absolute -bottom-6 -left-6 flex h-24 w-24 items-center justify-center rounded-full">
+      <Stack
+        className="bg-primary-100 absolute -bottom-6 -left-6 h-24 w-24 rounded-full"
+        direction="row"
+        align="center"
+        justify="center"
+      >
         <HiSparkles className="text-primary-600 h-10 w-10" />
-      </div>
+      </Stack>
     </div>
   )
 }
@@ -89,7 +93,7 @@ function ButtonContent({ positionClasses }: { positionClasses?: string }) {
         positionClasses
       )}
     >
-      <div className="flex flex-col gap-y-4">
+      <Stack className="gap-y-4" direction="col">
         <div className="sm:grid-span-1 col-span-2 grid grid-cols-1 gap-2 sm:col-span-1 sm:grid-cols-2">
           <Link
             href="/book"
@@ -106,22 +110,22 @@ function ButtonContent({ positionClasses }: { positionClasses?: string }) {
           </Link>
         </div>
         <div className="xs:flex-col flex flex-col flex-wrap justify-around gap-2 gap-y-6 sm:flex-row md:flex-col xl:flex-row">
-          <div className="flex items-center gap-2">
+          <Stack direction="row" align="center" gap={2}>
             <FaRegClock className="h-5 w-5 text-primary-600" />
             <TextSm className="whitespace-nowrap">{openDays}</TextSm>
-          </div>
-          <div className="flex items-center gap-2">
+          </Stack>
+          <Stack direction="row" align="center" gap={2}>
             <FiMapPin className="h-5 w-5 text-primary-600" />
             <TextSm className="whitespace-nowrap">
               {neighborhood} {basedLabel}
             </TextSm>
-          </div>
-          <div className="flex items-center gap-2">
+          </Stack>
+          <Stack direction="row" align="center" gap={2}>
             <FaCar className="h-5 w-5 text-primary-600" />
             <TextSm className="whitespace-nowrap">{serviceArea}</TextSm>
-          </div>
+          </Stack>
         </div>
-      </div>
+      </Stack>
     </div>
   )
 }

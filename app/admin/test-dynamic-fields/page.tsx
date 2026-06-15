@@ -171,7 +171,9 @@ export default function TestDynamicFieldsPage() {
             </TextBase>
             <TextBase>• All form data is stored in Redux state with proper typing</TextBase>
             <TextBase>• Each field type has its own dedicated component</TextBase>
-            <TextBase>• The form maintains backward compatibility with existing implementations</TextBase>
+            <TextBase>
+              • The form maintains backward compatibility with existing implementations
+            </TextBase>
           </div>
         </div>
       </div>

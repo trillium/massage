@@ -7,6 +7,7 @@ import { TextSmMuted } from '@/components/ui/text'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { Stack } from '@/components/ui/stack'
 
 type ConfirmDialogProps = {
   open: boolean
@@ -53,7 +54,7 @@ export default function ConfirmDialog({
         </TransitionChild>
 
         <div className="fixed inset-0 z-10 overflow-y-auto">
-          <div className="flex min-h-full items-center justify-center p-4">
+          <Stack className="min-h-full p-4" direction="row" align="center" justify="center">
             <TransitionChild
               as={Fragment}
               enter="ease-out duration-300"
@@ -98,7 +99,7 @@ export default function ConfirmDialog({
                       />
                     </div>
                   )}
-                  <div className="mt-6 flex justify-end gap-3">
+                  <Stack className="mt-6" direction="row" justify="end" gap={3}>
                     <Button
                       type="button"
                       onClick={handleClose}
@@ -113,11 +114,11 @@ export default function ConfirmDialog({
                     >
                       {confirmLabel}
                     </Button>
-                  </div>
+                  </Stack>
                 </form>
               </DialogPanel>
             </TransitionChild>
-          </div>
+          </Stack>
         </div>
       </Dialog>
     </Transition>

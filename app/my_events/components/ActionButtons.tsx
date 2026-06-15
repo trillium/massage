@@ -8,6 +8,7 @@ import { extractApprovalUrls } from '@/lib/helpers/eventHelpers'
 import { TextSmMedium, TextXs } from '@/components/ui/text'
 
 import { Button } from '@/components/ui/button'
+import { Stack } from '@/components/ui/stack'
 
 interface ActionButtonsProps {
   event: GoogleCalendarV3Event
@@ -89,7 +90,7 @@ export function ActionButtons({
       : `/event/${event.id}`
 
   return (
-    <div className="ml-4 flex flex-col space-y-2">
+    <Stack className="ml-4 space-y-2" direction="col">
       <Link
         href={detailsHref}
         className={clsx(
@@ -99,6 +100,6 @@ export function ActionButtons({
       >
         View Details
       </Link>
-    </div>
+    </Stack>
   )
 }

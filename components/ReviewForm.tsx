@@ -17,12 +17,11 @@ import { Star } from './ReviewCard/Stars'
 import { handleReviewSubmit } from './ReviewForm.handleSubmit'
 import { siteConfig } from '@/lib/siteConfig'
 import forms from '@/data/forms.json'
-import { TextSm,
-  TextLg,
-} from '@/components/ui/text'
+import { TextSm, TextLg } from '@/components/ui/text'
 
 import { Button } from '@/components/ui/button'
 import { Select } from '@/components/ui/select'
+import { Stack } from '@/components/ui/stack'
 
 export default function ReviewForm({
   error,
@@ -75,9 +74,12 @@ export default function ReviewForm({
           <input type="hidden" readOnly name="date" value={start} />
           <input type="hidden" readOnly name="error" value={error} />
 
-          <div className="flex flex-col space-y-4">
+          <Stack className="space-y-4" direction="col">
             <div className="isolate -space-y-px rounded-md shadow-sm">
-              <div className="row focus-within:ring-primary-400 relative flex px-3 pt-2.5 pb-1.5 ring-1 ring-accent-300 ring-inset first:rounded-md first:rounded-b-none last:rounded-md last:rounded-t-none focus-within:z-10 focus-within:ring-2">
+              <Stack
+                className="row focus-within:ring-primary-400 relative px-3 pt-2.5 pb-1.5 ring-1 ring-accent-300 ring-inset first:rounded-md first:rounded-b-none last:rounded-md last:rounded-t-none focus-within:z-10 focus-within:ring-2"
+                direction="row"
+              >
                 <div className="mx-1 w-full">
                   <label
                     htmlFor="name"
@@ -122,7 +124,7 @@ export default function ReviewForm({
                     className="mb-1 block w-full border-0 p-0 py-1 pl-2 text-accent-900 placeholder:text-accent-400 focus:ring-0 sm:text-base sm:leading-6 dark:text-accent-100"
                   />
                 </div>
-              </div>
+              </Stack>
               <div className="focus-within:ring-primary-400 relative px-3 pt-2.5 pb-1.5 ring-1 ring-accent-300 ring-inset first:rounded-md first:rounded-b-none last:rounded-md last:rounded-t-none focus-within:z-10 focus-within:ring-2">
                 <label
                   htmlFor="date"
@@ -203,7 +205,7 @@ export default function ReviewForm({
                 />
               </div>
             </div>
-          </div>
+          </Stack>
           {modal === 'error' && (
             <div className="bg-red-50 text-red-600">{reviewForms.messages.error}</div>
           )}

@@ -4,12 +4,13 @@ import { useReduxReviewFormData } from '@/redux/hooks'
 import Template from 'components/Template'
 import { ReviewSnippet } from 'components/ReviewCard/ReviewSnippet'
 import BookSessionButton from 'components/BookSessionButton'
+import { Stack } from '@/components/ui/stack'
 
 export default function About() {
   const { firstName, lastName, text, rating } = useReduxReviewFormData()
 
   return (
-    <div className="flex h-full flex-col items-center justify-between">
+    <Stack className="h-full" direction="col" align="center" justify="between">
       <Template title="Thanks! Your review has been received!" />
       <div
         className={
@@ -37,6 +38,6 @@ export default function About() {
           <BookSessionButton title="Book a Session!" href="/book" />
         </div>
       )}
-    </div>
+    </Stack>
   )
 }

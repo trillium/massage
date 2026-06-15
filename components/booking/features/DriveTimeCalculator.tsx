@@ -10,6 +10,7 @@ import { H3 } from '@/components/ui/heading'
 import { TextSm } from '@/components/ui/text'
 
 import { Button } from '@/components/ui/button'
+import { Stack } from '@/components/ui/stack'
 
 function formatDriveTime(minutes: number): string {
   if (minutes <= 5) return 'Extremely short'
@@ -175,7 +176,7 @@ export default function DriveTimeCalculator({ currentEvent }: DriveTimeCalculato
 
   return (
     <div className="focus-within:border-primary-500 dark:focus-within:border-primary-500 rounded-lg border-2 border-accent-300 bg-surface-200 p-6 dark:border-accent-700 dark:bg-surface-800">
-      <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
+      <Stack className="mb-4" direction="row" wrap align="center" justify="between" gap={2}>
         <H3>Want to be next? Calculate Drive Time</H3>
         <Button
           onClick={handleUseDeviceLocation}
@@ -184,7 +185,7 @@ export default function DriveTimeCalculator({ currentEvent }: DriveTimeCalculato
         >
           {isGettingLocation ? 'Getting Location...' : 'Use Device Location'}
         </Button>
-      </div>
+      </Stack>
       {deviceCoordinates ? (
         <div className="rounded-md border-2 border-blue-200 bg-blue-50 p-3 dark:border-blue-800 dark:bg-blue-950/50">
           <TextSm status="info">

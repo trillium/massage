@@ -2,6 +2,7 @@ import { cn } from '@/lib/cn'
 import type { InputHTMLAttributes } from 'react'
 
 import { TextXs } from '@/components/ui/text'
+import { Stack } from '@/components/ui/stack'
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string
@@ -10,7 +11,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 
 export function Input({ label, error, className, id, ...props }: InputProps) {
   return (
-    <div className="flex flex-col gap-1">
+    <Stack direction="col" gap={1}>
       {label && (
         <label htmlFor={id} className="text-sm font-medium text-accent-700 dark:text-accent-300">
           {label}
@@ -30,6 +31,6 @@ export function Input({ label, error, className, id, ...props }: InputProps) {
         {...props}
       />
       {error && <TextXs className="text-xs text-red-600 dark:text-red-400">{error}</TextXs>}
-    </div>
+    </Stack>
   )
 }

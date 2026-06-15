@@ -9,6 +9,7 @@ import pagesData from '@/data/pages.json'
 import { TextXs, TextXsMuted } from '@/components/ui/text'
 
 import { Button } from '@/components/ui/button'
+import { Stack } from '@/components/ui/stack'
 
 function TabBar() {
   const { state, dispatch, resetSession } = useSandbox()
@@ -23,7 +24,7 @@ function TabBar() {
 
   return (
     <nav className="sticky top-0 z-20 mb-6 flex items-center justify-between rounded-lg bg-surface-50 px-4 py-3 shadow-md dark:bg-surface-800">
-      <div className="flex gap-1">
+      <Stack direction="row" gap={1}>
         {(['user', 'admin'] as const).map((tab) => (
           <Button
             key={tab}
@@ -43,8 +44,8 @@ function TabBar() {
             )}
           </Button>
         ))}
-      </div>
-      <div className="flex items-center gap-3">
+      </Stack>
+      <Stack direction="row" align="center" gap={3}>
         <TextXsMuted className="hidden sm:inline">{sandbox.labels.mode}</TextXsMuted>
         <Button
           onClick={handleReset}
@@ -52,7 +53,7 @@ function TabBar() {
         >
           {sandbox.buttons.reset}
         </Button>
-      </div>
+      </Stack>
     </nav>
   )
 }

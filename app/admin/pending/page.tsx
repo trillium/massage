@@ -6,6 +6,7 @@ import { DeclineButton } from './DeclineButton'
 import { H1, H3 } from '@/components/ui/heading'
 
 import { TextBase } from '@/components/ui/text'
+import { Stack } from '@/components/ui/stack'
 
 export const dynamic = 'force-dynamic'
 
@@ -69,7 +70,7 @@ export default async function PendingPage() {
                   </div>
                 )}
 
-                <div className="mt-4 flex gap-3">
+                <Stack className="mt-4" direction="row" gap={3}>
                   {acceptUrl && (
                     <a
                       href={acceptUrl}
@@ -79,7 +80,7 @@ export default async function PendingPage() {
                     </a>
                   )}
                   {declineUrl && <DeclineButton declineUrl={declineUrl} />}
-                </div>
+                </Stack>
               </div>
             )
           })}

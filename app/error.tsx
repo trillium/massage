@@ -7,6 +7,7 @@ import { H1 } from '@/components/ui/heading'
 import { Button } from '@/components/ui/button'
 
 import { TextBase } from '@/components/ui/text'
+import { Stack } from '@/components/ui/stack'
 
 export default function GlobalError({
   error: _error,
@@ -16,13 +17,15 @@ export default function GlobalError({
   reset: () => void
 }) {
   return (
-    <div className="flex flex-col items-center justify-center px-4 py-24 text-center">
+    <Stack className="px-4 py-24 text-center" direction="col" align="center" justify="center">
       <H1 className="text-6xl">{system.globalError.title}</H1>
       <TextBase className="mt-4 text-xl font-bold text-accent-700 dark:text-accent-300">
         {system.globalError.message}
       </TextBase>
-      <TextBase className="mt-2 text-accent-500 dark:text-accent-400">{system.globalError.description}</TextBase>
-      <div className="mt-8 flex gap-4">
+      <TextBase className="mt-2 text-accent-500 dark:text-accent-400">
+        {system.globalError.description}
+      </TextBase>
+      <Stack className="mt-8" direction="row" gap={4}>
         <Button
           type="button"
           onClick={reset}
@@ -36,7 +39,7 @@ export default function GlobalError({
         >
           {system.globalError.buttons.home}
         </Link>
-      </div>
-    </div>
+      </Stack>
+    </Stack>
   )
 }

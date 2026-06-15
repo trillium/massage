@@ -7,12 +7,13 @@ import { H3, H4 } from '@/components/ui/heading'
 import { TextSmMuted, TextXsMedium, TextXsMuted } from '@/components/ui/text'
 
 import { Code } from '@/components/ui/code'
+import { Stack } from '@/components/ui/stack'
 
 export function QueryGroupCard({ group }: { group: QueryGroup }) {
   return (
     <div className="overflow-hidden rounded-lg bg-surface-50 shadow dark:bg-surface-800">
       <div className="bg-surface-100 px-6 py-4 dark:bg-surface-700">
-        <div className="flex items-center justify-between">
+        <Stack direction="row" align="center" justify="between">
           <div>
             <H3 className="dark:text-white">
               {admin.activeEventContainers.queryLabel}
@@ -24,7 +25,7 @@ export function QueryGroupCard({ group }: { group: QueryGroup }) {
                   .replace('{count}', String(group.slugs.length))
                   .replace('{plural}', group.slugs.length !== 1 ? 's' : '')}
               </TextSmMuted>
-              <div className="mt-1 flex flex-wrap gap-2">
+              <Stack className="mt-1" direction="row" wrap gap={2}>
                 {group.slugs.map((slugInfo) => (
                   <TextXsMedium
                     key={slugInfo.slug}
@@ -42,7 +43,7 @@ export function QueryGroupCard({ group }: { group: QueryGroup }) {
                     </span>
                   </TextXsMedium>
                 ))}
-              </div>
+              </Stack>
             </div>
             <div className="mt-3 space-y-1">
               <TextXsMuted>
@@ -69,7 +70,7 @@ export function QueryGroupCard({ group }: { group: QueryGroup }) {
               </TextXsMuted>
             </div>
           </div>
-          <div className="flex space-x-4 text-sm">
+          <Stack className="space-x-4 text-sm" direction="row">
             <div className="text-center">
               <div className="font-semibold text-green-600 dark:text-green-400">
                 {group.containers.length}
@@ -94,8 +95,8 @@ export function QueryGroupCard({ group }: { group: QueryGroup }) {
                 {admin.activeEventContainers.totalEventsLabel}
               </div>
             </div>
-          </div>
-        </div>
+          </Stack>
+        </Stack>
       </div>
 
       <div className="p-6">

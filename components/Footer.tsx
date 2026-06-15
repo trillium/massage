@@ -10,10 +10,8 @@ import { createContactUrl } from '@/lib/helpers'
 import { home, site } from '@/app/content'
 import footer from '@/data/footer.json'
 import { H2 } from '@/components/ui/heading'
-import { TextBaseMuted,
-  TextBase,
-  TextLg,
-} from '@/components/ui/text'
+import { TextBaseMuted, TextBase, TextLg } from '@/components/ui/text'
+import { Stack } from '@/components/ui/stack'
 
 export default function Footer() {
   return (
@@ -93,8 +91,8 @@ function ServiceIsContainer({ displayClasses }: { displayClasses?: string }) {
 
 function Socials() {
   return (
-    <div className="mt-8 flex flex-col items-start">
-      <div className="mb-3 flex space-x-4 text-red-400">
+    <Stack className="mt-8" direction="col" align="start">
+      <Stack className="mb-3 space-x-4 text-red-400" direction="row">
         <SocialIcon kind="mail" href={`mailto:${siteMetadata.email}`} size={6} />
         <SocialIcon kind="github" href={siteMetadata.github} size={6} />
         <SocialIcon kind="facebook" href={siteMetadata.facebook} size={6} />
@@ -106,15 +104,21 @@ function Socials() {
         <SocialIcon kind="instagram" href={siteMetadata.instagram} size={6} />
         <SocialIcon kind="threads" href={siteMetadata.threads} size={6} />
         <SocialIcon kind="medium" href={siteMetadata.medium} size={6} />
-      </div>
-    </div>
+      </Stack>
+    </Stack>
   )
 }
 
 function CopyrightNotice() {
   return (
-    <div className="mt-8 flex flex-col items-center">
-      <div className="mb-2 flex flex-row flex-wrap items-center justify-center space-x-2 text-sm text-accent-500 dark:text-accent-400">
+    <Stack className="mt-8" direction="col" align="center">
+      <Stack
+        className="mb-2 space-x-2 text-sm text-accent-500 dark:text-accent-400"
+        direction="row"
+        wrap
+        align="center"
+        justify="center"
+      >
         <div className="whitespace-nowrap">{siteMetadata.author}</div>
         <div>{` • `}</div>
         <div className="whitespace-nowrap">{`© ${new Date().getFullYear()}`}</div>
@@ -122,9 +126,9 @@ function CopyrightNotice() {
           <TextBase as="span">{` • `}</TextBase>
           {siteMetadata.title}
         </Link>
-      </div>
+      </Stack>
       <div className="mb-8 text-sm text-accent-500 dark:text-accent-400"></div>
-    </div>
+    </Stack>
   )
 }
 
@@ -172,7 +176,9 @@ function ContactItem({
 }) {
   return (
     <li className="flex items-start gap-3 pl-4">
-      <TextLg as="span" className={clsx('mt-1 text-lg text-primary-400', iconClass)}>{icon}</TextLg>
+      <TextLg as="span" className={clsx('mt-1 text-lg text-primary-400', iconClass)}>
+        {icon}
+      </TextLg>
       <TextBaseMuted as="div">{children}</TextBaseMuted>
     </li>
   )
@@ -215,8 +221,12 @@ const contactItems = [
         classes="group outline-transparent"
       >
         <div className="group-focus-within:outline-primary-500 inline-block rounded-md outline-2 outline-offset-2 outline-transparent hover:text-white">
-          <TextBase as="span" className="block">{footer.contact.phone.label}</TextBase>{' '}
-          <TextBase as="span" className="block">{footer.contact.phone.cta}</TextBase>
+          <TextBase as="span" className="block">
+            {footer.contact.phone.label}
+          </TextBase>{' '}
+          <TextBase as="span" className="block">
+            {footer.contact.phone.cta}
+          </TextBase>
         </div>
       </Link>
     ),

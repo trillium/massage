@@ -10,12 +10,11 @@ import { generateTimeSlots } from './generateTimeSlots'
 import { toast } from 'sonner'
 import { adminFetch } from '@/lib/adminFetch'
 import { H1, H3 } from '@/components/ui/heading'
-import { TextSm, TextSmSemibold, TextXs,
-  TextBase,
-} from '@/components/ui/text'
+import { TextSm, TextSmSemibold, TextXs, TextBase } from '@/components/ui/text'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { Stack } from '@/components/ui/stack'
 
 interface BookingResponse {
   success: boolean
@@ -390,7 +389,7 @@ function BookingItem({
 
         {booking.extraServices && booking.extraServices.length > 0 && (
           <div>
-            <div className="mt-1 flex flex-wrap gap-1">
+            <Stack className="mt-1" direction="row" wrap gap={1}>
               {booking.extraServices.map((service, serviceIndex) => (
                 <TextXs
                   key={serviceIndex}
@@ -400,7 +399,7 @@ function BookingItem({
                   {service}
                 </TextXs>
               ))}
-            </div>
+            </Stack>
           </div>
         )}
       </div>

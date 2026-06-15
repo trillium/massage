@@ -9,6 +9,7 @@ import { questions, type FAQItem } from './questions'
 import DynamicGridMasonry from '@/components/masonry/DynamicGridMasonry'
 
 import { TextBase } from '@/components/ui/text'
+import { Stack } from '@/components/ui/stack'
 
 type ContentItem = {
   type: 'text' | 'image' | 'list' | 'link' | 'imageMosaic'
@@ -50,7 +51,7 @@ const renderContent = (content: string | ContentItem[]) => {
     const imagePosition = imageItem.imagePosition || 'left'
 
     const textCol = (
-      <div className="order-1 flex flex-col space-y-3 md:order-none">
+      <Stack className="order-1 space-y-3 md:order-none" direction="col">
         {before.map((item, index) => {
           switch (item.type) {
             case 'text':
@@ -89,7 +90,10 @@ const renderContent = (content: string | ContentItem[]) => {
           switch (item.type) {
             case 'text':
               return (
-                <TextBase key={index + before.length} className="text-accent-700 dark:text-accent-300">
+                <TextBase
+                  key={index + before.length}
+                  className="text-accent-700 dark:text-accent-300"
+                >
                   {item.content}
                 </TextBase>
               )
@@ -106,7 +110,10 @@ const renderContent = (content: string | ContentItem[]) => {
               )
             case 'link':
               return (
-                <TextBase key={index + before.length} className="text-accent-700 dark:text-accent-300">
+                <TextBase
+                  key={index + before.length}
+                  className="text-accent-700 dark:text-accent-300"
+                >
                   <Link
                     href={item.href!}
                     className="text-primary-600 hover:text-primary-800 dark:text-primary-400 dark:hover:text-primary-300 underline"
@@ -119,10 +126,10 @@ const renderContent = (content: string | ContentItem[]) => {
               return null
           }
         })}
-      </div>
+      </Stack>
     )
     const imageCol = (
-      <div className="order-2 flex flex-col items-center md:order-none">
+      <Stack className="order-2 md:order-none" direction="col" align="center">
         {imageItem.type === 'image' ? (
           <Image
             src={imageItem.src!}
@@ -138,7 +145,7 @@ const renderContent = (content: string | ContentItem[]) => {
             largestColumn={imageItem.largestColumn || 'left'}
           />
         ) : null}
-      </div>
+      </Stack>
     )
 
     return (
@@ -209,7 +216,7 @@ const FAQCard = ({ questions: questionsProp }: FAQCardProps) => {
   return (
     <div className="w-full pb-6">
       <Template title="Frequently Asked Questions" />
-      <div className="flex w-full flex-col items-center justify-center">
+      <Stack className="w-full" direction="col" align="center" justify="center">
         {data.map((item) => (
           <Disclosure as="div" key={item.q} className="w-full pb-4">
             {({ open }) => (
@@ -239,7 +246,7 @@ const FAQCard = ({ questions: questionsProp }: FAQCardProps) => {
             )}
           </Disclosure>
         ))}
-      </div>
+      </Stack>
     </div>
   )
 }

@@ -10,6 +10,7 @@ import pagesData from '@/data/pages.json'
 import { H1 } from '@/components/ui/heading'
 
 import { TextBase } from '@/components/ui/text'
+import { Stack } from '@/components/ui/stack'
 
 export default function Confirmation() {
   const { selectedTime, timeZone, duration } = useReduxAvailability()
@@ -68,9 +69,9 @@ export default function Confirmation() {
 
       <BookedCard {...bookedData} />
 
-      <div className="flex flex-grow items-center justify-center pt-12">
+      <Stack className="flex-grow pt-12" direction="row" align="center" justify="center">
         <BookSessionButton title={instantConfirm.button} href="/book" />
-      </div>
+      </Stack>
     </>
   )
 }

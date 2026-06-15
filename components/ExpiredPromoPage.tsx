@@ -5,6 +5,7 @@ import { siteConfig } from '@/lib/siteConfig'
 import promo from '@/data/promo.json'
 import { H1 } from '@/components/ui/heading'
 import { TextLgMuted } from '@/components/ui/text'
+import { Stack } from '@/components/ui/stack'
 
 interface ExpiredPromoPageProps {
   title: string
@@ -25,12 +26,22 @@ export default function ExpiredPromoPage({
   })
 
   return (
-    <div className="flex flex-col items-center justify-center bg-surface-100 py-4 dark:bg-surface-900">
+    <Stack
+      className="bg-surface-100 py-4 dark:bg-surface-900"
+      direction="col"
+      align="center"
+      justify="center"
+    >
       <div className="mx-auto max-w-2xl px-4 text-center">
         <div className="mb-8">
-          <div className="mx-auto mb-6 flex h-24 w-24 items-center justify-center rounded-full bg-orange-100 dark:bg-orange-900/20">
+          <Stack
+            className="mx-auto mb-6 h-24 w-24 rounded-full bg-orange-100 dark:bg-orange-900/20"
+            direction="row"
+            align="center"
+            justify="center"
+          >
             <FaClock className="text-4xl" />
-          </div>
+          </Stack>
 
           <H1 className="mb-4 dark:text-white">{promo.expiredPromo.heading}</H1>
 
@@ -60,6 +71,6 @@ export default function ExpiredPromoPage({
           </div>
         </div>
       </div>
-    </div>
+    </Stack>
   )
 }

@@ -9,6 +9,7 @@ import { H3 } from '@/components/ui/heading'
 import { TextSmMuted } from '@/components/ui/text'
 
 import { Button } from '@/components/ui/button'
+import { Stack } from '@/components/ui/stack'
 
 interface TimeBlock {
   id: string
@@ -129,7 +130,7 @@ export default function TimeBlocker({ eventContainer }: TimeBlockerProps) {
 
   return (
     <div className="rounded-lg border border-accent-200 bg-surface-50 p-4 dark:border-accent-700 dark:bg-surface-800">
-      <div className="mb-3 flex items-center justify-between">
+      <Stack className="mb-3" direction="row" align="center" justify="between">
         <H3>{admin.timeBlocker.title}</H3>
         <Button
           type="button"
@@ -139,9 +140,9 @@ export default function TimeBlocker({ eventContainer }: TimeBlockerProps) {
         >
           {fetching ? admin.timeBlocker.buttons.loading : admin.timeBlocker.buttons.refresh}
         </Button>
-      </div>
+      </Stack>
 
-      <div className="mb-3 flex flex-wrap gap-2">
+      <Stack className="mb-3" direction="row" wrap gap={2}>
         {[15, 30, 60].map((mins) => (
           <Button
             key={mins}
@@ -160,7 +161,7 @@ export default function TimeBlocker({ eventContainer }: TimeBlockerProps) {
               : admin.timeBlocker.buttons.block60}
           </Button>
         ))}
-      </div>
+      </Stack>
 
       {blocks.length === 0 ? (
         <TextSmMuted>{admin.timeBlocker.states.noActiveBlocks}</TextSmMuted>

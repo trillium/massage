@@ -1,7 +1,5 @@
 import { H3 } from '@/components/ui/heading'
-import { TextSmMuted, TextXs, TextXsMedium,
-  TextBase,
-} from '@/components/ui/text'
+import { TextSmMuted, TextXs, TextXsMedium, TextBase } from '@/components/ui/text'
 interface Attendee {
   email?: string
   displayName: string

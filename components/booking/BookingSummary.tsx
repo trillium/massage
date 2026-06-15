@@ -6,6 +6,7 @@ import { BookingFormData } from '@/lib/types'
 import { flattenLocation } from '@/lib/helpers/locationHelpers'
 import { validatePromoCode } from '@/lib/promoCodes'
 import bookingData from '@/data/booking.json'
+import { Stack } from '@/components/ui/stack'
 
 interface BookingSummaryProps {
   dateString: string
@@ -42,7 +43,7 @@ const BookingSummary: React.FC<BookingSummaryProps> = ({
 
   return (
     <div className="border-l-primary-400 dark:bg-primary-50/10 mt-3 mb-4 rounded-md border-l-4 bg-surface-50 p-3">
-      <div className="flex items-start justify-between">
+      <Stack direction="row" align="start" justify="between">
         <div>
           <TextSmSemibold className="md:text-base">{dateString}</TextSmSemibold>
           <TextXs className="md:text-sm">
@@ -56,8 +57,12 @@ const BookingSummary: React.FC<BookingSummaryProps> = ({
             <GeneratePrice price={Number(price)} discount={discount} />
           </div>
         )}
-      </div>
-      <div className="mt-1 flex items-start text-xs text-accent-700 md:text-sm dark:text-accent-300">
+      </Stack>
+      <Stack
+        className="mt-1 text-xs text-accent-700 md:text-sm dark:text-accent-300"
+        direction="row"
+        align="start"
+      >
         <span className="w-18 shrink-0 font-medium">{bookingData.summary.clientLabel}</span>
         <span className="break-words">
           {clientName || (
@@ -66,15 +71,23 @@ const BookingSummary: React.FC<BookingSummaryProps> = ({
             </span>
           )}
         </span>
-      </div>
+      </Stack>
       {promoLine && (
-        <div className="mt-1 flex items-start text-xs text-primary-600 md:text-sm dark:text-primary-400">
+        <Stack
+          className="mt-1 text-xs text-primary-600 md:text-sm dark:text-primary-400"
+          direction="row"
+          align="start"
+        >
           <span className="font-medium">
             {bookingData.summary.promoCheckmark} {promoLine}
           </span>
-        </div>
+        </Stack>
       )}
-      <div className="flex items-start text-xs text-accent-700 md:text-sm dark:text-accent-300">
+      <Stack
+        className="text-xs text-accent-700 md:text-sm dark:text-accent-300"
+        direction="row"
+        align="start"
+      >
         <span className="w-18 shrink-0 font-medium">{bookingData.summary.locationLabel}</span>
         <span className="break-words">
           {location || (
@@ -89,7 +102,7 @@ const BookingSummary: React.FC<BookingSummaryProps> = ({
             </span>
           )}
         </span>
-      </div>
+      </Stack>
     </div>
   )
 }

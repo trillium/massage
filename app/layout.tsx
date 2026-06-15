@@ -16,6 +16,7 @@ import { Toaster } from 'sonner'
 import { headers } from 'next/headers'
 import { getUser } from '@/lib/supabase/server'
 import FeedtackOverlay from '@/components/FeedtackOverlay'
+import { Stack } from '@/components/ui/stack'
 
 const space_grotesk = Space_Grotesk({
   subsets: ['latin'],
@@ -109,7 +110,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <link rel="alternate" type="application/rss+xml" href={`${basePath}/feed.xml`} />
       <body className="bg-surface-50 text-accent-950 antialiased dark:bg-surface-950 dark:text-white">
         <ThemeProviders>
-          <div className="flex min-h-screen flex-col">
+          <Stack className="min-h-screen" direction="col">
             <Analytics analyticsConfig={siteMetadata.analytics as AnalyticsConfig} />
             <SearchProvider searchConfig={siteMetadata.search as SearchConfig}>
               <SectionContainer>
@@ -122,7 +123,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <Footer />
               </div>
             </SectionContainer>
-          </div>
+          </Stack>
           <Toaster />
           <AdminFeedtack />
         </ThemeProviders>

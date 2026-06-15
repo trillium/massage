@@ -7,6 +7,7 @@ import Image from '@/components/Image'
 import { TextSm, TextSmMedium } from '@/components/ui/text'
 
 import { Button } from '@/components/ui/button'
+import { Stack } from '@/components/ui/stack'
 
 export interface GalleryImage {
   src: string
@@ -88,7 +89,7 @@ export default function Gallery({ images, columns = 3 }: GalleryProps) {
             <div className="fixed inset-0 bg-black/80" />
           </TransitionChild>
 
-          <div className="fixed inset-0 z-10 flex items-center justify-center p-4">
+          <Stack className="fixed inset-0 z-10 p-4" direction="row" align="center" justify="center">
             <TransitionChild
               as={Fragment}
               enter="ease-out duration-300"
@@ -142,7 +143,7 @@ export default function Gallery({ images, columns = 3 }: GalleryProps) {
                 )}
               </DialogPanel>
             </TransitionChild>
-          </div>
+          </Stack>
         </Dialog>
       </Transition>
     </>

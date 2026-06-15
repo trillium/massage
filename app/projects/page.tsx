@@ -4,6 +4,7 @@ import { genPageMetadata } from 'app/seo'
 import pagesData from '@/data/pages.json'
 import { H1 } from '@/components/ui/heading'
 import { TextLgMuted } from '@/components/ui/text'
+import { Stack } from '@/components/ui/stack'
 
 const projectsText = pagesData.projects
 
@@ -19,7 +20,7 @@ export default function Projects() {
         <TextLgMuted>{projectsText.description}</TextLgMuted>
       </div>
       <div className="container py-12">
-        <div className="-m-4 flex flex-wrap">
+        <Stack className="-m-4" direction="row" wrap>
           {projectsData.map((d) => (
             <Card
               key={d.title}
@@ -29,7 +30,7 @@ export default function Projects() {
               href={d.href}
             />
           ))}
-        </div>
+        </Stack>
       </div>
     </div>
   )

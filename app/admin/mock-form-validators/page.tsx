@@ -4,9 +4,7 @@ import React from 'react'
 import SectionContainer from '@/components/SectionContainer'
 import { FaCheck, FaFolder } from 'react-icons/fa'
 import { H1, H2, H3, H4 } from '@/components/ui/heading'
-import { TextSm,
-  TextBase,
-} from '@/components/ui/text'
+import { TextSm, TextBase } from '@/components/ui/text'
 
 export default function MockFormValidatorsPage() {
   return (

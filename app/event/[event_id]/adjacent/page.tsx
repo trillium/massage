@@ -19,9 +19,7 @@ import InitializeBookingState from '@/components/booking/InitializeBookingState'
 import DurationSlotManager from '@/components/booking/DurationSlotManager'
 import { createPageConfiguration } from '@/lib/slugConfigurations/createPageConfiguration'
 import { H1, H2, H3 } from '@/components/ui/heading'
-import { TextXs,
-  TextBase,
-} from '@/components/ui/text'
+import { TextXs, TextBase } from '@/components/ui/text'
 
 interface AdjacentBookingPageProps {
   params: Promise<{ event_id: string }>

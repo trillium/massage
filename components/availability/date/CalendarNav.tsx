@@ -4,6 +4,7 @@ import { format, isSameMonth } from 'date-fns'
 import { TextSmSemibold } from '@/components/ui/text'
 
 import { Button } from '@/components/ui/button'
+import { Stack } from '@/components/ui/stack'
 
 interface CalendarNavProps {
   pageStartDate: Date
@@ -27,7 +28,7 @@ export default function CalendarNav({
     : `${format(pageStartDate, 'MMMM')} \u2013 ${format(pageEndDate, 'MMMM yyyy')}`
 
   return (
-    <div className="col-span-7 flex items-center justify-between px-3 py-2">
+    <Stack className="col-span-7 px-3 py-2" direction="row" align="center" justify="between">
       <Button
         type="button"
         onClick={onPrev}
@@ -69,6 +70,6 @@ export default function CalendarNav({
           />
         </svg>
       </Button>
-    </div>
+    </Stack>
   )
 }

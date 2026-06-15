@@ -6,6 +6,7 @@ import { computeTimelineBlocks } from './computeTimelineBlocks'
 import { ContainerSelector } from './ContainerSelector'
 import { TimelineBlock } from './TimelineBlock'
 import { TextSmMuted, TextXsMedium } from '@/components/ui/text'
+import { Stack } from '@/components/ui/stack'
 
 function findNearestContainer(queryGroups: QueryGroup[]): {
   query: string
@@ -96,7 +97,7 @@ export function SchedulePanel({ queryGroups }: Props) {
             return (
               <div key={`${block.type}-${block.start}`}>
                 {nowInRange && isInProgress && (
-                  <div ref={nowRef} className="my-1 flex items-center gap-2">
+                  <Stack ref={nowRef} className="my-1" direction="row" align="center" gap={2}>
                     <div className="h-2 w-2 rounded-full bg-red-500" />
                     <div className="h-px flex-1 bg-red-500" />
                     <TextXsMedium status="error">
@@ -105,7 +106,7 @@ export function SchedulePanel({ queryGroups }: Props) {
                         minute: '2-digit',
                       })}
                     </TextXsMedium>
-                  </div>
+                  </Stack>
                 )}
                 <TimelineBlock block={block} isPast={isPast} isInProgress={isInProgress} />
               </div>
@@ -119,13 +120,13 @@ export function SchedulePanel({ queryGroups }: Props) {
               const bEnd = new Date(b.end).getTime()
               return bStart <= nowMs && nowMs < bEnd
             }) && (
-              <div ref={nowRef} className="my-1 flex items-center gap-2">
+              <Stack ref={nowRef} className="my-1" direction="row" align="center" gap={2}>
                 <div className="h-2 w-2 rounded-full bg-red-500" />
                 <div className="h-px flex-1 bg-red-500" />
                 <TextXsMedium status="error">
                   {now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}
                 </TextXsMedium>
-              </div>
+              </Stack>
             )}
         </div>
       )}

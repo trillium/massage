@@ -8,6 +8,7 @@ import { useReduxAvailability } from '@/redux/hooks'
 import { H1 } from '@/components/ui/heading'
 
 import { TextBase } from '@/components/ui/text'
+import { Stack } from '@/components/ui/stack'
 
 interface MockedConfirmationPageProps {
   data: {
@@ -68,9 +69,9 @@ export default function MockedConfirmationPage({ data }: MockedConfirmationPageP
 
       <BookedCard {...bookedData} />
 
-      <div className="flex flex-grow items-center justify-center pt-12">
+      <Stack className="flex-grow pt-12" direction="row" align="center" justify="center">
         <BookSessionButton title="Book Another Session!" href="/book" />
-      </div>
+      </Stack>
     </div>
   )
 }

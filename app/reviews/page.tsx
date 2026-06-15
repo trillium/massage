@@ -3,14 +3,15 @@ import React from 'react'
 import SectionContainer from '@/components/SectionContainer'
 import ReviewCard from '@/components/ReviewCard/ReviewCard'
 import BookSessionButton from '@/components/BookSessionButton'
+import { Stack } from '@/components/ui/stack'
 
 export default async function Page() {
   return (
     <SectionContainer>
-      <div className="flex flex-col items-center">
+      <Stack direction="col" align="center">
         <ReviewCard />
         <BookSessionButton title="Book a Session!" href="/book" />
-      </div>
+      </Stack>
     </SectionContainer>
   )
 }

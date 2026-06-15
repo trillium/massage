@@ -9,6 +9,7 @@ import { H3 } from '@/components/ui/heading'
 import { TextSm } from '@/components/ui/text'
 
 import { Button } from '@/components/ui/button'
+import { Stack } from '@/components/ui/stack'
 
 export function CategorizedEventList({
   events,
@@ -35,14 +36,14 @@ export function CategorizedEventList({
   return (
     <div>
       {isAdmin && (
-        <div className="mb-4 flex justify-end">
+        <Stack className="mb-4" direction="row" justify="end">
           <Button
             onClick={handleDownloadJSON}
             className="rounded bg-surface-800 px-4 py-2 text-sm font-medium text-white shadow hover:bg-surface-700 dark:bg-surface-700 dark:hover:bg-surface-600"
           >
             Download All Events (JSON)
           </Button>
-        </div>
+        </Stack>
       )}
 
       {pendingEvents.length > 0 && (

@@ -9,9 +9,7 @@ import { flattenLocation } from '@/lib/helpers/locationHelpers'
 import AttendeeList from './step5/AttendeeList'
 import MockCalendarEventJson from './step5/MockCalendarEventJson'
 import { H2, H3, H4 } from '@/components/ui/heading'
-import { TextSm, TextSmMuted,
-  TextBase,
-} from '@/components/ui/text'
+import { TextSm, TextSmMuted, TextBase } from '@/components/ui/text'
 
 interface Step5EventObjectDetailsProps {
   submittedData: Partial<AppointmentProps> | null

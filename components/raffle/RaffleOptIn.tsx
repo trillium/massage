@@ -3,12 +3,11 @@
 import { useState } from 'react'
 import { RAFFLE_INTEREST_OPTIONS } from '@/lib/schema'
 import raffle from '@/data/raffle.json'
-import { TextPrimary, TextSm, TextSmMedium, TextSmMuted,
-  TextLg,
-} from '@/components/ui/text'
+import { TextPrimary, TextSm, TextSmMedium, TextSmMuted, TextLg } from '@/components/ui/text'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { Stack } from '@/components/ui/stack'
 
 interface RaffleOptInProps {
   name: string
@@ -41,7 +40,7 @@ function InterestCheckboxes({
       </TextSmMedium>
       <div className="mt-1 space-y-2">
         {RAFFLE_INTEREST_OPTIONS.map(({ value, label }) => (
-          <div className="flex items-center" key={value}>
+          <Stack direction="row" align="center" key={value}>
             <Input
               type="checkbox"
               id={`optin-${value}`}
@@ -55,7 +54,7 @@ function InterestCheckboxes({
             >
               {label}
             </label>
-          </div>
+          </Stack>
         ))}
       </div>
     </div>

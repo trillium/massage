@@ -6,6 +6,7 @@ import { genPageMetadata } from 'app/seo'
 import SectionContainer from '@/components/SectionContainer'
 import pagesData from '@/data/pages.json'
 import { H1 } from '@/components/ui/heading'
+import { Stack } from '@/components/ui/stack'
 
 export const metadata = genPageMetadata({ title: 'Tags', description: 'Things I blog about' })
 
@@ -22,7 +23,7 @@ export default async function Page() {
             {tags.heading}
           </H1>
         </div>
-        <div className="flex max-w-lg flex-wrap">
+        <Stack className="max-w-lg" direction="row" wrap>
           {tagKeys.length === 0 && tags.empty}
           {sortedTags.map((t) => {
             return (
@@ -38,7 +39,7 @@ export default async function Page() {
               </div>
             )
           })}
-        </div>
+        </Stack>
       </div>
     </SectionContainer>
   )

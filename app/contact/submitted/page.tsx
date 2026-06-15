@@ -6,9 +6,8 @@ import SectionContainer from '@/components/SectionContainer'
 import Link from 'next/link'
 import { useReduxContactForm } from '@/redux/hooks'
 import { H1 } from '@/components/ui/heading'
-import { Caption, TextLg, TextSmMuted,
-  TextBase,
-} from '@/components/ui/text'
+import { Caption, TextLg, TextSmMuted, TextBase } from '@/components/ui/text'
+import { Stack } from '@/components/ui/stack'
 
 export default function ContactSubmittedPage() {
   return (
@@ -27,7 +26,7 @@ function ContactSubmittedContent() {
   if (!confirmationId) {
     return (
       <SectionContainer>
-        <div className="flex min-h-[40vh] flex-col items-center justify-center text-center">
+        <Stack className="min-h-[40vh] text-center" direction="col" align="center" justify="center">
           <H1 className="mb-4">Something went wrong</H1>
           <TextBase className="mb-8 text-surface-600 dark:text-surface-400">
             We couldn't confirm your submission. Please try again.
@@ -38,14 +37,14 @@ function ContactSubmittedContent() {
           >
             Back to Contact
           </Link>
-        </div>
+        </Stack>
       </SectionContainer>
     )
   }
 
   return (
     <SectionContainer>
-      <div className="flex min-h-[40vh] flex-col items-center justify-center text-center">
+      <Stack className="min-h-[40vh] text-center" direction="col" align="center" justify="center">
         <H1 className="mb-4">Message Received!</H1>
         {hasFormData ? (
           <>
@@ -85,7 +84,7 @@ function ContactSubmittedContent() {
         >
           Back to Home
         </Link>
-      </div>
+      </Stack>
     </SectionContainer>
   )
 }

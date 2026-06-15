@@ -12,6 +12,7 @@ import { TextSm, TextXs } from '@/components/ui/text'
 
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
+import { Stack } from '@/components/ui/stack'
 
 type AdminNotesModalProps = {
   open: boolean
@@ -23,10 +24,10 @@ type AdminNotesModalProps = {
 
 function DetailRow({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <div className="flex justify-between">
+    <Stack direction="row" justify="between">
       <span className="font-medium text-accent-700 dark:text-accent-300">{label}</span>
       {children}
-    </div>
+    </Stack>
   )
 }
 
@@ -83,7 +84,7 @@ function ModalActions({
   onSave: () => void
 }) {
   return (
-    <div className="mt-4 flex justify-between">
+    <Stack className="mt-4" direction="row" justify="between">
       <Button
         type="button"
         onClick={onDelete}
@@ -92,7 +93,7 @@ function ModalActions({
       >
         {deleting ? admin.notesModal.buttons.deleting : admin.notesModal.buttons.delete}
       </Button>
-      <div className="flex gap-3">
+      <Stack direction="row" gap={3}>
         <Button
           type="button"
           onClick={onCancel}
@@ -108,8 +109,8 @@ function ModalActions({
         >
           {saving ? admin.notesModal.buttons.saving : admin.notesModal.buttons.save}
         </Button>
-      </div>
-    </div>
+      </Stack>
+    </Stack>
   )
 }
 
@@ -201,7 +202,7 @@ export default function AdminNotesModal({
         </TransitionChild>
 
         <div className="fixed inset-0 z-10 overflow-y-auto">
-          <div className="flex min-h-full items-center justify-center p-4">
+          <Stack className="min-h-full p-4" direction="row" align="center" justify="center">
             <TransitionChild
               as={Fragment}
               enter="ease-out duration-300"
@@ -212,7 +213,7 @@ export default function AdminNotesModal({
               leaveTo="opacity-0 scale-95"
             >
               <DialogPanel className="w-full max-w-lg rounded-lg border border-accent-200 bg-surface-50 p-6 shadow-xl dark:border-accent-700 dark:bg-surface-800">
-                <div className="flex items-start justify-between">
+                <Stack direction="row" align="start" justify="between">
                   <DialogTitle className="text-xl font-semibold text-accent-900 dark:text-accent-100">
                     {appointment.client_first_name} {appointment.client_last_name}
                   </DialogTitle>
@@ -224,7 +225,7 @@ export default function AdminNotesModal({
                   >
                     {appointment.status}
                   </span>
-                </div>
+                </Stack>
 
                 <AppointmentDetails appointment={appointment} />
 
@@ -267,7 +268,7 @@ export default function AdminNotesModal({
                 />
               </DialogPanel>
             </TransitionChild>
-          </div>
+          </Stack>
         </div>
       </Dialog>
     </Transition>

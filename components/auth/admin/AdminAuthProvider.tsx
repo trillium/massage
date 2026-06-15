@@ -11,6 +11,7 @@ import auth from '@/data/auth.json'
 import { H1 } from '@/components/ui/heading'
 
 import { TextBase } from '@/components/ui/text'
+import { Stack } from '@/components/ui/stack'
 
 interface AdminAuthProviderProps {
   children: React.ReactNode
@@ -143,18 +144,20 @@ export function AdminAuthProvider({ children }: AdminAuthProviderProps) {
 
   if (authState.isLoading) {
     return (
-      <div className="flex min-h-screen items-center justify-center">
+      <Stack className="min-h-screen" direction="row" align="center" justify="center">
         <div className="text-center">
           <Spinner />
-          <TextBase className="mt-4 text-accent-600 dark:text-accent-400">{auth.adminAuth.verifying}</TextBase>
+          <TextBase className="mt-4 text-accent-600 dark:text-accent-400">
+            {auth.adminAuth.verifying}
+          </TextBase>
         </div>
-      </div>
+      </Stack>
     )
   }
 
   if (!authState.isAuthenticated) {
     return (
-      <div className="flex items-center justify-center">
+      <Stack direction="row" align="center" justify="center">
         <div className="max-w-md rounded-lg bg-surface-50 p-8 text-center shadow-lg dark:bg-surface-800">
           <div className="mb-4 rounded-full bg-red-100 p-3 dark:bg-red-900/20">
             <svg
@@ -172,7 +175,9 @@ export function AdminAuthProvider({ children }: AdminAuthProviderProps) {
             </svg>
           </div>
           <H1 className="mb-2">{auth.adminAuth.heading}</H1>
-          <TextBase className="mb-4 text-accent-600 dark:text-accent-400">{authState.error}</TextBase>
+          <TextBase className="mb-4 text-accent-600 dark:text-accent-400">
+            {authState.error}
+          </TextBase>
           <div className="text-sm text-accent-500 dark:text-accent-400">
             <TextBase>
               {auth.adminAuth.loginPromptPrefix}{' '}
@@ -186,7 +191,7 @@ export function AdminAuthProvider({ children }: AdminAuthProviderProps) {
             </TextBase>
           </div>
         </div>
-      </div>
+      </Stack>
     )
   }
 

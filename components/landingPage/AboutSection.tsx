@@ -34,7 +34,7 @@ export function AboutLayout({
             priority
           />
         </div>
-        <div className="flex h-full flex-col justify-center space-y-4 text-left">
+        <Stack className="h-full space-y-4 text-left" direction="col" justify="center">
           <H2 className="text-left md:text-5xl lg:text-6xl">
             {title} <GradientText classes="whitespace-nowrap">{titleGradient}</GradientText>
           </H2>
@@ -43,13 +43,14 @@ export function AboutLayout({
               {paragraph}
             </TextLgMuted>
           ))}
-        </div>
+        </Stack>
       </div>
     </section>
   )
 }
 
 import { home, site } from '@/app/content'
+import { Stack } from '@/components/ui/stack'
 
 const { avatar } = site.branding
 const { name } = site.business

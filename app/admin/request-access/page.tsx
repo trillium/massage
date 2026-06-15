@@ -5,11 +5,10 @@ import { Formik, Form, Field, ErrorMessage } from 'formik'
 import { AdminAccessRequestSchema } from '@/lib/schema'
 import SectionContainer from '@/components/SectionContainer'
 import { H1 } from '@/components/ui/heading'
-import { TextSm, TextSmMedium,
-  TextBase,
-} from '@/components/ui/text'
+import { TextSm, TextSmMedium, TextBase } from '@/components/ui/text'
 
 import { Button } from '@/components/ui/button'
+import { Stack } from '@/components/ui/stack'
 
 interface FormValues {
   email: string
@@ -179,7 +178,7 @@ export default function AdminAccessRequestPage() {
           {/* Status Messages */}
           {submitStatus.type === 'success' && (
             <div className="mt-6 rounded-md border border-green-200 bg-green-50 p-4 dark:border-green-800 dark:bg-green-900/20">
-              <div className="flex">
+              <Stack direction="row">
                 <svg className="h-5 w-5 text-green-400" viewBox="0 0 20 20" fill="currentColor">
                   <path
                     fillRule="evenodd"
@@ -193,13 +192,13 @@ export default function AdminAccessRequestPage() {
                     {submitStatus.message}
                   </TextSm>
                 </div>
-              </div>
+              </Stack>
             </div>
           )}
 
           {submitStatus.type === 'error' && (
             <div className="mt-6 rounded-md border border-red-200 bg-red-50 p-4 dark:border-red-800 dark:bg-red-900/20">
-              <div className="flex">
+              <Stack direction="row">
                 <svg className="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
                   <path
                     fillRule="evenodd"
@@ -213,13 +212,13 @@ export default function AdminAccessRequestPage() {
                     {submitStatus.message}
                   </TextSm>
                 </div>
-              </div>
+              </Stack>
             </div>
           )}
 
           {/* Security Notice */}
           <div className="mt-8 rounded-md border border-blue-200 bg-blue-50 p-4 dark:border-blue-800 dark:bg-blue-900/20">
-            <div className="flex">
+            <Stack direction="row">
               <svg
                 className="h-5 w-5 text-blue-400"
                 fill="none"
@@ -242,7 +241,7 @@ export default function AdminAccessRequestPage() {
                   <li>Rate limiting prevents abuse</li>
                 </ul>
               </div>
-            </div>
+            </Stack>
           </div>
         </div>
       </div>

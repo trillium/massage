@@ -19,6 +19,7 @@ import { TextSmMuted } from '@/components/ui/text'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { Stack } from '@/components/ui/stack'
 
 export const dynamic = 'force-dynamic'
 
@@ -75,7 +76,7 @@ export default function TestLoginPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center">
+    <Stack className="min-h-screen" direction="row" align="center" justify="center">
       <div className="w-full max-w-md p-8">
         <H1 className="mb-4">Test Login</H1>
         <TextSmMuted className="mb-4">For E2E testing only</TextSmMuted>
@@ -120,6 +121,6 @@ export default function TestLoginPage() {
           </Button>
         </form>
       </div>
-    </div>
+    </Stack>
   )
 }

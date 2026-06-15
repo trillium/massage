@@ -8,6 +8,7 @@ import { TextSm } from '@/components/ui/text'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { Stack } from '@/components/ui/stack'
 
 interface LoginFormProps {
   redirectTo?: string
@@ -104,14 +105,14 @@ export function LoginForm({ redirectTo: rawRedirectTo, onSuccess, onError }: Log
       )}
 
       <div className="relative">
-        <div className="absolute inset-0 flex items-center">
+        <Stack className="absolute inset-0" direction="row" align="center">
           <div className="w-full border-t border-accent-300 dark:border-accent-600" />
-        </div>
-        <div className="relative flex justify-center text-sm">
+        </Stack>
+        <Stack className="relative text-sm" direction="row" justify="center">
           <span className="bg-surface-50 px-2 text-accent-500 dark:bg-surface-800 dark:text-accent-400">
             {auth.loginForm.or}
           </span>
-        </div>
+        </Stack>
       </div>
 
       {showEmail ? (

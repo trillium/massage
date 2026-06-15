@@ -23,6 +23,7 @@ import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import authData from '@/data/auth.json'
 import { TextSmMuted } from '@/components/ui/text'
+import { Stack } from '@/components/ui/stack'
 
 const guardText = authData.authGuard
 
@@ -55,12 +56,12 @@ export function AuthGuard({
   if (loading) {
     return (
       fallback ?? (
-        <div className="flex min-h-screen items-center justify-center">
+        <Stack className="min-h-screen" direction="row" align="center" justify="center">
           <div className="text-center">
             <div className="h-8 w-8 animate-spin rounded-full border-4 border-accent-200 border-t-blue-600"></div>
             <TextSmMuted className="mt-2">{guardText.loading}</TextSmMuted>
           </div>
-        </div>
+        </Stack>
       )
     )
   }

@@ -26,6 +26,7 @@ import {
   TextBase,
 } from '@/components/ui/text'
 import { H1 } from '@/components/ui/heading'
+import { Stack } from '@/components/ui/stack'
 
 interface EventPageProps {
   params: Promise<{ event_id: string }>
@@ -196,7 +197,7 @@ export default async function EventPage({ params, searchParams }: EventPageProps
           </div>
 
           {status !== 'cancelled' && (
-            <div className="mt-8 flex flex-wrap items-start gap-3">
+            <Stack className="mt-8" direction="row" wrap align="start" gap={3}>
               <CancelButton eventId={event_id} token={token} />
               <RescheduleButton rescheduleUrl={rescheduleUrl} />
               <EditForm
@@ -214,17 +215,17 @@ export default async function EventPage({ params, searchParams }: EventPageProps
                       }
                 }
               />
-            </div>
+            </Stack>
           )}
 
           {status !== 'cancelled' && (
             <div className="mt-8">
-              <div className="mb-3 flex items-center gap-3">
+              <Stack className="mb-3" direction="row" align="center" gap={3}>
                 <div className="h-px flex-1 bg-surface-200 dark:bg-surface-700" />
                 <TextSmMedium status="muted">{eventContent.page.appreciation}</TextSmMedium>
                 <div className="h-px flex-1 bg-surface-200 dark:bg-surface-700" />
-              </div>
-              <div className="flex flex-col gap-3">
+              </Stack>
+              <Stack direction="col" gap={3}>
                 {gratuityLinks.map((link) => (
                   <Link
                     key={link.label}
@@ -240,7 +241,7 @@ export default async function EventPage({ params, searchParams }: EventPageProps
                     </div>
                   </Link>
                 ))}
-              </div>
+              </Stack>
             </div>
           )}
 
@@ -259,7 +260,7 @@ export default async function EventPage({ params, searchParams }: EventPageProps
           )}
 
           <div className="mt-12 border-t border-accent-200 pt-8 dark:border-accent-700">
-            <div className="flex flex-col items-center gap-4 text-center">
+            <Stack className="text-center" direction="col" align="center" gap={4}>
               {status !== 'cancelled' && (
                 <Link
                   href={bookingUrl}
@@ -277,7 +278,7 @@ export default async function EventPage({ params, searchParams }: EventPageProps
                   {eventContent.page.signIn}
                 </Link>
               </TextXsMuted>
-            </div>
+            </Stack>
           </div>
         </div>
       </div>

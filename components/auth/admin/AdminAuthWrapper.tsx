@@ -6,6 +6,7 @@ import Spinner from '@/components/Spinner'
 import authData from '@/data/auth.json'
 
 import { TextBase } from '@/components/ui/text'
+import { Stack } from '@/components/ui/stack'
 
 const wrapperText = authData.adminWrapper
 
@@ -15,12 +16,14 @@ interface AdminAuthWrapperProps {
 
 function AdminAuthFallback() {
   return (
-    <div className="flex min-h-screen items-center justify-center">
+    <Stack className="min-h-screen" direction="row" align="center" justify="center">
       <div className="text-center">
         <Spinner />
-        <TextBase className="mt-4 text-accent-600 dark:text-accent-400">{wrapperText.loading}</TextBase>
+        <TextBase className="mt-4 text-accent-600 dark:text-accent-400">
+          {wrapperText.loading}
+        </TextBase>
       </div>
-    </div>
+    </Stack>
   )
 }
 

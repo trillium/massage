@@ -8,6 +8,7 @@ import { TextSm, TextSmMuted } from '@/components/ui/text'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { Stack } from '@/components/ui/stack'
 
 export default function CancelButton({ eventId, token }: { eventId: string; token: string }) {
   const router = useRouter()
@@ -99,7 +100,7 @@ export default function CancelButton({ eventId, token }: { eventId: string; toke
               </TextSm>
             )}
 
-            <div className="mt-4 flex justify-end gap-3">
+            <Stack className="mt-4" direction="row" justify="end" gap={3}>
               <Button
                 onClick={() => setOpen(false)}
                 disabled={loading}
@@ -114,7 +115,7 @@ export default function CancelButton({ eventId, token }: { eventId: string; toke
               >
                 {loading ? eventContent.cancelButton.confirming : eventContent.cancelButton.confirm}
               </Button>
-            </div>
+            </Stack>
           </div>
         </div>
       )}

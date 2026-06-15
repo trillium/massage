@@ -12,6 +12,7 @@ import { AdminAuthChip } from './auth/admin/AdminAuthChip'
 import clsx from 'clsx'
 import { NavOptions } from './NavOptions'
 import { KBarNavActions } from './KBarNavActions'
+import { Stack } from '@/components/ui/stack'
 
 const Header = () => {
   let headerClass =
@@ -27,7 +28,7 @@ const Header = () => {
       <KBarNavActions />
       <AdminAuthChip />
       <Link href="/" aria-label={siteMetadata.headerTitle}>
-        <div className="flex items-center justify-between">
+        <Stack direction="row" align="center" justify="between">
           <div className="mr-3">
             <Logo classes="text-primary-500 w-10 h-10 xs:w-12 xs:h-12" />
           </div>
@@ -44,9 +45,9 @@ const Header = () => {
           ) : (
             siteMetadata.headerTitle
           )}
-        </div>
+        </Stack>
       </Link>
-      <div className="flex items-center space-x-4 leading-5 sm:space-x-6">
+      <Stack className="space-x-4 leading-5 sm:space-x-6" direction="row" align="center">
         {/* <div className="no-scrollbar hidden max-w-40 items-center space-x-4 overflow-x-auto pr-2 sm:flex sm:space-x-6 md:max-w-72 lg:max-w-96">
           {headerNavLinks
             .filter((link) => link.href !== '/')
@@ -72,7 +73,7 @@ const Header = () => {
         <SearchButton />
         <ThemeSwitch />
         <MobileNav />
-      </div>
+      </Stack>
     </header>
   )
 }

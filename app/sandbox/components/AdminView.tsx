@@ -9,11 +9,16 @@ import { flattenLocation } from '@/lib/helpers/locationHelpers'
 import sandbox from '@/data/sandbox.json'
 import type { SandboxEvent, SandboxEmail } from '../api/sandboxStore'
 import { H2, H3 } from '@/components/ui/heading'
-import { TextLgMuted, TextSmMedium, TextSmMuted, TextXsMedium,
+import {
+  TextLgMuted,
+  TextSmMedium,
+  TextSmMuted,
+  TextXsMedium,
   TextBase,
 } from '@/components/ui/text'
 
 import { Button } from '@/components/ui/button'
+import { Stack } from '@/components/ui/stack'
 
 function EventCard({
   event,
@@ -38,7 +43,7 @@ function EventCard({
 
   return (
     <div className={clsx('rounded-lg border-2 p-4', statusColors[status])}>
-      <div className="mb-3 flex items-center justify-between">
+      <Stack className="mb-3" direction="row" align="center" justify="between">
         <H3>
           {data.firstName} {data.lastName}
         </H3>
@@ -51,7 +56,7 @@ function EventCard({
         >
           {statusLabels[status]}
         </span>
-      </div>
+      </Stack>
 
       <div className="space-y-1 text-sm text-accent-700 dark:text-accent-300">
         <TextBase>
@@ -86,7 +91,7 @@ function EventCard({
       </div>
 
       {status === 'pending' && (
-        <div className="mt-4 flex gap-2">
+        <Stack className="mt-4" direction="row" gap={2}>
           <Button
             type="button"
             onClick={onApprove}
@@ -101,7 +106,7 @@ function EventCard({
           >
             {sandbox.eventCard.buttons.decline}
           </Button>
-        </div>
+        </Stack>
       )}
     </div>
   )

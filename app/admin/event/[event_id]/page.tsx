@@ -5,9 +5,7 @@ import { GoogleCalendarV3Event } from '@/lib/types'
 import { fetchSingleEvent } from 'lib/fetch/fetchSingleEvent'
 import Link from '@/components/Link'
 import { H1, H2, H3 } from '@/components/ui/heading'
-import { TextSm, TextSmMuted, TextXs, TextXsMuted,
-  TextBase,
-} from '@/components/ui/text'
+import { TextSm, TextSmMuted, TextXs, TextXsMuted, TextBase } from '@/components/ui/text'
 
 // Helper function to extract booking slug from event data
 function extractBookingSlug(event: GoogleCalendarV3Event): string | null {
@@ -166,7 +164,9 @@ export default async function EventPage({ params }: { params: Promise<{ event_id
                 {matchingEvent.location && (
                   <div>
                     <H3>Location:</H3>
-                    <TextBase className="text-accent-900 dark:text-white">{matchingEvent.location}</TextBase>
+                    <TextBase className="text-accent-900 dark:text-white">
+                      {matchingEvent.location}
+                    </TextBase>
                   </div>
                 )}
 

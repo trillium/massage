@@ -29,6 +29,7 @@ import { useSlotHoldContext } from 'hooks/SlotHoldContext'
 import booking from '@/data/booking.json'
 
 import { Button } from '@/components/ui/button'
+import { Stack } from '@/components/ui/stack'
 
 type BookingFormProps = {
   additionalData?: Partial<ChairAppointmentBlockProps>
@@ -104,7 +105,9 @@ export default function BookingForm({
       }}
     >
       {!selectedTime || !timeZone ? (
-        <div className="flex min-h-[200px] items-center justify-center">{booking.flow.loading}</div>
+        <Stack className="min-h-[200px]" direction="row" align="center" justify="center">
+          {booking.flow.loading}
+        </Stack>
       ) : (
         <Formik
           initialValues={initialValues}
@@ -129,7 +132,7 @@ export default function BookingForm({
                   handleSubmit()
                 }}
               >
-                <div className="flex items-center justify-between">
+                <Stack direction="row" align="center" justify="between">
                   <DialogTitle
                     as="h3"
                     className="text-base leading-6 font-semibold text-accent-900 dark:text-accent-100"
@@ -148,7 +151,7 @@ export default function BookingForm({
                       {claiming ? booking.flow.reserving : booking.flow.reserveAgain}
                     </Button>
                   )}
-                </div>
+                </Stack>
 
                 <BookingSummary
                   dateString={dateString}

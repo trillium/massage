@@ -3,6 +3,7 @@ import { ReviewFormFields, type ReviewFormData } from './ReviewFormFields'
 import { TextSm, TextXsMuted } from '@/components/ui/text'
 
 import { Button } from '@/components/ui/button'
+import { Stack } from '@/components/ui/stack'
 
 interface Review {
   id: number
@@ -37,7 +38,7 @@ export function ReviewCard({
     return (
       <div className="space-y-3 rounded-lg bg-surface-50 p-4 shadow dark:bg-surface-800">
         <ReviewFormFields form={editForm} onChange={onEditFormChange} variant="edit" />
-        <div className="flex gap-2">
+        <Stack direction="row" gap={2}>
           <Button
             onClick={onSave}
             disabled={saving}
@@ -51,16 +52,16 @@ export function ReviewCard({
           >
             Cancel
           </Button>
-        </div>
+        </Stack>
       </div>
     )
   }
 
   return (
     <div className="rounded-lg bg-surface-50 p-4 shadow dark:bg-surface-800">
-      <div className="flex items-start justify-between">
+      <Stack direction="row" align="start" justify="between">
         <div>
-          <div className="flex items-center gap-2">
+          <Stack direction="row" align="center" gap={2}>
             <span className="font-semibold text-accent-800 dark:text-accent-200">
               {review.name}
             </span>
@@ -73,7 +74,7 @@ export function ReviewCard({
                 <FaRegStar key={`empty-${i}`} />
               ))}
             </TextSm>
-          </div>
+          </Stack>
           <TextXsMuted className="mt-1">{review.date}</TextXsMuted>
         </div>
         <Button
@@ -82,7 +83,7 @@ export function ReviewCard({
         >
           Edit
         </Button>
-      </div>
+      </Stack>
       {review.comment && <TextSm className="mt-2">{review.comment}</TextSm>}
     </div>
   )

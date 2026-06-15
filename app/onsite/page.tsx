@@ -12,6 +12,7 @@ import Calendar from '@/components/availability/date/Calendar'
 import TimeList from '@/components/availability/time/TimeList'
 import SectionContainer from '@/components/SectionContainer'
 import { home } from '@/app/content'
+import { Stack } from '@/components/ui/stack'
 
 export type PageProps = InferGetServerSidePropsType<typeof fetchData>
 
@@ -43,13 +44,13 @@ export default async function Page({ searchParams }: { searchParams: Promise<Sea
       <Template title={home.bookingTitle ?? 'Book a session'} />
       <SlotHoldProvider>
         <ClientPage duration={duration}>
-          <div className="flex flex-col space-y-8">
-            <div className="flex space-x-6">
+          <Stack className="space-y-8" direction="col">
+            <Stack className="space-x-6" direction="row">
               <DurationPicker {...durationProps} />
-            </div>
+            </Stack>
             <Calendar />
             <TimeList />
-          </div>
+          </Stack>
         </ClientPage>
       </SlotHoldProvider>
 

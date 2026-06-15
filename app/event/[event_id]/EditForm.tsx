@@ -8,6 +8,7 @@ import { TextSm, TextSmMedium } from '@/components/ui/text'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { Stack } from '@/components/ui/stack'
 
 interface EditFormProps {
   eventId: string
@@ -164,7 +165,7 @@ export default function EditForm({ eventId, token, initialValues }: EditFormProp
 
           {error && <TextSm status="error">{error}</TextSm>}
 
-          <div className="flex gap-3">
+          <Stack direction="row" gap={3}>
             <Button
               onClick={handleSave}
               disabled={loading}
@@ -183,7 +184,7 @@ export default function EditForm({ eventId, token, initialValues }: EditFormProp
             >
               {eventContent.editForm.button.cancel}
             </Button>
-          </div>
+          </Stack>
         </div>
       )}
     </>

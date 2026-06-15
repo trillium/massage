@@ -9,6 +9,7 @@ import { H1, H2, H3 } from '@/components/ui/heading'
 import { Code } from '@/components/ui/code'
 
 import { TextBase } from '@/components/ui/text'
+import { Stack } from '@/components/ui/stack'
 
 export const dynamic = 'force-dynamic'
 
@@ -30,7 +31,7 @@ export default async function ActiveEventContainersPage() {
         <div className="mb-8">
           <H1 className="mb-4 dark:text-white">{p.heading}</H1>
           <div className="rounded-lg bg-blue-50 p-4 dark:bg-blue-900/20">
-            <div className="flex items-center justify-between">
+            <Stack direction="row" align="center" justify="between">
               <div>
                 <H2 status="info">{p.overview.heading}</H2>
                 <TextBase className="text-blue-700 dark:text-blue-200">
@@ -54,7 +55,7 @@ export default async function ActiveEventContainersPage() {
                   {p.overview.totalMembersLabel}
                 </div>
               </div>
-            </div>
+            </Stack>
           </div>
         </div>
 
@@ -66,7 +67,9 @@ export default async function ActiveEventContainersPage() {
           {queryGroups.length === 0 && (
             <div className="rounded-lg bg-surface-100 p-8 text-center dark:bg-surface-800">
               <H3 className="mb-2 dark:text-white">{p.empty.heading}</H3>
-              <TextBase className="text-accent-600 dark:text-accent-400">{p.empty.message}</TextBase>
+              <TextBase className="text-accent-600 dark:text-accent-400">
+                {p.empty.message}
+              </TextBase>
             </div>
           )}
         </div>

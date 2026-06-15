@@ -13,6 +13,7 @@ import { InitialUrlUtility, UpdateSlotsUtility } from '@/components/utilities/Up
 import { createPageConfiguration } from '@/lib/slugConfigurations/createPageConfiguration'
 import SectionContainer from '@/components/SectionContainer'
 import { home } from '@/app/content'
+import { Stack } from '@/components/ui/stack'
 
 export type PageProps = InferGetServerSidePropsType<typeof fetchData>
 
@@ -42,11 +43,11 @@ export default async function Page({ searchParams }: { searchParams: Promise<Sea
         <SlotTakenAlert />
         <Template title={home.bookingTitle ?? 'Book a session'} />
         <BookingForm additionalData={{ showPromoField: true }} />
-        <div className="flex flex-col space-y-8">
+        <Stack className="space-y-8" direction="col">
           <DurationPicker {...durationProps} />
           <Calendar />
           <TimeList />
-        </div>
+        </Stack>
       </SlotHoldProvider>
 
       <InitialUrlUtility

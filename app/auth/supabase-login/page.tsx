@@ -13,10 +13,16 @@ import { LoginForm } from '@/components/auth/supabase/LoginForm'
 import { Suspense } from 'react'
 import { H1 } from '@/components/ui/heading'
 import { TextSmMuted } from '@/components/ui/text'
+import { Stack } from '@/components/ui/stack'
 
 function LoginContent({ redirectTo }: { redirectTo?: string }) {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-surface-100 px-4">
+    <Stack
+      className="min-h-screen bg-surface-100 px-4"
+      direction="row"
+      align="center"
+      justify="center"
+    >
       <div className="w-full max-w-md">
         <div className="rounded-lg bg-surface-50 px-8 py-10 shadow-md">
           <div className="mb-8 text-center">
@@ -34,7 +40,7 @@ function LoginContent({ redirectTo }: { redirectTo?: string }) {
           </a>
         </TextSmMuted>
       </div>
-    </div>
+    </Stack>
   )
 }
 
@@ -48,11 +54,11 @@ export default async function LoginPage({
   return (
     <Suspense
       fallback={
-        <div className="flex min-h-screen items-center justify-center">
+        <Stack className="min-h-screen" direction="row" align="center" justify="center">
           <div className="text-center">
             <div className="h-8 w-8 animate-spin rounded-full border-4 border-accent-200 border-t-blue-600"></div>
           </div>
-        </div>
+        </Stack>
       }
     >
       <LoginContent redirectTo={redirectTo} />

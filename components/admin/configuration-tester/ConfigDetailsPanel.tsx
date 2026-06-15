@@ -5,11 +5,8 @@ import { Button } from '@/components/ui/button'
 import { H3 } from '@/components/ui/heading'
 import { Code } from '@/components/ui/code'
 
-import {
-  TextBase,
-  TextSm,
-  TextXs,
-} from '@/components/ui/text'
+import { TextBase, TextSm, TextXs } from '@/components/ui/text'
+import { Stack } from '@/components/ui/stack'
 
 interface ConfigDetailsPanelProps {
   config: SlugConfigurationType
@@ -36,14 +33,17 @@ function LocationWarning({
     <div className="mb-3">
       <strong className="text-accent-700 dark:text-accent-300">Location Warning:</strong>
       <div className="mt-1 rounded border-2 border-amber-200 bg-amber-50 p-2 text-sm text-amber-700 dark:bg-amber-950/50 dark:text-amber-300">
-        <div className="flex items-center gap-2">
-          <TextXs as="span" className="rounded bg-amber-200 px-2 py-1 text-xs font-medium text-amber-800 dark:bg-amber-800 dark:text-amber-200">
+        <Stack direction="row" align="center" gap={2}>
+          <TextXs
+            as="span"
+            className="rounded bg-amber-200 px-2 py-1 text-xs font-medium text-amber-800 dark:bg-amber-800 dark:text-amber-200"
+          >
             {'city' in warning ? `CITY: ${warning.city}` : `ZIP: ${warning.zip}`}
           </TextXs>
           <TextBase as="span">
             <FaExclamationTriangle className="mr-1 inline text-amber-500" /> {warning.message}
           </TextBase>
-        </div>
+        </Stack>
       </div>
     </div>
   )
@@ -52,7 +52,10 @@ function LocationWarning({
 function CustomFieldBadge({ show, label }: { show?: boolean; label: string }) {
   if (!show) return null
   return (
-    <TextSm as="span" className="rounded bg-indigo-100 px-2 py-1 text-sm text-indigo-800 dark:bg-indigo-800 dark:text-indigo-200">
+    <TextSm
+      as="span"
+      className="rounded bg-indigo-100 px-2 py-1 text-sm text-indigo-800 dark:bg-indigo-800 dark:text-indigo-200"
+    >
       {label}
     </TextSm>
   )
@@ -76,14 +79,20 @@ export default function ConfigDetailsPanel({
 
         <div className="mb-4 grid grid-cols-1 gap-4 md:grid-cols-2">
           <KeyProperty label="Type">
-            <TextSm as="span" className="ml-2 rounded bg-blue-100 px-2 py-1 text-sm text-blue-800 dark:bg-blue-800 dark:text-blue-200">
+            <TextSm
+              as="span"
+              className="ml-2 rounded bg-blue-100 px-2 py-1 text-sm text-blue-800 dark:bg-blue-800 dark:text-blue-200"
+            >
               {config.type}
             </TextSm>
           </KeyProperty>
 
           {config.eventContainer && (
             <KeyProperty label="Event Container">
-              <TextSm as="span" className="ml-2 rounded bg-green-100 px-2 py-1 text-sm text-green-800 dark:bg-green-800 dark:text-green-200">
+              <TextSm
+                as="span"
+                className="ml-2 rounded bg-green-100 px-2 py-1 text-sm text-green-800 dark:bg-green-800 dark:text-green-200"
+              >
                 {config.eventContainer}
               </TextSm>
             </KeyProperty>
@@ -91,7 +100,10 @@ export default function ConfigDetailsPanel({
 
           {config.blockingScope && (
             <KeyProperty label="Blocking Scope">
-              <TextSm as="span" className="ml-2 rounded bg-purple-100 px-2 py-1 text-sm text-purple-800 dark:bg-purple-800 dark:text-purple-200">
+              <TextSm
+                as="span"
+                className="ml-2 rounded bg-purple-100 px-2 py-1 text-sm text-purple-800 dark:bg-purple-800 dark:text-purple-200"
+              >
                 {config.blockingScope}
               </TextSm>
             </KeyProperty>
@@ -109,7 +121,9 @@ export default function ConfigDetailsPanel({
         {config.title && (
           <div className="mb-3">
             <strong className="text-accent-700 dark:text-accent-300">Title:</strong>
-            <TextBase className="mt-1 text-accent-600 dark:text-accent-400">{config.title}</TextBase>
+            <TextBase className="mt-1 text-accent-600 dark:text-accent-400">
+              {config.title}
+            </TextBase>
           </div>
         )}
 
@@ -123,7 +137,9 @@ export default function ConfigDetailsPanel({
                 </TextBase>
               ))
             ) : (
-              <TextBase className="mt-1 text-accent-600 dark:text-accent-400">{config.text}</TextBase>
+              <TextBase className="mt-1 text-accent-600 dark:text-accent-400">
+                {config.text}
+              </TextBase>
             )}
           </div>
         )}
@@ -134,7 +150,10 @@ export default function ConfigDetailsPanel({
             <TextBase className="mt-1 text-accent-600 dark:text-accent-400">
               {config.location.street}, {config.location.city}, {config.location.zip}
               {config.locationIsReadOnly && (
-                <TextXs as="span" className="ml-2 rounded bg-yellow-100 px-2 py-1 text-xs text-yellow-800 dark:bg-yellow-800 dark:text-yellow-200">
+                <TextXs
+                  as="span"
+                  className="ml-2 rounded bg-yellow-100 px-2 py-1 text-xs text-yellow-800 dark:bg-yellow-800 dark:text-yellow-200"
+                >
                   Read Only
                 </TextXs>
               )}
@@ -147,23 +166,27 @@ export default function ConfigDetailsPanel({
         {config.pricing && Object.keys(config.pricing).length > 0 && (
           <div className="mb-3">
             <strong className="text-accent-700 dark:text-accent-300">Custom Pricing:</strong>
-            <div className="mt-1 flex flex-wrap gap-2">
+            <Stack className="mt-1" direction="row" wrap gap={2}>
               {Object.entries(config.pricing).map(([duration, price]) => (
-                <TextSm as="span"
+                <TextSm
+                  as="span"
                   key={duration}
                   className="rounded bg-surface-200 px-2 py-1 text-sm dark:bg-surface-600"
                 >
                   {duration}min: ${price}
                 </TextSm>
               ))}
-            </div>
+            </Stack>
           </div>
         )}
 
         {config.discount && (
           <div className="mb-3">
             <strong className="text-accent-700 dark:text-accent-300">Discount:</strong>
-            <TextSm as="span" className="ml-2 rounded bg-red-100 px-2 py-1 text-sm text-red-800 dark:bg-red-800 dark:text-red-200">
+            <TextSm
+              as="span"
+              className="ml-2 rounded bg-red-100 px-2 py-1 text-sm text-red-800 dark:bg-red-800 dark:text-red-200"
+            >
               {config.discount.type === 'percent' && config.discount.amountPercent
                 ? `${(config.discount.amountPercent * 100).toFixed(0)}% off`
                 : config.discount.amountDollars
@@ -176,18 +199,20 @@ export default function ConfigDetailsPanel({
         {config.promoEndDate && (
           <div className="mb-3">
             <strong className="text-accent-700 dark:text-accent-300">Promo Ends:</strong>
-            <TextBase as="span" className="ml-2 text-accent-600 dark:text-accent-400">{config.promoEndDate}</TextBase>
+            <TextBase as="span" className="ml-2 text-accent-600 dark:text-accent-400">
+              {config.promoEndDate}
+            </TextBase>
           </div>
         )}
 
         {config.customFields && (
           <div className="mb-3">
             <strong className="text-accent-700 dark:text-accent-300">Custom Fields:</strong>
-            <div className="mt-1 flex flex-wrap gap-2">
+            <Stack className="mt-1" direction="row" wrap gap={2}>
               <CustomFieldBadge show={config.customFields.showHotelField} label="Hotel Field" />
               <CustomFieldBadge show={config.customFields.showParkingField} label="Parking Field" />
               <CustomFieldBadge show={config.customFields.showNotesField} label="Notes Field" />
-            </div>
+            </Stack>
           </div>
         )}
 
@@ -201,7 +226,7 @@ export default function ConfigDetailsPanel({
         </details>
       </div>
 
-      <div className="flex gap-2">
+      <Stack direction="row" gap={2}>
         <Button
           onClick={onApply}
           className="rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:outline-none"
@@ -214,7 +239,7 @@ export default function ConfigDetailsPanel({
         >
           Copy JSON
         </Button>
-      </div>
+      </Stack>
     </div>
   )
 }

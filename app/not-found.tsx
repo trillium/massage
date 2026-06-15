@@ -13,7 +13,9 @@ export default function NotFound() {
         </H1>
       </div>
       <div className="max-w-md">
-        <TextBase className="mb-4 text-xl leading-normal font-bold md:text-2xl">{system.notFound.title}</TextBase>
+        <TextBase className="mb-4 text-xl leading-normal font-bold md:text-2xl">
+          {system.notFound.title}
+        </TextBase>
         <TextBase className="mb-8">{system.notFound.description}</TextBase>
         <Link
           href="/"

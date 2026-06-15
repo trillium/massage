@@ -31,7 +31,9 @@ export default async function Page({
       <SectionContainer>
         <div className="mx-auto max-w-xl py-8 sm:py-16">
           <H1 status="error">Error</H1>
-          <TextBase className="mt-4 text-accent-600">Invalid appointment data. Please try again.</TextBase>
+          <TextBase className="mt-4 text-accent-600">
+            Invalid appointment data. Please try again.
+          </TextBase>
         </div>
       </SectionContainer>
     )

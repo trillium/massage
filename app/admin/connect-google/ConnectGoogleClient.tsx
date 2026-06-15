@@ -81,7 +81,9 @@ export default function ConnectGoogleClient({
         {isConnected ? (
           <TextBase className="text-accent-900 dark:text-accent-100">{displayEmail}</TextBase>
         ) : (
-          <TextBase className="text-surface-500 dark:text-surface-400">No account connected</TextBase>
+          <TextBase className="text-surface-500 dark:text-surface-400">
+            No account connected
+          </TextBase>
         )}
       </div>
 

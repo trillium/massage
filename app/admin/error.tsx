@@ -6,6 +6,7 @@ import { H1Hero } from '@/components/ui/heading'
 import { TextLg, TextSmMuted } from '@/components/ui/text'
 
 import { Button } from '@/components/ui/button'
+import { Stack } from '@/components/ui/stack'
 
 const errorText = systemData.adminError
 
@@ -22,7 +23,7 @@ export default function AdminError({
   const credentialError = isCredentialError(error.message)
 
   return (
-    <div className="flex flex-col items-center justify-center px-4 py-24 text-center">
+    <Stack className="px-4 py-24 text-center" direction="col" align="center" justify="center">
       <H1Hero>{errorText.title}</H1Hero>
       <TextLg className="mt-4">{errorText.message}</TextLg>
       <TextSmMuted className="mt-2">{error.message}</TextSmMuted>
@@ -35,7 +36,7 @@ export default function AdminError({
           {errorText.credentialErrorSuffix}
         </TextSmMuted>
       )}
-      <div className="mt-8 flex gap-4">
+      <Stack className="mt-8" direction="row" gap={4}>
         {credentialError ? (
           <Link
             href="/admin/connect-google"
@@ -57,7 +58,7 @@ export default function AdminError({
         >
           {errorText.adminDashboardButton}
         </Link>
-      </div>
-    </div>
+      </Stack>
+    </Stack>
   )
 }

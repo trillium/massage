@@ -12,6 +12,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 
 import { TextBase } from '@/components/ui/text'
+import { Stack } from '@/components/ui/stack'
 
 const openclawData = raffleData.openclaw
 
@@ -137,7 +138,11 @@ export default function RaffleForm({ raffleId, raffleName }: RaffleFormProps) {
   }
 
   return (
-    <div className="border-white-500 focus-within:border-primary-500 flex w-full flex-col items-center space-y-4 rounded-lg border-2 bg-surface-50 p-6 shadow-md dark:bg-surface-900">
+    <Stack
+      className="border-white-500 focus-within:border-primary-500 w-full space-y-4 rounded-lg border-2 bg-surface-50 p-6 shadow-md dark:bg-surface-900"
+      direction="col"
+      align="center"
+    >
       <Formik<FormValues>
         initialValues={{
           name: [formData?.firstName, formData?.lastName].filter(Boolean).join(' '),
@@ -239,7 +244,7 @@ export default function RaffleForm({ raffleId, raffleName }: RaffleFormProps) {
               </TextBase>
               <div className="space-y-2">
                 {RAFFLE_INTEREST_OPTIONS.map(({ value, label }) => (
-                  <div className="flex items-center" key={value}>
+                  <Stack direction="row" align="center" key={value}>
                     <Input
                       type="checkbox"
                       id={`interested-${value}`}
@@ -259,7 +264,7 @@ export default function RaffleForm({ raffleId, raffleName }: RaffleFormProps) {
                     >
                       {label}
                     </label>
-                  </div>
+                  </Stack>
                 ))}
               </div>
               <div className="mt-1 min-h-5 text-sm text-amber-500 dark:text-amber-400">
@@ -284,6 +289,6 @@ export default function RaffleForm({ raffleId, raffleName }: RaffleFormProps) {
           </Form>
         )}
       </Formik>
-    </div>
+    </Stack>
   )
 }

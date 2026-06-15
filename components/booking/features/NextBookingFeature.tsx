@@ -17,6 +17,7 @@ import {
   GoogleCalendarV3Event,
   DayWithStartEnd,
 } from '@/lib/types'
+import { Stack } from '@/components/ui/stack'
 
 interface NextBookingFeatureProps {
   durationProps: ReturnType<typeof buildDurationProps>
@@ -70,18 +71,22 @@ export default function NextBookingFeature({
         isTargetToday={data.isTargetToday ?? true}
       />
 
-      <div className="mb-8 flex flex-col gap-6 overflow-hidden rounded-lg bg-surface-200 shadow-lg dark:bg-surface-950">
+      <Stack
+        className="mb-8 overflow-hidden rounded-lg bg-surface-200 shadow-lg dark:bg-surface-950"
+        direction="col"
+        gap={6}
+      >
         <CachedTileMap {...locationProps} />
         {currentEvent && <DriveTimeCalculator currentEvent={currentEvent} />}
-      </div>
+      </Stack>
 
       <SlotHoldProvider>
         <BookingForm />
-        <div className="flex flex-col space-y-8">
+        <Stack className="space-y-8" direction="col">
           <DurationPicker {...durationProps} />
           <Calendar weeksDisplayOverride={1} />
           <TimeList />
-        </div>
+        </Stack>
       </SlotHoldProvider>
 
       <InitialUrlUtility

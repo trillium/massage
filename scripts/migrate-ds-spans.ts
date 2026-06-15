@@ -11,7 +11,9 @@ import { readFileSync, writeFileSync } from 'node:fs'
 const write = process.argv.includes('--write')
 const audit = JSON.parse(readFileSync('/dev/stdin', 'utf8'))
 const files = audit.files
-  .filter((f: { violations: { rule: string }[] }) => f.violations.some((v: { rule: string }) => v.rule === 'raw-span'))
+  .filter((f: { violations: { rule: string }[] }) =>
+    f.violations.some((v: { rule: string }) => v.rule === 'raw-span')
+  )
   .map((f: { path: string }) => f.path)
   .sort()
 
@@ -41,7 +43,15 @@ for (const file of files) {
 
   while (i < chars.length) {
     // Opening <span> (not </span>, not <span with trailing letter like <spanner)
-    if (chars[i] === '<' && chars[i + 1] === 's' && chars[i + 2] === 'p' && chars[i + 3] === 'a' && chars[i + 4] === 'n' && chars[i + 5] !== '/' && !/[a-z]/i.test(chars[i + 5] ?? '')) {
+    if (
+      chars[i] === '<' &&
+      chars[i + 1] === 's' &&
+      chars[i + 2] === 'p' &&
+      chars[i + 3] === 'a' &&
+      chars[i + 4] === 'n' &&
+      chars[i + 5] !== '/' &&
+      !/[a-z]/i.test(chars[i + 5] ?? '')
+    ) {
       const start = i
       let end = i + 5
       while (end < chars.length && chars[end] !== '>') end++
@@ -59,7 +69,15 @@ for (const file of files) {
     }
 
     // Closing </span>
-    if (chars[i] === '<' && chars[i + 1] === '/' && chars[i + 2] === 's' && chars[i + 3] === 'p' && chars[i + 4] === 'a' && chars[i + 5] === 'n' && chars[i + 6] === '>') {
+    if (
+      chars[i] === '<' &&
+      chars[i + 1] === '/' &&
+      chars[i + 2] === 's' &&
+      chars[i + 3] === 'p' &&
+      chars[i + 4] === 'a' &&
+      chars[i + 5] === 'n' &&
+      chars[i + 6] === '>'
+    ) {
       const variant = variantStack.pop() || 'TextBase'
       out.push(`</${variant}>`)
       i += 7
@@ -90,14 +108,22 @@ for (const file of files) {
       const fullBlock = existingImport[0]
       const namesMatch = fullBlock.match(/\{([\s\S]*)\}/)
       if (namesMatch) {
-        const existingNames = namesMatch[1].split(',').map(s => s.trim().replace(/\n/g, '')).filter(Boolean)
-        const toAdd = [...needed].filter(n => !existingNames.some(e => e.replace(/^type\s+/, '') === n))
+        const existingNames = namesMatch[1]
+          .split(',')
+          .map((s) => s.trim().replace(/\n/g, ''))
+          .filter(Boolean)
+        const toAdd = [...needed].filter(
+          (n) => !existingNames.some((e) => e.replace(/^type\s+/, '') === n)
+        )
         if (toAdd.length > 0) {
           const isMultiLine = fullBlock.includes('\n')
           let replacement: string
           if (isMultiLine) {
             const nameList = namesMatch[1].trimEnd().replace(/,+\s*$/, '')
-            replacement = fullBlock.replace(namesMatch[1], nameList + `,\n  ${toAdd.join(',\n  ')},\n`)
+            replacement = fullBlock.replace(
+              namesMatch[1],
+              nameList + `,\n  ${toAdd.join(',\n  ')},\n`
+            )
           } else {
             replacement = fullBlock.replace(/\}(?=\s*from)/, `${toAdd.join(', ')}`)
           }
@@ -113,7 +139,12 @@ for (const file of files) {
         if (/^import\s/.test(lines[i2])) lastImportIdx = i2
       }
       if (lastImportIdx >= 0) {
-        lines.splice(lastImportIdx + 1, 0, '', `import { ${[...needed].join(', ')} } from '${importPath}'`)
+        lines.splice(
+          lastImportIdx + 1,
+          0,
+          '',
+          `import { ${[...needed].join(', ')} } from '${importPath}'`
+        )
       }
       writeFileSync(file, lines.join('\n'))
       modified++

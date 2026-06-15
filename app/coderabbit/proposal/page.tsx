@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation'
 import { H1, H2 } from '@/components/ui/heading'
 
 import { TextBase, TextSm, TextLg } from '@/components/ui/text'
+import { Stack } from '@/components/ui/stack'
 
 export const metadata: Metadata = {
   title: 'Proposal — CodeRabbit Miami 2026',
@@ -36,7 +37,11 @@ function Table({ headers, rows }: { headers: string[]; rows: (string | React.Rea
               scope="col"
               className="border border-gray-200 bg-primary-50 px-4 py-2 text-left font-semibold text-primary-800"
             >
-              {h || <TextBase as="span" className="sr-only">Detail</TextBase>}
+              {h || (
+                <TextBase as="span" className="sr-only">
+                  Detail
+                </TextBase>
+              )}
             </th>
           ))}
         </tr>
@@ -82,9 +87,13 @@ export default async function ProposalPage({
           <H1 className="text-3xl font-bold text-gray-900 print:text-2xl">
             Chair Massage Services
             <br />
-            <TextBase as="span" className="text-primary-600">for CodeRabbit</TextBase>
+            <TextBase as="span" className="text-primary-600">
+              for CodeRabbit
+            </TextBase>
           </H1>
-          <TextLg className="mt-2 text-lg text-gray-500">AI Engineer Miami & React Miami — April 2026</TextLg>
+          <TextLg className="mt-2 text-lg text-gray-500">
+            AI Engineer Miami & React Miami — April 2026
+          </TextLg>
         </div>
         <Image
           src="/static/images/logo.svg"
@@ -98,12 +107,16 @@ export default async function ProposalPage({
       {/* Meta */}
       <div className="mb-10 grid grid-cols-1 gap-4 rounded-lg bg-gray-50 p-6 text-sm print:border print:border-gray-200 print:bg-white sm:grid-cols-2">
         <div>
-          <TextBase as="span" className="font-semibold text-gray-500">Prepared for</TextBase>
+          <TextBase as="span" className="font-semibold text-gray-500">
+            Prepared for
+          </TextBase>
           <TextBase className="text-gray-900">Theresa Ensminger & Team</TextBase>
           <TextBase className="text-gray-500">CodeRabbit</TextBase>
         </div>
         <div>
-          <TextBase as="span" className="font-semibold text-gray-500">Prepared by</TextBase>
+          <TextBase as="span" className="font-semibold text-gray-500">
+            Prepared by
+          </TextBase>
           <TextBase className="text-gray-900">Trillium Smith, LMT</TextBase>
           <TextBase className="text-gray-500">March 2026</TextBase>
         </div>
@@ -259,18 +272,38 @@ export default async function ProposalPage({
             <TextLg className="text-lg font-bold">Both Conferences — 4 Days</TextLg>
           </div>
           <div className="p-6">
-            <div className="mb-4 flex items-baseline justify-between border-b border-gray-200 pb-4">
-              <TextBase as="span" className="text-gray-600">Daily rate</TextBase>
-              <TextBase as="span" className="text-xl font-bold text-gray-900">$1,000/day</TextBase>
-            </div>
-            <div className="mb-4 flex items-baseline justify-between border-b border-gray-200 pb-4">
-              <TextBase as="span" className="text-gray-600">Conference days</TextBase>
-              <TextBase as="span" className="text-gray-900">4 (April 20–21 + April 23–24)</TextBase>
-            </div>
-            <div className="flex items-baseline justify-between">
-              <TextLg as="span" className="text-lg font-bold text-primary-700">Total</TextLg>
-              <TextBase as="span" className="text-2xl font-bold text-primary-700">$4,000</TextBase>
-            </div>
+            <Stack
+              className="mb-4 items-baseline border-b border-gray-200 pb-4"
+              direction="row"
+              justify="between"
+            >
+              <TextBase as="span" className="text-gray-600">
+                Daily rate
+              </TextBase>
+              <TextBase as="span" className="text-xl font-bold text-gray-900">
+                $1,000/day
+              </TextBase>
+            </Stack>
+            <Stack
+              className="mb-4 items-baseline border-b border-gray-200 pb-4"
+              direction="row"
+              justify="between"
+            >
+              <TextBase as="span" className="text-gray-600">
+                Conference days
+              </TextBase>
+              <TextBase as="span" className="text-gray-900">
+                4 (April 20–21 + April 23–24)
+              </TextBase>
+            </Stack>
+            <Stack className="items-baseline" direction="row" justify="between">
+              <TextLg as="span" className="text-lg font-bold text-primary-700">
+                Total
+              </TextLg>
+              <TextBase as="span" className="text-2xl font-bold text-primary-700">
+                $4,000
+              </TextBase>
+            </Stack>
           </div>
         </div>
 
@@ -305,7 +338,7 @@ export default async function ProposalPage({
 
       {/* Footer */}
       <footer className="mt-12 border-t-2 border-primary-600 pt-6">
-        <div className="flex items-center gap-4">
+        <Stack direction="row" align="center" gap={4}>
           <Image
             src="/static/images/gallery/headshot_branded_hat.jpg"
             alt="Trillium Smith"
@@ -318,7 +351,7 @@ export default async function ProposalPage({
             <TextSm className="text-sm text-gray-500">trilliummassagela@gmail.com</TextSm>
             <TextSm className="text-sm text-primary-600">www.trilliummassage.la</TextSm>
           </div>
-        </div>
+        </Stack>
       </footer>
     </div>
   )

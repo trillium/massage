@@ -17,6 +17,7 @@ import {
   GoogleCalendarV3Event,
   DayWithStartEnd,
 } from '@/lib/types'
+import { Stack } from '@/components/ui/stack'
 
 interface GeneralBookingFeatureProps {
   durationProps: ReturnType<typeof buildDurationProps>
@@ -64,7 +65,7 @@ export default function GeneralBookingFeature({
           endPoint={bookingEndPoint}
         />
 
-        <div className="flex flex-col space-y-8">
+        <Stack className="space-y-8" direction="col">
           <DurationPicker {...durationProps} />
           {!configuration.hideCalendar && (
             <Calendar
@@ -77,7 +78,7 @@ export default function GeneralBookingFeature({
             />
           )}
           <TimeList />
-        </div>
+        </Stack>
       </SlotHoldProvider>
 
       <InitialUrlUtility

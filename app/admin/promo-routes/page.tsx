@@ -5,9 +5,8 @@ import { isPromoExpired } from '@/lib/utilities/promoValidation'
 import SectionContainer from '@/components/SectionContainer'
 import { FaCrosshairs, FaDollarSign, FaTimes, FaClock, FaClipboardList } from 'react-icons/fa'
 import { H2, H3, H4 } from '@/components/ui/heading'
-import { TextSmMedium, TextSmMuted, TextXs, TextXsMedium,
-  TextBase,
-} from '@/components/ui/text'
+import { TextSmMedium, TextSmMuted, TextXs, TextXsMedium, TextBase } from '@/components/ui/text'
+import { Stack } from '@/components/ui/stack'
 
 export default async function PromoRoutesPage() {
   const slugConfigurations = await fetchSlugConfigurationData()
@@ -46,7 +45,7 @@ export default async function PromoRoutesPage() {
                     key={slug}
                     className="border-l-4 border-green-500 bg-green-50 p-4 dark:bg-green-900/20"
                   >
-                    <div className="flex items-center justify-between">
+                    <Stack direction="row" align="center" justify="between">
                       <div className="flex-1">
                         <H3 className="dark:text-white">
                           <Link
@@ -103,7 +102,7 @@ export default async function PromoRoutesPage() {
                           {config.type}
                         </TextXsMedium>
                       </div>
-                    </div>
+                    </Stack>
                   </div>
                 ))}
               </div>
@@ -120,7 +119,7 @@ export default async function PromoRoutesPage() {
                     key={slug}
                     className="rounded border p-3 hover:bg-surface-100 dark:border-accent-700 dark:hover:bg-surface-700"
                   >
-                    <div className="flex items-center justify-between">
+                    <Stack direction="row" align="center" justify="between">
                       <div className="flex-1">
                         <H4 className="dark:text-white">
                           <Link
@@ -132,7 +131,7 @@ export default async function PromoRoutesPage() {
                         </H4>
                         <TextSmMuted>{config.title}</TextSmMuted>
                       </div>
-                      <div className="ml-2 flex flex-col items-end space-y-1">
+                      <Stack className="ml-2 space-y-1" direction="col" align="end">
                         <TextXsMedium
                           className="inline-block rounded-full px-2 py-1 ${ config.discount ? 'bg-green-100 dark:bg-green-800 dark:text-green-200' : 'bg-surface-200 dark:bg-surface-700 dark:text-accent-200' }"
                           status="success"
@@ -144,8 +143,8 @@ export default async function PromoRoutesPage() {
                             <FaCrosshairs className="mr-1 inline" /> PROMO
                           </TextXs>
                         )}
-                      </div>
-                    </div>
+                      </Stack>
+                    </Stack>
                   </div>
                 ))}
               </div>

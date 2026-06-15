@@ -3,6 +3,7 @@ interface StyledBookButtonProps {
   text: string
   variant?: 'airbnb' | 'primary'
 }
+import { Stack } from '@/components/ui/stack'
 
 export default function StyledBookButton({
   href,
@@ -39,7 +40,7 @@ export default function StyledBookButton({
       <div
         className={`absolute right-0 -z-0 inline-flex h-12 w-12 items-center justify-end rounded-full transition-[width] group-hover:w-[calc(100%)] group-hover:bg-gradient-to-r ${style.bg} ${style.gradientFrom} ${style.gradientVia} ${style.gradientTo}`}
       >
-        <div className="mr-3.5 flex items-center justify-center">
+        <Stack className="mr-3.5" direction="row" align="center" justify="center">
           <svg
             width="15"
             height="15"
@@ -55,9 +56,11 @@ export default function StyledBookButton({
               clipRule="evenodd"
             />
           </svg>
-        </div>
+        </Stack>
       </div>
-      <TextBase as="span" className={`z-0 pr-2 text-xl font-bold ${style.text}`}>{text}</TextBase>
+      <TextBase as="span" className={`z-0 pr-2 text-xl font-bold ${style.text}`}>
+        {text}
+      </TextBase>
     </>
   )
 
@@ -65,7 +68,7 @@ export default function StyledBookButton({
   const isExternal = !isInternal && !isAnchor
 
   return (
-    <div className="my-8 flex justify-center">
+    <Stack className="my-8" direction="row" justify="center">
       <a
         href={href}
         className={linkClasses}
@@ -74,6 +77,6 @@ export default function StyledBookButton({
       >
         {buttonContent}
       </a>
-    </div>
+    </Stack>
   )
 }

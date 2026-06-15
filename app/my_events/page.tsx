@@ -5,9 +5,7 @@ import { createEventToken } from '@/lib/eventToken'
 import { CategorizedEventList } from './components/EventComponents'
 import pagesData from '@/data/pages.json'
 import { H1 } from '@/components/ui/heading'
-import { TextSmMuted,
-  TextBase,
-} from '@/components/ui/text'
+import { TextSmMuted, TextBase } from '@/components/ui/text'
 
 export default async function MyEventsPage() {
   const user = await getUser()

@@ -19,9 +19,8 @@ import pages from '@/data/pages.json'
 import { changelog, type ChangelogIcon, type ChangelogCategory } from './changelog.list'
 import { buildQuarters, type QuarterGroup } from './buildQuarters'
 import { H1, H2, H3 } from '@/components/ui/heading'
-import { TextLgMuted, TextSmMuted, TextSmSemibold, TextXsMuted,
-  TextXs,
-} from '@/components/ui/text'
+import { TextLgMuted, TextSmMuted, TextSmSemibold, TextXsMuted, TextXs } from '@/components/ui/text'
+import { Stack } from '@/components/ui/stack'
 
 const iconMap: Record<ChangelogIcon, React.ReactNode> = {
   calendar: <FaCalendarCheck className="text-primary-500" />,
@@ -132,7 +131,7 @@ function QuarterSection({
                   <div className="space-y-10">
                     {quarter.months.map((month) => (
                       <div key={month.date}>
-                        <div className="mb-4 flex items-baseline gap-3">
+                        <Stack className="mb-4 items-baseline" direction="row" gap={3}>
                           <H3>
                             {new Date(`${month.date}-15`).toLocaleDateString('en-US', {
                               month: 'long',
@@ -142,7 +141,7 @@ function QuarterSection({
                           <TextXsMuted>
                             {month.commitCount} {pages.changelog.labels.commits}
                           </TextXsMuted>
-                        </div>
+                        </Stack>
                         <ConnectedBlock
                           highlights={month.highlights}
                           categories={month.categories}

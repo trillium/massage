@@ -3,9 +3,7 @@
 import { useSearchParams, useRouter, usePathname } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 import booking from '@/data/booking.json'
-import { TextSm,
-  TextBase,
-} from '@/components/ui/text'
+import { TextSm, TextBase } from '@/components/ui/text'
 
 import { Button } from '@/components/ui/button'
 

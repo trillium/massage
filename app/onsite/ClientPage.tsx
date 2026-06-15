@@ -21,6 +21,7 @@ import DurationPicker from '@/components/availability/controls/DurationPicker'
 import { H2 } from '@/components/ui/heading'
 
 import { Input } from '@/components/ui/input'
+import { Stack } from '@/components/ui/stack'
 
 // Need to refactor fetchData so it's easier to extend to other pages
 const possibleDurations = [15, 30, 45, 60]
@@ -121,11 +122,11 @@ function ClientPage({ duration, children }: { duration: number; children?: React
   return (
     <>
       <SlotTakenAlert />
-      <div className="flex w-full items-center justify-center align-middle">
+      <Stack className="w-full align-middle" direction="row" align="center" justify="center">
         <H2 className="py-2" status="primary">
           {admin.onsite.yourLink} {pathString}
         </H2>
-      </div>
+      </Stack>
       <form onBlur={formik.handleBlur}>
         <ol>
           <label
@@ -157,10 +158,10 @@ function ClientPage({ duration, children }: { duration: number; children?: React
           >
             {admin.onsite.durationLabel}
           </label>
-          <div className="flex flex-col space-y-2 pl-4">
+          <Stack className="space-y-2 pl-4" direction="col">
             <fieldset onBlur={formik.handleBlur('allowedDurations')}>
               {possibleDurations.map((duration) => (
-                <div className="flex items-center" key={duration}>
+                <Stack direction="row" align="center" key={duration}>
                   <Input
                     checked={formik.values.allowedDurations.includes(duration)}
                     id={`checked-checkbox-${duration}`}
@@ -174,13 +175,13 @@ function ClientPage({ duration, children }: { duration: number; children?: React
                   <label htmlFor={`checked-checkbox-${duration}`} className="ms-2 font-medium">
                     {duration} {admin.onsite.durationSuffix}
                   </label>
-                </div>
+                </Stack>
               ))}
             </fieldset>
             <div className="min-h-[1.25rem] text-sm text-red-600">
               {(formik.touched.allowedDurations && formik.errors.allowedDurations) || ' '}
             </div>
-          </div>
+          </Stack>
 
           <label
             htmlFor="sessionDuration"
@@ -188,9 +189,9 @@ function ClientPage({ duration, children }: { duration: number; children?: React
           >
             {admin.onsite.paymentLabel}
           </label>
-          <div className="flex flex-col space-y-2 pl-4">
+          <Stack className="space-y-2 pl-4" direction="col">
             {paymentOptionsList.map((option) => (
-              <div className="flex items-center" key={option}>
+              <Stack direction="row" align="center" key={option}>
                 <Input
                   id={`checked-checkbox-${option}`}
                   type="radio"
@@ -203,12 +204,12 @@ function ClientPage({ duration, children }: { duration: number; children?: React
                 <label htmlFor={`checked-checkbox-${option}`} className="ms-2 font-medium">
                   {option}
                 </label>
-              </div>
+              </Stack>
             ))}
             <div className="min-h-[1.25rem] text-sm text-red-600">
               {(formik.touched.paymentOptions && formik.errors.paymentOptions) || ' '}
             </div>
-          </div>
+          </Stack>
         </ol>
       </form>
       {children}

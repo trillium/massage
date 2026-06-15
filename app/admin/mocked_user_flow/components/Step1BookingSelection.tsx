@@ -16,6 +16,7 @@ import { BookingFormValues } from '@/lib/bookingFormSchema'
 import { H2, H3 } from '@/components/ui/heading'
 
 import { TextBase } from '@/components/ui/text'
+import { Stack } from '@/components/ui/stack'
 
 interface Step1BookingSelectionProps {
   selectedDuration: number
@@ -109,7 +110,7 @@ export default function Step1BookingSelection({
           <H3 className="mb-2" status="info">
             Quick Time Selection
           </H3>
-          <div className="flex flex-wrap gap-2">
+          <Stack direction="row" wrap gap={2}>
             <TimeButton
               time={{
                 start: (() => {
@@ -164,7 +165,7 @@ export default function Step1BookingSelection({
               location={mockLocation}
               onTimeSelect={handleTimeButtonClick}
             />
-          </div>
+          </Stack>
         </div>
 
         {/* Booking Form Modal */}

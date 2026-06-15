@@ -14,31 +14,30 @@ import { LoginForm } from '@/components/auth/supabase/LoginForm'
 import { UserMenu } from '@/components/auth/supabase/UserMenu'
 import { AuthGuard } from '@/components/auth/supabase/AuthGuard'
 import { H1, H2, H3 } from '@/components/ui/heading'
-import { TextSm,
-  TextBase,
-} from '@/components/ui/text'
+import { TextSm, TextBase } from '@/components/ui/text'
+import { Stack } from '@/components/ui/stack'
 
 function AuthTestContent() {
   const { user, profile, session, loading, isAdmin } = useAuth()
 
   if (loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center">
+      <Stack className="min-h-screen" direction="row" align="center" justify="center">
         <div className="text-center">
           <div className="h-8 w-8 animate-spin rounded-full border-4 border-accent-200 border-t-blue-600"></div>
           <TextBase className="mt-2 text-accent-600">Loading auth state...</TextBase>
         </div>
-      </div>
+      </Stack>
     )
   }
 
   return (
     <div className="min-h-screen bg-surface-100 p-8">
       <div className="mx-auto max-w-4xl">
-        <div className="mb-6 flex items-center justify-between">
+        <Stack className="mb-6" direction="row" align="center" justify="between">
           <H1>Supabase Auth Test</H1>
           <UserMenu />
-        </div>
+        </Stack>
 
         <div className="grid gap-6 md:grid-cols-2">
           {!user && (
