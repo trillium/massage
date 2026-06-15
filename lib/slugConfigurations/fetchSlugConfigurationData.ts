@@ -277,12 +277,12 @@ const slugConfigurations: SlugConfigurationType[] = [
   },
   {
     ...initialStateWithoutType,
-    bookingSlug: ['openclaw-raffle-prize'],
+    bookingSlug: ['overdrive-raffle-prize'],
     type: 'area-wide',
     defaultDuration: 60,
-    title: 'OpenClaw Raffle — Your Free Session!',
+    title: 'Overdrive Raffle — You Won!',
     text: [
-      'Congratulations on winning the OpenClaw raffle! Book your free 60-minute in-home massage.',
+      'Congratulations on winning the Overdrive raffle! Book your free 60-minute in-home massage.',
       `Questions? Call or text ${contactPhone}`,
       `* This offer has been redeemed.`,
     ],
@@ -294,7 +294,7 @@ const slugConfigurations: SlugConfigurationType[] = [
       120: '$140 ($280 value — 60 min free!)',
       150: '$210 ($350 value — 60 min free!)',
     },
-    promoEndDate: '2026-04-25',
+    promoEndDate: '2026-07-15',
     acceptingPayment: true,
     customFields: {
       showNotesField: true,
