@@ -25,6 +25,8 @@ interface Violation {
   line: number
   rule: string
   component: string
+  hint?: string
+  noEscapeHatch?: boolean
   excerpt: string
 }
 
@@ -54,6 +56,7 @@ function isSelfFile(absFile: string, rule: DsRule): boolean {
   if (!rule.selfExempt) return false
   const posixFile = toPosix(absFile)
   const importPath = rule.importPath.replace(/^@\//, '/')
+  if (!importPath.match(/\.[a-z]+$/)) return posixFile.includes(importPath + '/')
   return posixFile.includes(importPath + '.tsx') || posixFile.includes(importPath + '.ts')
 }
 
@@ -61,6 +64,7 @@ function lineMatches(line: string, rule: DsRule): boolean {
   for (const p of rule.patterns) {
     if (p.jsx?.test(line)) return true
     if (p.className?.test(line)) return true
+    if (p.jsxStyle && p.jsxStyle.element.test(line) && p.jsxStyle.styling.test(line)) return true
   }
   return false
 }
@@ -96,19 +100,23 @@ function collectFiles(): string[] {
 function scanFile(absPath: string): Violation[] {
   if (!existsSync(absPath)) return []
   const source = readFileSync(absPath, 'utf8')
-  if (DS_IGNORE_FILE.test(source)) return []
+  const fileIgnored = DS_IGNORE_FILE.test(source)
   const lines = source.split('\n')
   const violations: Violation[] = []
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i]
-    if (DS_IGNORE_LINE.test(line)) continue
+    const lineIgnored = DS_IGNORE_LINE.test(line)
     for (const rule of DS_RULES) {
+      if (fileIgnored && !rule.noEscapeHatch) continue
+      if (lineIgnored && !rule.noEscapeHatch) continue
       if (isSelfFile(absPath, rule)) continue
       if (lineMatches(line, rule)) {
         violations.push({
           line: i + 1,
           rule: rule.name,
           component: rule.component,
+          hint: rule.hint,
+          noEscapeHatch: rule.noEscapeHatch,
           excerpt: line.trim().slice(0, 100),
         })
       }

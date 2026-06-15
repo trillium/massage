@@ -28,6 +28,8 @@ interface Finding {
   rule: string
   component: string
   importPath: string
+  hint?: string
+  noEscapeHatch?: boolean
   excerpt: string
 }
 
@@ -56,6 +58,7 @@ function isSelfFile(absFile: string, rule: DsRule): boolean {
   if (!rule.selfExempt) return false
   const posixFile = toPosix(absFile)
   const importPath = rule.importPath.replace(/^@\//, '/')
+  if (!importPath.match(/\.[a-z]+$/)) return posixFile.includes(importPath + '/')
   return posixFile.includes(importPath + '.tsx') || posixFile.includes(importPath + '.ts')
 }
 
@@ -63,6 +66,7 @@ function lineMatches(line: string, rule: DsRule): boolean {
   for (const p of rule.patterns) {
     if (p.jsx?.test(line)) return true
     if (p.className?.test(line)) return true
+    if (p.jsxStyle && p.jsxStyle.element.test(line) && p.jsxStyle.styling.test(line)) return true
   }
   return false
 }
@@ -75,15 +79,17 @@ function checkFile(file: string): Finding[] {
     return []
   }
   const source = readFileSync(file, 'utf8')
-  if (source.includes(FILE_OPT_OUT)) return []
+  const fileIgnored = source.includes(FILE_OPT_OUT)
 
   const absFile = resolve(file)
   const lines = source.split('\n')
   const findings: Finding[] = []
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i]
-    if (line.includes(LINE_OPT_OUT)) continue
+    const lineIgnored = line.includes(LINE_OPT_OUT)
     for (const rule of DS_RULES) {
+      if (fileIgnored && !rule.noEscapeHatch) continue
+      if (lineIgnored && !rule.noEscapeHatch) continue
       if (isSelfFile(absFile, rule)) continue
       if (lineMatches(line, rule)) {
         findings.push({
@@ -92,6 +98,8 @@ function checkFile(file: string): Finding[] {
           rule: rule.name,
           component: rule.component,
           importPath: rule.importPath,
+          hint: rule.hint,
+          noEscapeHatch: rule.noEscapeHatch,
           excerpt: line.trim(),
         })
       }
@@ -107,15 +115,15 @@ if (files.length === 0) process.exit(0)
 const allFindings = files.flatMap(checkFile)
 if (allFindings.length === 0) process.exit(0)
 
-process.stderr.write(
-  `check-design-system: raw HTML element where a design-system component is expected\n\n`
-)
+process.stderr.write(`check-design-system: design system violation\n\n`)
 for (const f of allFindings) {
+  const action = f.hint ?? `use ${f.component} from ${f.importPath}`
+  const noEscape = f.noEscapeHatch ? '  [no escape hatch]' : ''
   process.stderr.write(
-    `  ${f.file}:${f.line}  [${f.rule}] use ${f.component} from ${f.importPath}\n      ${f.excerpt}\n\n`
+    `  ${f.file}:${f.line}  [${f.rule}]${noEscape}\n  → ${action}\n      ${f.excerpt}\n\n`
   )
 }
 process.stderr.write(
-  `Escape hatch: add \`// ds-ignore\` on the line, or \`/* ds-ignore-file */\` at top of file.\n`
+  `Escape hatch: \`// ds-ignore\` or \`/* ds-ignore-file */\` — not available for rules marked [no escape hatch].\n`
 )
 process.exit(1)

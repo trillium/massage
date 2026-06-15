@@ -2,6 +2,7 @@
 export interface DsRulePattern {
   jsx?: RegExp
   className?: RegExp
+  jsxStyle?: { element: RegExp; styling: RegExp }
 }
 
 export type DsRuleCategory = 'interactive' | 'layout' | 'typography' | 'feedback' | 'navigation'
@@ -12,10 +13,47 @@ export interface DsRule {
   importPath: string
   category: DsRuleCategory
   selfExempt?: boolean
+  noEscapeHatch?: boolean
+  hint?: string
   patterns: DsRulePattern[]
   description: string
   rawPattern: string
 }
+
+export const DS_COMPONENT_NAMES = [
+  'Code',
+  'Button',
+  'Badge',
+  'Input',
+  'Textarea',
+  'Select',
+  'TextBase',
+  'TextBaseMuted',
+  'TextBaseMedium',
+  'TextSm',
+  'TextSmMuted',
+  'TextSmMedium',
+  'TextSmSemibold',
+  'TextXs',
+  'TextXsMuted',
+  'TextXsMedium',
+  'TextLg',
+  'TextLgMuted',
+  'TextMuted',
+  'TextPrimary',
+  'Caption',
+  'H1',
+  'H1Hero',
+  'H2',
+  'H3',
+  'H4',
+  'LabelSm',
+  'GradientText',
+  'Box',
+  'Stack',
+] as const
+
+export type DsComponentName = (typeof DS_COMPONENT_NAMES)[number]
 
 export const DS_RULES: DsRule[] = [
   {
@@ -144,5 +182,36 @@ export const DS_RULES: DsRule[] = [
     patterns: [{ jsx: /<div\b[^>]*\bflex\b/ }],
     rawPattern: '<div className="flex …">',
     description: 'Flex row or column layout with gap, align, justify props',
+  },
+  {
+    name: 'raw-select',
+    component: '<Select>',
+    importPath: '@/components/ui/select',
+    category: 'interactive',
+    selfExempt: true,
+    patterns: [{ jsx: /<select\b/ }],
+    rawPattern: '<select …>',
+    description: 'Themed select with label, error state, and consistent focus ring',
+  },
+  {
+    name: 'ds-component-style-override',
+    component: 'a variant or status prop on the component',
+    importPath: '@/components/ui',
+    category: 'typography',
+    selfExempt: true,
+    noEscapeHatch: true,
+    hint: 'Check manifest.ts for an existing variant/status prop. If none fits, add one to the component — do not use className for styling.',
+    patterns: [
+      {
+        jsxStyle: {
+          element: new RegExp(`<(?:${DS_COMPONENT_NAMES.join('|')})\\b`),
+          styling:
+            /\b(?:text-(?:primary|secondary|accent|surface|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose|gray|slate|zinc|neutral|stone)-\d{2,3}|bg-(?:primary|secondary|accent|surface|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose|gray|slate|zinc|neutral|stone)-\d{2,3}|font-(?:bold|semibold|medium|light|thin|extralight|black|extrabold|mono|sans|serif)|text-(?:xs|sm|base|lg|xl|2xl|3xl|4xl|5xl|6xl|7xl|8xl|9xl)|italic|underline|overline|line-through|uppercase|lowercase|capitalize)\b/,
+        },
+      },
+    ],
+    rawPattern: '<Code className="text-primary-600 font-semibold">',
+    description:
+      'DS component styling belongs in variant/status props — spacing utilities (m-*, p-*, w-*, h-*, gap-*) are allowed in className',
   },
 ]
