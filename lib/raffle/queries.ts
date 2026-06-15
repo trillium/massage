@@ -170,6 +170,55 @@ export async function clearWinnersForRaffle(db: Db, raffleId: string): Promise<v
   if (error) throw new Error(error.message)
 }
 
+// ── Field history ─────────────────────────────────────────────────────────────
+
+export type FieldHistoryEntry = {
+  id: string
+  raffle_id: string
+  field: string
+  old_value: string | null
+  new_value: string | null
+  changed_at: string
+}
+
+export async function logRaffleFieldChanges(
+  db: Db,
+  raffleId: string,
+  oldValues: Record<string, string | null>,
+  newValues: Record<string, string | null>
+): Promise<void> {
+  const rows = Object.keys(newValues)
+    .filter((field) => newValues[field] !== oldValues[field])
+    .map((field) => ({
+      raffle_id: raffleId,
+      field,
+      old_value: oldValues[field] ?? null,
+      new_value: newValues[field] ?? null,
+    }))
+  if (rows.length === 0) return
+  const { error } = await db.from('raffle_field_history' as never).insert(rows as never)
+  if (error) throw new Error(error.message)
+}
+
+export async function getRaffleFieldHistory(
+  db: Db,
+  raffleId: string,
+  fields?: string[]
+): Promise<FieldHistoryEntry[]> {
+  let query = db
+    .from('raffle_field_history' as never)
+    .select('*')
+    .eq('raffle_id', raffleId)
+    .order('changed_at', { ascending: false })
+    .limit(50)
+  if (fields?.length) {
+    query = query.in('field', fields as never)
+  }
+  const { data, error } = await query
+  if (error) throw new Error(error.message)
+  return (data ?? []) as FieldHistoryEntry[]
+}
+
 // ── Composite operations ──────────────────────────────────────────────────────
 
 export async function pickEntryAsWinner(db: Db, entryId: string, raffleId: string): Promise<void> {

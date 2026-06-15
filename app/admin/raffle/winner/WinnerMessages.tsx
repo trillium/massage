@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef, useCallback } from 'react'
+import { useState, useRef, useCallback, useMemo } from 'react'
 import {
   type Entry,
   type RaffleVars,
@@ -23,6 +23,7 @@ import { Button } from '@/components/ui/button'
 import { Box } from '@/components/ui/box'
 import { Stack } from '@/components/ui/stack'
 import { adminFetch } from '@/lib/adminFetch'
+import type { FieldHistoryEntry } from '@/lib/raffle'
 
 interface WinnerMessagesProps {
   winner: Entry
@@ -35,6 +36,7 @@ interface WinnerMessagesProps {
   savedBookingLink: string | null
   expirationDate: string | null
   slugOptions: SlugOption[]
+  fieldHistory: FieldHistoryEntry[]
 }
 
 function WinnerCard({
@@ -46,6 +48,7 @@ function WinnerCard({
   resolvedMessage,
   onMessageOverride,
   noExpiration,
+  lastUpdated,
 }: {
   winner: Entry
   smsSent: boolean
@@ -55,6 +58,7 @@ function WinnerCard({
   resolvedMessage: string
   onMessageOverride: (v: string) => void
   noExpiration: boolean
+  lastUpdated: string | null
 }) {
   return (
     <Box variant="card-warning">
@@ -72,11 +76,14 @@ function WinnerCard({
       </Stack>
       <EntryDetails entry={winner} />
       <Stack gap={3} className="mt-4">
-        <TemplateEditor
-          label={`Winner SMS Template${noExpiration ? ' (no expiration set)' : ''}`}
-          template={winnerTemplate}
-          onChange={onTemplateChange}
-        />
+        <Box>
+          <TemplateEditor
+            label={`Winner SMS Template${noExpiration ? ' (no expiration set)' : ''}`}
+            template={winnerTemplate}
+            onChange={onTemplateChange}
+          />
+          {lastUpdated && <TextXsMuted className="mt-1">{`Last saved ${lastUpdated}`}</TextXsMuted>}
+        </Box>
         <EditableMessage
           message={resolvedMessage}
           onChange={onMessageOverride}
@@ -158,6 +165,7 @@ export function WinnerMessages({
   savedBookingLink,
   expirationDate,
   slugOptions,
+  fieldHistory,
 }: WinnerMessagesProps) {
   const [winnerTemplate, setWinnerTemplate] = useState(
     savedWinnerTemplate ?? DEFAULT_WINNER_TEMPLATE
@@ -174,6 +182,24 @@ export function WinnerMessages({
   const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved'>('idle')
   const saveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const statusTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  const lastUpdated = useMemo(() => {
+    const byField: Record<string, string> = {}
+    for (const h of fieldHistory) {
+      if (!byField[h.field]) byField[h.field] = h.changed_at
+    }
+    return byField
+  }, [fieldHistory])
+
+  function formatRelative(iso: string) {
+    const d = new Date(iso)
+    return d.toLocaleString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: '2-digit',
+    })
+  }
   const [smsSent, setSmsSent] = useState<Record<string, boolean>>(() => {
     const init: Record<string, boolean> = {}
     if (winner.sms_sent_at) init[winner.id] = true
@@ -345,6 +371,9 @@ export function WinnerMessages({
         resolvedMessage={getResolvedMessage(winner.id, winnerTemplate, winner)}
         onMessageOverride={(v) => setOverride(winner.id, v)}
         noExpiration={!expirationDate}
+        lastUpdated={
+          lastUpdated.sms_template_winner ? formatRelative(lastUpdated.sms_template_winner) : null
+        }
       />
 
       <Box variant="card">
@@ -357,6 +386,9 @@ export function WinnerMessages({
           template={nonWinnerTemplate}
           onChange={(v) => handleTemplateChange('sms_template_non_winner', setNonWinnerTemplate, v)}
         />
+        {lastUpdated.sms_template_non_winner && (
+          <TextXsMuted className="mt-1">{`Last saved ${formatRelative(lastUpdated.sms_template_non_winner)}`}</TextXsMuted>
+        )}
         <Stack gap={4} className="mt-4">
           {nonWinners.length === 0 ? (
             <TextSmMuted>{'No non-winner entries'}</TextSmMuted>

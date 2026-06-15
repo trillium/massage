@@ -1,8 +1,21 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 import { requireAdminWithFlag } from '@/lib/adminAuthBridge'
-import { clearWinnersForRaffle, setActiveRaffle, updateRaffle } from '@/lib/raffle'
+import {
+  clearWinnersForRaffle,
+  setActiveRaffle,
+  updateRaffle,
+  getRaffleById,
+  logRaffleFieldChanges,
+} from '@/lib/raffle'
 import { getSupabaseAdminClient } from '@/lib/supabase/server'
+
+const AUDITED_FIELDS = [
+  'sms_template_winner',
+  'sms_template_non_winner',
+  'upgrade_minutes',
+  'booking_link',
+] as const
 
 const UpdateRaffleSchema = z.object({
   is_active: z.boolean().optional(),
@@ -59,7 +72,26 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
       updateFields.upgrade_minutes = parsed.data.upgrade_minutes
     if (parsed.data.booking_link !== undefined) updateFields.booking_link = parsed.data.booking_link
 
+    const auditKeys = AUDITED_FIELDS.filter((f) => updateFields[f] !== undefined)
+    let oldValues: Record<string, string | null> = {}
+    if (auditKeys.length > 0) {
+      const current = await getRaffleById(supabase, id)
+      if (current) {
+        oldValues = Object.fromEntries(
+          auditKeys.map((f) => [f, current[f as keyof typeof current]?.toString() ?? null])
+        )
+      }
+    }
+
     const raffle = await updateRaffle(supabase, id, updateFields)
+
+    if (auditKeys.length > 0) {
+      const newValues = Object.fromEntries(
+        auditKeys.map((f) => [f, updateFields[f]?.toString() ?? null])
+      )
+      await logRaffleFieldChanges(supabase, id, oldValues, newValues)
+    }
+
     return NextResponse.json({ raffle })
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Failed to update raffle'

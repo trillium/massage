@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { getSupabaseAdminClient } from '@/lib/supabase/server'
-import { listRaffles, getEntriesByRaffle } from '@/lib/raffle'
+import { listRaffles, getEntriesByRaffle, getRaffleFieldHistory } from '@/lib/raffle'
+import type { FieldHistoryEntry } from '@/lib/raffle'
 import { fetchSlugConfigurationData } from '@/lib/slugConfigurations/fetchSlugConfigurationData'
 import { WinnerMessages } from './WinnerMessages'
 import { RaffleSelector } from '../RaffleSelector'
@@ -59,7 +60,15 @@ export default async function RaffleWinnerPage({
     allRaffles.find((r) => r.status === 'drawn') ??
     allRaffles[0]
 
-  const entries = await getEntriesByRaffle(supabase, raffle.id)
+  const [entries, fieldHistory] = await Promise.all([
+    getEntriesByRaffle(supabase, raffle.id),
+    getRaffleFieldHistory(supabase, raffle.id, [
+      'sms_template_winner',
+      'sms_template_non_winner',
+      'upgrade_minutes',
+      'booking_link',
+    ]),
+  ])
   const winner = entries.find((e) => e.is_winner) ?? null
   const nonWinners = entries.filter((e) => !e.is_winner && !e.excluded)
 
@@ -109,6 +118,7 @@ export default async function RaffleWinnerPage({
             savedUpgradeMinutes={raffle.upgrade_minutes}
             savedBookingLink={raffle.booking_link}
             slugOptions={slugOptions}
+            fieldHistory={fieldHistory}
           />
         </>
       )}
