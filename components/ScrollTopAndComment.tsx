@@ -3,6 +3,8 @@
 import siteMetadata from '@/data/siteMetadata'
 import { useEffect, useState } from 'react'
 
+import { Button } from '@/components/ui/button'
+
 const ScrollTopAndComment = () => {
   const [show, setShow] = useState(false)
 
@@ -27,7 +29,7 @@ const ScrollTopAndComment = () => {
       className={`fixed right-8 bottom-8 hidden flex-col gap-3 ${show ? 'md:flex' : 'md:hidden'}`}
     >
       {siteMetadata.comments?.provider && (
-        <button
+        <Button
           aria-label="Scroll To Comment"
           onClick={handleScrollToComment}
           className="rounded-full bg-surface-200 p-2 text-accent-500 transition-all hover:bg-surface-300 dark:bg-surface-700 dark:text-accent-400 dark:hover:bg-surface-600"
@@ -39,9 +41,9 @@ const ScrollTopAndComment = () => {
               clipRule="evenodd"
             />
           </svg>
-        </button>
+        </Button>
       )}
-      <button
+      <Button
         aria-label="Scroll To Top"
         onClick={handleScrollTop}
         className="rounded-full bg-surface-200 p-2 text-accent-500 transition-all hover:bg-surface-300 dark:bg-surface-700 dark:text-accent-400 dark:hover:bg-surface-600"
@@ -53,7 +55,7 @@ const ScrollTopAndComment = () => {
             clipRule="evenodd"
           />
         </svg>
-      </button>
+      </Button>
     </div>
   )
 }

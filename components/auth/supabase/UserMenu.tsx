@@ -16,6 +16,8 @@ import { useState } from 'react'
 import auth from '@/data/auth.json'
 import { TextSmMedium, TextXsMedium } from '@/components/ui/text'
 
+import { Button } from '@/components/ui/button'
+
 export function UserMenu() {
   const { user, profile, isAdmin, loading, signOut } = useAuth()
   const [isOpen, setIsOpen] = useState(false)
@@ -38,7 +40,7 @@ export function UserMenu() {
 
   return (
     <div className="relative">
-      <button
+      <Button
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center space-x-2 rounded-lg border border-accent-200 bg-surface-50 px-3 py-2 text-sm hover:bg-surface-100"
       >
@@ -49,7 +51,7 @@ export function UserMenu() {
           <div className="font-medium">{user.email}</div>
           {isAdmin && <div className="text-xs text-blue-600">{auth.userMenu.admin}</div>}
         </div>
-      </button>
+      </Button>
 
       {isOpen && (
         <>
@@ -88,13 +90,13 @@ export function UserMenu() {
             </div>
 
             <div className="border-t border-accent-100 p-2">
-              <button
+              <Button
                 onClick={handleSignOut}
                 disabled={isSigningOut}
                 className="w-full rounded px-3 py-2 text-left text-sm text-red-600 hover:bg-red-50 disabled:text-accent-400"
               >
                 {isSigningOut ? auth.userMenu.signingOut : auth.userMenu.signOut}
-              </button>
+              </Button>
             </div>
           </div>
         </>

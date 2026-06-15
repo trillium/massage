@@ -1,5 +1,40 @@
 # massage — Changelog
 
+## 2026-06-15 — session 3d625894
+
+Files: app/api/admin/raffle/entries/[id]/route.ts, app/admin/raffle/RaffleAdmin.tsx, .husky/pre-commit, supabase/migrations/20260615000001_add_expiration_date_to_raffles.sql, lib/zipDistance.ts, supabase/migrations/20260615000002_add_distance_to_raffle_entries.sql, supabase/migrations/20260615000003_add_sms_sent_at_to_raffle_entries.sql, app/api/raffle/submit/route.ts, app/admin/raffle/winner/WinnerMessageComponents.tsx, app/admin/raffle/winner/WinnerMessages.tsx
+
+> AI summary pending — check ProjectDocs Handover in next session.
+## 2026-06-15 — session 639c6294
+
+Files: components/ui/manifest.ts, components/ui/select.tsx, app/admin/raffle/RaffleSelector.tsx, scripts/check-design-system.ts, scripts/audit-ui.ts, scripts/check-manifest-sync.ts, package.json
+
+> AI summary pending — check ProjectDocs Handover in next session.
+## 2026-06-14 — session faa9a966
+
+Files: app/[bookingSlug]/opengraph-image.tsx
+
+> AI summary pending — check ProjectDocs Handover in next session.
+## 2026-06-14 — session f229c6de
+
+Files: lib/slugConfigurations/fetchSlugConfigurationData.ts, app/admin/create-container/page.tsx, lib/qr/scope-defaults.ts, lib/configTypes.ts, components/booking/BookingForm.tsx, components/booking/BookingFormFields.tsx, data/raffle.json, app/overtime-raffle/page.tsx, app/overtime-raffle/raffleFormUtils.ts, app/overtime-raffle/RaffleForm.tsx
+
+> AI summary pending — check ProjectDocs Handover in next session.
+## 2026-06-14 — session 982eb5a9
+
+Files: contentlayer.config.ts, next.config.js, app/og-variants/raccoon-birthday/opengraph-image.tsx, app/og-variants/birthday-gnome/opengraph-image.tsx, app/og-variants/retro-80s/opengraph-image.tsx, app/og-variants/deep-sea-birthday/opengraph-image.tsx, package.json, lib/availability/checkSlotAvailability.ts
+
+> AI summary pending — check ProjectDocs Handover in next session.
+## 2026-06-14 — session 31e36042
+
+Files: .gitignore, components/Footer.tsx, components/availability/time/TimeList.tsx, app/admin/create-container/page.tsx, lib/messaging/push/admin/pushover.ts, lib/availability/checkSlotAvailability.ts, lib/availability/getEventsBySearchQuery.ts
+
+> AI summary pending — check ProjectDocs Handover in next session.
+## 2026-06-14 — session 072d2717
+
+Files: components/Footer.tsx
+
+> AI summary pending — check ProjectDocs Handover in next session.
 ## 2026-06-13 — session a2719dc8
 
 Files: lib/qr/scope-defaults.ts, lib/qr/colors.ts, lib/qr/print-colors.json, playground/promo-stub.html, playground/card-variants-preview.html, scripts/generate-cards/README.md, scripts/generate-cards/build-bcr01-template.py, scripts/generate-cards/generate-cards.py

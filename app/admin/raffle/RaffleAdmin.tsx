@@ -13,6 +13,8 @@ import { Button } from '@/components/ui/button'
 import { Box } from '@/components/ui/box'
 import { Stack } from '@/components/ui/stack'
 
+import { Input } from '@/components/ui/input'
+
 interface Raffle {
   id: string
   name: string
@@ -366,7 +368,7 @@ export function RaffleAdmin({ raffle, entries: initialEntries, stats }: RaffleAd
                     {new Date(entry.created_at).toLocaleDateString()}
                   </td>
                   <td className="px-3 py-2 text-center">
-                    <input // ds-ignore - checkbox; Input component is for text fields
+                    <Input // ds-ignore - checkbox; Input component is for text fields
                       type="checkbox"
                       checked={entry.excluded ?? false}
                       disabled={entry.is_winner || togglingExcludeId === entry.id}

@@ -1,6 +1,10 @@
 import { FaExclamationTriangle } from 'react-icons/fa'
 import { SlugConfigurationType } from '@/lib/types'
 
+import { Button } from '@/components/ui/button'
+import { H3 } from '@/components/ui/heading'
+import { Code } from '@/components/ui/code'
+
 interface ConfigDetailsPanelProps {
   config: SlugConfigurationType
   slug: string
@@ -57,12 +61,12 @@ export default function ConfigDetailsPanel({
   return (
     <div className="space-y-4">
       <div className="rounded-md bg-surface-100 p-4 dark:bg-surface-700">
-        <h3 className="mb-3 text-lg font-medium text-accent-900 dark:text-accent-100">
+        <H3 className="mb-3 text-lg font-medium text-accent-900 dark:text-accent-100">
           Configuration Details for:{' '}
-          <code className="rounded bg-surface-200 px-2 py-1 text-sm dark:bg-surface-600">
+          <Code className="rounded bg-surface-200 px-2 py-1 text-sm dark:bg-surface-600">
             {slug}
-          </code>
-        </h3>
+          </Code>
+        </H3>
 
         <div className="mb-4 grid grid-cols-1 gap-4 md:grid-cols-2">
           <KeyProperty label="Type">
@@ -192,18 +196,18 @@ export default function ConfigDetailsPanel({
       </div>
 
       <div className="flex gap-2">
-        <button
+        <Button
           onClick={onApply}
           className="rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:outline-none"
         >
           Apply Configuration
-        </button>
-        <button
+        </Button>
+        <Button
           onClick={onCopyJson}
           className="rounded bg-surface-600 px-4 py-2 text-white hover:bg-surface-700 focus:ring-2 focus:ring-accent-500 focus:outline-none"
         >
           Copy JSON
-        </button>
+        </Button>
       </div>
     </div>
   )

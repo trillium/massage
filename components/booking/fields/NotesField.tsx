@@ -2,6 +2,8 @@ import React from 'react'
 import { fieldClasses } from './classes'
 import booking from '@/data/booking.json'
 
+import { Textarea } from '@/components/ui/textarea'
+
 const { notes: copy } = booking.form
 
 type NotesFieldProps = {
@@ -15,7 +17,7 @@ export default function NotesField({ additionalNotes, onChange }: NotesFieldProp
       <label htmlFor="additionalNotes" className={fieldClasses.label}>
         {copy.label}
       </label>
-      <textarea
+      <Textarea
         aria-label={copy.ariaLabel}
         id="additionalNotes"
         rows={3}

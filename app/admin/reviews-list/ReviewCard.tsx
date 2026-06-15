@@ -2,6 +2,8 @@ import { FaStar, FaRegStar } from 'react-icons/fa'
 import { ReviewFormFields, type ReviewFormData } from './ReviewFormFields'
 import { TextSm, TextXsMuted } from '@/components/ui/text'
 
+import { Button } from '@/components/ui/button'
+
 interface Review {
   id: number
   name: string
@@ -36,19 +38,19 @@ export function ReviewCard({
       <div className="space-y-3 rounded-lg bg-surface-50 p-4 shadow dark:bg-surface-800">
         <ReviewFormFields form={editForm} onChange={onEditFormChange} variant="edit" />
         <div className="flex gap-2">
-          <button
+          <Button
             onClick={onSave}
             disabled={saving}
             className="rounded-md bg-blue-600 px-3 py-1.5 text-sm text-white hover:bg-blue-700 disabled:bg-surface-300"
           >
             {saving ? 'Saving...' : 'Save'}
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={onCancel}
             className="rounded-md border border-accent-300 px-3 py-1.5 text-sm text-accent-700 hover:bg-surface-100 dark:border-accent-600 dark:text-accent-300 dark:hover:bg-surface-700"
           >
             Cancel
-          </button>
+          </Button>
         </div>
       </div>
     )
@@ -74,12 +76,12 @@ export function ReviewCard({
           </div>
           <TextXsMuted className="mt-1">{review.date}</TextXsMuted>
         </div>
-        <button
+        <Button
           onClick={onEdit}
           className="rounded-md border border-accent-300 px-2 py-1 text-xs text-accent-600 hover:bg-surface-100 dark:border-accent-600 dark:text-accent-400 dark:hover:bg-surface-700"
         >
           Edit
-        </button>
+        </Button>
       </div>
       {review.comment && <TextSm className="mt-2">{review.comment}</TextSm>}
     </div>

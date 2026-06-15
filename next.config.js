@@ -72,6 +72,7 @@ const nextConfig = () => {
   return plugins.reduce((acc, next) => next(acc), {
     output,
     basePath,
+    outputFileTracingRoot: process.cwd(),
     reactStrictMode: true,
     typescript: { ignoreBuildErrors: true },
     outputFileTracingExcludes: {

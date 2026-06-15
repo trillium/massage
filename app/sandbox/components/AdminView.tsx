@@ -11,6 +11,8 @@ import type { SandboxEvent, SandboxEmail } from '../api/sandboxStore'
 import { H2, H3 } from '@/components/ui/heading'
 import { TextLgMuted, TextSmMedium, TextSmMuted, TextXsMedium } from '@/components/ui/text'
 
+import { Button } from '@/components/ui/button'
+
 function EventCard({
   event,
   onApprove,
@@ -83,20 +85,20 @@ function EventCard({
 
       {status === 'pending' && (
         <div className="mt-4 flex gap-2">
-          <button
+          <Button
             type="button"
             onClick={onApprove}
             className="rounded-md bg-green-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-green-700"
           >
             {sandbox.eventCard.buttons.accept}
-          </button>
-          <button
+          </Button>
+          <Button
             type="button"
             onClick={onDecline}
             className="rounded-md bg-red-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-red-700"
           >
             {sandbox.eventCard.buttons.decline}
-          </button>
+          </Button>
         </div>
       )}
     </div>
@@ -110,7 +112,7 @@ function EmailCard({ email }: { email: SandboxEmail }) {
 
   return (
     <div className="rounded-lg border border-accent-200 bg-surface-50 dark:border-accent-700 dark:bg-surface-900">
-      <button
+      <Button
         type="button"
         onClick={() => setExpanded(!expanded)}
         className="flex w-full items-center justify-between p-3 text-left"
@@ -125,7 +127,7 @@ function EmailCard({ email }: { email: SandboxEmail }) {
           <TextSmMuted>{email.subject}</TextSmMuted>
         </div>
         <span className="text-accent-400">{expanded ? '\u25B2' : '\u25BC'}</span>
-      </button>
+      </Button>
       {expanded && (
         <div className="border-t border-accent-200 p-3 dark:border-accent-700">
           <div

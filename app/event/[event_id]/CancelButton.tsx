@@ -6,6 +6,9 @@ import eventContent from '@/data/event.json'
 import { H2 } from '@/components/ui/heading'
 import { TextSm, TextSmMuted } from '@/components/ui/text'
 
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+
 export default function CancelButton({ eventId, token }: { eventId: string; token: string }) {
   const router = useRouter()
   const [open, setOpen] = useState(false)
@@ -55,12 +58,12 @@ export default function CancelButton({ eventId, token }: { eventId: string; toke
 
   return (
     <>
-      <button
+      <Button
         onClick={() => setOpen(true)}
         className="rounded-lg border border-red-300 px-5 py-2.5 text-sm font-medium text-red-600 transition-colors hover:bg-red-50 dark:border-red-700 dark:text-red-400 dark:hover:bg-red-900/20"
       >
         {eventContent.cancelButton.buttonLabel}
-      </button>
+      </Button>
 
       {open && (
         <div
@@ -77,7 +80,7 @@ export default function CancelButton({ eventId, token }: { eventId: string; toke
               {eventContent.cancelButton.modalConfirmSuffix}
             </TextSmMuted>
 
-            <input
+            <Input
               ref={inputRef}
               type="text"
               value={confirmText}
@@ -97,20 +100,20 @@ export default function CancelButton({ eventId, token }: { eventId: string; toke
             )}
 
             <div className="mt-4 flex justify-end gap-3">
-              <button
+              <Button
                 onClick={() => setOpen(false)}
                 disabled={loading}
                 className="rounded-lg px-4 py-2 text-sm font-medium text-accent-600 hover:text-accent-800 dark:text-accent-400 dark:hover:text-accent-200"
               >
                 {eventContent.cancelButton.neverMind}
-              </button>
-              <button
+              </Button>
+              <Button
                 onClick={handleCancel}
                 disabled={!canConfirm || loading}
                 className="rounded-lg bg-red-600 px-5 py-2 text-sm font-medium text-white transition-colors hover:bg-red-700 disabled:opacity-50"
               >
                 {loading ? eventContent.cancelButton.confirming : eventContent.cancelButton.confirm}
-              </button>
+              </Button>
             </div>
           </div>
         </div>

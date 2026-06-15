@@ -20,6 +20,8 @@ import TimeList from '@/components/availability/time/TimeList'
 import DurationPicker from '@/components/availability/controls/DurationPicker'
 import { H2 } from '@/components/ui/heading'
 
+import { Input } from '@/components/ui/input'
+
 // Need to refactor fetchData so it's easier to extend to other pages
 const possibleDurations = [15, 30, 45, 60]
 
@@ -132,7 +134,7 @@ function ClientPage({ duration, children }: { duration: number; children?: React
           >
             {admin.onsite.eventNameLabel}
           </label>
-          <input
+          <Input
             aria-label="Event Name"
             type="text"
             name="eventName"
@@ -159,7 +161,7 @@ function ClientPage({ duration, children }: { duration: number; children?: React
             <fieldset onBlur={formik.handleBlur('allowedDurations')}>
               {possibleDurations.map((duration) => (
                 <div className="flex items-center" key={duration}>
-                  <input
+                  <Input
                     checked={formik.values.allowedDurations.includes(duration)}
                     id={`checked-checkbox-${duration}`}
                     type="checkbox"
@@ -189,7 +191,7 @@ function ClientPage({ duration, children }: { duration: number; children?: React
           <div className="flex flex-col space-y-2 pl-4">
             {paymentOptionsList.map((option) => (
               <div className="flex items-center" key={option}>
-                <input
+                <Input
                   id={`checked-checkbox-${option}`}
                   type="radio"
                   name="paymentOptions"

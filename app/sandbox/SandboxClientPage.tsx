@@ -8,6 +8,8 @@ import AdminView from './components/AdminView'
 import pagesData from '@/data/pages.json'
 import { TextXs, TextXsMuted } from '@/components/ui/text'
 
+import { Button } from '@/components/ui/button'
+
 function TabBar() {
   const { state, dispatch, resetSession } = useSandbox()
   const { activeTab } = state
@@ -23,7 +25,7 @@ function TabBar() {
     <nav className="sticky top-0 z-20 mb-6 flex items-center justify-between rounded-lg bg-surface-50 px-4 py-3 shadow-md dark:bg-surface-800">
       <div className="flex gap-1">
         {(['user', 'admin'] as const).map((tab) => (
-          <button
+          <Button
             key={tab}
             onClick={() => dispatch({ type: 'SET_TAB', tab })}
             className={clsx(
@@ -39,17 +41,17 @@ function TabBar() {
                 {pendingCount}
               </TextXs>
             )}
-          </button>
+          </Button>
         ))}
       </div>
       <div className="flex items-center gap-3">
         <TextXsMuted className="hidden sm:inline">{sandbox.labels.mode}</TextXsMuted>
-        <button
+        <Button
           onClick={handleReset}
           className="rounded-md bg-surface-200 px-3 py-1.5 text-sm font-medium text-accent-700 transition-colors hover:bg-surface-300 dark:bg-surface-700 dark:text-accent-300 dark:hover:bg-surface-600"
         >
           {sandbox.buttons.reset}
-        </button>
+        </Button>
       </div>
     </nav>
   )

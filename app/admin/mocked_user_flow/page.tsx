@@ -13,6 +13,8 @@ import { useMockedUserFlow } from './hooks/useMockedUserFlow'
 import SectionContainer from '@/components/SectionContainer'
 import { TextSmMuted } from '@/components/ui/text'
 
+import { Button } from '@/components/ui/button'
+
 export default function MockedUserFlowPage() {
   const {
     selectedDuration,
@@ -40,12 +42,12 @@ export default function MockedUserFlowPage() {
                 Simulates the entire booking flow (no emails or calendar events)
               </TextSmMuted>
             </div>
-            <button
+            <Button
               onClick={handleReset}
               className="rounded bg-surface-600 px-4 py-2 text-sm font-medium whitespace-nowrap text-white hover:bg-surface-700 dark:bg-surface-700 dark:hover:bg-surface-600"
             >
               Reset Flow
-            </button>
+            </Button>
           </nav>
 
           <div className="mb-8">

@@ -8,6 +8,8 @@ import clsx from 'clsx'
 import { H3 } from '@/components/ui/heading'
 import { TextSmMuted } from '@/components/ui/text'
 
+import { Button } from '@/components/ui/button'
+
 interface TimeBlock {
   id: string
   summary: string
@@ -129,19 +131,19 @@ export default function TimeBlocker({ eventContainer }: TimeBlockerProps) {
     <div className="rounded-lg border border-accent-200 bg-surface-50 p-4 dark:border-accent-700 dark:bg-surface-800">
       <div className="mb-3 flex items-center justify-between">
         <H3>{admin.timeBlocker.title}</H3>
-        <button
+        <Button
           type="button"
           onClick={fetchBlocks}
           disabled={fetching}
           className="text-xs text-primary-600 hover:text-primary-800 dark:text-primary-400"
         >
           {fetching ? admin.timeBlocker.buttons.loading : admin.timeBlocker.buttons.refresh}
-        </button>
+        </Button>
       </div>
 
       <div className="mb-3 flex flex-wrap gap-2">
         {[15, 30, 60].map((mins) => (
-          <button
+          <Button
             key={mins}
             type="button"
             disabled={loading}
@@ -156,7 +158,7 @@ export default function TimeBlocker({ eventContainer }: TimeBlockerProps) {
             {mins < 60
               ? admin.timeBlocker.buttons.block15.replace('15', String(mins))
               : admin.timeBlocker.buttons.block60}
-          </button>
+          </Button>
         ))}
       </div>
 
@@ -173,13 +175,13 @@ export default function TimeBlocker({ eventContainer }: TimeBlockerProps) {
                 {/* biome-ignore lint/style/noJsxLiterals: time range separator */}
                 {formatTime(b.start.dateTime)} – {formatTime(b.end.dateTime)}
               </span>
-              <button
+              <Button
                 type="button"
                 onClick={() => deleteBlock(b.id)}
                 className="text-xs text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300"
               >
                 {admin.timeBlocker.buttons.remove}
-              </button>
+              </Button>
             </li>
           ))}
         </ul>

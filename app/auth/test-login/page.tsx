@@ -17,6 +17,9 @@ import { notFound } from 'next/navigation'
 import { H1 } from '@/components/ui/heading'
 import { TextSmMuted } from '@/components/ui/text'
 
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+
 export const dynamic = 'force-dynamic'
 
 export default function TestLoginPage() {
@@ -84,7 +87,7 @@ export default function TestLoginPage() {
             <label htmlFor="email" className="block text-sm font-medium">
               Email
             </label>
-            <input
+            <Input
               id="email"
               type="email"
               value={email}
@@ -98,7 +101,7 @@ export default function TestLoginPage() {
             <label htmlFor="password" className="block text-sm font-medium">
               Password
             </label>
-            <input
+            <Input
               id="password"
               type="password"
               value={password}
@@ -108,13 +111,13 @@ export default function TestLoginPage() {
             />
           </div>
 
-          <button
+          <Button
             type="submit"
             disabled={loading}
             className="w-full rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 disabled:bg-surface-400"
           >
             {loading ? 'Signing in...' : 'Sign in'}
-          </button>
+          </Button>
         </form>
       </div>
     </div>

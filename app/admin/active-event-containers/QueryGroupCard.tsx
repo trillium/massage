@@ -6,6 +6,8 @@ import { formatDateTime } from './formatDateTime'
 import { H3, H4 } from '@/components/ui/heading'
 import { TextSmMuted, TextXsMedium, TextXsMuted } from '@/components/ui/text'
 
+import { Code } from '@/components/ui/code'
+
 export function QueryGroupCard({ group }: { group: QueryGroup }) {
   return (
     <div className="overflow-hidden rounded-lg bg-surface-50 shadow dark:bg-surface-800">
@@ -14,7 +16,7 @@ export function QueryGroupCard({ group }: { group: QueryGroup }) {
           <div>
             <H3 className="dark:text-white">
               {admin.activeEventContainers.queryLabel}
-              <code className="text-blue-600 dark:text-blue-400">{group.query}</code>
+              <Code className="text-blue-600 dark:text-blue-400">{group.query}</Code>
             </H3>
             <div className="mt-2">
               <TextSmMuted>
@@ -45,25 +47,25 @@ export function QueryGroupCard({ group }: { group: QueryGroup }) {
             <div className="mt-3 space-y-1">
               <TextXsMuted>
                 {admin.activeEventContainers.searchQueryLabel}{' '}
-                <code className="bg-surface-200 px-1 dark:bg-surface-600">
+                <Code className="bg-surface-200 px-1 dark:bg-surface-600">
                   {admin.activeEventContainers.searchQueryGeneric}
-                </code>
+                </Code>
               </TextXsMuted>
               <TextXsMuted>
                 {admin.activeEventContainers.localFilterLabel}{' '}
-                <code className="bg-blue-100 px-1 dark:bg-blue-800">{group.searchQuery}</code>
+                <Code className="bg-blue-100 px-1 dark:bg-blue-800">{group.searchQuery}</Code>
               </TextXsMuted>
               <TextXsMuted>
                 {admin.activeEventContainers.containerPatternLabel}{' '}
-                <code className="bg-green-100 px-1 dark:bg-green-800">
+                <Code className="bg-green-100 px-1 dark:bg-green-800">
                   {group.eventContainerString}
-                </code>
+                </Code>
               </TextXsMuted>
               <TextXsMuted>
                 {admin.activeEventContainers.memberPatternLabel}{' '}
-                <code className="bg-orange-100 px-1 dark:bg-orange-800">
+                <Code className="bg-orange-100 px-1 dark:bg-orange-800">
                   {group.eventMemberString}
-                </code>
+                </Code>
               </TextXsMuted>
             </div>
           </div>

@@ -5,6 +5,8 @@ import { twMerge } from 'tailwind-merge'
 
 import Day from 'lib/day'
 
+import { Input } from '@/components/ui/input'
+
 type DayProps = {
   date: Day
   availabilityScore: number
@@ -50,7 +52,7 @@ export default function DayButton({
         } date ${date.toString()} in calendar`}
         {...props}
       >
-        <input
+        <Input
           onChange={handleChange}
           id={`day-${date.getDay()}`}
           name="day"

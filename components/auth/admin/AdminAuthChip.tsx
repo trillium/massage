@@ -6,6 +6,8 @@ import authHeaderNavLinks from '@/data/authHeaderNavLinks'
 import { FaCheck, FaChevronDown } from 'react-icons/fa'
 import auth from '@/data/auth.json'
 
+import { Button } from '@/components/ui/button'
+
 interface AdminAuthChipProps {
   adminEmail?: string | null
   onLogout?: () => void
@@ -44,12 +46,12 @@ export function AdminAuthChip({ adminEmail, onLogout }: AdminAuthChipProps) {
           </div>
           <div className="px-1 py-1">
             <MenuItem>
-              <button
+              <Button
                 onClick={onLogout}
                 className="group flex w-full items-center rounded-md px-2 py-2 text-sm text-accent-900 hover:bg-red-500 hover:text-white dark:text-accent-100 dark:hover:bg-red-500 dark:hover:text-white"
               >
                 {auth.authChip.logout}
-              </button>
+              </Button>
             </MenuItem>
           </div>
         </MenuItems>

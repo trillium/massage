@@ -3,6 +3,8 @@
 import { format, isSameMonth } from 'date-fns'
 import { TextSmSemibold } from '@/components/ui/text'
 
+import { Button } from '@/components/ui/button'
+
 interface CalendarNavProps {
   pageStartDate: Date
   pageEndDate: Date
@@ -26,7 +28,7 @@ export default function CalendarNav({
 
   return (
     <div className="col-span-7 flex items-center justify-between px-3 py-2">
-      <button
+      <Button
         type="button"
         onClick={onPrev}
         disabled={prevDisabled}
@@ -45,9 +47,9 @@ export default function CalendarNav({
             clipRule="evenodd"
           />
         </svg>
-      </button>
+      </Button>
       <TextSmSemibold>{label}</TextSmSemibold>
-      <button
+      <Button
         type="button"
         onClick={onNext}
         disabled={nextDisabled}
@@ -66,7 +68,7 @@ export default function CalendarNav({
             clipRule="evenodd"
           />
         </svg>
-      </button>
+      </Button>
     </div>
   )
 }

@@ -5,6 +5,9 @@ import { Dialog, DialogPanel, DialogTitle, Transition, TransitionChild } from '@
 import admin from '@/data/admin.json'
 import { TextSmMuted } from '@/components/ui/text'
 
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+
 type ConfirmDialogProps = {
   open: boolean
   onClose: () => void
@@ -85,7 +88,7 @@ export default function ConfirmDialog({
                         {/* biome-ignore lint/style/noJsxLiterals: confirmation instruction suffix */}
                         to confirm
                       </label>
-                      <input
+                      <Input
                         id="confirm-input"
                         type="text"
                         value={typed}
@@ -96,20 +99,20 @@ export default function ConfirmDialog({
                     </div>
                   )}
                   <div className="mt-6 flex justify-end gap-3">
-                    <button
+                    <Button
                       type="button"
                       onClick={handleClose}
                       className="rounded border border-accent-300 px-4 py-2 text-sm font-semibold text-accent-700 hover:bg-surface-100 dark:border-accent-600 dark:text-accent-300 dark:hover:bg-surface-700"
                     >
                       {admin.confirmDialog.buttons.cancel}
-                    </button>
-                    <button
+                    </Button>
+                    <Button
                       type="submit"
                       disabled={!confirmed}
                       className={`rounded px-4 py-2 text-sm font-semibold disabled:opacity-50 ${confirmClassName}`}
                     >
                       {confirmLabel}
-                    </button>
+                    </Button>
                   </div>
                 </form>
               </DialogPanel>

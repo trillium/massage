@@ -4,6 +4,8 @@ import React from 'react'
 import { AppointmentRequestType } from '@/lib/types'
 import { H3 } from '@/components/ui/heading'
 
+import { Button } from '@/components/ui/button'
+
 interface DebugDataProps {
   submittedData: AppointmentRequestType | null
   onReset?: () => void
@@ -19,12 +21,12 @@ export default function DebugData({ submittedData, onReset }: DebugDataProps) {
       <div className="mb-4 flex items-center justify-between">
         <H3>Debug: Submitted Data</H3>
         {onReset && (
-          <button
+          <Button
             onClick={onReset}
             className="rounded bg-red-600 px-3 py-1 text-sm font-medium text-white hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-800"
           >
             Reset Flow
-          </button>
+          </Button>
         )}
       </div>
       <pre className="overflow-x-auto text-xs text-accent-600 dark:text-accent-400">

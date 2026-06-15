@@ -7,6 +7,8 @@ import { useAppDispatch, useReduxFormData } from '@/redux/hooks'
 import { setBookingForm } from '@/redux/slices/bookingFormSlice'
 import { RAFFLE_INTEREST_OPTIONS } from '@/lib/schema'
 import raffleData from '@/data/raffle.json'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
 import {
   type RaffleFormProps,
   type FormValues,
@@ -209,7 +211,7 @@ export default function RaffleForm({ raffleId, raffleName }: RaffleFormProps) {
               <div className="space-y-2">
                 {RAFFLE_INTEREST_OPTIONS.map(({ value, label }) => (
                   <div className="flex items-center" key={value}>
-                    <input
+                    <Input
                       type="checkbox"
                       id={`interested-${value}`}
                       className={checkboxClasses}
@@ -236,13 +238,13 @@ export default function RaffleForm({ raffleId, raffleName }: RaffleFormProps) {
               </div>
             </div>
 
-            <button
+            <Button
               type="submit"
               disabled={isSubmitting}
               className="bg-primary-600 hover:bg-primary-700 border-primary-500 rounded border-2 px-4 py-2 font-semibold text-white transition-colors disabled:cursor-not-allowed disabled:bg-surface-400"
             >
               {isSubmitting ? formText.enterButtonSubmitting : formText.enterButtonDefault}
-            </button>
+            </Button>
             <div>
               {submitError && (
                 <div className="rounded-md bg-amber-50 px-4 py-3 text-sm text-amber-700 dark:bg-amber-900/20 dark:text-amber-300">

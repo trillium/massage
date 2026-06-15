@@ -6,6 +6,8 @@ import type { PromoDiscount } from '@/lib/promoCodes'
 import booking from '@/data/booking.json'
 import { TextPrimary, TextSm, TextSmMuted } from '@/components/ui/text'
 
+import { Input } from '@/components/ui/input'
+
 const { promoCode: copy } = booking.form
 
 type PromoCodeFieldProps = {
@@ -58,7 +60,7 @@ export default function PromoCodeField({ promoCode, onChange, error }: PromoCode
       <label htmlFor="promo" className={fieldClasses.label}>
         {copy.label}
       </label>
-      <input
+      <Input
         aria-label={copy.ariaLabel}
         aria-invalid={validationState === 'invalid'}
         autoComplete="off"

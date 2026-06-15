@@ -12,6 +12,9 @@ import { adminFetch } from '@/lib/adminFetch'
 import { H1, H3 } from '@/components/ui/heading'
 import { TextSm, TextSmSemibold, TextXs } from '@/components/ui/text'
 
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+
 interface BookingResponse {
   success: boolean
   count: number
@@ -185,7 +188,7 @@ export default function GmailTestPage() {
               >
                 Max Results
               </label>
-              <input
+              <Input
                 id="maxResults"
                 type="number"
                 value={maxResults}
@@ -202,7 +205,7 @@ export default function GmailTestPage() {
               >
                 Days Back
               </label>
-              <input
+              <Input
                 id="daysBack"
                 type="number"
                 value={daysBack}
@@ -219,14 +222,14 @@ export default function GmailTestPage() {
               >
                 Search Soothe Emails
               </label>
-              <button
+              <Button
                 id="searchButton"
                 onClick={searchSootheEmails}
                 disabled={loading}
                 className="w-full rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-700 disabled:bg-blue-300 sm:w-auto"
               >
                 {loading ? 'Searching...' : 'Search Soothe Emails'}
-              </button>
+              </Button>
             </div>
           </div>
         </div>
@@ -322,7 +325,7 @@ function BookingItem({
   active: boolean
 }) {
   return (
-    <button
+    <Button
       className={clsx(
         'relative rounded-lg border-2 bg-surface-50 p-3 shadow-sm transition-all hover:shadow-md sm:p-4 dark:bg-surface-800',
         {
@@ -399,7 +402,7 @@ function BookingItem({
           </div>
         )}
       </div>
-    </button>
+    </Button>
   )
 }
 
@@ -429,14 +432,14 @@ function CurrentSelection(props: {
           : 'border-green-200 bg-green-50 dark:border-green-800 dark:bg-green-900/20'
       )}
     >
-      <h3
+      <H3
         className={clsx(
           'mb-3 text-base font-semibold sm:mb-4 sm:text-lg',
           anyUnset ? 'text-red-800 dark:text-red-200' : 'text-green-800 dark:text-green-200'
         )}
       >
         Current Selections
-      </h3>
+      </H3>
 
       <div className="space-y-3 text-sm">
         <div>
@@ -523,13 +526,13 @@ function CurrentSelection(props: {
                   All required information has been selected. You can now create the appointment.
                 </TextXs>
               </div>
-              <button
+              <Button
                 className="bg-primary-500 border-primary-600 w-full cursor-pointer rounded-md border-2 p-2 text-xs font-semibold disabled:cursor-not-allowed disabled:bg-surface-300 sm:w-auto sm:text-sm"
                 onClick={handleAppointmentCreation}
                 disabled={loading}
               >
                 {loading ? 'Creating...' : 'Create Appointment'}
-              </button>
+              </Button>
             </div>
           </div>
         )}

@@ -6,6 +6,9 @@ import type { LocationObject } from '@/lib/locationTypes'
 import eventContent from '@/data/event.json'
 import { TextSm, TextSmMedium } from '@/components/ui/text'
 
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+
 interface EditFormProps {
   eventId: string
   token: string
@@ -71,18 +74,18 @@ export default function EditForm({ eventId, token, initialValues }: EditFormProp
 
   return (
     <>
-      <button
+      <Button
         onClick={() => setEditing(!editing)}
         className="rounded-lg border border-accent-300 px-5 py-2.5 text-sm font-medium text-accent-700 transition-colors hover:bg-surface-100 dark:border-accent-600 dark:text-accent-300 dark:hover:bg-surface-800"
       >
         {editing ? eventContent.editForm.button.close : eventContent.editForm.button.edit}
-      </button>
+      </Button>
       {editing && (
         <div className="mt-4 basis-full space-y-4 rounded-2xl border-2 border-accent-200 bg-surface-50 p-6 dark:border-accent-700 dark:bg-surface-800">
           <div className="grid gap-4 sm:grid-cols-2">
             <label className="block">
               <TextSmMedium>{eventContent.editForm.fields.firstName}</TextSmMedium>
-              <input
+              <Input
                 type="text"
                 value={values.firstName}
                 onChange={(e) => setValues({ ...values, firstName: e.target.value })}
@@ -91,7 +94,7 @@ export default function EditForm({ eventId, token, initialValues }: EditFormProp
             </label>
             <label className="block">
               <TextSmMedium>{eventContent.editForm.fields.lastName}</TextSmMedium>
-              <input
+              <Input
                 type="text"
                 value={values.lastName}
                 onChange={(e) => setValues({ ...values, lastName: e.target.value })}
@@ -102,7 +105,7 @@ export default function EditForm({ eventId, token, initialValues }: EditFormProp
 
           <label className="block">
             <TextSmMedium>{eventContent.editForm.fields.email}</TextSmMedium>
-            <input
+            <Input
               type="email"
               value={values.email}
               onChange={(e) => setValues({ ...values, email: e.target.value })}
@@ -112,7 +115,7 @@ export default function EditForm({ eventId, token, initialValues }: EditFormProp
 
           <label className="block">
             <TextSmMedium>{eventContent.editForm.fields.phone}</TextSmMedium>
-            <input
+            <Input
               type="tel"
               value={values.phone}
               onChange={(e) => setValues({ ...values, phone: e.target.value })}
@@ -122,7 +125,7 @@ export default function EditForm({ eventId, token, initialValues }: EditFormProp
 
           <label className="block">
             <TextSmMedium>{eventContent.editForm.fields.street}</TextSmMedium>
-            <input
+            <Input
               type="text"
               value={values.location.street}
               onChange={(e) =>
@@ -135,7 +138,7 @@ export default function EditForm({ eventId, token, initialValues }: EditFormProp
           <div className="grid gap-4 sm:grid-cols-2">
             <label className="block">
               <TextSmMedium>{eventContent.editForm.fields.city}</TextSmMedium>
-              <input
+              <Input
                 type="text"
                 value={values.location.city}
                 onChange={(e) =>
@@ -146,7 +149,7 @@ export default function EditForm({ eventId, token, initialValues }: EditFormProp
             </label>
             <label className="block">
               <TextSmMedium>{eventContent.editForm.fields.zipCode}</TextSmMedium>
-              <input
+              <Input
                 type="text"
                 inputMode="numeric"
                 maxLength={10}
@@ -162,14 +165,14 @@ export default function EditForm({ eventId, token, initialValues }: EditFormProp
           {error && <TextSm status="error">{error}</TextSm>}
 
           <div className="flex gap-3">
-            <button
+            <Button
               onClick={handleSave}
               disabled={loading}
               className="bg-primary-600 hover:bg-primary-700 rounded-lg px-5 py-2.5 text-sm font-medium text-white transition-colors disabled:opacity-50"
             >
               {loading ? eventContent.editForm.button.saving : eventContent.editForm.button.save}
-            </button>
-            <button
+            </Button>
+            <Button
               onClick={() => {
                 setValues(initialValues)
                 setEditing(false)
@@ -179,7 +182,7 @@ export default function EditForm({ eventId, token, initialValues }: EditFormProp
               className="rounded-lg border border-accent-300 px-5 py-2.5 text-sm font-medium text-accent-600 transition-colors hover:bg-surface-100 dark:border-accent-600 dark:text-accent-400 dark:hover:bg-surface-800"
             >
               {eventContent.editForm.button.cancel}
-            </button>
+            </Button>
           </div>
         </div>
       )}

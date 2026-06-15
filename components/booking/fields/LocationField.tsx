@@ -8,6 +8,8 @@ import { LocationValidationConfig } from './validations/locationValidation'
 import booking from '@/data/booking.json'
 import { TextSm } from '@/components/ui/text'
 
+import { Input } from '@/components/ui/input'
+
 const { location: copy } = booking.form
 
 type LocationFieldErrors = {
@@ -43,7 +45,7 @@ export default function LocationField({
           </TextSm>
         )}
       </label>
-      <input
+      <Input
         aria-label={copy.street.ariaLabel}
         required
         autoComplete="street-address"
@@ -71,7 +73,7 @@ export default function LocationField({
               </TextSm>
             )}
           </label>
-          <input
+          <Input
             aria-label={copy.city.ariaLabel}
             required
             autoComplete="address-level2"
@@ -102,7 +104,7 @@ export default function LocationField({
               </TextSm>
             )}
           </label>
-          <input
+          <Input
             aria-label={copy.zip.ariaLabel}
             required
             autoComplete="postal-code"

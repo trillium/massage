@@ -28,6 +28,8 @@ import { useBookingSubmit } from './useBookingSubmit'
 import { useSlotHoldContext } from 'hooks/SlotHoldContext'
 import booking from '@/data/booking.json'
 
+import { Button } from '@/components/ui/button'
+
 type BookingFormProps = {
   additionalData?: Partial<ChairAppointmentBlockProps>
   acceptingPayment?: boolean
@@ -135,7 +137,7 @@ export default function BookingForm({
                     {booking.flow.requestAppointment}
                   </DialogTitle>
                   {holdExpired && (
-                    <button
+                    <Button
                       type="button"
                       disabled={claiming}
                       onClick={() => {
@@ -144,7 +146,7 @@ export default function BookingForm({
                       className="rounded bg-amber-100 px-2 py-1 text-xs text-amber-700 hover:bg-amber-200 disabled:opacity-50"
                     >
                       {claiming ? booking.flow.reserving : booking.flow.reserveAgain}
-                    </button>
+                    </Button>
                   )}
                 </div>
 

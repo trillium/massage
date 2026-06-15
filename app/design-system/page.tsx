@@ -141,9 +141,9 @@ function Swatch({ palette, scale }: { palette: string; scale: number }) {
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <section className="mb-12">
-      <h2 className="mb-6 text-xl font-bold tracking-tight text-accent-900 dark:text-accent-100">
+      <H2 className="mb-6 text-xl font-bold tracking-tight text-accent-900 dark:text-accent-100">
         {title}
-      </h2>
+      </H2>
       {children}
     </section>
   )
@@ -154,7 +154,7 @@ export default function DesignSystemPage() {
     <SectionContainer>
       <div className="mx-auto max-w-5xl py-10">
         <div className="mb-10">
-          <h1 className="text-3xl font-bold text-accent-900 dark:text-accent-100">Design System</h1>
+          <H1 className="text-3xl font-bold text-accent-900 dark:text-accent-100">Design System</H1>
           <p className="mt-2 text-sm text-accent-500">
             Token reference, enforcement rules, and opt-out directives for massage.la
           </p>
@@ -284,9 +284,9 @@ export default function DesignSystemPage() {
         <Section title="Components">
           {/* Button */}
           <div className="mb-8">
-            <h3 className="mb-1 text-sm font-semibold text-accent-700 dark:text-accent-300">
+            <H3 className="mb-1 text-sm font-semibold text-accent-700 dark:text-accent-300">
               Button
-            </h3>
+            </H3>
             <p className="mb-3 font-mono text-xs text-accent-400">
               import {'{ Button }'} from @/components/ui/button
             </p>
@@ -310,9 +310,9 @@ export default function DesignSystemPage() {
 
           {/* Badge */}
           <div className="mb-8">
-            <h3 className="mb-1 text-sm font-semibold text-accent-700 dark:text-accent-300">
+            <H3 className="mb-1 text-sm font-semibold text-accent-700 dark:text-accent-300">
               Badge
-            </h3>
+            </H3>
             <p className="mb-3 font-mono text-xs text-accent-400">
               import {'{ Badge }'} from @/components/ui/badge
             </p>
@@ -326,9 +326,9 @@ export default function DesignSystemPage() {
 
           {/* Input */}
           <div className="mb-8">
-            <h3 className="mb-1 text-sm font-semibold text-accent-700 dark:text-accent-300">
+            <H3 className="mb-1 text-sm font-semibold text-accent-700 dark:text-accent-300">
               Input
-            </h3>
+            </H3>
             <p className="mb-3 font-mono text-xs text-accent-400">
               import {'{ Input }'} from @/components/ui/input
             </p>
@@ -342,9 +342,9 @@ export default function DesignSystemPage() {
 
           {/* GradientText */}
           <div className="mb-8">
-            <h3 className="mb-1 text-sm font-semibold text-accent-700 dark:text-accent-300">
+            <H3 className="mb-1 text-sm font-semibold text-accent-700 dark:text-accent-300">
               GradientText
-            </h3>
+            </H3>
             <p className="mb-3 font-mono text-xs text-accent-400">
               import {'{ GradientText }'} from @/components/ui/GradientText
             </p>
@@ -375,9 +375,9 @@ export default function DesignSystemPage() {
 
           {/* Textarea */}
           <div className="mb-8">
-            <h3 className="mb-1 text-sm font-semibold text-accent-700 dark:text-accent-300">
+            <H3 className="mb-1 text-sm font-semibold text-accent-700 dark:text-accent-300">
               Textarea
-            </h3>
+            </H3>
             <p className="mb-3 font-mono text-xs text-accent-400">
               import {'{ Textarea }'} from @/components/ui/textarea
             </p>
@@ -389,7 +389,7 @@ export default function DesignSystemPage() {
 
           {/* Box */}
           <div className="mb-8">
-            <h3 className="mb-1 text-sm font-semibold text-accent-700 dark:text-accent-300">Box</h3>
+            <H3 className="mb-1 text-sm font-semibold text-accent-700 dark:text-accent-300">Box</H3>
             <p className="mb-3 font-mono text-xs text-accent-400">
               import {'{ Box }'} from @/components/ui/box
             </p>
@@ -411,9 +411,9 @@ export default function DesignSystemPage() {
 
           {/* Stack */}
           <div className="mb-8">
-            <h3 className="mb-1 text-sm font-semibold text-accent-700 dark:text-accent-300">
+            <H3 className="mb-1 text-sm font-semibold text-accent-700 dark:text-accent-300">
               Stack
-            </h3>
+            </H3>
             <p className="mb-3 font-mono text-xs text-accent-400">
               import {'{ Stack }'} from @/components/ui/stack
             </p>
@@ -444,9 +444,9 @@ export default function DesignSystemPage() {
 
           {/* Text */}
           <div className="mb-8">
-            <h3 className="mb-1 text-sm font-semibold text-accent-700 dark:text-accent-300">
+            <H3 className="mb-1 text-sm font-semibold text-accent-700 dark:text-accent-300">
               Text — Named Size + Weight Variants
-            </h3>
+            </H3>
             <p className="mb-3 font-mono text-xs text-accent-400">
               import {'{ TextSm, TextSmMuted, TextBase, … }'} from @/components/ui/text
             </p>
@@ -482,9 +482,9 @@ export default function DesignSystemPage() {
 
           {/* Heading */}
           <div className="mb-8">
-            <h3 className="mb-1 text-sm font-semibold text-accent-700 dark:text-accent-300">
+            <H3 className="mb-1 text-sm font-semibold text-accent-700 dark:text-accent-300">
               Heading — Named H1 / H1Hero / H2 / H3 / H4
-            </h3>
+            </H3>
             <p className="mb-3 font-mono text-xs text-accent-400">
               import {'{ H1, H1Hero, H2, H3, H4 }'} from @/components/ui/heading
             </p>
@@ -508,9 +508,9 @@ export default function DesignSystemPage() {
 
           {/* Label */}
           <div className="mb-8">
-            <h3 className="mb-1 text-sm font-semibold text-accent-700 dark:text-accent-300">
+            <H3 className="mb-1 text-sm font-semibold text-accent-700 dark:text-accent-300">
               Label — LabelSm
-            </h3>
+            </H3>
             <p className="mb-3 font-mono text-xs text-accent-400">
               import {'{ LabelSm }'} from @/components/ui/label
             </p>
@@ -533,9 +533,9 @@ export default function DesignSystemPage() {
 
           {/* Code */}
           <div className="mb-8">
-            <h3 className="mb-1 text-sm font-semibold text-accent-700 dark:text-accent-300">
+            <H3 className="mb-1 text-sm font-semibold text-accent-700 dark:text-accent-300">
               Code
-            </h3>
+            </H3>
             <p className="mb-3 font-mono text-xs text-accent-400">
               import {'{ Code }'} from @/components/ui/code
             </p>

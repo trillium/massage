@@ -7,6 +7,8 @@ import { ReviewFormFields, type ReviewFormData } from './ReviewFormFields'
 import { ReviewCard } from './ReviewCard'
 import { H2 } from '@/components/ui/heading'
 
+import { Button } from '@/components/ui/button'
+
 interface Review {
   id: number
   name: string
@@ -117,13 +119,13 @@ export function ReviewsClient({ initialReviews }: { initialReviews: Review[] }) 
           Add Review
         </H2>
         <ReviewFormFields form={form} onChange={setForm} />
-        <button
+        <Button
           onClick={handleCreate}
           disabled={saving || !form.name || !form.date}
           className="mt-3 rounded-md bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700 disabled:bg-surface-300"
         >
           {saving ? 'Saving...' : 'Add Review'}
-        </button>
+        </Button>
       </div>
 
       <div className="space-y-4">
@@ -168,7 +170,7 @@ function SourceFilterBar({
         {sources.map((source) => {
           const r = latestBySource[source]
           return (
-            <button
+            <Button
               key={source}
               onClick={() => onFilterChange(sourceFilter === source ? null : source)}
               className={`rounded-md border p-2 text-left text-sm transition-colors ${
@@ -181,17 +183,17 @@ function SourceFilterBar({
               <div className="text-xs text-accent-500 dark:text-accent-400">
                 {r.date} — {r.name}
               </div>
-            </button>
+            </Button>
           )
         })}
       </div>
       {sourceFilter && (
-        <button
+        <Button
           onClick={() => onFilterChange(null)}
           className="mt-2 text-xs text-blue-600 hover:underline dark:text-blue-400"
         >
           Clear filter
-        </button>
+        </Button>
       )}
     </div>
   )

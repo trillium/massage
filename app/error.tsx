@@ -4,6 +4,8 @@ import Link from '@/components/Link'
 import system from '@/data/system.json'
 import { H1 } from '@/components/ui/heading'
 
+import { Button } from '@/components/ui/button'
+
 export default function GlobalError({
   error: _error,
   reset,
@@ -19,13 +21,13 @@ export default function GlobalError({
       </p>
       <p className="mt-2 text-accent-500 dark:text-accent-400">{system.globalError.description}</p>
       <div className="mt-8 flex gap-4">
-        <button
+        <Button
           type="button"
           onClick={reset}
           className="rounded-lg bg-primary-600 px-4 py-2 text-sm font-medium text-white shadow-xs transition-colors hover:bg-blue-700 focus:outline-hidden dark:hover:bg-blue-500"
         >
           {system.globalError.buttons.retry}
-        </button>
+        </Button>
         <Link
           href="/"
           className="rounded-lg border border-accent-300 px-4 py-2 text-sm font-medium text-accent-700 transition-colors hover:bg-surface-200 dark:border-accent-600 dark:text-accent-300 dark:hover:bg-surface-800"

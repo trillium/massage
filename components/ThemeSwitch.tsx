@@ -13,6 +13,8 @@ import {
 } from '@headlessui/react'
 import ui from '@/data/ui.json'
 
+import { Button } from '@/components/ui/button'
+
 const Sun = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -88,21 +90,21 @@ const ThemeSwitch = () => {
                 <Radio value="light">
                   <MenuItem>
                     {({ focus }) => (
-                      <button
+                      <Button
                         className={`${focus ? 'bg-primary-600 text-white' : ''} group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                       >
                         <div className="mr-2">
                           <Sun />
                         </div>
                         {ui.themeSwitch.light}
-                      </button>
+                      </Button>
                     )}
                   </MenuItem>
                 </Radio>
                 <Radio value="dark">
                   <MenuItem>
                     {({ focus }) => (
-                      <button
+                      <Button
                         className={`${
                           focus ? 'bg-primary-600 text-white' : ''
                         } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
@@ -111,14 +113,14 @@ const ThemeSwitch = () => {
                           <Moon />
                         </div>
                         {ui.themeSwitch.dark}
-                      </button>
+                      </Button>
                     )}
                   </MenuItem>
                 </Radio>
                 <Radio value="system">
                   <MenuItem>
                     {({ focus }) => (
-                      <button
+                      <Button
                         className={`${
                           focus ? 'bg-primary-600 text-white' : ''
                         } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
@@ -127,7 +129,7 @@ const ThemeSwitch = () => {
                           <Monitor />
                         </div>
                         {ui.themeSwitch.system}
-                      </button>
+                      </Button>
                     )}
                   </MenuItem>
                 </Radio>

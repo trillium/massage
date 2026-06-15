@@ -8,6 +8,8 @@ import { useAppDispatch, useReduxAvailability, useReduxConfig } from '@/redux/ho
 import { GeneratePrice } from '@/components/ui/atoms/GeneratePriceAtom'
 import type { durationPropsType } from '@/lib/types'
 
+import { Input } from '@/components/ui/input'
+
 export default function DurationPicker({
   allowedDurations: allowedDurationsProps,
   price: priceProps,
@@ -52,7 +54,7 @@ export default function DurationPicker({
       >
         {allowedDurations.map((theDuration, i) => (
           <div key={theDuration}>
-            <input
+            <Input
               id={`duration-${theDuration}`}
               name="duration"
               type="radio"

@@ -6,6 +6,8 @@ import { QueryGroupCard } from './QueryGroupCard'
 import admin from '@/data/admin.json'
 import { H1, H2, H3 } from '@/components/ui/heading'
 
+import { Code } from '@/components/ui/code'
+
 export const dynamic = 'force-dynamic'
 
 const p = admin.activeEventContainersPage
@@ -76,7 +78,7 @@ export default async function ActiveEventContainersPage() {
               </strong>{' '}
               {p.howItWorks.containerEvents.description}
               {/* biome-ignore lint/style/noJsxLiterals: calendar event naming convention identifier */}
-              <code>QUERY__EVENT__CONTAINER__</code>
+              <Code>QUERY__EVENT__CONTAINER__</Code>
             </p>
             <p>
               <strong className="text-orange-600 dark:text-orange-400">
@@ -84,7 +86,7 @@ export default async function ActiveEventContainersPage() {
               </strong>{' '}
               {p.howItWorks.memberEvents.description}
               {/* biome-ignore lint/style/noJsxLiterals: calendar event naming convention identifier */}
-              <code>QUERY__EVENT__MEMBER__</code>
+              <Code>QUERY__EVENT__MEMBER__</Code>
             </p>
             <p>
               <strong className="text-accent-700 dark:text-accent-300">

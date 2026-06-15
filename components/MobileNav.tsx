@@ -6,6 +6,8 @@ import { Fragment, useState, useEffect, useRef } from 'react'
 import Link from './Link'
 import headerNavLinks from '@/data/headerNavLinks'
 
+import { Button } from '@/components/ui/button'
+
 const MobileNav = () => {
   const [navShow, setNavShow] = useState(false)
   const navRef = useRef<HTMLDivElement>(null)
@@ -29,7 +31,7 @@ const MobileNav = () => {
 
   return (
     <>
-      <button aria-label="Toggle Menu" onClick={onToggleNav} className="sm:hidden">
+      <Button aria-label="Toggle Menu" onClick={onToggleNav} className="sm:hidden">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 20 20"
@@ -42,7 +44,7 @@ const MobileNav = () => {
             clipRule="evenodd"
           />
         </svg>
-      </button>
+      </Button>
       <Transition appear show={navShow} as={Fragment} unmount={false}>
         <Dialog as="div" onClose={onToggleNav} unmount={false}>
           <TransitionChild
@@ -85,7 +87,7 @@ const MobileNav = () => {
                 ))}
               </nav>
 
-              <button
+              <Button
                 className="hover:text-primary-500 dark:hover:text-primary-400 fixed top-7 right-4 z-80 h-16 w-16 p-4 text-accent-900 dark:text-accent-100"
                 aria-label="Toggle Menu"
                 onClick={onToggleNav}
@@ -97,7 +99,7 @@ const MobileNav = () => {
                     clipRule="evenodd"
                   />
                 </svg>
-              </button>
+              </Button>
             </DialogPanel>
           </TransitionChild>
         </Dialog>

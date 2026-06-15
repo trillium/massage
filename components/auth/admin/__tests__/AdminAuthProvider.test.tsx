@@ -2,6 +2,8 @@ import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { render, screen, waitFor } from '@testing-library/react'
 import { AdminAuthProvider } from '@/components/auth/admin/AdminAuthProvider'
 
+import { Button } from '@/components/ui/button'
+
 const mockRouter = {
   replace: vi.fn(),
   push: vi.fn(),
@@ -66,7 +68,7 @@ vi.mock('@/lib/posthog-utils', () => ({
 vi.mock('@headlessui/react', () => ({
   Menu: ({ children }: { children: React.ReactNode }) => <div data-testid="menu">{children}</div>,
   MenuButton: ({ children, ...props }: React.PropsWithChildren<Record<string, unknown>>) => (
-    <button {...props}>{children}</button>
+    <Button {...props}>{children}</Button>
   ),
   MenuItems: ({ children }: { children: React.ReactNode }) => (
     <div data-testid="menu-items">{children}</div>

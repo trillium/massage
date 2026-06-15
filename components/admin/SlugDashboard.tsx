@@ -16,6 +16,8 @@ import {
 import { H2, H3 } from '@/components/ui/heading'
 import { TextSmMuted, TextXs, TextXsMuted } from '@/components/ui/text'
 
+import { Button } from '@/components/ui/button'
+
 interface SlugDashboardProps {
   slug: string
   appointments: Appointment[]
@@ -34,13 +36,13 @@ export default function SlugDashboard({ slug, appointments, eventContainer }: Sl
     <div className="mb-8 space-y-4">
       <div className="flex items-center justify-between">
         <H2>{slug}</H2>
-        <button
+        <Button
           type="button"
           onClick={() => setExpanded((e) => !e)}
           className="text-sm text-accent-500 hover:text-accent-700 dark:hover:text-accent-300"
         >
           {expanded ? 'Collapse' : 'Expand'}
-        </button>
+        </Button>
       </div>
 
       <div className="flex items-center gap-4 text-sm text-accent-600 dark:text-accent-400">
@@ -169,13 +171,13 @@ function AppointmentsPanel({
     <div className="rounded-lg border border-accent-200 bg-surface-50 p-4 dark:border-accent-700 dark:bg-surface-800">
       <div className="mb-3 flex items-center justify-between">
         <H3>Appointments ({sorted.length})</H3>
-        <button
+        <Button
           type="button"
           onClick={onRefresh}
           className="text-xs text-primary-600 hover:text-primary-800 dark:text-primary-400"
         >
           Refresh
-        </button>
+        </Button>
       </div>
 
       {sorted.length === 0 ? (

@@ -5,6 +5,8 @@ import { useState } from 'react'
 import siteMetadata from '@/data/siteMetadata'
 import uiData from '@/data/ui.json'
 
+import { Button } from '@/components/ui/button'
+
 export default function Comments({ slug }: { slug: string }) {
   const [loadComments, setLoadComments] = useState(false)
 
@@ -16,9 +18,9 @@ export default function Comments({ slug }: { slug: string }) {
       {loadComments ? (
         <CommentsComponent commentsConfig={siteMetadata.comments} slug={slug} />
       ) : (
-        <button type="button" onClick={() => setLoadComments(true)}>
+        <Button type="button" onClick={() => setLoadComments(true)}>
           {uiData.misc.loadComments}
-        </button>
+        </Button>
       )}
     </>
   )

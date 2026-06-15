@@ -2,6 +2,9 @@
 
 import system from '@/data/system.json'
 
+import { Button } from '@/components/ui/button'
+import { H1 } from '@/components/ui/heading'
+
 export default function GlobalError({
   error: _error,
   reset,
@@ -13,15 +16,15 @@ export default function GlobalError({
     <html lang="en">
       <body>
         <div style={{ padding: '2rem', textAlign: 'center' }}>
-          <h1>{system.globalError.message}</h1>
+          <H1>{system.globalError.message}</H1>
           <p>{system.globalError.description}</p>
-          <button
+          <Button
             type="button"
             onClick={reset}
             style={{ marginTop: '1rem', padding: '0.5rem 1rem' }}
           >
             {system.globalError.buttons.retry}
-          </button>
+          </Button>
         </div>
       </body>
     </html>

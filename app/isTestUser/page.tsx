@@ -3,6 +3,10 @@ import { useState, useEffect } from 'react'
 import { markUserAsTestUser, getDistinctId, identifyUser } from '@/lib/posthog-utils'
 import admin from '@/data/admin.json'
 
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { H1 } from '@/components/ui/heading'
+
 export default function IsTestUserPage() {
   const [userId, setUserId] = useState('')
   const [result, setResult] = useState<string | null>(null)
@@ -40,19 +44,19 @@ export default function IsTestUserPage() {
 
   return (
     <div className="mx-auto mt-10 max-w-md rounded bg-surface-50 p-6 shadow dark:bg-surface-800">
-      <h1 className="mb-4 text-2xl font-bold text-accent-900 dark:text-accent-100">
+      <H1 className="mb-4 text-2xl font-bold text-accent-900 dark:text-accent-100">
         {admin.isTestUser.title}
-      </h1>
+      </H1>
       <div className="mb-4 text-sm text-accent-700 dark:text-accent-300">
         <strong>{admin.isTestUser.distinctIdLabel}</strong>{' '}
         {distinctId || admin.isTestUser.loadingText}
-        <button
+        <Button
           type="button"
           className="ml-4 rounded bg-surface-200 px-2 py-1 text-xs text-accent-700 hover:bg-surface-300 dark:bg-surface-700 dark:text-accent-300 dark:hover:bg-surface-600"
           onClick={() => setRefreshKey((k) => k + 1)}
         >
           {admin.isTestUser.retryButton}
-        </button>
+        </Button>
       </div>
 
       <div className="mb-4">
@@ -61,7 +65,7 @@ export default function IsTestUserPage() {
         </div>
         <div className="space-y-2">
           <label className="flex items-center">
-            <input
+            <Input
               type="radio"
               name="action"
               value="identify"
@@ -74,7 +78,7 @@ export default function IsTestUserPage() {
             </span>
           </label>
           <label className="flex items-center">
-            <input
+            <Input
               type="radio"
               name="action"
               value="testUser"
@@ -90,7 +94,7 @@ export default function IsTestUserPage() {
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
-        <input
+        <Input
           type="text"
           className="w-full rounded border border-accent-300 p-2 text-accent-900 dark:border-accent-600 dark:bg-surface-700 dark:text-accent-100"
           placeholder={
@@ -102,7 +106,7 @@ export default function IsTestUserPage() {
           onChange={(e) => setUserId(e.target.value)}
           required
         />
-        <button
+        <Button
           type="submit"
           className="rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 disabled:opacity-50 dark:bg-blue-700 dark:hover:bg-blue-800"
           disabled={loading}
@@ -114,7 +118,7 @@ export default function IsTestUserPage() {
             : action === 'identify'
               ? admin.isTestUser.identifyButton
               : admin.isTestUser.testUserButton}
-        </button>
+        </Button>
       </form>
       {result && (
         <div className="mt-4 text-center text-accent-700 dark:text-accent-300">{result}</div>

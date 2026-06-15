@@ -8,6 +8,8 @@ import { EventCard } from './EventCard'
 import { H3 } from '@/components/ui/heading'
 import { TextSm } from '@/components/ui/text'
 
+import { Button } from '@/components/ui/button'
+
 export function CategorizedEventList({
   events,
   isAdmin = false,
@@ -34,12 +36,12 @@ export function CategorizedEventList({
     <div>
       {isAdmin && (
         <div className="mb-4 flex justify-end">
-          <button
+          <Button
             onClick={handleDownloadJSON}
             className="rounded bg-surface-800 px-4 py-2 text-sm font-medium text-white shadow hover:bg-surface-700 dark:bg-surface-700 dark:hover:bg-surface-600"
           >
             Download All Events (JSON)
-          </button>
+          </Button>
         </div>
       )}
 

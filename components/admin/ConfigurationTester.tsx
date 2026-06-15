@@ -11,6 +11,8 @@ import { setEventContainers } from '@/redux/slices/eventContainersSlice'
 import ConfigDetailsPanel from './configuration-tester/ConfigDetailsPanel'
 import { H2 } from '@/components/ui/heading'
 
+import { Select } from '@/components/ui/select'
+
 type ConfigurationTesterProps = {
   onConfigurationChange?: (config: SlugConfigurationType, slug: string) => void
 }
@@ -99,7 +101,7 @@ export default function ConfigurationTester({ onConfigurationChange }: Configura
         >
           {admin.configurationTester.selectLabel}
         </label>
-        <select
+        <Select
           id="config-select"
           value={selectedSlug}
           onChange={(e) => handleConfigurationChange(e.target.value)}
@@ -114,7 +116,7 @@ export default function ConfigurationTester({ onConfigurationChange }: Configura
               {slug} ({config.type}) {config.title ? `- ${config.title}` : ''}
             </option>
           ))}
-        </select>
+        </Select>
       </div>
 
       {selectedConfig && (

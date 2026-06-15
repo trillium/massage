@@ -6,6 +6,9 @@ import auth from '@/data/auth.json'
 import { H3 } from '@/components/ui/heading'
 import { TextSm } from '@/components/ui/text'
 
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+
 interface LoginFormProps {
   redirectTo?: string
   onSuccess?: () => void
@@ -53,7 +56,7 @@ export function LoginForm({ redirectTo: rawRedirectTo, onSuccess, onError }: Log
         <TextSm className="mt-1" status="success">
           {auth.loginForm.magicLinkSent} <strong>{email}</strong>
         </TextSm>
-        <button
+        <Button
           onClick={() => {
             setSubmitted(false)
             setEmail('')
@@ -61,14 +64,14 @@ export function LoginForm({ redirectTo: rawRedirectTo, onSuccess, onError }: Log
           className="mt-3 text-sm text-green-600 underline hover:text-green-700"
         >
           {auth.loginForm.useDifferentEmail}
-        </button>
+        </Button>
       </div>
     )
   }
 
   return (
     <div className="space-y-4">
-      <button
+      <Button
         onClick={handleGoogle}
         disabled={loading}
         className="flex w-full items-center justify-center gap-3 rounded-md border border-accent-300 bg-surface-50 px-4 py-2.5 text-sm font-medium text-accent-700 shadow-sm transition-colors hover:bg-surface-100 disabled:opacity-50 dark:border-accent-600 dark:bg-surface-700 dark:text-accent-200 dark:hover:bg-surface-600"
@@ -92,7 +95,7 @@ export function LoginForm({ redirectTo: rawRedirectTo, onSuccess, onError }: Log
           />
         </svg>
         {loading ? auth.loginForm.signingIn : auth.loginForm.signInGoogle}
-      </button>
+      </Button>
 
       {error && (
         <div className="rounded-md bg-red-50 p-3 dark:bg-red-950">
@@ -113,7 +116,7 @@ export function LoginForm({ redirectTo: rawRedirectTo, onSuccess, onError }: Log
 
       {showEmail ? (
         <form onSubmit={handleEmailSubmit} className="space-y-3">
-          <input
+          <Input
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -122,21 +125,21 @@ export function LoginForm({ redirectTo: rawRedirectTo, onSuccess, onError }: Log
             className="block w-full rounded-md border border-accent-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 disabled:opacity-50 dark:border-accent-600 dark:bg-surface-700 dark:text-white"
             placeholder={auth.loginForm.emailPlaceholder}
           />
-          <button
+          <Button
             type="submit"
             disabled={loading}
             className="w-full rounded-md bg-blue-600 px-4 py-2 text-sm text-white hover:bg-blue-700 disabled:opacity-50"
           >
             {loading ? auth.loginForm.sending : auth.loginForm.sendMagicLink}
-          </button>
+          </Button>
         </form>
       ) : (
-        <button
+        <Button
           onClick={() => setShowEmail(true)}
           className="w-full text-center text-sm text-accent-500 hover:text-accent-700 dark:text-accent-400 dark:hover:text-accent-200"
         >
           {auth.loginForm.signInWithEmail}
-        </button>
+        </Button>
       )}
     </div>
   )

@@ -2,6 +2,8 @@ import React from 'react'
 import { fieldClasses } from './classes'
 import booking from '@/data/booking.json'
 
+import { Input } from '@/components/ui/input'
+
 const { email: copy } = booking.form
 
 type EmailFieldProps = {
@@ -15,7 +17,7 @@ export default function EmailField({ email, onChange }: EmailFieldProps) {
       <label htmlFor="email" className={fieldClasses.label}>
         {copy.label}
       </label>
-      <input
+      <Input
         aria-label={copy.ariaLabel}
         required
         autoComplete="email"

@@ -10,6 +10,9 @@ import clsx from 'clsx'
 import { Appointment, STATUS_STYLES } from '@/components/admin/appointmentTypes'
 import { TextSm, TextXs } from '@/components/ui/text'
 
+import { Button } from '@/components/ui/button'
+import { Textarea } from '@/components/ui/textarea'
+
 type AdminNotesModalProps = {
   open: boolean
   onClose: () => void
@@ -81,30 +84,30 @@ function ModalActions({
 }) {
   return (
     <div className="mt-4 flex justify-between">
-      <button
+      <Button
         type="button"
         onClick={onDelete}
         disabled={deleting}
         className="rounded border border-red-300 px-4 py-2 text-sm font-semibold text-red-600 hover:bg-red-50 disabled:opacity-50 dark:border-red-700 dark:text-red-400 dark:hover:bg-red-950"
       >
         {deleting ? admin.notesModal.buttons.deleting : admin.notesModal.buttons.delete}
-      </button>
+      </Button>
       <div className="flex gap-3">
-        <button
+        <Button
           type="button"
           onClick={onCancel}
           className="rounded border border-accent-300 px-4 py-2 text-sm font-semibold text-accent-700 hover:bg-surface-100 dark:border-accent-600 dark:text-accent-300 dark:hover:bg-surface-700"
         >
           {admin.notesModal.buttons.cancel}
-        </button>
-        <button
+        </Button>
+        <Button
           type="button"
           onClick={onSave}
           disabled={saving}
           className="rounded bg-primary-500 px-4 py-2 text-sm font-semibold text-white hover:bg-primary-600 disabled:opacity-50"
         >
           {saving ? admin.notesModal.buttons.saving : admin.notesModal.buttons.save}
-        </button>
+        </Button>
       </div>
     </div>
   )
@@ -228,7 +231,7 @@ export default function AdminNotesModal({
                 <div className="mt-5 border-t border-accent-200 pt-4 dark:border-accent-700">
                   <label className="block text-sm font-medium text-accent-700 dark:text-accent-300">
                     {admin.notesModal.labels.notes}
-                    <textarea
+                    <Textarea
                       value={notes}
                       onChange={(e) => setNotes(e.target.value)}
                       rows={4}

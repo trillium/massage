@@ -2,6 +2,8 @@ import { Metadata } from 'next'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
 
+import { H1, H2 } from '@/components/ui/heading'
+
 export const metadata: Metadata = {
   title: 'Proposal — CodeRabbit Miami 2026',
   robots: { index: false, follow: false },
@@ -15,9 +17,9 @@ function Section({ children, className = '' }: { children: React.ReactNode; clas
 
 function SectionTitle({ children }: { children: React.ReactNode }) {
   return (
-    <h2 className="mb-4 border-b-2 border-primary-600 pb-2 text-2xl font-bold text-primary-700 print:text-xl">
+    <H2 className="mb-4 border-b-2 border-primary-600 pb-2 text-2xl font-bold text-primary-700 print:text-xl">
       {children}
-    </h2>
+    </H2>
   )
 }
 
@@ -75,11 +77,11 @@ export default async function ProposalPage({
       {/* Header */}
       <header className="mb-12 flex items-start justify-between border-b-4 border-primary-600 pb-8">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 print:text-2xl">
+          <H1 className="text-3xl font-bold text-gray-900 print:text-2xl">
             Chair Massage Services
             <br />
             <span className="text-primary-600">for CodeRabbit</span>
-          </h1>
+          </H1>
           <p className="mt-2 text-lg text-gray-500">AI Engineer Miami & React Miami — April 2026</p>
         </div>
         <Image

@@ -5,6 +5,8 @@ import { RAFFLE_INTEREST_OPTIONS } from '@/lib/schema'
 import { fieldClasses } from './classes'
 import { TextSmSemibold, TextXsMuted } from '@/components/ui/text'
 
+import { Input } from '@/components/ui/input'
+
 type RaffleOptInFieldProps = {
   optIn: boolean
   zipCode: string
@@ -21,7 +23,7 @@ export default function RaffleOptInField({
   return (
     <div className="rounded-md border-2 border-primary-200 bg-primary-50 p-3 dark:border-primary-800 dark:bg-primary-950/30">
       <div className="flex items-start gap-3">
-        <input
+        <Input
           type="checkbox"
           id="raffleOptIn"
           checked={optIn}
@@ -50,7 +52,7 @@ export default function RaffleOptInField({
             <label htmlFor="raffleZipCode" className={fieldClasses.label}>
               Home zip code <span className="text-primary-500">*</span>
             </label>
-            <input
+            <Input
               type="text"
               id="raffleZipCode"
               value={zipCode}
@@ -68,7 +70,7 @@ export default function RaffleOptInField({
             <div className="mt-1 space-y-2">
               {RAFFLE_INTEREST_OPTIONS.map(({ value, label }) => (
                 <div key={value} className="flex items-center">
-                  <input
+                  <Input
                     type="checkbox"
                     id={`raffle-interest-${value}`}
                     checked={interestedIn.includes(value)}

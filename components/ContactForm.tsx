@@ -7,6 +7,10 @@ import { useAppDispatch } from '@/redux/hooks'
 import { setContactForm } from '@/redux/slices/contactFormSlice'
 import forms from '@/data/forms.json'
 
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Textarea } from '@/components/ui/textarea'
+
 interface ContactFormProps {
   defaultSubject?: string
 }
@@ -85,7 +89,7 @@ export default function ContactForm({ defaultSubject = '' }: ContactFormProps) {
         <label htmlFor="subject" className="block font-medium">
           {contactForms.fields.subject.label}
         </label>
-        <input
+        <Input
           id="subject"
           name="subject"
           type="text"
@@ -99,7 +103,7 @@ export default function ContactForm({ defaultSubject = '' }: ContactFormProps) {
         <label htmlFor="name" className="block font-medium">
           {contactForms.fields.name.label}
         </label>
-        <input
+        <Input
           id="name"
           name="name"
           type="text"
@@ -112,7 +116,7 @@ export default function ContactForm({ defaultSubject = '' }: ContactFormProps) {
         <label htmlFor="email" className="block font-medium">
           {contactForms.fields.email.label}
         </label>
-        <input
+        <Input
           id="email"
           name="email"
           type="email"
@@ -125,7 +129,7 @@ export default function ContactForm({ defaultSubject = '' }: ContactFormProps) {
         <label htmlFor="phone" className="block font-medium">
           {contactForms.fields.phone.label}
         </label>
-        <input
+        <Input
           id="phone"
           name="phone"
           type="text"
@@ -138,7 +142,7 @@ export default function ContactForm({ defaultSubject = '' }: ContactFormProps) {
         <label htmlFor="message" className="block font-medium">
           {contactForms.fields.message.label}
         </label>
-        <textarea
+        <Textarea
           id="message"
           name="message"
           rows={4}
@@ -147,13 +151,13 @@ export default function ContactForm({ defaultSubject = '' }: ContactFormProps) {
         />
       </div>
 
-      <button
+      <Button
         type="submit"
         disabled={isSubmitting}
         className="bg-primary-600 hover:bg-primary-700 border-primary-500 rounded border-2 px-4 py-2 font-semibold text-white transition-colors disabled:cursor-not-allowed disabled:bg-surface-400"
       >
         {isSubmitting ? contactForms.buttons.submitting : contactForms.buttons.submit}
-      </button>
+      </Button>
     </form>
   )
 }

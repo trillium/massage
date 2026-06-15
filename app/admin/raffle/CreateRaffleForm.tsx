@@ -5,6 +5,9 @@ import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import { adminFetch } from '@/lib/adminFetch'
 
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+
 export function CreateRaffleForm() {
   const router = useRouter()
   const [name, setName] = useState('')
@@ -41,7 +44,7 @@ export function CreateRaffleForm() {
         >
           New Raffle
         </label>
-        <input
+        <Input
           id="raffle-name"
           type="text"
           value={name}
@@ -50,13 +53,13 @@ export function CreateRaffleForm() {
           className="w-full rounded-md border border-accent-300 px-3 py-2 shadow-sm focus:border-blue-500 dark:border-accent-600 dark:bg-surface-700 dark:text-accent-100"
         />
       </div>
-      <button
+      <Button
         type="submit"
         disabled={submitting || !name.trim()}
         className="rounded bg-primary-500 px-4 py-2 text-white hover:bg-primary-600 disabled:bg-surface-300 dark:disabled:bg-surface-600"
       >
         {submitting ? 'Creating…' : 'Create'}
-      </button>
+      </Button>
     </form>
   )
 }

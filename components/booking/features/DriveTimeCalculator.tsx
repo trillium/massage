@@ -9,6 +9,8 @@ import { GoogleCalendarV3Event, LocationObject } from '@/lib/types'
 import { H3 } from '@/components/ui/heading'
 import { TextSm } from '@/components/ui/text'
 
+import { Button } from '@/components/ui/button'
+
 function formatDriveTime(minutes: number): string {
   if (minutes <= 5) return 'Extremely short'
   if (minutes <= 10) return 'Pretty short'
@@ -175,13 +177,13 @@ export default function DriveTimeCalculator({ currentEvent }: DriveTimeCalculato
     <div className="focus-within:border-primary-500 dark:focus-within:border-primary-500 rounded-lg border-2 border-accent-300 bg-surface-200 p-6 dark:border-accent-700 dark:bg-surface-800">
       <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
         <H3>Want to be next? Calculate Drive Time</H3>
-        <button
+        <Button
           onClick={handleUseDeviceLocation}
           disabled={isGettingLocation}
           className="bg-primary-600 hover:bg-primary-700 focus:ring-primary-500 dark:bg-primary-500 dark:hover:bg-primary-600 rounded-md px-4 py-2 text-sm font-medium whitespace-nowrap text-white shadow-sm focus:ring-2 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:bg-surface-400 disabled:hover:bg-surface-400"
         >
           {isGettingLocation ? 'Getting Location...' : 'Use Device Location'}
-        </button>
+        </Button>
       </div>
       {deviceCoordinates ? (
         <div className="rounded-md border-2 border-blue-200 bg-blue-50 p-3 dark:border-blue-800 dark:bg-blue-950/50">
@@ -205,7 +207,7 @@ export default function DriveTimeCalculator({ currentEvent }: DriveTimeCalculato
           <TextSm status="error">{error}</TextSm>
         </div>
       )}
-      <button
+      <Button
         onClick={
           deviceCoordinates
             ? () => {
@@ -229,7 +231,7 @@ export default function DriveTimeCalculator({ currentEvent }: DriveTimeCalculato
           : isCalculating
             ? 'Calculating...'
             : 'Calculate Drive Time'}
-      </button>
+      </Button>
       {driveTime !== null && (
         <div
           className={

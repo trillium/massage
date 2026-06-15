@@ -6,6 +6,8 @@ import { IoClose, IoChevronBack, IoChevronForward } from 'react-icons/io5'
 import Image from '@/components/Image'
 import { TextSm, TextSmMedium } from '@/components/ui/text'
 
+import { Button } from '@/components/ui/button'
+
 export interface GalleryImage {
   src: string
   alt: string
@@ -48,7 +50,7 @@ export default function Gallery({ images, columns = 3 }: GalleryProps) {
     <>
       <div className={`${columnClasses[columns]} gap-4`}>
         {images.map((image, index) => (
-          <button
+          <Button
             key={index}
             onClick={() => setSelectedIndex(index)}
             className="group hover:outline-primary-500 focus-visible:outline-primary-500 mb-4 block w-full cursor-pointer break-inside-avoid overflow-hidden rounded-lg border-0 bg-transparent p-0 outline-2 outline-offset-4 outline-transparent transition-[outline-color] duration-200"
@@ -68,7 +70,7 @@ export default function Gallery({ images, columns = 3 }: GalleryProps) {
                 </div>
               )}
             </div>
-          </button>
+          </Button>
         ))}
       </div>
 
@@ -97,29 +99,29 @@ export default function Gallery({ images, columns = 3 }: GalleryProps) {
               leaveTo="opacity-0 scale-95"
             >
               <DialogPanel className="relative w-[95vw] max-w-4xl">
-                <button
+                <Button
                   type="button"
                   className="absolute -top-10 right-0 rounded-full bg-surface-50/80 p-1 backdrop-blur-sm transition-colors hover:bg-surface-50"
                   onClick={() => setSelectedIndex(null)}
                 >
                   <IoClose className="h-5 w-5 text-accent-900" />
-                </button>
+                </Button>
 
-                <button
+                <Button
                   type="button"
                   className="absolute top-1/2 -left-12 -translate-y-1/2 rounded-full bg-surface-50/80 p-2 backdrop-blur-sm transition-colors hover:bg-surface-50 max-sm:-left-2 max-sm:bg-surface-50/60"
                   onClick={goPrev}
                 >
                   <IoChevronBack className="h-5 w-5 text-accent-900" />
-                </button>
+                </Button>
 
-                <button
+                <Button
                   type="button"
                   className="absolute top-1/2 -right-12 -translate-y-1/2 rounded-full bg-surface-50/80 p-2 backdrop-blur-sm transition-colors hover:bg-surface-50 max-sm:-right-2 max-sm:bg-surface-50/60"
                   onClick={goNext}
                 >
                   <IoChevronForward className="h-5 w-5 text-accent-900" />
-                </button>
+                </Button>
 
                 {selectedIndex !== null && (
                   <div className="relative">

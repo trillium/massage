@@ -5,6 +5,8 @@ import Image from '@/components/Image'
 import SectionContainer from '@/components/SectionContainer'
 import { IoClose } from 'react-icons/io5'
 
+import { Button } from '@/components/ui/button'
+
 interface GalleryImage {
   src: string
   alt: string
@@ -177,7 +179,7 @@ export default function Page() {
         </span>
         {saveError && <span className="text-red-500">Save failed (read-only?)</span>}
         {hidden.size > 0 && (
-          <button
+          <Button
             onClick={() => {
               setHidden(new Set())
               save(images, new Set())
@@ -185,7 +187,7 @@ export default function Page() {
             className="rounded bg-surface-200 px-2 py-1 text-xs dark:bg-surface-700"
           >
             Show all
-          </button>
+          </Button>
         )}
       </div>
       <div className="flex flex-col gap-4">
@@ -203,29 +205,29 @@ export default function Page() {
             />
             <div className="absolute top-2 right-2 flex flex-col gap-1">
               {index > 0 && (
-                <button
+                <Button
                   onClick={() => move(index, 'up')}
                   className="rounded bg-black/60 px-3 py-2 text-xl text-white backdrop-blur-sm"
                 >
                   ↑
-                </button>
+                </Button>
               )}
               {index < visibleImages.length - 1 && (
-                <button
+                <Button
                   onClick={() => move(index, 'down')}
                   className="rounded bg-black/60 px-3 py-2 text-xl text-white backdrop-blur-sm"
                 >
                   ↓
-                </button>
+                </Button>
               )}
             </div>
             <div className="absolute top-2 left-2">
-              <button
+              <Button
                 onClick={() => toggleHide(image.src)}
                 className="rounded bg-red-600/80 px-3 py-2 text-xs font-bold text-white backdrop-blur-sm"
               >
                 <IoClose />
-              </button>
+              </Button>
             </div>
             <div className="absolute bottom-0 left-0 bg-black/50 px-2 py-1 text-xs text-white">
               {index + 1}

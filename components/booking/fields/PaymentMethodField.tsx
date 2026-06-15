@@ -3,6 +3,8 @@ import { PaymentMethodType } from 'lib/types'
 import { paymentMethod } from 'data/paymentMethods'
 import { fieldClasses } from './classes'
 
+import { Input } from '@/components/ui/input'
+
 type PaymentMethodFieldProps = {
   selected: PaymentMethodType | undefined
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
@@ -17,7 +19,7 @@ export default function PaymentMethodField({ selected, onChange }: PaymentMethod
         <div className={fieldClasses.paymentOptions}>
           {paymentMethod.map((payType) => (
             <div key={payType.value} className={fieldClasses.radioContainer}>
-              <input
+              <Input
                 id={payType.value}
                 aria-label={payType.name}
                 type="radio"

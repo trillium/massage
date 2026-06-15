@@ -5,6 +5,8 @@ import systemData from '@/data/system.json'
 import { H1Hero } from '@/components/ui/heading'
 import { TextLg, TextSmMuted } from '@/components/ui/text'
 
+import { Button } from '@/components/ui/button'
+
 const errorText = systemData.adminError
 
 const isCredentialError = (message: string) =>
@@ -42,12 +44,12 @@ export default function AdminError({
             {errorText.connectGoogleButton}
           </Link>
         ) : (
-          <button
+          <Button
             onClick={reset}
             className="rounded-lg bg-primary-600 px-4 py-2 text-sm font-medium text-white shadow-xs transition-colors hover:bg-blue-700 focus:outline-hidden dark:hover:bg-blue-500"
           >
             {errorText.tryAgainButton}
-          </button>
+          </Button>
         )}
         <Link
           href="/admin"

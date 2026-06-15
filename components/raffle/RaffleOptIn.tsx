@@ -5,6 +5,9 @@ import { RAFFLE_INTEREST_OPTIONS } from '@/lib/schema'
 import raffle from '@/data/raffle.json'
 import { TextPrimary, TextSm, TextSmMedium, TextSmMuted } from '@/components/ui/text'
 
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+
 interface RaffleOptInProps {
   name: string
   email: string
@@ -37,7 +40,7 @@ function InterestCheckboxes({
       <div className="mt-1 space-y-2">
         {RAFFLE_INTEREST_OPTIONS.map(({ value, label }) => (
           <div className="flex items-center" key={value}>
-            <input
+            <Input
               type="checkbox"
               id={`optin-${value}`}
               checked={interests.includes(value)}
@@ -131,7 +134,7 @@ export default function RaffleOptIn({ name, email, phone }: RaffleOptInProps) {
           >
             {raffle.zipCodeLabel}
           </label>
-          <input
+          <Input
             type="text"
             id="raffle-zip"
             value={zipCode}
@@ -146,13 +149,13 @@ export default function RaffleOptIn({ name, email, phone }: RaffleOptInProps) {
 
         {errorMessage && <TextSm status="error">{errorMessage}</TextSm>}
 
-        <button
+        <Button
           type="submit"
           disabled={status === 'submitting' || interests.length === 0}
           className="rounded bg-primary-600 px-4 py-2 font-semibold text-white transition-colors hover:bg-primary-700 disabled:cursor-not-allowed disabled:bg-surface-400"
         >
           {status === 'submitting' ? raffle.enterButtonSubmitting : raffle.enterButtonDefault}
-        </button>
+        </Button>
       </form>
     </div>
   )

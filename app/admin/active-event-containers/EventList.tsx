@@ -3,6 +3,8 @@ import admin from '@/data/admin.json'
 import { formatDateTime } from './formatDateTime'
 import { H4 } from '@/components/ui/heading'
 
+import { Code } from '@/components/ui/code'
+
 interface EventListProps {
   events: GoogleCalendarV3Event[]
   color: 'green' | 'orange'
@@ -36,10 +38,10 @@ export function EventList({ events, color, label, emptyMessage, patternString }:
         >
           {emptyMessage}
           {patternString && (
-            <code className="font-mono text-xs">
+            <Code className="font-mono text-xs">
               {admin.activeEventContainers.patternStringSpace}
               {patternString}
-            </code>
+            </Code>
           )}
         </div>
       ) : (

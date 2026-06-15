@@ -7,6 +7,8 @@ import SectionContainer from '@/components/SectionContainer'
 import { H1 } from '@/components/ui/heading'
 import { TextSm, TextSmMedium } from '@/components/ui/text'
 
+import { Button } from '@/components/ui/button'
+
 interface FormValues {
   email: string
   requestReason: string
@@ -136,7 +138,7 @@ export default function AdminAccessRequestPage() {
                   />
                 </div>
 
-                <button
+                <Button
                   type="submit"
                   disabled={isSubmitting || submitStatus.type === 'loading'}
                   className="flex w-full justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:bg-surface-400"
@@ -167,7 +169,7 @@ export default function AdminAccessRequestPage() {
                   ) : (
                     'Request Admin Access'
                   )}
-                </button>
+                </Button>
               </Form>
             )}
           </Formik>

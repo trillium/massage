@@ -12,6 +12,9 @@ import landing from '@/data/landing.json'
 import { H2 } from '@/components/ui/heading'
 import { TextSm, TextSmSemibold } from '@/components/ui/text'
 
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+
 const AIRBNB_REVIEWS_URL = 'https://www.airbnb.com/services/6527842?modal=reviews'
 const {
   defaultHeading,
@@ -193,7 +196,7 @@ export function TestimonialsCarousel({ reviews }: { reviews: ReviewType[] }) {
       <div className="focus-within:ring-primary-500 mt-2 flex justify-center gap-2 rounded p-2 focus-within:ring-2">
         {reviews.map((_, idx) => (
           <React.Fragment key={idx}>
-            <input
+            <Input
               type="radio"
               id={`review-dot-${idx}`}
               name="review-dot"
@@ -235,7 +238,7 @@ function DirectionButton({
 }) {
   const IconComponent = icon
   return (
-    <button
+    <Button
       ref={ref}
       type="button"
       aria-label={ariaLabel}
@@ -248,6 +251,6 @@ function DirectionButton({
       <span aria-hidden="true">
         <IconComponent />
       </span>
-    </button>
+    </Button>
   )
 }

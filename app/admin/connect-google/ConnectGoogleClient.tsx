@@ -3,6 +3,8 @@
 import { getSupabaseBrowserClient } from '@/lib/supabase/client'
 import { H2 } from '@/components/ui/heading'
 
+import { Button } from '@/components/ui/button'
+
 interface ConnectGoogleClientProps {
   connectedEmail: string | null
   successEmail: string | null
@@ -89,12 +91,12 @@ export default function ConnectGoogleClient({
           <li>Read and write Google Calendar events</li>
           <li>Send email via Gmail on your behalf</li>
         </ul>
-        <button
+        <Button
           onClick={handleConnect}
           className="inline-block rounded-lg bg-accent-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-accent-700 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:ring-offset-2 dark:focus:ring-offset-surface-900"
         >
           {isConnected ? 'Reconnect Google Account' : 'Connect Google Account'}
-        </button>
+        </Button>
       </div>
     </div>
   )

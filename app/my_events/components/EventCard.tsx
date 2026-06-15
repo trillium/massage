@@ -10,6 +10,9 @@ import { getCleanSummary } from '@/lib/helpers/eventHelpers'
 import { H3 } from '@/components/ui/heading'
 import { TextXs, TextXsMedium } from '@/components/ui/text'
 
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+
 interface EventCardProps {
   event: GoogleCalendarV3Event
   index: number
@@ -144,17 +147,17 @@ export function EventCard({
                 <span>
                   {event.location || 'No location specified'}
                   {canEdit && (
-                    <button
+                    <Button
                       onClick={() => setIsEditingLocation(true)}
                       className="ml-2 text-xs text-blue-600 underline hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
                     >
                       Edit
-                    </button>
+                    </Button>
                   )}
                 </span>
               ) : (
                 <div className="mt-1 space-y-2">
-                  <input
+                  <Input
                     type="text"
                     value={newLocation}
                     onChange={(e) => setNewLocation(e.target.value)}
@@ -162,7 +165,7 @@ export function EventCard({
                     placeholder="Enter new location..."
                   />
                   <div className="flex space-x-2">
-                    <button
+                    <Button
                       onClick={handleUpdateLocation}
                       disabled={updateLocationLoading}
                       className={clsx(
@@ -173,13 +176,13 @@ export function EventCard({
                       )}
                     >
                       {updateLocationLoading ? 'Saving...' : 'Save'}
-                    </button>
-                    <button
+                    </Button>
+                    <Button
                       onClick={handleCancelLocationEdit}
                       className="rounded bg-surface-400 px-2 py-1 text-xs text-white hover:bg-surface-950"
                     >
                       Cancel
-                    </button>
+                    </Button>
                   </div>
                 </div>
               )}

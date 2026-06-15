@@ -6,6 +6,8 @@ import type { StringDateTimeInterval, LocationObject } from 'lib/types'
 import SlotCritter from './SlotCritter'
 import { TextXs } from '@/components/ui/text'
 
+import { Button } from '@/components/ui/button'
+
 type TimeProps = {
   time: StringDateTimeInterval
   active: boolean
@@ -41,7 +43,7 @@ export default function TimeButton({
   const isDisabled = disabled && !held
 
   return (
-    <button
+    <Button
       type="button"
       disabled={isDisabled}
       className={clsx(
@@ -76,6 +78,6 @@ export default function TimeButton({
           {presenceCount}
         </TextXs>
       ) : null}
-    </button>
+    </Button>
   )
 }

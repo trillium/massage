@@ -7,6 +7,8 @@ import Link from '@/components/Link'
 import { extractApprovalUrls } from '@/lib/helpers/eventHelpers'
 import { TextSmMedium, TextXs } from '@/components/ui/text'
 
+import { Button } from '@/components/ui/button'
+
 interface ActionButtonsProps {
   event: GoogleCalendarV3Event
   colorClasses: {
@@ -58,7 +60,7 @@ export function ActionButtons({
 
     return (
       <div className="ml-4">
-        <button
+        <Button
           onClick={handleCancelRequest}
           disabled={cancelState === 'loading'}
           className={clsx(
@@ -69,7 +71,7 @@ export function ActionButtons({
           )}
         >
           {cancelState === 'loading' ? 'Cancelling...' : 'Cancel Request'}
-        </button>
+        </Button>
         {cancelState === 'error' && (
           <TextXs className="mt-1" status="error">
             Failed to cancel

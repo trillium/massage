@@ -1,5 +1,9 @@
 import { siteConfig } from '@/lib/siteConfig'
 
+import { Input } from '@/components/ui/input'
+import { Select } from '@/components/ui/select'
+import { Textarea } from '@/components/ui/textarea'
+
 const SOURCES = ['Soothe', 'Airbnb', siteConfig.business.name]
 
 export interface ReviewFormData {
@@ -55,40 +59,40 @@ export function ReviewFormFields({
   return (
     <>
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-        <input
+        <Input
           placeholder="Name"
           value={form.name}
           onChange={(e) => onChange({ ...form, name: e.target.value })}
           className={cls}
         />
-        <select
+        <Select
           value={form.rating}
           onChange={(e) => onChange({ ...form, rating: Number(e.target.value) })}
           className={cls}
         >
           <StarOptions />
-        </select>
-        <input
+        </Select>
+        <Input
           type="date"
           value={form.date}
           onChange={(e) => onChange({ ...form, date: e.target.value })}
           className={cls}
         />
-        <select
+        <Select
           value={form.source}
           onChange={(e) => onChange({ ...form, source: e.target.value })}
           className={cls}
         >
           <SourceOptions />
-        </select>
-        <input
+        </Select>
+        <Input
           placeholder="Type (e.g. massage, couples)"
           value={form.type}
           onChange={(e) => onChange({ ...form, type: e.target.value })}
           className={cls}
         />
       </div>
-      <textarea
+      <Textarea
         placeholder="Review text..."
         value={form.comment}
         onChange={(e) => onChange({ ...form, comment: e.target.value })}

@@ -3,6 +3,9 @@
 import { useState } from 'react'
 import pagesData from '@/data/pages.json'
 
+import { Button } from '@/components/ui/button'
+import { H1 } from '@/components/ui/heading'
+
 const testText = pagesData.test
 
 type Step = {
@@ -32,16 +35,16 @@ export default function DoubleBookingTestPage() {
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-12">
-      <h1 className="mb-2 text-2xl font-bold">{testText.heading}</h1>
+      <H1 className="mb-2 text-2xl font-bold">{testText.heading}</H1>
       <p className="mb-6 text-accent-500 dark:text-accent-400">{testText.description}</p>
 
-      <button
+      <Button
         onClick={runTest}
         disabled={loading}
         className="mb-8 rounded-lg bg-primary-500 px-6 py-3 font-semibold text-white transition-colors hover:bg-primary-600 disabled:opacity-50"
       >
         {loading ? testText.runningButton : testText.runTestButton}
-      </button>
+      </Button>
 
       {result && (
         <div>

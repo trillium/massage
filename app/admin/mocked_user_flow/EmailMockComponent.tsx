@@ -2,6 +2,8 @@
 
 import React from 'react'
 
+import { Button } from '@/components/ui/button'
+
 interface EmailMockComponentProps {
   email: {
     subject: string
@@ -63,12 +65,12 @@ export default function EmailMockComponent({
 
       {approveUrl && onApprovalClick && (
         <div className="mt-4 border-t border-accent-200 pt-3 dark:border-accent-700">
-          <button
+          <Button
             onClick={handleApprovalClick}
             className="rounded bg-blue-600 px-3 py-1 text-sm font-medium text-white hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800"
           >
             Simulate Approval Click
-          </button>
+          </Button>
         </div>
       )}
     </div>

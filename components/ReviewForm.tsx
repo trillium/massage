@@ -19,6 +19,9 @@ import { siteConfig } from '@/lib/siteConfig'
 import forms from '@/data/forms.json'
 import { TextSm } from '@/components/ui/text'
 
+import { Button } from '@/components/ui/button'
+import { Select } from '@/components/ui/select'
+
 export default function ReviewForm({
   error,
   start,
@@ -144,7 +147,7 @@ export default function ReviewForm({
                 >
                   {reviewForms.fields.rating.label}
                 </label>
-                <select
+                <Select
                   id="rating"
                   name="rating"
                   value={rating}
@@ -161,7 +164,7 @@ export default function ReviewForm({
                       {rating}
                     </option>
                   ))}
-                </select>
+                </Select>
                 <div className="text-primary-400 inline-flex focus-within:rounded-sm focus-within:ring-2 focus-within:ring-accent-400 focus-within:outline-none">
                   {[1, 2, 3, 4, 5].map((num) => (
                     <label key={`star${num}`} className="flex items-center">
@@ -203,7 +206,7 @@ export default function ReviewForm({
             <div className="bg-red-50 text-red-600">{reviewForms.messages.error}</div>
           )}
           <div className="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
-            <button
+            <Button
               type="submit"
               disabled={modal === 'busy'}
               className="bg-primary-400 hover:bg-primary-500 inline-flex w-full justify-center rounded-md px-3 py-2 text-base font-semibold text-white shadow-sm disabled:opacity-50 sm:ml-3 sm:w-auto"
@@ -215,8 +218,8 @@ export default function ReviewForm({
               ) : (
                 reviewForms.buttons.submit
               )}
-            </button>
-            <button
+            </Button>
+            <Button
               type="button"
               className="hocus:bg-surface-200 mt-3 inline-flex w-full justify-center rounded-md bg-surface-50 px-3 py-2 text-base font-semibold text-accent-900 shadow-sm ring-1 ring-accent-300 ring-inset sm:mt-0 sm:w-auto"
               onClick={() => {
@@ -224,7 +227,7 @@ export default function ReviewForm({
               }}
             >
               {reviewForms.buttons.cancel}
-            </button>
+            </Button>
           </div>
         </form>
         <div

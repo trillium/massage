@@ -8,6 +8,9 @@ import { SlotHoldProvider } from 'hooks/SlotHoldContext'
 import { ChairAppointmentBlockProps } from '@/lib/types'
 import { H1, H2, H3 } from '@/components/ui/heading'
 
+import { Button } from '@/components/ui/button'
+import { Code } from '@/components/ui/code'
+
 // Create store instance
 const store = makeStore()
 
@@ -54,7 +57,7 @@ export default function TestDynamicFieldsPage() {
             <div className="space-y-4">
               {/* Mock time slots for testing */}
               <div className="grid grid-cols-3 gap-4">
-                <button
+                <Button
                   className="rounded-md bg-blue-600 p-3 text-white transition-colors hover:bg-blue-700"
                   onClick={() => {
                     // Mock Redux state setup for testing
@@ -80,8 +83,8 @@ export default function TestDynamicFieldsPage() {
                   }}
                 >
                   9:00 AM
-                </button>
-                <button
+                </Button>
+                <Button
                   className="rounded-md bg-blue-600 p-3 text-white transition-colors hover:bg-blue-700"
                   onClick={() => {
                     store.dispatch({
@@ -106,8 +109,8 @@ export default function TestDynamicFieldsPage() {
                   }}
                 >
                   12:00 PM
-                </button>
-                <button
+                </Button>
+                <Button
                   className="rounded-md bg-blue-600 p-3 text-white transition-colors hover:bg-blue-700"
                   onClick={() => {
                     store.dispatch({
@@ -132,7 +135,7 @@ export default function TestDynamicFieldsPage() {
                   }}
                 >
                   3:00 PM
-                </button>
+                </Button>
               </div>
             </div>
 
@@ -161,8 +164,8 @@ export default function TestDynamicFieldsPage() {
           </H3>
           <div className="space-y-2 text-sm text-blue-800">
             <p>
-              • The additional fields are controlled via boolean flags: <code>showHotelField</code>,{' '}
-              <code>showParkingField</code>, <code>showNotesField</code>
+              • The additional fields are controlled via boolean flags: <Code>showHotelField</Code>,{' '}
+              <Code>showParkingField</Code>, <Code>showNotesField</Code>
             </p>
             <p>• All form data is stored in Redux state with proper typing</p>
             <p>• Each field type has its own dedicated component</p>

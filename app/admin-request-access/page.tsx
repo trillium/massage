@@ -6,6 +6,9 @@ import { AdminAccessRequestSchema } from '@/lib/schema'
 import SectionContainer from '@/components/SectionContainer'
 import pages from '@/data/pages.json'
 
+import { Button } from '@/components/ui/button'
+import { H1 } from '@/components/ui/heading'
+
 interface FormValues {
   email: string
   requestReason: string
@@ -73,9 +76,9 @@ export default function AdminAccessRequestPage() {
     <SectionContainer>
       <div className="mx-auto max-w-2xl py-16">
         <div className="mb-8 text-center">
-          <h1 className="mb-4 text-3xl font-bold text-accent-900 dark:text-accent-100">
+          <H1 className="mb-4 text-3xl font-bold text-accent-900 dark:text-accent-100">
             {pages.adminRequestAccess.header.title}
-          </h1>
+          </H1>
           <p className="text-accent-600 dark:text-accent-400">
             {pages.adminRequestAccess.header.subtitle}
           </p>
@@ -137,7 +140,7 @@ export default function AdminAccessRequestPage() {
                   />
                 </div>
 
-                <button
+                <Button
                   type="submit"
                   disabled={isSubmitting || submitStatus.type === 'loading'}
                   className="flex w-full justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:bg-surface-400"
@@ -168,7 +171,7 @@ export default function AdminAccessRequestPage() {
                   ) : (
                     pages.adminRequestAccess.form.submitButton
                   )}
-                </button>
+                </Button>
               </Form>
             )}
           </Formik>
