@@ -4,7 +4,9 @@ import clsx from 'clsx'
 import { home } from '@/app/content'
 import landing from '@/data/landing.json'
 import { H2, H3 } from '@/components/ui/heading'
-import { TextSmMedium } from '@/components/ui/text'
+import { TextSmMedium,
+  TextBase,
+} from '@/components/ui/text'
 
 const pricingOptions = home.pricing.tiers.map((tier) => ({
   ...tier,
@@ -65,9 +67,9 @@ export default function PricingSection() {
                       data-content="pricing.tier.feature"
                     >
                       {feature}
-                      <span className="text-primary-600 absolute top-0.5 -left-1 text-xl">
+                      <TextBase as="span" className="text-primary-600 absolute top-0.5 -left-1 text-xl">
                         <FaLeaf />
-                      </span>
+                      </TextBase>
                     </li>
                   ))}
                 </ul>

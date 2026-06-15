@@ -12,6 +12,7 @@ import footer from '@/data/footer.json'
 import { H2 } from '@/components/ui/heading'
 import { TextBaseMuted,
   TextBase,
+  TextLg,
 } from '@/components/ui/text'
 
 export default function Footer() {
@@ -118,7 +119,7 @@ function CopyrightNotice() {
         <div>{` • `}</div>
         <div className="whitespace-nowrap">{`© ${new Date().getFullYear()}`}</div>
         <Link className="whitespace-nowrap" href="/">
-          <span>{` • `}</span>
+          <TextBase as="span">{` • `}</TextBase>
           {siteMetadata.title}
         </Link>
       </div>
@@ -171,7 +172,7 @@ function ContactItem({
 }) {
   return (
     <li className="flex items-start gap-3 pl-4">
-      <span className={clsx('mt-1 text-lg text-primary-400', iconClass)}>{icon}</span>
+      <TextLg as="span" className={clsx('mt-1 text-lg text-primary-400', iconClass)}>{icon}</TextLg>
       <TextBaseMuted as="div">{children}</TextBaseMuted>
     </li>
   )
@@ -197,12 +198,12 @@ const contactItems = [
     icon: <FaMapMarkerAlt />,
     content: (
       <>
-        <span className="block whitespace-nowrap" data-content="footer.locationLine1">
+        <TextBase as="span" className="block whitespace-nowrap" data-content="footer.locationLine1">
           {home.footer.locationLine1}
-        </span>{' '}
-        <span className="block whitespace-nowrap" data-content="footer.locationLine2">
+        </TextBase>{' '}
+        <TextBase as="span" className="block whitespace-nowrap" data-content="footer.locationLine2">
           {home.footer.locationLine2}
-        </span>
+        </TextBase>
       </>
     ),
   },
@@ -214,8 +215,8 @@ const contactItems = [
         classes="group outline-transparent"
       >
         <div className="group-focus-within:outline-primary-500 inline-block rounded-md outline-2 outline-offset-2 outline-transparent hover:text-white">
-          <span className="block">{footer.contact.phone.label}</span>{' '}
-          <span className="block">{footer.contact.phone.cta}</span>
+          <TextBase as="span" className="block">{footer.contact.phone.label}</TextBase>{' '}
+          <TextBase as="span" className="block">{footer.contact.phone.cta}</TextBase>
         </div>
       </Link>
     ),

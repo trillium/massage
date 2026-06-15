@@ -117,7 +117,7 @@ function CardItem({
 }) {
   return (
     <TextLg className="flex flex-row items-baseline bg-none pl-4 text-lg font-semibold text-accent-700 dark:text-accent-300">
-      <span
+      <TextSm as="span"
         className={clsx(
           'text-primary-500 dark:text-primary-400 inline-block min-w-24 text-sm tracking-wide uppercase',
           { 'font-bold': emphasize }
@@ -125,8 +125,8 @@ function CardItem({
       >
         {title}
         {ui.bookedCard.titleSeparator}
-      </span>
-      <span className={clsx({ 'text-lg font-bold': emphasize })}>{text}</span>
+      </TextSm>
+      <TextLg as="span" className={clsx({ 'text-lg font-bold': emphasize })}>{text}</TextLg>
     </TextLg>
   )
 }

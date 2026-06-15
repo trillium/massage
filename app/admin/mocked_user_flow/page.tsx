@@ -11,7 +11,9 @@ import DebugData from './components/DebugData'
 import ConfigurationTester from 'components/admin/ConfigurationTester'
 import { useMockedUserFlow } from './hooks/useMockedUserFlow'
 import SectionContainer from '@/components/SectionContainer'
-import { TextSmMuted } from '@/components/ui/text'
+import { TextSmMuted,
+  TextBase,
+} from '@/components/ui/text'
 
 import { Button } from '@/components/ui/button'
 
@@ -35,9 +37,9 @@ export default function MockedUserFlowPage() {
         <div className="mx-auto max-w-4xl px-4">
           <nav className="sticky top-0 z-20 mb-8 flex items-center justify-between rounded bg-surface-200 px-6 py-4 shadow dark:bg-surface-800">
             <div className="flex items-center gap-4">
-              <span className="text-xl font-bold text-accent-900 dark:text-accent-100">
+              <TextBase as="span" className="text-xl font-bold text-accent-900 dark:text-accent-100">
                 Mocked User Flow - Admin
-              </span>
+              </TextBase>
               <TextSmMuted className="hidden md:inline">
                 Simulates the entire booking flow (no emails or calendar events)
               </TextSmMuted>

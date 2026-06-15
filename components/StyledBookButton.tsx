@@ -57,7 +57,7 @@ export default function StyledBookButton({
           </svg>
         </div>
       </div>
-      <span className={`z-0 pr-2 text-xl font-bold ${style.text}`}>{text}</span>
+      <TextBase as="span" className={`z-0 pr-2 text-xl font-bold ${style.text}`}>{text}</TextBase>
     </>
   )
 

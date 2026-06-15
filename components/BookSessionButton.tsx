@@ -1,5 +1,7 @@
 import Link from '@/components/Link'
 
+import { TextBase } from '@/components/ui/text'
+
 interface BookSessionButtonProps {
   href: string // href must be a string within headerNavLinks { href: __THIS__ }
   title: string
@@ -30,9 +32,9 @@ const BookSessionButton: React.FC<BookSessionButtonProps> = ({ href, title }) =>
         </svg>
       </div>
     </div>
-    <span className="text-accent-950 z-0 pr-2 text-xl font-bold group-hover:text-white dark:text-white">
+    <TextBase as="span" className="text-accent-950 z-0 pr-2 text-xl font-bold group-hover:text-white dark:text-white">
       {title}
-    </span>
+    </TextBase>
   </Link>
 )
 
