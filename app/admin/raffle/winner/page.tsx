@@ -1,41 +1,26 @@
 import Link from 'next/link'
 import { getSupabaseAdminClient } from '@/lib/supabase/server'
+import { getMostRecentDrawnRaffle, getEntriesByRaffle } from '@/lib/raffle'
 import { WinnerMessages } from './WinnerMessages'
 import { H1 } from '@/components/ui/heading'
 import { TextSmMuted } from '@/components/ui/text'
 import { Box } from '@/components/ui/box'
 import { Stack } from '@/components/ui/stack'
 
-interface RaffleEntry {
-  id: string
-  name: string
-  email: string
-  phone: string
-  zip_code: string | null
-  interested_in: string[]
-  is_winner: boolean
-  excluded: boolean
-  sms_sent_at: string | null
-}
-
-interface Raffle {
-  id: string
-  name: string
-  expiration_date: string | null
-}
-
 export default async function RaffleWinnerPage() {
   const supabase = getSupabaseAdminClient()
+  if (!supabase) {
+    return (
+      <Box className="py-4">
+        <H1 className="mb-6">{'Raffle Winner'}</H1>
+        <TextSmMuted>{'Database unavailable.'}</TextSmMuted>
+      </Box>
+    )
+  }
 
-  const { data: raffleData } = await supabase!
-    .from('raffles' as never)
-    .select('id, name, expiration_date')
-    .eq('status', 'drawn')
-    .order('created_at', { ascending: false })
-    .limit(1)
-    .single()
+  const raffle = await getMostRecentDrawnRaffle(supabase)
 
-  if (!raffleData) {
+  if (!raffle) {
     return (
       <Box className="py-4">
         <H1 className="mb-6">{'Raffle Winner'}</H1>
@@ -49,14 +34,7 @@ export default async function RaffleWinnerPage() {
     )
   }
 
-  const raffle = raffleData as Raffle
-
-  const { data: entriesData } = await supabase!
-    .from('raffle_entries' as never)
-    .select('*')
-    .eq('raffle_id', raffle.id)
-
-  const entries = (entriesData ?? []) as RaffleEntry[]
+  const entries = await getEntriesByRaffle(supabase, raffle.id)
   const winner = entries.find((e) => e.is_winner) ?? null
   const nonWinners = entries.filter((e) => !e.is_winner && !e.excluded)
 
