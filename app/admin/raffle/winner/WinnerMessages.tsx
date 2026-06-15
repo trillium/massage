@@ -4,6 +4,7 @@ import { useState } from 'react'
 import {
   type Entry,
   type RaffleVars,
+  type SlugOption,
   DEFAULT_WINNER_TEMPLATE,
   DEFAULT_NON_WINNER_TEMPLATE,
   capitalizeName,
@@ -31,6 +32,7 @@ interface WinnerMessagesProps {
   savedUpgradeMinutes: number
   savedBookingLink: string | null
   expirationDate: string | null
+  slugOptions: SlugOption[]
 }
 
 function WinnerCard({
@@ -53,7 +55,9 @@ function WinnerCard({
   noExpiration: boolean
 }) {
   return (
-    <Box className="rounded-lg border border-yellow-300 bg-yellow-50 p-6 dark:border-yellow-700 dark:bg-yellow-900/20">
+    <Box // ds-ignore - winner card; yellow bg has no Box variant
+      className="rounded-lg border border-yellow-300 bg-yellow-50 p-6 dark:border-yellow-700 dark:bg-yellow-900/20"
+    >
       <Stack direction="row" align="center" justify="between" className="mb-4">
         <H2 status="warning">{'Winner'}</H2>
         <label className="flex items-center gap-2 text-sm text-yellow-800 dark:text-yellow-200">
@@ -136,6 +140,7 @@ export function WinnerMessages({
   savedUpgradeMinutes,
   savedBookingLink,
   expirationDate,
+  slugOptions,
 }: WinnerMessagesProps) {
   const [winnerTemplate, setWinnerTemplate] = useState(
     savedWinnerTemplate ?? DEFAULT_WINNER_TEMPLATE
@@ -260,6 +265,7 @@ export function WinnerMessages({
           <TemplateVarsPanel
             upgradeMinutes={upgradeMinutes}
             bookingLink={bookingLink}
+            slugOptions={slugOptions}
             onUpgradeMinutesChange={handleUpgradeMinutesChange}
             onBookingLinkChange={handleBookingLinkChange}
           />
@@ -286,7 +292,9 @@ export function WinnerMessages({
         noExpiration={!expirationDate}
       />
 
-      <Box className="rounded-lg border border-accent-200 bg-surface-50 p-6 dark:border-accent-700 dark:bg-surface-800">
+      <Box // ds-ignore - panel card; bg-surface-50 has no Box variant
+        className="rounded-lg border border-accent-200 bg-surface-50 p-6 dark:border-accent-700 dark:bg-surface-800"
+      >
         <H2 className="mb-4">
           {`Non-Winners (${nonWinners.length})`}
           {sentCount > 0 && <TextSmMuted className="ml-2">{`· ${sentCount} sent`}</TextSmMuted>}

@@ -1,12 +1,14 @@
 import Link from 'next/link'
 import { getSupabaseAdminClient } from '@/lib/supabase/server'
 import { listRaffles, getEntriesByRaffle } from '@/lib/raffle'
+import { fetchSlugConfigurationData } from '@/lib/slugConfigurations/fetchSlugConfigurationData'
 import { WinnerMessages } from './WinnerMessages'
 import { RaffleSelector } from '../RaffleSelector'
 import { H1 } from '@/components/ui/heading'
 import { TextSmMuted } from '@/components/ui/text'
 import { Box } from '@/components/ui/box'
 import { Stack } from '@/components/ui/stack'
+import type { SlugOption } from './WinnerMessageComponents'
 
 export default async function RaffleWinnerPage({
   searchParams,
@@ -25,7 +27,18 @@ export default async function RaffleWinnerPage({
     )
   }
 
-  const allRaffles = await listRaffles(supabase)
+  const [allRaffles, slugConfigMap] = await Promise.all([
+    listRaffles(supabase),
+    fetchSlugConfigurationData(),
+  ])
+
+  const slugOptions: SlugOption[] = Object.entries(slugConfigMap)
+    .map(([slug, config]) => ({
+      slug,
+      title: typeof config.title === 'string' ? config.title : slug,
+      durationBonus: config.durationBonus ?? null,
+    }))
+    .sort((a, b) => a.slug.localeCompare(b.slug))
 
   if (allRaffles.length === 0) {
     return (
@@ -95,6 +108,7 @@ export default async function RaffleWinnerPage({
             savedNonWinnerTemplate={raffle.sms_template_non_winner}
             savedUpgradeMinutes={raffle.upgrade_minutes}
             savedBookingLink={raffle.booking_link}
+            slugOptions={slugOptions}
           />
         </>
       )}

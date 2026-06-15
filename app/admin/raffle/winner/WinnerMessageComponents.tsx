@@ -2,7 +2,7 @@
 
 import { toast } from 'sonner'
 import { RAFFLE_INTEREST_LABELS } from '@/lib/schema'
-import { TextSm, TextSmMedium, TextBase } from '@/components/ui/text'
+import { TextSm, TextSmMedium, TextSmSemibold, TextBaseMedium } from '@/components/ui/text'
 import { Button } from '@/components/ui/button'
 import { Box } from '@/components/ui/box'
 import { Stack } from '@/components/ui/stack'
@@ -19,6 +19,12 @@ export interface Entry {
   interested_in: string[]
   is_winner: boolean
   sms_sent_at: string | null
+}
+
+export interface SlugOption {
+  slug: string
+  title: string
+  durationBonus: number | null
 }
 
 export interface RaffleVars {
@@ -96,8 +102,8 @@ export function CopyButton({
 
 export function EntryDetails({ entry }: { entry: Entry }) {
   return (
-    <Stack gap={1} className="text-sm">
-      <TextSm className="font-semibold">{entry.name}</TextSm>
+    <Stack gap={1}>
+      <TextSmSemibold>{entry.name}</TextSmSemibold>
       <TextSm status="muted">{entry.email}</TextSm>
       <TextSm status="muted">{entry.phone}</TextSm>
       {entry.zip_code && <TextSm status="muted">{`Zip: ${entry.zip_code}`}</TextSm>}
@@ -165,17 +171,28 @@ export function EditableMessage({
 export function TemplateVarsPanel({
   upgradeMinutes,
   bookingLink,
+  slugOptions,
   onUpgradeMinutesChange,
   onBookingLinkChange,
 }: {
   upgradeMinutes: number
   bookingLink: string
+  slugOptions: SlugOption[]
   onUpgradeMinutesChange: (v: number) => void
   onBookingLinkChange: (v: string) => void
 }) {
+  function handleSlugSelect(e: React.ChangeEvent<HTMLInputElement>) {
+    const slug = e.target.value
+    const match = slugOptions.find((o) => o.slug === slug)
+    if (!match) return
+    if (match.durationBonus != null) onUpgradeMinutesChange(match.durationBonus)
+    onBookingLinkChange(`https://trilliummassage.la/${slug}`)
+  }
   return (
-    <Box className="rounded-lg border border-accent-200 bg-surface-50 p-6 dark:border-accent-700 dark:bg-surface-800">
-      <TextBase className="mb-4 font-semibold">{'Template Variables'}</TextBase>
+    <Box // ds-ignore - card with custom bg-surface-50 palette; no Box variant for this
+      className="rounded-lg border border-accent-200 bg-surface-50 p-6 dark:border-accent-700 dark:bg-surface-800"
+    >
+      <TextBaseMedium className="mb-4">{'Template Variables'}</TextBaseMedium>
 
       <Stack gap={4}>
         <Box>
@@ -189,7 +206,11 @@ export function TemplateVarsPanel({
                 size="sm"
                 onClick={() => copyToClipboard(key, key)}
               >
-                <Code className="font-semibold text-primary-600 dark:text-primary-400">{key}</Code>
+                <Code // ds-ignore - Code has no color variant; primary color is intentional for var tokens
+                  className="font-semibold text-primary-600 dark:text-primary-400"
+                >
+                  {key}
+                </Code>
                 <TextSm as="span" status="muted" className="ml-1.5">
                   {desc}
                 </TextSm>
@@ -200,25 +221,44 @@ export function TemplateVarsPanel({
 
         <Box>
           <TextSmMedium className="mb-2 block">{'Raffle values'}</TextSmMedium>
-          <Stack direction="row" gap={3} align="end">
-            <Box className="w-32">
+          <Stack gap={3}>
+            <Box>
               <Input
-                label="Upgrade minutes"
-                type="number"
-                min={1}
-                value={upgradeMinutes}
-                onChange={(e) => onUpgradeMinutesChange(Number(e.target.value))}
+                label="Match slug (auto-fills minutes + link)"
+                list="slug-options"
+                placeholder="e.g. overtime-appreciation"
+                onChange={handleSlugSelect}
               />
+              <datalist id="slug-options">
+                {slugOptions.map((opt) => (
+                  <option key={opt.slug} value={opt.slug}>
+                    {opt.durationBonus != null
+                      ? `${opt.title} (+${opt.durationBonus} min)`
+                      : opt.title}
+                  </option>
+                ))}
+              </datalist>
             </Box>
-            <Box className="flex-1">
-              <Input
-                label="Booking link"
-                type="url"
-                value={bookingLink}
-                onChange={(e) => onBookingLinkChange(e.target.value)}
-                placeholder="https://trilliummassage.la/..."
-              />
-            </Box>
+            <Stack direction="row" gap={3} align="end">
+              <Box className="w-32">
+                <Input
+                  label="Upgrade minutes"
+                  type="number"
+                  min={1}
+                  value={upgradeMinutes}
+                  onChange={(e) => onUpgradeMinutesChange(Number(e.target.value))}
+                />
+              </Box>
+              <Box className="flex-1">
+                <Input
+                  label="Booking link"
+                  type="url"
+                  value={bookingLink}
+                  onChange={(e) => onBookingLinkChange(e.target.value)}
+                  placeholder="https://trilliummassage.la/..."
+                />
+              </Box>
+            </Stack>
           </Stack>
         </Box>
       </Stack>
