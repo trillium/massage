@@ -2,7 +2,14 @@
 
 import { toast } from 'sonner'
 import { RAFFLE_INTEREST_LABELS } from '@/lib/schema'
-import { TextSm, TextSmMedium, TextSmSemibold, TextBaseMedium } from '@/components/ui/text'
+import {
+  TextSm,
+  TextSmMedium,
+  TextSmSemibold,
+  TextBaseMedium,
+  TextXsMuted,
+  TextXs,
+} from '@/components/ui/text'
 import { Button } from '@/components/ui/button'
 import { Box } from '@/components/ui/box'
 import { Stack } from '@/components/ui/stack'
@@ -67,16 +74,134 @@ export function capitalizeName(name: string) {
   return name.split(' ').map(capitalize).join(' ')
 }
 
-export function resolveTemplate(template: string, entry: Entry, raffleVars: RaffleVars) {
-  const expirationStr = raffleVars.expiration ? formatExpiration(raffleVars.expiration) : 'TBD'
-  return template
-    .replace(/\{firstName\}/g, capitalize(entry.name.split(' ')[0]))
-    .replace(/\{name\}/g, capitalizeName(entry.name))
-    .replace(/\{email\}/g, entry.email)
-    .replace(/\{phone\}/g, entry.phone)
-    .replace(/\{expiration\}/g, expirationStr)
-    .replace(/\{upgradeMinutes\}/g, String(raffleVars.upgradeMinutes))
-    .replace(/\{bookingLink\}/g, raffleVars.bookingLink)
+export type VarOverrides = Record<string, string>
+
+function defaultResolveVar(varName: string, entry: Entry, raffleVars: RaffleVars): string {
+  const firstName = entry.name.split(' ')[0]
+  switch (varName) {
+    case '{firstName}':
+      return capitalize(firstName)
+    case '{name}':
+      return capitalizeName(entry.name)
+    case '{email}':
+      return entry.email
+    case '{phone}':
+      return entry.phone
+    case '{expiration}':
+      return raffleVars.expiration ? formatExpiration(raffleVars.expiration) : 'TBD'
+    case '{upgradeMinutes}':
+      return String(raffleVars.upgradeMinutes)
+    case '{bookingLink}':
+      return raffleVars.bookingLink
+    default:
+      return varName
+  }
+}
+
+function resolveVar(
+  varName: string,
+  entry: Entry,
+  raffleVars: RaffleVars,
+  overrides?: VarOverrides
+): string {
+  return overrides?.[varName] !== undefined
+    ? overrides[varName]
+    : defaultResolveVar(varName, entry, raffleVars)
+}
+
+export function getTemplateVars(template: string): string[] {
+  const seen = new Set<string>()
+  const result: string[] = []
+  for (const m of template.matchAll(/\{(\w+)\}/g)) {
+    const v = `{${m[1]}}`
+    if (!seen.has(v)) {
+      seen.add(v)
+      result.push(v)
+    }
+  }
+  return result
+}
+
+export function getVarVariants(varName: string, entry: Entry): { label: string; value: string }[] {
+  if (varName === '{firstName}') {
+    const raw = entry.name.split(' ')[0]
+    const seen = new Set<string>()
+    return [
+      { label: capitalize(raw), value: capitalize(raw) },
+      { label: raw, value: raw },
+      { label: raw.toUpperCase(), value: raw.toUpperCase() },
+    ].filter((v) => {
+      if (seen.has(v.value)) return false
+      seen.add(v.value)
+      return true
+    })
+  }
+  if (varName === '{name}') {
+    const titled = capitalizeName(entry.name)
+    if (titled === entry.name) return []
+    return [
+      { label: titled, value: titled },
+      { label: entry.name, value: entry.name },
+    ]
+  }
+  return []
+}
+
+export function resolveTemplate(
+  template: string,
+  entry: Entry,
+  raffleVars: RaffleVars,
+  varOverrides?: VarOverrides
+) {
+  return template.replace(/\{(\w+)\}/g, (match) =>
+    resolveVar(match, entry, raffleVars, varOverrides)
+  )
+}
+
+export function EntryVarPanel({
+  template,
+  entry,
+  raffleVars,
+  varOverrides,
+  onVarOverride,
+}: {
+  template: string
+  entry: Entry
+  raffleVars: RaffleVars
+  varOverrides: VarOverrides
+  onVarOverride: (varName: string, value: string) => void
+}) {
+  const vars = getTemplateVars(template)
+  return (
+    <Stack direction="row" wrap gap={2} className="mt-1">
+      {vars.map((varName) => {
+        const current = resolveVar(varName, entry, raffleVars, varOverrides)
+        const variants = getVarVariants(varName, entry)
+        return (
+          <Stack key={varName} direction="row" align="center" gap={1}>
+            <TextXsMuted>{`${varName}:`}</TextXsMuted>
+            {variants.length > 1 ? (
+              variants.map((v) => (
+                <Button
+                  key={v.value}
+                  type="button"
+                  size="sm"
+                  variant={v.value === current ? 'default' : 'outline'}
+                  onClick={() => onVarOverride(varName, v.value)}
+                >
+                  {v.label}
+                </Button>
+              ))
+            ) : (
+              <TextXs status="muted" className="max-w-32 truncate">
+                {current}
+              </TextXs>
+            )}
+          </Stack>
+        )
+      })}
+    </Stack>
+  )
 }
 
 function copyToClipboard(text: string, label: string) {
@@ -189,9 +314,7 @@ export function TemplateVarsPanel({
     onBookingLinkChange(`https://trilliummassage.la/${slug}`)
   }
   return (
-    <Box // ds-ignore - card with custom bg-surface-50 palette; no Box variant for this
-      className="rounded-lg border border-accent-200 bg-surface-50 p-6 dark:border-accent-700 dark:bg-surface-800"
-    >
+    <Box variant="card">
       <TextBaseMedium className="mb-4">{'Template Variables'}</TextBaseMedium>
 
       <Stack gap={4}>

@@ -5,12 +5,14 @@ import {
   type Entry,
   type RaffleVars,
   type SlugOption,
+  type VarOverrides,
   DEFAULT_WINNER_TEMPLATE,
   DEFAULT_NON_WINNER_TEMPLATE,
   capitalizeName,
   resolveTemplate,
   CopyButton,
   EntryDetails,
+  EntryVarPanel,
   TemplateEditor,
   EditableMessage,
   TemplateVarsPanel,
@@ -55,9 +57,7 @@ function WinnerCard({
   noExpiration: boolean
 }) {
   return (
-    <Box // ds-ignore - winner card; yellow bg has no Box variant
-      className="rounded-lg border border-yellow-300 bg-yellow-50 p-6 dark:border-yellow-700 dark:bg-yellow-900/20"
-    >
+    <Box variant="card-warning">
       <Stack direction="row" align="center" justify="between" className="mb-4">
         <H2 status="warning">{'Winner'}</H2>
         <label className="flex items-center gap-2 text-sm text-yellow-800 dark:text-yellow-200">
@@ -93,16 +93,24 @@ function NonWinnerCard({
   onToggleSmsSent,
   resolvedMessage,
   onMessageOverride,
+  template,
+  raffleVars,
+  varOverrides,
+  onVarOverride,
 }: {
   entry: Entry
   smsSent: boolean
   onToggleSmsSent: () => void
   resolvedMessage: string
   onMessageOverride: (v: string) => void
+  template: string
+  raffleVars: RaffleVars
+  varOverrides: VarOverrides
+  onVarOverride: (varName: string, value: string) => void
 }) {
   return (
     <Box className="rounded-lg border border-accent-100 p-4 dark:border-accent-800">
-      <Stack direction="row" align="center" justify="between" className="mb-2">
+      <Stack direction="row" align="center" justify="between" className="mb-1">
         <label className="flex items-center gap-2">
           <input // ds-ignore - checkbox; Input is for text fields
             type="checkbox"
@@ -121,11 +129,20 @@ function NonWinnerCard({
           </CopyButton>
         </span>
       </Stack>
-      <EditableMessage
-        message={resolvedMessage}
-        onChange={onMessageOverride}
-        label={`SMS for ${entry.name.split(' ')[0]}`}
+      <EntryVarPanel
+        template={template}
+        entry={entry}
+        raffleVars={raffleVars}
+        varOverrides={varOverrides}
+        onVarOverride={onVarOverride}
       />
+      <Box className="mt-2">
+        <EditableMessage
+          message={resolvedMessage}
+          onChange={onMessageOverride}
+          label={`SMS for ${entry.name.split(' ')[0]}`}
+        />
+      </Box>
     </Box>
   )
 }
@@ -153,6 +170,7 @@ export function WinnerMessages({
     savedBookingLink ?? 'https://trilliummassage.la/book'
   )
   const [overrides, setOverrides] = useState<Record<string, string>>({})
+  const [entryVarOverrides, setEntryVarOverrides] = useState<Record<string, VarOverrides>>({})
   const [smsSent, setSmsSent] = useState<Record<string, boolean>>(() => {
     const init: Record<string, boolean> = {}
     if (winner.sms_sent_at) init[winner.id] = true
@@ -165,7 +183,19 @@ export function WinnerMessages({
   function getResolvedMessage(entryId: string, template: string, entry: Entry) {
     return overrides[entryId] !== undefined
       ? overrides[entryId]
-      : resolveTemplate(template, entry, raffleVars)
+      : resolveTemplate(template, entry, raffleVars, entryVarOverrides[entryId])
+  }
+
+  function handleVarOverride(entryId: string, varName: string, value: string) {
+    setEntryVarOverrides((prev) => ({
+      ...prev,
+      [entryId]: { ...(prev[entryId] ?? {}), [varName]: value },
+    }))
+    setOverrides((prev) => {
+      const next = { ...prev }
+      delete next[entryId]
+      return next
+    })
   }
 
   function setOverride(entryId: string, value: string) {
@@ -292,9 +322,7 @@ export function WinnerMessages({
         noExpiration={!expirationDate}
       />
 
-      <Box // ds-ignore - panel card; bg-surface-50 has no Box variant
-        className="rounded-lg border border-accent-200 bg-surface-50 p-6 dark:border-accent-700 dark:bg-surface-800"
-      >
+      <Box variant="card">
         <H2 className="mb-4">
           {`Non-Winners (${nonWinners.length})`}
           {sentCount > 0 && <TextSmMuted className="ml-2">{`· ${sentCount} sent`}</TextSmMuted>}
@@ -316,6 +344,10 @@ export function WinnerMessages({
                 onToggleSmsSent={() => toggleSmsSent(entry)}
                 resolvedMessage={getResolvedMessage(entry.id, nonWinnerTemplate, entry)}
                 onMessageOverride={(v) => setOverride(entry.id, v)}
+                template={nonWinnerTemplate}
+                raffleVars={raffleVars}
+                varOverrides={entryVarOverrides[entry.id] ?? {}}
+                onVarOverride={(varName, value) => handleVarOverride(entry.id, varName, value)}
               />
             ))
           )}
