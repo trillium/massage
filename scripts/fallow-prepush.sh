@@ -12,6 +12,9 @@ fi
 if [ -f .fallow/dupes-baseline.json ]; then
   BASELINE_FLAGS="$BASELINE_FLAGS --dupes-baseline .fallow/dupes-baseline.json"
 fi
+if [ -f .fallow/health-baseline.json ]; then
+  BASELINE_FLAGS="$BASELINE_FLAGS --health-baseline .fallow/health-baseline.json"
+fi
 
 if ! command -v fallow &>/dev/null; then
   if command -v npx &>/dev/null; then
