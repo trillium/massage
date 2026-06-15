@@ -8,6 +8,8 @@ const UpdateRaffleSchema = z.object({
   is_active: z.boolean().optional(),
   status: z.string().optional(),
   clear_winner: z.boolean().optional(),
+  sms_template_winner: z.string().nullable().optional(),
+  sms_template_non_winner: z.string().nullable().optional(),
 })
 
 export async function PATCH(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
@@ -47,6 +49,10 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
       updateFields.status = 'open'
       updateFields.drawn_at = null
     }
+    if (parsed.data.sms_template_winner !== undefined)
+      updateFields.sms_template_winner = parsed.data.sms_template_winner
+    if (parsed.data.sms_template_non_winner !== undefined)
+      updateFields.sms_template_non_winner = parsed.data.sms_template_non_winner
 
     const raffle = await updateRaffle(supabase, id, updateFields)
     return NextResponse.json({ raffle })

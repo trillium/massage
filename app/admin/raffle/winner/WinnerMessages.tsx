@@ -25,6 +25,9 @@ interface WinnerMessagesProps {
   nonWinners: Entry[]
   expirationDate: string | null
   raffleName: string
+  raffleId: string
+  savedWinnerTemplate: string | null
+  savedNonWinnerTemplate: string | null
 }
 
 function WinnerCard({
@@ -125,9 +128,16 @@ export function WinnerMessages({
   nonWinners,
   expirationDate,
   raffleName,
+  raffleId,
+  savedWinnerTemplate,
+  savedNonWinnerTemplate,
 }: WinnerMessagesProps) {
-  const [winnerTemplate, setWinnerTemplate] = useState(DEFAULT_WINNER_TEMPLATE)
-  const [nonWinnerTemplate, setNonWinnerTemplate] = useState(DEFAULT_NON_WINNER_TEMPLATE)
+  const [winnerTemplate, setWinnerTemplate] = useState(
+    savedWinnerTemplate ?? DEFAULT_WINNER_TEMPLATE
+  )
+  const [nonWinnerTemplate, setNonWinnerTemplate] = useState(
+    savedNonWinnerTemplate ?? DEFAULT_NON_WINNER_TEMPLATE
+  )
   const [overrides, setOverrides] = useState<Record<string, string>>({})
   const [smsSent, setSmsSent] = useState<Record<string, boolean>>(() => {
     const init: Record<string, boolean> = {}
@@ -160,9 +170,18 @@ export function WinnerMessages({
     }
   }
 
-  function handleTemplateChange(setter: (v: string) => void, value: string) {
+  async function handleTemplateChange(
+    field: 'sms_template_winner' | 'sms_template_non_winner',
+    setter: (v: string) => void,
+    value: string
+  ) {
     setter(value)
     setOverrides({})
+    await adminFetch(`/api/admin/raffle/${raffleId}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ [field]: value }),
+    })
   }
 
   function exportJson() {
@@ -223,7 +242,7 @@ export function WinnerMessages({
         smsSent={smsSent[winner.id] ?? false}
         onToggleSmsSent={() => toggleSmsSent(winner)}
         winnerTemplate={winnerTemplate}
-        onTemplateChange={(v) => handleTemplateChange(setWinnerTemplate, v)}
+        onTemplateChange={(v) => handleTemplateChange('sms_template_winner', setWinnerTemplate, v)}
         resolvedMessage={getResolvedMessage(winner.id, winnerTemplate, winner)}
         onMessageOverride={(v) => setOverride(winner.id, v)}
         expirationDate={expirationDate}
@@ -237,7 +256,7 @@ export function WinnerMessages({
         <TemplateEditor
           label="Non-Winner SMS Template"
           template={nonWinnerTemplate}
-          onChange={(v) => handleTemplateChange(setNonWinnerTemplate, v)}
+          onChange={(v) => handleTemplateChange('sms_template_non_winner', setNonWinnerTemplate, v)}
         />
         <Stack gap={4} className="mt-4">
           {nonWinners.length === 0 ? (

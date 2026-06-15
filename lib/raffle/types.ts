@@ -6,6 +6,8 @@ export type Raffle = {
   created_at: string
   drawn_at: string | null
   expiration_date: string | null
+  sms_template_winner: string | null
+  sms_template_non_winner: string | null
 }
 
 export type RaffleEntry = {

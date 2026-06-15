@@ -90,6 +90,9 @@ export default async function RaffleWinnerPage({
             nonWinners={nonWinners}
             expirationDate={raffle.expiration_date}
             raffleName={raffle.name}
+            raffleId={raffle.id}
+            savedWinnerTemplate={raffle.sms_template_winner}
+            savedNonWinnerTemplate={raffle.sms_template_non_winner}
           />
         </>
       )}
