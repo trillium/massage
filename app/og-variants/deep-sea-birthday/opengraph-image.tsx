@@ -86,7 +86,6 @@ export default async function Image() {
           paddingTop: 56,
           paddingBottom: 56,
           position: 'relative',
-          zIndex: 2,
         }}
       >
         {/* Eyebrow — bioluminescent teal */}

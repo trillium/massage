@@ -178,7 +178,6 @@ export default async function Image() {
             width: 120,
             height: 630,
             background: 'linear-gradient(to right, #0f0e0d 0%, transparent 100%)',
-            zIndex: 1,
           }}
         />
 
@@ -192,7 +191,6 @@ export default async function Image() {
             width: 3,
             height: 630,
             background: '#c9a84c',
-            zIndex: 2,
           }}
         />
 

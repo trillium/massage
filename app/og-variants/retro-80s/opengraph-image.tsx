@@ -46,7 +46,6 @@ export default async function Image() {
           display: 'flex',
           background:
             'repeating-linear-gradient(0deg, rgba(0,0,0,0.12) 0px, rgba(0,0,0,0.12) 1px, transparent 1px, transparent 4px)',
-          zIndex: 1,
         }}
       />
 
@@ -62,7 +61,6 @@ export default async function Image() {
           paddingTop: 60,
           paddingBottom: 40,
           position: 'relative',
-          zIndex: 3,
         }}
       >
         {/* Three horizontal stripes near top */}
@@ -206,7 +204,6 @@ export default async function Image() {
             height: 630,
             display: 'flex',
             background: 'rgba(80,0,160,0.4)',
-            zIndex: 2,
           }}
         />
 
@@ -220,7 +217,6 @@ export default async function Image() {
             height: 630,
             display: 'flex',
             background: '#ff00aa',
-            zIndex: 3,
           }}
         />
 
@@ -233,7 +229,6 @@ export default async function Image() {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'flex-end',
-            zIndex: 4,
           }}
         >
           <div
@@ -267,7 +262,6 @@ export default async function Image() {
           display: 'flex',
           background: 'rgba(0,255,255,0.08)',
           borderRadius: 130,
-          zIndex: 2,
         }}
       />
     </div>,

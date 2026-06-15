@@ -213,7 +213,6 @@ export default async function Image() {
             width: 80,
             height: 630,
             background: 'linear-gradient(to right, #1c1c1c, transparent)',
-            zIndex: 2,
           }}
         />
         <img src={tableImg} width={380} height={630} alt="" aria-hidden="true" />
