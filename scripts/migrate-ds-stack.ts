@@ -1,4 +1,9 @@
 #!/usr/bin/env bun
+/**
+ * @deprecated Use migrate-ds-stack-ast.ts instead — this regex version misses
+ * clsx() containers, responsive variant detection, and remaining-class
+ * pass-through that the AST version handles.
+ */
 import { ensureImports } from './lib/imports'
 
 /**
@@ -13,6 +18,8 @@ import { ensureImports } from './lib/imports'
  *   - Responsive variant patterns (sm:flex-row, etc.)
  *   - inline-flex containers (Stack is block-level)
  *   - gap values not in gapMap (0, 0.5, px, arbitrary)
+ *
+ * ⚠ DEPRECATED: Use migrate-ds-stack-ast.ts instead.
  */
 
 interface Violation {

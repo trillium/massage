@@ -14,15 +14,15 @@ check-design-system.ts  →  verify clean (runs in lint-staged)
 
 ## Scripts
 
-| Script | Approach | What it migrates | Input |
-|--------|----------|-----------------|-------|
-| `migrate-ds-elements.ts` | ts-morph AST | `<p>`, `<h1–h4>`, `<code>` → DS equivalents | Filesystem scan (app/, components/) |
-| `migrate-ds-stack-ast.ts` | TypeScript compiler API | `<div className="flex ...">` → `<Stack>` with prop extraction | Explicit file list CLI args |
-| `migrate-ds-stack.ts` | Regex + line-by-line | Same as ast version, line+excerpt from audit JSON | stdin (audit JSON pipe) |
-| `migrate-ds-text.ts` | Regex + tag-stack | `<p>` → `<Text>` variants (TextBase/Sm/Xs/Lg) | stdin (audit JSON pipe) |
-| `migrate-ds-spans.ts` | Regex + tag-stack | `<span>` → `<Text as="span">` (same variant detection) | stdin (audit JSON pipe) |
-| `migrate-ds-box.ts` | Regex + tag-stack | Bare `<div>` (no attrs) → `<Box>`, pairs closes via stack | stdin (audit JSON pipe) |
-| `migrate-text-variants.ts` | Regex + partition | `<p className="text-sm font-bold">` → `<TextSmBold>` | Filesystem scan (app/, components/) |
+| Script                     | Approach                | What it migrates                                              | Input                               |
+| -------------------------- | ----------------------- | ------------------------------------------------------------- | ----------------------------------- |
+| `migrate-ds-elements.ts`   | ts-morph AST            | `<p>`, `<h1–h4>`, `<code>` → DS equivalents                   | Filesystem scan (app/, components/) |
+| `migrate-ds-stack-ast.ts`  | TypeScript compiler API | `<div className="flex ...">` → `<Stack>` with prop extraction | Explicit file list CLI args         |
+| `migrate-ds-stack.ts`      | Regex + line-by-line    | Same as ast version, line+excerpt from audit JSON             | stdin (audit JSON pipe)             |
+| `migrate-ds-text.ts`       | Regex + tag-stack       | `<p>` → `<Text>` variants (TextBase/Sm/Xs/Lg)                 | stdin (audit JSON pipe)             |
+| `migrate-ds-spans.ts`      | Regex + tag-stack       | `<span>` → `<Text as="span">` (same variant detection)        | stdin (audit JSON pipe)             |
+| `migrate-ds-box.ts`        | Regex + tag-stack       | Bare `<div>` (no attrs) → `<Box>`, pairs closes via stack     | stdin (audit JSON pipe)             |
+| `migrate-text-variants.ts` | Regex + partition       | `<p className="text-sm font-bold">` → `<TextSmBold>`          | Filesystem scan (app/, components/) |
 
 ### Notes by script
 
@@ -34,7 +34,7 @@ check-design-system.ts  →  verify clean (runs in lint-staged)
 
 **`migrate-ds-text.ts`** / **`migrate-ds-spans.ts`** — character-level tag scanning (not regex) to avoid false matches in template literals. Detect variant from className (`text-xs` → `TextXs`, etc.). Maintain a variant stack to emit matching close tags. Import merging: if an existing `@/components/ui/text` import exists, merges new names into it (single-line and multi-line forms).
 
-**`migrate-ds-box.ts`** — two-tag-stack algorithm. Pass 1: regex-scan all `<div>` tags, classify as `bare-open` / `non-bare-open` / `close` / `bare-selfclose` / `non-bare-selfclose`. Pass 2: pair closes with opens via a stack, mark close as replaceable only if its open was `bare-open`. Pass 3: mark bare opens and self-closes for replacement. Pass 4: rebuild right-to-left. Key gotcha: self-closing divs with attributes (```<div className={...} />```) match `[^>]*` regex across newlines — they must be detected via `tag.endsWith('/>') && /^<div[\s>]/.test(tag)` and excluded from the stack (they push nothing).
+**`migrate-ds-box.ts`** — two-tag-stack algorithm. Pass 1: regex-scan all `<div>` tags, classify as `bare-open` / `non-bare-open` / `close` / `bare-selfclose` / `non-bare-selfclose`. Pass 2: pair closes with opens via a stack, mark close as replaceable only if its open was `bare-open`. Pass 3: mark bare opens and self-closes for replacement. Pass 4: rebuild right-to-left. Key gotcha: self-closing divs with attributes (`<div className={...} />`) match `[^>]*` regex across newlines — they must be detected via `tag.endsWith('/>') && /^<div[\s>]/.test(tag)` and excluded from the stack (they push nothing).
 
 **`migrate-text-variants.ts`** — text-style class partitioner. Splits className into `textStyle` vs `layout` tokens, then maps text style tokens to named components (e.g. `text-sm` + `font-semibold` + `muted` → `TextSmSemibold status="muted"`). If layout tokens still contain text style after extraction, inserts a `{/* ds-review */}` comment for manual inspection. Imports merged into existing lines when possible.
 
@@ -42,12 +42,12 @@ check-design-system.ts  →  verify clean (runs in lint-staged)
 
 ### Approach comparison
 
-| Approach | Pros | Cons | When to use |
-|----------|------|------|-------------|
-| ts-morph AST | AST-accurate, no false matches | Heavy dep, memory on batch (must `removeSourceFile`) | Renaming tags, complex structural changes |
-| TypeScript compiler API | Zero dep (already in project), AST-accurate | More verbose, manual node walking | Renaming with className extraction (clsx()) |
-| Regex + tag-stack | Fast, zero deps beyond built-in | Fragile: matches inside comments/strings if not careful | Bare tag swaps, simple attribute patterns |
-| Character scan | Immune to template-literal false matches | Slow for large files, verbose | `<p>`, `<span>` where `/<` would over-match |
+| Approach                | Pros                                        | Cons                                                    | When to use                                 |
+| ----------------------- | ------------------------------------------- | ------------------------------------------------------- | ------------------------------------------- |
+| ts-morph AST            | AST-accurate, no false matches              | Heavy dep, memory on batch (must `removeSourceFile`)    | Renaming tags, complex structural changes   |
+| TypeScript compiler API | Zero dep (already in project), AST-accurate | More verbose, manual node walking                       | Renaming with className extraction (clsx()) |
+| Regex + tag-stack       | Fast, zero deps beyond built-in             | Fragile: matches inside comments/strings if not careful | Bare tag swaps, simple attribute patterns   |
+| Character scan          | Immune to template-literal false matches    | Slow for large files, verbose                           | `<p>`, `<span>` where `/<` would over-match |
 
 ### Import handling — 4 approaches across the codebase
 
@@ -94,11 +94,11 @@ pnpm build         # verify no type errors introduced
 
 ### Pick the right approach
 
-| If you need to... | Use |
-|------------------|-----|
-| Rename bare tags (no attribute inspection) | `migrate-ds-box.ts`-style regex + tag-stack (fast, zero deps) |
-| Rename tags + extract className to derive new props | TypeScript compiler API (no extra dep, AST-stable) |
-| Heavy structural AST work (add/remove children, complex prop injection) | ts-morph |
+| If you need to...                                                       | Use                                                           |
+| ----------------------------------------------------------------------- | ------------------------------------------------------------- |
+| Rename bare tags (no attribute inspection)                              | `migrate-ds-box.ts`-style regex + tag-stack (fast, zero deps) |
+| Rename tags + extract className to derive new props                     | TypeScript compiler API (no extra dep, AST-stable)            |
+| Heavy structural AST work (add/remove children, complex prop injection) | ts-morph                                                      |
 
 The regex approach works for bare tags but is fragile — it will match tags inside template literals, comments, and string content. ts-morph or the TypeScript compiler API walks the actual JSX AST, so it only finds real nodes.
 
@@ -121,7 +121,11 @@ function processFile(absPath: string): string | null {
     return null
   }
 
-  interface Replacement { start: number; end: number; newText: string }
+  interface Replacement {
+    start: number
+    end: number
+    newText: string
+  }
   const replacements: Replacement[] = []
 
   sourceFile.forEachDescendant((node) => {
@@ -191,10 +195,14 @@ if (classAttr && classAttr.getKind() === SyntaxKind.JsxAttribute) {
 
 ```typescript
 // Get the text of all attributes except className, to carry them over
-const otherAttrs = el.getAttributes()
-  .filter(a => a.getKind() !== SyntaxKind.JsxAttribute || 
-               (a as JsxAttribute).getNameNode().getText() !== 'className')
-  .map(a => a.getText())
+const otherAttrs = el
+  .getAttributes()
+  .filter(
+    (a) =>
+      a.getKind() !== SyntaxKind.JsxAttribute ||
+      (a as JsxAttribute).getNameNode().getText() !== 'className'
+  )
+  .map((a) => a.getText())
   .join(' ')
 ```
 
@@ -243,4 +251,4 @@ const tags: Array<{ type: 'open' | 'close'; index: number; length: number; isSta
 
 **`migrate-ds-elements.ts` has a `<div>` → `<Box>` entry** — but it converts ALL divs (styled and bare). This was never used because the dedicated `migrate-ds-box.ts` handles bare divs only. The elements script's div entry is dormant — if enabled, it would duplicate the box codemod's work but with no className guard. Consider removing it.
 
-**`migrate-ds-stack.ts` and `migrate-ds-stack-ast.ts` diverge** — the AST version uses `typescript` compiler API (not ts-morph), handles clsx() calls, responsive variant detection, and remaining-class pass-through. The regex version is simpler, line-based, and misses clsx() containers. The AST version should be preferred for stack migration going forward.
+**`migrate-ds-stack.ts` (deprecated)** — the old regex version is less capable than the AST version (`migrate-ds-stack-ast.ts`). The AST version uses the `typescript` compiler API, handles clsx() calls, responsive variant detection, and remaining-class pass-through. The regex version is kept for reference but marked `@deprecated`. Use `migrate-ds-stack-ast.ts` instead.
