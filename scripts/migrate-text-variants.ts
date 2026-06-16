@@ -30,6 +30,7 @@
 
 import { existsSync, readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs'
 import { join, relative, resolve } from 'node:path'
+import { ensureImports } from './lib/imports'
 
 const REPO_ROOT = process.cwd()
 const DS_IGNORE_FILE = /\/\*\s*ds-ignore-file\s*\*\//
@@ -434,99 +435,13 @@ function processSource(original: string): ProcessResult {
   return result
 }
 
-function findImportInsertionIndex(lines: string[]): number {
-  let lastImportLine = -1
-  let lastUiImportLine = -1
-  let inImportBlock = false
-  let importContinuation = false
-
-  for (let i = 0; i < lines.length; i++) {
-    const line = lines[i]
-    const trimmed = line.trim()
-
-    if (importContinuation) {
-      if (trimmed.endsWith(';') || trimmed.endsWith("'") || trimmed.endsWith('"')) {
-        importContinuation = false
-        lastImportLine = i
-        if (line.includes('@/components/ui/')) lastUiImportLine = i
-      }
-      continue
-    }
-
-    if (/^import\b/.test(trimmed)) {
-      inImportBlock = true
-      lastImportLine = i
-      if (line.includes('@/components/ui/')) lastUiImportLine = i
-      const hasFrom = / from /.test(line)
-      const ends = trimmed.endsWith(';') || trimmed.endsWith("'") || trimmed.endsWith('"')
-      if (!hasFrom || !ends) {
-        importContinuation = true
-      }
-      continue
-    }
-
-    if (inImportBlock && trimmed === '') continue
-    if (inImportBlock && trimmed !== '') break
-  }
-
-  if (lastUiImportLine !== -1) return lastUiImportLine + 1
-  if (lastImportLine !== -1) return lastImportLine + 1
-  return 0
-}
-
-interface ExistingImport {
-  lineIndex: number
-  named: Set<string>
-  rawLine: string
-}
-
-function findExistingImport(lines: string[], importPath: string): ExistingImport | null {
-  const escaped = importPath.replace(/[/.*+?^${}()|[\]\\]/g, '\\$&')
-  const rx = new RegExp(`^\\s*import\\s*\\{([^}]*)\\}\\s*from\\s*['"]${escaped}['"]`)
-  for (let i = 0; i < lines.length; i++) {
-    const m = rx.exec(lines[i])
-    if (m) {
-      const named = new Set(
-        m[1]
-          .split(',')
-          .map((s) => s.trim())
-          .filter(Boolean)
-      )
-      return { lineIndex: i, named, rawLine: lines[i] }
-    }
-  }
-  return null
-}
-
 function injectImports(source: string, componentsUsed: Map<string, string>): string {
   if (componentsUsed.size === 0) return source
-  const lines = source.split('\n')
-
-  const byPath = new Map<string, Set<string>>()
+  const entries: Array<{ name: string; path: string }> = []
   for (const [comp, path] of componentsUsed) {
-    if (!byPath.has(path)) byPath.set(path, new Set())
-    byPath.get(path)!.add(comp)
+    entries.push({ name: comp, path })
   }
-
-  const newImportLines: string[] = []
-  for (const [path, comps] of byPath) {
-    const existing = findExistingImport(lines, path)
-    if (existing) {
-      for (const c of comps) existing.named.add(c)
-      const sorted = [...existing.named].sort()
-      lines[existing.lineIndex] = `import { ${sorted.join(', ')} } from '${path}'`
-    } else {
-      const sorted = [...comps].sort()
-      newImportLines.push(`import { ${sorted.join(', ')} } from '${path}'`)
-    }
-  }
-
-  if (newImportLines.length > 0) {
-    const insertAt = findImportInsertionIndex(lines)
-    lines.splice(insertAt, 0, ...newImportLines)
-  }
-
-  return lines.join('\n')
+  return ensureImports(source, entries)
 }
 
 interface FileReport {

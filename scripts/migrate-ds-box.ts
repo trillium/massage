@@ -30,6 +30,7 @@ interface Audit {
 
 import { readFileSync, writeFileSync } from 'node:fs'
 import { relative, resolve } from 'node:path'
+import { ensureImports } from './lib/imports'
 
 const REPO_ROOT = process.cwd()
 const args = process.argv.slice(2)
@@ -124,7 +125,7 @@ function migrateFile(source: string): { changed: boolean; count: number; content
       stack.push(tag)
     } else if (tag.kind === 'close') {
       const open = stack.pop()
-      if (open && (open.kind === 'bare-open')) {
+      if (open && open.kind === 'bare-open') {
         tag.replaceWith = '</Box>'
       }
     }
@@ -158,26 +159,7 @@ function migrateFile(source: string): { changed: boolean; count: number; content
   parts.unshift(source.slice(0, lastEnd))
 
   const result = parts.join('')
-  const boxImport = `import { Box } from '@/components/ui/box'`
-  const hasBoxImport = result.includes(boxImport) || result.includes(`from '@/components/ui/box'`)
-
-  let final = result
-  if (!hasBoxImport) {
-    // Find the last import line to insert after
-    const importRegex = /^import\s/gm
-    let lastImportEnd = -1
-    let m: RegExpExecArray | null
-    while ((m = importRegex.exec(final)) !== null) {
-      // Find end of line for this match
-      const lineEnd = final.indexOf('\n', m.index)
-      lastImportEnd = lineEnd !== -1 ? lineEnd + 1 : final.length
-    }
-    if (lastImportEnd >= 0) {
-      final = final.slice(0, lastImportEnd) + boxImport + '\n' + final.slice(lastImportEnd)
-    } else {
-      final = boxImport + '\n' + final
-    }
-  }
+  const final = ensureImports(result, [{ name: 'Box', path: '@/components/ui/box' }])
 
   return { changed: true, count: toReplace.length, content: final }
 }

@@ -9,6 +9,7 @@
  *        (reads audit JSON from stdin, --write to apply, dry-run by default)
  */
 import { readFileSync, writeFileSync } from 'node:fs'
+import { ensureImports } from './lib/imports'
 
 const write = process.argv.includes('--write')
 const audit = JSON.parse(readFileSync('/dev/stdin', 'utf8'))
@@ -28,29 +29,6 @@ function detectVariant(openTag: string): string {
   if (/\btext-sm\b/.test(cls)) return 'TextSm'
   if (/\btext-lg\b/.test(cls)) return 'TextLg'
   return 'TextBase'
-}
-
-function mergeImport(existing: string, newNames: string[]): string | null {
-  // Single-line: import { A, B } from '...'
-  const single = existing.match(/^import\s+\{\s*([^}]+)\s*}\s*from\s*['"]([^'"]+)['"]/)
-  if (single) {
-    const current = single[1].split(',').map((s) => s.trim())
-    const merged = [...new Set([...current, ...newNames])]
-    return `import { ${merged.join(', ')} } from '${single[2]}'`
-  }
-  // Multi-line: import {\n  A,\n  B,\n} from '...'
-  const multi = existing.match(/^import\s+\{([\s\S]*?)\}\s*from\s*['"]([^'"]+)['"]/)
-  if (multi) {
-    const current = multi[1].split(',').map((s) => s.trim().replace(/\n\s*$/, ''))
-    // Add new names that aren't already present
-    for (const n of newNames) {
-      if (!current.some((c) => c.replace(/^type\s+/, '') === n)) {
-        current.push(n)
-      }
-    }
-    return `import {\n  ${current.join(',\n  ')},\n} from '${multi[2]}'`
-  }
-  return null
 }
 
 let modified = 0
@@ -122,68 +100,16 @@ for (const file of files) {
     continue
   }
 
-  // ── Add/merge imports ─────────────────────────────────
+  // ── Add/merge imports using shared utilities ──────────
   if (needed.size > 0) {
-    const importPath = '@/components/ui/text'
-    // Match full import block (single or multi-line)
-    const importRegex = new RegExp(
-      `import\\s*\\{[\\s\\S]*?\\}\\s*from\\s*['"]${importPath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}['"]`
-    )
-    const existingImport = result.match(importRegex)
-
-    if (existingImport) {
-      const fullBlock = existingImport[0]
-      // Extract names inside { ... }
-      const namesMatch = fullBlock.match(/\{([\s\S]*)\}/)
-      if (namesMatch) {
-        const existingNames = namesMatch[1]
-          .split(',')
-          .map((s) => s.trim().replace(/\n/g, ''))
-          .filter(Boolean)
-        const toAdd = [...needed].filter(
-          (n) => !existingNames.some((e) => e.replace(/^type\s+/, '') === n)
-        )
-        if (toAdd.length > 0) {
-          const isMultiLine = fullBlock.includes('\n')
-          let replacement: string
-          if (isMultiLine) {
-            const nameList = namesMatch[1].trimEnd().replace(/,+\s*$/, '')
-            replacement = fullBlock.replace(
-              namesMatch[1],
-              nameList + `,\n  ${toAdd.join(',\n  ')},\n`
-            )
-          } else {
-            replacement = fullBlock.replace(/\}(?=\s*from)/, `${toAdd.join(', ')}}`)
-          }
-          writeFileSync(file, result.replace(existingImport[0], replacement))
-          modified++
-          continue
-        }
-      }
-    } else {
-      // No existing import — add a new one
-      const lines = result.split('\n')
-      let lastImportIdx = -1
-      for (let i2 = 0; i2 < lines.length; i2++) {
-        if (/^import\s/.test(lines[i2])) lastImportIdx = i2
-      }
-      if (lastImportIdx >= 0) {
-        lines.splice(
-          lastImportIdx + 1,
-          0,
-          '',
-          `import { ${[...needed].join(', ')} } from '${importPath}'`
-        )
-      }
-      writeFileSync(file, lines.join('\n'))
-      modified++
-      continue
-    }
+    const entries = [...needed].map((name) => ({ name, path: '@/components/ui/text' }))
+    const final = ensureImports(result, entries)
+    writeFileSync(file, final)
+    modified++
+    continue
   }
 
   writeFileSync(file, result)
-  modified++
-
   modified++
 }
 

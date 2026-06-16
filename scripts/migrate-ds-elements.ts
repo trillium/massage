@@ -12,9 +12,8 @@
  *   <h3 …>     → <Heading level={3} …>  </h3>    → </Heading>
  *   <h4 …>     → <Heading level={4} …>  </h4>    → </Heading>
  *   <code …>   → <Code …>      </code>  → </Code>      (import { Code })
- *   <div …>    → <Box …>       </div>   → </Box>       (import { Box })
  *
- * Does NOT touch <button>, <input>, <textarea> (semantic decisions required).
+ * Does NOT touch <div>, <button>, <input>, <textarea> (use dedicated codemods).
  *
  * Skips:
  *   - components/ui/**           (DS sources, self-exempt)
@@ -34,6 +33,7 @@
 import { Project, SyntaxKind } from 'ts-morph'
 import { existsSync, readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs'
 import { join, relative, resolve } from 'node:path'
+import { hasImport, ensureImports } from './lib/imports'
 
 const REPO_ROOT = process.cwd()
 const DS_IGNORE_FILE = /\/\*\s*ds-ignore-file\s*\*\//
@@ -42,13 +42,13 @@ const SKIP_DIRS = new Set(['.next', 'node_modules', '.contentlayer', 'coverage',
 
 const SCAN_ROOTS = ['app', 'components']
 
-type TagKey = 'p' | 'h1' | 'h2' | 'h3' | 'h4' | 'code' | 'div'
+type TagKey = 'p' | 'h1' | 'h2' | 'h3' | 'h4' | 'code'
 
 interface Substitution {
   htmlTag: TagKey
   componentTag: string
   levelProp?: number
-  componentName: 'Text' | 'Heading' | 'Code' | 'Box'
+  componentName: 'Text' | 'Heading' | 'Code'
   importPath: string
 }
 
@@ -92,12 +92,6 @@ const SUBSTITUTIONS: Substitution[] = [
     componentTag: 'Code',
     componentName: 'Code',
     importPath: '@/components/ui/code',
-  },
-  {
-    htmlTag: 'div',
-    componentTag: 'Box',
-    componentName: 'Box',
-    importPath: '@/components/ui/box',
   },
 ]
 
@@ -165,60 +159,6 @@ function collectFiles(): string[] {
   return results
 }
 
-function findImportInsertionIndex(lines: string[]): { index: number } {
-  let lastImportLine = -1
-  let lastUiImportLine = -1
-  let importContinuation = false
-
-  for (let i = 0; i < lines.length; i++) {
-    const line = lines[i]
-    const trimmed = line.trim()
-    if (importContinuation) {
-      if (trimmed.endsWith(';') || trimmed.endsWith("'") || trimmed.endsWith('"')) {
-        importContinuation = false
-        lastImportLine = i
-        if (line.includes('@/components/ui/')) lastUiImportLine = i
-      }
-      continue
-    }
-    if (/^import\b/.test(trimmed)) {
-      lastImportLine = i
-      if (line.includes('@/components/ui/')) lastUiImportLine = i
-      const hasFrom = / from /.test(line)
-      const ends = trimmed.endsWith(';') || trimmed.endsWith("'") || trimmed.endsWith('"')
-      if (!hasFrom || !ends) importContinuation = true
-      continue
-    }
-    if (trimmed === '') continue
-    break
-  }
-
-  if (lastUiImportLine !== -1) return { index: lastUiImportLine + 1 }
-  if (lastImportLine !== -1) return { index: lastImportLine + 1 }
-  return { index: 0 }
-}
-
-function hasImport(source: string, componentName: string, importPath: string): boolean {
-  const escapedPath = importPath.replace(/[/.*+?^${}()|[\]\\]/g, '\\$&')
-  const namedImport = new RegExp(
-    `import\\s*\\{[^}]*\\b${componentName}\\b[^}]*\\}\\s*from\\s*['"]${escapedPath}['"]`,
-    'm'
-  )
-  return namedImport.test(source)
-}
-
-function injectImports(source: string, needed: Map<string, string>): string {
-  if (needed.size === 0) return source
-  const lines = source.split('\n')
-  const { index } = findImportInsertionIndex(lines)
-  const importLines: string[] = []
-  for (const [componentName, importPath] of needed) {
-    importLines.push(`import { ${componentName} } from '${importPath}'`)
-  }
-  lines.splice(index, 0, ...importLines)
-  return lines.join('\n')
-}
-
 const args = parseArgs(process.argv.slice(2))
 const isDryRun = args.dryRun
 
@@ -266,7 +206,11 @@ function processFile(absPath: string): FileResult {
       counts[sub.htmlTag] = (counts[sub.htmlTag] ?? 0) + 1
       importsNeeded.set(sub.componentName, sub.importPath)
       const tagNode = el.getTagNameNode()
-      replacements.push({ start: tagNode.getStart(), end: tagNode.getEnd(), newText: sub.componentTag })
+      replacements.push({
+        start: tagNode.getStart(),
+        end: tagNode.getEnd(),
+        newText: sub.componentTag,
+      })
       if (sub.levelProp !== undefined) {
         replacements.push({
           start: tagNode.getEnd(),
@@ -283,7 +227,11 @@ function processFile(absPath: string): FileResult {
       const sub = SUB_BY_TAG.get(tagText)
       if (!sub) return
       const tagNode = el.getTagNameNode()
-      replacements.push({ start: tagNode.getStart(), end: tagNode.getEnd(), newText: sub.componentTag })
+      replacements.push({
+        start: tagNode.getStart(),
+        end: tagNode.getEnd(),
+        newText: sub.componentTag,
+      })
       return
     }
 
@@ -295,7 +243,11 @@ function processFile(absPath: string): FileResult {
       counts[sub.htmlTag] = (counts[sub.htmlTag] ?? 0) + 1
       importsNeeded.set(sub.componentName, sub.importPath)
       const tagNode = el.getTagNameNode()
-      replacements.push({ start: tagNode.getStart(), end: tagNode.getEnd(), newText: sub.componentTag })
+      replacements.push({
+        start: tagNode.getStart(),
+        end: tagNode.getEnd(),
+        newText: sub.componentTag,
+      })
       if (sub.levelProp !== undefined) {
         replacements.push({
           start: tagNode.getEnd(),
@@ -316,11 +268,14 @@ function processFile(absPath: string): FileResult {
     text = text.slice(0, r.start) + r.newText + text.slice(r.end)
   }
 
+  const needed: Array<{ name: string; path: string }> = []
   for (const [componentName, importPath] of importsNeeded) {
-    if (hasImport(originalText, componentName, importPath)) importsNeeded.delete(componentName)
+    if (!hasImport(originalText, componentName, importPath)) {
+      needed.push({ name: componentName, path: importPath })
+    }
   }
 
-  text = injectImports(text, importsNeeded)
+  text = ensureImports(text, needed)
 
   if (!isDryRun) {
     writeFileSync(absPath, text, 'utf8')
@@ -346,7 +301,7 @@ async function run(): Promise<MigrationReport> {
     modified: [],
     skippedIgnore: [],
     skippedTest: [],
-    totalsByTag: { p: 0, h1: 0, h2: 0, h3: 0, h4: 0, code: 0, div: 0 },
+    totalsByTag: { p: 0, h1: 0, h2: 0, h3: 0, h4: 0, code: 0 },
   }
 
   let files: string[]
@@ -391,7 +346,7 @@ async function run(): Promise<MigrationReport> {
 
 function formatCounts(counts: Partial<Record<TagKey, number>>): string {
   const parts: string[] = []
-  const order: TagKey[] = ['p', 'h1', 'h2', 'h3', 'h4', 'code', 'div']
+  const order: TagKey[] = ['p', 'h1', 'h2', 'h3', 'h4', 'code']
   for (const k of order) {
     const v = counts[k]
     if (v && v > 0) parts.push(`${k}(${v})`)

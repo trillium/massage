@@ -15,6 +15,7 @@
 
 import ts from 'typescript'
 import * as fs from 'node:fs'
+import { ensureImports } from './lib/imports'
 
 const classToProp: [RegExp, string, string][] = [
   [/^flex-col$/, 'direction', 'col'],
@@ -94,9 +95,7 @@ function analyzeClsx(call: ts.CallExpression): Analysis {
     }
     if (ts.isObjectLiteralExpression(arg)) {
       const allAlways = arg.properties.every(
-        (p) =>
-          ts.isPropertyAssignment(p) &&
-          p.initializer.kind === ts.SyntaxKind.TrueKeyword
+        (p) => ts.isPropertyAssignment(p) && p.initializer.kind === ts.SyntaxKind.TrueKeyword
       )
       if (allAlways) {
         for (const p of arg.properties) {
@@ -306,19 +305,7 @@ function pairClosingTags(result: string): string {
 }
 
 function addStackImport(source: string): string {
-  const imp = "import { Stack } from '@/components/ui/stack'"
-  if (source.includes(imp)) return source
-  const lines = source.split('\n')
-  let lastImport = -1
-  for (let i = 0; i < lines.length; i++) {
-    if (/^import\s/.test(lines[i])) lastImport = i
-  }
-  if (lastImport === -1) return source
-  let insertAt = lastImport + 1
-  while (insertAt < lines.length && !/^import\s/.test(lines[insertAt]) && lines[insertAt].trim())
-    insertAt++
-  lines.splice(insertAt, 0, imp)
-  return lines.join('\n')
+  return ensureImports(source, [{ name: 'Stack', path: '@/components/ui/stack' }])
 }
 
 function migrateFile(filePath: string): string | null {

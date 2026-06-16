@@ -7,6 +7,7 @@
  * Usage: bun scripts/audit-ui.ts | bun scripts/migrate-ds-spans.ts [--write]
  */
 import { readFileSync, writeFileSync } from 'node:fs'
+import { ensureImports } from './lib/imports'
 
 const write = process.argv.includes('--write')
 const audit = JSON.parse(readFileSync('/dev/stdin', 'utf8'))
@@ -97,59 +98,13 @@ for (const file of files) {
     continue
   }
 
-  // ── Add/merge imports ─────────────────────────────────
+  // ── Add/merge imports using shared utilities ──────────
   if (needed.size > 0) {
-    const importPath = '@/components/ui/text'
-    const pathEscaped = importPath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-    const importRegex = new RegExp(`import\\s*\\{[\\s\\S]*?\\}\\s*from\\s*['"]${pathEscaped}['"]`)
-    const existingImport = result.match(importRegex)
-
-    if (existingImport) {
-      const fullBlock = existingImport[0]
-      const namesMatch = fullBlock.match(/\{([\s\S]*)\}/)
-      if (namesMatch) {
-        const existingNames = namesMatch[1]
-          .split(',')
-          .map((s) => s.trim().replace(/\n/g, ''))
-          .filter(Boolean)
-        const toAdd = [...needed].filter(
-          (n) => !existingNames.some((e) => e.replace(/^type\s+/, '') === n)
-        )
-        if (toAdd.length > 0) {
-          const isMultiLine = fullBlock.includes('\n')
-          let replacement: string
-          if (isMultiLine) {
-            const nameList = namesMatch[1].trimEnd().replace(/,+\s*$/, '')
-            replacement = fullBlock.replace(
-              namesMatch[1],
-              nameList + `,\n  ${toAdd.join(',\n  ')},\n`
-            )
-          } else {
-            replacement = fullBlock.replace(/\}(?=\s*from)/, `${toAdd.join(', ')}`)
-          }
-          writeFileSync(file, result.replace(existingImport[0], replacement))
-          modified++
-          continue
-        }
-      }
-    } else {
-      const lines = result.split('\n')
-      let lastImportIdx = -1
-      for (let i2 = 0; i2 < lines.length; i2++) {
-        if (/^import\s/.test(lines[i2])) lastImportIdx = i2
-      }
-      if (lastImportIdx >= 0) {
-        lines.splice(
-          lastImportIdx + 1,
-          0,
-          '',
-          `import { ${[...needed].join(', ')} } from '${importPath}'`
-        )
-      }
-      writeFileSync(file, lines.join('\n'))
-      modified++
-      continue
-    }
+    const entries = [...needed].map((name) => ({ name, path: '@/components/ui/text' }))
+    const final = ensureImports(result, entries)
+    writeFileSync(file, final)
+    modified++
+    continue
   }
 
   writeFileSync(file, result)

@@ -1,4 +1,6 @@
 #!/usr/bin/env bun
+import { ensureImports } from './lib/imports'
+
 /**
  * Codemod: migrate <div className="flex ..."> → <Stack direction align justify gap wrap>
  *
@@ -232,28 +234,8 @@ function migrateFile(file: AuditFile): string | null {
 
   if (!changed) return null
 
-  // Add import — insert after the last line of the last import statement
-  const importLine = "import { Stack } from '@/components/ui/stack'"
-  if (!result.includes(importLine)) {
-    const impLines = result.split('\n')
-    // First, find the last line that starts with "import "
-    let lastImport = -1
-    for (let i = 0; i < impLines.length; i++) {
-      if (/^import\s/.test(impLines[i])) lastImport = i
-    }
-    // Walk forward past any multi-line import continuation lines
-    let insertAt = lastImport + 1
-    while (
-      insertAt < impLines.length &&
-      !/^import\s/.test(impLines[insertAt]) &&
-      impLines[insertAt].trim()
-    ) {
-      // Stop at blank line or next import
-      insertAt++
-    }
-    impLines.splice(insertAt, 0, importLine)
-    result = impLines.join('\n')
-  }
+  // Add import using shared utilities
+  result = ensureImports(result, [{ name: 'Stack', path: '@/components/ui/stack' }])
 
   return result
 }
