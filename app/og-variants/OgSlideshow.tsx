@@ -3,6 +3,7 @@
 
 import Image from 'next/image'
 import { useState, useRef } from 'react'
+import { Stack } from '@/components/ui/stack'
 
 export default function OgSlideshow({ variants }: { variants: string[] }) {
   const [index, setIndex] = useState(0)
@@ -24,20 +25,16 @@ export default function OgSlideshow({ variants }: { variants: string[] }) {
   const name = variants[index]
 
   return (
-    <div className="flex min-h-svh flex-col bg-surface-950 text-white">
+    <Stack direction="col" className="min-h-svh bg-surface-950 text-white">
       {/* header */}
-      <div className="flex items-center justify-end px-4 py-3">
+      <Stack direction="row" align="center" justify="end" className="px-4 py-3">
         <span className="text-xs text-accent-500">
           {index + 1} / {variants.length}
         </span>
-      </div>
+      </Stack>
 
       {/* image */}
-      <div
-        className="flex flex-1 flex-col items-center justify-center px-2"
-        onTouchStart={onTouchStart}
-        onTouchEnd={onTouchEnd}
-      >
+      <Stack direction="col" align="center" justify="center" className="flex-1 px-2" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
         <Image
           key={name}
           src={`/og-variants/${name}/opengraph-image`}
@@ -49,7 +46,7 @@ export default function OgSlideshow({ variants }: { variants: string[] }) {
           priority
         />
         <p className="mt-3 font-mono text-lg font-semibold text-white">{name}</p>
-      </div>
+      </Stack>
 
       {/* nav */}
       <div className="grid grid-cols-3 gap-2 p-4">
@@ -74,6 +71,6 @@ export default function OgSlideshow({ variants }: { variants: string[] }) {
           →
         </button>
       </div>
-    </div>
+    </Stack>
   )
 }

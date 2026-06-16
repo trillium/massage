@@ -3,10 +3,11 @@ import system from '@/data/system.json'
 import { H1 } from '@/components/ui/heading'
 
 import { TextBase } from '@/components/ui/text'
+import { Stack } from '@/components/ui/stack'
 
 export default function NotFound() {
   return (
-    <div className="flex flex-col items-start justify-start md:mt-24 md:flex-row md:items-center md:justify-center md:space-x-6">
+    <Stack direction="col" align="start" justify="start" className="md:mt-24 md:flex-row md:items-center md:justify-center md:space-x-6">
       <div className="space-x-2 pt-6 pb-8 md:space-y-5">
         <H1 className="text-6xl md:border-r-2 md:px-6 md:text-8xl md:leading-14">
           {system.notFound.code}
@@ -24,6 +25,6 @@ export default function NotFound() {
           {system.notFound.buttons.home}
         </Link>
       </div>
-    </div>
+    </Stack>
   )
 }

@@ -17,7 +17,7 @@ export default async function Page() {
   const { tags } = pagesData
   return (
     <SectionContainer>
-      <div className="flex flex-col items-start justify-start divide-y divide-accent-200 md:mt-24 md:flex-row md:items-center md:justify-center md:space-x-6 md:divide-y-0 dark:divide-accent-700">
+      <Stack direction="col" align="start" justify="start" className="divide-y divide-accent-200 md:mt-24 md:flex-row md:items-center md:justify-center md:space-x-6 md:divide-y-0 dark:divide-accent-700">
         <div className="space-x-2 pt-6 pb-8 md:space-y-5">
           <H1 className="sm:text-4xl sm:leading-10 md:border-r-2 md:px-6 md:text-6xl md:leading-14">
             {tags.heading}
@@ -40,7 +40,7 @@ export default async function Page() {
             )
           })}
         </Stack>
-      </div>
+      </Stack>
     </SectionContainer>
   )
 }

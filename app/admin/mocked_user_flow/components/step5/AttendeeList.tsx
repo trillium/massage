@@ -6,6 +6,7 @@ interface Attendee {
   responseStatus: string
   organizer?: boolean
 }
+import { Stack } from '@/components/ui/stack'
 
 export default function AttendeeList({ attendees }: { attendees: Attendee[] }) {
   return (
@@ -13,10 +14,7 @@ export default function AttendeeList({ attendees }: { attendees: Attendee[] }) {
       <H3 className="mb-2 dark:text-white">Attendees</H3>
       <div className="space-y-2">
         {attendees.map((attendee, index) => (
-          <div
-            key={index}
-            className="flex items-center justify-between rounded bg-surface-200 p-3 dark:bg-surface-700"
-          >
+          <Stack direction="row" align="center" justify="between" className="rounded bg-surface-200 p-3 dark:bg-surface-700" key={index}>
             <div>
               <TextBase className="font-medium text-accent-900 dark:text-white">
                 {attendee.displayName}
@@ -37,7 +35,7 @@ export default function AttendeeList({ attendees }: { attendees: Attendee[] }) {
             >
               {attendee.responseStatus}
             </TextXsMedium>
-          </div>
+          </Stack>
         ))}
       </div>
     </div>

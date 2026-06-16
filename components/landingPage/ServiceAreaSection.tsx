@@ -4,6 +4,7 @@ import { home, site } from '@/app/content'
 import { H2 } from '@/components/ui/heading'
 
 import { TextBase } from '@/components/ui/text'
+import { Stack } from '@/components/ui/stack'
 
 const serviceAreaBlurb = home.serviceAreaBlurb
 const title = "What's the service area?"
@@ -34,15 +35,10 @@ function ServiceArea({ text, imageLeft, imageRight }: ServiceAreaProps) {
         {title || 'Title Missing'}
       </H2>
 
-      <div
-        className={clsx(
-          'border-primary-500 relative col-span-2 row-span-3 flex min-h-96 w-full items-center justify-center overflow-hidden rounded-md border-2 sm:col-span-1',
-          {
+      <Stack direction="row" align="center" justify="center" className={clsx("border-primary-500 relative col-span-2 row-span-3 min-h-96 w-full overflow-hidden rounded-md border-2 sm:col-span-1", {
             'order-last sm:order-none': left,
             'order-last sm:order-first': !left,
-          }
-        )}
-      >
+          })}>
         <CachedTileMap
           latitude={site.location.mapLatitude}
           longitude={site.location.mapLongitude}
@@ -51,7 +47,7 @@ function ServiceArea({ text, imageLeft, imageRight }: ServiceAreaProps) {
           style={{ width: '100%', height: '100%' }}
           showMarker={false}
         />
-      </div>
+      </Stack>
 
       <TextBase
         className={clsx(

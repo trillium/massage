@@ -5,6 +5,7 @@ import Image from 'next/image'
 import Link from '@/components/Link'
 import { useState } from 'react'
 import type { SlugConfigurationType } from '@/lib/types'
+import { Stack } from '@/components/ui/stack'
 
 export default function OgPreviewGrid({
   slugs,
@@ -46,19 +47,19 @@ export default function OgPreviewGrid({
               className="overflow-hidden rounded-lg border border-accent-200 dark:border-accent-700"
             >
               <div className="bg-surface-100 px-4 py-2 dark:bg-surface-800">
-                <div className="flex items-center justify-between gap-2">
+                <Stack direction="row" align="center" justify="between" gap={2}>
                   <code className="truncate font-mono text-xs text-accent-600 dark:text-accent-400">
                     {slug}
                   </code>
-                  <div className="flex shrink-0 gap-3 text-xs">
+                  <Stack direction="row" gap={3} className="shrink-0 text-xs">
                     <Link href={bookUrl} className="text-primary-600 hover:underline">
                       book
                     </Link>
                     <Link href={ogUrl} className="text-primary-600 hover:underline">
                       raw
                     </Link>
-                  </div>
-                </div>
+                  </Stack>
+                </Stack>
                 {config.title && (
                   <p className="mt-1 truncate text-sm font-medium">{config.title}</p>
                 )}

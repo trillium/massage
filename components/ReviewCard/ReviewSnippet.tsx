@@ -23,7 +23,7 @@ export const ReviewSnippet = ({
 
   return (
     <div className="pt-4">
-      <div className="mb-4 flex flex-col justify-between sm:flex-row sm:items-center">
+      <Stack direction="col" justify="between" className="mb-4 sm:flex-row sm:items-center">
         <Stack className="text-primary-400" direction="row" align="center" gap={3}>
           {Array.from({ length: rating || 0 }, (_, i) => (
             <Star key={i} size={30} />
@@ -38,7 +38,7 @@ export const ReviewSnippet = ({
           </h6>
           {displayDate && <TextBaseMedium status="muted">{date}</TextBaseMedium>}
         </Stack>
-      </div>
+      </Stack>
 
       <TextLgMuted>{text}</TextLgMuted>
     </div>

@@ -5,6 +5,7 @@ import { home } from '@/app/content'
 import landing from '@/data/landing.json'
 import { H2, H3 } from '@/components/ui/heading'
 import { TextSmMedium, TextBase } from '@/components/ui/text'
+import { Stack } from '@/components/ui/stack'
 
 const pricingOptions = home.pricing.tiers.map((tier) => ({
   ...tier,
@@ -31,15 +32,9 @@ export default function PricingSection() {
                   )}
                 ></div>
               )}
-              <div
-                className={clsx(
-                  positionClassesCardElem,
-                  'z-10 flex h-full flex-col items-center rounded-lg bg-surface-50 p-8 text-center shadow dark:bg-surface-800 dark:text-accent-100',
-                  {
+              <Stack direction="col" align="center" className={clsx("z-10 h-full rounded-lg bg-surface-50 p-8 text-center shadow dark:bg-surface-800 dark:text-accent-100", positionClassesCardElem, {
                     'ring-primary-500 ring-2': option.mostPopular,
-                  }
-                )}
-              >
+                  })}>
                 {option.mostPopular && (
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2 transform">
                     <TextSmMedium className="bg-primary-500 rounded-full px-3 py-1 whitespace-nowrap">
@@ -80,7 +75,7 @@ export default function PricingSection() {
                 >
                   {bookNowButton}
                 </Link>
-              </div>
+              </Stack>
             </div>
           ))}
         </div>

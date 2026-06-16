@@ -518,7 +518,7 @@ function CurrentSelection(props: {
 
         {!anyUnset && (
           <div className="mt-4">
-            <div className="flex flex-col gap-2 rounded bg-green-100 p-3 sm:flex-row sm:items-center sm:gap-3 dark:bg-green-800/20">
+            <Stack direction="col" gap={2} className="rounded bg-green-100 p-3 sm:flex-row sm:items-center sm:gap-3 dark:bg-green-800/20">
               <div className="flex-1">
                 <strong className="text-sm text-green-800 dark:text-green-200">
                   Ready to create booking!
@@ -534,7 +534,7 @@ function CurrentSelection(props: {
               >
                 {loading ? 'Creating...' : 'Create Appointment'}
               </Button>
-            </div>
+            </Stack>
           </div>
         )}
       </div>

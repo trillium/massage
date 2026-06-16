@@ -68,14 +68,11 @@ const ThemeSwitch = () => {
   return (
     <Stack className="mr-5" direction="row" align="center">
       <Menu as="div" className="relative inline-block text-left">
-        <div
-          className="hover:text-primary-500 dark:hover:text-primary-400 flex items-center justify-center"
-          suppressHydrationWarning={true}
-        >
+        <Stack direction="row" align="center" justify="center" className="hover:text-primary-500 dark:hover:text-primary-400" suppressHydrationWarning={true}>
           <MenuButton aria-label={ui.themeSwitch.ariaLabel}>
             {mounted ? resolvedTheme === 'dark' ? <Moon /> : <Sun /> : <Blank />}
           </MenuButton>
-        </div>
+        </Stack>
         <Transition
           as={Fragment}
           enter="transition ease-out duration-100"

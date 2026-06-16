@@ -13,6 +13,7 @@ import { format } from 'date-fns-tz'
 import type { StringDateTimeIntervalAndLocation } from 'lib/types'
 import { useReduxAvailability, useAppDispatch } from '@/redux/hooks'
 import { setSelectedDate } from '@/redux/slices/availabilitySlice'
+import { Stack } from '@/components/ui/stack'
 
 interface CalendarProps {
   slots?: StringDateTimeIntervalAndLocation[]
@@ -150,14 +151,9 @@ export default function Calendar({
         />
       )}
       {weekdays.map((weekday) => (
-        <div
-          key={weekday}
-          className="flex justify-center text-accent-500"
-          role="columnheader"
-          aria-label={weekday}
-        >
+        <Stack direction="row" justify="center" className="text-accent-500" key={weekday} role="columnheader" aria-label={weekday}>
           {weekday}
-        </div>
+        </Stack>
       ))}
       {visibleDays.map((day) => {
         const availabilityTest = offers[day.toString()] ?? []

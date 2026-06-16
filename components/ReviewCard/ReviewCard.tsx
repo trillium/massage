@@ -113,7 +113,7 @@ const OtherCard = ({
               className="h-full w-full rounded-3xl max-xl:mx-auto max-xl:max-w-3xl max-lg:py-8 border-primary-400 border-2 bg-surface-200 dark:bg-surface-900"
             >
               <Stack className="w-full" direction="row" align="center" justify="between">
-                <div className="flex h-full w-full flex-col items-center justify-center sm:flex-row">
+                <Stack direction="col" align="center" justify="center" className="h-full w-full sm:flex-row">
                   <ScoreDisplay
                     test={true}
                     averageStr={numberOfReviews.averageStr}
@@ -128,7 +128,7 @@ const OtherCard = ({
                     averageStr={numberOfReviewsSorted.averageStr}
                     text={`${slice_size} Most Recent`}
                   />
-                </div>
+                </Stack>
               </Stack>
             </Stack>
           </div>

@@ -69,10 +69,10 @@ function StatusBadge({ status }: { status: 'pending' | 'confirmed' | 'cancelled'
 
 function DetailRow({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex flex-col gap-0.5 sm:flex-row sm:items-baseline sm:gap-3">
+    <Stack direction="col" className="gap-0.5 sm:flex-row sm:items-baseline sm:gap-3">
       <TextSmMedium className="min-w-24 uppercase">{label}</TextSmMedium>
       <TextLg>{value}</TextLg>
-    </div>
+    </Stack>
   )
 }
 

@@ -129,12 +129,12 @@ const BIOME_EXEMPT = [
 
 function Swatch({ palette, scale }: { palette: string; scale: number }) {
   return (
-    <div className="flex flex-col items-center gap-1">
+    <Stack direction="col" align="center" gap={1}>
       <div
         className={`h-10 w-10 rounded border border-accent-200 bg-${palette}-${scale} dark:border-accent-700`}
       />
       <span className="text-center font-mono text-[10px] text-accent-500">{scale}</span>
-    </div>
+    </Stack>
   )
 }
 
@@ -165,17 +165,17 @@ export default function DesignSystemPage() {
           <div className="space-y-8">
             {PALETTES.map(({ name, label, description }) => (
               <div key={name}>
-                <div className="mb-2 flex items-baseline gap-3">
+                <Stack direction="row" gap={3} className="mb-2 items-baseline">
                   <span className="font-semibold text-accent-800 dark:text-accent-200">
                     {label}
                   </span>
                   <span className="text-xs text-accent-400">{description}</span>
-                </div>
-                <div className="flex flex-wrap gap-2">
+                </Stack>
+                <Stack direction="row" wrap gap={2}>
                   {PALETTE_SCALES.map((scale) => (
                     <Swatch key={scale} palette={name} scale={scale} />
                   ))}
-                </div>
+                </Stack>
                 <p className="mt-1 font-mono text-xs text-accent-400">
                   bg-{name}-* / text-{name}-* / border-{name}-*
                 </p>
@@ -198,10 +198,10 @@ export default function DesignSystemPage() {
               ['text-4xl', '4XL — 36px'],
               ['text-5xl', '5XL — 48px'],
             ].map(([cls, label]) => (
-              <div key={cls} className="flex items-baseline gap-4">
+              <Stack direction="row" gap={4} className="items-baseline" key={cls}>
                 <span className="w-24 font-mono text-xs text-accent-400">{cls}</span>
                 <span className={`${cls} text-accent-900 dark:text-accent-100`}>{label}</span>
-              </div>
+              </Stack>
             ))}
           </div>
         </Section>
@@ -290,7 +290,7 @@ export default function DesignSystemPage() {
             <p className="mb-3 font-mono text-xs text-accent-400">
               import {'{ Button }'} from @/components/ui/button
             </p>
-            <div className="flex flex-wrap gap-3 rounded-lg border border-accent-200 p-4 dark:border-accent-700">
+            <Stack direction="row" wrap gap={3} className="rounded-lg border border-accent-200 p-4 dark:border-accent-700">
               <Button variant="default">Default</Button>
               <Button variant="secondary">Secondary</Button>
               <Button variant="outline">Outline</Button>
@@ -305,7 +305,7 @@ export default function DesignSystemPage() {
               <Button variant="default" disabled>
                 Disabled
               </Button>
-            </div>
+            </Stack>
           </div>
 
           {/* Badge */}
@@ -316,12 +316,12 @@ export default function DesignSystemPage() {
             <p className="mb-3 font-mono text-xs text-accent-400">
               import {'{ Badge }'} from @/components/ui/badge
             </p>
-            <div className="flex flex-wrap gap-3 rounded-lg border border-accent-200 p-4 dark:border-accent-700">
+            <Stack direction="row" wrap gap={3} className="rounded-lg border border-accent-200 p-4 dark:border-accent-700">
               <Badge variant="default">Default</Badge>
               <Badge variant="secondary">Secondary</Badge>
               <Badge variant="outline">Outline</Badge>
               <Badge variant="destructive">Destructive</Badge>
-            </div>
+            </Stack>
           </div>
 
           {/* Input */}
@@ -352,7 +352,7 @@ export default function DesignSystemPage() {
               Gradient-clipped text span. Default: accent-700 → primary-700 → primary-500 (bottom).
               Used for hero headline emphasis words (Relax, Restore, Rejuvenate).
             </p>
-            <div className="flex flex-col gap-4 rounded-lg border border-accent-200 p-6 dark:border-accent-700">
+            <Stack direction="col" gap={4} className="rounded-lg border border-accent-200 p-6 dark:border-accent-700">
               <div className="text-4xl font-bold">
                 Relax, <GradientText>Restore</GradientText>, Rejuvenate
               </div>
@@ -370,7 +370,7 @@ export default function DesignSystemPage() {
                   gold → red
                 </GradientText>
               </div>
-            </div>
+            </Stack>
           </div>
 
           {/* Textarea */}

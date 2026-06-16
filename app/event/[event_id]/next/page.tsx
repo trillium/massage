@@ -22,6 +22,7 @@ import eventContent from '@/data/event.json'
 import { H1, H2, H3 } from '@/components/ui/heading'
 
 import { TextBase } from '@/components/ui/text'
+import { Stack } from '@/components/ui/stack'
 
 interface NextBookingPageProps {
   params: Promise<{ event_id: string }>
@@ -162,16 +163,13 @@ export default async function NextBookingPage({ params, searchParams }: NextBook
               </div>
             </div>
             <div className="space-y-6">
-              <div
-                id="map-container"
-                className="flex h-full min-h-96 w-full items-center justify-center overflow-hidden rounded-lg bg-surface-50 p-0 shadow-sm dark:bg-surface-800"
-              >
+              <Stack direction="row" align="center" justify="center" className="h-full min-h-96 w-full overflow-hidden rounded-lg bg-surface-50 p-0 shadow-sm dark:bg-surface-800" id="map-container">
                 <MapTile
                   longitude={mapCoordinates.longitude}
                   latitude={mapCoordinates.latitude}
                   zoom={mapCoordinates.zoom}
                 />
-              </div>
+              </Stack>
             </div>
           </div>
 

@@ -14,7 +14,7 @@
  */
 
 import ts from 'typescript'
-import * as fs from 'fs'
+import * as fs from 'node:fs'
 
 const classToProp: [RegExp, string, string][] = [
   [/^flex-col$/, 'direction', 'col'],
@@ -36,7 +36,10 @@ const classToProp: [RegExp, string, string][] = [
   [/^gap-8$/, 'gap', '8'],
 ]
 
-const respFlexPattern = /(?:sm|md|lg|xl|xs):flex(?:\b|-?(?:row|col|row-reverse|col-reverse))/
+// Responsive flex display: sm:flex, md:flex (no direction) → cannot use Stack (always flex)
+const respFlexOnly = /^(?:sm|md|lg|xl|xs):flex$/
+// Responsive flex direction: sm:flex-row, md:flex-col → OK, Tailwind overrides Stack's static direction
+const respFlexDir = /^(?:sm|md|lg|xl|xs):flex-(?:row|col|row-reverse|col-reverse|wrap|nowrap)\b/
 const skipPattern = /\b(?:hidden|invisible|sr-only)\b/
 
 function findAttr(
@@ -90,8 +93,18 @@ function analyzeClsx(call: ts.CallExpression): Analysis {
       continue
     }
     if (ts.isObjectLiteralExpression(arg)) {
-      for (const p of arg.properties) {
-        if (ts.isPropertyAssignment(p) && ts.isStringLiteral(p.name)) staticParts.push(p.name.text)
+      const allAlways = arg.properties.every(
+        (p) =>
+          ts.isPropertyAssignment(p) &&
+          p.initializer.kind === ts.SyntaxKind.TrueKeyword
+      )
+      if (allAlways) {
+        for (const p of arg.properties) {
+          if (ts.isPropertyAssignment(p) && ts.isStringLiteral(p.name))
+            staticParts.push(p.name.text)
+        }
+      } else {
+        dynamics.push(arg.getText())
       }
       continue
     }
@@ -115,11 +128,15 @@ function parseClasses(parts: string[]) {
   const props: string[][] = []
   const remaining: string[] = []
   let hadFlex = false
-  let hasRespFlex = false
+  let hasRespFlexOnly = false
 
   for (const t of tokens) {
-    if (respFlexPattern.test(t)) {
-      hasRespFlex = true
+    if (respFlexOnly.test(t)) {
+      hasRespFlexOnly = true
+      remaining.push(t)
+      continue
+    }
+    if (respFlexDir.test(t)) {
       remaining.push(t)
       continue
     }
@@ -145,7 +162,7 @@ function parseClasses(parts: string[]) {
   }
 
   if (hadFlex && !props.some(([k]) => k === 'direction')) props.unshift(['direction', 'row'])
-  return { props, remaining, hasRespFlex }
+  return { props, remaining, hasRespFlexOnly }
 }
 
 function fmtProps(props: string[][]): string {
@@ -197,8 +214,8 @@ function findCandidates(sourceFile: ts.SourceFile, source: string): Candidate[] 
       const attr = findAttr(el.openingElement.attributes.properties, 'className')
       const a = attr ? analyze(attr) : null
       if (a) {
-        const { props, remaining, hasRespFlex } = parseClasses(a.staticParts)
-        if (isFlexContainer(a.staticParts) && !hasRespFlex) {
+        const { props, remaining, hasRespFlexOnly } = parseClasses(a.staticParts)
+        if (isFlexContainer(a.staticParts) && !hasRespFlexOnly) {
           const cn = buildClassName(remaining, a.dynamics)
           const extra = getAttrText(el.openingElement.attributes.properties, attr)
           const cnAttr = cn
@@ -222,8 +239,8 @@ function findCandidates(sourceFile: ts.SourceFile, source: string): Candidate[] 
       const attr = findAttr(selfClosing.attributes.properties, 'className')
       const a = attr ? analyze(attr) : null
       if (a) {
-        const { props, remaining, hasRespFlex } = parseClasses(a.staticParts)
-        if (isFlexContainer(a.staticParts) && !hasRespFlex) {
+        const { props, remaining, hasRespFlexOnly } = parseClasses(a.staticParts)
+        if (isFlexContainer(a.staticParts) && !hasRespFlexOnly) {
           const cn = buildClassName(remaining, a.dynamics)
           const extra = getAttrText(selfClosing.attributes.properties, attr)
           const cnAttr = cn
