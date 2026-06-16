@@ -21,6 +21,7 @@ import { buildQuarters, type QuarterGroup } from './buildQuarters'
 import { H1, H2, H3 } from '@/components/ui/heading'
 import { TextLgMuted, TextSmMuted, TextSmSemibold, TextXsMuted, TextXs } from '@/components/ui/text'
 import { Stack } from '@/components/ui/stack'
+import { Box } from '@/components/ui/box'
 
 const iconMap: Record<ChangelogIcon, React.ReactNode> = {
   calendar: <FaCalendarCheck className="text-primary-500" />,
@@ -49,7 +50,7 @@ function ConnectedBlock({
   categories: ChangelogCategory[]
 }) {
   return (
-    <div>
+    <Box>
       <div className="rounded-t-lg border border-primary-200 bg-primary-50/50 p-4 dark:border-primary-800 dark:bg-primary-950/20">
         <TextXs className="mb-2 text-xs font-semibold tracking-widest text-primary-600 uppercase dark:text-primary-400">
           {pages.changelog.header.highlights}
@@ -85,7 +86,7 @@ function ConnectedBlock({
           </ul>
         </div>
       ))}
-    </div>
+    </Box>
   )
 }
 

@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { TextSmMedium, TextXs } from '@/components/ui/text'
 
 import { Button } from '@/components/ui/button'
+import { Box } from '@/components/ui/box'
 
 export function DeclineButton({ declineUrl }: { declineUrl: string }) {
   const [state, setState] = useState<'idle' | 'loading' | 'declined' | 'error'>('idle')
@@ -28,7 +29,7 @@ export function DeclineButton({ declineUrl }: { declineUrl: string }) {
   }
 
   return (
-    <div>
+    <Box>
       <Button
         onClick={handleDecline}
         disabled={state === 'loading'}
@@ -45,6 +46,6 @@ export function DeclineButton({ declineUrl }: { declineUrl: string }) {
           Failed to decline
         </TextXs>
       )}
-    </div>
+    </Box>
   )
 }

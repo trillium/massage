@@ -8,6 +8,7 @@ import { H1 } from '@/components/ui/heading'
 
 import { TextBase } from '@/components/ui/text'
 import { Stack } from '@/components/ui/stack'
+import { Box } from '@/components/ui/box'
 
 const testText = pagesData.test
 
@@ -52,7 +53,7 @@ export default function DoubleBookingTestPage() {
       </Button>
 
       {result && (
-        <div>
+        <Box>
           <div
             className={`mb-6 rounded-xl border-2 p-4 text-center text-lg font-bold ${
               result.passed
@@ -97,7 +98,7 @@ export default function DoubleBookingTestPage() {
               </Stack>
             ))}
           </div>
-        </div>
+        </Box>
       )}
     </div>
   )

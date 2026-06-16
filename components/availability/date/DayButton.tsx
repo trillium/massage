@@ -9,6 +9,7 @@ import { Input } from '@/components/ui/input'
 
 import { TextBase } from '@/components/ui/text'
 import { Stack } from '@/components/ui/stack'
+import { Box } from '@/components/ui/box'
 
 type DayProps = {
   date: Day
@@ -39,7 +40,7 @@ export default function DayButton({
   }
 
   return (
-    <div>
+    <Box>
       <label
         htmlFor={`day-${date.getDay()}`}
         className={clsx('relative flex flex-col items-center transition-all', props.className, {
@@ -94,6 +95,6 @@ export default function DayButton({
           </figure>
         </Stack>
       </label>
-    </div>
+    </Box>
   )
 }

@@ -6,6 +6,7 @@ import { H1, H2 } from '@/components/ui/heading'
 
 import { TextBase, TextSm, TextLg } from '@/components/ui/text'
 import { Stack } from '@/components/ui/stack'
+import { Box } from '@/components/ui/box'
 
 export const metadata: Metadata = {
   title: 'Proposal — CodeRabbit Miami 2026',
@@ -83,7 +84,7 @@ export default async function ProposalPage({
     <div className="mx-auto max-w-3xl px-6 py-12 font-sans text-gray-800 print:max-w-none print:px-0 print:py-0">
       {/* Header */}
       <header className="mb-12 flex items-start justify-between border-b-4 border-primary-600 pb-8">
-        <div>
+        <Box>
           <H1 className="text-3xl font-bold text-gray-900 print:text-2xl">
             Chair Massage Services
             <br />
@@ -94,7 +95,7 @@ export default async function ProposalPage({
           <TextLg className="mt-2 text-lg text-gray-500">
             AI Engineer Miami & React Miami — April 2026
           </TextLg>
-        </div>
+        </Box>
         <Image
           src="/static/images/logo.svg"
           alt="Trillium Massage"
@@ -106,20 +107,20 @@ export default async function ProposalPage({
 
       {/* Meta */}
       <div className="mb-10 grid grid-cols-1 gap-4 rounded-lg bg-gray-50 p-6 text-sm print:border print:border-gray-200 print:bg-white sm:grid-cols-2">
-        <div>
+        <Box>
           <TextBase as="span" className="font-semibold text-gray-500">
             Prepared for
           </TextBase>
           <TextBase className="text-gray-900">Theresa Ensminger & Team</TextBase>
           <TextBase className="text-gray-500">CodeRabbit</TextBase>
-        </div>
-        <div>
+        </Box>
+        <Box>
           <TextBase as="span" className="font-semibold text-gray-500">
             Prepared by
           </TextBase>
           <TextBase className="text-gray-900">Trillium Smith, LMT</TextBase>
           <TextBase className="text-gray-500">March 2026</TextBase>
-        </div>
+        </Box>
       </div>
 
       {/* Intro */}
@@ -346,11 +347,11 @@ export default async function ProposalPage({
             height={64}
             className="rounded-full object-cover"
           />
-          <div>
+          <Box>
             <TextLg className="text-lg font-bold text-gray-900">Trillium Smith, LMT</TextLg>
             <TextSm className="text-sm text-gray-500">trilliummassagela@gmail.com</TextSm>
             <TextSm className="text-sm text-primary-600">www.trilliummassage.la</TextSm>
-          </div>
+          </Box>
         </Stack>
       </footer>
     </div>

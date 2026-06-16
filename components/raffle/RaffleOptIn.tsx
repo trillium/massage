@@ -8,6 +8,7 @@ import { TextPrimary, TextSm, TextSmMedium, TextSmMuted, TextLg } from '@/compon
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Stack } from '@/components/ui/stack'
+import { Box } from '@/components/ui/box'
 
 interface RaffleOptInProps {
   name: string
@@ -34,7 +35,7 @@ function InterestCheckboxes({
   onToggle: (value: string) => void
 }) {
   return (
-    <div>
+    <Box>
       <TextSmMedium className="block">
         {raffle.interestedLabel} <span className="text-primary-500">{raffle.requiredAsterisk}</span>
       </TextSmMedium>
@@ -57,7 +58,7 @@ function InterestCheckboxes({
           </Stack>
         ))}
       </div>
-    </div>
+    </Box>
   )
 }
 
@@ -128,7 +129,7 @@ export default function RaffleOptIn({ name, email, phone }: RaffleOptInProps) {
       <TextSmMuted className="mt-1">{raffle.raffleSubtitle}</TextSmMuted>
 
       <form onSubmit={handleSubmit} className="mt-4 space-y-4">
-        <div>
+        <Box>
           <label
             htmlFor="raffle-zip"
             className="block text-sm font-medium text-accent-900 dark:text-accent-100"
@@ -144,7 +145,7 @@ export default function RaffleOptIn({ name, email, phone }: RaffleOptInProps) {
             placeholder={raffle.zipCodePlaceholder}
             maxLength={10}
           />
-        </div>
+        </Box>
 
         <InterestCheckboxes interests={interests} onToggle={toggleInterest} />
 

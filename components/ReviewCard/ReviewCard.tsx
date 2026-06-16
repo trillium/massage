@@ -9,6 +9,7 @@ import { Star, LittleStar } from './Stars'
 import { H2 } from '@/components/ui/heading'
 import { TextLgMuted, TextLg, TextBase } from '@/components/ui/text'
 import { Stack } from '@/components/ui/stack'
+import { Box } from '@/components/ui/box'
 
 const slice_size = 50
 
@@ -75,7 +76,7 @@ const OtherCard = ({
 }) => (
   <>
     <div className="mx-auto w-full max-w-7xl px-0 md:px-4">
-      <div>
+      <Box>
         <Template title="Customer Reviews & Ratings" />
 
         <div className="mb-11 grid grid-cols-12">
@@ -135,7 +136,7 @@ const OtherCard = ({
         </div>
 
         <TestimonialsSection reviews={testimonialReviews} />
-      </div>
+      </Box>
     </div>
   </>
 )

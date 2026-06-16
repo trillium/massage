@@ -6,6 +6,7 @@ import { H1 } from '@/components/ui/heading'
 
 import { TextBase } from '@/components/ui/text'
 import { Stack } from '@/components/ui/stack'
+import { Box } from '@/components/ui/box'
 
 export default async function ContactPage({
   searchParams,
@@ -36,9 +37,9 @@ export default async function ContactPage({
               className="rounded object-cover"
             />
           </Stack>
-          <div>
+          <Box>
             <span className="font-semibold">{pages.contact.serviceArea}</span>
-          </div>
+          </Box>
         </Stack>
       </div>
     </SectionContainer>

@@ -10,6 +10,7 @@ import { TextSm, TextBase } from '@/components/ui/text'
 import { home, site } from '@/app/content'
 import landing from '@/data/landing.json'
 import { Stack } from '@/components/ui/stack'
+import { Box } from '@/components/ui/box'
 
 const { hero } = home
 const { neighborhood, serviceArea } = site.location
@@ -37,7 +38,7 @@ function TextContent({ positionClasses }: { positionClasses?: string }) {
       align="center"
       className={clsx('h-full space-y-4 text-center md:text-left', positionClasses)}
     >
-      <div>
+      <Box>
         <H1 className="md:text-5xl lg:text-6xl" data-content="hero.headline">
           {headlineParts[0]}
           <GradientText>{hero.gradientWord}</GradientText>
@@ -52,7 +53,7 @@ function TextContent({ positionClasses }: { positionClasses?: string }) {
         >
           {hero.description}
         </TextBase>
-      </div>
+      </Box>
     </Stack>
   )
 }

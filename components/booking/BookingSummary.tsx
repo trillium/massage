@@ -7,6 +7,7 @@ import { flattenLocation } from '@/lib/helpers/locationHelpers'
 import { validatePromoCode } from '@/lib/promoCodes'
 import bookingData from '@/data/booking.json'
 import { Stack } from '@/components/ui/stack'
+import { Box } from '@/components/ui/box'
 
 interface BookingSummaryProps {
   dateString: string
@@ -44,14 +45,14 @@ const BookingSummary: React.FC<BookingSummaryProps> = ({
   return (
     <div className="border-l-primary-400 dark:bg-primary-50/10 mt-3 mb-4 rounded-md border-l-4 bg-surface-50 p-3">
       <Stack direction="row" align="start" justify="between">
-        <div>
+        <Box>
           <TextSmSemibold className="md:text-base">{dateString}</TextSmSemibold>
           <TextXs className="md:text-sm">
             {startString}
             {bookingData.summary.timeSeparator}
             {endString}
           </TextXs>
-        </div>
+        </Box>
         {acceptingPayment && (
           <div className="text-primary-800 dark:text-primary-400 ml-4 min-w-[60px] text-right text-base font-semibold">
             <GeneratePrice price={Number(price)} discount={discount} />

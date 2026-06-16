@@ -11,6 +11,7 @@ import { H1 } from '@/components/ui/heading'
 
 import { TextBase, TextSm } from '@/components/ui/text'
 import { Stack } from '@/components/ui/stack'
+import { Box } from '@/components/ui/box'
 
 interface FormValues {
   email: string
@@ -98,7 +99,7 @@ export default function AdminAccessRequestPage() {
           >
             {({ isSubmitting }) => (
               <Form className="space-y-6">
-                <div>
+                <Box>
                   <label
                     htmlFor="email"
                     className="mb-2 block text-sm font-medium text-accent-700 dark:text-accent-300"
@@ -118,9 +119,9 @@ export default function AdminAccessRequestPage() {
                     component="div"
                     className="mt-1 text-sm text-red-600"
                   />
-                </div>
+                </Box>
 
-                <div>
+                <Box>
                   <label
                     htmlFor="requestReason"
                     className="mb-2 block text-sm font-medium text-accent-700 dark:text-accent-300"
@@ -141,7 +142,7 @@ export default function AdminAccessRequestPage() {
                     component="div"
                     className="mt-1 text-sm text-red-600"
                   />
-                </div>
+                </Box>
 
                 <Button
                   type="submit"

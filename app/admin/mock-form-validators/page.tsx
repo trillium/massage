@@ -5,6 +5,7 @@ import SectionContainer from '@/components/SectionContainer'
 import { FaCheck, FaFolder } from 'react-icons/fa'
 import { H1, H2, H3, H4 } from '@/components/ui/heading'
 import { TextSm, TextBase } from '@/components/ui/text'
+import { Box } from '@/components/ui/box'
 
 export default function MockFormValidatorsPage() {
   return (
@@ -41,7 +42,7 @@ export default function MockFormValidatorsPage() {
               <H3 className="mb-4">Implementation Highlights</H3>
 
               <div className="grid gap-6 md:grid-cols-2">
-                <div>
+                <Box>
                   <H4 className="mb-2">Zod Schema Benefits</H4>
                   <ul className="space-y-1 text-sm text-accent-600 dark:text-accent-400">
                     <li>• Automatic TypeScript type generation</li>
@@ -50,9 +51,9 @@ export default function MockFormValidatorsPage() {
                     <li>• Server-side validation compatibility</li>
                     <li>• Excellent error messages</li>
                   </ul>
-                </div>
+                </Box>
 
-                <div>
+                <Box>
                   <H4 className="mb-2">Formik Integration Benefits</H4>
                   <ul className="space-y-1 text-sm text-accent-600 dark:text-accent-400">
                     <li>• Seamless form state management</li>
@@ -61,7 +62,7 @@ export default function MockFormValidatorsPage() {
                     <li>• Automatic error message display</li>
                     <li>• Form submission handling</li>
                   </ul>
-                </div>
+                </Box>
               </div>
 
               <div className="mt-6 rounded-md bg-blue-50 p-4 dark:bg-blue-900/20">

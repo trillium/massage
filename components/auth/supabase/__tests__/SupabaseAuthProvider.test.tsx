@@ -2,6 +2,7 @@ import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 import { render, waitFor, act } from '@testing-library/react'
 import type { Session } from '@supabase/supabase-js'
 import { SupabaseAuthProvider } from '@/components/auth/supabase/SupabaseAuthProvider'
+import { Box } from '@/components/ui/box'
 
 const mockGetSession = vi.fn()
 const mockOnAuthStateChange = vi.fn()
@@ -55,7 +56,7 @@ describe('SupabaseAuthProvider', () => {
   it('calls getSession on mount', async () => {
     render(
       <SupabaseAuthProvider>
-        <div />
+        <Box />
       </SupabaseAuthProvider>
     )
 
@@ -67,7 +68,7 @@ describe('SupabaseAuthProvider', () => {
   it('registers onAuthStateChange listener on mount', async () => {
     render(
       <SupabaseAuthProvider>
-        <div />
+        <Box />
       </SupabaseAuthProvider>
     )
 
@@ -87,7 +88,7 @@ describe('SupabaseAuthProvider', () => {
 
     render(
       <SupabaseAuthProvider>
-        <div />
+        <Box />
       </SupabaseAuthProvider>
     )
 
@@ -115,7 +116,7 @@ describe('SupabaseAuthProvider', () => {
 
     render(
       <SupabaseAuthProvider>
-        <div />
+        <Box />
       </SupabaseAuthProvider>
     )
 
@@ -145,7 +146,7 @@ describe('SupabaseAuthProvider', () => {
 
     const { unmount } = render(
       <SupabaseAuthProvider>
-        <div />
+        <Box />
       </SupabaseAuthProvider>
     )
 

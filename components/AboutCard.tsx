@@ -7,13 +7,14 @@ import { H3 } from '@/components/ui/heading'
 
 import { TextBase } from '@/components/ui/text'
 import { Stack } from '@/components/ui/stack'
+import { Box } from '@/components/ui/box'
 
 const { bio, focus, stats, rating, statsClose } = home.about
 
 const AuthorCard = () => {
   const { author, avatar, occupation, company, email, location, instagram } = siteMetadata
   return (
-    <div>
+    <Box>
       <Stack className="space-x-2 pb-2" direction="row" align="center" justify="center">
         {avatar && (
           <div className="pr-2 xl:pr-4">
@@ -26,7 +27,7 @@ const AuthorCard = () => {
             />
           </div>
         )}
-        <div>
+        <Box>
           <H3 className="pt-4 pb-2 sm:text-3xl md:text-4xl">{author}</H3>
           <div className="md:text-md text-base text-accent-500 dark:text-accent-400">
             {occupation}
@@ -39,7 +40,7 @@ const AuthorCard = () => {
             <SocialIcon kind="mail" href={`mailto:${email}`} />
             <SocialIcon kind="instagram" href={instagram} />
           </Stack>
-        </div>
+        </Box>
       </Stack>
       <Stack className="max-w-full" direction="col" align="center" justify="center">
         <div className="prose dark:prose-invert max-w-full pt-10 pb-8 xl:text-xl">
@@ -55,7 +56,7 @@ const AuthorCard = () => {
           </TextBase>
         </div>
       </Stack>
-    </div>
+    </Box>
   )
 }
 

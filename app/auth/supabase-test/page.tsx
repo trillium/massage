@@ -16,6 +16,7 @@ import { AuthGuard } from '@/components/auth/supabase/AuthGuard'
 import { H1, H2, H3 } from '@/components/ui/heading'
 import { TextSm, TextBase } from '@/components/ui/text'
 import { Stack } from '@/components/ui/stack'
+import { Box } from '@/components/ui/box'
 
 function AuthTestContent() {
   const { user, profile, session, loading, isAdmin } = useAuth()
@@ -50,27 +51,27 @@ function AuthTestContent() {
           <div className="rounded-lg bg-surface-50 p-6 shadow">
             <H2 className="mb-4">Auth State</H2>
             <div className="space-y-3">
-              <div>
+              <Box>
                 <span className="font-medium">Status: </span>
                 <TextSm className="rounded px-2 py-1 ${ user ? 'bg-green-100 text-green-800' : 'bg-surface-200 text-accent-800' }">
                   {user ? 'Authenticated' : 'Not authenticated'}
                 </TextSm>
-              </div>
+              </Box>
 
               {user && (
                 <>
-                  <div>
+                  <Box>
                     <span className="font-medium">Email: </span>
                     <span className="text-accent-700">{user.email}</span>
-                  </div>
-                  <div>
+                  </Box>
+                  <Box>
                     <span className="font-medium">Role: </span>
                     <span className="text-accent-700">{profile?.role || 'Loading...'}</span>
-                  </div>
-                  <div>
+                  </Box>
+                  <Box>
                     <span className="font-medium">Is Admin: </span>
                     <span className="text-accent-700">{isAdmin ? 'Yes' : 'No'}</span>
-                  </div>
+                  </Box>
                 </>
               )}
             </div>

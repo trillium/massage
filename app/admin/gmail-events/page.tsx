@@ -15,6 +15,7 @@ import { TextSm, TextSmSemibold, TextXs, TextBase } from '@/components/ui/text'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Stack } from '@/components/ui/stack'
+import { Box } from '@/components/ui/box'
 
 interface BookingResponse {
   success: boolean
@@ -145,7 +146,7 @@ export default function GmailTestPage() {
 
       // Success! Show confirmation
       toast.success(
-        <div>
+        <Box>
           Appointment created successfully!
           <br />
           Event ID: {result.event.id}
@@ -158,7 +159,7 @@ export default function GmailTestPage() {
           >
             Open in Calendar
           </a>
-        </div>
+        </Box>
       )
 
       // Optional: Reset selections after successful creation
@@ -177,12 +178,12 @@ export default function GmailTestPage() {
 
   return (
     <Stack direction="col" gap={3} className="mx-auto max-w-6xl p-3 sm:gap-4 sm:p-4 lg:p-6">
-      <div>
+      <Box>
         <H1 className="mb-4 sm:text-3xl">Gmail Soothe Booking Search</H1>
 
         <div className="mb-2 rounded-lg border border-blue-200 bg-blue-50 p-3 sm:p-4 dark:border-blue-800 dark:bg-blue-900/20">
           <div className="mb-2 grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-2 lg:grid-cols-3">
-            <div>
+            <Box>
               <label
                 htmlFor="maxResults"
                 className="mb-1 block text-sm font-medium text-blue-700 dark:text-blue-300"
@@ -198,8 +199,8 @@ export default function GmailTestPage() {
                 max="100"
                 className="w-full rounded-md border border-blue-300 px-3 py-2 text-sm dark:border-blue-600 dark:bg-blue-900/20 dark:text-blue-100"
               />
-            </div>
-            <div>
+            </Box>
+            <Box>
               <label
                 htmlFor="daysBack"
                 className="mb-1 block text-sm font-medium text-blue-700 dark:text-blue-300"
@@ -215,7 +216,7 @@ export default function GmailTestPage() {
                 max="30"
                 className="w-full rounded-md border border-blue-300 px-3 py-2 text-sm dark:border-blue-600 dark:bg-blue-900/20 dark:text-blue-100"
               />
-            </div>
+            </Box>
             <div className="sm:col-span-2 lg:col-span-1">
               <label
                 htmlFor="searchButton"
@@ -234,7 +235,7 @@ export default function GmailTestPage() {
             </div>
           </div>
         </div>
-      </div>
+      </Box>
 
       {error && (
         <div className="mb-4 rounded-lg border border-red-200 bg-red-50 p-3 sm:mb-6 sm:p-4 dark:border-red-800 dark:bg-red-900/20">
@@ -338,13 +339,13 @@ function BookingItem({
     >
       <div className="space-y-2 sm:space-y-3">
         {booking.clientName && (
-          <div>
+          <Box>
             <TextSmSemibold className="truncate sm:text-base">{booking.clientName}</TextSmSemibold>
-          </div>
+          </Box>
         )}
 
         {booking.sessionType && (
-          <div>
+          <Box>
             <TextSm>
               {booking.duration && `${booking.duration}m - `}
               {booking.sessionType}
@@ -354,19 +355,19 @@ function BookingItem({
                 </TextXs>
               )}
             </TextSm>
-          </div>
+          </Box>
         )}
 
         {booking.location && (
-          <div>
+          <Box>
             <TextXs className="line-clamp-2 whitespace-pre-line sm:text-sm">
               {booking.location}
             </TextXs>
-          </div>
+          </Box>
         )}
 
         {(booking.payout || booking.tip) && (
-          <div>
+          <Box>
             <Stack direction="row" wrap gap={1} className="text-xs sm:gap-2 sm:text-sm">
               <span className="font-semibold text-accent-900 dark:text-accent-100">
                 Total: ${parseInt(booking.payout || '0', 10) + parseInt(booking.tip || '0', 10)}
@@ -378,17 +379,17 @@ function BookingItem({
               <span className="font-semibold text-accent-900 dark:text-accent-100">+</span>
               <span className="text-green-600 dark:text-green-400">${String(booking.tip)}</span>
             </Stack>
-          </div>
+          </Box>
         )}
 
         {booking.notes && (
-          <div>
+          <Box>
             <TextXs className="line-clamp-2 sm:text-sm">{booking.notes}</TextXs>
-          </div>
+          </Box>
         )}
 
         {booking.extraServices && booking.extraServices.length > 0 && (
-          <div>
+          <Box>
             <Stack className="mt-1" direction="row" wrap gap={1}>
               {booking.extraServices.map((service, serviceIndex) => (
                 <TextXs
@@ -400,7 +401,7 @@ function BookingItem({
                 </TextXs>
               ))}
             </Stack>
-          </div>
+          </Box>
         )}
       </div>
     </Button>
@@ -443,7 +444,7 @@ function CurrentSelection(props: {
       </H3>
 
       <div className="space-y-3 text-sm">
-        <div>
+        <Box>
           <strong
             className={clsx(
               anyUnset ? 'text-red-700 dark:text-red-300' : 'text-green-700 dark:text-green-300'
@@ -469,9 +470,9 @@ function CurrentSelection(props: {
               'None selected'
             )}
           </div>
-        </div>
+        </Box>
 
-        <div>
+        <Box>
           <strong
             className={clsx(
               anyUnset ? 'text-red-700 dark:text-red-300' : 'text-green-700 dark:text-green-300'
@@ -514,7 +515,7 @@ function CurrentSelection(props: {
               'None selected'
             )}
           </div>
-        </div>
+        </Box>
 
         {!anyUnset && (
           <div className="mt-4">

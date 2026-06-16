@@ -10,6 +10,7 @@ import AttendeeList from './step5/AttendeeList'
 import MockCalendarEventJson from './step5/MockCalendarEventJson'
 import { H2, H3, H4 } from '@/components/ui/heading'
 import { TextSm, TextSmMuted, TextBase } from '@/components/ui/text'
+import { Box } from '@/components/ui/box'
 
 interface Step5EventObjectDetailsProps {
   submittedData: Partial<AppointmentProps> | null
@@ -94,38 +95,38 @@ export default function Step5EventObjectDetails({
       </div>
 
       <div className="space-y-6">
-        <div>
+        <Box>
           <H3 className="mb-2 dark:text-white">Event Title</H3>
           <div className="rounded bg-surface-200 p-3 dark:bg-surface-700">
             <TextBase className="font-medium text-accent-900 dark:text-white">{summary}</TextBase>
           </div>
-        </div>
+        </Box>
 
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          <div>
+          <Box>
             <H3 className="mb-2 dark:text-white">Start Time</H3>
             <TextBase className="text-accent-700 dark:text-accent-300">
               {formatDateTime(submittedData.start)}
             </TextBase>
-          </div>
-          <div>
+          </Box>
+          <Box>
             <H3 className="mb-2 dark:text-white">End Time</H3>
             <TextBase className="text-accent-700 dark:text-accent-300">
               {formatDateTime(submittedData.end)}
             </TextBase>
-          </div>
+          </Box>
         </div>
 
-        <div>
+        <Box>
           <H3 className="mb-2 dark:text-white">Location</H3>
           <TextBase className="text-accent-700 dark:text-accent-300">
             {submittedData.location ? flattenLocation(submittedData.location) : 'Not specified'}
           </TextBase>
-        </div>
+        </Box>
 
         <AttendeeList attendees={attendees} />
 
-        <div>
+        <Box>
           <H3 className="mb-2 dark:text-white">Event Description</H3>
           <div className="rounded bg-surface-200 p-4 dark:bg-surface-700">
             <div
@@ -133,37 +134,37 @@ export default function Step5EventObjectDetails({
               dangerouslySetInnerHTML={{ __html: description }}
             />
           </div>
-        </div>
+        </Box>
 
-        <div>
+        <Box>
           <H3 className="mb-2 dark:text-white">Event Metadata</H3>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-            <div>
+            <Box>
               <H4 className="dark:text-white">Event Base String</H4>
               <TextSmMuted className="font-mono">
                 {submittedData.eventBaseString || 'N/A'}
               </TextSmMuted>
-            </div>
+            </Box>
             {submittedData.eventMemberString && (
-              <div>
+              <Box>
                 <H4 className="dark:text-white">Event Member String</H4>
                 <TextSmMuted className="font-mono">{submittedData.eventMemberString}</TextSmMuted>
-              </div>
+              </Box>
             )}
             {submittedData.bookingUrl && (
-              <div>
+              <Box>
                 <H4 className="dark:text-white">Booking URL</H4>
                 <TextSmMuted className="font-mono">{submittedData.bookingUrl}</TextSmMuted>
-              </div>
+              </Box>
             )}
             {submittedData.promo && (
-              <div>
+              <Box>
                 <H4 className="dark:text-white">Promo Applied</H4>
                 <TextSmMuted className="font-mono">{submittedData.promo}</TextSmMuted>
-              </div>
+              </Box>
             )}
           </div>
-        </div>
+        </Box>
 
         <MockCalendarEventJson
           summary={summary}

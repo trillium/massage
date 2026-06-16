@@ -6,6 +6,7 @@ import { fetchSingleEvent } from 'lib/fetch/fetchSingleEvent'
 import Link from '@/components/Link'
 import { H1, H2, H3 } from '@/components/ui/heading'
 import { TextSm, TextSmMuted, TextXs, TextXsMuted, TextBase } from '@/components/ui/text'
+import { Box } from '@/components/ui/box'
 
 // Helper function to extract booking slug from event data
 function extractBookingSlug(event: GoogleCalendarV3Event): string | null {
@@ -123,64 +124,64 @@ export default async function EventPage({ params }: { params: Promise<{ event_id
               <H2 className="mb-4 dark:text-white">{matchingEvent.summary || 'Untitled Event'}</H2>
 
               <div className="space-y-4">
-                <div>
+                <Box>
                   <H3>Event ID:</H3>
                   <TextSm className="rounded bg-surface-200 p-2 font-mono dark:bg-surface-700 dark:text-white">
                     {matchingEvent.id}
                   </TextSm>
-                </div>
+                </Box>
 
                 {matchingEvent.description && (
-                  <div>
+                  <Box>
                     <H3>Description:</H3>
                     <TextBase className="whitespace-pre-wrap text-accent-900 dark:text-white">
                       {matchingEvent.description}
                     </TextBase>
-                  </div>
+                  </Box>
                 )}
 
                 {(matchingEvent.start?.dateTime || matchingEvent.start?.date) && (
-                  <div>
+                  <Box>
                     <H3>Start Time:</H3>
                     <TextBase className="text-accent-900 dark:text-white">
                       {matchingEvent.start.dateTime
                         ? new Date(matchingEvent.start.dateTime).toLocaleString()
                         : matchingEvent.start.date}
                     </TextBase>
-                  </div>
+                  </Box>
                 )}
 
                 {(matchingEvent.end?.dateTime || matchingEvent.end?.date) && (
-                  <div>
+                  <Box>
                     <H3>End Time:</H3>
                     <TextBase className="text-accent-900 dark:text-white">
                       {matchingEvent.end.dateTime
                         ? new Date(matchingEvent.end.dateTime).toLocaleString()
                         : matchingEvent.end.date}
                     </TextBase>
-                  </div>
+                  </Box>
                 )}
 
                 {matchingEvent.location && (
-                  <div>
+                  <Box>
                     <H3>Location:</H3>
                     <TextBase className="text-accent-900 dark:text-white">
                       {matchingEvent.location}
                     </TextBase>
-                  </div>
+                  </Box>
                 )}
 
                 {matchingEvent.creator && (
-                  <div>
+                  <Box>
                     <H3>Created by:</H3>
                     <TextBase className="text-accent-900 dark:text-white">
                       {matchingEvent.creator.displayName || matchingEvent.creator.email}
                     </TextBase>
-                  </div>
+                  </Box>
                 )}
 
                 {matchingEvent.attendees && matchingEvent.attendees.length > 0 && (
-                  <div>
+                  <Box>
                     <H3>Attendees:</H3>
                     <ul className="list-inside list-disc text-accent-900 dark:text-white">
                       {matchingEvent.attendees.map((attendee, index) => (
@@ -192,20 +193,20 @@ export default async function EventPage({ params }: { params: Promise<{ event_id
                         </li>
                       ))}
                     </ul>
-                  </div>
+                  </Box>
                 )}
 
                 {matchingEvent.status && (
-                  <div>
+                  <Box>
                     <H3>Status:</H3>
                     <TextBase className="text-accent-900 capitalize dark:text-white">
                       {matchingEvent.status}
                     </TextBase>
-                  </div>
+                  </Box>
                 )}
 
                 {matchingEvent.htmlLink && (
-                  <div>
+                  <Box>
                     <H3>Google Calendar Link:</H3>
                     <Link
                       href={matchingEvent.htmlLink}
@@ -215,7 +216,7 @@ export default async function EventPage({ params }: { params: Promise<{ event_id
                     >
                       Open in Google Calendar
                     </Link>
-                  </div>
+                  </Box>
                 )}
 
                 {/* Booking URL Section */}

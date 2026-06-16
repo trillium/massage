@@ -4,6 +4,7 @@ import { TextSm, TextXsMuted } from '@/components/ui/text'
 
 import { Button } from '@/components/ui/button'
 import { Stack } from '@/components/ui/stack'
+import { Box } from '@/components/ui/box'
 
 interface Review {
   id: number
@@ -60,7 +61,7 @@ export function ReviewCard({
   return (
     <div className="rounded-lg bg-surface-50 p-4 shadow dark:bg-surface-800">
       <Stack direction="row" align="start" justify="between">
-        <div>
+        <Box>
           <Stack direction="row" align="center" gap={2}>
             <span className="font-semibold text-accent-800 dark:text-accent-200">
               {review.name}
@@ -76,7 +77,7 @@ export function ReviewCard({
             </TextSm>
           </Stack>
           <TextXsMuted className="mt-1">{review.date}</TextXsMuted>
-        </div>
+        </Box>
         <Button
           onClick={onEdit}
           className="rounded-md border border-accent-300 px-2 py-1 text-xs text-accent-600 hover:bg-surface-100 dark:border-accent-600 dark:text-accent-400 dark:hover:bg-surface-700"

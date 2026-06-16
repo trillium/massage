@@ -7,6 +7,7 @@ import { Code } from '@/components/ui/code'
 
 import { TextBase, TextSm, TextXs } from '@/components/ui/text'
 import { Stack } from '@/components/ui/stack'
+import { Box } from '@/components/ui/box'
 
 interface ConfigDetailsPanelProps {
   config: SlugConfigurationType
@@ -17,10 +18,10 @@ interface ConfigDetailsPanelProps {
 
 function KeyProperty({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <div>
+    <Box>
       <strong className="text-accent-700 dark:text-accent-300">{label}:</strong>
       {children}
-    </div>
+    </Box>
   )
 }
 

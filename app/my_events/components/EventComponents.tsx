@@ -10,6 +10,7 @@ import { TextSm } from '@/components/ui/text'
 
 import { Button } from '@/components/ui/button'
 import { Stack } from '@/components/ui/stack'
+import { Box } from '@/components/ui/box'
 
 export function CategorizedEventList({
   events,
@@ -34,7 +35,7 @@ export function CategorizedEventList({
   }
 
   return (
-    <div>
+    <Box>
       {isAdmin && (
         <Stack className="mb-4" direction="row" justify="end">
           <Button
@@ -139,7 +140,7 @@ export function CategorizedEventList({
           ))}
         </>
       )}
-    </div>
+    </Box>
   )
 }
 

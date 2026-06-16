@@ -10,6 +10,7 @@ import { Code } from '@/components/ui/code'
 
 import { TextBase } from '@/components/ui/text'
 import { Stack } from '@/components/ui/stack'
+import { Box } from '@/components/ui/box'
 
 export const dynamic = 'force-dynamic'
 
@@ -32,7 +33,7 @@ export default async function ActiveEventContainersPage() {
           <H1 className="mb-4 dark:text-white">{p.heading}</H1>
           <div className="rounded-lg bg-blue-50 p-4 dark:bg-blue-900/20">
             <Stack direction="row" align="center" justify="between">
-              <div>
+              <Box>
                 <H2 status="info">{p.overview.heading}</H2>
                 <TextBase className="text-blue-700 dark:text-blue-200">
                   {p.overview.monitoringPrefix}
@@ -40,7 +41,7 @@ export default async function ActiveEventContainersPage() {
                   {p.overview.monitoringTo}
                   {Day.todayWithOffset(21).toString()}
                 </TextBase>
-              </div>
+              </Box>
               <div className="text-right">
                 <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">
                   {totalContainers}

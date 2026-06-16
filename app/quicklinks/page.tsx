@@ -3,6 +3,7 @@ import Link from '@/components/Link'
 import { quickLinks } from '@/data/paymentLinks'
 import { TextSmMuted } from '@/components/ui/text'
 import { Stack } from '@/components/ui/stack'
+import { Box } from '@/components/ui/box'
 
 export default function QuicklinksPage() {
   return (
@@ -16,12 +17,12 @@ export default function QuicklinksPage() {
               classes={`flex items-center gap-4 rounded-2xl border-2 ${link.accent} bg-surface-50 p-4 transition-all hover:shadow-md hover:-translate-y-0.5 dark:bg-surface-900`}
             >
               <link.icon className={`shrink-0 text-2xl ${link.iconColor}`} />
-              <div>
+              <Box>
                 <span className="font-semibold text-accent-900 dark:text-accent-100">
                   {link.label}
                 </span>
                 <TextSmMuted>{link.description}</TextSmMuted>
-              </div>
+              </Box>
             </Link>
           ))}
         </Stack>

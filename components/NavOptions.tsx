@@ -6,6 +6,7 @@ import { Menu, MenuButton, MenuItems, Transition } from '@headlessui/react'
 import headerNavLinks from '@/data/headerNavLinks'
 import Link from '@/components/Link'
 import clsx from 'clsx'
+import { Box } from '@/components/ui/box'
 
 type NavItemBase = {
   title: string
@@ -62,7 +63,7 @@ const RenderNavLink = ({ navItem }: { navItem: NavItem }) => {
   return (
     <div className="mr-5">
       <Menu as="div" className="relative inline-block text-left">
-        <div>
+        <Box>
           {navItem.title && (
             <MenuButton
               className={
@@ -72,7 +73,7 @@ const RenderNavLink = ({ navItem }: { navItem: NavItem }) => {
               {navItem.title}
             </MenuButton>
           )}
-        </div>
+        </Box>
         <Transition
           as={Fragment}
           enter="transition ease-out duration-100"

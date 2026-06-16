@@ -6,6 +6,7 @@ import { buildDurationProps } from '@/lib/slugConfigurations/helpers/buildDurati
 import { DEFAULT_DURATION } from 'config'
 import uiData from '@/data/ui.json'
 import { H3, H4 } from '@/components/ui/heading'
+import { Box } from '@/components/ui/box'
 
 interface BookingPreviewProps {
   title?: string
@@ -19,14 +20,14 @@ export default function BookingPreview({ title = 'Select Your Session' }: Bookin
       {title && <H3 className="mb-6 dark:text-white">{title}</H3>}
 
       <div className="space-y-8">
-        <div>
+        <Box>
           <DurationPicker {...durationProps} />
-        </div>
+        </Box>
 
-        <div>
+        <Box>
           <H4 className="mb-4">{uiData.misc.chooseDate}</H4>
           <Calendar weeksDisplayOverride={6} />
-        </div>
+        </Box>
       </div>
     </div>
   )

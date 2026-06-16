@@ -5,6 +5,7 @@ import { render, screen, waitFor } from '@testing-library/react'
 import { AdminAuthWrapper } from '@/components/auth/admin/AdminAuthWrapper'
 
 import { Button } from '@/components/ui/button'
+import { Box } from '@/components/ui/box'
 
 const mockRouter = {
   replace: vi.fn(),
@@ -64,12 +65,12 @@ vi.mock('@/lib/posthog-utils', () => ({
 }))
 
 vi.mock('@headlessui/react', () => ({
-  Menu: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
+  Menu: ({ children }: { children: React.ReactNode }) => <Box>{children}</Box>,
   MenuButton: ({ children, ...props }: React.PropsWithChildren<Record<string, unknown>>) => (
     <Button {...props}>{children}</Button>
   ),
-  MenuItems: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
-  MenuItem: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
+  MenuItems: ({ children }: { children: React.ReactNode }) => <Box>{children}</Box>,
+  MenuItem: ({ children }: { children: React.ReactNode }) => <Box>{children}</Box>,
 }))
 
 describe('Admin Page Access Control', () => {

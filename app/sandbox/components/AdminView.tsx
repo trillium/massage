@@ -19,6 +19,7 @@ import {
 
 import { Button } from '@/components/ui/button'
 import { Stack } from '@/components/ui/stack'
+import { Box } from '@/components/ui/box'
 
 function EventCard({
   event,
@@ -124,7 +125,7 @@ function EmailCard({ email }: { email: SandboxEmail }) {
         onClick={() => setExpanded(!expanded)}
         className="flex w-full items-center justify-between p-3 text-left"
       >
-        <div>
+        <Box>
           <TextXsMedium className="uppercase" status="muted">
             {typeLabels[email.type]}
           </TextXsMedium>
@@ -132,7 +133,7 @@ function EmailCard({ email }: { email: SandboxEmail }) {
             {sandbox.eventCard.labels.to} {email.to}
           </TextSmMedium>
           <TextSmMuted>{email.subject}</TextSmMuted>
-        </div>
+        </Box>
         <span className="text-accent-400">{expanded ? '\u25B2' : '\u25BC'}</span>
       </Button>
       {expanded && (

@@ -3,6 +3,7 @@ import { render, screen, waitFor } from '@testing-library/react'
 import { AdminAuthProvider } from '@/components/auth/admin/AdminAuthProvider'
 
 import { Button } from '@/components/ui/button'
+import { Box } from '@/components/ui/box'
 
 const mockRouter = {
   replace: vi.fn(),
@@ -73,7 +74,7 @@ vi.mock('@headlessui/react', () => ({
   MenuItems: ({ children }: { children: React.ReactNode }) => (
     <div data-testid="menu-items">{children}</div>
   ),
-  MenuItem: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
+  MenuItem: ({ children }: { children: React.ReactNode }) => <Box>{children}</Box>,
 }))
 
 function mockAdminUser(email = 'admin@example.com') {

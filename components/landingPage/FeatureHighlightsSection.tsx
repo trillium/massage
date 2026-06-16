@@ -2,6 +2,7 @@ import { FaLeaf, FaClock, FaHeart } from 'react-icons/fa'
 import { FaMedal } from 'react-icons/fa6'
 import { home } from '@/app/content'
 import { Stack } from '@/components/ui/stack'
+import { Box } from '@/components/ui/box'
 
 interface FeatureItemProps {
   icon: React.ReactNode
@@ -44,10 +45,10 @@ function FeatureItem({ icon, title, description }: FeatureItemProps) {
       >
         <div className="text-primary-600 absolute text-3xl">{icon}</div>
       </Stack>
-      <div>
+      <Box>
         <div className="text-lg font-bold sm:text-base">{title}</div>
         <div className="text-base text-accent-500">{description}</div>
-      </div>
+      </Box>
     </Stack>
   )
 }

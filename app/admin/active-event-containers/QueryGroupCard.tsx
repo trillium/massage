@@ -8,13 +8,14 @@ import { TextSmMuted, TextXsMedium, TextXsMuted } from '@/components/ui/text'
 
 import { Code } from '@/components/ui/code'
 import { Stack } from '@/components/ui/stack'
+import { Box } from '@/components/ui/box'
 
 export function QueryGroupCard({ group }: { group: QueryGroup }) {
   return (
     <div className="overflow-hidden rounded-lg bg-surface-50 shadow dark:bg-surface-800">
       <div className="bg-surface-100 px-6 py-4 dark:bg-surface-700">
         <Stack direction="row" align="center" justify="between">
-          <div>
+          <Box>
             <H3 className="dark:text-white">
               {admin.activeEventContainers.queryLabel}
               <Code className="text-blue-600 dark:text-blue-400">{group.query}</Code>
@@ -69,7 +70,7 @@ export function QueryGroupCard({ group }: { group: QueryGroup }) {
                 </Code>
               </TextXsMuted>
             </div>
-          </div>
+          </Box>
           <Stack className="space-x-4 text-sm" direction="row">
             <div className="text-center">
               <div className="font-semibold text-green-600 dark:text-green-400">

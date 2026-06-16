@@ -7,6 +7,7 @@ import { TextSmSemibold, TextXsMuted, TextBase } from '@/components/ui/text'
 
 import { Input } from '@/components/ui/input'
 import { Stack } from '@/components/ui/stack'
+import { Box } from '@/components/ui/box'
 
 type RaffleOptInFieldProps = {
   optIn: boolean
@@ -49,7 +50,7 @@ export default function RaffleOptInField({
         leaveTo="opacity-0"
       >
         <div className="mt-4 space-y-4 border-t border-primary-200 pb-3 pt-4 dark:border-primary-700">
-          <div>
+          <Box>
             <label htmlFor="raffleZipCode" className={fieldClasses.label}>
               Home zip code <span className="text-primary-500">*</span>
             </label>
@@ -62,9 +63,9 @@ export default function RaffleOptInField({
               maxLength={10}
               className="focus:ring-primary-500 focus:border-primary-500 mt-1 w-full rounded border px-3 py-2 text-sm"
             />
-          </div>
+          </Box>
 
-          <div>
+          <Box>
             <TextBase className={fieldClasses.label}>
               Interested in <span className="text-primary-500">*</span>
             </TextBase>
@@ -92,7 +93,7 @@ export default function RaffleOptInField({
                 </Stack>
               ))}
             </div>
-          </div>
+          </Box>
         </div>
       </Transition>
     </div>

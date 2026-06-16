@@ -7,6 +7,7 @@ import { siteConfig } from '@/lib/siteConfig'
 import landing from '@/data/landing.json'
 import { H2 } from '@/components/ui/heading'
 import { Stack } from '@/components/ui/stack'
+import { Box } from '@/components/ui/box'
 
 const { name } = siteConfig.business
 const { mapLatitude, mapLongitude, serviceArea } = siteConfig.location
@@ -34,12 +35,12 @@ export default function ContactSection() {
                 style={{ width: '100%', height: '400px' }}
                 showMarker={false}
               />
-              <div>
+              <Box>
                 <Stack direction="row" align="center" gap={4}>
                   <FaMapMarkerAlt className="text-primary-600 dark:text-primary-400 h-6 w-6" />
                   <span className="dark:text-accent-200">{serviceArea}</span>
                 </Stack>
-              </div>
+              </Box>
               <Stack direction="row" align="center" gap={4}>
                 <FaPhoneAlt className="text-primary-600 dark:text-primary-400 h-6 w-6" />
                 <Link href={createContactUrl(`Informational Callback Request`)} classes="">

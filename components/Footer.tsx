@@ -12,6 +12,7 @@ import footer from '@/data/footer.json'
 import { H2 } from '@/components/ui/heading'
 import { TextBaseMuted, TextBase, TextLg } from '@/components/ui/text'
 import { Stack } from '@/components/ui/stack'
+import { Box } from '@/components/ui/box'
 
 export default function Footer() {
   return (
@@ -120,7 +121,7 @@ function CopyrightNotice() {
         justify="center"
       >
         <div className="whitespace-nowrap">{siteMetadata.author}</div>
-        <div>{` • `}</div>
+        <Box>{` • `}</Box>
         <div className="whitespace-nowrap">{`© ${new Date().getFullYear()}`}</div>
         <Link className="whitespace-nowrap" href="/">
           <TextBase as="span">{` • `}</TextBase>

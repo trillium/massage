@@ -13,6 +13,7 @@ import { TextXs, TextXsMedium, TextBase } from '@/components/ui/text'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Stack } from '@/components/ui/stack'
+import { Box } from '@/components/ui/box'
 
 interface EventCardProps {
   event: GoogleCalendarV3Event
@@ -142,7 +143,7 @@ export function EventCard({
             </TextBase>
 
             {/* Location with edit functionality */}
-            <div>
+            <Box>
               <strong>Location:</strong>{' '}
               {!isEditingLocation ? (
                 <span>
@@ -187,7 +188,7 @@ export function EventCard({
                   </Stack>
                 </div>
               )}
-            </div>
+            </Box>
 
             {event.creator && (
               <TextBase>

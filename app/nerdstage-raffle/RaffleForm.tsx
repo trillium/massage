@@ -19,6 +19,7 @@ import {
   checkboxClasses,
 } from './raffleFormUtils'
 import { Stack } from '@/components/ui/stack'
+import { Box } from '@/components/ui/box'
 
 const formText = raffleData.nerdstage
 
@@ -128,7 +129,7 @@ export default function RaffleForm({ raffleId, raffleName }: RaffleFormProps) {
       >
         {({ isSubmitting, values, setFieldValue }) => (
           <Form className="w-full space-y-6">
-            <div>
+            <Box>
               <label htmlFor="name" className={labelClasses}>
                 {formText.nameLabel}{' '}
                 <span className="text-primary-500">{formText.requiredAsterisk}</span>
@@ -144,9 +145,9 @@ export default function RaffleForm({ raffleId, raffleName }: RaffleFormProps) {
               <div className="mt-1 min-h-5 text-sm text-amber-500 dark:text-amber-400">
                 <ErrorMessage name="name" />
               </div>
-            </div>
+            </Box>
 
-            <div>
+            <Box>
               <label htmlFor="email" className={labelClasses}>
                 {formText.emailLabel}{' '}
                 <span className="text-primary-500">{formText.requiredAsterisk}</span>
@@ -170,9 +171,9 @@ export default function RaffleForm({ raffleId, raffleName }: RaffleFormProps) {
                   {lookupMessage}
                 </div>
               )}
-            </div>
+            </Box>
 
-            <div>
+            <Box>
               <label htmlFor="phone" className={labelClasses}>
                 {formText.phoneLabel}{' '}
                 <span className="text-primary-500">{formText.requiredAsterisk}</span>
@@ -188,9 +189,9 @@ export default function RaffleForm({ raffleId, raffleName }: RaffleFormProps) {
               <div className="mt-1 min-h-5 text-sm text-amber-500 dark:text-amber-400">
                 <ErrorMessage name="phone" />
               </div>
-            </div>
+            </Box>
 
-            <div>
+            <Box>
               <label htmlFor="zip_code" className={labelClasses}>
                 {formText.zipCodeLabel}{' '}
                 <span className="text-primary-500">{formText.requiredAsterisk}</span>
@@ -207,9 +208,9 @@ export default function RaffleForm({ raffleId, raffleName }: RaffleFormProps) {
               <div className="mt-1 min-h-5 text-sm text-amber-500 dark:text-amber-400">
                 <ErrorMessage name="zip_code" />
               </div>
-            </div>
+            </Box>
 
-            <div>
+            <Box>
               <TextBase className={labelClasses}>
                 {formText.interestedLabel}{' '}
                 <span className="text-primary-500">{formText.requiredAsterisk}</span>
@@ -242,7 +243,7 @@ export default function RaffleForm({ raffleId, raffleName }: RaffleFormProps) {
               <div className="mt-1 min-h-5 text-sm text-amber-500 dark:text-amber-400">
                 <ErrorMessage name="interested_in" />
               </div>
-            </div>
+            </Box>
 
             <Button
               type="submit"
@@ -251,13 +252,13 @@ export default function RaffleForm({ raffleId, raffleName }: RaffleFormProps) {
             >
               {isSubmitting ? formText.enterButtonSubmitting : formText.enterButtonDefault}
             </Button>
-            <div>
+            <Box>
               {submitError && (
                 <div className="rounded-md bg-amber-50 px-4 py-3 text-sm text-amber-700 dark:bg-amber-900/20 dark:text-amber-300">
                   {submitError}
                 </div>
               )}
-            </div>
+            </Box>
           </Form>
         )}
       </Formik>

@@ -27,6 +27,7 @@ import {
 } from '@/components/ui/text'
 import { H1 } from '@/components/ui/heading'
 import { Stack } from '@/components/ui/stack'
+import { Box } from '@/components/ui/box'
 
 interface EventPageProps {
   params: Promise<{ event_id: string }>
@@ -233,12 +234,12 @@ export default async function EventPage({ params, searchParams }: EventPageProps
                     classes={`flex items-center gap-4 rounded-2xl border-2 ${link.accent} bg-surface-50 p-4 transition-all hover:shadow-md hover:-translate-y-0.5 dark:bg-surface-900`}
                   >
                     <link.icon className={`shrink-0 text-2xl ${link.iconColor}`} />
-                    <div>
+                    <Box>
                       <span className="font-semibold text-accent-900 dark:text-accent-100">
                         {link.label}
                       </span>
                       <TextSmMuted>{link.description}</TextSmMuted>
-                    </div>
+                    </Box>
                   </Link>
                 ))}
               </Stack>

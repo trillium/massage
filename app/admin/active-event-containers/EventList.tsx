@@ -4,6 +4,7 @@ import { formatDateTime } from './formatDateTime'
 import { H4 } from '@/components/ui/heading'
 
 import { Code } from '@/components/ui/code'
+import { Box } from '@/components/ui/box'
 
 interface EventListProps {
   events: GoogleCalendarV3Event[]
@@ -21,7 +22,7 @@ export function EventList({ events, color, label, emptyMessage, patternString }:
       : 'border-orange-200 dark:border-orange-700'
 
   return (
-    <div>
+    <Box>
       <H4 className="mb-3 flex items-center dark:text-white">
         <div className={`mr-2 h-3 w-3 rounded-full ${dotColor}`}></div>
         {label} {admin.activeEventContainers.eventCountOpen}
@@ -65,6 +66,6 @@ export function EventList({ events, color, label, emptyMessage, patternString }:
           ))}
         </div>
       )}
-    </div>
+    </Box>
   )
 }

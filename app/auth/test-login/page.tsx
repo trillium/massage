@@ -20,6 +20,7 @@ import { TextSmMuted } from '@/components/ui/text'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Stack } from '@/components/ui/stack'
+import { Box } from '@/components/ui/box'
 
 export const dynamic = 'force-dynamic'
 
@@ -84,7 +85,7 @@ export default function TestLoginPage() {
         {error && <div className="mb-4 rounded bg-red-50 p-3 text-sm text-red-800">{error}</div>}
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
+          <Box>
             <label htmlFor="email" className="block text-sm font-medium">
               Email
             </label>
@@ -96,9 +97,9 @@ export default function TestLoginPage() {
               required
               className="mt-1 block w-full rounded border p-2"
             />
-          </div>
+          </Box>
 
-          <div>
+          <Box>
             <label htmlFor="password" className="block text-sm font-medium">
               Password
             </label>
@@ -110,7 +111,7 @@ export default function TestLoginPage() {
               required
               className="mt-1 block w-full rounded border p-2"
             />
-          </div>
+          </Box>
 
           <Button
             type="submit"
