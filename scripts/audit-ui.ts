@@ -56,7 +56,13 @@ function isSelfFile(absFile: string, rule: DsRule): boolean {
   if (!rule.selfExempt) return false
   const posixFile = toPosix(absFile)
   const importPath = rule.importPath.replace(/^@\//, '/')
-  if (!importPath.match(/\.[a-z]+$/)) return posixFile.includes(importPath + '/')
+  if (!importPath.match(/\.[a-z]+$/)) {
+    return (
+      posixFile.includes(importPath + '/') ||
+      posixFile.includes(importPath + '.tsx') ||
+      posixFile.includes(importPath + '.ts')
+    )
+  }
   return posixFile.includes(importPath + '.tsx') || posixFile.includes(importPath + '.ts')
 }
 

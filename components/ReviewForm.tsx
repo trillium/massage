@@ -174,7 +174,7 @@ export default function ReviewForm({
                 <Box className="text-primary-400 inline-flex focus-within:rounded-sm focus-within:ring-2 focus-within:ring-accent-400 focus-within:outline-none">
                   {[1, 2, 3, 4, 5].map((num) => (
                     <label key={`star${num}`} className="flex items-center">
-                      <input
+                      <input // ds-ignore - radio button, not a text input
                         type="radio"
                         name="rating"
                         value={num}
