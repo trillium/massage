@@ -3,6 +3,7 @@ import { fieldClasses } from './classes'
 import booking from '@/data/booking.json'
 
 import { Textarea } from '@/components/ui/textarea'
+import { Box } from '@/components/ui/box'
 
 const { notes: copy } = booking.form
 
@@ -13,7 +14,7 @@ type NotesFieldProps = {
 
 export default function NotesField({ additionalNotes, onChange }: NotesFieldProps) {
   return (
-    <div className={fieldClasses.row}>
+    <Box className={fieldClasses.row}>
       <label htmlFor="additionalNotes" className={fieldClasses.label}>
         {copy.label}
       </label>
@@ -26,6 +27,6 @@ export default function NotesField({ additionalNotes, onChange }: NotesFieldProp
         placeholder={copy.placeholder}
         onChange={onChange}
       />
-    </div>
+    </Box>
   )
 }

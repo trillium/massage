@@ -9,6 +9,7 @@ import { TextSm, TextSmMuted } from '@/components/ui/text'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Stack } from '@/components/ui/stack'
+import { Box } from '@/components/ui/box'
 
 export default function CancelButton({ eventId, token }: { eventId: string; token: string }) {
   const router = useRouter()
@@ -70,7 +71,7 @@ export default function CancelButton({ eventId, token }: { eventId: string; toke
         <Stack direction="row" align="center" justify="center" className="fixed inset-0 z-50 bg-black/50 p-4" onClick={(e) => {
             if (e.target === e.currentTarget) setOpen(false)
           }}>
-          <div className="w-full max-w-md rounded-2xl bg-surface-50 p-6 shadow-xl dark:bg-surface-800">
+          <Box className="w-full max-w-md rounded-2xl bg-surface-50 p-6 shadow-xl dark:bg-surface-800">
             <H2 className="dark:text-white">{eventContent.cancelButton.modalTitle}</H2>
             <TextSmMuted className="mt-2">
               {eventContent.cancelButton.modalMessage}
@@ -113,7 +114,7 @@ export default function CancelButton({ eventId, token }: { eventId: string; toke
                 {loading ? eventContent.cancelButton.confirming : eventContent.cancelButton.confirm}
               </Button>
             </Stack>
-          </div>
+          </Box>
         </Stack>
       )}
     </>

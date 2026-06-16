@@ -3,6 +3,7 @@ import { Dialog, DialogPanel, Transition, TransitionChild } from '@headlessui/re
 import type { PropsWithChildren } from 'react'
 import { Fragment } from 'react'
 import { Stack } from '@/components/ui/stack'
+import { Box } from '@/components/ui/box'
 
 type ModalProps = {
   open: boolean
@@ -21,10 +22,10 @@ export default function Modal({ open, setOpen, children }: PropsWithChildren<Mod
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-surface-900/75 transition-opacity" />
+          <Box className="fixed inset-0 bg-surface-900/75 transition-opacity" />
         </TransitionChild>
 
-        <div className="fixed inset-0 z-10 overflow-y-auto">
+        <Box className="fixed inset-0 z-10 overflow-y-auto">
           <Stack
             direction="row"
             align="end"
@@ -45,7 +46,7 @@ export default function Modal({ open, setOpen, children }: PropsWithChildren<Mod
               </DialogPanel>
             </TransitionChild>
           </Stack>
-        </div>
+        </Box>
       </Dialog>
     </Transition>
   )

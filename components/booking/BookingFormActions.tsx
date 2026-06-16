@@ -6,6 +6,7 @@ import { useSlotHoldContext } from 'hooks/SlotHoldContext'
 import booking from '@/data/booking.json'
 
 import { Button } from '@/components/ui/button'
+import { Box } from '@/components/ui/box'
 
 interface BookingFormActionsProps {
   onSubmitLabel?: string
@@ -17,7 +18,7 @@ const BookingFormActions: React.FC<BookingFormActionsProps> = ({ onSubmitLabel =
   const { claiming, releaseHold } = useSlotHoldContext()
 
   return (
-    <div className="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
+    <Box className="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
       <Button
         type="submit"
         disabled={modal === 'busy' || claiming}
@@ -45,7 +46,7 @@ const BookingFormActions: React.FC<BookingFormActionsProps> = ({ onSubmitLabel =
       >
         {booking.flow.cancel}
       </Button>
-    </div>
+    </Box>
   )
 }
 

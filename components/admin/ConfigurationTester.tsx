@@ -12,6 +12,7 @@ import ConfigDetailsPanel from './configuration-tester/ConfigDetailsPanel'
 import { H2 } from '@/components/ui/heading'
 
 import { Select } from '@/components/ui/select'
+import { Box } from '@/components/ui/box'
 
 type ConfigurationTesterProps = {
   onConfigurationChange?: (config: SlugConfigurationType, slug: string) => void
@@ -91,10 +92,10 @@ export default function ConfigurationTester({ onConfigurationChange }: Configura
   }
 
   return (
-    <div className="rounded-lg border bg-surface-50 p-6 shadow-sm dark:bg-surface-800">
+    <Box className="rounded-lg border bg-surface-50 p-6 shadow-sm dark:bg-surface-800">
       <H2 className="mb-4">{admin.configurationTester.title}</H2>
 
-      <div className="mb-6">
+      <Box className="mb-6">
         <label
           htmlFor="config-select"
           className="mb-2 block text-sm font-medium text-accent-700 dark:text-accent-300"
@@ -117,7 +118,7 @@ export default function ConfigurationTester({ onConfigurationChange }: Configura
             </option>
           ))}
         </Select>
-      </div>
+      </Box>
 
       {selectedConfig && (
         <ConfigDetailsPanel
@@ -127,6 +128,6 @@ export default function ConfigurationTester({ onConfigurationChange }: Configura
           onCopyJson={handleCopyJson}
         />
       )}
-    </div>
+    </Box>
   )
 }

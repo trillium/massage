@@ -17,7 +17,7 @@ import { Box } from '@/components/ui/box'
 export default function Footer() {
   return (
     <footer className="dark bg-surface-900 p-4">
-      <div
+      <Box
         className={clsx(
           'items-start gap-8',
           //
@@ -28,7 +28,7 @@ export default function Footer() {
         <QuicklinkContainer displayClasses={''} />
         <ServiceIsContainer displayClasses={''} />
         <ContactFooterSection displayClasses={''} />
-      </div>
+      </Box>
       <CopyrightNotice />
     </footer>
   )
@@ -120,22 +120,22 @@ function CopyrightNotice() {
         align="center"
         justify="center"
       >
-        <div className="whitespace-nowrap">{siteMetadata.author}</div>
+        <Box className="whitespace-nowrap">{siteMetadata.author}</Box>
         <Box>{` • `}</Box>
-        <div className="whitespace-nowrap">{`© ${new Date().getFullYear()}`}</div>
+        <Box className="whitespace-nowrap">{`© ${new Date().getFullYear()}`}</Box>
         <Link className="whitespace-nowrap" href="/">
           <TextBase as="span">{` • `}</TextBase>
           {siteMetadata.title}
         </Link>
       </Stack>
-      <div className="mb-8 text-sm text-accent-500 dark:text-accent-400"></div>
+      <Box className="mb-8 text-sm text-accent-500 dark:text-accent-400"></Box>
     </Stack>
   )
 }
 
 function LogoAndBlurb({ displayClasses }: { displayClasses: string }) {
   return (
-    <div className={clsx(displayClasses, 'text-white')}>
+    <Box className={clsx(displayClasses, 'text-white')}>
       <Link href="/" aria-label={siteMetadata.headerTitle} className="group">
         <Stack
           direction="row"
@@ -143,25 +143,25 @@ function LogoAndBlurb({ displayClasses }: { displayClasses: string }) {
           className="group-focus-within: group-focus-within:outline-primary-500 rounded-md outline-2 outline-offset-2 outline-transparent"
         >
           {site.branding.siteLogo && (
-            <div className="mr-3">
+            <Box className="mr-3">
               <Logo forceTheme="light" classes="text-primary-500 w-8 h-8 xs:w-10 xs:h-10" />
-            </div>
+            </Box>
           )}
 
-          <div
+          <Box
             className={clsx(
               'border-primary-500 border-b-2 text-2xl leading-6 font-semibold whitespace-nowrap sm:text-xl xl:border-b-3'
             )}
           >
             {siteMetadata.headerTitle}
-          </div>
+          </Box>
         </Stack>
       </Link>
       <TextBase className="text-accent-400" data-content="footer.blurb">
         {home.footer.blurb}
       </TextBase>
       <Socials />
-    </div>
+    </Box>
   )
 }
 
@@ -186,7 +186,7 @@ function ContactItem({
 
 function ContactFooterSection({ displayClasses }: { displayClasses: string }) {
   return (
-    <div className={clsx(displayClasses)}>
+    <Box className={clsx(displayClasses)}>
       <H2 className="mb-6">{footer.contact.heading}</H2>
       <ul className="space-y-4">
         {contactItems.map((item, index) => (
@@ -195,7 +195,7 @@ function ContactFooterSection({ displayClasses }: { displayClasses: string }) {
           </ContactItem>
         ))}
       </ul>
-    </div>
+    </Box>
   )
 }
 
@@ -220,14 +220,14 @@ const contactItems = [
         href={createContactUrl(`Informational Callback Request`)}
         classes="group outline-transparent"
       >
-        <div className="group-focus-within:outline-primary-500 inline-block rounded-md outline-2 outline-offset-2 outline-transparent hover:text-white">
+        <Box className="group-focus-within:outline-primary-500 inline-block rounded-md outline-2 outline-offset-2 outline-transparent hover:text-white">
           <TextBase as="span" className="block">
             {footer.contact.phone.label}
           </TextBase>{' '}
           <TextBase as="span" className="block">
             {footer.contact.phone.cta}
           </TextBase>
-        </div>
+        </Box>
       </Link>
     ),
   },

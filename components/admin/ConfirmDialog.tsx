@@ -8,6 +8,7 @@ import { TextSmMuted } from '@/components/ui/text'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Stack } from '@/components/ui/stack'
+import { Box } from '@/components/ui/box'
 
 type ConfirmDialogProps = {
   open: boolean
@@ -50,10 +51,10 @@ export default function ConfirmDialog({
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-surface-900/75 transition-opacity" />
+          <Box className="fixed inset-0 bg-surface-900/75 transition-opacity" />
         </TransitionChild>
 
-        <div className="fixed inset-0 z-10 overflow-y-auto">
+        <Box className="fixed inset-0 z-10 overflow-y-auto">
           <Stack className="min-h-full p-4" direction="row" align="center" justify="center">
             <TransitionChild
               as={Fragment}
@@ -79,7 +80,7 @@ export default function ConfirmDialog({
                   </DialogTitle>
                   <TextSmMuted className="mt-2">{message}</TextSmMuted>
                   {typeToConfirm && (
-                    <div className="mt-4">
+                    <Box className="mt-4">
                       <label
                         htmlFor="confirm-input"
                         className="text-sm text-accent-600 dark:text-accent-400"
@@ -97,7 +98,7 @@ export default function ConfirmDialog({
                         className="mt-1.5 w-full rounded border border-accent-300 bg-white px-3 py-2 text-sm text-accent-900 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500 dark:border-accent-600 dark:bg-surface-700 dark:text-accent-100"
                         autoFocus
                       />
-                    </div>
+                    </Box>
                   )}
                   <Stack className="mt-6" direction="row" justify="end" gap={3}>
                     <Button
@@ -119,7 +120,7 @@ export default function ConfirmDialog({
               </DialogPanel>
             </TransitionChild>
           </Stack>
-        </div>
+        </Box>
       </Dialog>
     </Transition>
   )

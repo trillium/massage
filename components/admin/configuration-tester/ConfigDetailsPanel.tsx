@@ -31,9 +31,9 @@ function LocationWarning({
   warning: NonNullable<SlugConfigurationType['locationWarning']>
 }) {
   return (
-    <div className="mb-3">
+    <Box className="mb-3">
       <strong className="text-accent-700 dark:text-accent-300">Location Warning:</strong>
-      <div className="mt-1 rounded border-2 border-amber-200 bg-amber-50 p-2 text-sm text-amber-700 dark:bg-amber-950/50 dark:text-amber-300">
+      <Box className="mt-1 rounded border-2 border-amber-200 bg-amber-50 p-2 text-sm text-amber-700 dark:bg-amber-950/50 dark:text-amber-300">
         <Stack direction="row" align="center" gap={2}>
           <TextXs
             as="span"
@@ -45,8 +45,8 @@ function LocationWarning({
             <FaExclamationTriangle className="mr-1 inline text-amber-500" /> {warning.message}
           </TextBase>
         </Stack>
-      </div>
-    </div>
+      </Box>
+    </Box>
   )
 }
 
@@ -69,8 +69,8 @@ export default function ConfigDetailsPanel({
   onCopyJson,
 }: ConfigDetailsPanelProps) {
   return (
-    <div className="space-y-4">
-      <div className="rounded-md bg-surface-100 p-4 dark:bg-surface-700">
+    <Box className="space-y-4">
+      <Box className="rounded-md bg-surface-100 p-4 dark:bg-surface-700">
         <H3 className="mb-3 text-lg font-medium text-accent-900 dark:text-accent-100">
           Configuration Details for:{' '}
           <Code className="rounded bg-surface-200 px-2 py-1 text-sm dark:bg-surface-600">
@@ -78,7 +78,7 @@ export default function ConfigDetailsPanel({
           </Code>
         </H3>
 
-        <div className="mb-4 grid grid-cols-1 gap-4 md:grid-cols-2">
+        <Box className="mb-4 grid grid-cols-1 gap-4 md:grid-cols-2">
           <KeyProperty label="Type">
             <TextSm
               as="span"
@@ -117,19 +117,19 @@ export default function ConfigDetailsPanel({
               </TextBase>
             </KeyProperty>
           )}
-        </div>
+        </Box>
 
         {config.title && (
-          <div className="mb-3">
+          <Box className="mb-3">
             <strong className="text-accent-700 dark:text-accent-300">Title:</strong>
             <TextBase className="mt-1 text-accent-600 dark:text-accent-400">
               {config.title}
             </TextBase>
-          </div>
+          </Box>
         )}
 
         {config.text && (
-          <div className="mb-3">
+          <Box className="mb-3">
             <strong className="text-accent-700 dark:text-accent-300">Text:</strong>
             {Array.isArray(config.text) ? (
               config.text.map((paragraph, index) => (
@@ -142,11 +142,11 @@ export default function ConfigDetailsPanel({
                 {config.text}
               </TextBase>
             )}
-          </div>
+          </Box>
         )}
 
         {config.location && (
-          <div className="mb-3">
+          <Box className="mb-3">
             <strong className="text-accent-700 dark:text-accent-300">Location:</strong>
             <TextBase className="mt-1 text-accent-600 dark:text-accent-400">
               {config.location.street}, {config.location.city}, {config.location.zip}
@@ -159,13 +159,13 @@ export default function ConfigDetailsPanel({
                 </TextXs>
               )}
             </TextBase>
-          </div>
+          </Box>
         )}
 
         {config.locationWarning && <LocationWarning warning={config.locationWarning} />}
 
         {config.pricing && Object.keys(config.pricing).length > 0 && (
-          <div className="mb-3">
+          <Box className="mb-3">
             <strong className="text-accent-700 dark:text-accent-300">Custom Pricing:</strong>
             <Stack className="mt-1" direction="row" wrap gap={2}>
               {Object.entries(config.pricing).map(([duration, price]) => (
@@ -178,11 +178,11 @@ export default function ConfigDetailsPanel({
                 </TextSm>
               ))}
             </Stack>
-          </div>
+          </Box>
         )}
 
         {config.discount && (
-          <div className="mb-3">
+          <Box className="mb-3">
             <strong className="text-accent-700 dark:text-accent-300">Discount:</strong>
             <TextSm
               as="span"
@@ -194,27 +194,27 @@ export default function ConfigDetailsPanel({
                   ? `$${config.discount.amountDollars} off`
                   : 'Discount applied'}
             </TextSm>
-          </div>
+          </Box>
         )}
 
         {config.promoEndDate && (
-          <div className="mb-3">
+          <Box className="mb-3">
             <strong className="text-accent-700 dark:text-accent-300">Promo Ends:</strong>
             <TextBase as="span" className="ml-2 text-accent-600 dark:text-accent-400">
               {config.promoEndDate}
             </TextBase>
-          </div>
+          </Box>
         )}
 
         {config.customFields && (
-          <div className="mb-3">
+          <Box className="mb-3">
             <strong className="text-accent-700 dark:text-accent-300">Custom Fields:</strong>
             <Stack className="mt-1" direction="row" wrap gap={2}>
               <CustomFieldBadge show={config.customFields.showHotelField} label="Hotel Field" />
               <CustomFieldBadge show={config.customFields.showParkingField} label="Parking Field" />
               <CustomFieldBadge show={config.customFields.showNotesField} label="Notes Field" />
             </Stack>
-          </div>
+          </Box>
         )}
 
         <details className="mt-4">
@@ -225,7 +225,7 @@ export default function ConfigDetailsPanel({
             {JSON.stringify(config, null, 2)}
           </pre>
         </details>
-      </div>
+      </Box>
 
       <Stack direction="row" gap={2}>
         <Button
@@ -241,6 +241,6 @@ export default function ConfigDetailsPanel({
           Copy JSON
         </Button>
       </Stack>
-    </div>
+    </Box>
   )
 }

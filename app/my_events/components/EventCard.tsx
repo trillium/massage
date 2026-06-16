@@ -119,12 +119,12 @@ export function EventCard({
   const displaySummary = isPending ? getCleanSummary(event) : event.summary || 'Untitled Event'
 
   return (
-    <div
+    <Box
       key={event.id || `${keyPrefix}-${index}`}
       className={clsx('border-l-4 p-4', colorClasses.container)}
     >
       <Stack direction="row" align="start" justify="between">
-        <div className="flex-1">
+        <Box className="flex-1">
           <Stack direction="row" align="center" gap={2}>
             <H3 className="dark:text-white">{displaySummary}</H3>
             {isPending && (
@@ -134,7 +134,7 @@ export function EventCard({
             )}
           </Stack>
 
-          <div className="mt-2 space-y-1 text-sm text-accent-600 dark:text-accent-400">
+          <Box className="mt-2 space-y-1 text-sm text-accent-600 dark:text-accent-400">
             <TextBase>
               <strong>Start:</strong> {formatDate(event.start?.dateTime, event.start?.date)}
             </TextBase>
@@ -158,7 +158,7 @@ export function EventCard({
                   )}
                 </span>
               ) : (
-                <div className="mt-1 space-y-2">
+                <Box className="mt-1 space-y-2">
                   <Input
                     type="text"
                     value={newLocation}
@@ -186,7 +186,7 @@ export function EventCard({
                       Cancel
                     </Button>
                   </Stack>
-                </div>
+                </Box>
               )}
             </Box>
 
@@ -217,12 +217,12 @@ export function EventCard({
                 <strong>Success:</strong> Location updated successfully
               </TextXs>
             )}
-          </div>
+          </Box>
 
           {!isPending && event.description && (
-            <div className="mt-3">
+            <Box className="mt-3">
               <strong className="text-sm text-accent-700 dark:text-accent-300">Description:</strong>
-              <div
+              <Box
                 className="mt-1 text-sm whitespace-pre-wrap text-accent-600 dark:text-accent-400"
                 dangerouslySetInnerHTML={{
                   __html:
@@ -231,9 +231,9 @@ export function EventCard({
                       : event.description,
                 }}
               />
-            </div>
+            </Box>
           )}
-        </div>
+        </Box>
 
         <ActionButtons
           event={event}
@@ -242,6 +242,6 @@ export function EventCard({
           token={token}
         />
       </Stack>
-    </div>
+    </Box>
   )
 }

@@ -3,6 +3,7 @@
 import React from 'react'
 
 import { Button } from '@/components/ui/button'
+import { Box } from '@/components/ui/box'
 
 interface EmailMockComponentProps {
   email: {
@@ -34,14 +35,14 @@ export default function EmailMockComponent({
       : email.body
 
   return (
-    <div className="rounded border border-accent-300 bg-surface-100 p-4 dark:border-accent-700 dark:bg-surface-900">
-      <div className="mb-3 border-b border-accent-200 pb-2 dark:border-accent-700">
-        <div className="text-sm text-accent-600 dark:text-accent-300">Subject:</div>
-        <div className="font-medium text-accent-800 dark:text-accent-100">{email.subject}</div>
-      </div>
+    <Box className="rounded border border-accent-300 bg-surface-100 p-4 dark:border-accent-700 dark:bg-surface-900">
+      <Box className="mb-3 border-b border-accent-200 pb-2 dark:border-accent-700">
+        <Box className="text-sm text-accent-600 dark:text-accent-300">Subject:</Box>
+        <Box className="font-medium text-accent-800 dark:text-accent-100">{email.subject}</Box>
+      </Box>
 
-      <div className="email-body prose prose-sm dark:prose-invert max-w-none">
-        <div
+      <Box className="email-body prose prose-sm dark:prose-invert max-w-none">
+        <Box
           dangerouslySetInnerHTML={{ __html: processedBody }}
           onClick={(e) => {
             const target = e.target as HTMLElement
@@ -61,18 +62,18 @@ export default function EmailMockComponent({
           tabIndex={0}
           className={`[&_a] [&_a]:text-blue-600 [&_a]:underline hover:[&_a]:text-blue-700 dark:[&_a]:text-blue-400 dark:hover:[&_a]:text-blue-300 [&_div]:text-accent-800 dark:[&_div]:text-accent-200 [&_p]:mb-2`}
         />
-      </div>
+      </Box>
 
       {approveUrl && onApprovalClick && (
-        <div className="mt-4 border-t border-accent-200 pt-3 dark:border-accent-700">
+        <Box className="mt-4 border-t border-accent-200 pt-3 dark:border-accent-700">
           <Button
             onClick={handleApprovalClick}
             className="rounded bg-blue-600 px-3 py-1 text-sm font-medium text-white hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800"
           >
             Simulate Approval Click
           </Button>
-        </div>
+        </Box>
       )}
-    </div>
+    </Box>
   )
 }

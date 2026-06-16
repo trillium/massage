@@ -10,6 +10,7 @@ import Link from '@/components/Link'
 import { H1 } from '@/components/ui/heading'
 
 import { TextBase } from '@/components/ui/text'
+import { Box } from '@/components/ui/box'
 
 export default async function Page({
   searchParams,
@@ -29,12 +30,12 @@ export default async function Page({
     // Return error page or fallback
     return (
       <SectionContainer>
-        <div className="mx-auto max-w-xl py-8 sm:py-16">
+        <Box className="mx-auto max-w-xl py-8 sm:py-16">
           <H1 status="error">Error</H1>
           <TextBase className="mt-4 text-accent-600">
             Invalid appointment data. Please try again.
           </TextBase>
-        </div>
+        </Box>
       </SectionContainer>
     )
   }
@@ -77,7 +78,7 @@ export default async function Page({
 
   return (
     <SectionContainer>
-      <div className="mx-auto max-w-xl py-8 sm:py-16">
+      <Box className="mx-auto max-w-xl py-8 sm:py-16">
         <H1 status="primary">{h1Message}</H1>
         <TextBase className="mt-6 text-xl font-medium text-accent-800 dark:text-accent-200">
           It's now on your calendar and an invite has been sent to the client's email at:{' '}
@@ -93,7 +94,7 @@ export default async function Page({
             View it on Google Calendar
           </Link>
         </TextBase>
-      </div>
+      </Box>
 
       <BookedCard
         {...data}

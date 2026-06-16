@@ -18,6 +18,7 @@ import { TextSmMuted, TextXs, TextXsMuted } from '@/components/ui/text'
 
 import { Button } from '@/components/ui/button'
 import { Stack } from '@/components/ui/stack'
+import { Box } from '@/components/ui/box'
 
 interface SlugDashboardProps {
   slug: string
@@ -34,7 +35,7 @@ export default function SlugDashboard({ slug, appointments, eventContainer }: Sl
   const activeAppointments = appointments.filter((a) => a.status !== 'cancelled')
 
   return (
-    <div className="mb-8 space-y-4">
+    <Box className="mb-8 space-y-4">
       <Stack direction="row" align="center" justify="between">
         <H2>{slug}</H2>
         <Button
@@ -62,15 +63,15 @@ export default function SlugDashboard({ slug, appointments, eventContainer }: Sl
       </Stack>
 
       {expanded && (
-        <div className="grid gap-4 md:grid-cols-2">
+        <Box className="grid gap-4 md:grid-cols-2">
           <HoldsPanel heldSlots={heldSlots} />
           <AppointmentsPanel appointments={activeAppointments} onRefresh={router.refresh} />
           {eventContainer && <TimeBlocker eventContainer={eventContainer} />}
-        </div>
+        </Box>
       )}
 
       <SocketsDebugPanel debug={debug} appointmentsChannel={appointmentsChannel} />
-    </div>
+    </Box>
   )
 }
 
@@ -80,10 +81,10 @@ function HoldsPanel({
   heldSlots: { start_time: string; end_time: string; session_id: string; shoo_count: number }[]
 }) {
   return (
-    <div className="rounded-lg border border-accent-200 bg-surface-50 p-4 dark:border-accent-700 dark:bg-surface-800">
-      <div className="mb-3">
+    <Box className="rounded-lg border border-accent-200 bg-surface-50 p-4 dark:border-accent-700 dark:bg-surface-800">
+      <Box className="mb-3">
         <H3>Active Holds ({heldSlots.length})</H3>
-      </div>
+      </Box>
 
       {heldSlots.length === 0 ? (
         <TextSmMuted>No active holds</TextSmMuted>
@@ -109,7 +110,7 @@ function HoldsPanel({
           ))}
         </ul>
       )}
-    </div>
+    </Box>
   )
 }
 
@@ -179,7 +180,7 @@ function AppointmentsPanel({
   const editingAppointment = sorted.find((a) => a.id === editingId) ?? null
 
   return (
-    <div className="rounded-lg border border-accent-200 bg-surface-50 p-4 dark:border-accent-700 dark:bg-surface-800">
+    <Box className="rounded-lg border border-accent-200 bg-surface-50 p-4 dark:border-accent-700 dark:bg-surface-800">
       <Stack className="mb-3" direction="row" align="center" justify="between">
         <H3>Appointments ({sorted.length})</H3>
         <Button
@@ -208,6 +209,6 @@ function AppointmentsPanel({
         onDeleted={onRefresh}
         appointment={editingAppointment}
       />
-    </div>
+    </Box>
   )
 }

@@ -3,6 +3,7 @@ import { siteConfig } from '@/lib/siteConfig'
 import { Input } from '@/components/ui/input'
 import { Select } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
+import { Box } from '@/components/ui/box'
 
 const SOURCES = ['Soothe', 'Airbnb', siteConfig.business.name]
 
@@ -58,7 +59,7 @@ export function ReviewFormFields({
 
   return (
     <>
-      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+      <Box className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         <Input
           placeholder="Name"
           value={form.name}
@@ -91,7 +92,7 @@ export function ReviewFormFields({
           onChange={(e) => onChange({ ...form, type: e.target.value })}
           className={cls}
         />
-      </div>
+      </Box>
       <Textarea
         placeholder="Review text..."
         value={form.comment}

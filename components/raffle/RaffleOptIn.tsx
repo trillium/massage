@@ -18,12 +18,12 @@ interface RaffleOptInProps {
 
 function SuccessBanner() {
   return (
-    <div className="mt-8 rounded-lg border-2 border-primary-300 bg-primary-50 p-6 dark:border-primary-700 dark:bg-primary-950">
+    <Box className="mt-8 rounded-lg border-2 border-primary-300 bg-primary-50 p-6 dark:border-primary-700 dark:bg-primary-950">
       <TextLg className="text-lg font-semibold text-primary-700 dark:text-primary-300">
         {raffle.successBannerTitle}
       </TextLg>
       <TextPrimary className="mt-1">{raffle.successBannerMessage}</TextPrimary>
-    </div>
+    </Box>
   )
 }
 
@@ -39,7 +39,7 @@ function InterestCheckboxes({
       <TextSmMedium className="block">
         {raffle.interestedLabel} <span className="text-primary-500">{raffle.requiredAsterisk}</span>
       </TextSmMedium>
-      <div className="mt-1 space-y-2">
+      <Box className="mt-1 space-y-2">
         {RAFFLE_INTEREST_OPTIONS.map(({ value, label }) => (
           <Stack direction="row" align="center" key={value}>
             <Input
@@ -57,7 +57,7 @@ function InterestCheckboxes({
             </label>
           </Stack>
         ))}
-      </div>
+      </Box>
     </Box>
   )
 }
@@ -122,7 +122,7 @@ export default function RaffleOptIn({ name, email, phone }: RaffleOptInProps) {
   }
 
   return (
-    <div className="mt-8 rounded-lg border-2 border-primary-300 bg-surface-50 p-6 shadow-md dark:border-primary-700 dark:bg-surface-900">
+    <Box className="mt-8 rounded-lg border-2 border-primary-300 bg-surface-50 p-6 shadow-md dark:border-primary-700 dark:bg-surface-900">
       <TextLg className="text-lg font-semibold text-accent-900 dark:text-accent-100">
         {raffle.raffleTitle}
       </TextLg>
@@ -159,6 +159,6 @@ export default function RaffleOptIn({ name, email, phone }: RaffleOptInProps) {
           {status === 'submitting' ? raffle.enterButtonSubmitting : raffle.enterButtonDefault}
         </Button>
       </form>
-    </div>
+    </Box>
   )
 }

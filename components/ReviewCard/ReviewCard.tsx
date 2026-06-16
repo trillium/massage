@@ -37,7 +37,7 @@ const ReviewCard = async () => {
   const testimonialReviews = filterTestimonialReviews(allReviews)
 
   return (
-    <div className="w-full pb-6">
+    <Box className="w-full pb-6">
       <OtherCard
         reviews={reviews}
         ratingPercent={ratingPercent}
@@ -45,7 +45,7 @@ const ReviewCard = async () => {
         numberOfReviewsSorted={numberOfReviewsSorted}
         testimonialReviews={testimonialReviews}
       />
-    </div>
+    </Box>
   )
 }
 
@@ -75,11 +75,11 @@ const OtherCard = ({
   testimonialReviews: ReviewType[]
 }) => (
   <>
-    <div className="mx-auto w-full max-w-7xl px-0 md:px-4">
+    <Box className="mx-auto w-full max-w-7xl px-0 md:px-4">
       <Box>
         <Template title="Customer Reviews & Ratings" />
 
-        <div className="mb-11 grid grid-cols-12">
+        <Box className="mb-11 grid grid-cols-12">
           <Stack className="col-span-12 xl:col-span-5" direction="row" align="center">
             <Stack className="box mx-auto w-full gap-y-4 max-xl:max-w-3xl" direction="col">
               {[5, 4, 3, 2, 1].map((num) => (
@@ -106,7 +106,7 @@ const OtherCard = ({
               ))}
             </Stack>
           </Stack>
-          <div className="col-span-12 min-h-60 w-full max-xl:mt-8 xl:col-span-7 xl:pl-8">
+          <Box className="col-span-12 min-h-60 w-full max-xl:mt-8 xl:col-span-7 xl:pl-8">
             <Stack
               direction="row"
               align="center"
@@ -132,12 +132,12 @@ const OtherCard = ({
                 </Stack>
               </Stack>
             </Stack>
-          </div>
-        </div>
+          </Box>
+        </Box>
 
         <TestimonialsSection reviews={testimonialReviews} />
       </Box>
-    </div>
+    </Box>
   </>
 )
 

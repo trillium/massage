@@ -12,15 +12,15 @@ import { Box } from '@/components/ui/box'
 
 export function QueryGroupCard({ group }: { group: QueryGroup }) {
   return (
-    <div className="overflow-hidden rounded-lg bg-surface-50 shadow dark:bg-surface-800">
-      <div className="bg-surface-100 px-6 py-4 dark:bg-surface-700">
+    <Box className="overflow-hidden rounded-lg bg-surface-50 shadow dark:bg-surface-800">
+      <Box className="bg-surface-100 px-6 py-4 dark:bg-surface-700">
         <Stack direction="row" align="center" justify="between">
           <Box>
             <H3 className="dark:text-white">
               {admin.activeEventContainers.queryLabel}
               <Code className="text-blue-600 dark:text-blue-400">{group.query}</Code>
             </H3>
-            <div className="mt-2">
+            <Box className="mt-2">
               <TextSmMuted>
                 {admin.activeEventContainers.slugsPreamble
                   .replace('{count}', String(group.slugs.length))
@@ -45,8 +45,8 @@ export function QueryGroupCard({ group }: { group: QueryGroup }) {
                   </TextXsMedium>
                 ))}
               </Stack>
-            </div>
-            <div className="mt-3 space-y-1">
+            </Box>
+            <Box className="mt-3 space-y-1">
               <TextXsMuted>
                 {admin.activeEventContainers.searchQueryLabel}{' '}
                 <Code className="bg-surface-200 px-1 dark:bg-surface-600">
@@ -69,40 +69,40 @@ export function QueryGroupCard({ group }: { group: QueryGroup }) {
                   {group.eventMemberString}
                 </Code>
               </TextXsMuted>
-            </div>
+            </Box>
           </Box>
           <Stack className="space-x-4 text-sm" direction="row">
-            <div className="text-center">
-              <div className="font-semibold text-green-600 dark:text-green-400">
+            <Box className="text-center">
+              <Box className="font-semibold text-green-600 dark:text-green-400">
                 {group.containers.length}
-              </div>
-              <div className="text-accent-500 dark:text-accent-400">
+              </Box>
+              <Box className="text-accent-500 dark:text-accent-400">
                 {admin.activeEventContainers.containersLabel}
-              </div>
-            </div>
-            <div className="text-center">
-              <div className="font-semibold text-orange-600 dark:text-orange-400">
+              </Box>
+            </Box>
+            <Box className="text-center">
+              <Box className="font-semibold text-orange-600 dark:text-orange-400">
                 {group.members.length}
-              </div>
-              <div className="text-accent-500 dark:text-accent-400">
+              </Box>
+              <Box className="text-accent-500 dark:text-accent-400">
                 {admin.activeEventContainers.membersLabel}
-              </div>
-            </div>
-            <div className="text-center">
-              <div className="font-semibold text-accent-600 dark:text-accent-400">
+              </Box>
+            </Box>
+            <Box className="text-center">
+              <Box className="font-semibold text-accent-600 dark:text-accent-400">
                 {group.allEvents.length}
-              </div>
-              <div className="text-accent-500 dark:text-accent-400">
+              </Box>
+              <Box className="text-accent-500 dark:text-accent-400">
                 {admin.activeEventContainers.totalEventsLabel}
-              </div>
-            </div>
+              </Box>
+            </Box>
           </Stack>
         </Stack>
-      </div>
+      </Box>
 
-      <div className="p-6">
+      <Box className="p-6">
         {group.allEvents.length > 0 && (
-          <div className="mb-6 rounded-lg bg-blue-50 p-4 dark:bg-blue-900/20">
+          <Box className="mb-6 rounded-lg bg-blue-50 p-4 dark:bg-blue-900/20">
             <H4 className="mb-2" status="info">
               <FaSearch className="mr-1 inline" />
               {admin.activeEventContainers.debugHeaderPrefix}
@@ -112,9 +112,9 @@ export function QueryGroupCard({ group }: { group: QueryGroup }) {
               {group.allEvents.length}
               {admin.activeEventContainers.debugCounterClose}
             </H4>
-            <div className="max-h-40 overflow-y-auto">
+            <Box className="max-h-40 overflow-y-auto">
               {group.allEvents.map((event) => (
-                <div key={event.id} className="mb-1 text-xs">
+                <Box key={event.id} className="mb-1 text-xs">
                   <span className="font-mono text-blue-800 dark:text-blue-200">
                     {admin.activeEventContainers.eventQuotePrefix}
                     {event.summary}
@@ -122,13 +122,13 @@ export function QueryGroupCard({ group }: { group: QueryGroup }) {
                     {admin.activeEventContainers.eventSummaryEventDateSeparator}
                     {formatDateTime(event.start.dateTime)}
                   </span>
-                </div>
+                </Box>
               ))}
-            </div>
-          </div>
+            </Box>
+          </Box>
         )}
 
-        <div className="grid gap-6 md:grid-cols-2">
+        <Box className="grid gap-6 md:grid-cols-2">
           <EventList
             events={group.containers}
             color="green"
@@ -142,8 +142,8 @@ export function QueryGroupCard({ group }: { group: QueryGroup }) {
             label={admin.activeEventContainers.memberEventsLabel}
             emptyMessage={admin.activeEventContainers.noMemberEventsMessage}
           />
-        </div>
-      </div>
-    </div>
+        </Box>
+      </Box>
+    </Box>
   )
 }

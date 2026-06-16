@@ -181,8 +181,8 @@ export default function GmailTestPage() {
       <Box>
         <H1 className="mb-4 sm:text-3xl">Gmail Soothe Booking Search</H1>
 
-        <div className="mb-2 rounded-lg border border-blue-200 bg-blue-50 p-3 sm:p-4 dark:border-blue-800 dark:bg-blue-900/20">
-          <div className="mb-2 grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-2 lg:grid-cols-3">
+        <Box className="mb-2 rounded-lg border border-blue-200 bg-blue-50 p-3 sm:p-4 dark:border-blue-800 dark:bg-blue-900/20">
+          <Box className="mb-2 grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-2 lg:grid-cols-3">
             <Box>
               <label
                 htmlFor="maxResults"
@@ -217,7 +217,7 @@ export default function GmailTestPage() {
                 className="w-full rounded-md border border-blue-300 px-3 py-2 text-sm dark:border-blue-600 dark:bg-blue-900/20 dark:text-blue-100"
               />
             </Box>
-            <div className="sm:col-span-2 lg:col-span-1">
+            <Box className="sm:col-span-2 lg:col-span-1">
               <label
                 htmlFor="searchButton"
                 className="mb-1 block text-sm font-medium text-blue-700 dark:text-blue-300"
@@ -232,19 +232,19 @@ export default function GmailTestPage() {
               >
                 {loading ? 'Searching...' : 'Search Soothe Emails'}
               </Button>
-            </div>
-          </div>
-        </div>
+            </Box>
+          </Box>
+        </Box>
       </Box>
 
       {error && (
-        <div className="mb-4 rounded-lg border border-red-200 bg-red-50 p-3 sm:mb-6 sm:p-4 dark:border-red-800 dark:bg-red-900/20">
+        <Box className="mb-4 rounded-lg border border-red-200 bg-red-50 p-3 sm:mb-6 sm:p-4 dark:border-red-800 dark:bg-red-900/20">
           <H3 className="mb-2 sm:text-base" status="error">
             Error:
           </H3>
           <TextSm status="error">{error}</TextSm>
           {error.includes('Gmail API has not been used') && (
-            <div className="mt-2 text-xs text-red-600 sm:text-sm dark:text-red-400">
+            <Box className="mt-2 text-xs text-red-600 sm:text-sm dark:text-red-400">
               <TextBase>
                 <strong>Gmail API needs to be enabled:</strong>
               </TextBase>
@@ -262,9 +262,9 @@ export default function GmailTestPage() {
                 <li>Click "Enable" and wait a few minutes</li>
                 <li>Try again</li>
               </ol>
-            </div>
+            </Box>
           )}
-        </div>
+        </Box>
       )}
 
       <CurrentSelection
@@ -285,8 +285,8 @@ export default function GmailTestPage() {
       />
 
       {bookings && bookings.length > 0 && (
-        <div className="space-y-4 sm:space-y-6">
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3">
+        <Box className="space-y-4 sm:space-y-6">
+          <Box className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3">
             {bookings.map((booking, index) => (
               <BookingItem
                 key={index}
@@ -295,8 +295,8 @@ export default function GmailTestPage() {
                 active={selectedBooking === booking}
               />
             ))}
-          </div>
-          <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4">
+          </Box>
+          <Box className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4">
             {timeSlots.map((timeSlot, index) => (
               <TimeButton
                 key={`${timeSlot.start}-${timeSlot.end}`}
@@ -308,8 +308,8 @@ export default function GmailTestPage() {
                 onTimeSelect={handleTimeSelect}
               />
             ))}
-          </div>
-        </div>
+          </Box>
+        </Box>
       )}
     </Stack>
   )
@@ -337,7 +337,7 @@ function BookingItem({
       )}
       onClick={() => setActive(booking)}
     >
-      <div className="space-y-2 sm:space-y-3">
+      <Box className="space-y-2 sm:space-y-3">
         {booking.clientName && (
           <Box>
             <TextSmSemibold className="truncate sm:text-base">{booking.clientName}</TextSmSemibold>
@@ -403,7 +403,7 @@ function BookingItem({
             </Stack>
           </Box>
         )}
-      </div>
+      </Box>
     </Button>
   )
 }
@@ -426,7 +426,7 @@ function CurrentSelection(props: {
   } = props
   const anyUnset = !selectedBooking || !selectedDay || !selectedTime || !selectedLocation
   return (
-    <div
+    <Box
       className={clsx(
         'relative mt-6 rounded-lg border p-3 sm:mt-8 sm:p-4',
         anyUnset
@@ -443,7 +443,7 @@ function CurrentSelection(props: {
         Current Selections
       </H3>
 
-      <div className="space-y-3 text-sm">
+      <Box className="space-y-3 text-sm">
         <Box>
           <strong
             className={clsx(
@@ -452,7 +452,7 @@ function CurrentSelection(props: {
           >
             Selected Booking:
           </strong>
-          <div
+          <Box
             className={clsx(
               'mt-1',
               anyUnset ? 'text-red-600 dark:text-red-400' : 'text-green-600 dark:text-green-400'
@@ -469,7 +469,7 @@ function CurrentSelection(props: {
             ) : (
               'None selected'
             )}
-          </div>
+          </Box>
         </Box>
 
         <Box>
@@ -480,7 +480,7 @@ function CurrentSelection(props: {
           >
             Selected Time:
           </strong>
-          <div
+          <Box
             className={clsx(
               'mt-1',
               anyUnset ? 'text-red-600 dark:text-red-400' : 'text-green-600 dark:text-green-400'
@@ -514,20 +514,20 @@ function CurrentSelection(props: {
             ) : (
               'None selected'
             )}
-          </div>
+          </Box>
         </Box>
 
         {!anyUnset && (
-          <div className="mt-4">
+          <Box className="mt-4">
             <Stack direction="col" gap={2} className="rounded bg-green-100 p-3 sm:flex-row sm:items-center sm:gap-3 dark:bg-green-800/20">
-              <div className="flex-1">
+              <Box className="flex-1">
                 <strong className="text-sm text-green-800 dark:text-green-200">
                   Ready to create booking!
                 </strong>
                 <TextXs className="mt-1 sm:text-sm" status="success">
                   All required information has been selected. You can now create the appointment.
                 </TextXs>
-              </div>
+              </Box>
               <Button
                 className="bg-primary-500 border-primary-600 w-full cursor-pointer rounded-md border-2 p-2 text-xs font-semibold disabled:cursor-not-allowed disabled:bg-surface-300 sm:w-auto sm:text-sm"
                 onClick={handleAppointmentCreation}
@@ -536,9 +536,9 @@ function CurrentSelection(props: {
                 {loading ? 'Creating...' : 'Create Appointment'}
               </Button>
             </Stack>
-          </div>
+          </Box>
         )}
-      </div>
-    </div>
+      </Box>
+    </Box>
   )
 }

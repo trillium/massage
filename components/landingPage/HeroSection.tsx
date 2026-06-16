@@ -19,13 +19,13 @@ const { bookButton, exploreButton, openDays, basedLabel } = landing.hero
 export default function HeroSection() {
   return (
     <section className="flex w-full flex-col items-center gap-8">
-      <div className="container grid w-full grid-cols-1 items-stretch gap-8 md:grid-cols-[1fr_1fr] lg:grid-cols-[1fr_1fr]">
+      <Box className="container grid w-full grid-cols-1 items-stretch gap-8 md:grid-cols-[1fr_1fr] lg:grid-cols-[1fr_1fr]">
         <TextContent positionClasses="md:col-start-1 md:col-end-2 md:row-start-1 md:row-end-2" />
 
         <ImageContent positionClasses="md:col-start-2 md:col-end-3 md:row-start-1 md:row-end-3" />
 
         <ButtonContent positionClasses="md:col-start-1 md:col-end-2 md:row-start-2 md:row-end-3 " />
-      </div>
+      </Box>
     </section>
   )
 }
@@ -60,8 +60,8 @@ function TextContent({ positionClasses }: { positionClasses?: string }) {
 
 function ImageContent({ positionClasses }: { positionClasses?: string }) {
   return (
-    <div className={clsx('relative flex-1', positionClasses)}>
-      <div className="border-primary-500 relative h-72 w-full overflow-hidden rounded-lg border-2 sm:h-100 md:h-128 lg:h-148 xl:h-152">
+    <Box className={clsx('relative flex-1', positionClasses)}>
+      <Box className="border-primary-500 relative h-72 w-full overflow-hidden rounded-lg border-2 sm:h-100 md:h-128 lg:h-148 xl:h-152">
         {
           <Image
             src={'/static/images/table/table_square_02.webp'}
@@ -71,8 +71,8 @@ function ImageContent({ positionClasses }: { positionClasses?: string }) {
             priority
           />
         }
-        <div className="absolute inset-0 bg-gradient-to-r from-primary-600/20 to-transparent"></div>
-      </div>
+        <Box className="absolute inset-0 bg-gradient-to-r from-primary-600/20 to-transparent"></Box>
+      </Box>
       <Stack
         className="bg-primary-100 absolute -bottom-6 -left-6 h-24 w-24 rounded-full"
         direction="row"
@@ -81,7 +81,7 @@ function ImageContent({ positionClasses }: { positionClasses?: string }) {
       >
         <HiSparkles className="text-primary-600 h-10 w-10" />
       </Stack>
-    </div>
+    </Box>
   )
 }
 
@@ -93,7 +93,7 @@ function ButtonContent({ positionClasses }: { positionClasses?: string }) {
       className={clsx('h-full space-y-4 text-center md:text-left', positionClasses)}
     >
       <Stack className="gap-y-4" direction="col">
-        <div className="sm:grid-span-1 col-span-2 grid grid-cols-1 gap-2 sm:col-span-1 sm:grid-cols-2">
+        <Box className="sm:grid-span-1 col-span-2 grid grid-cols-1 gap-2 sm:col-span-1 sm:grid-cols-2">
           <Link
             href="/book"
             className="bg-primary-600 hover:bg-primary-700 border-primary-500 mt-auto inline-block w-full rounded border-2 px-4 py-2 text-center font-semibold text-white transition-colors"
@@ -107,7 +107,7 @@ function ButtonContent({ positionClasses }: { positionClasses?: string }) {
           >
             {exploreButton}
           </Link>
-        </div>
+        </Box>
         <Stack direction="col" wrap gap={2} className="xs:flex-col justify-around gap-y-6 sm:flex-row md:flex-col xl:flex-row">
           <Stack direction="row" align="center" gap={2}>
             <FaRegClock className="h-5 w-5 text-primary-600" />

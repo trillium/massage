@@ -2,11 +2,12 @@ import Link from '@/components/Link'
 import eventContent from '@/data/event.json'
 import { H1 } from '@/components/ui/heading'
 import { TextLgMuted } from '@/components/ui/text'
+import { Box } from '@/components/ui/box'
 
 export default function NotFound() {
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="mx-auto max-w-2xl text-center">
+    <Box className="container mx-auto px-4 py-8">
+      <Box className="mx-auto max-w-2xl text-center">
         <H1 className="mb-4 dark:text-white">{eventContent.notFound.heading}</H1>
         <TextLgMuted className="mb-8">{eventContent.notFound.message}</TextLgMuted>
         <Link
@@ -15,7 +16,7 @@ export default function NotFound() {
         >
           {eventContent.notFound.homeLink}
         </Link>
-      </div>
-    </div>
+      </Box>
+    </Box>
   )
 }

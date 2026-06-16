@@ -17,6 +17,7 @@ import { Suspense } from 'react'
 import { H1, H3 } from '@/components/ui/heading'
 import { TextSm, TextSmMuted, TextXs } from '@/components/ui/text'
 import { Stack } from '@/components/ui/stack'
+import { Box } from '@/components/ui/box'
 
 function LoginContent({
   searchParams,
@@ -33,15 +34,15 @@ function LoginContent({
       align="center"
       justify="center"
     >
-      <div className="w-full max-w-md">
-        <div className="rounded-lg bg-surface-50 px-8 py-10 shadow-md dark:bg-surface-800">
-          <div className="mb-8 text-center">
+      <Box className="w-full max-w-md">
+        <Box className="rounded-lg bg-surface-50 px-8 py-10 shadow-md dark:bg-surface-800">
+          <Box className="mb-8 text-center">
             <H1 className="dark:text-white">Sign In</H1>
             <TextSmMuted className="mt-2">Sign in to manage your account</TextSmMuted>
-          </div>
+          </Box>
 
           {error && (
-            <div className="mb-6 rounded-md border border-red-200 bg-red-50 p-4 dark:border-red-900 dark:bg-red-950">
+            <Box className="mb-6 rounded-md border border-red-200 bg-red-50 p-4 dark:border-red-900 dark:bg-red-950">
               <H3 status="error">Authentication Error</H3>
               <TextSm className="mt-1" status="error">
                 {errorDescription || error}
@@ -51,11 +52,11 @@ function LoginContent({
                   This may be a database configuration issue. Check the server logs for details.
                 </TextXs>
               )}
-            </div>
+            </Box>
           )}
 
           <LoginForm />
-        </div>
+        </Box>
 
         <TextSmMuted className="mt-6 text-center">
           New here?{' '}
@@ -66,7 +67,7 @@ function LoginContent({
             Learn more
           </Link>
         </TextSmMuted>
-      </div>
+      </Box>
     </Stack>
   )
 }
@@ -87,9 +88,9 @@ export default async function LoginPage({
           align="center"
           justify="center"
         >
-          <div className="text-center">
-            <div className="h-8 w-8 animate-spin rounded-full border-4 border-accent-200 border-t-blue-600 dark:border-accent-700 dark:border-t-blue-400"></div>
-          </div>
+          <Box className="text-center">
+            <Box className="h-8 w-8 animate-spin rounded-full border-4 border-accent-200 border-t-blue-600 dark:border-accent-700 dark:border-t-blue-400"></Box>
+          </Box>
         </Stack>
       }
     >

@@ -15,6 +15,7 @@ import { TextSm, TextSmSemibold } from '@/components/ui/text'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Stack } from '@/components/ui/stack'
+import { Box } from '@/components/ui/box'
 
 const AIRBNB_REVIEWS_URL = 'https://www.airbnb.com/services/6527842?modal=reviews'
 const {
@@ -68,12 +69,12 @@ export default function TestimonialsSection({
 }) {
   return (
     <section>
-      <div className="w-full">
+      <Box className="w-full">
         <H2 className="xs:mb-2 mb-0 text-center sm:mb-4 md:text-4xl dark:text-white">
           {text || defaultHeading}
         </H2>
         <TestimonialsCarousel reviews={reviews} />
-      </div>
+      </Box>
     </section>
   )
 }
@@ -183,9 +184,9 @@ export function TestimonialsCarousel({ reviews }: { reviews: ReviewType[] }) {
               </TextSmSemibold>
             </Stack>
           </Stack>
-          <div className="absolute top-4 left-4">
+          <Box className="absolute top-4 left-4">
             <SourceIcon source={r.source} />
-          </div>
+          </Box>
         </section>
         {/* Left button: visually first */}
         <DirectionButton

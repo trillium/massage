@@ -33,7 +33,7 @@ export function UserMenu() {
   }
 
   if (loading) {
-    return <div className="h-8 w-8 animate-pulse rounded-full bg-surface-200"></div>
+    return <Box className="h-8 w-8 animate-pulse rounded-full bg-surface-200"></Box>
   }
 
   if (!user) {
@@ -41,7 +41,7 @@ export function UserMenu() {
   }
 
   return (
-    <div className="relative">
+    <Box className="relative">
       <Button
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center space-x-2 rounded-lg border border-accent-200 bg-surface-50 px-3 py-2 text-sm hover:bg-surface-100"
@@ -54,17 +54,17 @@ export function UserMenu() {
         >
           {user.email?.[0]?.toUpperCase() || 'U'}
         </Stack>
-        <div className="text-left">
-          <div className="font-medium">{user.email}</div>
-          {isAdmin && <div className="text-xs text-blue-600">{auth.userMenu.admin}</div>}
-        </div>
+        <Box className="text-left">
+          <Box className="font-medium">{user.email}</Box>
+          {isAdmin && <Box className="text-xs text-blue-600">{auth.userMenu.admin}</Box>}
+        </Box>
       </Button>
 
       {isOpen && (
         <>
-          <div className="fixed inset-0 z-10" onClick={() => setIsOpen(false)} />
-          <div className="absolute right-0 z-20 mt-2 w-64 rounded-lg border border-accent-200 bg-surface-50 shadow-lg">
-            <div className="border-b border-accent-100 p-4">
+          <Box className="fixed inset-0 z-10" onClick={() => setIsOpen(false)} />
+          <Box className="absolute right-0 z-20 mt-2 w-64 rounded-lg border border-accent-200 bg-surface-50 shadow-lg">
+            <Box className="border-b border-accent-100 p-4">
               <TextSmMedium>{user.email}</TextSmMedium>
               {isAdmin && (
                 <TextXsMedium
@@ -74,29 +74,29 @@ export function UserMenu() {
                   {auth.userMenu.administrator}
                 </TextXsMedium>
               )}
-            </div>
+            </Box>
 
-            <div className="p-2">
-              <div className="px-3 py-2 text-sm text-accent-700">
+            <Box className="p-2">
+              <Box className="px-3 py-2 text-sm text-accent-700">
                 <Box>
                   <span className="font-medium">{auth.userMenu.userIdLabel}</span>
-                  <div className="mt-1 font-mono text-xs text-accent-500">
+                  <Box className="mt-1 font-mono text-xs text-accent-500">
                     {user.id.slice(0, 8)}
                     {auth.userMenu.userIdEllipsis}
-                  </div>
+                  </Box>
                 </Box>
                 {profile?.created_at && (
-                  <div className="mt-2">
+                  <Box className="mt-2">
                     <span className="font-medium">{auth.userMenu.memberSinceLabel}</span>
-                    <div className="text-xs text-accent-500">
+                    <Box className="text-xs text-accent-500">
                       {new Date(profile.created_at).toLocaleDateString()}
-                    </div>
-                  </div>
+                    </Box>
+                  </Box>
                 )}
-              </div>
-            </div>
+              </Box>
+            </Box>
 
-            <div className="border-t border-accent-100 p-2">
+            <Box className="border-t border-accent-100 p-2">
               <Button
                 onClick={handleSignOut}
                 disabled={isSigningOut}
@@ -104,10 +104,10 @@ export function UserMenu() {
               >
                 {isSigningOut ? auth.userMenu.signingOut : auth.userMenu.signOut}
               </Button>
-            </div>
-          </div>
+            </Box>
+          </Box>
         </>
       )}
-    </div>
+    </Box>
   )
 }

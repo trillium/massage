@@ -17,7 +17,7 @@ const AuthorCard = () => {
     <Box>
       <Stack className="space-x-2 pb-2" direction="row" align="center" justify="center">
         {avatar && (
-          <div className="pr-2 xl:pr-4">
+          <Box className="pr-2 xl:pr-4">
             <Image
               src={avatar}
               alt="avatar"
@@ -25,17 +25,17 @@ const AuthorCard = () => {
               height={224}
               className="border-primary-400 h-48 w-48 min-w-48 rounded-full border-2 object-cover md:h-52 md:w-52"
             />
-          </div>
+          </Box>
         )}
         <Box>
           <H3 className="pt-4 pb-2 sm:text-3xl md:text-4xl">{author}</H3>
-          <div className="md:text-md text-base text-accent-500 dark:text-accent-400">
+          <Box className="md:text-md text-base text-accent-500 dark:text-accent-400">
             {occupation}
-          </div>
-          <div className="md:text-md text-base text-accent-500 dark:text-accent-400">{company}</div>
-          <div className="md:text-md text-base text-accent-500 dark:text-accent-400">
+          </Box>
+          <Box className="md:text-md text-base text-accent-500 dark:text-accent-400">{company}</Box>
+          <Box className="md:text-md text-base text-accent-500 dark:text-accent-400">
             {location}
-          </div>
+          </Box>
           <Stack className="space-x-3 pt-6" direction="row">
             <SocialIcon kind="mail" href={`mailto:${email}`} />
             <SocialIcon kind="instagram" href={instagram} />
@@ -43,7 +43,7 @@ const AuthorCard = () => {
         </Box>
       </Stack>
       <Stack className="max-w-full" direction="col" align="center" justify="center">
-        <div className="prose dark:prose-invert max-w-full pt-10 pb-8 xl:text-xl">
+        <Box className="prose dark:prose-invert max-w-full pt-10 pb-8 xl:text-xl">
           <TextBase className="py-2 text-justify">
             {bio} {focus} {stats}{' '}
             <Link
@@ -54,7 +54,7 @@ const AuthorCard = () => {
             </Link>
             {statsClose}
           </TextBase>
-        </div>
+        </Box>
       </Stack>
     </Box>
   )

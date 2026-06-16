@@ -7,6 +7,7 @@ import { IoClose } from 'react-icons/io5'
 
 import { Button } from '@/components/ui/button'
 import { Stack } from '@/components/ui/stack'
+import { Box } from '@/components/ui/box'
 
 interface GalleryImage {
   src: string
@@ -193,7 +194,7 @@ export default function Page() {
       </Stack>
       <Stack direction="col" gap={4}>
         {visibleImages.map((image, index) => (
-          <div
+          <Box
             key={image.src}
             className="relative overflow-hidden rounded-lg border-2 border-accent-200 dark:border-accent-700"
           >
@@ -222,18 +223,18 @@ export default function Page() {
                 </Button>
               )}
             </Stack>
-            <div className="absolute top-2 left-2">
+            <Box className="absolute top-2 left-2">
               <Button
                 onClick={() => toggleHide(image.src)}
                 className="rounded bg-red-600/80 px-3 py-2 text-xs font-bold text-white backdrop-blur-sm"
               >
                 <IoClose />
               </Button>
-            </div>
-            <div className="absolute bottom-0 left-0 bg-black/50 px-2 py-1 text-xs text-white">
+            </Box>
+            <Box className="absolute bottom-0 left-0 bg-black/50 px-2 py-1 text-xs text-white">
               {index + 1}
-            </div>
-          </div>
+            </Box>
+          </Box>
         ))}
       </Stack>
     </SectionContainer>

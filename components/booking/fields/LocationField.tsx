@@ -9,6 +9,7 @@ import booking from '@/data/booking.json'
 import { TextSm } from '@/components/ui/text'
 
 import { Input } from '@/components/ui/input'
+import { Box } from '@/components/ui/box'
 
 const { location: copy } = booking.form
 
@@ -36,7 +37,7 @@ export default function LocationField({
   errors = {},
 }: LocationFieldProps) {
   return (
-    <div className={fieldClasses.row}>
+    <Box className={fieldClasses.row}>
       <label htmlFor="location" className={fieldClasses.label}>
         {copy.street.label}{' '}
         {errors.street && (
@@ -63,8 +64,8 @@ export default function LocationField({
         placeholder={copy.street.placeholder}
         onChange={onChange}
       />
-      <div className={fieldClasses.flexRowWithMargin}>
-        <div className={fieldClasses.flexHalfWidth}>
+      <Box className={fieldClasses.flexRowWithMargin}>
+        <Box className={fieldClasses.flexHalfWidth}>
           <label htmlFor="city" className={fieldClasses.label}>
             {copy.city.label}{' '}
             {errors.city && (
@@ -94,8 +95,8 @@ export default function LocationField({
             onChange={onChange}
             onBlur={onBlur}
           />
-        </div>
-        <div className={fieldClasses.flexHalfWidth}>
+        </Box>
+        <Box className={fieldClasses.flexHalfWidth}>
           <label htmlFor="zipCode" className={fieldClasses.label}>
             {copy.zip.label}{' '}
             {errors.zip && (
@@ -131,8 +132,8 @@ export default function LocationField({
               target.value = target.value.replace(/[^\d-]/g, '')
             }}
           />
-        </div>
-      </div>
-    </div>
+        </Box>
+      </Box>
+    </Box>
   )
 }

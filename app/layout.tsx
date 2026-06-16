@@ -17,6 +17,7 @@ import { headers } from 'next/headers'
 import { getUser } from '@/lib/supabase/server'
 import FeedtackOverlay from '@/components/FeedtackOverlay'
 import { Stack } from '@/components/ui/stack'
+import { Box } from '@/components/ui/box'
 
 const space_grotesk = Space_Grotesk({
   subsets: ['latin'],
@@ -119,9 +120,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <main className="mb-auto">{children}</main>
             </SearchProvider>
             <SectionContainer colorClasses="bg-surface-900" positionClasses="mt-12">
-              <div className="mt-auto">
+              <Box className="mt-auto">
                 <Footer />
-              </div>
+              </Box>
             </SectionContainer>
           </Stack>
           <Toaster />

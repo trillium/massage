@@ -23,7 +23,7 @@ export default function RaffleOptInField({
   onChange,
 }: RaffleOptInFieldProps) {
   return (
-    <div className="rounded-md border-2 border-primary-200 bg-primary-50 p-3 dark:border-primary-800 dark:bg-primary-950/30">
+    <Box className="rounded-md border-2 border-primary-200 bg-primary-50 p-3 dark:border-primary-800 dark:bg-primary-950/30">
       <Stack direction="row" align="start" gap={3}>
         <Input
           type="checkbox"
@@ -49,7 +49,7 @@ export default function RaffleOptInField({
         leaveFrom="opacity-100"
         leaveTo="opacity-0"
       >
-        <div className="mt-4 space-y-4 border-t border-primary-200 pb-3 pt-4 dark:border-primary-700">
+        <Box className="mt-4 space-y-4 border-t border-primary-200 pb-3 pt-4 dark:border-primary-700">
           <Box>
             <label htmlFor="raffleZipCode" className={fieldClasses.label}>
               Home zip code <span className="text-primary-500">*</span>
@@ -69,7 +69,7 @@ export default function RaffleOptInField({
             <TextBase className={fieldClasses.label}>
               Interested in <span className="text-primary-500">*</span>
             </TextBase>
-            <div className="mt-1 space-y-2">
+            <Box className="mt-1 space-y-2">
               {RAFFLE_INTEREST_OPTIONS.map(({ value, label }) => (
                 <Stack key={value} direction="row" align="center">
                   <Input
@@ -92,10 +92,10 @@ export default function RaffleOptInField({
                   </label>
                 </Stack>
               ))}
-            </div>
+            </Box>
           </Box>
-        </div>
+        </Box>
       </Transition>
-    </div>
+    </Box>
   )
 }

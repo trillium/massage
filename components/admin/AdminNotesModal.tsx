@@ -13,6 +13,7 @@ import { TextSm, TextXs } from '@/components/ui/text'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { Stack } from '@/components/ui/stack'
+import { Box } from '@/components/ui/box'
 
 type AdminNotesModalProps = {
   open: boolean
@@ -33,7 +34,7 @@ function DetailRow({ label, children }: { label: string; children: React.ReactNo
 
 function AppointmentDetails({ appointment }: { appointment: Appointment }) {
   return (
-    <div className="mt-4 space-y-2 text-sm text-accent-600 dark:text-accent-400">
+    <Box className="mt-4 space-y-2 text-sm text-accent-600 dark:text-accent-400">
       <DetailRow label={admin.notesModal.labels.time}>
         <span>
           {/* biome-ignore lint/style/noJsxLiterals: time range separator */}
@@ -66,7 +67,7 @@ function AppointmentDetails({ appointment }: { appointment: Appointment }) {
           </TextXs>
         </DetailRow>
       )}
-    </div>
+    </Box>
   )
 }
 
@@ -198,10 +199,10 @@ export default function AdminNotesModal({
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-surface-900/75 transition-opacity" />
+          <Box className="fixed inset-0 bg-surface-900/75 transition-opacity" />
         </TransitionChild>
 
-        <div className="fixed inset-0 z-10 overflow-y-auto">
+        <Box className="fixed inset-0 z-10 overflow-y-auto">
           <Stack className="min-h-full p-4" direction="row" align="center" justify="center">
             <TransitionChild
               as={Fragment}
@@ -229,7 +230,7 @@ export default function AdminNotesModal({
 
                 <AppointmentDetails appointment={appointment} />
 
-                <div className="mt-5 border-t border-accent-200 pt-4 dark:border-accent-700">
+                <Box className="mt-5 border-t border-accent-200 pt-4 dark:border-accent-700">
                   <label className="block text-sm font-medium text-accent-700 dark:text-accent-300">
                     {admin.notesModal.labels.notes}
                     <Textarea
@@ -240,7 +241,7 @@ export default function AdminNotesModal({
                       placeholder={admin.notesModal.placeholders.notes}
                     />
                   </label>
-                </div>
+                </Box>
 
                 {error && (
                   <TextSm className="mt-2" status="error">
@@ -269,7 +270,7 @@ export default function AdminNotesModal({
               </DialogPanel>
             </TransitionChild>
           </Stack>
-        </div>
+        </Box>
       </Dialog>
     </Transition>
   )

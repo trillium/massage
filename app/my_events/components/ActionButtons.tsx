@@ -9,6 +9,7 @@ import { TextSmMedium, TextXs } from '@/components/ui/text'
 
 import { Button } from '@/components/ui/button'
 import { Stack } from '@/components/ui/stack'
+import { Box } from '@/components/ui/box'
 
 interface ActionButtonsProps {
   event: GoogleCalendarV3Event
@@ -53,14 +54,14 @@ export function ActionButtons({
   if (isPending) {
     if (cancelState === 'cancelled') {
       return (
-        <div className="ml-4">
+        <Box className="ml-4">
           <TextSmMedium status="muted">Cancelled</TextSmMedium>
-        </div>
+        </Box>
       )
     }
 
     return (
-      <div className="ml-4">
+      <Box className="ml-4">
         <Button
           onClick={handleCancelRequest}
           disabled={cancelState === 'loading'}
@@ -78,7 +79,7 @@ export function ActionButtons({
             Failed to cancel
           </TextXs>
         )}
-      </div>
+      </Box>
     )
   }
 

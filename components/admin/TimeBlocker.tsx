@@ -10,6 +10,7 @@ import { TextSmMuted } from '@/components/ui/text'
 
 import { Button } from '@/components/ui/button'
 import { Stack } from '@/components/ui/stack'
+import { Box } from '@/components/ui/box'
 
 interface TimeBlock {
   id: string
@@ -129,7 +130,7 @@ export default function TimeBlocker({ eventContainer }: TimeBlockerProps) {
   }
 
   return (
-    <div className="rounded-lg border border-accent-200 bg-surface-50 p-4 dark:border-accent-700 dark:bg-surface-800">
+    <Box className="rounded-lg border border-accent-200 bg-surface-50 p-4 dark:border-accent-700 dark:bg-surface-800">
       <Stack className="mb-3" direction="row" align="center" justify="between">
         <H3>{admin.timeBlocker.title}</H3>
         <Button
@@ -187,6 +188,6 @@ export default function TimeBlocker({ eventContainer }: TimeBlockerProps) {
           ))}
         </ul>
       )}
-    </div>
+    </Box>
   )
 }

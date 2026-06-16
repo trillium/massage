@@ -12,6 +12,7 @@ import { H1 } from '@/components/ui/heading'
 
 import { TextBase } from '@/components/ui/text'
 import { Stack } from '@/components/ui/stack'
+import { Box } from '@/components/ui/box'
 
 interface AdminAuthProviderProps {
   children: React.ReactNode
@@ -145,12 +146,12 @@ export function AdminAuthProvider({ children }: AdminAuthProviderProps) {
   if (authState.isLoading) {
     return (
       <Stack className="min-h-screen" direction="row" align="center" justify="center">
-        <div className="text-center">
+        <Box className="text-center">
           <Spinner />
           <TextBase className="mt-4 text-accent-600 dark:text-accent-400">
             {auth.adminAuth.verifying}
           </TextBase>
-        </div>
+        </Box>
       </Stack>
     )
   }
@@ -158,8 +159,8 @@ export function AdminAuthProvider({ children }: AdminAuthProviderProps) {
   if (!authState.isAuthenticated) {
     return (
       <Stack direction="row" align="center" justify="center">
-        <div className="max-w-md rounded-lg bg-surface-50 p-8 text-center shadow-lg dark:bg-surface-800">
-          <div className="mb-4 rounded-full bg-red-100 p-3 dark:bg-red-900/20">
+        <Box className="max-w-md rounded-lg bg-surface-50 p-8 text-center shadow-lg dark:bg-surface-800">
+          <Box className="mb-4 rounded-full bg-red-100 p-3 dark:bg-red-900/20">
             <svg
               className="mx-auto h-6 w-6 text-red-600 dark:text-red-400"
               fill="none"
@@ -173,12 +174,12 @@ export function AdminAuthProvider({ children }: AdminAuthProviderProps) {
                 d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"
               />
             </svg>
-          </div>
+          </Box>
           <H1 className="mb-2">{auth.adminAuth.heading}</H1>
           <TextBase className="mb-4 text-accent-600 dark:text-accent-400">
             {authState.error}
           </TextBase>
-          <div className="text-sm text-accent-500 dark:text-accent-400">
+          <Box className="text-sm text-accent-500 dark:text-accent-400">
             <TextBase>
               {auth.adminAuth.loginPromptPrefix}{' '}
               <Link
@@ -189,16 +190,16 @@ export function AdminAuthProvider({ children }: AdminAuthProviderProps) {
               </Link>{' '}
               {auth.adminAuth.loginPromptSuffix}
             </TextBase>
-          </div>
-        </div>
+          </Box>
+        </Box>
       </Stack>
     )
   }
 
   return (
-    <div className="min-h-screen">
+    <Box className="min-h-screen">
       <AdminAuthChip adminEmail={authState.adminEmail} onLogout={handleLogout} />
       {children}
-    </div>
+    </Box>
   )
 }

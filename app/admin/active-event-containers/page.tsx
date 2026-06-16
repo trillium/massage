@@ -28,10 +28,10 @@ export default async function ActiveEventContainersPage() {
 
   return (
     <SectionContainer>
-      <div className="mx-auto max-w-6xl px-4 py-8">
-        <div className="mb-8">
+      <Box className="mx-auto max-w-6xl px-4 py-8">
+        <Box className="mb-8">
           <H1 className="mb-4 dark:text-white">{p.heading}</H1>
-          <div className="rounded-lg bg-blue-50 p-4 dark:bg-blue-900/20">
+          <Box className="rounded-lg bg-blue-50 p-4 dark:bg-blue-900/20">
             <Stack direction="row" align="center" justify="between">
               <Box>
                 <H2 status="info">{p.overview.heading}</H2>
@@ -42,42 +42,42 @@ export default async function ActiveEventContainersPage() {
                   {Day.todayWithOffset(21).toString()}
                 </TextBase>
               </Box>
-              <div className="text-right">
-                <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+              <Box className="text-right">
+                <Box className="text-2xl font-bold text-blue-600 dark:text-blue-400">
                   {totalContainers}
-                </div>
-                <div className="text-sm text-blue-700 dark:text-blue-300">
+                </Box>
+                <Box className="text-sm text-blue-700 dark:text-blue-300">
                   {p.overview.totalContainersLabel}
-                </div>
-                <div className="text-xl font-semibold text-blue-600 dark:text-blue-400">
+                </Box>
+                <Box className="text-xl font-semibold text-blue-600 dark:text-blue-400">
                   {totalMembers}
-                </div>
-                <div className="text-sm text-blue-700 dark:text-blue-300">
+                </Box>
+                <Box className="text-sm text-blue-700 dark:text-blue-300">
                   {p.overview.totalMembersLabel}
-                </div>
-              </div>
+                </Box>
+              </Box>
             </Stack>
-          </div>
-        </div>
+          </Box>
+        </Box>
 
-        <div className="space-y-6">
+        <Box className="space-y-6">
           {queryGroups.map((group) => (
             <QueryGroupCard key={group.query} group={group} />
           ))}
 
           {queryGroups.length === 0 && (
-            <div className="rounded-lg bg-surface-100 p-8 text-center dark:bg-surface-800">
+            <Box className="rounded-lg bg-surface-100 p-8 text-center dark:bg-surface-800">
               <H3 className="mb-2 dark:text-white">{p.empty.heading}</H3>
               <TextBase className="text-accent-600 dark:text-accent-400">
                 {p.empty.message}
               </TextBase>
-            </div>
+            </Box>
           )}
-        </div>
+        </Box>
 
-        <div className="mt-8 rounded-lg bg-surface-100 p-6 dark:bg-surface-800">
+        <Box className="mt-8 rounded-lg bg-surface-100 p-6 dark:bg-surface-800">
           <H3 className="mb-4 dark:text-white">{p.howItWorks.heading}</H3>
-          <div className="space-y-3 text-sm text-accent-600 dark:text-accent-400">
+          <Box className="space-y-3 text-sm text-accent-600 dark:text-accent-400">
             <TextBase>
               <strong className="text-green-600 dark:text-green-400">
                 {p.howItWorks.containerEvents.label}
@@ -100,9 +100,9 @@ export default async function ActiveEventContainersPage() {
               </strong>
               {p.howItWorks.availability.description}
             </TextBase>
-          </div>
-        </div>
-      </div>
+          </Box>
+        </Box>
+      </Box>
     </SectionContainer>
   )
 }

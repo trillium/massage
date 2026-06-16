@@ -1,5 +1,6 @@
 import { directPrices, servicesWebsite, servicesAirbnb, coupons } from './constants'
 import promo from '@/data/promo.json'
+import { Box } from '@/components/ui/box'
 
 export default function AirbnbCouponTable() {
   const getDirectPriceForService = (service: (typeof servicesAirbnb)[0]) => {
@@ -36,7 +37,7 @@ export default function AirbnbCouponTable() {
   }
 
   return (
-    <div className="my-6 overflow-x-auto rounded-md">
+    <Box className="my-6 overflow-x-auto rounded-md">
       <table className="min-w-full border-collapse rounded-md border border-accent-300 text-sm dark:border-accent-700">
         <thead>
           <tr className="bg-surface-200 dark:bg-surface-800">
@@ -50,17 +51,17 @@ export default function AirbnbCouponTable() {
                   key={`${service.duration}-${service.name}`}
                   className="border border-accent-300 px-3 py-2 text-left dark:border-accent-700"
                 >
-                  <div className="font-semibold">{service.name}</div>
+                  <Box className="font-semibold">{service.name}</Box>
                   {directPrice > 0 && (
-                    <div className="text-xs font-normal">
+                    <Box className="text-xs font-normal">
                       {promo.couponTable.directPrefix}
                       {directPrice}
-                    </div>
+                    </Box>
                   )}
-                  <div className="text-xs font-normal">
+                  <Box className="text-xs font-normal">
                     {promo.couponTable.airbnbPrefix}
                     {service.price}
-                  </div>
+                  </Box>
                 </th>
               )
             })}
@@ -89,20 +90,20 @@ export default function AirbnbCouponTable() {
                     key={`${service.duration}-${service.name}`}
                     className="border border-accent-300 px-3 py-2 dark:border-accent-700"
                   >
-                    <div className="font-semibold">
+                    <Box className="font-semibold">
                       {promo.couponTable.pricePrefix}
                       {afterCoupon}
-                    </div>
+                    </Box>
                     {directPrice > 0 && (
-                      <div className={`text-xs ${getComparisonColor(afterCoupon, directPrice)}`}>
+                      <Box className={`text-xs ${getComparisonColor(afterCoupon, directPrice)}`}>
                         {formatComparison(afterCoupon, directPrice, service)}
-                      </div>
+                      </Box>
                     )}
                     {wastedValue > 0 && (
-                      <div className="text-xs text-orange-600 italic dark:text-orange-400">
+                      <Box className="text-xs text-orange-600 italic dark:text-orange-400">
                         {promo.couponTable.pricePrefix}
                         {wastedValue} {promo.couponTable.unusedExcessSuffix}
-                      </div>
+                      </Box>
                     )}
                   </td>
                 )
@@ -121,21 +122,21 @@ export default function AirbnbCouponTable() {
                   key={`${service.duration}-${service.name}-compensation`}
                   className="border border-accent-300 px-3 py-2 dark:border-accent-700"
                 >
-                  <div className="font-semibold">
+                  <Box className="font-semibold">
                     {promo.couponTable.pricePrefix}
                     {myCompensation}
-                  </div>
-                  <div className="text-xs text-accent-600 dark:text-accent-400">
+                  </Box>
+                  <Box className="text-xs text-accent-600 dark:text-accent-400">
                     {promo.couponTable.compensationNotePrefix}
                     {service.price}
                     {promo.couponTable.compensationNoteSuffix}
-                  </div>
+                  </Box>
                 </td>
               )
             })}
           </tr>
         </tbody>
       </table>
-    </div>
+    </Box>
   )
 }

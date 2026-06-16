@@ -3,6 +3,7 @@
 import * as React from 'react'
 import { twMerge } from 'tailwind-merge'
 import { Stack } from '@/components/ui/stack'
+import { Box } from '@/components/ui/box'
 
 interface CachedTileMapProps {
   longitude: number
@@ -91,7 +92,7 @@ export default function CachedTileMap({
   const tileData = calculateTileData(longitude, latitude, zoom, containerSize)
 
   return (
-    <div
+    <Box
       style={style}
       className={twMerge(
         'relative overflow-hidden rounded-lg border-2 border-accent-300 bg-transparent dark:border-accent-500',
@@ -99,13 +100,13 @@ export default function CachedTileMap({
       )}
       ref={containerRef}
     >
-      <div className="h-full w-full overflow-hidden">
-        <div className="relative h-full w-full">
+      <Box className="h-full w-full overflow-hidden">
+        <Box className="relative h-full w-full">
           <Tiles tileData={tileData} containerSize={containerSize} zoom={zoom} />
           <Marker showMarker={showMarker} />
-        </div>
-      </div>
-    </div>
+        </Box>
+      </Box>
+    </Box>
   )
 }
 

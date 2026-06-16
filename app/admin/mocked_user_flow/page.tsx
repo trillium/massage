@@ -15,6 +15,7 @@ import { TextSmMuted, TextBase } from '@/components/ui/text'
 
 import { Button } from '@/components/ui/button'
 import { Stack } from '@/components/ui/stack'
+import { Box } from '@/components/ui/box'
 
 export default function MockedUserFlowPage() {
   const {
@@ -32,8 +33,8 @@ export default function MockedUserFlowPage() {
 
   return (
     <SectionContainer>
-      <div className="min-h-screen bg-surface-100 py-8 dark:bg-surface-900">
-        <div className="mx-auto max-w-4xl px-4">
+      <Box className="min-h-screen bg-surface-100 py-8 dark:bg-surface-900">
+        <Box className="mx-auto max-w-4xl px-4">
           <nav className="sticky top-0 z-20 mb-8 flex items-center justify-between rounded bg-surface-200 px-6 py-4 shadow dark:bg-surface-800">
             <Stack direction="row" align="center" gap={4}>
               <TextBase
@@ -54,9 +55,9 @@ export default function MockedUserFlowPage() {
             </Button>
           </nav>
 
-          <div className="mb-8">
+          <Box className="mb-8">
             <ConfigurationTester />
-          </div>
+          </Box>
 
           <Step1BookingSelection
             selectedDuration={selectedDuration}
@@ -84,8 +85,8 @@ export default function MockedUserFlowPage() {
           <Step5EventObjectDetails submittedData={submittedData} isConfirmed={isConfirmed} />
 
           <DebugData submittedData={submittedData} onReset={handleReset} />
-        </div>
-      </div>
+        </Box>
+      </Box>
     </SectionContainer>
   )
 }

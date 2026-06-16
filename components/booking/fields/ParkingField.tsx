@@ -3,6 +3,7 @@ import { fieldClasses } from './classes'
 import booking from '@/data/booking.json'
 
 import { Select } from '@/components/ui/select'
+import { Box } from '@/components/ui/box'
 
 const { parkingInstructions: copy } = booking.form
 
@@ -13,7 +14,7 @@ type ParkingFieldProps = {
 
 export default function ParkingField({ parkingInstructions, onChange }: ParkingFieldProps) {
   return (
-    <div className={fieldClasses.row}>
+    <Box className={fieldClasses.row}>
       <label htmlFor="parkingInstructions" className={fieldClasses.label}>
         {copy.label}
       </label>
@@ -32,6 +33,6 @@ export default function ParkingField({ parkingInstructions, onChange }: ParkingF
         <option value="valet">{copy.options.valet}</option>
         <option value="none">{copy.options.none}</option>
       </Select>
-    </div>
+    </Box>
   )
 }

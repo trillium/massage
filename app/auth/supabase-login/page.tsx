@@ -14,6 +14,7 @@ import { Suspense } from 'react'
 import { H1 } from '@/components/ui/heading'
 import { TextSmMuted } from '@/components/ui/text'
 import { Stack } from '@/components/ui/stack'
+import { Box } from '@/components/ui/box'
 
 function LoginContent({ redirectTo }: { redirectTo?: string }) {
   return (
@@ -23,15 +24,15 @@ function LoginContent({ redirectTo }: { redirectTo?: string }) {
       align="center"
       justify="center"
     >
-      <div className="w-full max-w-md">
-        <div className="rounded-lg bg-surface-50 px-8 py-10 shadow-md">
-          <div className="mb-8 text-center">
+      <Box className="w-full max-w-md">
+        <Box className="rounded-lg bg-surface-50 px-8 py-10 shadow-md">
+          <Box className="mb-8 text-center">
             <H1>Sign In</H1>
             <TextSmMuted className="mt-2">Enter your email to receive a magic link</TextSmMuted>
-          </div>
+          </Box>
 
           <LoginForm redirectTo={redirectTo} />
-        </div>
+        </Box>
 
         <TextSmMuted className="mt-6 text-center">
           New here?{' '}
@@ -39,7 +40,7 @@ function LoginContent({ redirectTo }: { redirectTo?: string }) {
             Learn more
           </a>
         </TextSmMuted>
-      </div>
+      </Box>
     </Stack>
   )
 }
@@ -55,9 +56,9 @@ export default async function LoginPage({
     <Suspense
       fallback={
         <Stack className="min-h-screen" direction="row" align="center" justify="center">
-          <div className="text-center">
-            <div className="h-8 w-8 animate-spin rounded-full border-4 border-accent-200 border-t-blue-600"></div>
-          </div>
+          <Box className="text-center">
+            <Box className="h-8 w-8 animate-spin rounded-full border-4 border-accent-200 border-t-blue-600"></Box>
+          </Box>
         </Stack>
       }
     >

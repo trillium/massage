@@ -21,7 +21,8 @@ check-design-system.ts  →  verify clean (runs in lint-staged)
 | `migrate-ds-stack.ts`      | Regex + line-by-line    | Same as ast version, line+excerpt from audit JSON             | stdin (audit JSON pipe)             |
 | `migrate-ds-text.ts`       | Regex + tag-stack       | `<p>` → `<Text>` variants (TextBase/Sm/Xs/Lg)                 | stdin (audit JSON pipe)             |
 | `migrate-ds-spans.ts`      | Regex + tag-stack       | `<span>` → `<Text as="span">` (same variant detection)        | stdin (audit JSON pipe)             |
-| `migrate-ds-box.ts`        | Regex + tag-stack       | Bare `<div>` (no attrs) → `<Box>`, pairs closes via stack     | stdin (audit JSON pipe)             |
+| `migrate-ds-box.ts` | Regex + tag-stack | Bare `<div>` (no attrs) → `<Box>`, pairs closes via stack | stdin (audit JSON pipe) |
+| `migrate-ds-divs.ts` | ts-morph AST | All `<div>` → `<Box>` preserving all attributes | Filesystem scan (app/, components/) |
 | `migrate-text-variants.ts` | Regex + partition       | `<p className="text-sm font-bold">` → `<TextSmBold>`          | Filesystem scan (app/, components/) |
 
 ### Notes by script

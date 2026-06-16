@@ -24,8 +24,8 @@ export function AboutLayout({
 }: AboutSectionProps) {
   return (
     <section>
-      <div className="container grid grid-cols-1 items-center gap-12 md:grid-cols-2">
-        <div className="relative h-[400px] w-full md:h-[500px]">
+      <Box className="container grid grid-cols-1 items-center gap-12 md:grid-cols-2">
+        <Box className="relative h-[400px] w-full md:h-[500px]">
           <Image
             src={imageSrc}
             alt={imageAlt}
@@ -33,7 +33,7 @@ export function AboutLayout({
             className={`border-primary-500 rounded-lg border-2 object-cover ${imagePosition} shadow-lg`}
             priority
           />
-        </div>
+        </Box>
         <Stack className="h-full space-y-4 text-left" direction="col" justify="center">
           <H2 className="text-left md:text-5xl lg:text-6xl">
             {title} <GradientText classes="whitespace-nowrap">{titleGradient}</GradientText>
@@ -44,13 +44,14 @@ export function AboutLayout({
             </TextLgMuted>
           ))}
         </Stack>
-      </div>
+      </Box>
     </section>
   )
 }
 
 import { home, site } from '@/app/content'
 import { Stack } from '@/components/ui/stack'
+import { Box } from '@/components/ui/box'
 
 const { avatar } = site.branding
 const { name } = site.business

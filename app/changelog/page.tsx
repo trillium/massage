@@ -51,7 +51,7 @@ function ConnectedBlock({
 }) {
   return (
     <Box>
-      <div className="rounded-t-lg border border-primary-200 bg-primary-50/50 p-4 dark:border-primary-800 dark:bg-primary-950/20">
+      <Box className="rounded-t-lg border border-primary-200 bg-primary-50/50 p-4 dark:border-primary-800 dark:bg-primary-950/20">
         <TextXs className="mb-2 text-xs font-semibold tracking-widest text-primary-600 uppercase dark:text-primary-400">
           {pages.changelog.header.highlights}
         </TextXs>
@@ -63,9 +63,9 @@ function ConnectedBlock({
             </li>
           ))}
         </ul>
-      </div>
+      </Box>
       {categories.map((cat) => (
-        <div
+        <Box
           key={cat.label}
           className="border border-t-0 border-accent-200 p-4 last:rounded-b-lg dark:border-accent-700"
         >
@@ -84,7 +84,7 @@ function ConnectedBlock({
               </li>
             ))}
           </ul>
-        </div>
+        </Box>
       ))}
     </Box>
   )
@@ -129,9 +129,9 @@ function QuarterSection({
                 )}
 
                 {quarter.months ? (
-                  <div className="space-y-10">
+                  <Box className="space-y-10">
                     {quarter.months.map((month) => (
-                      <div key={month.date}>
+                      <Box key={month.date}>
                         <Stack className="mb-4 items-baseline" direction="row" gap={3}>
                           <H3>
                             {new Date(`${month.date}-15`).toLocaleDateString('en-US', {
@@ -147,9 +147,9 @@ function QuarterSection({
                           highlights={month.highlights}
                           categories={month.categories}
                         />
-                      </div>
+                      </Box>
                     ))}
-                  </div>
+                  </Box>
                 ) : (
                   <ConnectedBlock highlights={quarter.highlights} categories={quarter.categories} />
                 )}
@@ -165,27 +165,27 @@ function QuarterSection({
 export default function Page() {
   return (
     <SectionContainer>
-      <div className="py-12">
-        <div className="mb-12 text-center">
+      <Box className="py-12">
+        <Box className="mb-12 text-center">
           <TextSmSemibold className="mb-2 uppercase">{pages.changelog.header.label}</TextSmSemibold>
           <H1 className="mb-4">{pages.changelog.header.title}</H1>
           <TextLgMuted className="mx-auto max-w-2xl">
             {pages.changelog.header.description}
           </TextLgMuted>
-        </div>
+        </Box>
 
-        <div className="space-y-16">
+        <Box className="space-y-16">
           {quarters.map((q, i) => (
             <QuarterSection key={q.label} quarter={q} defaultOpen={i === 0} />
           ))}
-        </div>
+        </Box>
 
         <TextXsMuted className="mt-16 text-center">
           {pages.changelog.footer
             .replace('{commits}', totalCommits.toLocaleString())
             .replace('{dateRange}', dateRange)}
         </TextXsMuted>
-      </div>
+      </Box>
     </SectionContainer>
   )
 }

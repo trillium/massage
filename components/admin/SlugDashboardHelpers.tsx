@@ -6,6 +6,7 @@ import clsx from 'clsx'
 import admin from '@/data/admin.json'
 import { H4 } from '@/components/ui/heading'
 import { Stack } from '@/components/ui/stack'
+import { Box } from '@/components/ui/box'
 
 export function StatusDot({ subscribed }: { subscribed: boolean }) {
   return (
@@ -26,11 +27,11 @@ export function SocketsDebugPanel({
   appointmentsChannel: { status: string; eventCount: number }
 }) {
   return (
-    <div className="rounded bg-surface-100 p-3 text-xs dark:bg-surface-800">
+    <Box className="rounded bg-surface-100 p-3 text-xs dark:bg-surface-800">
       <H4 className="mb-1.5" status="muted">
         {admin.slugDashboard.socketsDebugPanel.title}
       </H4>
-      <div className="space-y-1 text-accent-500 dark:text-accent-400">
+      <Box className="space-y-1 text-accent-500 dark:text-accent-400">
         <Stack direction="row" align="center" gap={2}>
           <StatusDot subscribed={debug.channelStatus === 'SUBSCRIBED'} />
           <span>
@@ -54,8 +55,8 @@ export function SocketsDebugPanel({
             {admin.slugDashboard.socketsDebugPanel.eventsReceived}
           </span>
         </Stack>
-      </div>
-    </div>
+      </Box>
+    </Box>
   )
 }
 

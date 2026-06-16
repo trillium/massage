@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { H1 } from '@/components/ui/heading'
 
 import { TextBase } from '@/components/ui/text'
+import { Box } from '@/components/ui/box'
 
 export default function GlobalError({
   error: _error,
@@ -17,7 +18,7 @@ export default function GlobalError({
   return (
     <html lang="en">
       <body>
-        <div style={{ padding: '2rem', textAlign: 'center' }}>
+        <Box style={{ padding: '2rem', textAlign: 'center' }}>
           <H1>{system.globalError.message}</H1>
           <TextBase>{system.globalError.description}</TextBase>
           <Button
@@ -27,7 +28,7 @@ export default function GlobalError({
           >
             {system.globalError.buttons.retry}
           </Button>
-        </div>
+        </Box>
       </body>
     </html>
   )

@@ -7,6 +7,7 @@ import { ContainerSelector } from './ContainerSelector'
 import { TimelineBlock } from './TimelineBlock'
 import { TextSmMuted, TextXsMedium } from '@/components/ui/text'
 import { Stack } from '@/components/ui/stack'
+import { Box } from '@/components/ui/box'
 
 function findNearestContainer(queryGroups: QueryGroup[]): {
   query: string
@@ -73,7 +74,7 @@ export function SchedulePanel({ queryGroups }: Props) {
     : -1
 
   return (
-    <div className="space-y-3">
+    <Box className="space-y-3">
       <ContainerSelector
         queryGroups={queryGroups}
         selectedQuery={selectedQuery}
@@ -87,7 +88,7 @@ export function SchedulePanel({ queryGroups }: Props) {
       {!container ? (
         <TextSmMuted>Select a container above.</TextSmMuted>
       ) : (
-        <div className="relative space-y-1.5">
+        <Box className="relative space-y-1.5">
           {blocks.map((block, i) => {
             const blockEnd = new Date(block.end).getTime()
             const blockStart = new Date(block.start).getTime()
@@ -95,11 +96,11 @@ export function SchedulePanel({ queryGroups }: Props) {
             const isInProgress = blockStart <= nowMs && nowMs < blockEnd
 
             return (
-              <div key={`${block.type}-${block.start}`}>
+              <Box key={`${block.type}-${block.start}`}>
                 {nowInRange && isInProgress && (
                   <Stack ref={nowRef} className="my-1" direction="row" align="center" gap={2}>
-                    <div className="h-2 w-2 rounded-full bg-red-500" />
-                    <div className="h-px flex-1 bg-red-500" />
+                    <Box className="h-2 w-2 rounded-full bg-red-500" />
+                    <Box className="h-px flex-1 bg-red-500" />
                     <TextXsMedium status="error">
                       {now.toLocaleTimeString('en-US', {
                         hour: 'numeric',
@@ -109,7 +110,7 @@ export function SchedulePanel({ queryGroups }: Props) {
                   </Stack>
                 )}
                 <TimelineBlock block={block} isPast={isPast} isInProgress={isInProgress} />
-              </div>
+              </Box>
             )
           })}
 
@@ -121,15 +122,15 @@ export function SchedulePanel({ queryGroups }: Props) {
               return bStart <= nowMs && nowMs < bEnd
             }) && (
               <Stack ref={nowRef} className="my-1" direction="row" align="center" gap={2}>
-                <div className="h-2 w-2 rounded-full bg-red-500" />
-                <div className="h-px flex-1 bg-red-500" />
+                <Box className="h-2 w-2 rounded-full bg-red-500" />
+                <Box className="h-px flex-1 bg-red-500" />
                 <TextXsMedium status="error">
                   {now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}
                 </TextXsMedium>
               </Stack>
             )}
-        </div>
+        </Box>
       )}
-    </div>
+    </Box>
   )
 }

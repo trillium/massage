@@ -3,6 +3,7 @@ import { fieldClasses } from './classes'
 import booking from '@/data/booking.json'
 
 import { Input } from '@/components/ui/input'
+import { Box } from '@/components/ui/box'
 
 const { hotelRoomNumber: copy } = booking.form
 
@@ -13,7 +14,7 @@ type HotelFieldProps = {
 
 export default function HotelField({ hotelRoomNumber, onChange }: HotelFieldProps) {
   return (
-    <div className={fieldClasses.row}>
+    <Box className={fieldClasses.row}>
       <label htmlFor="hotelRoomNumber" className={fieldClasses.label}>
         {copy.label}
       </label>
@@ -29,6 +30,6 @@ export default function HotelField({ hotelRoomNumber, onChange }: HotelFieldProp
         placeholder={copy.placeholder}
         onChange={onChange}
       />
-    </div>
+    </Box>
   )
 }

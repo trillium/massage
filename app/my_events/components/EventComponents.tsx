@@ -154,15 +154,15 @@ export function EventDelimiter({
   color: string
 }) {
   return (
-    <div className={clsx('mt-6 mb-4 first:mt-0')}>
+    <Box className={clsx('mt-6 mb-4 first:mt-0')}>
       <Stack direction="row" align="center" className={clsx('rounded-lg p-3', color)}>
-        <div className="flex-1">
+        <Box className="flex-1">
           <H3>{title}</H3>
           <TextSm className="opacity-75">
             {count} event{count !== 1 ? 's' : ''}
           </TextSm>
-        </div>
+        </Box>
       </Stack>
-    </div>
+    </Box>
   )
 }

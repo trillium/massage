@@ -23,6 +23,7 @@ import { Button } from '@/components/ui/button'
 import { Select } from '@/components/ui/select'
 import { Stack } from '@/components/ui/stack'
 import { Input } from '@/components/ui/input'
+import { Box } from '@/components/ui/box'
 
 export default function ReviewForm({
   error,
@@ -51,15 +52,15 @@ export default function ReviewForm({
   const reviewForms = forms.review
 
   return (
-    <div className="mx-auto w-full max-w-7xl px-4 md:px-0">
-      <div className="mb-11 grid grid-cols-12">
+    <Box className="mx-auto w-full max-w-7xl px-4 md:px-0">
+      <Box className="mb-11 grid grid-cols-12">
         <form
           className={'mt-3 w-full sm:mt-0' + ' ' + 'col-span-12 xl:col-span-7'}
           onSubmit={(event) => {
             handleReviewSubmit(event, dispatch, router)
           }}
         >
-          <div className="border-l-primary-400 bg-primary-100/30 dark:bg-primary-50/10 mt-3 mb-4 rounded-md border-l-4 p-3">
+          <Box className="border-l-primary-400 bg-primary-100/30 dark:bg-primary-50/10 mt-3 mb-4 rounded-md border-l-4 p-3">
             <TextLg className="text-primary-800 dark:text-primary-400 text-base font-semibold md:text-lg">
               {formatLocalDate(start, { timeZone })}
             </TextLg>
@@ -68,7 +69,7 @@ export default function ReviewForm({
               {reviewForms.timeSeparator}
               {formatLocalTime(end, { timeZone })}
             </TextSm>
-          </div>
+          </Box>
 
           <Input type="hidden" readOnly name="source" value={siteConfig.business.name} />
           <Input type="hidden" readOnly name="type" value="table" />
@@ -76,12 +77,12 @@ export default function ReviewForm({
           <Input type="hidden" readOnly name="error" value={error} />
 
           <Stack className="space-y-4" direction="col">
-            <div className="isolate -space-y-px rounded-md shadow-sm">
+            <Box className="isolate -space-y-px rounded-md shadow-sm">
               <Stack
                 className="row focus-within:ring-primary-400 relative px-3 pt-2.5 pb-1.5 ring-1 ring-accent-300 ring-inset first:rounded-md first:rounded-b-none last:rounded-md last:rounded-t-none focus-within:z-10 focus-within:ring-2"
                 direction="row"
               >
-                <div className="mx-1 w-full">
+                <Box className="mx-1 w-full">
                   <label
                     htmlFor="name"
                     className="block text-sm font-medium text-accent-900 dark:text-accent-100"
@@ -102,8 +103,8 @@ export default function ReviewForm({
                     onChange={formOnChange}
                     className="mb-1 block w-full border-0 p-0 py-1 pl-2 text-accent-900 placeholder:text-accent-400 focus:ring-0 sm:text-base sm:leading-6 dark:text-accent-100"
                   />
-                </div>
-                <div className="mx-1 w-full">
+                </Box>
+                <Box className="mx-1 w-full">
                   <label
                     htmlFor="name"
                     className="block text-sm font-medium text-accent-900 dark:text-accent-100"
@@ -124,9 +125,9 @@ export default function ReviewForm({
                     onChange={formOnChange}
                     className="mb-1 block w-full border-0 p-0 py-1 pl-2 text-accent-900 placeholder:text-accent-400 focus:ring-0 sm:text-base sm:leading-6 dark:text-accent-100"
                   />
-                </div>
+                </Box>
               </Stack>
-              <div className="focus-within:ring-primary-400 relative px-3 pt-2.5 pb-1.5 ring-1 ring-accent-300 ring-inset first:rounded-md first:rounded-b-none last:rounded-md last:rounded-t-none focus-within:z-10 focus-within:ring-2">
+              <Box className="focus-within:ring-primary-400 relative px-3 pt-2.5 pb-1.5 ring-1 ring-accent-300 ring-inset first:rounded-md first:rounded-b-none last:rounded-md last:rounded-t-none focus-within:z-10 focus-within:ring-2">
                 <label
                   htmlFor="date"
                   className="block text-sm font-medium text-accent-900 dark:text-accent-100"
@@ -144,8 +145,8 @@ export default function ReviewForm({
                   className="mb-1 block w-full border-0 bg-surface-400 p-0 py-1 pl-2 text-accent-900 select-none placeholder:text-accent-400 focus:ring-0 sm:text-base sm:leading-6 dark:bg-surface-700 dark:text-accent-100"
                   readOnly
                 />
-              </div>
-              <div className="focus-within:ring-primary-400 relative px-3 pt-2.5 pb-1.5 ring-1 ring-accent-300 ring-inset first:rounded-md first:rounded-b-none last:rounded-md last:rounded-t-none focus-within:z-10 focus-within:ring-2">
+              </Box>
+              <Box className="focus-within:ring-primary-400 relative px-3 pt-2.5 pb-1.5 ring-1 ring-accent-300 ring-inset first:rounded-md first:rounded-b-none last:rounded-md last:rounded-t-none focus-within:z-10 focus-within:ring-2">
                 <label
                   htmlFor="rating"
                   className="mt-2 block text-sm font-medium text-accent-900 dark:text-accent-100"
@@ -170,7 +171,7 @@ export default function ReviewForm({
                     </option>
                   ))}
                 </Select>
-                <div className="text-primary-400 inline-flex focus-within:rounded-sm focus-within:ring-2 focus-within:ring-accent-400 focus-within:outline-none">
+                <Box className="text-primary-400 inline-flex focus-within:rounded-sm focus-within:ring-2 focus-within:ring-accent-400 focus-within:outline-none">
                   {[1, 2, 3, 4, 5].map((num) => (
                     <label key={`star${num}`} className="flex items-center">
                       <input
@@ -184,9 +185,9 @@ export default function ReviewForm({
                       <Star size={20} fillNone={num > (rating || 0)} />
                     </label>
                   ))}
-                </div>
-              </div>
-              <div className="focus-within:ring-primary-400 relative px-3 pt-2.5 pb-1.5 ring-1 ring-accent-300 ring-inset first:rounded-md first:rounded-b-none last:rounded-md last:rounded-t-none focus-within:z-10 focus-within:ring-2">
+                </Box>
+              </Box>
+              <Box className="focus-within:ring-primary-400 relative px-3 pt-2.5 pb-1.5 ring-1 ring-accent-300 ring-inset first:rounded-md first:rounded-b-none last:rounded-md last:rounded-t-none focus-within:z-10 focus-within:ring-2">
                 <label
                   htmlFor="comment"
                   className="block text-sm font-medium text-accent-900 dark:text-accent-100"
@@ -204,13 +205,13 @@ export default function ReviewForm({
                   onChange={formOnChange}
                   maxLength={300}
                 />
-              </div>
-            </div>
+              </Box>
+            </Box>
           </Stack>
           {modal === 'error' && (
-            <div className="bg-red-50 text-red-600">{reviewForms.messages.error}</div>
+            <Box className="bg-red-50 text-red-600">{reviewForms.messages.error}</Box>
           )}
-          <div className="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
+          <Box className="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
             <Button
               type="submit"
               disabled={modal === 'busy'}
@@ -233,16 +234,16 @@ export default function ReviewForm({
             >
               {reviewForms.buttons.cancel}
             </Button>
-          </div>
+          </Box>
         </form>
-        <div
+        <Box
           className={
             'border-primary-400 w-full rounded-xl border-2 bg-surface-200 dark:bg-surface-900 ' +
             'mt-8 ml-0 p-8 xl:mt-0 xl:ml-8' +
             'col-span-12 xl:col-span-5'
           }
         >
-          <div className="w-full p-4">
+          <Box className="w-full p-4">
             <ReviewSnippet
               text={text}
               name={
@@ -254,9 +255,9 @@ export default function ReviewForm({
               }
               rating={rating}
             />
-          </div>
-        </div>
-      </div>
-    </div>
+          </Box>
+        </Box>
+      </Box>
+    </Box>
   )
 }

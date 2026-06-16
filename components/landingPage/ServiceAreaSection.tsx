@@ -5,6 +5,7 @@ import { H2 } from '@/components/ui/heading'
 
 import { TextBase } from '@/components/ui/text'
 import { Stack } from '@/components/ui/stack'
+import { Box } from '@/components/ui/box'
 
 const serviceAreaBlurb = home.serviceAreaBlurb
 const title = "What's the service area?"
@@ -30,7 +31,7 @@ function ServiceArea({ text, imageLeft, imageRight }: ServiceAreaProps) {
   if (imageRight !== undefined) left = false
 
   return (
-    <div className="bg-hero grid w-full grid-flow-row auto-rows-min grid-cols-2 gap-4 overflow-hidden pb-10">
+    <Box className="bg-hero grid w-full grid-flow-row auto-rows-min grid-cols-2 gap-4 overflow-hidden pb-10">
       <H2 className="col-span-2 text-left sm:col-span-1 md:text-center md:text-5xl lg:text-6xl">
         {title || 'Title Missing'}
       </H2>
@@ -57,6 +58,6 @@ function ServiceArea({ text, imageLeft, imageRight }: ServiceAreaProps) {
       >
         {text || 'Missing text'}
       </TextBase>
-    </div>
+    </Box>
   )
 }

@@ -17,6 +17,7 @@ import { H2, H3 } from '@/components/ui/heading'
 
 import { TextBase } from '@/components/ui/text'
 import { Stack } from '@/components/ui/stack'
+import { Box } from '@/components/ui/box'
 
 interface Step1BookingSelectionProps {
   selectedDuration: number
@@ -58,24 +59,24 @@ export default function Step1BookingSelection({
   }
 
   return (
-    <div className="mb-12 rounded-lg bg-surface-50 p-6 shadow dark:bg-surface-800">
+    <Box className="mb-12 rounded-lg bg-surface-50 p-6 shadow dark:bg-surface-800">
       <H2 className="mb-4">Step 1: Booking Form</H2>
-      <div className="space-y-4">
+      <Box className="space-y-4">
         <TextBase className="text-accent-600 dark:text-accent-400">
           Fill out the form below to simulate a booking request:
         </TextBase>
 
         {/* Duration Picker */}
-        <div className="rounded bg-purple-50 p-4 dark:bg-purple-900/20">
+        <Box className="rounded bg-purple-50 p-4 dark:bg-purple-900/20">
           <DurationPicker {...durationProps} />
-        </div>
+        </Box>
 
         {/* Calendar Selection */}
-        <div className="mt-4 rounded bg-green-50 p-4 dark:bg-green-900/20">
+        <Box className="mt-4 rounded bg-green-50 p-4 dark:bg-green-900/20">
           <H3 className="mb-2" status="success">
             Calendar Selection
           </H3>
-          <div className="w-full">
+          <Box className="w-full">
             <Calendar
               slots={[
                 {
@@ -102,11 +103,11 @@ export default function Step1BookingSelection({
               end={new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString()}
               timeZone="America/Los_Angeles"
             />
-          </div>
-        </div>
+          </Box>
+        </Box>
 
         {/* Mock Time Selection */}
-        <div className="rounded bg-blue-50 p-4 dark:bg-blue-900/20">
+        <Box className="rounded bg-blue-50 p-4 dark:bg-blue-900/20">
           <H3 className="mb-2" status="info">
             Quick Time Selection
           </H3>
@@ -166,7 +167,7 @@ export default function Step1BookingSelection({
               onTimeSelect={handleTimeButtonClick}
             />
           </Stack>
-        </div>
+        </Box>
 
         {/* Booking Form Modal */}
         <BookingForm
@@ -174,7 +175,7 @@ export default function Step1BookingSelection({
           onSubmit={onSubmit}
           acceptingPayment={true}
         />
-      </div>
-    </div>
+      </Box>
+    </Box>
   )
 }

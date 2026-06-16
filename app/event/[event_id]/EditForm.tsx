@@ -9,6 +9,7 @@ import { TextSm, TextSmMedium } from '@/components/ui/text'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Stack } from '@/components/ui/stack'
+import { Box } from '@/components/ui/box'
 
 interface EditFormProps {
   eventId: string
@@ -82,8 +83,8 @@ export default function EditForm({ eventId, token, initialValues }: EditFormProp
         {editing ? eventContent.editForm.button.close : eventContent.editForm.button.edit}
       </Button>
       {editing && (
-        <div className="mt-4 basis-full space-y-4 rounded-2xl border-2 border-accent-200 bg-surface-50 p-6 dark:border-accent-700 dark:bg-surface-800">
-          <div className="grid gap-4 sm:grid-cols-2">
+        <Box className="mt-4 basis-full space-y-4 rounded-2xl border-2 border-accent-200 bg-surface-50 p-6 dark:border-accent-700 dark:bg-surface-800">
+          <Box className="grid gap-4 sm:grid-cols-2">
             <label className="block">
               <TextSmMedium>{eventContent.editForm.fields.firstName}</TextSmMedium>
               <Input
@@ -102,7 +103,7 @@ export default function EditForm({ eventId, token, initialValues }: EditFormProp
                 className="mt-1 block w-full rounded-lg border border-accent-300 px-3 py-2 text-accent-900 dark:border-accent-600 dark:bg-surface-700 dark:text-white"
               />
             </label>
-          </div>
+          </Box>
 
           <label className="block">
             <TextSmMedium>{eventContent.editForm.fields.email}</TextSmMedium>
@@ -136,7 +137,7 @@ export default function EditForm({ eventId, token, initialValues }: EditFormProp
             />
           </label>
 
-          <div className="grid gap-4 sm:grid-cols-2">
+          <Box className="grid gap-4 sm:grid-cols-2">
             <label className="block">
               <TextSmMedium>{eventContent.editForm.fields.city}</TextSmMedium>
               <Input
@@ -161,7 +162,7 @@ export default function EditForm({ eventId, token, initialValues }: EditFormProp
                 className="mt-1 block w-full rounded-lg border border-accent-300 px-3 py-2 text-accent-900 dark:border-accent-600 dark:bg-surface-700 dark:text-white"
               />
             </label>
-          </div>
+          </Box>
 
           {error && <TextSm status="error">{error}</TextSm>}
 
@@ -185,7 +186,7 @@ export default function EditForm({ eventId, token, initialValues }: EditFormProp
               {eventContent.editForm.button.cancel}
             </Button>
           </Stack>
-        </div>
+        </Box>
       )}
     </>
   )

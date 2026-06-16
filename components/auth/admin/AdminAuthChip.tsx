@@ -8,6 +8,7 @@ import auth from '@/data/auth.json'
 
 import { Button } from '@/components/ui/button'
 import { Stack } from '@/components/ui/stack'
+import { Box } from '@/components/ui/box'
 
 interface AdminAuthChipProps {
   adminEmail?: string | null
@@ -20,7 +21,7 @@ export function AdminAuthChip({ adminEmail, onLogout }: AdminAuthChipProps) {
   }
 
   return (
-    <div className="absolute top-0 left-0">
+    <Box className="absolute top-0 left-0">
       <Menu as="div">
         <MenuButton className="rounded-br-3xl border-b border-l bg-blue-50 px-4 py-2 text-sm transition-colors hover:bg-blue-100 dark:bg-blue-900/20 dark:hover:bg-blue-900/30">
           <Stack direction="row" align="center" justify="between">
@@ -33,7 +34,7 @@ export function AdminAuthChip({ adminEmail, onLogout }: AdminAuthChipProps) {
           </Stack>
         </MenuButton>
         <MenuItems className="ring-opacity-5 absolute right-0 mt-2 w-56 origin-top-right divide-y divide-accent-100 rounded-md bg-surface-50 shadow-lg ring-1 ring-black focus:outline-none dark:divide-accent-700 dark:bg-surface-800">
-          <div className="px-1 py-1">
+          <Box className="px-1 py-1">
             {authHeaderNavLinks.map((link) => (
               <MenuItem key={link.href}>
                 <Link
@@ -44,8 +45,8 @@ export function AdminAuthChip({ adminEmail, onLogout }: AdminAuthChipProps) {
                 </Link>
               </MenuItem>
             ))}
-          </div>
-          <div className="px-1 py-1">
+          </Box>
+          <Box className="px-1 py-1">
             <MenuItem>
               <Button
                 onClick={onLogout}
@@ -54,9 +55,9 @@ export function AdminAuthChip({ adminEmail, onLogout }: AdminAuthChipProps) {
                 {auth.authChip.logout}
               </Button>
             </MenuItem>
-          </div>
+          </Box>
         </MenuItems>
       </Menu>
-    </div>
+    </Box>
   )
 }

@@ -11,6 +11,7 @@ import {
   TextBase,
 } from '@/components/ui/text'
 import { H1, H2, H3 } from '@/components/ui/heading'
+import { Box } from '@/components/ui/box'
 
 const Check = () => <FaCheck className="text-lg text-emerald-600 dark:text-emerald-400" />
 const Cross = () => <FaTimes className="text-lg text-accent-300 dark:text-accent-600" />
@@ -39,31 +40,31 @@ const CellIcon = ({ v }: { v: CellValue }) =>
 export default function Page() {
   return (
     <SectionContainer>
-      <div className="py-12">
-        <div className="mb-12 text-center">
+      <Box className="py-12">
+        <Box className="mb-12 text-center">
           <TextSmSemibold className="mb-2 uppercase">{compareData.pageLabel}</TextSmSemibold>
           <H1 className="mb-4">{compareData.pageTitle}</H1>
           <TextLgMuted className="mx-auto max-w-2xl">{compareData.pageDescription}</TextLgMuted>
-        </div>
+        </Box>
 
         <H2 className="mb-4">{compareData.whereWeLeadHeading}</H2>
-        <div className="mb-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <Box className="mb-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {compareData.advantages.map((a) => (
-            <div
+            <Box
               key={a.title}
               className="rounded-lg border border-accent-200 p-4 dark:border-accent-700"
             >
               <H3 className="mb-1">{a.title}</H3>
               <TextSmMuted>{a.desc}</TextSmMuted>
-            </div>
+            </Box>
           ))}
-        </div>
+        </Box>
 
         <H2 className="mb-4">{compareData.whereWeCatchingUpHeading}</H2>
         <TextSmMuted className="mb-4">{compareData.whereWeCatchingUpSubtext}</TextSmMuted>
-        <div className="mb-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <Box className="mb-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {compareData.roadmap.map((r) => (
-            <div
+            <Box
               key={r.feature}
               className="rounded-lg border border-amber-200 bg-amber-50/50 p-4 dark:border-amber-800 dark:bg-amber-950/20"
             >
@@ -71,12 +72,12 @@ export default function Page() {
                 <Soon label="Soon" /> <span className="ml-1">{r.feature}</span>
               </H3>
               <TextSmMuted>{r.desc}</TextSmMuted>
-            </div>
+            </Box>
           ))}
-        </div>
+        </Box>
 
         <H2 className="mb-4">{compareData.fullFeatureGridHeading}</H2>
-        <div className="-mx-4 overflow-x-auto sm:mx-0">
+        <Box className="-mx-4 overflow-x-auto sm:mx-0">
           <table className="w-full min-w-[720px] border-collapse text-left">
             <thead>
               <tr className="border-b border-accent-200 dark:border-accent-700">
@@ -119,11 +120,11 @@ export default function Page() {
               })}
             </tbody>
           </table>
-        </div>
+        </Box>
 
-        <div className="mt-14 rounded-lg bg-surface-100 p-8 dark:bg-surface-800/50">
+        <Box className="mt-14 rounded-lg bg-surface-100 p-8 dark:bg-surface-800/50">
           <H2 className="mb-3">{compareData.honestTakeHeading}</H2>
-          <div className="space-y-3 text-sm leading-relaxed text-accent-600 dark:text-accent-400">
+          <Box className="space-y-3 text-sm leading-relaxed text-accent-600 dark:text-accent-400">
             <TextBase>{compareData.honestTakeParagraph1}</TextBase>
             <TextBase>{compareData.honestTakeParagraph2}</TextBase>
             <TextBase>
@@ -131,11 +132,11 @@ export default function Page() {
               <Soon label="Soon" />
               {compareData.honestTakeParagraph3.split('<Soon />')[1] || ''}
             </TextBase>
-          </div>
-        </div>
+          </Box>
+        </Box>
 
         <TextXsMuted className="mt-8 text-center">{compareData.dataSourceAttribution}</TextXsMuted>
-      </div>
+      </Box>
     </SectionContainer>
   )
 }

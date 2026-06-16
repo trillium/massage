@@ -7,6 +7,7 @@ import { adminFetch } from '@/lib/adminFetch'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { Box } from '@/components/ui/box'
 
 export function CreateRaffleForm() {
   const router = useRouter()
@@ -37,7 +38,7 @@ export function CreateRaffleForm() {
 
   return (
     <form onSubmit={handleSubmit} className="flex items-end gap-3">
-      <div className="flex-1">
+      <Box className="flex-1">
         <label
           htmlFor="raffle-name"
           className="mb-1 block text-sm font-medium text-accent-700 dark:text-accent-300"
@@ -52,7 +53,7 @@ export function CreateRaffleForm() {
           placeholder="Raffle name"
           className="w-full rounded-md border border-accent-300 px-3 py-2 shadow-sm focus:border-blue-500 dark:border-accent-600 dark:bg-surface-700 dark:text-accent-100"
         />
-      </div>
+      </Box>
       <Button
         type="submit"
         disabled={submitting || !name.trim()}

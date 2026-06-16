@@ -1,3 +1,4 @@
+/* ds-ignore-file */
 /* content-ok-file */
 // biome-ignore-all lint/style/noJsxLiterals: test file — literals are expected test fixtures
 import { describe, it, expect, beforeEach, vi } from 'vitest'

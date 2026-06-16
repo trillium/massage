@@ -38,7 +38,7 @@ export default function DoubleBookingTestPage() {
   }
 
   return (
-    <div className="mx-auto max-w-2xl px-4 py-12">
+    <Box className="mx-auto max-w-2xl px-4 py-12">
       <H1 className="mb-2 text-2xl font-bold">{testText.heading}</H1>
       <TextBase className="mb-6 text-accent-500 dark:text-accent-400">
         {testText.description}
@@ -54,7 +54,7 @@ export default function DoubleBookingTestPage() {
 
       {result && (
         <Box>
-          <div
+          <Box
             className={`mb-6 rounded-xl border-2 p-4 text-center text-lg font-bold ${
               result.passed
                 ? 'border-green-400 bg-green-50 text-green-700 dark:bg-green-900/20 dark:text-green-400'
@@ -62,9 +62,9 @@ export default function DoubleBookingTestPage() {
             }`}
           >
             {result.passed ? testText.passMessage : testText.failMessage}
-          </div>
+          </Box>
 
-          <div className="space-y-3">
+          <Box className="space-y-3">
             {result.steps.map((step, i) => (
               <Stack
                 direction="row"
@@ -73,7 +73,7 @@ export default function DoubleBookingTestPage() {
                 className="rounded-lg border border-accent-200 p-4 dark:border-accent-700"
                 key={i}
               >
-                <div
+                <Box
                   className={`shrink-0 rounded-full px-3 py-1 text-sm font-medium ${
                     step.actor === 'User 1'
                       ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400'
@@ -81,12 +81,12 @@ export default function DoubleBookingTestPage() {
                   }`}
                 >
                   {step.actor}
-                </div>
-                <div className="flex-1">
-                  <div className="font-medium">{step.action}</div>
-                  <div className="text-sm text-accent-500 dark:text-accent-400">{step.result}</div>
-                </div>
-                <div
+                </Box>
+                <Box className="flex-1">
+                  <Box className="font-medium">{step.action}</Box>
+                  <Box className="text-sm text-accent-500 dark:text-accent-400">{step.result}</Box>
+                </Box>
+                <Box
                   className={`shrink-0 rounded px-2 py-1 text-sm font-mono font-bold ${
                     step.status === 200
                       ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400'
@@ -94,12 +94,12 @@ export default function DoubleBookingTestPage() {
                   }`}
                 >
                   {step.status}
-                </div>
+                </Box>
               </Stack>
             ))}
-          </div>
+          </Box>
         </Box>
       )}
-    </div>
+    </Box>
   )
 }

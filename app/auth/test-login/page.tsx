@@ -78,11 +78,11 @@ export default function TestLoginPage() {
 
   return (
     <Stack className="min-h-screen" direction="row" align="center" justify="center">
-      <div className="w-full max-w-md p-8">
+      <Box className="w-full max-w-md p-8">
         <H1 className="mb-4">Test Login</H1>
         <TextSmMuted className="mb-4">For E2E testing only</TextSmMuted>
 
-        {error && <div className="mb-4 rounded bg-red-50 p-3 text-sm text-red-800">{error}</div>}
+        {error && <Box className="mb-4 rounded bg-red-50 p-3 text-sm text-red-800">{error}</Box>}
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <Box>
@@ -121,7 +121,7 @@ export default function TestLoginPage() {
             {loading ? 'Signing in...' : 'Sign in'}
           </Button>
         </form>
-      </div>
+      </Box>
     </Stack>
   )
 }

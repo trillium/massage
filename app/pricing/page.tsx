@@ -6,6 +6,7 @@ import pages from '@/data/pages.json'
 import { H1 } from '@/components/ui/heading'
 
 import { TextBase } from '@/components/ui/text'
+import { Box } from '@/components/ui/box'
 
 const pricingStart = [{ duration: 60 }, { duration: 90 }, { duration: 120 }, { duration: 150 }]
 
@@ -37,7 +38,7 @@ export default function PricingPage() {
           ))}
         </tbody>
       </table>
-      <div className="mb-4 text-accent-700 dark:text-accent-300">
+      <Box className="mb-4 text-accent-700 dark:text-accent-300">
         <ul className="list-disc pl-6">
           {home.pricing.notes.map((note, i) => (
             <li key={i} data-content="pricing.note">
@@ -45,7 +46,7 @@ export default function PricingPage() {
             </li>
           ))}
         </ul>
-      </div>
+      </Box>
       <Link
         href="/book"
         className="bg-primary-600 hover:bg-primary-700 rounded px-4 py-2 font-semibold text-white"

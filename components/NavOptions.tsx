@@ -31,11 +31,11 @@ export type NavItem = NavItemWithHref | NavItemWithChildren
 
 export const NavOptions = () => {
   return (
-    <div className="hidden items-center space-x-4 sm:flex sm:space-x-6">
+    <Box className="hidden items-center space-x-4 sm:flex sm:space-x-6">
       {headerNavLinks.map((link) => (
         <RenderNavLink navItem={link} key={link.title} />
       ))}
-    </div>
+    </Box>
   )
 }
 
@@ -61,7 +61,7 @@ const RenderNavLink = ({ navItem }: { navItem: NavItem }) => {
     )
   }
   return (
-    <div className="mr-5">
+    <Box className="mr-5">
       <Menu as="div" className="relative inline-block text-left">
         <Box>
           {navItem.title && (
@@ -84,7 +84,7 @@ const RenderNavLink = ({ navItem }: { navItem: NavItem }) => {
           leaveTo="transform opacity-0 scale-95"
         >
           <MenuItems className="ring-opacity-5 absolute right-0 mt-2 w-32 origin-top-right divide-y divide-accent-100 rounded-md bg-surface-50 shadow-lg ring-1 ring-black focus:outline-none dark:bg-surface-800">
-            <div className="p-1">
+            <Box className="p-1">
               {navItem.children?.map((link: NavItemChild) => (
                 <Menu.Item key={link.title}>
                   {({ focus }) => (
@@ -99,10 +99,10 @@ const RenderNavLink = ({ navItem }: { navItem: NavItem }) => {
                   )}
                 </Menu.Item>
               ))}
-            </div>
+            </Box>
           </MenuItems>
         </Transition>
       </Menu>
-    </div>
+    </Box>
   )
 }

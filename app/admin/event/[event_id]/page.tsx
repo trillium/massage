@@ -114,16 +114,16 @@ export default async function EventPage({ params }: { params: Promise<{ event_id
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="mx-auto max-w-4xl">
+    <Box className="container mx-auto px-4 py-8">
+      <Box className="mx-auto max-w-4xl">
         <H1 className="mb-6">Calendar Event Details</H1>
 
         {matchingEvent ? (
           <>
-            <div className="mb-8 rounded-lg bg-surface-50 p-6 shadow-lg dark:bg-surface-800">
+            <Box className="mb-8 rounded-lg bg-surface-50 p-6 shadow-lg dark:bg-surface-800">
               <H2 className="mb-4 dark:text-white">{matchingEvent.summary || 'Untitled Event'}</H2>
 
-              <div className="space-y-4">
+              <Box className="space-y-4">
                 <Box>
                   <H3>Event ID:</H3>
                   <TextSm className="rounded bg-surface-200 p-2 font-mono dark:bg-surface-700 dark:text-white">
@@ -220,9 +220,9 @@ export default async function EventPage({ params }: { params: Promise<{ event_id
                 )}
 
                 {/* Booking URL Section */}
-                <div className="rounded-lg bg-green-50 p-4 dark:bg-green-900/20">
+                <Box className="rounded-lg bg-green-50 p-4 dark:bg-green-900/20">
                   <H3>Book a Similar Session:</H3>
-                  <div className="mt-2 space-y-2">
+                  <Box className="mt-2 space-y-2">
                     {bookingSlug && (
                       <TextSm status="success">
                         <strong>Detected Booking Type:</strong>{' '}
@@ -239,21 +239,21 @@ export default async function EventPage({ params }: { params: Promise<{ event_id
                       {matchingEvent.location &&
                         'Location information will be pre-filled based on this event'}
                     </TextXsMuted>
-                  </div>
-                </div>
-              </div>
-            </div>
+                  </Box>
+                </Box>
+              </Box>
+            </Box>
 
             {/* Debug section showing raw JSON */}
-            <div className="rounded-lg bg-surface-200 p-6 dark:bg-surface-900">
+            <Box className="rounded-lg bg-surface-200 p-6 dark:bg-surface-900">
               <H3 className="mb-4">Raw Event Data (Debug):</H3>
               <pre className="overflow-auto text-xs text-accent-900 dark:text-white">
                 {JSON.stringify(matchingEvent, null, 2)}
               </pre>
-            </div>
+            </Box>
           </>
         ) : (
-          <div className="mb-8 rounded-lg bg-red-50 p-6 dark:bg-red-900/20">
+          <Box className="mb-8 rounded-lg bg-red-50 p-6 dark:bg-red-900/20">
             <H2 className="mb-4" status="error">
               Event Not Found
             </H2>
@@ -263,21 +263,21 @@ export default async function EventPage({ params }: { params: Promise<{ event_id
             <TextBase className="mt-2 text-red-600 dark:text-red-400">
               Check the search results below for available events.
             </TextBase>
-          </div>
+          </Box>
         )}
 
         {/* Search Results for 'massage' */}
-        <div className="mt-8 rounded-lg bg-blue-50 p-6 dark:bg-blue-900/20">
+        <Box className="mt-8 rounded-lg bg-blue-50 p-6 dark:bg-blue-900/20">
           <H2 className="mb-6 dark:text-white">Events containing "massage"</H2>
           {massageEvents.length > 0 ? (
-            <div className="space-y-4">
+            <Box className="space-y-4">
               {massageEvents.map((event, index) => (
-                <div
+                <Box
                   key={event.id || index}
                   className="rounded-lg bg-surface-50 p-4 shadow-sm dark:bg-surface-800"
                 >
                   <H3 className="dark:text-white">{event.summary || 'Untitled Event'}</H3>
-                  <div className="mt-2 space-y-1 text-sm text-accent-600 dark:text-accent-400">
+                  <Box className="mt-2 space-y-1 text-sm text-accent-600 dark:text-accent-400">
                     <TextBase>
                       <strong>ID:</strong> <TextXs className="font-mono">{event.id}</TextXs>
                     </TextBase>
@@ -310,25 +310,25 @@ export default async function EventPage({ params }: { params: Promise<{ event_id
                           : event.description}
                       </TextBase>
                     )}
-                  </div>
-                  <div className="mt-3">
+                  </Box>
+                  <Box className="mt-3">
                     <Link
                       href={`/event/${event.id}`}
                       className="inline-block rounded bg-blue-600 px-3 py-1 text-sm text-white hover:bg-blue-700"
                     >
                       View Details
                     </Link>
-                  </div>
-                </div>
+                  </Box>
+                </Box>
               ))}
-            </div>
+            </Box>
           ) : (
             <TextBase className="text-accent-600 dark:text-accent-400">
               No events found containing "massage"
             </TextBase>
           )}
-        </div>
-      </div>
-    </div>
+        </Box>
+      </Box>
+    </Box>
   )
 }

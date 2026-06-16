@@ -14,6 +14,7 @@ import type {
   LocationObject,
 } from '@/lib/types'
 import { format } from 'date-fns-tz'
+import { Box } from '@/components/ui/box'
 
 type DisplayTimeListProps = {
   presenceCounts?: Record<string, number>
@@ -58,9 +59,9 @@ export default function DisplayTimeList({ presenceCounts, onSlotHover }: Display
   }
 
   return (
-    <div className="relative pt-2">
+    <Box className="relative pt-2">
       <DataFreshnessPill />
-      <div className="grid grid-cols-2 gap-2">
+      <Box className="grid grid-cols-2 gap-2">
         {availability?.map(({ start, end, location, className }) => {
           const slotKey = start + end
           const isActive = selectedTime ? slotKey === timeSignature : false
@@ -97,7 +98,7 @@ export default function DisplayTimeList({ presenceCounts, onSlotHover }: Display
             />
           )
         })}
-      </div>
-    </div>
+      </Box>
+    </Box>
   )
 }

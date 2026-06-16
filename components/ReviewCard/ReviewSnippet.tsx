@@ -3,6 +3,7 @@ import type { ReviewSnippetProps } from '@/lib/types'
 import { TextBaseMedium, TextLgMuted } from '@/components/ui/text'
 import { Stack } from '@/components/ui/stack'
 import { H6 } from '@/components/ui/heading'
+import { Box } from '@/components/ui/box'
 
 export const ReviewSnippet = ({
   text,
@@ -23,7 +24,7 @@ export const ReviewSnippet = ({
     'Anonymous'
 
   return (
-    <div className="pt-4">
+    <Box className="pt-4">
       <Stack direction="col" justify="between" className="mb-4 sm:flex-row sm:items-center">
         <Stack className="text-primary-400" direction="row" align="center" gap={3}>
           {Array.from({ length: rating || 0 }, (_, i) => (
@@ -42,6 +43,6 @@ export const ReviewSnippet = ({
       </Stack>
 
       <TextLgMuted>{text}</TextLgMuted>
-    </div>
+    </Box>
   )
 }

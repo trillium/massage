@@ -9,6 +9,7 @@ import ClientConfirmationFeature from '@/features/ClientConfirmationFeature'
 import { H2 } from '@/components/ui/heading'
 
 import { TextBase } from '@/components/ui/text'
+import { Box } from '@/components/ui/box'
 
 interface Step1_5UserConfirmationProps {
   submittedData: AppointmentRequestType | null
@@ -37,16 +38,16 @@ export default function Step1_5UserConfirmation({ submittedData }: Step1_5UserCo
   }
 
   return (
-    <div className="mb-12 rounded-lg bg-surface-50 p-6 shadow dark:bg-surface-800">
+    <Box className="mb-12 rounded-lg bg-surface-50 p-6 shadow dark:bg-surface-800">
       <H2 className="mb-4">Step 1.5: User Confirmation Page</H2>
       <TextBase className="mb-4 text-accent-600 dark:text-accent-400">
         This is what the user sees immediately after submitting their booking request:
       </TextBase>
 
       {/* Simulated confirmation page content */}
-      <div className="rounded-lg border-2 border-dashed border-accent-300 bg-surface-100 p-6 dark:border-accent-600 dark:bg-surface-900">
+      <Box className="rounded-lg border-2 border-dashed border-accent-300 bg-surface-100 p-6 dark:border-accent-600 dark:bg-surface-900">
         <ClientConfirmationFeature />
-      </div>
-    </div>
+      </Box>
+    </Box>
   )
 }

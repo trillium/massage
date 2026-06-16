@@ -11,6 +11,7 @@ import { H1 } from '@/components/ui/heading'
 
 import { TextBase } from '@/components/ui/text'
 import { Stack } from '@/components/ui/stack'
+import { Box } from '@/components/ui/box'
 
 export default function Confirmation() {
   const { selectedTime, timeZone, duration } = useReduxAvailability()
@@ -58,14 +59,14 @@ export default function Confirmation() {
 
   return (
     <>
-      <div className="w-full max-w-2xl px-4 py-4 sm:px-0 sm:py-8">
+      <Box className="w-full max-w-2xl px-4 py-4 sm:px-0 sm:py-8">
         <H1 className="sm:text-5xl" status="primary">
           {instantConfirm.heading}
         </H1>
         <TextBase className="mt-6 text-xl font-medium text-accent-800 dark:text-accent-200">
           {instantConfirm.subheading}
         </TextBase>
-      </div>
+      </Box>
 
       <BookedCard {...bookedData} />
 

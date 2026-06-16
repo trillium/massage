@@ -9,6 +9,7 @@ import { TextSm } from '@/components/ui/text'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Stack } from '@/components/ui/stack'
+import { Box } from '@/components/ui/box'
 
 interface LoginFormProps {
   redirectTo?: string
@@ -52,7 +53,7 @@ export function LoginForm({ redirectTo: rawRedirectTo, onSuccess, onError }: Log
 
   if (submitted) {
     return (
-      <div className="rounded-lg border border-green-200 bg-green-50 p-4">
+      <Box className="rounded-lg border border-green-200 bg-green-50 p-4">
         <H3 status="success">{auth.loginForm.checkYourEmail}</H3>
         <TextSm className="mt-1" status="success">
           {auth.loginForm.magicLinkSent} <strong>{email}</strong>
@@ -66,12 +67,12 @@ export function LoginForm({ redirectTo: rawRedirectTo, onSuccess, onError }: Log
         >
           {auth.loginForm.useDifferentEmail}
         </Button>
-      </div>
+      </Box>
     )
   }
 
   return (
-    <div className="space-y-4">
+    <Box className="space-y-4">
       <Button
         onClick={handleGoogle}
         disabled={loading}
@@ -99,21 +100,21 @@ export function LoginForm({ redirectTo: rawRedirectTo, onSuccess, onError }: Log
       </Button>
 
       {error && (
-        <div className="rounded-md bg-red-50 p-3 dark:bg-red-950">
+        <Box className="rounded-md bg-red-50 p-3 dark:bg-red-950">
           <TextSm status="error">{error}</TextSm>
-        </div>
+        </Box>
       )}
 
-      <div className="relative">
+      <Box className="relative">
         <Stack className="absolute inset-0" direction="row" align="center">
-          <div className="w-full border-t border-accent-300 dark:border-accent-600" />
+          <Box className="w-full border-t border-accent-300 dark:border-accent-600" />
         </Stack>
         <Stack className="relative text-sm" direction="row" justify="center">
           <span className="bg-surface-50 px-2 text-accent-500 dark:bg-surface-800 dark:text-accent-400">
             {auth.loginForm.or}
           </span>
         </Stack>
-      </div>
+      </Box>
 
       {showEmail ? (
         <form onSubmit={handleEmailSubmit} className="space-y-3">
@@ -142,6 +143,6 @@ export function LoginForm({ redirectTo: rawRedirectTo, onSuccess, onError }: Log
           {auth.loginForm.signInWithEmail}
         </Button>
       )}
-    </div>
+    </Box>
   )
 }

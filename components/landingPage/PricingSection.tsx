@@ -6,6 +6,7 @@ import landing from '@/data/landing.json'
 import { H2, H3 } from '@/components/ui/heading'
 import { TextSmMedium, TextBase } from '@/components/ui/text'
 import { Stack } from '@/components/ui/stack'
+import { Box } from '@/components/ui/box'
 
 const pricingOptions = home.pricing.tiers.map((tier) => ({
   ...tier,
@@ -16,13 +17,13 @@ const { heading, mostPopularBadge, bookNowButton, pricePrefix } = landing.pricin
 export default function PricingSection() {
   return (
     <section className="flex w-full flex-col items-center bg-surface-50 dark:bg-surface-950">
-      <div className="container">
+      <Box className="container">
         <H2 className="mb-8 text-center md:text-4xl dark:text-white">{heading}</H2>
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+        <Box className="grid grid-cols-1 gap-8 md:grid-cols-3">
           {pricingOptions.map((option, i) => (
-            <div key={i} className="group relative">
+            <Box key={i} className="group relative">
               {option.mostPopular && (
-                <div
+                <Box
                   className={clsx(
                     borderClasses,
                     gradientColorClasses,
@@ -30,28 +31,28 @@ export default function PricingSection() {
                     opacityClasses,
                     timingClasses
                   )}
-                ></div>
+                ></Box>
               )}
               <Stack direction="col" align="center" className={clsx("z-10 h-full rounded-lg bg-surface-50 p-8 text-center shadow dark:bg-surface-800 dark:text-accent-100", positionClassesCardElem, {
                     'ring-primary-500 ring-2': option.mostPopular,
                   })}>
                 {option.mostPopular && (
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 transform">
+                  <Box className="absolute -top-3 left-1/2 -translate-x-1/2 transform">
                     <TextSmMedium className="bg-primary-500 rounded-full px-3 py-1 whitespace-nowrap">
                       {mostPopularBadge}
                     </TextSmMedium>
-                  </div>
+                  </Box>
                 )}
                 <H3 className="mb-2 dark:text-white" data-content="pricing.tier.title">
                   {option.title}
                 </H3>
-                <div
+                <Box
                   className="text-primary-600 dark:text-primary-400 mb-4 text-3xl font-bold"
                   data-content="pricing.tier.price"
                 >
                   {pricePrefix}
                   {option.price}
-                </div>
+                </Box>
                 <ul className="mb-4 items-start space-y-4 text-left text-accent-600 dark:text-accent-300">
                   {option.features.map((feature, index) => (
                     <li
@@ -76,10 +77,10 @@ export default function PricingSection() {
                   {bookNowButton}
                 </Link>
               </Stack>
-            </div>
+            </Box>
           ))}
-        </div>
-      </div>
+        </Box>
+      </Box>
     </section>
   )
 }

@@ -6,6 +6,7 @@ import { H2 } from '@/components/ui/heading'
 import { Button } from '@/components/ui/button'
 
 import { TextBase } from '@/components/ui/text'
+import { Box } from '@/components/ui/box'
 
 interface Step3TherapistApprovalProps {
   approveUrl: string
@@ -19,7 +20,7 @@ export default function Step3TherapistApproval({
   onApprovalClick,
 }: Step3TherapistApprovalProps) {
   return (
-    <div className="mb-12 rounded-lg bg-surface-50 p-6 shadow dark:bg-surface-800">
+    <Box className="mb-12 rounded-lg bg-surface-50 p-6 shadow dark:bg-surface-800">
       <H2 className="mb-4">Step 3: Therapist Approval</H2>
       <TextBase className="mb-4 text-accent-600 dark:text-accent-400">
         Therapist must accept the appointment to proceed
@@ -30,6 +31,6 @@ export default function Step3TherapistApproval({
       >
         Simulate Approval Click
       </Button>
-    </div>
+    </Box>
   )
 }

@@ -10,6 +10,7 @@ import { RAFFLE_INTEREST_LABELS } from '@/lib/schema'
 import { H1 } from '@/components/ui/heading'
 import { TextLg, TextSmMuted, TextBase } from '@/components/ui/text'
 import { Stack } from '@/components/ui/stack'
+import { Box } from '@/components/ui/box'
 
 export default function NerdstageRaffleEnteredPage() {
   const router = useRouter()
@@ -39,26 +40,26 @@ export default function NerdstageRaffleEnteredPage() {
           Thanks for entering! We'll reach out if you're selected.
         </TextBase>
 
-        <div className="mb-8 w-full max-w-lg rounded-lg border-2 border-surface-200 bg-surface-50 text-left shadow-md dark:border-surface-700 dark:bg-surface-900">
-          <div className="border-b border-surface-200 px-5 py-3 dark:border-surface-700">
+        <Box className="mb-8 w-full max-w-lg rounded-lg border-2 border-surface-200 bg-surface-50 text-left shadow-md dark:border-surface-700 dark:bg-surface-900">
+          <Box className="border-b border-surface-200 px-5 py-3 dark:border-surface-700">
             <TextSmMuted>Name</TextSmMuted>
             <TextBase className="font-semibold">{name}</TextBase>
-          </div>
-          <div className="border-b border-surface-200 px-5 py-3 dark:border-surface-700">
+          </Box>
+          <Box className="border-b border-surface-200 px-5 py-3 dark:border-surface-700">
             <TextSmMuted>Email</TextSmMuted>
             <TextBase>{email}</TextBase>
-          </div>
-          <div className="border-b border-surface-200 px-5 py-3 dark:border-surface-700">
+          </Box>
+          <Box className="border-b border-surface-200 px-5 py-3 dark:border-surface-700">
             <TextSmMuted>Phone</TextSmMuted>
             <TextBase>{phone}</TextBase>
-          </div>
+          </Box>
           {interests && interests.length > 0 && (
-            <div className="px-5 py-3">
+            <Box className="px-5 py-3">
               <TextSmMuted>Interested in</TextSmMuted>
               <TextBase>{interests.map((i) => RAFFLE_INTEREST_LABELS[i] || i).join(', ')}</TextBase>
-            </div>
+            </Box>
           )}
-        </div>
+        </Box>
 
         <Stack direction="row" gap={4}>
           <Link

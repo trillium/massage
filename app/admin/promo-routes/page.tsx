@@ -7,6 +7,7 @@ import { FaCrosshairs, FaDollarSign, FaTimes, FaClock, FaClipboardList } from 'r
 import { H2, H3, H4 } from '@/components/ui/heading'
 import { TextSmMedium, TextSmMuted, TextXs, TextXsMedium, TextBase } from '@/components/ui/text'
 import { Stack } from '@/components/ui/stack'
+import { Box } from '@/components/ui/box'
 
 export default async function PromoRoutesPage() {
   const slugConfigurations = await fetchSlugConfigurationData()
@@ -26,27 +27,27 @@ export default async function PromoRoutesPage() {
 
   return (
     <SectionContainer>
-      <div className="min-h-screen bg-surface-100 py-8 dark:bg-surface-900">
-        <div className="mx-auto max-w-4xl px-4">
+      <Box className="min-h-screen bg-surface-100 py-8 dark:bg-surface-900">
+        <Box className="mx-auto max-w-4xl px-4">
           <Template
             title="Promotional Routes Directory"
             text="Internal reference page for all booking routes and promotional configurations"
           />
 
-          <div className="mt-8 space-y-8">
+          <Box className="mt-8 space-y-8">
             {/* Promotional Routes Section */}
             <section className="rounded-lg bg-surface-50 p-6 shadow-md dark:bg-surface-800">
               <H2 className="mb-4 dark:text-white">
                 <FaCrosshairs className="inline" /> Promotional Routes ({promoRoutes.length})
               </H2>
-              <div className="space-y-4">
+              <Box className="space-y-4">
                 {promoRoutes.map(([slug, config]) => (
-                  <div
+                  <Box
                     key={slug}
                     className="border-l-4 border-green-500 bg-green-50 p-4 dark:bg-green-900/20"
                   >
                     <Stack direction="row" align="center" justify="between">
-                      <div className="flex-1">
+                      <Box className="flex-1">
                         <H3 className="dark:text-white">
                           <Link
                             href={`/${slug}`}
@@ -81,7 +82,7 @@ export default async function PromoRoutesPage() {
                           </TextSmMedium>
                         )}
                         {config.text && (
-                          <div className="mt-1 text-sm text-accent-500 dark:text-accent-400">
+                          <Box className="mt-1 text-sm text-accent-500 dark:text-accent-400">
                             {Array.isArray(config.text) ? (
                               config.text.map((paragraph, index) => (
                                 <TextBase key={index} className={index > 0 ? 'mt-1' : ''}>
@@ -91,21 +92,21 @@ export default async function PromoRoutesPage() {
                             ) : (
                               <TextBase>{config.text}</TextBase>
                             )}
-                          </div>
+                          </Box>
                         )}
-                      </div>
-                      <div className="ml-4 text-right">
+                      </Box>
+                      <Box className="ml-4 text-right">
                         <TextXsMedium
                           className="inline-block rounded-full bg-green-100 px-2 py-1 dark:bg-green-800"
                           status="success"
                         >
                           {config.type}
                         </TextXsMedium>
-                      </div>
+                      </Box>
                     </Stack>
-                  </div>
+                  </Box>
                 ))}
-              </div>
+              </Box>
             </section>
 
             {/* All Routes Section */}
@@ -113,14 +114,14 @@ export default async function PromoRoutesPage() {
               <H2 className="mb-4 dark:text-white">
                 <FaClipboardList className="inline" /> All Available Routes ({allRoutes.length})
               </H2>
-              <div className="grid gap-3 md:grid-cols-2">
+              <Box className="grid gap-3 md:grid-cols-2">
                 {allRoutes.map(([slug, config]) => (
-                  <div
+                  <Box
                     key={slug}
                     className="rounded border p-3 hover:bg-surface-100 dark:border-accent-700 dark:hover:bg-surface-700"
                   >
                     <Stack direction="row" align="center" justify="between">
-                      <div className="flex-1">
+                      <Box className="flex-1">
                         <H4 className="dark:text-white">
                           <Link
                             href={`/${slug}`}
@@ -130,7 +131,7 @@ export default async function PromoRoutesPage() {
                           </Link>
                         </H4>
                         <TextSmMuted>{config.title}</TextSmMuted>
-                      </div>
+                      </Box>
                       <Stack className="ml-2 space-y-1" direction="col" align="end">
                         <TextXsMedium
                           className="inline-block rounded-full px-2 py-1 ${ config.discount ? 'bg-green-100 dark:bg-green-800 dark:text-green-200' : 'bg-surface-200 dark:bg-surface-700 dark:text-accent-200' }"
@@ -145,13 +146,13 @@ export default async function PromoRoutesPage() {
                         )}
                       </Stack>
                     </Stack>
-                  </div>
+                  </Box>
                 ))}
-              </div>
+              </Box>
             </section>
-          </div>
-        </div>
-      </div>
+          </Box>
+        </Box>
+      </Box>
       []
     </SectionContainer>
   )

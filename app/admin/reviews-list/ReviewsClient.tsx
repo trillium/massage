@@ -8,6 +8,7 @@ import { ReviewCard } from './ReviewCard'
 import { H2 } from '@/components/ui/heading'
 
 import { Button } from '@/components/ui/button'
+import { Box } from '@/components/ui/box'
 
 interface Review {
   id: number
@@ -106,7 +107,7 @@ export function ReviewsClient({ initialReviews }: { initialReviews: Review[] }) 
   }
 
   return (
-    <div className="space-y-8">
+    <Box className="space-y-8">
       <SourceFilterBar
         sources={sources}
         latestBySource={latestBySource}
@@ -114,7 +115,7 @@ export function ReviewsClient({ initialReviews }: { initialReviews: Review[] }) 
         onFilterChange={setSourceFilter}
       />
 
-      <div className="rounded-lg border border-green-200 bg-green-50 p-4 dark:border-green-800 dark:bg-green-900/20">
+      <Box className="rounded-lg border border-green-200 bg-green-50 p-4 dark:border-green-800 dark:bg-green-900/20">
         <H2 className="mb-3" status="success">
           Add Review
         </H2>
@@ -126,9 +127,9 @@ export function ReviewsClient({ initialReviews }: { initialReviews: Review[] }) 
         >
           {saving ? 'Saving...' : 'Add Review'}
         </Button>
-      </div>
+      </Box>
 
-      <div className="space-y-4">
+      <Box className="space-y-4">
         <H2>
           {sourceFilter ? `${sourceFilter} Reviews` : 'All Reviews'} ({filtered.length})
         </H2>
@@ -145,8 +146,8 @@ export function ReviewsClient({ initialReviews }: { initialReviews: Review[] }) 
             onEditFormChange={setEditForm}
           />
         ))}
-      </div>
-    </div>
+      </Box>
+    </Box>
   )
 }
 
@@ -162,11 +163,11 @@ function SourceFilterBar({
   onFilterChange: (source: string | null) => void
 }) {
   return (
-    <div className="rounded-lg border border-blue-200 bg-blue-50 p-4 dark:border-blue-800 dark:bg-blue-900/20">
+    <Box className="rounded-lg border border-blue-200 bg-blue-50 p-4 dark:border-blue-800 dark:bg-blue-900/20">
       <H2 className="mb-3" status="info">
         Most Recent by Source
       </H2>
-      <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+      <Box className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
         {sources.map((source) => {
           const r = latestBySource[source]
           return (
@@ -179,14 +180,14 @@ function SourceFilterBar({
                   : 'border-accent-200 bg-surface-50 hover:bg-surface-100 dark:border-accent-700 dark:bg-surface-800 dark:hover:bg-surface-700'
               }`}
             >
-              <div className="font-medium text-accent-900 dark:text-accent-100">{source}</div>
-              <div className="text-xs text-accent-500 dark:text-accent-400">
+              <Box className="font-medium text-accent-900 dark:text-accent-100">{source}</Box>
+              <Box className="text-xs text-accent-500 dark:text-accent-400">
                 {r.date} — {r.name}
-              </div>
+              </Box>
             </Button>
           )
         })}
-      </div>
+      </Box>
       {sourceFilter && (
         <Button
           onClick={() => onFilterChange(null)}
@@ -195,6 +196,6 @@ function SourceFilterBar({
           Clear filter
         </Button>
       )}
-    </div>
+    </Box>
   )
 }

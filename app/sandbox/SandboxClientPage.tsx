@@ -10,6 +10,7 @@ import { TextXs, TextXsMuted } from '@/components/ui/text'
 
 import { Button } from '@/components/ui/button'
 import { Stack } from '@/components/ui/stack'
+import { Box } from '@/components/ui/box'
 
 function TabBar() {
   const { state, dispatch, resetSession } = useSandbox()
@@ -62,10 +63,10 @@ function SandboxContent({ pageConfig }: { pageConfig: PageConfigurationReturnTyp
   const { state } = useSandbox()
 
   return (
-    <div className="mx-auto max-w-4xl px-4 py-6">
+    <Box className="mx-auto max-w-4xl px-4 py-6">
       <TabBar />
       {state.activeTab === 'user' ? <UserView pageConfig={pageConfig} /> : <AdminView />}
-    </div>
+    </Box>
   )
 }
 

@@ -9,6 +9,7 @@ import { GeneratePrice } from '@/components/ui/atoms/GeneratePriceAtom'
 import type { durationPropsType } from '@/lib/types'
 
 import { Input } from '@/components/ui/input'
+import { Box } from '@/components/ui/box'
 
 export default function DurationPicker({
   allowedDurations: allowedDurationsProps,
@@ -46,14 +47,14 @@ export default function DurationPicker({
           showPrice && <GeneratePrice price={sessionCost} discount={configuration?.discount} />
         )}
       </legend>
-      <div
+      <Box
         className={clsx(
           'isolate mt-1 overflow-hidden rounded-lg border border-accent-200 bg-surface-50 shadow-sm dark:border-accent-700 dark:bg-surface-800',
           useGrid ? 'grid grid-cols-3 max-w-sm sm:inline-flex' : 'inline-flex'
         )}
       >
         {allowedDurations.map((theDuration, i) => (
-          <div key={theDuration}>
+          <Box key={theDuration}>
             <Input
               id={`duration-${theDuration}`}
               name="duration"
@@ -88,9 +89,9 @@ export default function DurationPicker({
             >
               {theDuration}m
             </label>
-          </div>
+          </Box>
         ))}
-      </div>
+      </Box>
     </fieldset>
   )
 }

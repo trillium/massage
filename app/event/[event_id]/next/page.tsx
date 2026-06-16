@@ -23,6 +23,7 @@ import { H1, H2, H3 } from '@/components/ui/heading'
 
 import { TextBase } from '@/components/ui/text'
 import { Stack } from '@/components/ui/stack'
+import { Box } from '@/components/ui/box'
 
 interface NextBookingPageProps {
   params: Promise<{ event_id: string }>
@@ -68,18 +69,18 @@ export default async function NextBookingPage({ params, searchParams }: NextBook
 
   if (!currentEvent) {
     return (
-      <div className="container mx-auto px-4 py-8">
-        <div className="mx-auto max-w-4xl">
-          <div className="rounded-lg bg-red-50 p-6 dark:bg-red-900/20">
+      <Box className="container mx-auto px-4 py-8">
+        <Box className="mx-auto max-w-4xl">
+          <Box className="rounded-lg bg-red-50 p-6 dark:bg-red-900/20">
             <H2 className="mb-4" status="error">
               {eventContent.next.errorLoading.heading}
             </H2>
             <TextBase className="text-red-700 dark:text-red-300">
               {eventContent.next.errorLoading.message}
             </TextBase>
-          </div>
-        </div>
-      </div>
+          </Box>
+        </Box>
+      </Box>
     )
   }
 
@@ -121,16 +122,16 @@ export default async function NextBookingPage({ params, searchParams }: NextBook
       {/* Manage slot updates when duration changes */}
       <DurationSlotManager multiDurationSlots={multiDurationSlots} />
       <SlotTakenAlert />
-      <div className="container mx-auto px-4 py-8">
-        <div className="mx-auto max-w-6xl">
-          <div className="mb-8">
+      <Box className="container mx-auto px-4 py-8">
+        <Box className="mx-auto max-w-6xl">
+          <Box className="mb-8">
             <H1 className="mb-4 dark:text-white">{eventContent.next.heading}</H1>
-            <div className="rounded-lg bg-blue-50 p-4 dark:bg-blue-900/20">
+            <Box className="rounded-lg bg-blue-50 p-4 dark:bg-blue-900/20">
               <H2 className="mb-2 dark:text-white">
                 {eventContent.next.currentEvent}
                 {currentEvent.summary || 'Untitled Event'}
               </H2>
-              <div className="space-y-1 text-sm text-accent-600 dark:text-accent-400">
+              <Box className="space-y-1 text-sm text-accent-600 dark:text-accent-400">
                 <TextBase>
                   <strong>{eventContent.next.endsAt}</strong> {eventEndTimeStr}
                 </TextBase>
@@ -139,14 +140,14 @@ export default async function NextBookingPage({ params, searchParams }: NextBook
                     <strong>{eventContent.next.location}</strong> {currentEvent.location}
                   </TextBase>
                 )}
-              </div>
-            </div>
-          </div>
+              </Box>
+            </Box>
+          </Box>
 
-          <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+          <Box className="grid grid-cols-1 gap-8 lg:grid-cols-2">
             {/* Left Column - Booking Configuration */}
-            <div className="space-y-6">
-              <div className="xs:p-6 rounded-lg bg-surface-50 p-3 shadow-sm dark:bg-surface-800">
+            <Box className="space-y-6">
+              <Box className="xs:p-6 rounded-lg bg-surface-50 p-3 shadow-sm dark:bg-surface-800">
                 <H3 className="mb-4 dark:text-white">{eventContent.next.duration}</H3>
                 <SlotHoldProvider>
                   <DurationPicker
@@ -160,9 +161,9 @@ export default async function NextBookingPage({ params, searchParams }: NextBook
                   <DynamicTimeList multiDurationSlots={multiDurationSlots} />
                   <BookingForm />
                 </SlotHoldProvider>
-              </div>
-            </div>
-            <div className="space-y-6">
+              </Box>
+            </Box>
+            <Box className="space-y-6">
               <Stack direction="row" align="center" justify="center" className="h-full min-h-96 w-full overflow-hidden rounded-lg bg-surface-50 p-0 shadow-sm dark:bg-surface-800" id="map-container">
                 <MapTile
                   longitude={mapCoordinates.longitude}
@@ -170,11 +171,11 @@ export default async function NextBookingPage({ params, searchParams }: NextBook
                   zoom={mapCoordinates.zoom}
                 />
               </Stack>
-            </div>
-          </div>
+            </Box>
+          </Box>
 
           {/* Back Link */}
-          <div className="mt-8">
+          <Box className="mt-8">
             <Link
               href={`/event/${event_id}`}
               className="inline-flex items-center text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
@@ -189,9 +190,9 @@ export default async function NextBookingPage({ params, searchParams }: NextBook
               </svg>
               {eventContent.next.backLink}
             </Link>
-          </div>
-        </div>
-      </div>
+          </Box>
+        </Box>
+      </Box>
     </>
   )
 }

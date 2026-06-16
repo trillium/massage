@@ -43,7 +43,7 @@ const BookingSummary: React.FC<BookingSummaryProps> = ({
       : null
 
   return (
-    <div className="border-l-primary-400 dark:bg-primary-50/10 mt-3 mb-4 rounded-md border-l-4 bg-surface-50 p-3">
+    <Box className="border-l-primary-400 dark:bg-primary-50/10 mt-3 mb-4 rounded-md border-l-4 bg-surface-50 p-3">
       <Stack direction="row" align="start" justify="between">
         <Box>
           <TextSmSemibold className="md:text-base">{dateString}</TextSmSemibold>
@@ -54,9 +54,9 @@ const BookingSummary: React.FC<BookingSummaryProps> = ({
           </TextXs>
         </Box>
         {acceptingPayment && (
-          <div className="text-primary-800 dark:text-primary-400 ml-4 min-w-[60px] text-right text-base font-semibold">
+          <Box className="text-primary-800 dark:text-primary-400 ml-4 min-w-[60px] text-right text-base font-semibold">
             <GeneratePrice price={Number(price)} discount={discount} />
-          </div>
+          </Box>
         )}
       </Stack>
       <Stack
@@ -104,7 +104,7 @@ const BookingSummary: React.FC<BookingSummaryProps> = ({
           )}
         </span>
       </Stack>
-    </div>
+    </Box>
   )
 }
 

@@ -6,6 +6,7 @@ import { CategorizedEventList } from 'app/my_events/components/EventComponents'
 import SectionContainer from '@/components/SectionContainer'
 import pagesData from '@/data/pages.json'
 import { TextSmMedium } from '@/components/ui/text'
+import { Box } from '@/components/ui/box'
 
 const adminText = pagesData.adminPage
 
@@ -32,14 +33,14 @@ async function fetchEvents(start: string, end: string): Promise<GoogleCalendarV3
 
 function GoogleNotConnectedBanner() {
   return (
-    <div className="mb-6 rounded-lg border border-yellow-200 bg-yellow-50 p-4 dark:border-yellow-800 dark:bg-yellow-950">
+    <Box className="mb-6 rounded-lg border border-yellow-200 bg-yellow-50 p-4 dark:border-yellow-800 dark:bg-yellow-950">
       <TextSmMedium status="warning">
         {adminText.noConnectionBanner}{' '}
         <a href="/admin/connect-google" className="underline hover:no-underline">
           {adminText.connectNow}
         </a>
       </TextSmMedium>
-    </div>
+    </Box>
   )
 }
 
@@ -60,10 +61,10 @@ export default async function Page({
 
   return (
     <SectionContainer>
-      <div className="mx-auto max-w-7xl px-4 py-8">
+      <Box className="mx-auto max-w-7xl px-4 py-8">
         {!googleConnected && <GoogleNotConnectedBanner />}
         <CategorizedEventList events={events} />
-      </div>
+      </Box>
     </SectionContainer>
   )
 }

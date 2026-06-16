@@ -8,6 +8,7 @@ import { H2, H3 } from '@/components/ui/heading'
 
 import { TextBase } from '@/components/ui/text'
 import { Stack } from '@/components/ui/stack'
+import { Box } from '@/components/ui/box'
 
 const { heading } = landing.howItWorks
 
@@ -37,9 +38,9 @@ export default function HowItWorksSection() {
 
   return (
     <section className="bg-surface-50 dark:bg-surface-950">
-      <div className="container">
+      <Box className="container">
         <H2 className="mb-8 text-center md:text-4xl dark:text-white">{heading}</H2>
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
+        <Box className="grid grid-cols-1 gap-8 md:grid-cols-4">
           {steps.map((step, index) => (
             <Stack direction="col" align="center" className="rounded-lg bg-surface-50 p-6 text-center shadow dark:bg-surface-800 dark:text-accent-100" key={index}>
               <step.icon className="mb-4 h-10 w-10 text-primary-600 dark:text-primary-400" />
@@ -49,8 +50,8 @@ export default function HowItWorksSection() {
               </TextBase>
             </Stack>
           ))}
-        </div>
-      </div>
+        </Box>
+      </Box>
     </section>
   )
 }

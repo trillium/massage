@@ -4,6 +4,7 @@ interface StyledBookButtonProps {
   variant?: 'airbnb' | 'primary'
 }
 import { Stack } from '@/components/ui/stack'
+import { Box } from '@/components/ui/box'
 
 export default function StyledBookButton({
   href,
@@ -37,7 +38,7 @@ export default function StyledBookButton({
 
   const buttonContent = (
     <>
-      <div
+      <Box
         className={`absolute right-0 -z-0 inline-flex h-12 w-12 items-center justify-end rounded-full transition-[width] group-hover:w-[calc(100%)] group-hover:bg-gradient-to-r ${style.bg} ${style.gradientFrom} ${style.gradientVia} ${style.gradientTo}`}
       >
         <Stack className="mr-3.5" direction="row" align="center" justify="center">
@@ -57,7 +58,7 @@ export default function StyledBookButton({
             />
           </svg>
         </Stack>
-      </div>
+      </Box>
       <TextBase as="span" className={`z-0 pr-2 text-xl font-bold ${style.text}`}>
         {text}
       </TextBase>

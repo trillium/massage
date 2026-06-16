@@ -10,6 +10,7 @@ import DynamicGridMasonry from '@/components/masonry/DynamicGridMasonry'
 
 import { TextBase } from '@/components/ui/text'
 import { Stack } from '@/components/ui/stack'
+import { Box } from '@/components/ui/box'
 
 type ContentItem = {
   type: 'text' | 'image' | 'list' | 'link' | 'imageMosaic'
@@ -149,7 +150,7 @@ const renderContent = (content: string | ContentItem[]) => {
     )
 
     return (
-      <div className="space-y-3 md:grid md:grid-cols-2 md:gap-6 md:space-y-0">
+      <Box className="space-y-3 md:grid md:grid-cols-2 md:gap-6 md:space-y-0">
         {/* On md+, order by imagePosition; on mobile, always text then image */}
         {imagePosition === 'left' ? (
           <>
@@ -162,13 +163,13 @@ const renderContent = (content: string | ContentItem[]) => {
             {imageCol}
           </>
         )}
-      </div>
+      </Box>
     )
   }
 
   // No image/imageMosaic: fallback to default
   return (
-    <div className="space-y-3">
+    <Box className="space-y-3">
       {content.map((item, index) => {
         switch (item.type) {
           case 'text':
@@ -203,7 +204,7 @@ const renderContent = (content: string | ContentItem[]) => {
             return null
         }
       })}
-    </div>
+    </Box>
   )
 }
 
@@ -214,7 +215,7 @@ type FAQCardProps = {
 const FAQCard = ({ questions: questionsProp }: FAQCardProps) => {
   const data = questionsProp || questions
   return (
-    <div className="w-full pb-6">
+    <Box className="w-full pb-6">
       <Template title="Frequently Asked Questions" />
       <Stack className="w-full" direction="col" align="center" justify="center">
         {data.map((item) => (
@@ -247,7 +248,7 @@ const FAQCard = ({ questions: questionsProp }: FAQCardProps) => {
           </Disclosure>
         ))}
       </Stack>
-    </div>
+    </Box>
   )
 }
 

@@ -3,6 +3,7 @@
 import type { TimelineBlockData } from './computeTimelineBlocks'
 import { TextSm, TextXs, TextXsMuted } from '@/components/ui/text'
 import { Stack } from '@/components/ui/stack'
+import { Box } from '@/components/ui/box'
 
 function formatTime(iso: string): string {
   return new Date(iso).toLocaleTimeString('en-US', {
@@ -33,7 +34,7 @@ export function TimelineBlock({ block, isPast, isInProgress }: Props) {
 
   if (block.type === 'gap') {
     return (
-      <div
+      <Box
         className={`flex min-h-[44px] items-center justify-between rounded-md border border-dashed px-3 py-2 ${
           isPast
             ? 'border-accent-200 bg-surface-100 text-accent-400 opacity-40 dark:border-accent-700 dark:bg-surface-800/30 dark:text-accent-600'
@@ -42,14 +43,14 @@ export function TimelineBlock({ block, isPast, isInProgress }: Props) {
       >
         <TextSm>{block.durationMinutes} min open</TextSm>
         <TextXs>{timeLabel}</TextXs>
-      </div>
+      </Box>
     )
   }
 
   const name = getAttendeeName(block)
 
   return (
-    <div
+    <Box
       className={`min-h-[44px] rounded-md border-l-4 px-3 py-2 ${
         isInProgress
           ? 'border-l-blue-500 bg-blue-50 ring-2 ring-blue-500 dark:bg-blue-900/30 dark:ring-blue-400'
@@ -62,12 +63,12 @@ export function TimelineBlock({ block, isPast, isInProgress }: Props) {
         <span className="font-medium text-accent-900 dark:text-accent-100">{name}</span>
         <TextXsMuted>{duration}</TextXsMuted>
       </Stack>
-      <div className="mt-1 text-sm text-accent-600 dark:text-accent-300">{timeLabel}</div>
+      <Box className="mt-1 text-sm text-accent-600 dark:text-accent-300">{timeLabel}</Box>
       {block.event?.location && (
-        <div className="mt-0.5 text-xs text-accent-400 dark:text-accent-500">
+        <Box className="mt-0.5 text-xs text-accent-400 dark:text-accent-500">
           {block.event.location}
-        </div>
+        </Box>
       )}
-    </div>
+    </Box>
   )
 }

@@ -84,12 +84,12 @@ export default async function EventPage({ params, searchParams }: EventPageProps
   if (!token) {
     return (
       <SectionContainer>
-        <div className="py-16 text-center">
+        <Box className="py-16 text-center">
           <H1 className="dark:text-white">{eventContent.page.accessDenied.heading}</H1>
           <TextBase className="mt-2 text-accent-600 dark:text-accent-400">
             {eventContent.page.accessDenied.message}
           </TextBase>
-        </div>
+        </Box>
       </SectionContainer>
     )
   }
@@ -99,14 +99,14 @@ export default async function EventPage({ params, searchParams }: EventPageProps
   if (!result.valid) {
     return (
       <SectionContainer>
-        <div className="py-16 text-center">
+        <Box className="py-16 text-center">
           <H1 className="dark:text-white">{eventContent.page.invalidLink.heading}</H1>
           <TextBase className="mt-2 text-accent-600 dark:text-accent-400">
             {result.error === 'Token expired'
               ? eventContent.page.invalidLink.expiredMessage
               : eventContent.page.invalidLink.invalidMessage}
           </TextBase>
-        </div>
+        </Box>
       </SectionContainer>
     )
   }
@@ -116,12 +116,12 @@ export default async function EventPage({ params, searchParams }: EventPageProps
   if (!event) {
     return (
       <SectionContainer>
-        <div className="py-16 text-center">
+        <Box className="py-16 text-center">
           <H1 className="dark:text-white">{eventContent.page.notFound.heading}</H1>
           <TextBase className="mt-2 text-accent-600 dark:text-accent-400">
             {eventContent.page.notFound.message}
           </TextBase>
-        </div>
+        </Box>
       </SectionContainer>
     )
   }
@@ -155,23 +155,23 @@ export default async function EventPage({ params, searchParams }: EventPageProps
 
   return (
     <SectionContainer>
-      <div className="py-8 sm:py-12">
-        <div className="mx-auto max-w-2xl">
+      <Box className="py-8 sm:py-12">
+        <Box className="mx-auto max-w-2xl">
           <H1 className="sm:text-4xl" status="primary">
             {eventContent.page.heading}
           </H1>
 
-          <div className="mt-6">
+          <Box className="mt-6">
             <StatusBadge status={status} />
-          </div>
+          </Box>
 
           {status === 'pending' && (
             <TextSmMuted className="mt-4">{eventContent.page.pendingMessage}</TextSmMuted>
           )}
 
-          <div className="mt-8 space-y-3 rounded-2xl border-2 border-accent-200 bg-surface-100 p-6 dark:border-accent-700 dark:bg-surface-800/50">
+          <Box className="mt-8 space-y-3 rounded-2xl border-2 border-accent-200 bg-surface-100 p-6 dark:border-accent-700 dark:bg-surface-800/50">
             {dateString && duration && (
-              <div className="border-l-primary-400 bg-primary-50/30 dark:bg-primary-50/10 mb-4 rounded-md border-l-4 p-3">
+              <Box className="border-l-primary-400 bg-primary-50/30 dark:bg-primary-50/10 mb-4 rounded-md border-l-4 p-3">
                 <TextLg className="text-primary-800 dark:text-primary-400 text-lg font-semibold">
                   {dateString}
                   {eventContent.page.dateTimeSeparator}
@@ -185,7 +185,7 @@ export default async function EventPage({ params, searchParams }: EventPageProps
                     {endString}
                   </TextSmMuted>
                 )}
-              </div>
+              </Box>
             )}
 
             {clientName && (
@@ -195,7 +195,7 @@ export default async function EventPage({ params, searchParams }: EventPageProps
               <DetailRow label={eventContent.page.detailRow.location} value={event.location} />
             )}
             <DetailRow label={eventContent.page.detailRow.email} value={displayEmail} />
-          </div>
+          </Box>
 
           {status !== 'cancelled' && (
             <Stack className="mt-8" direction="row" wrap align="start" gap={3}>
@@ -220,11 +220,11 @@ export default async function EventPage({ params, searchParams }: EventPageProps
           )}
 
           {status !== 'cancelled' && (
-            <div className="mt-8">
+            <Box className="mt-8">
               <Stack className="mb-3" direction="row" align="center" gap={3}>
-                <div className="h-px flex-1 bg-surface-200 dark:bg-surface-700" />
+                <Box className="h-px flex-1 bg-surface-200 dark:bg-surface-700" />
                 <TextSmMedium status="muted">{eventContent.page.appreciation}</TextSmMedium>
-                <div className="h-px flex-1 bg-surface-200 dark:bg-surface-700" />
+                <Box className="h-px flex-1 bg-surface-200 dark:bg-surface-700" />
               </Stack>
               <Stack direction="col" gap={3}>
                 {gratuityLinks.map((link) => (
@@ -243,11 +243,11 @@ export default async function EventPage({ params, searchParams }: EventPageProps
                   </Link>
                 ))}
               </Stack>
-            </div>
+            </Box>
           )}
 
           {status === 'cancelled' && (
-            <div className="mt-8 rounded-2xl border-2 border-accent-200 bg-surface-100 p-6 text-center dark:border-accent-700 dark:bg-surface-800/50">
+            <Box className="mt-8 rounded-2xl border-2 border-accent-200 bg-surface-100 p-6 text-center dark:border-accent-700 dark:bg-surface-800/50">
               <TextLg className="text-lg font-medium text-accent-800 dark:text-accent-200">
                 {eventContent.page.cancelledMessage}
               </TextLg>
@@ -257,10 +257,10 @@ export default async function EventPage({ params, searchParams }: EventPageProps
               >
                 {eventContent.page.bookNewAppointment}
               </Link>
-            </div>
+            </Box>
           )}
 
-          <div className="mt-12 border-t border-accent-200 pt-8 dark:border-accent-700">
+          <Box className="mt-12 border-t border-accent-200 pt-8 dark:border-accent-700">
             <Stack className="text-center" direction="col" align="center" gap={4}>
               {status !== 'cancelled' && (
                 <Link
@@ -280,9 +280,9 @@ export default async function EventPage({ params, searchParams }: EventPageProps
                 </Link>
               </TextXsMuted>
             </Stack>
-          </div>
-        </div>
-      </div>
+          </Box>
+        </Box>
+      </Box>
     </SectionContainer>
   )
 }

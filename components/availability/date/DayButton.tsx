@@ -84,7 +84,7 @@ export default function DayButton({
           <time className="flex items-center text-base leading-0">{date.getDay()}</time>
           <figure className="flex h-3 items-center justify-center space-x-0.5" aria-hidden="true">
             {Array.from({ length: isDisabled ? 0 : availabilityScore }).map((_, index) => (
-              <div
+              <Box
                 key={`availability-bar-${index}`}
                 className={clsx('h-1 w-1 rounded-full', {
                   'bg-surface-50': isSelected,

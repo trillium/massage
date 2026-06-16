@@ -21,6 +21,7 @@ import { createPageConfiguration } from '@/lib/slugConfigurations/createPageConf
 import { H1, H2, H3 } from '@/components/ui/heading'
 import { TextXs, TextBase } from '@/components/ui/text'
 import { Stack } from '@/components/ui/stack'
+import { Box } from '@/components/ui/box'
 
 interface AdjacentBookingPageProps {
   params: Promise<{ event_id: string }>
@@ -67,16 +68,16 @@ export default async function AdjacentBookingPage({
 
   if (!currentEvent) {
     return (
-      <div className="container mx-auto px-4 py-8">
-        <div className="mx-auto max-w-4xl">
-          <div className="rounded-lg bg-red-50 p-6 dark:bg-red-900/20">
+      <Box className="container mx-auto px-4 py-8">
+        <Box className="mx-auto max-w-4xl">
+          <Box className="rounded-lg bg-red-50 p-6 dark:bg-red-900/20">
             <H2 className="mb-4" status="error">
               Error Loading Event
             </H2>
             <TextBase className="text-red-700 dark:text-red-300">Event not found</TextBase>
-          </div>
-        </div>
-      </div>
+          </Box>
+        </Box>
+      </Box>
     )
   }
 
@@ -116,15 +117,15 @@ export default async function AdjacentBookingPage({
       />
       <DurationSlotManager multiDurationSlots={multiDurationSlots} />
       <SlotTakenAlert />
-      <div className="container mx-auto px-4 py-8">
-        <div className="mx-auto max-w-6xl">
-          <div className="mb-8">
+      <Box className="container mx-auto px-4 py-8">
+        <Box className="mx-auto max-w-6xl">
+          <Box className="mb-8">
             <H1 className="mb-4 dark:text-white">Book Adjacent Slot</H1>
-            <div className="rounded-lg bg-blue-50 p-4 dark:bg-blue-900/20">
+            <Box className="rounded-lg bg-blue-50 p-4 dark:bg-blue-900/20">
               <H2 className="mb-2 dark:text-white">
                 Current Event: {currentEvent.summary || 'Untitled Event'}
               </H2>
-              <div className="space-y-1 text-sm text-accent-600 dark:text-accent-400">
+              <Box className="space-y-1 text-sm text-accent-600 dark:text-accent-400">
                 <TextBase>
                   <strong>Event starts at:</strong> {eventStartTimeStr}
                 </TextBase>
@@ -139,13 +140,13 @@ export default async function AdjacentBookingPage({
                 <TextXs className="mt-2">
                   Available slots are shown before and after this event with a 30-minute buffer.
                 </TextXs>
-              </div>
-            </div>
-          </div>
+              </Box>
+            </Box>
+          </Box>
 
-          <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
-            <div className="space-y-6">
-              <div className="xs:p-6 rounded-lg bg-surface-50 p-3 shadow-sm dark:bg-surface-800">
+          <Box className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+            <Box className="space-y-6">
+              <Box className="xs:p-6 rounded-lg bg-surface-50 p-3 shadow-sm dark:bg-surface-800">
                 <H3 className="mb-4 dark:text-white">Duration</H3>
                 <SlotHoldProvider>
                   <DurationPicker
@@ -159,9 +160,9 @@ export default async function AdjacentBookingPage({
                   <DynamicTimeList multiDurationSlots={multiDurationSlots} />
                   <BookingForm />
                 </SlotHoldProvider>
-              </div>
-            </div>
-            <div className="space-y-6">
+              </Box>
+            </Box>
+            <Box className="space-y-6">
               <Stack direction="row" align="center" justify="center" className="h-full min-h-96 w-full overflow-hidden rounded-lg bg-surface-50 p-0 shadow-sm dark:bg-surface-800" id="map-container">
                 <MapTile
                   longitude={mapCoordinates.longitude}
@@ -169,10 +170,10 @@ export default async function AdjacentBookingPage({
                   zoom={mapCoordinates.zoom}
                 />
               </Stack>
-            </div>
-          </div>
+            </Box>
+          </Box>
 
-          <div className="mt-8">
+          <Box className="mt-8">
             <Link
               href={`/event/${event_id}`}
               className="inline-flex items-center text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
@@ -187,9 +188,9 @@ export default async function AdjacentBookingPage({
               </svg>
               Back to Event Details
             </Link>
-          </div>
-        </div>
-      </div>
+          </Box>
+        </Box>
+      </Box>
     </>
   )
 }

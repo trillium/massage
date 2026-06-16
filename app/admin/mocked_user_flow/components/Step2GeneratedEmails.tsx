@@ -23,10 +23,10 @@ export default function Step2GeneratedEmails({
   }
 
   return (
-    <div className="mb-12 rounded-lg bg-surface-50 p-6 shadow dark:bg-surface-800">
+    <Box className="mb-12 rounded-lg bg-surface-50 p-6 shadow dark:bg-surface-800">
       <H2 className="mb-4">Step 2: Generated Emails</H2>
 
-      <div className="grid gap-6 md:grid-cols-2">
+      <Box className="grid gap-6 md:grid-cols-2">
         <Box>
           <H3 className="mb-2">Therapist Approval Email</H3>
           <EmailMockComponent
@@ -40,7 +40,7 @@ export default function Step2GeneratedEmails({
           <H3 className="mb-2">Client Confirmation Email</H3>
           <EmailMockComponent email={clientEmail} />
         </Box>
-      </div>
-    </div>
+      </Box>
+    </Box>
   )
 }

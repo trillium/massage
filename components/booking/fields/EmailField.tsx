@@ -3,6 +3,7 @@ import { fieldClasses } from './classes'
 import booking from '@/data/booking.json'
 
 import { Input } from '@/components/ui/input'
+import { Box } from '@/components/ui/box'
 
 const { email: copy } = booking.form
 
@@ -13,7 +14,7 @@ type EmailFieldProps = {
 
 export default function EmailField({ email, onChange }: EmailFieldProps) {
   return (
-    <div className={fieldClasses.row}>
+    <Box className={fieldClasses.row}>
       <label htmlFor="email" className={fieldClasses.label}>
         {copy.label}
       </label>
@@ -30,6 +31,6 @@ export default function EmailField({ email, onChange }: EmailFieldProps) {
         placeholder={copy.placeholder}
         onChange={onChange}
       />
-    </div>
+    </Box>
   )
 }

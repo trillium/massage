@@ -43,7 +43,7 @@ function EventCard({
   const statusLabels = sandbox.eventCard.status
 
   return (
-    <div className={clsx('rounded-lg border-2 p-4', statusColors[status])}>
+    <Box className={clsx('rounded-lg border-2 p-4', statusColors[status])}>
       <Stack className="mb-3" direction="row" align="center" justify="between">
         <H3>
           {data.firstName} {data.lastName}
@@ -59,7 +59,7 @@ function EventCard({
         </span>
       </Stack>
 
-      <div className="space-y-1 text-sm text-accent-700 dark:text-accent-300">
+      <Box className="space-y-1 text-sm text-accent-700 dark:text-accent-300">
         <TextBase>
           <span className="font-medium">{sandbox.eventCard.labels.date}</span>{' '}
           {formatLocalDate(data.start, { timeZone })}
@@ -89,7 +89,7 @@ function EventCard({
         <TextBase>
           <span className="font-medium">{sandbox.eventCard.labels.email}</span> {data.email}
         </TextBase>
-      </div>
+      </Box>
 
       {status === 'pending' && (
         <Stack className="mt-4" direction="row" gap={2}>
@@ -109,7 +109,7 @@ function EventCard({
           </Button>
         </Stack>
       )}
-    </div>
+    </Box>
   )
 }
 
@@ -119,7 +119,7 @@ function EmailCard({ email }: { email: SandboxEmail }) {
   const typeLabels = sandbox.emailCard.types
 
   return (
-    <div className="rounded-lg border border-accent-200 bg-surface-50 dark:border-accent-700 dark:bg-surface-900">
+    <Box className="rounded-lg border border-accent-200 bg-surface-50 dark:border-accent-700 dark:bg-surface-900">
       <Button
         type="button"
         onClick={() => setExpanded(!expanded)}
@@ -137,14 +137,14 @@ function EmailCard({ email }: { email: SandboxEmail }) {
         <span className="text-accent-400">{expanded ? '\u25B2' : '\u25BC'}</span>
       </Button>
       {expanded && (
-        <div className="border-t border-accent-200 p-3 dark:border-accent-700">
-          <div
+        <Box className="border-t border-accent-200 p-3 dark:border-accent-700">
+          <Box
             className="prose prose-sm dark:prose-invert max-w-none text-sm"
             dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(email.body) }}
           />
-        </div>
+        </Box>
       )}
-    </div>
+    </Box>
   )
 }
 
@@ -159,11 +159,11 @@ export default function AdminView() {
   const hasEmails = state.emails.length > 0
 
   return (
-    <div className="space-y-8">
+    <Box className="space-y-8">
       {!hasEvents && !hasEmails && (
-        <div className="rounded-lg border-2 border-dashed border-accent-300 p-12 text-center dark:border-accent-600">
+        <Box className="rounded-lg border-2 border-dashed border-accent-300 p-12 text-center dark:border-accent-600">
           <TextLgMuted>{sandbox.adminView.empty}</TextLgMuted>
-        </div>
+        </Box>
       )}
 
       {pendingEvents.length > 0 && (
@@ -172,7 +172,7 @@ export default function AdminView() {
             {sandbox.adminView.sections.pending}
             {sandbox.adminView.countFormat.replace('{}', String(pendingEvents.length))}
           </H2>
-          <div className="space-y-3">
+          <Box className="space-y-3">
             {pendingEvents.map((event) => (
               <EventCard
                 key={event.calendarEventId}
@@ -181,7 +181,7 @@ export default function AdminView() {
                 onDecline={() => declineEvent(event.calendarEventId)}
               />
             ))}
-          </div>
+          </Box>
         </section>
       )}
 
@@ -191,11 +191,11 @@ export default function AdminView() {
             {sandbox.adminView.sections.confirmed}
             {sandbox.adminView.countFormat.replace('{}', String(confirmedEvents.length))}
           </H2>
-          <div className="space-y-3">
+          <Box className="space-y-3">
             {confirmedEvents.map((event) => (
               <EventCard key={event.calendarEventId} event={event} />
             ))}
-          </div>
+          </Box>
         </section>
       )}
 
@@ -205,11 +205,11 @@ export default function AdminView() {
             {sandbox.adminView.sections.declined}
             {sandbox.adminView.countFormat.replace('{}', String(declinedEvents.length))}
           </H2>
-          <div className="space-y-3">
+          <Box className="space-y-3">
             {declinedEvents.map((event) => (
               <EventCard key={event.calendarEventId} event={event} />
             ))}
-          </div>
+          </Box>
         </section>
       )}
 
@@ -219,13 +219,13 @@ export default function AdminView() {
             {sandbox.adminView.sections.emails}
             {sandbox.adminView.countFormat.replace('{}', String(state.emails.length))}
           </H2>
-          <div className="space-y-2">
+          <Box className="space-y-2">
             {[...state.emails].reverse().map((email, i) => (
               <EmailCard key={`${email.timestamp}-${i}`} email={email} />
             ))}
-          </div>
+          </Box>
         </section>
       )}
-    </div>
+    </Box>
   )
 }

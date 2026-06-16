@@ -13,7 +13,7 @@ export default function AttendeeList({ attendees }: { attendees: Attendee[] }) {
   return (
     <Box>
       <H3 className="mb-2 dark:text-white">Attendees</H3>
-      <div className="space-y-2">
+      <Box className="space-y-2">
         {attendees.map((attendee, index) => (
           <Stack direction="row" align="center" justify="between" className="rounded bg-surface-200 p-3 dark:bg-surface-700" key={index}>
             <Box>
@@ -38,7 +38,7 @@ export default function AttendeeList({ attendees }: { attendees: Attendee[] }) {
             </TextXsMedium>
           </Stack>
         ))}
-      </div>
+      </Box>
     </Box>
   )
 }

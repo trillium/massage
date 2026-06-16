@@ -7,6 +7,7 @@ import booking from '@/data/booking.json'
 import { TextPrimary, TextSm, TextSmMuted } from '@/components/ui/text'
 
 import { Input } from '@/components/ui/input'
+import { Box } from '@/components/ui/box'
 
 const { promoCode: copy } = booking.form
 
@@ -56,7 +57,7 @@ export default function PromoCodeField({ promoCode, onChange, error }: PromoCode
   }
 
   return (
-    <div className={fieldClasses.row} data-content="booking.form.promoCode">
+    <Box className={fieldClasses.row} data-content="booking.form.promoCode">
       <label htmlFor="promo" className={fieldClasses.label}>
         {copy.label}
       </label>
@@ -97,6 +98,6 @@ export default function PromoCodeField({ promoCode, onChange, error }: PromoCode
           {error}
         </TextSm>
       )}
-    </div>
+    </Box>
   )
 }

@@ -7,6 +7,7 @@ import { flattenLocation } from '@/lib/helpers/locationHelpers'
 import { H2 } from '@/components/ui/heading'
 
 import { TextBase } from '@/components/ui/text'
+import { Box } from '@/components/ui/box'
 
 interface Step4FinalConfirmationProps {
   isConfirmed: boolean
@@ -32,7 +33,7 @@ export default function Step4FinalConfirmation({
     : null
 
   return (
-    <div
+    <Box
       id="confirmation-section"
       className="rounded-lg bg-surface-50 p-6 shadow dark:bg-surface-800"
     >
@@ -41,6 +42,6 @@ export default function Step4FinalConfirmation({
         After approval, the user would see a confirmation page like this:
       </TextBase>
       <MockedConfirmationPage data={transformedData} />
-    </div>
+    </Box>
   )
 }

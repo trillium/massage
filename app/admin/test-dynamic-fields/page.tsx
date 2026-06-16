@@ -12,6 +12,7 @@ import { Button } from '@/components/ui/button'
 import { Code } from '@/components/ui/code'
 
 import { TextBase } from '@/components/ui/text'
+import { Box } from '@/components/ui/box'
 
 // Create store instance
 const store = makeStore()
@@ -34,9 +35,9 @@ export default function TestDynamicFieldsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-surface-100 py-12">
-      <div className="mx-auto max-w-4xl px-4">
-        <div className="mb-8">
+    <Box className="min-h-screen bg-surface-100 py-12">
+      <Box className="mx-auto max-w-4xl px-4">
+        <Box className="mb-8">
           <H1 className="mb-4">Dynamic Booking Form Test Page</H1>
           <TextBase className="text-accent-600">
             This page demonstrates the booking form with additional specific fields:
@@ -46,9 +47,9 @@ export default function TestDynamicFieldsPage() {
             <li>• Parking Instructions (select dropdown)</li>
             <li>• Additional Notes (textarea)</li>
           </ul>
-        </div>
+        </Box>
 
-        <div className="rounded-lg bg-surface-50 p-6 shadow-lg">
+        <Box className="rounded-lg bg-surface-50 p-6 shadow-lg">
           <H2 className="mb-4">Test the Booking Form</H2>
           <TextBase className="mb-6 text-accent-600">
             Click on any available time slot to open the booking modal and see the dynamic fields in
@@ -56,9 +57,9 @@ export default function TestDynamicFieldsPage() {
           </TextBase>
 
           <Provider store={store}>
-            <div className="space-y-4">
+            <Box className="space-y-4">
               {/* Mock time slots for testing */}
-              <div className="grid grid-cols-3 gap-4">
+              <Box className="grid grid-cols-3 gap-4">
                 <Button
                   className="rounded-md bg-blue-600 p-3 text-white transition-colors hover:bg-blue-700"
                   onClick={() => {
@@ -138,8 +139,8 @@ export default function TestDynamicFieldsPage() {
                 >
                   3:00 PM
                 </Button>
-              </div>
-            </div>
+              </Box>
+            </Box>
 
             <SlotHoldProvider>
               <BookingForm
@@ -150,21 +151,21 @@ export default function TestDynamicFieldsPage() {
             </SlotHoldProvider>
 
             {submittedData && (
-              <div className="mt-4 rounded-lg bg-surface-200 p-4">
+              <Box className="mt-4 rounded-lg bg-surface-200 p-4">
                 <H3>Submitted Data</H3>
                 <pre className="mt-2 text-sm text-accent-600">
                   {JSON.stringify(submittedData, null, 2)}
                 </pre>
-              </div>
+              </Box>
             )}
           </Provider>
-        </div>
+        </Box>
 
-        <div className="mt-8 rounded-lg bg-blue-50 p-6">
+        <Box className="mt-8 rounded-lg bg-blue-50 p-6">
           <H3 className="mb-2" status="info">
             Implementation Notes
           </H3>
-          <div className="space-y-2 text-sm text-blue-800">
+          <Box className="space-y-2 text-sm text-blue-800">
             <TextBase>
               • The additional fields are controlled via boolean flags: <Code>showHotelField</Code>,{' '}
               <Code>showParkingField</Code>, <Code>showNotesField</Code>
@@ -174,9 +175,9 @@ export default function TestDynamicFieldsPage() {
             <TextBase>
               • The form maintains backward compatibility with existing implementations
             </TextBase>
-          </div>
-        </div>
-      </div>
-    </div>
+          </Box>
+        </Box>
+      </Box>
+    </Box>
   )
 }

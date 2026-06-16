@@ -4,6 +4,7 @@ import siteMetadata from '@/data/siteMetadata'
 import { useEffect, useState } from 'react'
 
 import { Button } from '@/components/ui/button'
+import { Box } from '@/components/ui/box'
 
 const ScrollTopAndComment = () => {
   const [show, setShow] = useState(false)
@@ -25,7 +26,7 @@ const ScrollTopAndComment = () => {
     document.getElementById('comment')?.scrollIntoView()
   }
   return (
-    <div
+    <Box
       className={`fixed right-8 bottom-8 hidden flex-col gap-3 ${show ? 'md:flex' : 'md:hidden'}`}
     >
       {siteMetadata.comments?.provider && (
@@ -56,7 +57,7 @@ const ScrollTopAndComment = () => {
           />
         </svg>
       </Button>
-    </div>
+    </Box>
   )
 }
 

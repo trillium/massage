@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { H1 } from '@/components/ui/heading'
 
 import { TextBase } from '@/components/ui/text'
+import { Box } from '@/components/ui/box'
 
 interface TemplateProps {
   title: string
@@ -36,7 +37,7 @@ export default function Template({ title, text, links, classes, center = false }
   }
 
   return (
-    <div
+    <Box
       className={clsx('py-4', {
         'text-center': center,
       })}
@@ -55,6 +56,6 @@ export default function Template({ title, text, links, classes, center = false }
           </Link>
         </TextBase>
       ))}
-    </div>
+    </Box>
   )
 }

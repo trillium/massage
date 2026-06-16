@@ -75,8 +75,8 @@ export function BookedCard({
       justify="center"
       className="h-full w-full rounded-3xl max-xl:mx-auto max-xl:max-w-3xl max-lg:py-0 border-primary-400 border-2 bg-surface-200 dark:bg-surface-900"
     >
-      <div className="relative h-full w-full flex-grow p-2">
-        <div className="border-l-primary-400 bg-primary-50/30 dark:bg-primary-50/10 relative mt-3 mb-4 rounded-md border-l-4 p-3">
+      <Box className="relative h-full w-full flex-grow p-2">
+        <Box className="border-l-primary-400 bg-primary-50/30 dark:bg-primary-50/10 relative mt-3 mb-4 rounded-md border-l-4 p-3">
           <Stack className="w-full" direction="row" align="center" justify="between">
             <Box>
               <TextLg className="text-primary-800 dark:text-primary-400 text-base font-semibold md:text-lg">
@@ -97,11 +97,11 @@ export function BookedCard({
             </Box>
             <TextBase className="md:text-xl">{state}</TextBase>
           </Stack>
-        </div>
+        </Box>
         {cards.map((item) => (
           <CardItem {...item} key={item.title} />
         ))}
-      </div>
+      </Box>
     </Stack>
   )
 }

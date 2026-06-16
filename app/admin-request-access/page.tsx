@@ -78,17 +78,17 @@ export default function AdminAccessRequestPage() {
 
   return (
     <SectionContainer>
-      <div className="mx-auto max-w-2xl py-16">
-        <div className="mb-8 text-center">
+      <Box className="mx-auto max-w-2xl py-16">
+        <Box className="mb-8 text-center">
           <H1 className="mb-4 text-3xl font-bold text-accent-900 dark:text-accent-100">
             {pages.adminRequestAccess.header.title}
           </H1>
           <TextBase className="text-accent-600 dark:text-accent-400">
             {pages.adminRequestAccess.header.subtitle}
           </TextBase>
-        </div>
+        </Box>
 
-        <div className="rounded-lg bg-surface-50 p-8 shadow-lg dark:bg-surface-800">
+        <Box className="rounded-lg bg-surface-50 p-8 shadow-lg dark:bg-surface-800">
           <Formik
             initialValues={{
               email: '',
@@ -182,7 +182,7 @@ export default function AdminAccessRequestPage() {
 
           {/* Status Messages */}
           {submitStatus.type === 'success' && (
-            <div className="mt-6 rounded-md border border-green-200 bg-green-50 p-4 dark:border-green-800 dark:bg-green-900/20">
+            <Box className="mt-6 rounded-md border border-green-200 bg-green-50 p-4 dark:border-green-800 dark:bg-green-900/20">
               <Stack direction="row">
                 <svg className="h-5 w-5 text-green-400" viewBox="0 0 20 20" fill="currentColor">
                   <path
@@ -191,20 +191,20 @@ export default function AdminAccessRequestPage() {
                     clipRule="evenodd"
                   />
                 </svg>
-                <div className="ml-3">
+                <Box className="ml-3">
                   <TextSm className="text-sm font-medium text-green-800 dark:text-green-200">
                     {pages.adminRequestAccess.messages.successTitle}
                   </TextSm>
                   <TextSm className="mt-1 text-sm text-green-700 dark:text-green-300">
                     {submitStatus.message}
                   </TextSm>
-                </div>
+                </Box>
               </Stack>
-            </div>
+            </Box>
           )}
 
           {submitStatus.type === 'error' && (
-            <div className="mt-6 rounded-md border border-red-200 bg-red-50 p-4 dark:border-red-800 dark:bg-red-900/20">
+            <Box className="mt-6 rounded-md border border-red-200 bg-red-50 p-4 dark:border-red-800 dark:bg-red-900/20">
               <Stack direction="row">
                 <svg className="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
                   <path
@@ -213,20 +213,20 @@ export default function AdminAccessRequestPage() {
                     clipRule="evenodd"
                   />
                 </svg>
-                <div className="ml-3">
+                <Box className="ml-3">
                   <TextSm className="text-sm font-medium text-red-800 dark:text-red-200">
                     {pages.adminRequestAccess.messages.errorTitle}
                   </TextSm>
                   <TextSm className="mt-1 text-sm text-red-700 dark:text-red-300">
                     {submitStatus.message}
                   </TextSm>
-                </div>
+                </Box>
               </Stack>
-            </div>
+            </Box>
           )}
 
           {/* Security Notice */}
-          <div className="mt-8 rounded-md border border-blue-200 bg-blue-50 p-4 dark:border-blue-800 dark:bg-blue-900/20">
+          <Box className="mt-8 rounded-md border border-blue-200 bg-blue-50 p-4 dark:border-blue-800 dark:bg-blue-900/20">
             <Stack direction="row">
               <svg
                 className="h-5 w-5 text-blue-400"
@@ -241,7 +241,7 @@ export default function AdminAccessRequestPage() {
                   d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                 />
               </svg>
-              <div className="ml-3">
+              <Box className="ml-3">
                 <TextSm className="text-sm font-medium text-blue-800 dark:text-blue-200">
                   {pages.adminRequestAccess.security.title}
                 </TextSm>
@@ -250,11 +250,11 @@ export default function AdminAccessRequestPage() {
                     <li key={item}>{item}</li>
                   ))}
                 </ul>
-              </div>
+              </Box>
             </Stack>
-          </div>
-        </div>
-      </div>
+          </Box>
+        </Box>
+      </Box>
     </SectionContainer>
   )
 }

@@ -9,6 +9,7 @@ import { H1 } from '@/components/ui/heading'
 
 import { TextBase } from '@/components/ui/text'
 import { Stack } from '@/components/ui/stack'
+import { Box } from '@/components/ui/box'
 
 interface MockedConfirmationPageProps {
   data: {
@@ -28,7 +29,7 @@ export default function MockedConfirmationPage({ data }: MockedConfirmationPageP
   const { duration } = useReduxAvailability()
 
   if (!data) {
-    return <div className="text-center text-accent-500">No booking data available</div>
+    return <Box className="text-center text-accent-500">No booking data available</Box>
   }
 
   const start = new Date(data.start)
@@ -57,21 +58,21 @@ export default function MockedConfirmationPage({ data }: MockedConfirmationPageP
   }
 
   return (
-    <div className="rounded-lg bg-surface-100 p-6 dark:bg-surface-900">
-      <div className="w-full max-w-2xl px-4 py-4 sm:px-0 sm:py-8">
+    <Box className="rounded-lg bg-surface-100 p-6 dark:bg-surface-900">
+      <Box className="w-full max-w-2xl px-4 py-4 sm:px-0 sm:py-8">
         <H1 className="sm:text-5xl" status="primary">
           Thanks!
         </H1>
         <TextBase className="mt-6 text-xl font-medium text-accent-800 dark:text-accent-200">
           Your appointment has been booked!
         </TextBase>
-      </div>
+      </Box>
 
       <BookedCard {...bookedData} />
 
       <Stack className="flex-grow pt-12" direction="row" align="center" justify="center">
         <BookSessionButton title="Book Another Session!" href="/book" />
       </Stack>
-    </div>
+    </Box>
   )
 }

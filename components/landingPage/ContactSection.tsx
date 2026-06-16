@@ -16,14 +16,14 @@ const { heading, callRequestText } = landing.contact
 export default function ContactSection() {
   return (
     <section className="dark:bg-grey-950 flex w-full flex-col items-center">
-      <div className="container">
+      <Box className="container">
         <H2 className="mb-8 text-center md:text-4xl dark:text-white">{heading}</H2>
         <Stack
           className="rounded-lg bg-surface-50 px-4 py-8 shadow sm:px-8 dark:bg-surface-800 dark:shadow-lg"
           direction="col"
           gap={6}
         >
-          <div className="mb-8 grid grid-cols-1 gap-8 md:grid-cols-2">
+          <Box className="mb-8 grid grid-cols-1 gap-8 md:grid-cols-2">
             <ContactForm />
             <Stack className="space-y-4" direction="col" justify="center">
               <H2 className="text-center md:text-4xl dark:text-white">{name}</H2>
@@ -48,9 +48,9 @@ export default function ContactSection() {
                 </Link>
               </Stack>
             </Stack>
-          </div>
+          </Box>
         </Stack>
-      </div>
+      </Box>
     </section>
   )
 }

@@ -8,6 +8,7 @@ import { useReduxContactForm } from '@/redux/hooks'
 import { H1 } from '@/components/ui/heading'
 import { Caption, TextLg, TextSmMuted, TextBase } from '@/components/ui/text'
 import { Stack } from '@/components/ui/stack'
+import { Box } from '@/components/ui/box'
 
 export default function ContactSubmittedPage() {
   return (
@@ -55,22 +56,22 @@ function ContactSubmittedContent() {
             <TextBase className="mb-6 text-surface-600 dark:text-surface-400">
               We'll get back to you as soon as possible.
             </TextBase>
-            <div className="mb-8 w-full max-w-lg rounded-lg border-2 border-surface-200 bg-surface-50 text-left shadow-md dark:border-surface-700 dark:bg-surface-900">
-              <div className="border-b border-surface-200 px-5 py-3 dark:border-surface-700">
+            <Box className="mb-8 w-full max-w-lg rounded-lg border-2 border-surface-200 bg-surface-50 text-left shadow-md dark:border-surface-700 dark:bg-surface-900">
+              <Box className="border-b border-surface-200 px-5 py-3 dark:border-surface-700">
                 <TextSmMuted>Subject</TextSmMuted>
                 <TextBase className="font-semibold">{contactForm.subject}</TextBase>
-              </div>
-              <div className="border-b border-surface-200 px-5 py-3 dark:border-surface-700">
+              </Box>
+              <Box className="border-b border-surface-200 px-5 py-3 dark:border-surface-700">
                 <TextSmMuted>From</TextSmMuted>
                 <TextBase>
                   {contactForm.name} · {contactForm.email} · {contactForm.phone}
                 </TextBase>
-              </div>
-              <div className="px-5 py-3">
+              </Box>
+              <Box className="px-5 py-3">
                 <TextSmMuted className="mb-1">Message</TextSmMuted>
                 <TextBase className="whitespace-pre-wrap">{contactForm.message}</TextBase>
-              </div>
-            </div>
+              </Box>
+            </Box>
           </>
         ) : (
           <TextLg className="mb-8">

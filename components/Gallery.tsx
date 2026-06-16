@@ -8,6 +8,7 @@ import { TextSm, TextSmMedium } from '@/components/ui/text'
 
 import { Button } from '@/components/ui/button'
 import { Stack } from '@/components/ui/stack'
+import { Box } from '@/components/ui/box'
 
 export interface GalleryImage {
   src: string
@@ -49,14 +50,14 @@ export default function Gallery({ images, columns = 3 }: GalleryProps) {
 
   return (
     <>
-      <div className={`${columnClasses[columns]} gap-4`}>
+      <Box className={`${columnClasses[columns]} gap-4`}>
         {images.map((image, index) => (
           <Button
             key={index}
             onClick={() => setSelectedIndex(index)}
             className="group hover:outline-primary-500 focus-visible:outline-primary-500 mb-4 block w-full cursor-pointer break-inside-avoid overflow-hidden rounded-lg border-0 bg-transparent p-0 outline-2 outline-offset-4 outline-transparent transition-[outline-color] duration-200"
           >
-            <div className="border-primary-500 relative overflow-hidden rounded-lg border-2">
+            <Box className="border-primary-500 relative overflow-hidden rounded-lg border-2">
               <Image
                 src={image.src}
                 alt={image.alt}
@@ -66,14 +67,14 @@ export default function Gallery({ images, columns = 3 }: GalleryProps) {
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
               />
               {image.caption && (
-                <div className="absolute right-0 bottom-0 left-0 translate-y-full bg-gradient-to-t from-black/60 to-transparent p-4 transition-transform duration-300 group-hover:translate-y-0">
+                <Box className="absolute right-0 bottom-0 left-0 translate-y-full bg-gradient-to-t from-black/60 to-transparent p-4 transition-transform duration-300 group-hover:translate-y-0">
                   <TextSmMedium>{image.caption}</TextSmMedium>
-                </div>
+                </Box>
               )}
-            </div>
+            </Box>
           </Button>
         ))}
-      </div>
+      </Box>
 
       <Transition show={selectedIndex !== null} as={Fragment}>
         <Dialog as="div" className="relative z-50" onClose={() => setSelectedIndex(null)}>
@@ -86,7 +87,7 @@ export default function Gallery({ images, columns = 3 }: GalleryProps) {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <div className="fixed inset-0 bg-black/80" />
+            <Box className="fixed inset-0 bg-black/80" />
           </TransitionChild>
 
           <Stack className="fixed inset-0 z-10 p-4" direction="row" align="center" justify="center">
@@ -125,7 +126,7 @@ export default function Gallery({ images, columns = 3 }: GalleryProps) {
                 </Button>
 
                 {selectedIndex !== null && (
-                  <div className="relative">
+                  <Box className="relative">
                     <Image
                       src={images[selectedIndex].src}
                       alt={images[selectedIndex].alt}
@@ -135,11 +136,11 @@ export default function Gallery({ images, columns = 3 }: GalleryProps) {
                       sizes="95vw"
                     />
                     {images[selectedIndex].caption && (
-                      <div className="absolute right-0 bottom-0 left-0 rounded-b-lg bg-gradient-to-t from-black/70 to-transparent p-4">
+                      <Box className="absolute right-0 bottom-0 left-0 rounded-b-lg bg-gradient-to-t from-black/70 to-transparent p-4">
                         <TextSm className="text-center">{images[selectedIndex].caption}</TextSm>
-                      </div>
+                      </Box>
                     )}
-                  </div>
+                  </Box>
                 )}
               </DialogPanel>
             </TransitionChild>

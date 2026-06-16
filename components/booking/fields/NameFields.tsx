@@ -3,6 +3,7 @@ import { fieldClasses } from './classes'
 import booking from '@/data/booking.json'
 
 import { Input } from '@/components/ui/input'
+import { Box } from '@/components/ui/box'
 
 const { firstName: firstNameCopy, lastName: lastNameCopy } = booking.form
 
@@ -14,9 +15,9 @@ type NameFieldsProps = {
 
 export default function NameFields({ firstName, lastName, onChange }: NameFieldsProps) {
   return (
-    <div className={fieldClasses.row}>
-      <div className={fieldClasses.flexRow}>
-        <div className={fieldClasses.flexHalfWidth}>
+    <Box className={fieldClasses.row}>
+      <Box className={fieldClasses.flexRow}>
+        <Box className={fieldClasses.flexHalfWidth}>
           <label htmlFor="firstName" className={fieldClasses.label}>
             {firstNameCopy.label}
           </label>
@@ -34,8 +35,8 @@ export default function NameFields({ firstName, lastName, onChange }: NameFields
             onChange={onChange}
             className={fieldClasses.input}
           />
-        </div>
-        <div className={fieldClasses.flexHalfWidth}>
+        </Box>
+        <Box className={fieldClasses.flexHalfWidth}>
           <label htmlFor="lastName" className={fieldClasses.label}>
             {lastNameCopy.label}
           </label>
@@ -53,8 +54,8 @@ export default function NameFields({ firstName, lastName, onChange }: NameFields
             onChange={onChange}
             className={fieldClasses.input}
           />
-        </div>
-      </div>
-    </div>
+        </Box>
+      </Box>
+    </Box>
   )
 }

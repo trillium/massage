@@ -22,6 +22,7 @@ import { H2 } from '@/components/ui/heading'
 
 import { Input } from '@/components/ui/input'
 import { Stack } from '@/components/ui/stack'
+import { Box } from '@/components/ui/box'
 
 // Need to refactor fetchData so it's easier to extend to other pages
 const possibleDurations = [15, 30, 45, 60]
@@ -148,9 +149,9 @@ function ClientPage({ duration, children }: { duration: number; children?: React
             required
             aria-required
           />
-          <div className="min-h-[1.25rem] text-sm text-red-600">
+          <Box className="min-h-[1.25rem] text-sm text-red-600">
             {(formik.touched.eventName && formik.errors.eventName) || ' '}
-          </div>
+          </Box>
 
           <label
             htmlFor="sessionDuration"
@@ -178,9 +179,9 @@ function ClientPage({ duration, children }: { duration: number; children?: React
                 </Stack>
               ))}
             </fieldset>
-            <div className="min-h-[1.25rem] text-sm text-red-600">
+            <Box className="min-h-[1.25rem] text-sm text-red-600">
               {(formik.touched.allowedDurations && formik.errors.allowedDurations) || ' '}
-            </div>
+            </Box>
           </Stack>
 
           <label
@@ -206,9 +207,9 @@ function ClientPage({ duration, children }: { duration: number; children?: React
                 </label>
               </Stack>
             ))}
-            <div className="min-h-[1.25rem] text-sm text-red-600">
+            <Box className="min-h-[1.25rem] text-sm text-red-600">
               {(formik.touched.paymentOptions && formik.errors.paymentOptions) || ' '}
-            </div>
+            </Box>
           </Stack>
         </ol>
       </form>

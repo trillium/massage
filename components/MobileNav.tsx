@@ -7,6 +7,7 @@ import Link from './Link'
 import headerNavLinks from '@/data/headerNavLinks'
 
 import { Button } from '@/components/ui/button'
+import { Box } from '@/components/ui/box'
 
 const MobileNav = () => {
   const [navShow, setNavShow] = useState(false)
@@ -57,7 +58,7 @@ const MobileNav = () => {
             leaveTo="opacity-0"
             unmount={false}
           >
-            <div className="fixed inset-0 z-60 bg-black/25" />
+            <Box className="fixed inset-0 z-60 bg-black/25" />
           </TransitionChild>
 
           <TransitionChild

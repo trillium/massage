@@ -14,6 +14,7 @@ import type { StringDateTimeIntervalAndLocation } from 'lib/types'
 import { useReduxAvailability, useAppDispatch } from '@/redux/hooks'
 import { setSelectedDate } from '@/redux/slices/availabilitySlice'
 import { Stack } from '@/components/ui/stack'
+import { Box } from '@/components/ui/box'
 
 interface CalendarProps {
   slots?: StringDateTimeIntervalAndLocation[]
@@ -135,7 +136,7 @@ export default function Calendar({
       : startDate
 
   return (
-    <div
+    <Box
       className="focus-within:ring-primary-500 active:ring-primary-500 isolate mt-6 grid grid-cols-7 overflow-hidden rounded-md border-2 border-accent-300 text-xs leading-6 text-accent-500 focus-within:ring-2 active:ring-2 dark:border-accent-700 dark:text-accent-400"
       role="grid"
       aria-label="Calendar"
@@ -189,7 +190,7 @@ export default function Calendar({
           />
         )
       })}
-    </div>
+    </Box>
   )
 }
 

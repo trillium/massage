@@ -81,7 +81,7 @@ export default async function ProposalPage({
   if (token !== PROPOSAL_TOKEN) notFound()
 
   return (
-    <div className="mx-auto max-w-3xl px-6 py-12 font-sans text-gray-800 print:max-w-none print:px-0 print:py-0">
+    <Box className="mx-auto max-w-3xl px-6 py-12 font-sans text-gray-800 print:max-w-none print:px-0 print:py-0">
       {/* Header */}
       <header className="mb-12 flex items-start justify-between border-b-4 border-primary-600 pb-8">
         <Box>
@@ -106,7 +106,7 @@ export default async function ProposalPage({
       </header>
 
       {/* Meta */}
-      <div className="mb-10 grid grid-cols-1 gap-4 rounded-lg bg-gray-50 p-6 text-sm print:border print:border-gray-200 print:bg-white sm:grid-cols-2">
+      <Box className="mb-10 grid grid-cols-1 gap-4 rounded-lg bg-gray-50 p-6 text-sm print:border print:border-gray-200 print:bg-white sm:grid-cols-2">
         <Box>
           <TextBase as="span" className="font-semibold text-gray-500">
             Prepared for
@@ -121,7 +121,7 @@ export default async function ProposalPage({
           <TextBase className="text-gray-900">Trillium Smith, LMT</TextBase>
           <TextBase className="text-gray-500">March 2026</TextBase>
         </Box>
-      </div>
+      </Box>
 
       {/* Intro */}
       <Section>
@@ -169,7 +169,7 @@ export default async function ProposalPage({
           environments. I know the pace, I know how to read a room, and I know how to keep a line
           moving without rushing anyone.
         </TextBase>
-        <div className="rounded-lg border-l-4 border-primary-600 bg-primary-50 p-5">
+        <Box className="rounded-lg border-l-4 border-primary-600 bg-primary-50 p-5">
           <TextBase className="font-semibold text-primary-800">What makes this different</TextBase>
           <TextBase className="mt-2 leading-relaxed text-primary-900">
             I&apos;m also a software developer. I understand the audience at these conferences
@@ -181,11 +181,11 @@ export default async function ProposalPage({
             Your booth doesn&apos;t just offer a massage — it offers a conversation with someone who
             speaks the audience&apos;s language and knows your product.
           </TextBase>
-        </div>
+        </Box>
       </Section>
 
       {/* Photo Break */}
-      <div className="my-8 grid grid-cols-1 gap-3 print:hidden sm:grid-cols-3">
+      <Box className="my-8 grid grid-cols-1 gap-3 print:hidden sm:grid-cols-3">
         <Image
           src="/static/images/gallery/massage_chair_smiling.jpg"
           alt="Chair massage"
@@ -207,12 +207,12 @@ export default async function ProposalPage({
           height={300}
           className="rounded-lg object-cover"
         />
-      </div>
+      </Box>
 
       {/* Value Prop */}
       <Section>
         <SectionTitle>Why This Works for CodeRabbit</SectionTitle>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <Box className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           {[
             {
               title: 'Booth Traffic',
@@ -231,15 +231,15 @@ export default async function ProposalPage({
               text: 'Conferences are long days. Offering massage signals that CodeRabbit genuinely cares about the people who use its product.',
             },
           ].map((item) => (
-            <div
+            <Box
               key={item.title}
               className="rounded-lg border border-gray-200 p-4 print:border-gray-300"
             >
               <TextBase className="mb-1 font-bold text-primary-700">{item.title}</TextBase>
               <TextSm className="text-sm leading-relaxed text-gray-600">{item.text}</TextSm>
-            </div>
+            </Box>
           ))}
-        </div>
+        </Box>
       </Section>
 
       {/* SCaLE Proof */}
@@ -268,11 +268,11 @@ export default async function ProposalPage({
       {/* Investment — page break before this section for print */}
       <Section className="print:break-before-page print:pt-8">
         <SectionTitle>Investment</SectionTitle>
-        <div className="overflow-hidden rounded-lg border-2 border-primary-600">
-          <div className="bg-primary-600 px-6 py-4 text-white">
+        <Box className="overflow-hidden rounded-lg border-2 border-primary-600">
+          <Box className="bg-primary-600 px-6 py-4 text-white">
             <TextLg className="text-lg font-bold">Both Conferences — 4 Days</TextLg>
-          </div>
-          <div className="p-6">
+          </Box>
+          <Box className="p-6">
             <Stack
               className="mb-4 items-baseline border-b border-gray-200 pb-4"
               direction="row"
@@ -305,22 +305,22 @@ export default async function ProposalPage({
                 $4,000
               </TextBase>
             </Stack>
-          </div>
-        </div>
+          </Box>
+        </Box>
 
         <TextSm className="mt-4 text-sm leading-relaxed text-gray-600">
           This covers approximately six hours of chair massage service per day, all equipment,
           setup, and teardown.
         </TextSm>
 
-        <div className="mt-6 rounded-lg bg-gray-50 p-5 print:bg-white print:border print:border-gray-200">
+        <Box className="mt-6 rounded-lg bg-gray-50 p-5 print:bg-white print:border print:border-gray-200">
           <TextBase className="mb-2 font-semibold text-gray-700">CodeRabbit arranges:</TextBase>
           <ul className="space-y-1 text-sm text-gray-600">
             <li>• Round-trip flight (Los Angeles to Miami)</li>
             <li>• Hotel accommodations (April 19–24)</li>
             <li>• Equipment logistics (getting the massage chair to the venue)</li>
           </ul>
-        </div>
+        </Box>
 
         <TextSm className="mt-4 text-sm text-gray-500">
           I carry full liability insurance and can provide documentation as needed.
@@ -354,6 +354,6 @@ export default async function ProposalPage({
           </Box>
         </Stack>
       </footer>
-    </div>
+    </Box>
   )
 }

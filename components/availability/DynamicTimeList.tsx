@@ -6,6 +6,7 @@ import { DEFAULT_DURATION } from 'config'
 import TimeList from '@/components/availability/time/TimeList'
 import booking from '@/data/booking.json'
 import { TextXs, TextBase } from '@/components/ui/text'
+import { Box } from '@/components/ui/box'
 
 type DynamicTimeListProps = {
   multiDurationSlots: Record<number, StringDateTimeIntervalAndLocation[]>
@@ -21,8 +22,8 @@ export function DynamicTimeList({ multiDurationSlots }: DynamicTimeListProps) {
   const currentSlots = multiDurationSlots[currentDuration] || []
 
   return (
-    <div className="space-y-3">
-      <div className="text-sm text-accent-600 dark:text-accent-400">
+    <Box className="space-y-3">
+      <Box className="text-sm text-accent-600 dark:text-accent-400">
         <span className="font-medium">{currentSlots.length}</span>{' '}
         {booking.availability.availableSlotLabel}
         {currentSlots.length !== 1
@@ -31,19 +32,19 @@ export function DynamicTimeList({ multiDurationSlots }: DynamicTimeListProps) {
         {booking.availability.for} {currentDuration}
         {booking.availability.dash}
         {booking.availability.minuteSessions}
-      </div>
+      </Box>
       {currentSlots.length > 0 ? (
         <TimeList />
       ) : (
-        <div className="py-4 text-center text-accent-500 dark:text-accent-400">
+        <Box className="py-4 text-center text-accent-500 dark:text-accent-400">
           <TextBase>
             {booking.availability.noAvailableSlots} {currentDuration}
             {booking.availability.dash}
             {booking.availability.minuteSlots}
           </TextBase>
           <TextXs className="mt-1">{booking.availability.tryDifferentDuration}</TextXs>
-        </div>
+        </Box>
       )}
-    </div>
+    </Box>
   )
 }

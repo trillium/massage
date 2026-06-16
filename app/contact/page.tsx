@@ -20,7 +20,7 @@ export default async function ContactPage({
     <SectionContainer>
       <H1 className="mb-4">{pages.contact.heading}</H1>
       <TextBase className="mb-6">{pages.contact.intro}</TextBase>
-      <div className="mb-8 grid grid-cols-1 gap-8 md:grid-cols-2">
+      <Box className="mb-8 grid grid-cols-1 gap-8 md:grid-cols-2">
         <ContactForm defaultSubject={defaultSubject} />
         <Stack className="space-y-4" direction="col" justify="center">
           <Stack
@@ -41,7 +41,7 @@ export default async function ContactPage({
             <span className="font-semibold">{pages.contact.serviceArea}</span>
           </Box>
         </Stack>
-      </div>
+      </Box>
     </SectionContainer>
   )
 }

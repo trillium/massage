@@ -6,6 +6,7 @@ import promo from '@/data/promo.json'
 import { H1 } from '@/components/ui/heading'
 import { TextLgMuted } from '@/components/ui/text'
 import { Stack } from '@/components/ui/stack'
+import { Box } from '@/components/ui/box'
 
 interface ExpiredPromoPageProps {
   title: string
@@ -32,8 +33,8 @@ export default function ExpiredPromoPage({
       align="center"
       justify="center"
     >
-      <div className="mx-auto max-w-2xl px-4 text-center">
-        <div className="mb-8">
+      <Box className="mx-auto max-w-2xl px-4 text-center">
+        <Box className="mb-8">
           <Stack
             className="mx-auto mb-6 h-24 w-24 rounded-full bg-orange-100 dark:bg-orange-900/20"
             direction="row"
@@ -46,9 +47,9 @@ export default function ExpiredPromoPage({
           <H1 className="mb-4 dark:text-white">{promo.expiredPromo.heading}</H1>
 
           <Template title={title} text={`This offer expired on ${formattedDate}.`} />
-        </div>
+        </Box>
 
-        <div className="space-y-4">
+        <Box className="space-y-4">
           <TextLgMuted>
             {promo.expiredPromo.reassurancePrefix} {siteConfig.business.serviceNoun}
             {promo.expiredPromo.reassuranceSuffix}
@@ -69,8 +70,8 @@ export default function ExpiredPromoPage({
               {promo.expiredPromo.homeButtonText}
             </Link>
           </Stack>
-        </div>
-      </div>
+        </Box>
+      </Box>
     </Stack>
   )
 }

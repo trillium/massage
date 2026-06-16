@@ -4,6 +4,7 @@ import uiData from '@/data/ui.json'
 import { H2 } from '@/components/ui/heading'
 
 import { TextBase } from '@/components/ui/text'
+import { Box } from '@/components/ui/box'
 
 const Card = ({
   title,
@@ -16,8 +17,8 @@ const Card = ({
   imgSrc?: string
   href?: string
 }) => (
-  <div className="md max-w-[544px] p-4 md:w-1/2">
-    <div
+  <Box className="md max-w-[544px] p-4 md:w-1/2">
+    <Box
       className={`${
         imgSrc && 'h-full'
       } overflow-hidden rounded-md border-2 border-accent-200/60 dark:border-accent-700/60`}
@@ -42,7 +43,7 @@ const Card = ({
             height={306}
           />
         ))}
-      <div className="p-6">
+      <Box className="p-6">
         <H2 className="mb-3">
           {href ? (
             <Link href={href} aria-label={`Link to ${title}`}>
@@ -64,9 +65,9 @@ const Card = ({
             {uiData.misc.learnMore}
           </Link>
         )}
-      </div>
-    </div>
-  </div>
+      </Box>
+    </Box>
+  </Box>
 )
 
 export default Card

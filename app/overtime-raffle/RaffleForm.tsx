@@ -142,9 +142,9 @@ export default function RaffleForm({ raffleId, raffleName }: RaffleFormProps) {
                 placeholder={formText.namePlaceholder}
                 disabled={isSubmitting}
               />
-              <div className="mt-1 min-h-5 text-sm text-amber-500 dark:text-amber-400">
+              <Box className="mt-1 min-h-5 text-sm text-amber-500 dark:text-amber-400">
                 <ErrorMessage name="name" />
-              </div>
+              </Box>
             </Box>
 
             <Box>
@@ -163,13 +163,13 @@ export default function RaffleForm({ raffleId, raffleName }: RaffleFormProps) {
                   lookupEntry(e.target.value, setFieldValue)
                 }}
               />
-              <div className="mt-1 min-h-5 text-sm text-amber-500 dark:text-amber-400">
+              <Box className="mt-1 min-h-5 text-sm text-amber-500 dark:text-amber-400">
                 <ErrorMessage name="email" />
-              </div>
+              </Box>
               {lookupMessage && (
-                <div className="mt-1 text-sm text-primary-600 dark:text-primary-400">
+                <Box className="mt-1 text-sm text-primary-600 dark:text-primary-400">
                   {lookupMessage}
-                </div>
+                </Box>
               )}
             </Box>
 
@@ -186,9 +186,9 @@ export default function RaffleForm({ raffleId, raffleName }: RaffleFormProps) {
                 placeholder={formText.phonePlaceholder}
                 disabled={isSubmitting}
               />
-              <div className="mt-1 min-h-5 text-sm text-amber-500 dark:text-amber-400">
+              <Box className="mt-1 min-h-5 text-sm text-amber-500 dark:text-amber-400">
                 <ErrorMessage name="phone" />
-              </div>
+              </Box>
             </Box>
 
             <Box>
@@ -205,9 +205,9 @@ export default function RaffleForm({ raffleId, raffleName }: RaffleFormProps) {
                 disabled={isSubmitting}
                 maxLength={10}
               />
-              <div className="mt-1 min-h-5 text-sm text-amber-500 dark:text-amber-400">
+              <Box className="mt-1 min-h-5 text-sm text-amber-500 dark:text-amber-400">
                 <ErrorMessage name="zip_code" />
-              </div>
+              </Box>
             </Box>
 
             <Box>
@@ -215,7 +215,7 @@ export default function RaffleForm({ raffleId, raffleName }: RaffleFormProps) {
                 {formText.interestedLabel}{' '}
                 <span className="text-primary-500">{formText.requiredAsterisk}</span>
               </TextBase>
-              <div className="space-y-2">
+              <Box className="space-y-2">
                 {RAFFLE_INTEREST_OPTIONS.map(({ value, label }) => (
                   <Stack direction="row" align="center" key={value}>
                     <Input
@@ -239,10 +239,10 @@ export default function RaffleForm({ raffleId, raffleName }: RaffleFormProps) {
                     </label>
                   </Stack>
                 ))}
-              </div>
-              <div className="mt-1 min-h-5 text-sm text-amber-500 dark:text-amber-400">
+              </Box>
+              <Box className="mt-1 min-h-5 text-sm text-amber-500 dark:text-amber-400">
                 <ErrorMessage name="interested_in" />
-              </div>
+              </Box>
             </Box>
 
             <Button
@@ -254,9 +254,9 @@ export default function RaffleForm({ raffleId, raffleName }: RaffleFormProps) {
             </Button>
             <Box>
               {submitError && (
-                <div className="rounded-md bg-amber-50 px-4 py-3 text-sm text-amber-700 dark:bg-amber-900/20 dark:text-amber-300">
+                <Box className="rounded-md bg-amber-50 px-4 py-3 text-sm text-amber-700 dark:bg-amber-900/20 dark:text-amber-300">
                   {submitError}
-                </div>
+                </Box>
               )}
             </Box>
           </Form>

@@ -15,6 +15,7 @@ import ui from '@/data/ui.json'
 
 import { Button } from '@/components/ui/button'
 import { Stack } from '@/components/ui/stack'
+import { Box } from '@/components/ui/box'
 
 const Sun = () => (
   <svg
@@ -84,16 +85,16 @@ const ThemeSwitch = () => {
         >
           <MenuItems className="ring-opacity-5 absolute right-0 z-50 mt-2 w-32 origin-top-right divide-y divide-accent-100 rounded-md bg-surface-50 shadow-lg ring-1 ring-black focus:outline-hidden dark:bg-surface-800">
             <RadioGroup value={theme} onChange={setTheme}>
-              <div className="p-1">
+              <Box className="p-1">
                 <Radio value="light">
                   <MenuItem>
                     {({ focus }) => (
                       <Button
                         className={`${focus ? 'bg-primary-600 text-white' : ''} group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                       >
-                        <div className="mr-2">
+                        <Box className="mr-2">
                           <Sun />
-                        </div>
+                        </Box>
                         {ui.themeSwitch.light}
                       </Button>
                     )}
@@ -107,9 +108,9 @@ const ThemeSwitch = () => {
                           focus ? 'bg-primary-600 text-white' : ''
                         } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                       >
-                        <div className="mr-2">
+                        <Box className="mr-2">
                           <Moon />
-                        </div>
+                        </Box>
                         {ui.themeSwitch.dark}
                       </Button>
                     )}
@@ -123,15 +124,15 @@ const ThemeSwitch = () => {
                           focus ? 'bg-primary-600 text-white' : ''
                         } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                       >
-                        <div className="mr-2">
+                        <Box className="mr-2">
                           <Monitor />
-                        </div>
+                        </Box>
                         {ui.themeSwitch.system}
                       </Button>
                     )}
                   </MenuItem>
                 </Radio>
-              </div>
+              </Box>
             </RadioGroup>
           </MenuItems>
         </Transition>

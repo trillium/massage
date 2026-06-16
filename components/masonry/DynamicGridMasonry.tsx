@@ -1,5 +1,6 @@
 import Image from '@/components/Image'
 import clsx from 'clsx'
+import { Box } from '@/components/ui/box'
 
 interface DynamicGridMasonryProps {
   images?: string[]
@@ -16,7 +17,7 @@ const defaultImages = [
 
 function FlowbiteImageCell({ src }: { src: string }) {
   return (
-    <div className="h-full min-h-[200px] w-full">
+    <Box className="h-full min-h-[200px] w-full">
       <Image
         className="h-full w-full rounded-lg object-cover"
         src={src}
@@ -25,7 +26,7 @@ function FlowbiteImageCell({ src }: { src: string }) {
         height={300}
         sizes="(max-width: 768px) 50vw, 25vw"
       />
-    </div>
+    </Box>
   )
 }
 
@@ -70,14 +71,14 @@ export default function DynamicGridMasonry({
   }
 
   return (
-    <div className={gridClass}>
+    <Box className={gridClass}>
       {columns.map((col, i) => (
-        <div className="grid gap-4" key={i}>
+        <Box className="grid gap-4" key={i}>
           {col.map((src, j) => (
             <FlowbiteImageCell src={src} key={j} />
           ))}
-        </div>
+        </Box>
       ))}
-    </div>
+    </Box>
   )
 }

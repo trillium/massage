@@ -6,6 +6,7 @@ import { H3 } from '@/components/ui/heading'
 
 import { Button } from '@/components/ui/button'
 import { Stack } from '@/components/ui/stack'
+import { Box } from '@/components/ui/box'
 
 interface DebugDataProps {
   submittedData: AppointmentRequestType | null
@@ -18,7 +19,7 @@ export default function DebugData({ submittedData, onReset }: DebugDataProps) {
   }
 
   return (
-    <div className="mt-12 rounded-lg bg-surface-200 p-6 dark:bg-surface-700">
+    <Box className="mt-12 rounded-lg bg-surface-200 p-6 dark:bg-surface-700">
       <Stack className="mb-4" direction="row" align="center" justify="between">
         <H3>Debug: Submitted Data</H3>
         {onReset && (
@@ -33,6 +34,6 @@ export default function DebugData({ submittedData, onReset }: DebugDataProps) {
       <pre className="overflow-x-auto text-xs text-accent-600 dark:text-accent-400">
         {JSON.stringify(submittedData, null, 2)}
       </pre>
-    </div>
+    </Box>
   )
 }

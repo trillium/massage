@@ -6,6 +6,7 @@ import admin from '@/data/admin.json'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { H1 } from '@/components/ui/heading'
+import { Box } from '@/components/ui/box'
 
 export default function IsTestUserPage() {
   const [userId, setUserId] = useState('')
@@ -43,11 +44,11 @@ export default function IsTestUserPage() {
   }
 
   return (
-    <div className="mx-auto mt-10 max-w-md rounded bg-surface-50 p-6 shadow dark:bg-surface-800">
+    <Box className="mx-auto mt-10 max-w-md rounded bg-surface-50 p-6 shadow dark:bg-surface-800">
       <H1 className="mb-4 text-2xl font-bold text-accent-900 dark:text-accent-100">
         {admin.isTestUser.title}
       </H1>
-      <div className="mb-4 text-sm text-accent-700 dark:text-accent-300">
+      <Box className="mb-4 text-sm text-accent-700 dark:text-accent-300">
         <strong>{admin.isTestUser.distinctIdLabel}</strong>{' '}
         {distinctId || admin.isTestUser.loadingText}
         <Button
@@ -57,13 +58,13 @@ export default function IsTestUserPage() {
         >
           {admin.isTestUser.retryButton}
         </Button>
-      </div>
+      </Box>
 
-      <div className="mb-4">
-        <div className="mb-2 block text-sm font-medium text-accent-700 dark:text-accent-300">
+      <Box className="mb-4">
+        <Box className="mb-2 block text-sm font-medium text-accent-700 dark:text-accent-300">
           {admin.isTestUser.actionLabel}
-        </div>
-        <div className="space-y-2">
+        </Box>
+        <Box className="space-y-2">
           <label className="flex items-center">
             <Input
               type="radio"
@@ -90,8 +91,8 @@ export default function IsTestUserPage() {
               {admin.isTestUser.testUserLabel}
             </span>
           </label>
-        </div>
-      </div>
+        </Box>
+      </Box>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <Input
@@ -121,8 +122,8 @@ export default function IsTestUserPage() {
         </Button>
       </form>
       {result && (
-        <div className="mt-4 text-center text-accent-700 dark:text-accent-300">{result}</div>
+        <Box className="mt-4 text-center text-accent-700 dark:text-accent-300">{result}</Box>
       )}
-    </div>
+    </Box>
   )
 }

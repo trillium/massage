@@ -19,9 +19,9 @@ export default function PaymentMethodField({ selected, onChange }: PaymentMethod
     <Box>
       <TextBase className={fieldClasses.paymentTitle}>Intended payment method</TextBase>
       <fieldset className={fieldClasses.paymentFieldset}>
-        <div className={fieldClasses.paymentOptions}>
+        <Box className={fieldClasses.paymentOptions}>
           {paymentMethod.map((payType) => (
-            <div key={payType.value} className={fieldClasses.radioContainer}>
+            <Box key={payType.value} className={fieldClasses.radioContainer}>
               <Input
                 id={payType.value}
                 aria-label={payType.name}
@@ -34,9 +34,9 @@ export default function PaymentMethodField({ selected, onChange }: PaymentMethod
               <label htmlFor={payType.value} className={fieldClasses.radioLabel}>
                 {payType.name}
               </label>
-            </div>
+            </Box>
           ))}
-        </div>
+        </Box>
         <TextBase className={fieldClasses.paymentHint}>* {selectedHint}</TextBase>
       </fieldset>
     </Box>

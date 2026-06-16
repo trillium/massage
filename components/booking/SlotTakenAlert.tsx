@@ -6,6 +6,7 @@ import booking from '@/data/booking.json'
 import { TextSm, TextBase } from '@/components/ui/text'
 
 import { Button } from '@/components/ui/button'
+import { Box } from '@/components/ui/box'
 
 export default function SlotTakenAlert() {
   const searchParams = useSearchParams()
@@ -30,7 +31,7 @@ export default function SlotTakenAlert() {
   if (!visible) return null
 
   return (
-    <div className="rounded-md border border-amber-300 bg-amber-50 p-4 text-amber-800 dark:border-amber-600 dark:bg-amber-900/30 dark:text-amber-200">
+    <Box className="rounded-md border border-amber-300 bg-amber-50 p-4 text-amber-800 dark:border-amber-600 dark:bg-amber-900/30 dark:text-amber-200">
       <TextBase className="font-medium">{booking.flow.slotTakenTitle}</TextBase>
       <TextSm className="mt-1">{booking.flow.slotTakenMessage}</TextSm>
       <Button
@@ -43,6 +44,6 @@ export default function SlotTakenAlert() {
       >
         {booking.flow.slotTakenDismiss}
       </Button>
-    </div>
+    </Box>
   )
 }

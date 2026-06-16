@@ -37,7 +37,7 @@ export function ReviewCard({
 }) {
   if (editing) {
     return (
-      <div className="space-y-3 rounded-lg bg-surface-50 p-4 shadow dark:bg-surface-800">
+      <Box className="space-y-3 rounded-lg bg-surface-50 p-4 shadow dark:bg-surface-800">
         <ReviewFormFields form={editForm} onChange={onEditFormChange} variant="edit" />
         <Stack direction="row" gap={2}>
           <Button
@@ -54,12 +54,12 @@ export function ReviewCard({
             Cancel
           </Button>
         </Stack>
-      </div>
+      </Box>
     )
   }
 
   return (
-    <div className="rounded-lg bg-surface-50 p-4 shadow dark:bg-surface-800">
+    <Box className="rounded-lg bg-surface-50 p-4 shadow dark:bg-surface-800">
       <Stack direction="row" align="start" justify="between">
         <Box>
           <Stack direction="row" align="center" gap={2}>
@@ -86,6 +86,6 @@ export function ReviewCard({
         </Button>
       </Stack>
       {review.comment && <TextSm className="mt-2">{review.comment}</TextSm>}
-    </div>
+    </Box>
   )
 }

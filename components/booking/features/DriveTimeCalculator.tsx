@@ -11,6 +11,7 @@ import { TextSm } from '@/components/ui/text'
 
 import { Button } from '@/components/ui/button'
 import { Stack } from '@/components/ui/stack'
+import { Box } from '@/components/ui/box'
 
 function formatDriveTime(minutes: number): string {
   if (minutes <= 5) return 'Extremely short'
@@ -175,7 +176,7 @@ export default function DriveTimeCalculator({ currentEvent }: DriveTimeCalculato
   }
 
   return (
-    <div className="focus-within:border-primary-500 dark:focus-within:border-primary-500 rounded-lg border-2 border-accent-300 bg-surface-200 p-6 dark:border-accent-700 dark:bg-surface-800">
+    <Box className="focus-within:border-primary-500 dark:focus-within:border-primary-500 rounded-lg border-2 border-accent-300 bg-surface-200 p-6 dark:border-accent-700 dark:bg-surface-800">
       <Stack className="mb-4" direction="row" wrap align="center" justify="between" gap={2}>
         <H3>Want to be next? Calculate Drive Time</H3>
         <Button
@@ -187,26 +188,26 @@ export default function DriveTimeCalculator({ currentEvent }: DriveTimeCalculato
         </Button>
       </Stack>
       {deviceCoordinates ? (
-        <div className="rounded-md border-2 border-blue-200 bg-blue-50 p-3 dark:border-blue-800 dark:bg-blue-950/50">
+        <Box className="rounded-md border-2 border-blue-200 bg-blue-50 p-3 dark:border-blue-800 dark:bg-blue-950/50">
           <TextSm status="info">
             <strong>Device Location:</strong> {deviceCoordinates.lat.toFixed(6)},{' '}
             {deviceCoordinates.lng.toFixed(6)}
           </TextSm>
-        </div>
+        </Box>
       ) : (
-        <div className="isolate -space-y-px rounded-md shadow-sm">
+        <Box className="isolate -space-y-px rounded-md shadow-sm">
           <LocationField
             location={location}
             readOnly={false}
             onChange={handleLocationChange}
             errors={validationErrors}
           />
-        </div>
+        </Box>
       )}
       {error && (
-        <div className="mt-4 rounded-md border-2 border-red-200 bg-red-50 p-3 dark:border-red-800 dark:bg-red-950/50">
+        <Box className="mt-4 rounded-md border-2 border-red-200 bg-red-50 p-3 dark:border-red-800 dark:bg-red-950/50">
           <TextSm status="error">{error}</TextSm>
-        </div>
+        </Box>
       )}
       <Button
         onClick={
@@ -234,7 +235,7 @@ export default function DriveTimeCalculator({ currentEvent }: DriveTimeCalculato
             : 'Calculate Drive Time'}
       </Button>
       {driveTime !== null && (
-        <div
+        <Box
           className={
             driveTimeIsStale
               ? 'mt-4 rounded-md border-2 border-accent-300 bg-surface-200 p-3 dark:border-accent-700 dark:bg-surface-900/50'
@@ -251,8 +252,8 @@ export default function DriveTimeCalculator({ currentEvent }: DriveTimeCalculato
             Drive time: <strong>{formatDriveTime(driveTime)}</strong>
             {driveTimeIsStale && ' (from previous location)'}
           </TextSm>
-        </div>
+        </Box>
       )}
-    </div>
+    </Box>
   )
 }

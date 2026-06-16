@@ -30,6 +30,7 @@ import booking from '@/data/booking.json'
 
 import { Button } from '@/components/ui/button'
 import { Stack } from '@/components/ui/stack'
+import { Box } from '@/components/ui/box'
 
 type BookingFormProps = {
   additionalData?: Partial<ChairAppointmentBlockProps>
@@ -181,9 +182,9 @@ export default function BookingForm({
                 />
 
                 {modal === 'error' && (
-                  <div className="mt-4 rounded-md bg-red-50 p-3 text-red-600">
+                  <Box className="mt-4 rounded-md bg-red-50 p-3 text-red-600">
                     {booking.flow.errorSubmitting}
-                  </div>
+                  </Box>
                 )}
 
                 <BookingFormActions />

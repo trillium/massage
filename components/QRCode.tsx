@@ -3,6 +3,7 @@
 import { useEffect, useRef } from 'react'
 import type { QRColorPreset } from '../lib/qr/colors'
 import { buildQROptions } from '../lib/qr/config'
+import { Box } from '@/components/ui/box'
 
 interface QRCodeProps {
   data: string
@@ -36,5 +37,5 @@ export default function QRCode({ data, preset = 'default', size = 200, className
     }
   }, [data, preset, size])
 
-  return <div ref={containerRef} className={className} />
+  return <Box ref={containerRef} className={className} />
 }
