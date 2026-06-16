@@ -2,6 +2,7 @@ import { Star } from './Stars'
 import type { ReviewSnippetProps } from '@/lib/types'
 import { TextBaseMedium, TextLgMuted } from '@/components/ui/text'
 import { Stack } from '@/components/ui/stack'
+import { H6 } from '@/components/ui/heading'
 
 export const ReviewSnippet = ({
   text,
@@ -33,9 +34,9 @@ export const ReviewSnippet = ({
           ))}
         </Stack>
         <Stack direction="row" align="center" gap={3}>
-          <h6 className="text-lg leading-8 font-semibold text-accent-950 capitalize dark:text-white">
+          <H6 className="text-lg leading-8 font-semibold text-accent-950 capitalize dark:text-white">
             {displayName}
-          </h6>
+          </H6>
           {displayDate && <TextBaseMedium status="muted">{date}</TextBaseMedium>}
         </Stack>
       </Stack>

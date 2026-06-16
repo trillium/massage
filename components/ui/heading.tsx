@@ -51,3 +51,21 @@ export function H4({ className, ...props }: React.HTMLAttributes<HTMLHeadingElem
     />
   )
 }
+
+export function H5({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) {
+  return (
+    <h5
+      className={cn('text-sm font-semibold text-accent-900 dark:text-accent-100', className)}
+      {...props}
+    />
+  )
+}
+
+export function H6({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) {
+  return (
+    <h6
+      className={cn('text-xs font-semibold text-accent-900 dark:text-accent-100', className)}
+      {...props}
+    />
+  )
+}
