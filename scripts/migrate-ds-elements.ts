@@ -1,7 +1,7 @@
 #!/usr/bin/env bun
 /**
- * migrate-ds-elements.ts — codemod that renames bare HTML elements to their
- * design-system component equivalents across the codebase.
+ * migrate-ds-elements.ts — AST-based codemod (ts-morph) that renames bare HTML elements
+ * to design-system component equivalents across the codebase.
  *
  * Substitutions (each DS component accepts all HTML props, so this is a
  * mechanical rename — no semantic changes):
@@ -27,12 +27,11 @@
  *   bun scripts/migrate-ds-elements.ts                           # apply changes
  *   bun scripts/migrate-ds-elements.ts --file path/to/file.tsx   # single file
  *
- * Idempotency: opening-tag regexes use word-boundary lookaheads
- * (?=[\s>\/]) so they only match raw HTML elements, never JSX components
- * (<Text>, <Heading>, <Box>, <Code> all start with uppercase). Re-running
- * the script on the same file is a no-op.
+ * Correctness note: uses ts-morph AST to find JSX nodes, so template literals,
+ * comments, and string content containing <div> etc. are never matched.
  */
 
+import { Project, SyntaxKind } from 'ts-morph'
 import { existsSync, readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs'
 import { join, relative, resolve } from 'node:path'
 
@@ -46,80 +45,63 @@ const SCAN_ROOTS = ['app', 'components']
 type TagKey = 'p' | 'h1' | 'h2' | 'h3' | 'h4' | 'code' | 'div'
 
 interface Substitution {
-  key: TagKey
-  open: RegExp
-  openReplacement: string
-  close: RegExp
-  closeReplacement: string
+  htmlTag: TagKey
+  componentTag: string
+  levelProp?: number
   componentName: 'Text' | 'Heading' | 'Code' | 'Box'
   importPath: string
 }
 
 const SUBSTITUTIONS: Substitution[] = [
   {
-    key: 'p',
-    open: /<p(?=[\s>/])/g,
-    openReplacement: '<Text',
-    close: /<\/p>/g,
-    closeReplacement: '</Text>',
+    htmlTag: 'p',
+    componentTag: 'Text',
     componentName: 'Text',
     importPath: '@/components/ui/text',
   },
   {
-    key: 'h1',
-    open: /<h1(?=[\s>/])/g,
-    openReplacement: '<Heading level={1}',
-    close: /<\/h1>/g,
-    closeReplacement: '</Heading>',
+    htmlTag: 'h1',
+    componentTag: 'Heading',
+    levelProp: 1,
     componentName: 'Heading',
     importPath: '@/components/ui/heading',
   },
   {
-    key: 'h2',
-    open: /<h2(?=[\s>/])/g,
-    openReplacement: '<Heading level={2}',
-    close: /<\/h2>/g,
-    closeReplacement: '</Heading>',
+    htmlTag: 'h2',
+    componentTag: 'Heading',
+    levelProp: 2,
     componentName: 'Heading',
     importPath: '@/components/ui/heading',
   },
   {
-    key: 'h3',
-    open: /<h3(?=[\s>/])/g,
-    openReplacement: '<Heading level={3}',
-    close: /<\/h3>/g,
-    closeReplacement: '</Heading>',
+    htmlTag: 'h3',
+    componentTag: 'Heading',
+    levelProp: 3,
     componentName: 'Heading',
     importPath: '@/components/ui/heading',
   },
   {
-    key: 'h4',
-    open: /<h4(?=[\s>/])/g,
-    openReplacement: '<Heading level={4}',
-    close: /<\/h4>/g,
-    closeReplacement: '</Heading>',
+    htmlTag: 'h4',
+    componentTag: 'Heading',
+    levelProp: 4,
     componentName: 'Heading',
     importPath: '@/components/ui/heading',
   },
   {
-    key: 'code',
-    open: /<code(?=[\s>/])/g,
-    openReplacement: '<Code',
-    close: /<\/code>/g,
-    closeReplacement: '</Code>',
+    htmlTag: 'code',
+    componentTag: 'Code',
     componentName: 'Code',
     importPath: '@/components/ui/code',
   },
   {
-    key: 'div',
-    open: /<div(?=[\s>/])/g,
-    openReplacement: '<Box',
-    close: /<\/div>/g,
-    closeReplacement: '</Box>',
+    htmlTag: 'div',
+    componentTag: 'Box',
     componentName: 'Box',
     importPath: '@/components/ui/box',
   },
 ]
+
+const SUB_BY_TAG = new Map<string, Substitution>(SUBSTITUTIONS.map((s) => [s.htmlTag, s]))
 
 interface FileResult {
   path: string
@@ -135,16 +117,11 @@ interface MigrationReport {
   totalsByTag: Record<TagKey, number>
 }
 
-function parseArgs(argv: string[]): {
-  dryRun: boolean
-  singleFile: string | null
-} {
+function parseArgs(argv: string[]): { dryRun: boolean; singleFile: string | null } {
   const dryRun = argv.includes('--dry-run')
   let singleFile: string | null = null
   const fileIdx = argv.indexOf('--file')
-  if (fileIdx !== -1 && argv[fileIdx + 1]) {
-    singleFile = argv[fileIdx + 1]
-  }
+  if (fileIdx !== -1 && argv[fileIdx + 1]) singleFile = argv[fileIdx + 1]
   return { dryRun, singleFile }
 }
 
@@ -153,13 +130,11 @@ function isTestPath(relPath: string): boolean {
 }
 
 function isComponentsUiPath(relPath: string): boolean {
-  const normalized = relPath.split(/[\\/]/).join('/')
-  return normalized.startsWith('components/ui/')
+  return relPath.split(/[\\/]/).join('/').startsWith('components/ui/')
 }
 
 function collectFiles(): string[] {
   const results: string[] = []
-
   function walk(dir: string): void {
     let entries: string[]
     try {
@@ -183,7 +158,6 @@ function collectFiles(): string[] {
       }
     }
   }
-
   for (const root of SCAN_ROOTS) {
     const abs = join(REPO_ROOT, root)
     if (existsSync(abs)) walk(abs)
@@ -191,16 +165,14 @@ function collectFiles(): string[] {
   return results
 }
 
-function findImportInsertionIndex(lines: string[]): { index: number; nearUiImport: boolean } {
+function findImportInsertionIndex(lines: string[]): { index: number } {
   let lastImportLine = -1
   let lastUiImportLine = -1
-  let inImportBlock = false
   let importContinuation = false
 
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i]
     const trimmed = line.trim()
-
     if (importContinuation) {
       if (trimmed.endsWith(';') || trimmed.endsWith("'") || trimmed.endsWith('"')) {
         importContinuation = false
@@ -209,35 +181,21 @@ function findImportInsertionIndex(lines: string[]): { index: number; nearUiImpor
       }
       continue
     }
-
     if (/^import\b/.test(trimmed)) {
-      inImportBlock = true
       lastImportLine = i
       if (line.includes('@/components/ui/')) lastUiImportLine = i
       const hasFrom = / from /.test(line)
       const ends = trimmed.endsWith(';') || trimmed.endsWith("'") || trimmed.endsWith('"')
-      if (!hasFrom || !ends) {
-        importContinuation = true
-      }
+      if (!hasFrom || !ends) importContinuation = true
       continue
     }
-
-    if (inImportBlock && trimmed === '') {
-      continue
-    }
-
-    if (inImportBlock && trimmed !== '') {
-      break
-    }
+    if (trimmed === '') continue
+    break
   }
 
-  if (lastUiImportLine !== -1) {
-    return { index: lastUiImportLine + 1, nearUiImport: true }
-  }
-  if (lastImportLine !== -1) {
-    return { index: lastImportLine + 1, nearUiImport: false }
-  }
-  return { index: 0, nearUiImport: false }
+  if (lastUiImportLine !== -1) return { index: lastUiImportLine + 1 }
+  if (lastImportLine !== -1) return { index: lastImportLine + 1 }
+  return { index: 0 }
 }
 
 function hasImport(source: string, componentName: string, importPath: string): boolean {
@@ -264,58 +222,116 @@ function injectImports(source: string, needed: Map<string, string>): string {
 const args = parseArgs(process.argv.slice(2))
 const isDryRun = args.dryRun
 
+const project = new Project({
+  skipAddingFilesFromTsConfig: true,
+  compilerOptions: { allowJs: false, jsx: 4 },
+})
+
+interface Replacement {
+  start: number
+  end: number
+  newText: string
+}
+
 function processFile(absPath: string): FileResult {
   const relPath = relative(REPO_ROOT, absPath)
-  const result: FileResult = {
-    path: relPath,
-    modified: false,
-    counts: {},
-    importsAdded: [],
+  const empty: FileResult = { path: relPath, modified: false, counts: {}, importsAdded: [] }
+
+  let sourceFile
+  try {
+    sourceFile = project.addSourceFileAtPath(absPath)
+  } catch {
+    process.stderr.write(`  ⚠ skipping ${relPath} (parse error)\n`)
+    return empty
   }
 
-  if (!existsSync(absPath)) return result
-  const original = readFileSync(absPath, 'utf8')
-  if (DS_IGNORE_FILE.test(original)) return result
+  const originalText = sourceFile.getFullText()
+  if (DS_IGNORE_FILE.test(originalText)) {
+    project.removeSourceFile(sourceFile)
+    return empty
+  }
 
-  let source = original
+  const replacements: Replacement[] = []
   const importsNeeded = new Map<string, string>()
+  const counts: Partial<Record<TagKey, number>> = {}
 
-  for (const sub of SUBSTITUTIONS) {
-    const openMatches = source.match(sub.open)
-    const closeMatches = source.match(sub.close)
-    const openCount = openMatches ? openMatches.length : 0
-    const closeCount = closeMatches ? closeMatches.length : 0
+  sourceFile.forEachDescendant((node) => {
+    const kind = node.getKind()
 
-    if (openCount === 0 && closeCount === 0) continue
-
-    if (openCount > 0) {
-      source = source.replace(sub.open, sub.openReplacement)
+    if (kind === SyntaxKind.JsxOpeningElement) {
+      const el = node.asKindOrThrow(SyntaxKind.JsxOpeningElement)
+      const tagText = el.getTagNameNode().getText()
+      const sub = SUB_BY_TAG.get(tagText)
+      if (!sub) return
+      counts[sub.htmlTag] = (counts[sub.htmlTag] ?? 0) + 1
+      importsNeeded.set(sub.componentName, sub.importPath)
+      const tagNode = el.getTagNameNode()
+      replacements.push({ start: tagNode.getStart(), end: tagNode.getEnd(), newText: sub.componentTag })
+      if (sub.levelProp !== undefined) {
+        replacements.push({
+          start: tagNode.getEnd(),
+          end: tagNode.getEnd(),
+          newText: ` level={${sub.levelProp}}`,
+        })
+      }
+      return
     }
-    if (closeCount > 0) {
-      source = source.replace(sub.close, sub.closeReplacement)
+
+    if (kind === SyntaxKind.JsxClosingElement) {
+      const el = node.asKindOrThrow(SyntaxKind.JsxClosingElement)
+      const tagText = el.getTagNameNode().getText()
+      const sub = SUB_BY_TAG.get(tagText)
+      if (!sub) return
+      const tagNode = el.getTagNameNode()
+      replacements.push({ start: tagNode.getStart(), end: tagNode.getEnd(), newText: sub.componentTag })
+      return
     }
 
-    result.counts[sub.key] = openCount
-
-    if (!hasImport(original, sub.componentName, sub.importPath)) {
-      if (!importsNeeded.has(sub.componentName)) {
-        importsNeeded.set(sub.componentName, sub.importPath)
+    if (kind === SyntaxKind.JsxSelfClosingElement) {
+      const el = node.asKindOrThrow(SyntaxKind.JsxSelfClosingElement)
+      const tagText = el.getTagNameNode().getText()
+      const sub = SUB_BY_TAG.get(tagText)
+      if (!sub) return
+      counts[sub.htmlTag] = (counts[sub.htmlTag] ?? 0) + 1
+      importsNeeded.set(sub.componentName, sub.importPath)
+      const tagNode = el.getTagNameNode()
+      replacements.push({ start: tagNode.getStart(), end: tagNode.getEnd(), newText: sub.componentTag })
+      if (sub.levelProp !== undefined) {
+        replacements.push({
+          start: tagNode.getEnd(),
+          end: tagNode.getEnd(),
+          newText: ` level={${sub.levelProp}}`,
+        })
       }
     }
+  })
+
+  project.removeSourceFile(sourceFile)
+
+  if (replacements.length === 0) return empty
+
+  const sorted = replacements.sort((a, b) => b.start - a.start || b.end - a.end)
+  let text = originalText
+  for (const r of sorted) {
+    text = text.slice(0, r.start) + r.newText + text.slice(r.end)
   }
 
-  if (source === original) return result
+  for (const [componentName, importPath] of importsNeeded) {
+    if (hasImport(originalText, componentName, importPath)) importsNeeded.delete(componentName)
+  }
 
-  for (const [name] of importsNeeded) result.importsAdded.push(name)
-
-  source = injectImports(source, importsNeeded)
-  result.modified = true
+  text = injectImports(text, importsNeeded)
 
   if (!isDryRun) {
-    writeFileSync(absPath, source, 'utf8')
+    writeFileSync(absPath, text, 'utf8')
   }
 
-  return result
+  return {
+    path: relPath,
+    modified: true,
+    counts,
+    importsAdded: [...importsNeeded.keys()],
+  }
 }
 
 function shouldSkipFile(absPath: string): { skip: boolean; reason: 'test' | 'ui' | null } {
@@ -325,7 +341,7 @@ function shouldSkipFile(absPath: string): { skip: boolean; reason: 'test' | 'ui'
   return { skip: false, reason: null }
 }
 
-function run(): MigrationReport {
+async function run(): Promise<MigrationReport> {
   const report: MigrationReport = {
     modified: [],
     skippedIgnore: [],
@@ -354,8 +370,8 @@ function run(): MigrationReport {
     }
 
     if (existsSync(abs)) {
-      const source = readFileSync(abs, 'utf8')
-      if (DS_IGNORE_FILE.test(source)) {
+      const text = readFileSync(abs, 'utf8')
+      if (DS_IGNORE_FILE.test(text)) {
         report.skippedIgnore.push(rel)
         continue
       }
@@ -411,5 +427,5 @@ function printReport(report: MigrationReport): void {
   }
 }
 
-const report = run()
+const report = await run()
 printReport(report)
