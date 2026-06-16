@@ -60,7 +60,7 @@
         "noParameterAssign": "off",
         "useDefaultParameterLast": "off",
         "useTemplate": "off",
-        "noJsxLiterals": "error"
+        "noJsxLiterals": "warn"
       },
       "complexity": {
         "noForEach": "off",

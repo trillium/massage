@@ -62,7 +62,7 @@ export default function Step1BookingSelection({
     <Box className="mb-12 rounded-lg bg-surface-50 p-6 shadow dark:bg-surface-800">
       <H2 className="mb-4">Step 1: Booking Form</H2>
       <Box className="space-y-4">
-        <TextBase className="text-accent-600 dark:text-accent-400">
+        <TextBase status="secondary">
           Fill out the form below to simulate a booking request:
         </TextBase>
 

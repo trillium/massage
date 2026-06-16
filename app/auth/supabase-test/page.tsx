@@ -26,7 +26,9 @@ function AuthTestContent() {
       <Stack className="min-h-screen" direction="row" align="center" justify="center">
         <Box className="text-center">
           <Box className="h-8 w-8 animate-spin rounded-full border-4 border-accent-200 border-t-blue-600"></Box>
-          <TextBase className="mt-2 text-accent-600">Loading auth state...</TextBase>
+          <TextBase status="secondary" className="mt-2">
+            Loading auth state...
+          </TextBase>
         </Box>
       </Stack>
     )

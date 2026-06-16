@@ -34,6 +34,7 @@ export const DS_COMPONENT_NAMES = [
   'TextSmMuted',
   'TextSmMedium',
   'TextSmSemibold',
+  'TextBaseSemibold',
   'TextXs',
   'TextXsMuted',
   'TextXsMedium',
@@ -181,7 +182,11 @@ export const DS_RULES: DsRule[] = [
     importPath: '@/components/ui/stack',
     category: 'layout',
     selfExempt: true,
-    patterns: [{ jsx: /<div\b[^>]*\b(?<!inline-)(?<!sm:)(?<!md:)(?<!lg:)(?<!xl:)(?:flex(?!-)|flex-(?:row|col|wrap|nowrap|wrap-reverse|row-reverse|col-reverse))\b/ }],
+    patterns: [
+      {
+        jsx: /<div\b[^>]*\b(?<!inline-)(?<!sm:)(?<!md:)(?<!lg:)(?<!xl:)(?:flex(?!-)|flex-(?:row|col|wrap|nowrap|wrap-reverse|row-reverse|col-reverse))\b/,
+      },
+    ],
     rawPattern: '<div className="flex …">',
     description: 'Flex row or column layout with gap, align, justify props',
   },

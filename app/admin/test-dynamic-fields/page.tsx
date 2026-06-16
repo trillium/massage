@@ -39,7 +39,7 @@ export default function TestDynamicFieldsPage() {
       <Box className="mx-auto max-w-4xl px-4">
         <Box className="mb-8">
           <H1 className="mb-4">Dynamic Booking Form Test Page</H1>
-          <TextBase className="text-accent-600">
+          <TextBase status="secondary">
             This page demonstrates the booking form with additional specific fields:
           </TextBase>
           <ul className="mt-4 space-y-2 text-sm text-accent-600">
@@ -51,7 +51,7 @@ export default function TestDynamicFieldsPage() {
 
         <Box className="rounded-lg bg-surface-50 p-6 shadow-lg">
           <H2 className="mb-4">Test the Booking Form</H2>
-          <TextBase className="mb-6 text-accent-600">
+          <TextBase status="secondary" className="mb-6">
             Click on any available time slot to open the booking modal and see the dynamic fields in
             action.
           </TextBase>

@@ -323,9 +323,7 @@ export default async function EventPage({ params }: { params: Promise<{ event_id
               ))}
             </Box>
           ) : (
-            <TextBase className="text-accent-600 dark:text-accent-400">
-              No events found containing "massage"
-            </TextBase>
+            <TextBase status="secondary">No events found containing "massage"</TextBase>
           )}
         </Box>
       </Box>

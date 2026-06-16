@@ -1,7 +1,16 @@
 /* ds-ignore-file */
 import { cn } from '@/lib/cn'
 
-export type TextStatus = 'default' | 'muted' | 'error' | 'success' | 'warning' | 'info' | 'primary'
+export type TextStatus =
+  | 'default'
+  | 'muted'
+  | 'secondary'
+  | 'surface'
+  | 'error'
+  | 'success'
+  | 'warning'
+  | 'info'
+  | 'primary'
 
 type TextProps = React.HTMLAttributes<HTMLParagraphElement | HTMLSpanElement> & {
   status?: TextStatus
@@ -11,6 +20,8 @@ type TextProps = React.HTMLAttributes<HTMLParagraphElement | HTMLSpanElement> & 
 const statusClasses: Record<TextStatus, string> = {
   default: 'text-accent-900 dark:text-accent-100',
   muted: 'text-accent-500 dark:text-accent-400',
+  secondary: 'text-accent-600 dark:text-accent-400',
+  surface: 'text-surface-600 dark:text-surface-400',
   error: 'text-red-600 dark:text-red-400',
   success: 'text-green-600 dark:text-green-400',
   warning: 'text-yellow-600 dark:text-yellow-400',
@@ -36,6 +47,7 @@ export const TextSm = makeText('text-sm')
 export const TextSmMuted = makeText('text-sm', 'muted')
 export const TextSmMedium = makeText('text-sm font-medium')
 export const TextSmSemibold = makeText('text-sm font-semibold')
+export const TextBaseSemibold = makeText('text-base font-semibold')
 export const TextXs = makeText('text-xs')
 export const TextXsMuted = makeText('text-xs', 'muted')
 export const TextXsMedium = makeText('text-xs font-medium')

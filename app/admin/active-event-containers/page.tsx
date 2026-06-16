@@ -68,9 +68,7 @@ export default async function ActiveEventContainersPage() {
           {queryGroups.length === 0 && (
             <Box className="rounded-lg bg-surface-100 p-8 text-center dark:bg-surface-800">
               <H3 className="mb-2 dark:text-white">{p.empty.heading}</H3>
-              <TextBase className="text-accent-600 dark:text-accent-400">
-                {p.empty.message}
-              </TextBase>
+              <TextBase status="secondary">{p.empty.message}</TextBase>
             </Box>
           )}
         </Box>

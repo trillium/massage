@@ -148,7 +148,7 @@ export function AdminAuthProvider({ children }: AdminAuthProviderProps) {
       <Stack className="min-h-screen" direction="row" align="center" justify="center">
         <Box className="text-center">
           <Spinner />
-          <TextBase className="mt-4 text-accent-600 dark:text-accent-400">
+          <TextBase status="secondary" className="mt-4">
             {auth.adminAuth.verifying}
           </TextBase>
         </Box>
@@ -176,7 +176,7 @@ export function AdminAuthProvider({ children }: AdminAuthProviderProps) {
             </svg>
           </Box>
           <H1 className="mb-2">{auth.adminAuth.heading}</H1>
-          <TextBase className="mb-4 text-accent-600 dark:text-accent-400">
+          <TextBase status="secondary" className="mb-4">
             {authState.error}
           </TextBase>
           <Box className="text-sm text-accent-500 dark:text-accent-400">

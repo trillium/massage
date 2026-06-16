@@ -38,7 +38,7 @@ export default function Step5EventObjectDetails({
     return (
       <Box className="mb-8 rounded-lg bg-surface-50 p-6 shadow-lg dark:bg-surface-800">
         <H2 className="mb-4 dark:text-white">Step 5: Calendar Event Details</H2>
-        <TextBase className="text-accent-600 dark:text-accent-400">
+        <TextBase status="secondary">
           {!submittedData
             ? 'Complete the booking form to see calendar event details.'
             : 'Waiting for therapist approval to generate calendar event...'}

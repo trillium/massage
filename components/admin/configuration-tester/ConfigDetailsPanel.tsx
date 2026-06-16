@@ -112,7 +112,7 @@ export default function ConfigDetailsPanel({
 
           {config.leadTimeMinimum && (
             <KeyProperty label="Lead Time">
-              <TextBase as="span" className="ml-2 text-accent-600 dark:text-accent-400">
+              <TextBase as="span" status="secondary" className="ml-2">
                 {config.leadTimeMinimum} hours
               </TextBase>
             </KeyProperty>
@@ -122,7 +122,7 @@ export default function ConfigDetailsPanel({
         {config.title && (
           <Box className="mb-3">
             <strong className="text-accent-700 dark:text-accent-300">Title:</strong>
-            <TextBase className="mt-1 text-accent-600 dark:text-accent-400">
+            <TextBase status="secondary" className="mt-1">
               {config.title}
             </TextBase>
           </Box>
@@ -133,12 +133,12 @@ export default function ConfigDetailsPanel({
             <strong className="text-accent-700 dark:text-accent-300">Text:</strong>
             {Array.isArray(config.text) ? (
               config.text.map((paragraph, index) => (
-                <TextBase key={index} className="mt-1 text-accent-600 dark:text-accent-400">
+                <TextBase key={index} status="secondary" className="mt-1">
                   {paragraph}
                 </TextBase>
               ))
             ) : (
-              <TextBase className="mt-1 text-accent-600 dark:text-accent-400">
+              <TextBase status="secondary" className="mt-1">
                 {config.text}
               </TextBase>
             )}
@@ -148,7 +148,7 @@ export default function ConfigDetailsPanel({
         {config.location && (
           <Box className="mb-3">
             <strong className="text-accent-700 dark:text-accent-300">Location:</strong>
-            <TextBase className="mt-1 text-accent-600 dark:text-accent-400">
+            <TextBase status="secondary" className="mt-1">
               {config.location.street}, {config.location.city}, {config.location.zip}
               {config.locationIsReadOnly && (
                 <TextXs
@@ -200,7 +200,7 @@ export default function ConfigDetailsPanel({
         {config.promoEndDate && (
           <Box className="mb-3">
             <strong className="text-accent-700 dark:text-accent-300">Promo Ends:</strong>
-            <TextBase as="span" className="ml-2 text-accent-600 dark:text-accent-400">
+            <TextBase as="span" status="secondary" className="ml-2">
               {config.promoEndDate}
             </TextBase>
           </Box>

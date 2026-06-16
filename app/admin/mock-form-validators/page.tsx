@@ -19,7 +19,7 @@ export default function MockFormValidatorsPage() {
             {/* Updated BookingForm */}
             <section>
               <H2 className="mb-4">BookingForm with Formik + Zod Integration</H2>
-              <TextBase className="mb-6 text-accent-600 dark:text-accent-400">
+              <TextBase status="secondary" className="mb-6">
                 The existing BookingForm component has been updated to use Formik for form state
                 management and Zod for validation. This provides type-safe form handling with
                 real-time validation while keeping all existing field components unchanged.

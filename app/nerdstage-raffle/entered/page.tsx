@@ -8,7 +8,7 @@ import { useReduxFormData } from '@/redux/hooks'
 
 import { RAFFLE_INTEREST_LABELS } from '@/lib/schema'
 import { H1 } from '@/components/ui/heading'
-import { TextLg, TextSmMuted, TextBase } from '@/components/ui/text'
+import { TextLg, TextSmMuted, TextBase, TextBaseSemibold } from '@/components/ui/text'
 import { Stack } from '@/components/ui/stack'
 import { Box } from '@/components/ui/box'
 
@@ -36,14 +36,14 @@ export default function NerdstageRaffleEnteredPage() {
             Raffle: <span className="font-semibold">{raffleName}</span>
           </TextLg>
         )}
-        <TextBase className="mb-6 text-surface-600 dark:text-surface-400">
+        <TextBase status="surface" className="mb-6">
           Thanks for entering! We'll reach out if you're selected.
         </TextBase>
 
         <Box className="mb-8 w-full max-w-lg rounded-lg border-2 border-surface-200 bg-surface-50 text-left shadow-md dark:border-surface-700 dark:bg-surface-900">
           <Box className="border-b border-surface-200 px-5 py-3 dark:border-surface-700">
             <TextSmMuted>Name</TextSmMuted>
-            <TextBase className="font-semibold">{name}</TextBase>
+            <TextBaseSemibold>{name}</TextBaseSemibold>
           </Box>
           <Box className="border-b border-surface-200 px-5 py-3 dark:border-surface-700">
             <TextSmMuted>Email</TextSmMuted>

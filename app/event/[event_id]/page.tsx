@@ -86,7 +86,7 @@ export default async function EventPage({ params, searchParams }: EventPageProps
       <SectionContainer>
         <Box className="py-16 text-center">
           <H1 className="dark:text-white">{eventContent.page.accessDenied.heading}</H1>
-          <TextBase className="mt-2 text-accent-600 dark:text-accent-400">
+          <TextBase status="secondary" className="mt-2">
             {eventContent.page.accessDenied.message}
           </TextBase>
         </Box>
@@ -101,7 +101,7 @@ export default async function EventPage({ params, searchParams }: EventPageProps
       <SectionContainer>
         <Box className="py-16 text-center">
           <H1 className="dark:text-white">{eventContent.page.invalidLink.heading}</H1>
-          <TextBase className="mt-2 text-accent-600 dark:text-accent-400">
+          <TextBase status="secondary" className="mt-2">
             {result.error === 'Token expired'
               ? eventContent.page.invalidLink.expiredMessage
               : eventContent.page.invalidLink.invalidMessage}
@@ -118,7 +118,7 @@ export default async function EventPage({ params, searchParams }: EventPageProps
       <SectionContainer>
         <Box className="py-16 text-center">
           <H1 className="dark:text-white">{eventContent.page.notFound.heading}</H1>
-          <TextBase className="mt-2 text-accent-600 dark:text-accent-400">
+          <TextBase status="secondary" className="mt-2">
             {eventContent.page.notFound.message}
           </TextBase>
         </Box>

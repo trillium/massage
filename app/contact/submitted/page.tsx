@@ -6,7 +6,7 @@ import SectionContainer from '@/components/SectionContainer'
 import Link from 'next/link'
 import { useReduxContactForm } from '@/redux/hooks'
 import { H1 } from '@/components/ui/heading'
-import { Caption, TextLg, TextSmMuted, TextBase } from '@/components/ui/text'
+import { Caption, TextLg, TextSmMuted, TextBase, TextBaseSemibold } from '@/components/ui/text'
 import { Stack } from '@/components/ui/stack'
 import { Box } from '@/components/ui/box'
 
@@ -29,7 +29,7 @@ function ContactSubmittedContent() {
       <SectionContainer>
         <Stack className="min-h-[40vh] text-center" direction="col" align="center" justify="center">
           <H1 className="mb-4">Something went wrong</H1>
-          <TextBase className="mb-8 text-surface-600 dark:text-surface-400">
+          <TextBase status="surface" className="mb-8">
             We couldn't confirm your submission. Please try again.
           </TextBase>
           <Link
@@ -53,13 +53,13 @@ function ContactSubmittedContent() {
               Thank you, {contactForm.name}. We've received your message and sent a confirmation to{' '}
               <span className="font-semibold">{contactForm.email}</span>.
             </TextLg>
-            <TextBase className="mb-6 text-surface-600 dark:text-surface-400">
+            <TextBase status="surface" className="mb-6">
               We'll get back to you as soon as possible.
             </TextBase>
             <Box className="mb-8 w-full max-w-lg rounded-lg border-2 border-surface-200 bg-surface-50 text-left shadow-md dark:border-surface-700 dark:bg-surface-900">
               <Box className="border-b border-surface-200 px-5 py-3 dark:border-surface-700">
                 <TextSmMuted>Subject</TextSmMuted>
-                <TextBase className="font-semibold">{contactForm.subject}</TextBase>
+                <TextBaseSemibold>{contactForm.subject}</TextBaseSemibold>
               </Box>
               <Box className="border-b border-surface-200 px-5 py-3 dark:border-surface-700">
                 <TextSmMuted>From</TextSmMuted>

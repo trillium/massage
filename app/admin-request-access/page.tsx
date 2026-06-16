@@ -83,9 +83,7 @@ export default function AdminAccessRequestPage() {
           <H1 className="mb-4 text-3xl font-bold text-accent-900 dark:text-accent-100">
             {pages.adminRequestAccess.header.title}
           </H1>
-          <TextBase className="text-accent-600 dark:text-accent-400">
-            {pages.adminRequestAccess.header.subtitle}
-          </TextBase>
+          <TextBase status="secondary">{pages.adminRequestAccess.header.subtitle}</TextBase>
         </Box>
 
         <Box className="rounded-lg bg-surface-50 p-8 shadow-lg dark:bg-surface-800">

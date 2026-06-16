@@ -53,7 +53,7 @@ export default async function MyEventsPage() {
 
           {sortedEvents.length === 0 ? (
             <Box className="rounded-lg bg-surface-100 p-8 text-center dark:bg-surface-800">
-              <TextBase className="text-accent-600 dark:text-accent-400">{myEvents.empty}</TextBase>
+              <TextBase status="secondary">{myEvents.empty}</TextBase>
             </Box>
           ) : (
             <CategorizedEventList events={sortedEvents} eventTokens={eventTokens} />

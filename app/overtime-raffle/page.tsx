@@ -17,7 +17,7 @@ export default async function OvertimeRafflePage() {
       <SectionContainer>
         <Stack className="min-h-[40vh] items-center justify-center text-center">
           <PageTitle>{raffleData.overtime.pageHeadingNotActive}</PageTitle>
-          <TextBase className="mt-4 text-surface-600 dark:text-surface-400">
+          <TextBase status="surface" className="mt-4">
             {raffleData.overtime.pageSubtextNotActive}
           </TextBase>
         </Stack>
@@ -28,7 +28,7 @@ export default async function OvertimeRafflePage() {
   return (
     <SectionContainer>
       <PageTitle>{raffle.name}</PageTitle>
-      <TextBase className="mb-2 text-surface-600 dark:text-surface-400">
+      <TextBase status="surface" className="mb-2">
         {raffleData.overtime.pageSubtext}
       </TextBase>
       <Caption className="mb-6">{raffleData.overtime.redeemDeadline}</Caption>

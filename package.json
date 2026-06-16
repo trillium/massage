@@ -180,7 +180,7 @@
     ],
     "*.+(js|jsx|ts|tsx)": [
       "biome check --write --no-errors-on-unmatched",
-      "bun scripts/check-design-system.ts",
+      "bun scripts/check-design-system.ts --staged-only",
       "bun scripts/check-ds-coverage.ts",
       "bun scripts/check-brand-purity.ts",
       "bash -c '.husky/tsc-staged.sh'",

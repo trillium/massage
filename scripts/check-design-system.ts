@@ -114,11 +114,52 @@ function checkFile(file: string): Finding[] {
   return findings
 }
 
-const args = process.argv.slice(2).filter((a) => !a.startsWith('-'))
+function getStagedLineNumbers(file: string): Set<number> | null {
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const { execSync } = require('child_process')
+    const diff = execSync(`git diff --cached -- "${file}"`, { encoding: 'utf8' })
+    if (!diff) return null
+    const added = new Set<number>()
+    let cur = 0
+    for (const line of diff.split('\n')) {
+      const m = line.match(/^@@ -\d+(?:,\d+)? \+(\d+)(?:,\d+)? @@/)
+      if (m) {
+        cur = parseInt(m[1], 10) - 1
+        continue
+      }
+      if (line.startsWith('+') && !line.startsWith('+++')) {
+        cur++
+        added.add(cur)
+      } else if (!line.startsWith('-') && !line.startsWith('\\')) cur++
+    }
+    return added.size > 0 ? added : null
+  } catch {
+    return null
+  }
+}
+
+const rawArgs = process.argv.slice(2)
+const stagedOnly = rawArgs.includes('--staged-only')
+const args = rawArgs.filter((a) => !a.startsWith('-'))
 const files = args.filter(isSourceFile).filter((f) => !shouldSkipPath(f))
 if (files.length === 0) process.exit(0)
 
-const allFindings = files.flatMap(checkFile)
+const stagedLinesCache = new Map<string, Set<number> | null>()
+
+function checkFileFiltered(file: string): Finding[] {
+  const findings = checkFile(file)
+  if (!stagedOnly) return findings
+  let staged = stagedLinesCache.get(file)
+  if (staged === undefined) {
+    staged = getStagedLineNumbers(file)
+    stagedLinesCache.set(file, staged)
+  }
+  if (!staged) return [] // file not staged — skip entirely
+  return findings.filter((f) => staged!.has(f.line))
+}
+
+const allFindings = files.flatMap(checkFileFiltered)
 if (allFindings.length === 0) process.exit(0)
 
 process.stderr.write(`check-design-system: design system violation\n\n`)

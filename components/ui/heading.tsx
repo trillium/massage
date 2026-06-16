@@ -43,10 +43,14 @@ export function H3({ status = 'default', className, ...props }: HeadingProps) {
   return <h3 className={cn('text-lg font-semibold', statusClasses[status], className)} {...props} />
 }
 
-export function H4({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) {
+export function H4({ status, className, ...props }: HeadingProps) {
   return (
     <h4
-      className={cn('text-base font-medium text-accent-700 dark:text-accent-300', className)}
+      className={cn(
+        'text-base font-medium',
+        status ? statusClasses[status] : 'text-accent-700 dark:text-accent-300',
+        className
+      )}
       {...props}
     />
   )

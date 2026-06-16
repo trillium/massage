@@ -5,6 +5,7 @@ interface StyledBookButtonProps {
 }
 import { Stack } from '@/components/ui/stack'
 import { Box } from '@/components/ui/box'
+import { TextBase } from '@/components/ui/text'
 
 export default function StyledBookButton({
   href,

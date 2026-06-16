@@ -20,7 +20,7 @@ function AdminAuthFallback() {
     <Stack className="min-h-screen" direction="row" align="center" justify="center">
       <Box className="text-center">
         <Spinner />
-        <TextBase className="mt-4 text-accent-600 dark:text-accent-400">
+        <TextBase status="secondary" className="mt-4">
           {wrapperText.loading}
         </TextBase>
       </Box>

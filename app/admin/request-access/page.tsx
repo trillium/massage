@@ -79,7 +79,7 @@ export default function AdminAccessRequestPage() {
       <Box className="mx-auto max-w-2xl py-16">
         <Box className="mb-8 text-center">
           <H1 className="mb-4">Request Admin Access</H1>
-          <TextBase className="text-accent-600 dark:text-accent-400">
+          <TextBase status="secondary">
             Submit your email to receive a secure admin access link
           </TextBase>
         </Box>
