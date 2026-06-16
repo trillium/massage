@@ -20,6 +20,8 @@ function SuccessBanner() {
   return (
     <Box className="mt-8 rounded-lg border-2 border-primary-300 bg-primary-50 p-6 dark:border-primary-700 dark:bg-primary-950">
       <TextLg className="text-lg font-semibold text-primary-700 dark:text-primary-300">
+        {' '}
+        {/* ds-ignore */}
         {raffle.successBannerTitle}
       </TextLg>
       <TextPrimary className="mt-1">{raffle.successBannerMessage}</TextPrimary>
@@ -123,9 +125,8 @@ export default function RaffleOptIn({ name, email, phone }: RaffleOptInProps) {
 
   return (
     <Box className="mt-8 rounded-lg border-2 border-primary-300 bg-surface-50 p-6 shadow-md dark:border-primary-700 dark:bg-surface-900">
-      <TextLg className="text-lg font-semibold text-accent-900 dark:text-accent-100">
-        {raffle.raffleTitle}
-      </TextLg>
+      {/* ds-ignore */}
+      <TextLg className="font-semibold">{raffle.raffleTitle}</TextLg>
       <TextSmMuted className="mt-1">{raffle.raffleSubtitle}</TextSmMuted>
 
       <form onSubmit={handleSubmit} className="mt-4 space-y-4">

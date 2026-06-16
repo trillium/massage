@@ -68,9 +68,15 @@ export default function CancelButton({ eventId, token }: { eventId: string; toke
       </Button>
 
       {open && (
-        <Stack direction="row" align="center" justify="center" className="fixed inset-0 z-50 bg-black/50 p-4" onClick={(e) => {
+        <Stack
+          direction="row"
+          align="center"
+          justify="center"
+          className="fixed inset-0 z-50 bg-black/50 p-4"
+          onClick={(e) => {
             if (e.target === e.currentTarget) setOpen(false)
-          }}>
+          }}
+        >
           <Box className="w-full max-w-md rounded-2xl bg-surface-50 p-6 shadow-xl dark:bg-surface-800">
             <H2 className="dark:text-white">{eventContent.cancelButton.modalTitle}</H2>
             <TextSmMuted className="mt-2">
