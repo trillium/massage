@@ -12,8 +12,11 @@
  *   <h3 …>     → <Heading level={3} …>  </h3>    → </Heading>
  *   <h4 …>     → <Heading level={4} …>  </h4>    → </Heading>
  *   <code …>   → <Code …>      </code>  → </Code>      (import { Code })
+ *   <input …>  → <Input …>    </input> → </Input>    (import { Input })
+ *   <button …> → <Button …>   </button>→ </Button>   (import { Button })
+ *   <textarea …>→ <Textarea …></textarea>→ </Textarea> (import { Textarea })
  *
- * Does NOT touch <div>, <button>, <input>, <textarea> (use dedicated codemods).
+ * Skips <input type="checkbox|radio"> (not text fields, DS Input is text-only).
  *
  * Skips:
  *   - components/ui/**           (DS sources, self-exempt)
@@ -42,13 +45,24 @@ const SKIP_DIRS = new Set(['.next', 'node_modules', '.contentlayer', 'coverage',
 
 const SCAN_ROOTS = ['app', 'components']
 
-type TagKey = 'p' | 'h1' | 'h2' | 'h3' | 'h4' | 'code'
+function isCheckboxOrRadio(
+  el: import('ts-morph').JsxOpeningElement | import('ts-morph').JsxSelfClosingElement
+): boolean {
+  const attr = el.getAttribute('type')
+  if (!attr || attr.getKind() !== SyntaxKind.JsxAttribute) return false
+  const init = (attr as import('ts-morph').JsxAttribute).getInitializer()
+  if (!init || init.getKind() !== SyntaxKind.StringLiteral) return false
+  const val = init.asKindOrThrow(SyntaxKind.StringLiteral).getLiteralValue()
+  return val === 'checkbox' || val === 'radio'
+}
+
+type TagKey = 'p' | 'h1' | 'h2' | 'h3' | 'h4' | 'code' | 'input' | 'button' | 'textarea'
 
 interface Substitution {
   htmlTag: TagKey
   componentTag: string
   levelProp?: number
-  componentName: 'Text' | 'Heading' | 'Code'
+  componentName: 'Text' | 'Heading' | 'Code' | 'Input' | 'Button' | 'Textarea'
   importPath: string
 }
 
@@ -92,6 +106,24 @@ const SUBSTITUTIONS: Substitution[] = [
     componentTag: 'Code',
     componentName: 'Code',
     importPath: '@/components/ui/code',
+  },
+  {
+    htmlTag: 'input',
+    componentTag: 'Input',
+    componentName: 'Input',
+    importPath: '@/components/ui/input',
+  },
+  {
+    htmlTag: 'button',
+    componentTag: 'Button',
+    componentName: 'Button',
+    importPath: '@/components/ui/button',
+  },
+  {
+    htmlTag: 'textarea',
+    componentTag: 'Textarea',
+    componentName: 'Textarea',
+    importPath: '@/components/ui/textarea',
   },
 ]
 
@@ -203,6 +235,7 @@ function processFile(absPath: string): FileResult {
       const tagText = el.getTagNameNode().getText()
       const sub = SUB_BY_TAG.get(tagText)
       if (!sub) return
+      if (sub.htmlTag === 'input' && isCheckboxOrRadio(el)) return
       counts[sub.htmlTag] = (counts[sub.htmlTag] ?? 0) + 1
       importsNeeded.set(sub.componentName, sub.importPath)
       const tagNode = el.getTagNameNode()
@@ -240,6 +273,7 @@ function processFile(absPath: string): FileResult {
       const tagText = el.getTagNameNode().getText()
       const sub = SUB_BY_TAG.get(tagText)
       if (!sub) return
+      if (sub.htmlTag === 'input' && isCheckboxOrRadio(el)) return
       counts[sub.htmlTag] = (counts[sub.htmlTag] ?? 0) + 1
       importsNeeded.set(sub.componentName, sub.importPath)
       const tagNode = el.getTagNameNode()

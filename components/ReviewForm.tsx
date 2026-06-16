@@ -22,6 +22,7 @@ import { TextSm, TextLg } from '@/components/ui/text'
 import { Button } from '@/components/ui/button'
 import { Select } from '@/components/ui/select'
 import { Stack } from '@/components/ui/stack'
+import { Input } from '@/components/ui/input'
 
 export default function ReviewForm({
   error,
@@ -69,10 +70,10 @@ export default function ReviewForm({
             </TextSm>
           </div>
 
-          <input type="hidden" readOnly name="source" value={siteConfig.business.name} />
-          <input type="hidden" readOnly name="type" value="table" />
-          <input type="hidden" readOnly name="date" value={start} />
-          <input type="hidden" readOnly name="error" value={error} />
+          <Input type="hidden" readOnly name="source" value={siteConfig.business.name} />
+          <Input type="hidden" readOnly name="type" value="table" />
+          <Input type="hidden" readOnly name="date" value={start} />
+          <Input type="hidden" readOnly name="error" value={error} />
 
           <Stack className="space-y-4" direction="col">
             <div className="isolate -space-y-px rounded-md shadow-sm">
@@ -87,7 +88,7 @@ export default function ReviewForm({
                   >
                     {reviewForms.fields.firstName.label}
                   </label>
-                  <input
+                  <Input
                     aria-label="Name"
                     type="text"
                     autoCapitalize="words"
@@ -109,7 +110,7 @@ export default function ReviewForm({
                   >
                     {reviewForms.fields.lastName.label}
                   </label>
-                  <input
+                  <Input
                     aria-label="Name"
                     type="text"
                     autoCapitalize="words"
@@ -132,7 +133,7 @@ export default function ReviewForm({
                 >
                   {reviewForms.fields.date.label}
                 </label>
-                <input
+                <Input
                   aria-label="Phone Number"
                   required
                   autoComplete="tel"
@@ -192,7 +193,7 @@ export default function ReviewForm({
                 >
                   {reviewForms.fields.comment.label}
                 </label>
-                <input
+                <Input
                   aria-label="Comment"
                   type="text"
                   name="text"

@@ -16,7 +16,7 @@ check-design-system.ts  →  verify clean (runs in lint-staged)
 
 | Script                     | Approach                | What it migrates                                              | Input                               |
 | -------------------------- | ----------------------- | ------------------------------------------------------------- | ----------------------------------- |
-| `migrate-ds-elements.ts`   | ts-morph AST            | `<p>`, `<h1–h4>`, `<code>` → DS equivalents                   | Filesystem scan (app/, components/) |
+| `migrate-ds-elements.ts` | ts-morph AST | `<p>`, `<h1–h4>`, `<code>`, `<input>`, `<button>`, `<textarea>` → DS equivalents | Filesystem scan (app/, components/) |
 | `migrate-ds-stack-ast.ts`  | TypeScript compiler API | `<div className="flex ...">` → `<Stack>` with prop extraction | Explicit file list CLI args         |
 | `migrate-ds-stack.ts`      | Regex + line-by-line    | Same as ast version, line+excerpt from audit JSON             | stdin (audit JSON pipe)             |
 | `migrate-ds-text.ts`       | Regex + tag-stack       | `<p>` → `<Text>` variants (TextBase/Sm/Xs/Lg)                 | stdin (audit JSON pipe)             |
