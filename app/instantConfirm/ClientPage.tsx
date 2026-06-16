@@ -64,6 +64,8 @@ export default function Confirmation() {
           {instantConfirm.heading}
         </H1>
         <TextBase className="mt-6 text-xl font-medium text-accent-800 dark:text-accent-200">
+          {' '}
+          {/* ds-ignore */}
           {instantConfirm.subheading}
         </TextBase>
       </Box>

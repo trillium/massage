@@ -158,6 +158,8 @@ function LogoAndBlurb({ displayClasses }: { displayClasses: string }) {
         </Stack>
       </Link>
       <TextBase className="text-accent-400" data-content="footer.blurb">
+        {' '}
+        {/* ds-ignore */}
         {home.footer.blurb}
       </TextBase>
       <Socials />
@@ -177,6 +179,8 @@ function ContactItem({
   return (
     <li className="flex items-start gap-3 pl-4">
       <TextLg as="span" className={clsx('mt-1 text-lg text-primary-400', iconClass)}>
+        {' '}
+        {/* ds-ignore */}
         {icon}
       </TextLg>
       <TextBaseMuted as="div">{children}</TextBaseMuted>

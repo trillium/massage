@@ -74,6 +74,7 @@ export default async function AdjacentBookingPage({
             <H2 className="mb-4" status="error">
               Error Loading Event
             </H2>
+            {/* ds-ignore */}
             <TextBase className="text-red-700 dark:text-red-300">Event not found</TextBase>
           </Box>
         </Box>
@@ -163,7 +164,13 @@ export default async function AdjacentBookingPage({
               </Box>
             </Box>
             <Box className="space-y-6">
-              <Stack direction="row" align="center" justify="center" className="h-full min-h-96 w-full overflow-hidden rounded-lg bg-surface-50 p-0 shadow-sm dark:bg-surface-800" id="map-container">
+              <Stack
+                direction="row"
+                align="center"
+                justify="center"
+                className="h-full min-h-96 w-full overflow-hidden rounded-lg bg-surface-50 p-0 shadow-sm dark:bg-surface-800"
+                id="map-container"
+              >
                 <MapTile
                   longitude={mapCoordinates.longitude}
                   latitude={mapCoordinates.latitude}

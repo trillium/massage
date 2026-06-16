@@ -34,7 +34,14 @@ export default function OgSlideshow({ variants }: { variants: string[] }) {
       </Stack>
 
       {/* image */}
-      <Stack direction="col" align="center" justify="center" className="flex-1 px-2" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
+      <Stack
+        direction="col"
+        align="center"
+        justify="center"
+        className="flex-1 px-2"
+        onTouchStart={onTouchStart}
+        onTouchEnd={onTouchEnd}
+      >
         <Image
           key={name}
           src={`/og-variants/${name}/opengraph-image`}

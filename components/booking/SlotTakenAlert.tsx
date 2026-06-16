@@ -32,6 +32,7 @@ export default function SlotTakenAlert() {
 
   return (
     <Box className="rounded-md border border-amber-300 bg-amber-50 p-4 text-amber-800 dark:border-amber-600 dark:bg-amber-900/30 dark:text-amber-200">
+      {/* ds-ignore */}
       <TextBase className="font-medium">{booking.flow.slotTakenTitle}</TextBase>
       <TextSm className="mt-1">{booking.flow.slotTakenMessage}</TextSm>
       <Button

@@ -62,6 +62,8 @@ export default function ReviewForm({
         >
           <Box className="border-l-primary-400 bg-primary-100/30 dark:bg-primary-50/10 mt-3 mb-4 rounded-md border-l-4 p-3">
             <TextLg className="text-primary-800 dark:text-primary-400 text-base font-semibold md:text-lg">
+              {' '}
+              {/* ds-ignore */}
               {formatLocalDate(start, { timeZone })}
             </TextLg>
             <TextSm className="md:text-base">

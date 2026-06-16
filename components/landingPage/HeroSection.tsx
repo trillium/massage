@@ -108,7 +108,12 @@ function ButtonContent({ positionClasses }: { positionClasses?: string }) {
             {exploreButton}
           </Link>
         </Box>
-        <Stack direction="col" wrap gap={2} className="xs:flex-col justify-around gap-y-6 sm:flex-row md:flex-col xl:flex-row">
+        <Stack
+          direction="col"
+          wrap
+          gap={2}
+          className="xs:flex-col justify-around gap-y-6 sm:flex-row md:flex-col xl:flex-row"
+        >
           <Stack direction="row" align="center" gap={2}>
             <FaRegClock className="h-5 w-5 text-primary-600" />
             <TextSm className="whitespace-nowrap">{openDays}</TextSm>

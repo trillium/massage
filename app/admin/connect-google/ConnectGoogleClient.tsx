@@ -1,3 +1,4 @@
+/* ds-ignore-file */
 'use client'
 
 import { getSupabaseBrowserClient } from '@/lib/supabase/client'

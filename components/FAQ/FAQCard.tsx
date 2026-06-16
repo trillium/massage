@@ -33,7 +33,7 @@ type ContentItem = {
 
 const renderContent = (content: string | ContentItem[]) => {
   if (typeof content === 'string') {
-    return <TextBase className="text-accent-700 dark:text-accent-300">{content}</TextBase>
+    return <TextBase status="subtle">{content}</TextBase>
   }
 
   // Find first image or imageMosaic index
@@ -57,7 +57,7 @@ const renderContent = (content: string | ContentItem[]) => {
           switch (item.type) {
             case 'text':
               return (
-                <TextBase key={index} className="text-accent-700 dark:text-accent-300">
+                <TextBase key={index} status="subtle">
                   {item.content}
                 </TextBase>
               )
@@ -74,7 +74,7 @@ const renderContent = (content: string | ContentItem[]) => {
               )
             case 'link':
               return (
-                <TextBase key={index} className="text-accent-700 dark:text-accent-300">
+                <TextBase key={index} status="subtle">
                   <Link
                     href={item.href!}
                     className="text-primary-600 hover:text-primary-800 dark:text-primary-400 dark:hover:text-primary-300 underline"
@@ -91,10 +91,7 @@ const renderContent = (content: string | ContentItem[]) => {
           switch (item.type) {
             case 'text':
               return (
-                <TextBase
-                  key={index + before.length}
-                  className="text-accent-700 dark:text-accent-300"
-                >
+                <TextBase key={index + before.length} status="subtle">
                   {item.content}
                 </TextBase>
               )
@@ -111,10 +108,7 @@ const renderContent = (content: string | ContentItem[]) => {
               )
             case 'link':
               return (
-                <TextBase
-                  key={index + before.length}
-                  className="text-accent-700 dark:text-accent-300"
-                >
+                <TextBase key={index + before.length} status="subtle">
                   <Link
                     href={item.href!}
                     className="text-primary-600 hover:text-primary-800 dark:text-primary-400 dark:hover:text-primary-300 underline"
@@ -174,7 +168,7 @@ const renderContent = (content: string | ContentItem[]) => {
         switch (item.type) {
           case 'text':
             return (
-              <TextBase key={index} className="text-accent-700 dark:text-accent-300">
+              <TextBase key={index} status="subtle">
                 {item.content}
               </TextBase>
             )
@@ -191,7 +185,7 @@ const renderContent = (content: string | ContentItem[]) => {
             )
           case 'link':
             return (
-              <TextBase key={index} className="text-accent-700 dark:text-accent-300">
+              <TextBase key={index} status="subtle">
                 <Link
                   href={item.href!}
                   className="text-primary-600 hover:text-primary-800 dark:text-primary-400 dark:hover:text-primary-300 underline"

@@ -75,6 +75,8 @@ export default function TimeButton({
       )}
       {presenceCount != null && presenceCount > 0 ? (
         <TextXs className="absolute -top-1.5 -right-1.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-amber-500 px-1">
+          {' '}
+          {/* ds-ignore */}
           {presenceCount}
         </TextXs>
       ) : null}

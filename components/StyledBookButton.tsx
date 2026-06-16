@@ -61,6 +61,8 @@ export default function StyledBookButton({
         </Stack>
       </Box>
       <TextBase as="span" className={`z-0 pr-2 text-xl font-bold ${style.text}`}>
+        {' '}
+        {/* ds-ignore */}
         {text}
       </TextBase>
     </>

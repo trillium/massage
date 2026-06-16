@@ -152,7 +152,14 @@ export default function Calendar({
         />
       )}
       {weekdays.map((weekday) => (
-        <Stack direction="row" justify="center" className="text-accent-500" key={weekday} role="columnheader" aria-label={weekday}>
+        <Stack
+          direction="row"
+          justify="center"
+          className="text-accent-500"
+          key={weekday}
+          role="columnheader"
+          aria-label={weekday}
+        >
           {weekday}
         </Stack>
       ))}

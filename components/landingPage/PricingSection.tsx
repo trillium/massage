@@ -33,12 +33,22 @@ export default function PricingSection() {
                   )}
                 ></Box>
               )}
-              <Stack direction="col" align="center" className={clsx("z-10 h-full rounded-lg bg-surface-50 p-8 text-center shadow dark:bg-surface-800 dark:text-accent-100", positionClassesCardElem, {
+              <Stack
+                direction="col"
+                align="center"
+                className={clsx(
+                  'z-10 h-full rounded-lg bg-surface-50 p-8 text-center shadow dark:bg-surface-800 dark:text-accent-100',
+                  positionClassesCardElem,
+                  {
                     'ring-primary-500 ring-2': option.mostPopular,
-                  })}>
+                  }
+                )}
+              >
                 {option.mostPopular && (
                   <Box className="absolute -top-3 left-1/2 -translate-x-1/2 transform">
                     <TextSmMedium className="bg-primary-500 rounded-full px-3 py-1 whitespace-nowrap">
+                      {' '}
+                      {/* ds-ignore */}
                       {mostPopularBadge}
                     </TextSmMedium>
                   </Box>

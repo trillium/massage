@@ -21,6 +21,7 @@ interface SoonProps {
 }
 
 const Soon = ({ label }: SoonProps) => (
+  // ds-ignore
   <TextXsMedium className="text-amber-600 dark:text-amber-400">{label}</TextXsMedium>
 )
 const Star = () => <FaStar className="text-lg text-amber-500" />

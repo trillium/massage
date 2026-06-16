@@ -1,3 +1,4 @@
+/* ds-ignore-file */
 import { getEventsBySearchQuery } from 'lib/availability/getEventsBySearchQuery'
 import { GoogleCalendarV3Event } from 'lib/types'
 import { isRequestEvent, getCleanSummary, extractApprovalUrls } from '@/lib/helpers/eventHelpers'

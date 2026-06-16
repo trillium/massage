@@ -290,7 +290,12 @@ export default function DesignSystemPage() {
             <p className="mb-3 font-mono text-xs text-accent-400">
               import {'{ Button }'} from @/components/ui/button
             </p>
-            <Stack direction="row" wrap gap={3} className="rounded-lg border border-accent-200 p-4 dark:border-accent-700">
+            <Stack
+              direction="row"
+              wrap
+              gap={3}
+              className="rounded-lg border border-accent-200 p-4 dark:border-accent-700"
+            >
               <Button variant="default">Default</Button>
               <Button variant="secondary">Secondary</Button>
               <Button variant="outline">Outline</Button>
@@ -316,7 +321,12 @@ export default function DesignSystemPage() {
             <p className="mb-3 font-mono text-xs text-accent-400">
               import {'{ Badge }'} from @/components/ui/badge
             </p>
-            <Stack direction="row" wrap gap={3} className="rounded-lg border border-accent-200 p-4 dark:border-accent-700">
+            <Stack
+              direction="row"
+              wrap
+              gap={3}
+              className="rounded-lg border border-accent-200 p-4 dark:border-accent-700"
+            >
               <Badge variant="default">Default</Badge>
               <Badge variant="secondary">Secondary</Badge>
               <Badge variant="outline">Outline</Badge>
@@ -352,7 +362,11 @@ export default function DesignSystemPage() {
               Gradient-clipped text span. Default: accent-700 → primary-700 → primary-500 (bottom).
               Used for hero headline emphasis words (Relax, Restore, Rejuvenate).
             </p>
-            <Stack direction="col" gap={4} className="rounded-lg border border-accent-200 p-6 dark:border-accent-700">
+            <Stack
+              direction="col"
+              gap={4}
+              className="rounded-lg border border-accent-200 p-6 dark:border-accent-700"
+            >
               <div className="text-4xl font-bold">
                 Relax, <GradientText>Restore</GradientText>, Rejuvenate
               </div>

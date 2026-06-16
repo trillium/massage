@@ -55,7 +55,11 @@ export default function ExpiredPromoPage({
             {promo.expiredPromo.reassuranceSuffix}
           </TextLgMuted>
 
-          <Stack direction="col" align="center" className="space-y-3 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4">
+          <Stack
+            direction="col"
+            align="center"
+            className="space-y-3 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4"
+          >
             <Link
               href="/book"
               className="bg-primary-600 hover:bg-primary-700 focus:ring-primary-500 inline-flex items-center rounded-md px-6 py-3 text-base font-medium text-white shadow-sm focus:ring-2 focus:ring-offset-2 focus:outline-none"

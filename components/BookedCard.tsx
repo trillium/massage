@@ -80,6 +80,8 @@ export function BookedCard({
           <Stack className="w-full" direction="row" align="center" justify="between">
             <Box>
               <TextLg className="text-primary-800 dark:text-primary-400 text-base font-semibold md:text-lg">
+                {' '}
+                {/* ds-ignore */}
                 {dateString}
                 {duration && ` - ${duration}${ui.bookedCard.massageLabel}`}
               </TextLg>
@@ -115,8 +117,9 @@ function CardItem({
   text: string
   emphasize?: boolean
 }) {
+  // ds-ignore
   return (
-    <TextLg className="flex flex-row items-baseline bg-none pl-4 text-lg font-semibold text-accent-700 dark:text-accent-300">
+    <TextLg status="subtle" className="flex flex-row items-baseline bg-none pl-4 font-semibold">
       <TextSm
         as="span"
         className={clsx(
@@ -128,6 +131,8 @@ function CardItem({
         {ui.bookedCard.titleSeparator}
       </TextSm>
       <TextLg as="span" className={clsx({ 'text-lg font-bold': emphasize })}>
+        {' '}
+        {/* ds-ignore */}
         {text}
       </TextLg>
     </TextLg>

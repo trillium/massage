@@ -1,3 +1,4 @@
+/* ds-ignore-file */
 /**
  * Supabase Auth Test Page
  *

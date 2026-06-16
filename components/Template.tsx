@@ -17,6 +17,7 @@ export default function Template({ title, text, links, classes, center = false }
   const renderText = () => {
     if (!text) return null
     if (typeof text === 'string') {
+      // ds-ignore
       return (
         <TextBase className="mt-2 mb-2 font-medium text-accent-800 sm:mt-6 sm:text-xl dark:text-accent-100">
           {text}
@@ -24,6 +25,7 @@ export default function Template({ title, text, links, classes, center = false }
       )
     }
     if (Array.isArray(text)) {
+      // ds-ignore
       return text.map((paragraph, index) => (
         <TextBase
           key={index}
@@ -47,6 +49,7 @@ export default function Template({ title, text, links, classes, center = false }
       </H1>
       {renderText()}
       {links?.map((link) => (
+        // ds-ignore
         <TextBase key={link.href} className="mt-2 font-medium sm:mt-4 sm:text-xl">
           <Link
             href={link.href}

@@ -39,11 +39,11 @@ export default function DoubleBookingTestPage() {
 
   return (
     <Box className="mx-auto max-w-2xl px-4 py-12">
+      {/* ds-ignore */}
       <H1 className="mb-2 text-2xl font-bold">{testText.heading}</H1>
-      <TextBase className="mb-6 text-accent-500 dark:text-accent-400">
+      <TextBase status="muted" className="mb-6">
         {testText.description}
       </TextBase>
-
       <Button
         onClick={runTest}
         disabled={loading}
@@ -51,7 +51,6 @@ export default function DoubleBookingTestPage() {
       >
         {loading ? testText.runningButton : testText.runTestButton}
       </Button>
-
       {result && (
         <Box>
           <Box

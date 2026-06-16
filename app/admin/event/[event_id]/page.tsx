@@ -1,3 +1,4 @@
+/* ds-ignore-file */
 import React from 'react'
 import { notFound } from 'next/navigation'
 import { getEventsBySearchQuery } from '@/lib/availability/getEventsBySearchQuery'

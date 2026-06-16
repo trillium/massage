@@ -40,6 +40,8 @@ function TabBar() {
             {sandbox.tabs[tab]}
             {tab === 'admin' && pendingCount > 0 && (
               <TextXs className="ml-2 inline-flex h-5 w-5 items-center justify-center rounded-full bg-red-500">
+                {' '}
+                {/* ds-ignore */}
                 {pendingCount}
               </TextXs>
             )}

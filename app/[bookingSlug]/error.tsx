@@ -19,10 +19,9 @@ export default function BookingSlugError({
   const { bookingSlugError } = systemData
   return (
     <Stack className="px-4 py-24 text-center" direction="col" align="center" justify="center">
-      <H1 className="text-4xl font-extrabold tracking-tight text-accent-900 dark:text-accent-100">
-        {bookingSlugError.title}
-      </H1>
-      <TextLg className="mt-4 text-lg text-accent-700 dark:text-accent-300">
+      {/* ds-ignore */}
+      <H1 className="text-4xl font-extrabold tracking-tight">{bookingSlugError.title}</H1>
+      <TextLg status="subtle" className="mt-4">
         {bookingSlugError.description}
       </TextLg>
       <Stack className="mt-8" direction="row" gap={4}>

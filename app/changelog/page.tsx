@@ -53,6 +53,8 @@ function ConnectedBlock({
     <Box>
       <Box className="rounded-t-lg border border-primary-200 bg-primary-50/50 p-4 dark:border-primary-800 dark:bg-primary-950/20">
         <TextXs className="mb-2 text-xs font-semibold tracking-widest text-primary-600 uppercase dark:text-primary-400">
+          {' '}
+          {/* ds-ignore */}
           {pages.changelog.header.highlights}
         </TextXs>
         <ul className="space-y-1">

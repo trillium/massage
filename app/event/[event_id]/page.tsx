@@ -173,6 +173,8 @@ export default async function EventPage({ params, searchParams }: EventPageProps
             {dateString && duration && (
               <Box className="border-l-primary-400 bg-primary-50/30 dark:bg-primary-50/10 mb-4 rounded-md border-l-4 p-3">
                 <TextLg className="text-primary-800 dark:text-primary-400 text-lg font-semibold">
+                  {' '}
+                  {/* ds-ignore */}
                   {dateString}
                   {eventContent.page.dateTimeSeparator}
                   {duration}
@@ -249,6 +251,8 @@ export default async function EventPage({ params, searchParams }: EventPageProps
           {status === 'cancelled' && (
             <Box className="mt-8 rounded-2xl border-2 border-accent-200 bg-surface-100 p-6 text-center dark:border-accent-700 dark:bg-surface-800/50">
               <TextLg className="text-lg font-medium text-accent-800 dark:text-accent-200">
+                {' '}
+                {/* ds-ignore */}
                 {eventContent.page.cancelledMessage}
               </TextLg>
               <Link

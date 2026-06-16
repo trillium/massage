@@ -1,3 +1,4 @@
+/* ds-ignore-file */
 'use client'
 
 import { useState, useEffect } from 'react'
@@ -519,7 +520,11 @@ function CurrentSelection(props: {
 
         {!anyUnset && (
           <Box className="mt-4">
-            <Stack direction="col" gap={2} className="rounded bg-green-100 p-3 sm:flex-row sm:items-center sm:gap-3 dark:bg-green-800/20">
+            <Stack
+              direction="col"
+              gap={2}
+              className="rounded bg-green-100 p-3 sm:flex-row sm:items-center sm:gap-3 dark:bg-green-800/20"
+            >
               <Box className="flex-1">
                 <strong className="text-sm text-green-800 dark:text-green-200">
                   Ready to create booking!

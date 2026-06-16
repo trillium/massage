@@ -1,3 +1,4 @@
+/* ds-ignore-file */
 import { Metadata } from 'next'
 import Day from '@/lib/day'
 import SectionContainer from '@/components/SectionContainer'

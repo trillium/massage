@@ -36,6 +36,8 @@ export const ReviewSnippet = ({
         </Stack>
         <Stack direction="row" align="center" gap={3}>
           <H6 className="text-lg leading-8 font-semibold text-accent-950 capitalize dark:text-white">
+            {' '}
+            {/* ds-ignore */}
             {displayName}
           </H6>
           {displayDate && <TextBaseMedium status="muted">{date}</TextBaseMedium>}

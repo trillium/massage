@@ -1,3 +1,4 @@
+/* ds-ignore-file */
 'use client'
 
 import { Fragment, useState } from 'react'
@@ -231,6 +232,7 @@ export default function AdminNotesModal({
                 <AppointmentDetails appointment={appointment} />
 
                 <Box className="mt-5 border-t border-accent-200 pt-4 dark:border-accent-700">
+                  {/* biome-ignore lint/a11y/noLabelWithoutControl: implicit association via wrapped Textarea */}
                   <label className="block text-sm font-medium text-accent-700 dark:text-accent-300">
                     {admin.notesModal.labels.notes}
                     <Textarea

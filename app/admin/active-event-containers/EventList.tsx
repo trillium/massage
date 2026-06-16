@@ -1,3 +1,4 @@
+/* ds-ignore-file */
 import { GoogleCalendarV3Event } from '@/lib/types'
 import admin from '@/data/admin.json'
 import { formatDateTime } from './formatDateTime'

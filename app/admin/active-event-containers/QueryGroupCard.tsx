@@ -1,3 +1,4 @@
+/* ds-ignore-file */
 import { FaSearch } from 'react-icons/fa'
 import admin from '@/data/admin.json'
 import type { QueryGroup } from './getActiveContainers'

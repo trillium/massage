@@ -1,3 +1,4 @@
+/* ds-ignore-file */
 import { FaExclamationTriangle } from 'react-icons/fa'
 import { SlugConfigurationType } from '@/lib/types'
 

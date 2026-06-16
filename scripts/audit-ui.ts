@@ -19,7 +19,7 @@ import { resolve, relative, join, sep, posix } from 'node:path'
 import { DS_RULES, type DsRule } from '../components/ui/manifest'
 
 const DS_IGNORE_FILE = /\/\*\s*ds-ignore-file\s*\*\//
-const DS_IGNORE_LINE = /\/\/\s*ds-ignore/
+const DS_IGNORE_LINE = /\/\/\s*ds-ignore|\/\*\s*ds-ignore\s*\*\//
 
 interface Violation {
   line: number
@@ -111,7 +111,9 @@ function scanFile(absPath: string): Violation[] {
   const violations: Violation[] = []
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i]
-    const lineIgnored = DS_IGNORE_LINE.test(line)
+    const windowStart = Math.max(0, i - 3)
+    const windowEnd = Math.min(lines.length - 1, i + 4)
+    const lineIgnored = lines.slice(windowStart, windowEnd).some((l) => DS_IGNORE_LINE.test(l))
     for (const rule of DS_RULES) {
       if (fileIgnored && !rule.noEscapeHatch) continue
       if (lineIgnored && !rule.noEscapeHatch) continue

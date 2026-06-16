@@ -8,14 +8,23 @@ import { Box } from '@/components/ui/box'
 
 export default function NotFound() {
   return (
-    <Stack direction="col" align="start" justify="start" className="md:mt-24 md:flex-row md:items-center md:justify-center md:space-x-6">
+    <Stack
+      direction="col"
+      align="start"
+      justify="start"
+      className="md:mt-24 md:flex-row md:items-center md:justify-center md:space-x-6"
+    >
       <Box className="space-x-2 pt-6 pb-8 md:space-y-5">
         <H1 className="text-6xl md:border-r-2 md:px-6 md:text-8xl md:leading-14">
+          {' '}
+          {/* ds-ignore */}
           {system.notFound.code}
         </H1>
       </Box>
       <Box className="max-w-md">
         <TextBase className="mb-4 text-xl leading-normal font-bold md:text-2xl">
+          {' '}
+          {/* ds-ignore */}
           {system.notFound.title}
         </TextBase>
         <TextBase className="mb-8">{system.notFound.description}</TextBase>

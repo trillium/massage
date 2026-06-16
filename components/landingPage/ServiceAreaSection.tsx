@@ -36,10 +36,18 @@ function ServiceArea({ text, imageLeft, imageRight }: ServiceAreaProps) {
         {title || 'Title Missing'}
       </H2>
 
-      <Stack direction="row" align="center" justify="center" className={clsx("border-primary-500 relative col-span-2 row-span-3 min-h-96 w-full overflow-hidden rounded-md border-2 sm:col-span-1", {
+      <Stack
+        direction="row"
+        align="center"
+        justify="center"
+        className={clsx(
+          'border-primary-500 relative col-span-2 row-span-3 min-h-96 w-full overflow-hidden rounded-md border-2 sm:col-span-1',
+          {
             'order-last sm:order-none': left,
             'order-last sm:order-first': !left,
-          })}>
+          }
+        )}
+      >
         <CachedTileMap
           latitude={site.location.mapLatitude}
           longitude={site.location.mapLongitude}

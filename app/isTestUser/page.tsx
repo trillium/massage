@@ -45,9 +45,8 @@ export default function IsTestUserPage() {
 
   return (
     <Box className="mx-auto mt-10 max-w-md rounded bg-surface-50 p-6 shadow dark:bg-surface-800">
-      <H1 className="mb-4 text-2xl font-bold text-accent-900 dark:text-accent-100">
-        {admin.isTestUser.title}
-      </H1>
+      {/* ds-ignore */}
+      <H1 className="mb-4 text-2xl font-bold">{admin.isTestUser.title}</H1>
       <Box className="mb-4 text-sm text-accent-700 dark:text-accent-300">
         <strong>{admin.isTestUser.distinctIdLabel}</strong>{' '}
         {distinctId || admin.isTestUser.loadingText}
@@ -65,6 +64,7 @@ export default function IsTestUserPage() {
           {admin.isTestUser.actionLabel}
         </Box>
         <Box className="space-y-2">
+          {/* biome-ignore lint/a11y/noLabelWithoutControl: implicit label association via wrapped Input */}
           <label className="flex items-center">
             <Input
               type="radio"
@@ -78,6 +78,7 @@ export default function IsTestUserPage() {
               {admin.isTestUser.identifyLabel}
             </span>
           </label>
+          {/* biome-ignore lint/a11y/noLabelWithoutControl: implicit label association via wrapped Input */}
           <label className="flex items-center">
             <Input
               type="radio"

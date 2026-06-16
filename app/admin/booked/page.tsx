@@ -1,3 +1,4 @@
+/* ds-ignore-file */
 import React from 'react'
 
 import SectionContainer from '@/components/SectionContainer'

@@ -5,6 +5,7 @@ export type TextStatus =
   | 'default'
   | 'muted'
   | 'secondary'
+  | 'subtle'
   | 'surface'
   | 'error'
   | 'success'
@@ -21,6 +22,7 @@ const statusClasses: Record<TextStatus, string> = {
   default: 'text-accent-900 dark:text-accent-100',
   muted: 'text-accent-500 dark:text-accent-400',
   secondary: 'text-accent-600 dark:text-accent-400',
+  subtle: 'text-accent-700 dark:text-accent-300',
   surface: 'text-surface-600 dark:text-surface-400',
   error: 'text-red-600 dark:text-red-400',
   success: 'text-green-600 dark:text-green-400',

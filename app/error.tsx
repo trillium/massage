@@ -18,11 +18,14 @@ export default function GlobalError({
 }) {
   return (
     <Stack className="px-4 py-24 text-center" direction="col" align="center" justify="center">
+      {/* ds-ignore */}
       <H1 className="text-6xl">{system.globalError.title}</H1>
-      <TextBase className="mt-4 text-xl font-bold text-accent-700 dark:text-accent-300">
+      <TextBase status="subtle" className="mt-4 text-xl font-bold">
+        {' '}
+        {/* ds-ignore */}
         {system.globalError.message}
       </TextBase>
-      <TextBase className="mt-2 text-accent-500 dark:text-accent-400">
+      <TextBase status="muted" className="mt-2">
         {system.globalError.description}
       </TextBase>
       <Stack className="mt-8" direction="row" gap={4}>

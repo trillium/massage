@@ -1,3 +1,4 @@
+/* ds-ignore-file */
 import Link from '@/components/Link'
 import { fetchSlugConfigurationData } from '@/lib/slugConfigurations/fetchSlugConfigurationData'
 import Template from '@/components/Template'

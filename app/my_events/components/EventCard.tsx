@@ -129,6 +129,8 @@ export function EventCard({
             <H3 className="dark:text-white">{displaySummary}</H3>
             {isPending && (
               <TextXsMedium className="rounded-full bg-amber-200 px-2 py-0.5 text-amber-800 dark:bg-amber-800 dark:text-amber-200">
+                {' '}
+                {/* ds-ignore */}
                 Pending
               </TextXsMedium>
             )}

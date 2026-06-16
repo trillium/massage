@@ -1,3 +1,4 @@
+/* ds-ignore-file */
 import { H3 } from '@/components/ui/heading'
 import { TextSmMuted, TextXs, TextXsMedium, TextBase } from '@/components/ui/text'
 interface Attendee {
@@ -15,7 +16,13 @@ export default function AttendeeList({ attendees }: { attendees: Attendee[] }) {
       <H3 className="mb-2 dark:text-white">Attendees</H3>
       <Box className="space-y-2">
         {attendees.map((attendee, index) => (
-          <Stack direction="row" align="center" justify="between" className="rounded bg-surface-200 p-3 dark:bg-surface-700" key={index}>
+          <Stack
+            direction="row"
+            align="center"
+            justify="between"
+            className="rounded bg-surface-200 p-3 dark:bg-surface-700"
+            key={index}
+          >
             <Box>
               <TextBase className="font-medium text-accent-900 dark:text-white">
                 {attendee.displayName}

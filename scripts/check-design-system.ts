@@ -35,6 +35,7 @@ interface Finding {
 
 const FILE_OPT_OUT = '/* ds-ignore-file */'
 const LINE_OPT_OUT = '// ds-ignore'
+const LINE_OPT_OUT_JSX = '{/* ds-ignore */}'
 
 function isSourceFile(file: string): boolean {
   return /\.(tsx|ts|jsx|js)$/.test(file)
@@ -92,7 +93,11 @@ function checkFile(file: string): Finding[] {
   const findings: Finding[] = []
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i]
-    const lineIgnored = line.includes(LINE_OPT_OUT)
+    const windowStart = Math.max(0, i - 3)
+    const windowEnd = Math.min(lines.length - 1, i + 4)
+    const lineIgnored = lines
+      .slice(windowStart, windowEnd)
+      .some((l) => l.includes(LINE_OPT_OUT) || l.includes(LINE_OPT_OUT_JSX))
     for (const rule of DS_RULES) {
       if (fileIgnored && !rule.noEscapeHatch) continue
       if (lineIgnored && !rule.noEscapeHatch) continue

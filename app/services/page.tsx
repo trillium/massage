@@ -46,7 +46,9 @@ function ServiceItem({
       <H2 className="mb-2" status="primary">
         {name}
       </H2>
-      <TextBase className="mb-2 text-accent-700 dark:text-accent-300">{description}</TextBase>
+      <TextBase status="subtle" className="mb-2">
+        {description}
+      </TextBase>
       <Box className="mb-2 text-accent-600 dark:text-accent-400">
         <span className="font-medium">{pages.services.serviceItem.labels.duration}</span>{' '}
         {duration.join(' / ')}

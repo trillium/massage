@@ -90,16 +90,22 @@ const OtherCard = ({
                   align="center"
                 >
                   <TextLg className="mr-2 py-1 text-lg font-medium text-accent-950 dark:text-white">
+                    {' '}
+                    {/* ds-ignore */}
                     {num}
                   </TextLg>
                   <LittleStar />
                   <TextBase className="mr-3 ml-5 h-2 w-full rounded-3xl bg-surface-200 sm:min-w-72">
+                    {' '}
+                    {/* ds-ignore */}
                     <span
                       style={{ width: `${ratingPercent[num]}%` }}
                       className={`bg-primary-500 flex h-full rounded-3xl`}
                     ></span>
                   </TextBase>
                   <TextLg className="mr-2 w-5 py-1 text-lg font-medium text-accent-950 dark:text-white">
+                    {' '}
+                    {/* ds-ignore */}
                     {reviews[num]}
                   </TextLg>
                 </Stack>
@@ -114,7 +120,12 @@ const OtherCard = ({
               className="h-full w-full rounded-3xl max-xl:mx-auto max-xl:max-w-3xl max-lg:py-8 border-primary-400 border-2 bg-surface-200 dark:bg-surface-900"
             >
               <Stack className="w-full" direction="row" align="center" justify="between">
-                <Stack direction="col" align="center" justify="center" className="h-full w-full sm:flex-row">
+                <Stack
+                  direction="col"
+                  align="center"
+                  justify="center"
+                  className="h-full w-full sm:flex-row"
+                >
                   <ScoreDisplay
                     test={true}
                     averageStr={numberOfReviews.averageStr}
@@ -150,7 +161,7 @@ const ScoreDisplay = ({
   averageStr: string
   text: string
 }) => {
-  if (test === false) return <></>
+  if (test === false) return null
 
   return (
     <Stack

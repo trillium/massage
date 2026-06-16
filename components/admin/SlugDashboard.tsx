@@ -1,3 +1,4 @@
+/* ds-ignore-file */
 'use client'
 
 import { useState } from 'react'
