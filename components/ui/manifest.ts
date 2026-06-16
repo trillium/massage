@@ -206,7 +206,9 @@ export const DS_RULES: DsRule[] = [
     patterns: [
       {
         jsxStyle: {
-          element: new RegExp(`<(?:${DS_COMPONENT_NAMES.join('|')})\\b`),
+          element: new RegExp(
+            `<(?:(?:${DS_COMPONENT_NAMES.filter((n) => !['Box', 'Stack'].includes(n)).join('|')}))\\b`
+          ),
           styling:
             /\b(?:text-(?:primary|secondary|accent|surface|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose|gray|slate|zinc|neutral|stone)-\d{2,3}|bg-(?:primary|secondary|accent|surface|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose|gray|slate|zinc|neutral|stone)-\d{2,3}|font-(?:bold|semibold|medium|light|thin|extralight|black|extrabold|mono|sans|serif)|text-(?:xs|sm|base|lg|xl|2xl|3xl|4xl|5xl|6xl|7xl|8xl|9xl)|italic|underline|overline|line-through|uppercase|lowercase|capitalize)\b/,
         },
