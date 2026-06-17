@@ -57,18 +57,49 @@ async function checkGoogle(): Promise<SimpleCheck> {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY
   const slug = process.env.TENANT_SLUG
+  const ownerEmail = process.env.OWNER_EMAIL
   if (!url || !key || !slug) return { ok: false, detail: 'tenant not configured' }
+  if (!ownerEmail) return { ok: false, detail: 'OWNER_EMAIL not set' }
 
   try {
-    const res = await fetch(`${url}/rest/v1/google_credentials?select=email&limit=1`, {
-      headers: { apikey: key, Authorization: `Bearer ${key}`, 'Accept-Profile': slug },
+    const tenantClient = createClient(url, key, { db: { schema: slug as 'public' } })
+    const publicClient = createClient(url, key)
+
+    const [{ data: creds }, { data: app }] = await Promise.all([
+      tenantClient
+        .from('google_credentials')
+        .select('refresh_token')
+        .eq('email', ownerEmail)
+        .maybeSingle(),
+      publicClient
+        .from('google_oauth_apps')
+        .select('client_id, client_secret')
+        .limit(1)
+        .maybeSingle(),
+    ])
+
+    if (!creds?.refresh_token)
+      return { ok: false, detail: 'no credentials found — visit /admin/connect-google' }
+    if (!app?.client_id || !app?.client_secret)
+      return { ok: false, detail: 'google oauth app not configured' }
+
+    const res = await fetch('https://oauth2.googleapis.com/token', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({
+        grant_type: 'refresh_token',
+        refresh_token: creds.refresh_token,
+        client_id: app.client_id,
+        client_secret: app.client_secret,
+      }).toString(),
+      cache: 'no-cache',
     })
-    if (!res.ok) return { ok: false, detail: 'google_credentials table not found' }
-    const rows = await res.json()
-    if (Array.isArray(rows) && rows.length > 0) return { ok: true }
-    return { ok: false, detail: 'no credentials found — visit /admin/connect-google' }
+    const json = await res.json()
+    if (!json.access_token)
+      return { ok: false, detail: `token exchange failed: ${json.error ?? 'unknown'}` }
+    return { ok: true }
   } catch {
-    return { ok: false, detail: 'unable to query google_credentials' }
+    return { ok: false, detail: 'unable to validate google credentials' }
   }
 }
 
