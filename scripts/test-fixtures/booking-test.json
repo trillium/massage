@@ -1,0 +1,15 @@
+{
+  "firstName": "Test",
+  "lastName": "User",
+  "email": "spiteless+test@gmail.com",
+  "phone": "5554443333",
+  "duration": "90",
+  "timeZone": "America/Los_Angeles",
+  "locationString": "123 Fake St, Los Angeles CA 90045",
+  "eventBaseString": "overdrive-appreciation",
+  "bookingUrl": "/overdrive-appreciation",
+  "slugConfiguration": {
+    "slug": "overdrive-appreciation",
+    "blockingScope": "slug"
+  }
+}
