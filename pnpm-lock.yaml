@@ -104,9 +104,6 @@ importers:
       next-themes:
         specifier: ^0.4.6
         version: 0.4.6(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
-      nodemailer:
-        specifier: ^6.9.16
-        version: 6.10.1
       pliny:
         specifier: 0.4.1
         version: 0.4.1(@algolia/client-search@5.35.0)(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(acorn@8.16.0)(esbuild@0.25.2)(next@16.2.3(@babel/core@7.28.0)(@opentelemetry/api@1.9.0)(@playwright/test@1.56.1)(react-dom@19.2.5(react@19.2.5))(react@19.2.5))(react-dom@19.2.5(react@19.2.5))(react@19.2.5)(search-insights@2.17.3)
@@ -246,9 +243,6 @@ importers:
       '@types/node':
         specifier: ^25.3.0
         version: 25.3.0
-      '@types/nodemailer':
-        specifier: ^7.0.10
-        version: 7.0.10
       '@types/react':
         specifier: ^19.2.14
         version: 19.2.14
@@ -2935,9 +2929,6 @@ packages:
   '@types/node@25.3.0':
     resolution: {integrity: sha512-4K3bqJpXpqfg2XKGK9bpDTc6xO/xoUP/RBWS7AtRMug6zZFaRekiLzjVtAoZMquxoAbzBvy5nxQ7veS5eYzf8A==}
 
-  '@types/nodemailer@7.0.10':
-    resolution: {integrity: sha512-tP+9WggTFN22Zxh0XFyst7239H0qwiRCogsk7v9aQS79sYAJY+WEbTHbNYcxUMaalHKmsNpxmoTe35hBEMMd6g==}
-
   '@types/phoenix@1.6.6':
     resolution: {integrity: sha512-PIzZZlEppgrpoT2QgbnDU+MMzuR6BbCjllj0bM70lWoejMeNJAxCchxnv7J3XFkI8MpygtRpzXrIlmWUBclP5A==}
 
@@ -5326,10 +5317,6 @@ packages:
 
   node-releases@2.0.19:
     resolution: {integrity: sha512-xxOWJsBKtzAq7DY0J+DTzuz58K8e7sJbdgwkbMWQe8UYB6ekmsQ45q0M/tJDsGaZmbC+l7n57UV8Hl5tHxO9uw==}
-
-  nodemailer@6.10.1:
-    resolution: {integrity: sha512-Z+iLaBGVaSjbIzQ4pX6XV41HrooLsQ10ZWPUehGmuantvzWoDVBnmsdUcOIDM1t+yPor5pDhVlDESgOMEGxhHA==}
-    engines: {node: '>=6.0.0'}
 
   noms@0.0.0:
     resolution: {integrity: sha512-lNDU9VJaOPxUmXcLb+HQFeUgQQPtMI24Gt6hgfuMHRJgMRHMF/qZ4HJD3GDru4sSw9IQl2jPjAYnQrdIeLbwow==}
@@ -9641,10 +9628,6 @@ snapshots:
     dependencies:
       undici-types: 7.18.2
 
-  '@types/nodemailer@7.0.10':
-    dependencies:
-      '@types/node': 25.3.0
-
   '@types/phoenix@1.6.6': {}
 
   '@types/prismjs@1.26.5': {}
@@ -12500,8 +12483,6 @@ snapshots:
       whatwg-url: 5.0.0
 
   node-releases@2.0.19: {}
-
-  nodemailer@6.10.1: {}
 
   noms@0.0.0:
     dependencies:
