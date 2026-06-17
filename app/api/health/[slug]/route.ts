@@ -28,6 +28,7 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ slu
       slots_available: slots.length,
       dates_with_slots: uniqueDates.length,
       next_available: slots[0]?.start ?? null,
+      slots: slots.map((s) => s.start),
       duration: result.duration,
       date_range: {
         start: result.start?.start ?? null,

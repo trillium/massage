@@ -36,25 +36,33 @@ if (!health.ok || !health.next_available) {
   process.exit(1)
 }
 
-const start = health.next_available
-const localStart = new Date(start).toLocaleString('en-US', { timeZone: 'America/Los_Angeles' })
-const localHour = Number(
-  new Date(start).toLocaleString('en-US', {
-    timeZone: 'America/Los_Angeles',
-    hour: 'numeric',
-    hour12: false,
-  })
-)
+const allSlots: string[] = health.slots ?? (health.next_available ? [health.next_available] : [])
 
-if (localHour < 9 || localHour >= 19) {
-  console.error(`✗ Next available slot is ${localStart} Pacific — outside 9am–7pm business hours`)
-  console.error(`  This is likely a real open slot but not a valid test booking time.`)
-  console.error(`  Check the calendar or specify TEST_DATE for a date with daytime availability.`)
+const start = allSlots.find((s: string) => {
+  const h = Number(
+    new Date(s).toLocaleString('en-US', {
+      timeZone: 'America/Los_Angeles',
+      hour: 'numeric',
+      hour12: false,
+    })
+  )
+  return h >= 9 && h < 19
+})
+
+if (!start) {
+  console.error(
+    `✗ No slots between 9am–7pm Pacific in the available window (${allSlots.length} slots checked)`
+  )
   process.exit(1)
 }
 
 const end = new Date(new Date(start).getTime() + duration * 60_000).toISOString()
-console.log(`  Next available (Pacific): ${localStart}`)
+const localStart = new Date(start).toLocaleString('en-US', {
+  timeZone: 'America/Los_Angeles',
+  dateStyle: 'short',
+  timeStyle: 'short',
+})
+console.log(`  First daytime slot (Pacific): ${localStart}`)
 console.log(`  UTC: ${start} → ${end}\n`)
 
 // Step 2: submit the booking
