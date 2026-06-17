@@ -3,6 +3,12 @@ import siteMetadata from '@/data/siteMetadata'
 import getGmailAccessToken from '@/lib/gmail/getGmailAccessToken'
 import { logEmailSend } from '@/lib/db/auditLog'
 
+function encodeSubject(subject: string): string {
+  // biome-ignore lint/suspicious/noControlCharactersInRegex: intentional ASCII range check
+  if (/^[\x00-\x7F]*$/.test(subject)) return subject
+  return `=?UTF-8?B?${Buffer.from(subject).toString('base64')}?=`
+}
+
 function buildRawMessage({
   from,
   fromName,
@@ -19,7 +25,7 @@ function buildRawMessage({
   const message = [
     `From: ${fromName} <${from}>`,
     `To: ${to}`,
-    `Subject: ${subject}`,
+    `Subject: ${encodeSubject(subject)}`,
     'MIME-Version: 1.0',
     'Content-Type: text/html; charset=utf-8',
     '',
