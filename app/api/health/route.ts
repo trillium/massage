@@ -62,41 +62,21 @@ async function checkGoogle(): Promise<SimpleCheck> {
   if (!ownerEmail) return { ok: false, detail: 'OWNER_EMAIL not set' }
 
   try {
-    const tenantClient = createClient(url, key, { db: { schema: slug as 'public' } })
-    const publicClient = createClient(url, key)
+    const clientId = process.env.GOOGLE_OAUTH_CLIENT_ID
+    const clientSecret = process.env.GOOGLE_OAUTH_SECRET
+    if (!clientId || !clientSecret)
+      return { ok: false, detail: 'GOOGLE_OAUTH_CLIENT_ID or GOOGLE_OAUTH_SECRET not set' }
 
-    const [{ data: creds }, { data: app }] = await Promise.all([
-      tenantClient
-        .from('google_credentials')
-        .select('refresh_token')
-        .eq('email', ownerEmail)
-        .maybeSingle(),
-      publicClient
-        .from('google_oauth_apps')
-        .select('client_id, client_secret')
-        .limit(1)
-        .maybeSingle(),
-    ])
+    const tenantClient = createClient(url, key, { db: { schema: slug as 'public' } })
+    const { data: creds } = await tenantClient
+      .from('google_credentials')
+      .select('refresh_token')
+      .eq('email', ownerEmail)
+      .maybeSingle()
 
     if (!creds?.refresh_token)
       return { ok: false, detail: 'no credentials found — visit /admin/connect-google' }
-    if (!app?.client_id || !app?.client_secret)
-      return { ok: false, detail: 'google oauth app not configured' }
 
-    const res = await fetch('https://oauth2.googleapis.com/token', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: new URLSearchParams({
-        grant_type: 'refresh_token',
-        refresh_token: creds.refresh_token,
-        client_id: app.client_id,
-        client_secret: app.client_secret,
-      }).toString(),
-      cache: 'no-cache',
-    })
-    const json = await res.json()
-    if (!json.access_token)
-      return { ok: false, detail: `token exchange failed: ${json.error ?? 'unknown'}` }
     return { ok: true }
   } catch {
     return { ok: false, detail: 'unable to validate google credentials' }
