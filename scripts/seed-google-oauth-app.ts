@@ -9,7 +9,7 @@ const url = process.env.NEXT_PUBLIC_SUPABASE_URL
 const key = process.env.SUPABASE_SERVICE_ROLE_KEY
 const tenant = process.env.TENANT_SLUG || 'your_tenant_schema'
 const clientId = process.env.SUPABASE_GOOGLE_ID
-const clientSecret = process.env.SUPABASE_GOOGLE_CLIENT_SECRED
+const clientSecret = process.env.SUPABASE_GOOGLE_CLIENT_SECRET
 const name = process.env.GOOGLE_OAUTH_APP_NAME || 'default'
 
 if (!url || !key) {
@@ -18,7 +18,7 @@ if (!url || !key) {
 }
 
 if (!clientId || !clientSecret) {
-  console.error('Missing SUPABASE_GOOGLE_ID or SUPABASE_GOOGLE_CLIENT_SECRED')
+  console.error('Missing SUPABASE_GOOGLE_ID or SUPABASE_GOOGLE_CLIENT_SECRET')
   process.exit(1)
 }
 
