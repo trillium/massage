@@ -62,18 +62,19 @@ async function checkGoogle(): Promise<SimpleCheck> {
   if (!ownerEmail) return { ok: false, detail: 'OWNER_EMAIL not set' }
 
   try {
-    const clientId = process.env.GOOGLE_OAUTH_CLIENT_ID
-    const clientSecret = process.env.GOOGLE_OAUTH_SECRET
-    if (!clientId || !clientSecret)
-      return { ok: false, detail: 'GOOGLE_OAUTH_CLIENT_ID or GOOGLE_OAUTH_SECRET not set' }
-
     const tenantClient = createClient(url, key, { db: { schema: slug as 'public' } })
-    const { data: creds } = await tenantClient
-      .from('google_credentials')
-      .select('refresh_token')
-      .eq('email', ownerEmail)
-      .maybeSingle()
+    const publicClient = createClient(url, key)
 
+    const [{ data: creds }, { data: app }] = await Promise.all([
+      tenantClient
+        .from('google_credentials')
+        .select('refresh_token')
+        .eq('email', ownerEmail)
+        .maybeSingle(),
+      publicClient.from('google_oauth_apps').select('client_id').limit(1).maybeSingle(),
+    ])
+
+    if (!app?.client_id) return { ok: false, detail: 'google oauth app not configured in db' }
     if (!creds?.refresh_token)
       return { ok: false, detail: 'no credentials found — visit /admin/connect-google' }
 

@@ -1,4 +1,4 @@
-import { getSupabaseAdminClient } from '@/lib/supabase/admin'
+import { getSupabaseAdminClient, getSupabasePublicAdminClient } from '@/lib/supabase/admin'
 
 export type GoogleOAuthApp = {
   client_id: string
@@ -13,9 +13,14 @@ export type GoogleCredentials = {
 }
 
 let cachedCreds: GoogleCredentials | null = null
+let cachedApp: GoogleOAuthApp | null = null
 
 export function clearCredentialsCache() {
   cachedCreds = null
+}
+
+export function clearAppCache() {
+  cachedApp = null
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -25,11 +30,27 @@ function adminClient(): any {
   return supabase
 }
 
-export function loadGoogleOAuthApp(): GoogleOAuthApp | null {
-  const client_id = process.env.GOOGLE_OAUTH_CLIENT_ID
-  const client_secret = process.env.GOOGLE_OAUTH_SECRET
-  if (!client_id || !client_secret) return null
-  return { client_id, client_secret }
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function publicAdminClient(): any {
+  const supabase = getSupabasePublicAdminClient()
+  if (!supabase) throw new Error('Supabase admin client not available')
+  return supabase
+}
+
+export async function loadGoogleOAuthApp(): Promise<GoogleOAuthApp | null> {
+  if (cachedApp) return cachedApp
+
+  const { data, error } = await publicAdminClient()
+    .from('google_oauth_apps')
+    .select('client_id, client_secret')
+    .limit(1)
+    .maybeSingle()
+
+  if (error) throw new Error(`Failed to load Google OAuth app: ${error.message}`)
+  if (!data) return null
+
+  cachedApp = data as GoogleOAuthApp
+  return cachedApp
 }
 
 export async function loadGoogleCredentials(): Promise<GoogleCredentials | null> {

@@ -31,9 +31,16 @@ export async function GET() {
 
   const checks: Record<string, CheckResult> = {}
 
-  checks.google_oauth_app = await runCheck(async () => {
-    if (!process.env.GOOGLE_OAUTH_CLIENT_ID) throw new Error('GOOGLE_OAUTH_CLIENT_ID not set')
-    if (!process.env.GOOGLE_OAUTH_SECRET) throw new Error('GOOGLE_OAUTH_SECRET not set')
+  checks.google_oauth_apps = await runCheck(async () => {
+    const { data, error } = await publicClient
+      .from('google_oauth_apps')
+      .select('client_id, client_secret')
+      .limit(1)
+      .maybeSingle()
+    if (error) throw new Error(error.message)
+    if (!data) throw new Error('no rows found in google_oauth_apps')
+    if (!data.client_id) throw new Error('client_id is empty')
+    if (!data.client_secret) throw new Error('client_secret is empty')
   })
 
   checks.google_credentials = await runCheck(async () => {
@@ -50,23 +57,28 @@ export async function GET() {
 
   checks.token_exchange = await runCheck(async () => {
     if (!ownerEmail) throw new Error('OWNER_EMAIL env var not set')
-    const clientId = process.env.GOOGLE_OAUTH_CLIENT_ID
-    const clientSecret = process.env.GOOGLE_OAUTH_SECRET
-    if (!clientId || !clientSecret) throw new Error('Google OAuth env vars not set')
-    const { data: creds } = await tenantClient
-      .from('google_credentials')
-      .select('refresh_token')
-      .eq('email', ownerEmail)
-      .maybeSingle()
+    const [{ data: creds }, { data: app }] = await Promise.all([
+      tenantClient
+        .from('google_credentials')
+        .select('refresh_token')
+        .eq('email', ownerEmail)
+        .maybeSingle(),
+      publicClient
+        .from('google_oauth_apps')
+        .select('client_id, client_secret')
+        .limit(1)
+        .maybeSingle(),
+    ])
     if (!creds?.refresh_token) throw new Error('no refresh_token in DB')
+    if (!app?.client_id || !app?.client_secret) throw new Error('no oauth app credentials in DB')
     const res = await fetch('https://oauth2.googleapis.com/token', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: new URLSearchParams({
         grant_type: 'refresh_token',
         refresh_token: creds.refresh_token,
-        client_id: clientId,
-        client_secret: clientSecret,
+        client_id: app.client_id,
+        client_secret: app.client_secret,
       }).toString(),
       cache: 'no-cache',
     })
