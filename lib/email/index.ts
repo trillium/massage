@@ -3,6 +3,7 @@ import type { SendMailOptions, Transporter } from 'nodemailer'
 import { createTransport } from 'nodemailer'
 import siteMetadata from '@/data/siteMetadata'
 import { loadGoogleCredentials, loadGoogleOAuthApp } from '@/lib/google/credentials'
+import { logEmailSend } from '@/lib/db/auditLog'
 
 async function configureTransporter(): Promise<Transporter> {
   const app = await loadGoogleOAuthApp()
@@ -20,24 +21,44 @@ async function configureTransporter(): Promise<Transporter> {
   })
 }
 
-async function sendMail({ to, subject, body }: SendMailParams): Promise<void> {
+async function sendMail({ to, subject, body, template, variables }: SendMailParams): Promise<void> {
   const [transporter, creds] = await Promise.all([configureTransporter(), loadGoogleCredentials()])
 
   if (!creds?.refresh_token) throw new Error('No Google refresh token available')
 
-  await transporter.sendMail({
-    from: {
-      address: siteMetadata.email,
-      name: process.env.OWNER_NAME,
-    },
-    to,
-    subject,
-    html: body,
-    auth: {
-      user: siteMetadata.email,
-      refreshToken: creds.refresh_token,
-    },
-  } as SendMailOptions & { auth: { user: string; refreshToken: string; accessToken?: string } })
+  try {
+    await transporter.sendMail({
+      from: {
+        address: siteMetadata.email,
+        name: process.env.OWNER_NAME,
+      },
+      to,
+      subject,
+      html: body,
+      auth: {
+        user: siteMetadata.email,
+        refreshToken: creds.refresh_token,
+      },
+    } as SendMailOptions & { auth: { user: string; refreshToken: string; accessToken?: string } })
+
+    if (template) {
+      logEmailSend({ template, to_address: to, subject, variables, send_state: 'success' }).catch(
+        () => {}
+      )
+    }
+  } catch (err) {
+    if (template) {
+      logEmailSend({
+        template,
+        to_address: to,
+        subject,
+        variables,
+        send_state: 'failed',
+        error_detail: err instanceof Error ? err.message : String(err),
+      }).catch(() => {})
+    }
+    throw err
+  }
 }
 
 export default sendMail

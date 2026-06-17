@@ -11,6 +11,7 @@ import { ContactPushover } from './messaging/push/admin/ContactPushover'
 import { pushoverSendMessage } from './messaging/push/admin/pushover'
 import { escapeHtml } from './messaging/escapeHtml'
 import { siteConfig } from '@/lib/siteConfig'
+import { logContactSubmission, updateContactSubmission } from '@/lib/db/auditLog'
 
 export type ContactRequestValidationResult =
   | { success: true; data: z.output<typeof ContactFormSchema> }
@@ -44,6 +45,14 @@ export async function handleContactRequest({
 
   const { data } = validationResult
 
+  const submissionId = await logContactSubmission({
+    name: data.name,
+    email: data.email,
+    phone: data.phone,
+    subject: data.subject,
+    message: data.message,
+  }).catch(() => null)
+
   const safeData = {
     subject: escapeHtml(data.subject),
     name: escapeHtml(data.name),
@@ -63,22 +72,40 @@ export async function handleContactRequest({
     priority: 0,
   })
 
-  // Send email to admin
-  await sendMailFn({
-    to: siteMetadata.email ?? '',
-    subject: `New Contact Form: ${data.subject}`,
-    body: adminEmailBody,
-  })
+  try {
+    // Send email to admin
+    await sendMailFn({
+      to: siteMetadata.email ?? '',
+      subject: `New Contact Form: ${data.subject}`,
+      body: adminEmailBody,
+      template: 'contactFormEmail',
+      variables: { name: data.name, email: data.email, phone: data.phone, subject: data.subject },
+    })
 
-  // Generate user confirmation email using template
-  const userEmailBody = contactFormConfirmation(safeData)
+    // Generate user confirmation email using template
+    const userEmailBody = contactFormConfirmation(safeData)
 
-  // Send confirmation email to user
-  await sendMailFn({
-    to: data.email,
-    subject: `Thank you for contacting ${siteConfig.business.name}`,
-    body: userEmailBody,
-  })
+    // Send confirmation email to user
+    await sendMailFn({
+      to: data.email,
+      subject: `Thank you for contacting ${siteConfig.business.name}`,
+      body: userEmailBody,
+      template: 'contactFormConfirmation',
+      variables: { name: data.name, email: data.email },
+    })
+
+    if (submissionId) {
+      updateContactSubmission(submissionId, { send_state: 'success' }).catch(() => {})
+    }
+  } catch (err) {
+    if (submissionId) {
+      updateContactSubmission(submissionId, {
+        send_state: 'failed',
+        error_detail: err instanceof Error ? err.message : String(err),
+      }).catch(() => {})
+    }
+    throw err
+  }
 
   const confirmationId = getHash(`${data.email}:${Date.now()}`).slice(0, 8)
 

@@ -217,6 +217,14 @@ export async function handleAppointmentRequest({
       to: data.email,
       subject: confirmationEmail.subject,
       body: confirmationEmail.body,
+      template: 'ClientConfirmEmail',
+      variables: {
+        email: data.email,
+        firstName: data.firstName,
+        lastName: data.lastName,
+        start: data.start,
+        end: data.end,
+      },
     }).catch((err: unknown) => console.error('Failed to send instant confirm email:', err))
 
     return NextResponse.json({ success: true, instantConfirm: true, eventPageUrl }, { status: 200 })
@@ -333,6 +341,14 @@ export async function handleAppointmentRequest({
       to: siteMetadata.email ?? '',
       subject: approveEmail.subject,
       body: approveEmail.body,
+      template: 'ApprovalEmail',
+      variables: {
+        email: data.email,
+        firstName: data.firstName,
+        lastName: data.lastName,
+        start: data.start,
+        end: data.end,
+      },
     })
 
     const confirmationEmail = await clientRequestEmailFn({
@@ -350,6 +366,14 @@ export async function handleAppointmentRequest({
       to: data.email,
       subject: confirmationEmail.subject,
       body: confirmationEmail.body,
+      template: 'ClientRequestEmail',
+      variables: {
+        email: data.email,
+        firstName: data.firstName,
+        lastName: data.lastName,
+        start: data.start,
+        end: data.end,
+      },
     })
   } catch (emailError) {
     console.error('Email send failed after calendar event created:', emailError)

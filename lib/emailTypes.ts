@@ -2,6 +2,8 @@ export type SendMailParams = {
   to: string
   subject: string
   body: string
+  template?: string
+  variables?: Record<string, unknown>
 }
 
 export interface GmailMessage {
