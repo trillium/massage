@@ -63,7 +63,8 @@
     "blog:watch": "contentlayer2 dev",
     "render:proposal": "tsx scripts/render-proposal.ts",
     "render:proposal:pdf": "tsx scripts/render-proposal-pdf.ts",
-    "llms:update": "bun scripts/update-llms-txt.ts"
+    "llms:update": "bun scripts/update-llms-txt.ts",
+    "test:email": "tsx scripts/send-test-email.ts"
   },
   "dependencies": {
     "@headlessui/react": "2.2.0",
