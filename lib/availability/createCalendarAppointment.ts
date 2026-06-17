@@ -35,6 +35,9 @@ async function buildEventBody({
   eventMemberString,
   eventContainerString,
   additionalNotes,
+  promo,
+  bookingUrl,
+  slugConfiguration,
   customDescription,
 }: AppointmentProps & { customDescription?: string }) {
   // Use custom description if provided, otherwise generate standard description
@@ -54,6 +57,9 @@ async function buildEventBody({
       eventMemberString,
       eventContainerString,
       additionalNotes,
+      promo,
+      bookingUrl,
+      slugConfiguration,
     }))
 
   // For admin-created events, the attendee should be the admin with their correct name

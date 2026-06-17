@@ -264,6 +264,7 @@ const slugConfigurations: SlugConfigurationType[] = [
       `* This offer is valid through July 15, 2026.`,
     ],
     durationBonus: 15,
+    pricing: { 60: 140, 90: 210, 120: 280 },
     pricingLabels: {
       60: '+15 min free! (75 min session)',
       90: '+15 min free! (105 min session)',
