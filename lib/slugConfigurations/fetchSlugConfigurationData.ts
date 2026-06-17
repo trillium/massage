@@ -257,9 +257,9 @@ const slugConfigurations: SlugConfigurationType[] = [
     ...initialStateWithoutType,
     bookingSlug: ['overdrive-appreciation'],
     type: 'area-wide',
-    title: 'Overdrive Appreciation: Free 15-Minute Upgrade',
+    title: 'Overtime Appreciation: Free 15-Minute Upgrade',
     text: [
-      'Thanks for coming to Overdrive! Book a session and get 15 minutes added free.',
+      'Thanks for coming to Overtime! Book a session and get 15 minutes added free.',
       `Questions? Call or text ${contactPhone}`,
       `* This offer is valid through July 15, 2026.`,
     ],
@@ -280,9 +280,9 @@ const slugConfigurations: SlugConfigurationType[] = [
     bookingSlug: ['overdrive-raffle-prize'],
     type: 'area-wide',
     defaultDuration: 60,
-    title: 'Overdrive Raffle — You Won!',
+    title: 'Overtime Raffle — You Won!',
     text: [
-      'Congratulations on winning the Overdrive raffle! Book your free 60-minute in-home massage.',
+      'Congratulations on winning the Overtime raffle! Book your free 60-minute in-home massage.',
       `Questions? Call or text ${contactPhone}`,
     ],
     allowedDurations: [60, 90, 120, 150],
