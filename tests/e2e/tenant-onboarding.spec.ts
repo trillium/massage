@@ -55,7 +55,7 @@ test.describe('Tenant onboarding — Scene 3: owner first login', () => {
     request,
   }) => {
     const res = await request.get('/admin', { maxRedirects: 0 })
-    const location = res.headers()['location'] ?? ''
+    const location = res.headers().location ?? ''
     expect(location).toContain('/auth/supabase-login')
     expect(location).toContain('redirectTo=%2Fadmin')
   })
@@ -64,7 +64,7 @@ test.describe('Tenant onboarding — Scene 3: owner first login', () => {
     request,
   }) => {
     const res = await request.get('/admin/schedule', { maxRedirects: 0 })
-    const location = res.headers()['location'] ?? ''
+    const location = res.headers().location ?? ''
     expect(location).toContain('/auth/supabase-login')
     expect(location).toContain('redirectTo=%2Fadmin%2Fschedule')
   })
@@ -76,7 +76,7 @@ test.describe('Tenant onboarding — Scene 3: owner first login', () => {
       maxRedirects: 0,
     })
     expect(res.status()).toBe(302)
-    const location = res.headers()['location'] ?? ''
+    const location = res.headers().location ?? ''
     expect(location).toContain('/auth/supabase-login')
     expect(location).toContain('error=access_denied')
   })
@@ -84,7 +84,7 @@ test.describe('Tenant onboarding — Scene 3: owner first login', () => {
   test('Supabase callback with no code redirects to /auth/supabase-login', async ({ request }) => {
     const res = await request.get('/auth/callback/supabase', { maxRedirects: 0 })
     expect(res.status()).toBe(302)
-    const location = res.headers()['location'] ?? ''
+    const location = res.headers().location ?? ''
     expect(location).toContain('/auth/supabase-login')
   })
 

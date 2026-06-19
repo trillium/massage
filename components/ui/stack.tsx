@@ -1,6 +1,6 @@
 /* ds-ignore-file */
+import { forwardRef, type HTMLAttributes } from 'react'
 import { cn } from '@/lib/cn'
-import type { HTMLAttributes } from 'react'
 
 type Gap = 1 | 2 | 3 | 4 | 6 | 8
 type Align = 'start' | 'center' | 'end' | 'stretch'
@@ -37,18 +37,13 @@ const justifyMap: Record<Justify, string> = {
   between: 'justify-between',
 }
 
-export function Stack({
-  direction = 'col',
-  gap = 4,
-  align,
-  justify,
-  wrap,
-  className,
-  children,
-  ...props
-}: StackProps) {
+export const Stack = forwardRef<HTMLDivElement, StackProps>(function Stack(
+  { direction = 'col', gap = 4, align, justify, wrap, className, children, ...props },
+  ref
+) {
   return (
     <div
+      ref={ref}
       className={cn(
         'flex',
         direction === 'col' ? 'flex-col' : 'flex-row',
@@ -63,4 +58,4 @@ export function Stack({
       {children}
     </div>
   )
-}
+})

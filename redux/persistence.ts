@@ -3,7 +3,14 @@ import type { RootState } from './store'
 const STORAGE_KEY = 'reduxPersist'
 const TTL_MS = 30 * 24 * 60 * 60 * 1000 // 30 days
 
-const PERSISTED_FORM_FIELDS = ['firstName', 'lastName', 'email', 'phone', 'location', 'paymentMethod'] as const
+const PERSISTED_FORM_FIELDS = [
+  'firstName',
+  'lastName',
+  'email',
+  'phone',
+  'location',
+  'paymentMethod',
+] as const
 
 type PersistedPayload = {
   form: Record<string, unknown>

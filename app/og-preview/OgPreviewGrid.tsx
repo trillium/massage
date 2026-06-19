@@ -31,7 +31,6 @@ export default function OgPreviewGrid({
         value={filter}
         onChange={(e) => setFilter(e.target.value)}
         className="mb-8 w-full rounded-lg border border-accent-300 bg-surface-50 px-4 py-2 text-sm focus:border-primary-500 focus:outline-none dark:border-accent-600 dark:bg-surface-800"
-        autoFocus
       />
       <p className="mb-4 text-sm text-accent-500">
         {filtered.length} / {slugs.length} slugs

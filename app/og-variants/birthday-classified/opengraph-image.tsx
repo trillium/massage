@@ -154,7 +154,7 @@ export default async function Image() {
                   display: 'flex',
                 }}
               >
-                DOC-7741-B // PERSONAL GIFT DELIVERY
+                DOC-7741-B{/* PERSONAL GIFT DELIVERY */}
               </div>
               <div
                 style={{
@@ -314,7 +314,7 @@ export default async function Image() {
               display: 'flex',
             }}
           >
-            {DOMAIN.toUpperCase()} // AUTHORIZED CHANNEL
+            {DOMAIN.toUpperCase()}{/* AUTHORIZED CHANNEL */}
           </div>
         </div>
       </div>
@@ -426,7 +426,7 @@ export default async function Image() {
               padding: '3px 8px',
             }}
           >
-            FIELD ASSET // THERAPEUTIC
+            FIELD ASSET{/* THERAPEUTIC */}
           </div>
           <div
             style={{
