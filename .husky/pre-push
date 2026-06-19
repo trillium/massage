@@ -9,6 +9,12 @@ if [ -f scripts/fallow-prepush.sh ]; then
   bash scripts/fallow-prepush.sh
 fi
 
+# File length enforcement: files touched in this push must be under 250 lines.
+# Committing overlarge files is allowed — pushing them is not.
+while read local_ref local_sha remote_ref remote_sha; do
+  bun scripts/check-file-length.ts "$remote_sha" "$local_sha" || exit 1
+done
+
 if curl -s http://localhost:9876/ > /dev/null 2>&1; then
   pnpm check-overflow || {
     echo "check-overflow: horizontal overflow detected — push blocked"
