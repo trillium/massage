@@ -20,9 +20,7 @@ const siteMetadata = {
   instagram: config.contact.instagram,
   locale: config.locale,
   stickyNav: false,
-  analytics: {
-    umamiAnalytics: {},
-  },
+  analytics: {},
   newsletter: {},
   comments: {},
   search: {

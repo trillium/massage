@@ -2,27 +2,17 @@
 
 import { Fragment, useEffect, useState } from 'react'
 import { useTheme } from 'next-themes'
-import {
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuItems,
-  Radio,
-  RadioGroup,
-  Transition,
-} from '@headlessui/react'
+import { Menu, MenuButton, MenuItem, MenuItems, Transition } from '@headlessui/react'
 import ui from '@/data/ui.json'
 
-import { Button } from '@/components/ui/button'
 import { Stack } from '@/components/ui/stack'
-import { Box } from '@/components/ui/box'
 
 const Sun = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 20 20"
     fill="currentColor"
-    className="group-hover:text-accent-100 h-6 w-6"
+    className="h-6 w-6"
   >
     <path
       fillRule="evenodd"
@@ -36,7 +26,7 @@ const Moon = () => (
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 20 20"
     fill="currentColor"
-    className="group-hover:text-accent-100 h-6 w-6"
+    className="h-6 w-6"
   >
     <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
   </svg>
@@ -50,7 +40,7 @@ const Monitor = () => (
     strokeWidth="2"
     strokeLinecap="round"
     strokeLinejoin="round"
-    className="group-hover:text-accent-100 h-6 w-6"
+    className="h-6 w-6"
   >
     <rect x="3" y="3" width="14" height="10" rx="2" ry="2"></rect>
     <line x1="7" y1="17" x2="13" y2="17"></line>
@@ -59,11 +49,12 @@ const Monitor = () => (
 )
 const Blank = () => <svg className="h-6 w-6" />
 
+const THEMES = ['light', 'dark', 'system'] as const
+
 const ThemeSwitch = () => {
   const [mounted, setMounted] = useState(false)
   const { theme, setTheme, resolvedTheme } = useTheme()
 
-  // When mounted on client, now we can show the UI
   useEffect(() => setMounted(true), [])
 
   return (
@@ -90,56 +81,36 @@ const ThemeSwitch = () => {
           leaveTo="transform opacity-0 scale-95"
         >
           <MenuItems className="ring-opacity-5 absolute right-0 z-50 mt-2 w-32 origin-top-right divide-y divide-accent-100 rounded-md bg-surface-50 shadow-lg ring-1 ring-black focus:outline-hidden dark:bg-surface-800">
-            <RadioGroup value={theme} onChange={setTheme}>
-              <Box className="p-1">
-                <Radio value="light">
-                  <MenuItem>
-                    {({ focus }) => (
-                      <Button
-                        className={`${focus ? 'bg-primary-600 text-white' : ''} group flex w-full items-center rounded-md px-2 py-2 text-sm`}
-                      >
-                        <Box className="mr-2">
-                          <Sun />
-                        </Box>
-                        {ui.themeSwitch.light}
-                      </Button>
-                    )}
-                  </MenuItem>
-                </Radio>
-                <Radio value="dark">
-                  <MenuItem>
-                    {({ focus }) => (
-                      <Button
-                        className={`${
-                          focus ? 'bg-primary-600 text-white' : ''
-                        } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
-                      >
-                        <Box className="mr-2">
-                          <Moon />
-                        </Box>
-                        {ui.themeSwitch.dark}
-                      </Button>
-                    )}
-                  </MenuItem>
-                </Radio>
-                <Radio value="system">
-                  <MenuItem>
-                    {({ focus }) => (
-                      <Button
-                        className={`${
-                          focus ? 'bg-primary-600 text-white' : ''
-                        } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
-                      >
-                        <Box className="mr-2">
-                          <Monitor />
-                        </Box>
-                        {ui.themeSwitch.system}
-                      </Button>
-                    )}
-                  </MenuItem>
-                </Radio>
-              </Box>
-            </RadioGroup>
+            <div className="p-1">
+              {THEMES.map((t) => (
+                <MenuItem key={t}>
+                  {({ focus }) => (
+                    <button
+                      type="button"
+                      onClick={() => setTheme(t)}
+                      className={`flex w-full items-center rounded-md px-2 py-2 text-sm ${
+                        theme === t
+                          ? 'bg-primary-600 text-white'
+                          : focus
+                            ? 'bg-accent-100 text-accent-900 dark:bg-accent-700 dark:text-accent-100'
+                            : 'text-accent-700 dark:text-accent-300'
+                      }`}
+                    >
+                      <span className="mr-2">
+                        {t === 'light' && <Sun />}
+                        {t === 'dark' && <Moon />}
+                        {t === 'system' && <Monitor />}
+                      </span>
+                      {t === 'light'
+                        ? ui.themeSwitch.light
+                        : t === 'dark'
+                          ? ui.themeSwitch.dark
+                          : ui.themeSwitch.system}
+                    </button>
+                  )}
+                </MenuItem>
+              ))}
+            </div>
           </MenuItems>
         </Transition>
       </Menu>

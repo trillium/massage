@@ -27,6 +27,15 @@ export async function POST(request: NextRequest) {
   const body = await request.json()
   const { type, feedbackId, payload, reply, resolution, userId } = body
 
+  // WebhookAdapter.submit() sends the payload directly without a type field
+  if (!type) {
+    const db = getDB()
+    if (!db) return NextResponse.json({ error: 'DB unavailable' }, { status: 503 })
+    const { error } = await db.from('feedtack_submissions').insert({ id: body.id, data: body })
+    if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+    return NextResponse.json({ ok: true })
+  }
+
   if (ADMIN_ONLY_TYPES.has(type)) {
     const authResult = await requireAdminWithFlag(request)
     if (authResult instanceof NextResponse) return authResult
@@ -36,12 +45,20 @@ export async function POST(request: NextRequest) {
   if (!db) return NextResponse.json({ error: 'DB unavailable' }, { status: 503 })
 
   const dispatchers: Record<string, () => Promise<{ error: { message: string } | null }>> = {
-    submit: () => db.from('feedtack_submissions').insert({ id: payload.id, data: payload }),
     reply: () => db.from('feedtack_replies').insert({ feedback_id: feedbackId, ...reply }),
     resolve: () =>
       db.from('feedtack_resolutions').insert({ feedback_id: feedbackId, ...resolution }),
     archive: () =>
       db.from('feedtack_archives').insert({ feedback_id: feedbackId, user_id: userId }),
+    approve: () => {
+      throw new Error('approve not implemented')
+    },
+    revoke: () => {
+      throw new Error('revoke not implemented')
+    },
+    'save-field': () => {
+      throw new Error('save-field not implemented')
+    },
   }
 
   const dispatch = dispatchers[type]
@@ -69,7 +86,7 @@ export async function GET(request: NextRequest) {
     .select('*, feedtack_replies(*), feedtack_resolutions(*), feedtack_archives(*)')
     .order('created_at', { ascending: false })
 
-  if (pathname) query = query.eq('data->>page->>pathname', pathname)
+  if (pathname) query = query.eq('data->page->>pathname', pathname)
 
   const { data, error } = await query
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
