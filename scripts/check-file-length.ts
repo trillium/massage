@@ -79,6 +79,6 @@ console.error(`Files you modified that exceed ${LIMIT} lines must be refactored 
 for (const { file, lines } of violations.sort((a, b) => b.lines - a.lines)) {
   console.error(`  ${lines.toString().padStart(4)} lines  ${file}`)
 }
-console.error('\nSplit large files into focused modules, then re-push.')
+console.error('\nHow to fix: https://docs.fallow.tools/explanations/health#unit-size')
 console.error('Exempt: *.test.ts, database.types.ts, scripts/, og-variants/\n')
 process.exit(1)
