@@ -4,7 +4,12 @@ import clsx from 'clsx'
 
 import { ALLOWED_DURATIONS, DEFAULT_DURATION, DEFAULT_PRICING } from 'config'
 import { setDuration } from '@/redux/slices/availabilitySlice'
-import { useAppDispatch, useReduxAvailability, useReduxConfig } from '@/redux/hooks'
+import {
+  useAppDispatch,
+  useReduxAvailability,
+  useReduxConfig,
+  useReduxEdgeRole,
+} from '@/redux/hooks'
 import { GeneratePrice } from '@/components/ui/atoms/GeneratePriceAtom'
 import type { durationPropsType } from '@/lib/types'
 
@@ -18,8 +23,13 @@ export default function DurationPicker({
   configuration,
   showPrice = true,
 }: durationPropsType) {
-  const { pricing: priceRedux, allowedDurations: allowedDurationsRedux } = useReduxConfig()
+  const {
+    pricing: priceRedux,
+    allowedDurations: allowedDurationsRedux,
+    customFields,
+  } = useReduxConfig()
   const { duration: durationRedux } = useReduxAvailability()
+  const edgeRole = useReduxEdgeRole()
   const dispatch = useAppDispatch()
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,7 +40,15 @@ export default function DurationPicker({
   const allowedDurations = allowedDurationsRedux || allowedDurationsProps || ALLOWED_DURATIONS
   const price = priceRedux || priceProps || DEFAULT_PRICING
   const sessionCost = price[duration || DEFAULT_DURATION] ?? ''
-  const pricingLabel = configuration?.pricingLabels?.[duration || DEFAULT_DURATION]
+  const rawRoleHint =
+    edgeRole && customFields?.roleHints ? customFields.roleHints[edgeRole] : undefined
+  const roleHint = rawRoleHint
+    ? typeof rawRoleHint === 'string'
+      ? rawRoleHint
+      : (rawRoleHint[duration || DEFAULT_DURATION] ??
+        rawRoleHint[Math.min(...Object.keys(rawRoleHint).map(Number))])
+    : undefined
+  const pricingLabel = roleHint ?? configuration?.pricingLabels?.[duration || DEFAULT_DURATION]
   const hidePricing = configuration?.acceptingPayment === false
 
   const cols = 3

@@ -15,6 +15,7 @@ import {
   useReduxEventContainers,
   useReduxModal,
   useReduxConfig,
+  useReduxEdgeRole,
 } from '@/redux/hooks'
 import { ChairAppointmentBlockProps } from 'lib/types'
 import BookingSummary from './BookingSummary'
@@ -57,6 +58,7 @@ export default function BookingForm({
   const price =
     duration && config.pricing ? config.pricing[duration] : DEFAULT_PRICING[duration] || 'null'
 
+  const edgeRole = useReduxEdgeRole()
   const { processPendingUpdates } = useLocationSync(config, eventContainers)
   const { validateForm, getLocationWarning } = useBookingValidation(config)
   const initialValues = useBookingInitialValues({
@@ -68,6 +70,7 @@ export default function BookingForm({
     duration,
     acceptingPayment,
     price,
+    edgeMemberType: edgeRole,
   })
   const handleFormSubmit = useBookingSubmit({ additionalData, endPoint, onSubmit })
 

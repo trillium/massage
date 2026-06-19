@@ -19,6 +19,7 @@ type UseBookingInitialValuesParams = {
   duration: number
   acceptingPayment: boolean
   price: number | string
+  edgeMemberType?: 'community' | 'team'
 }
 
 export function useBookingInitialValues({
@@ -30,6 +31,7 @@ export function useBookingInitialValues({
   duration,
   acceptingPayment,
   price,
+  edgeMemberType,
 }: UseBookingInitialValuesParams): BookingFormValues {
   return useMemo(() => {
     const configStrings = config.eventContainer
@@ -76,6 +78,17 @@ export function useBookingInitialValues({
       promo: formData.promo ?? '',
       rescheduleEventId: config?.rescheduleEventId,
       rescheduleToken: config?.rescheduleToken,
+      edgeMemberType,
     }
-  }, [formData, eventContainers, config, selectedTime, timeZone, duration, acceptingPayment, price])
+  }, [
+    formData,
+    eventContainers,
+    config,
+    selectedTime,
+    timeZone,
+    duration,
+    acceptingPayment,
+    price,
+    edgeMemberType,
+  ])
 }

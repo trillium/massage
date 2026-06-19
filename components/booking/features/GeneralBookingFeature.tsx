@@ -7,6 +7,8 @@ import TimeList from '@/components/availability/time/TimeList'
 import { InitialUrlUtility, UpdateSlotsUtility } from '@/components/utilities/UpdateSlotsUtility'
 import SectionContainer from '@/components/SectionContainer'
 import { SlotHoldProvider } from 'hooks/SlotHoldContext'
+import ConnectedRoleField from '@/components/booking/fields/ConnectedRoleField'
+import EdgeRoleHydrator from '@/components/utilities/EdgeRoleHydrator'
 import { buildDurationProps } from '@/lib/slugConfigurations/helpers/buildDurationProps'
 import { home } from '@/app/content'
 import { differenceInDays, parseISO } from 'date-fns'
@@ -51,6 +53,8 @@ export default function GeneralBookingFeature({
   end,
   bookingEndPoint,
 }: GeneralBookingFeatureProps) {
+  const showRoleField = !!configuration.customFields?.showRoleField
+
   return (
     <SectionContainer>
       <SlotTakenAlert />
@@ -67,6 +71,7 @@ export default function GeneralBookingFeature({
 
         <Stack className="space-y-8" direction="col">
           <DurationPicker {...durationProps} />
+          {showRoleField && <ConnectedRoleField />}
           {!configuration.hideCalendar && (
             <Calendar
               paginate={
@@ -81,6 +86,7 @@ export default function GeneralBookingFeature({
         </Stack>
       </SlotHoldProvider>
 
+      {showRoleField && <EdgeRoleHydrator />}
       <InitialUrlUtility
         configObject={configuration}
         initialSlots={slots}

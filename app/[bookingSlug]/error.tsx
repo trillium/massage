@@ -17,6 +17,7 @@ export default function BookingSlugError({
   reset: () => void
 }) {
   const { bookingSlugError } = systemData
+  console.error('[BookingSlugError]', error?.message, error?.stack)
   return (
     <Stack className="px-4 py-24 text-center" direction="col" align="center" justify="center">
       {/* ds-ignore */}
