@@ -175,8 +175,14 @@
     "vitest": "^3.2.3"
   },
   "lint-staged": {
+    "app/design-system/page.tsx": [
+      "bun scripts/check-ds-page.ts"
+    ],
     "components/ui/*.tsx": [
       "bun scripts/check-manifest-sync.ts"
+    ],
+    "components/ui/manifest.ts": [
+      "bun scripts/check-ds-page.ts"
     ],
     "*.+(js|jsx|ts|tsx)": [
       "biome check --write --no-errors-on-unmatched",
