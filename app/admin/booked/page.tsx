@@ -32,9 +32,9 @@ export default async function Page({
     return (
       <SectionContainer>
         <Box className="mx-auto max-w-xl py-8 sm:py-16">
-          <H1 status="error">Error</H1>
+          <H1 status="error">{'Error'}</H1>
           <TextBase status="secondary" className="mt-4">
-            Invalid appointment data. Please try again.
+            {'Invalid appointment data. Please try again.'}
           </TextBase>
         </Box>
       </SectionContainer>
@@ -82,8 +82,9 @@ export default async function Page({
       <Box className="mx-auto max-w-xl py-8 sm:py-16">
         <H1 status="primary">{h1Message}</H1>
         <TextBase className="mt-6 text-xl font-medium text-accent-800 dark:text-accent-200">
-          It's now on your calendar and an invite has been sent to the client's email at:{' '}
-          {attendees || 'them'}.
+          {"It's now on your calendar and an invite has been sent to the client's email at:"}{' '}
+          {attendees || 'them'}
+          {'.'}
         </TextBase>
         <TextBase className="mt-6 text-xl font-medium text-accent-800 dark:text-accent-200">
           <Link
@@ -92,7 +93,7 @@ export default async function Page({
             rel="noreferrer"
             className="text-blue-700 underline"
           >
-            View it on Google Calendar
+            {'View it on Google Calendar'}
           </Link>
         </TextBase>
       </Box>

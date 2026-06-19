@@ -44,7 +44,8 @@ function StatusBanners({
       )}
       {successEmail && (
         <Box className="rounded-lg border border-green-200 bg-green-50 p-4 text-green-800 dark:border-green-800 dark:bg-green-950 dark:text-green-200">
-          Successfully connected <strong>{successEmail}</strong>
+          {'Successfully connected '}
+          <strong>{successEmail}</strong>
         </Box>
       )}
     </>
@@ -78,24 +79,24 @@ export default function ConnectGoogleClient({
 
       <Box className="rounded-lg border border-surface-200 bg-white p-6 dark:border-surface-700 dark:bg-surface-800">
         <H2 className="mb-2 uppercase" status="muted">
-          Connected Account
+          {'Connected Account'}
         </H2>
         {isConnected ? (
           <TextBase className="text-accent-900 dark:text-accent-100">{displayEmail}</TextBase>
         ) : (
           <TextBase className="text-surface-500 dark:text-surface-400">
-            No account connected
+            {'No account connected'}
           </TextBase>
         )}
       </Box>
 
       <Box className="rounded-lg border border-surface-200 bg-white p-6 dark:border-surface-700 dark:bg-surface-800">
         <H2 className="mb-1 uppercase" status="muted">
-          Permissions Requested
+          {'Permissions Requested'}
         </H2>
         <ul className="mb-4 mt-2 list-inside list-disc space-y-1 text-sm text-surface-700 dark:text-surface-300">
-          <li>Read and write Google Calendar events</li>
-          <li>Send email via Gmail on your behalf</li>
+          <li>{'Read and write Google Calendar events'}</li>
+          <li>{'Send email via Gmail on your behalf'}</li>
         </ul>
         <Button
           onClick={handleConnect}

@@ -49,7 +49,9 @@ function SessionRow({ event, label }: { event: GoogleCalendarV3Event; label: str
       <Stack direction="col">
         <TextBase className="font-medium">{event.summary}</TextBase>
         <TextSm className="text-accent-500">
-          {dateStr} at {timeStr}
+          {dateStr}
+          {' at '}
+          {timeStr}
         </TextSm>
       </Stack>
       <Stack direction="row" align="center" gap={3}>
@@ -100,16 +102,18 @@ export default async function EdgeAdminPage() {
   return (
     <SectionContainer>
       <Box className="mx-auto max-w-3xl px-4 py-8">
-        <H1 className="mb-6">Edge Event — Session Tracker</H1>
+        <H1 className="mb-6">{'Edge Event — Session Tracker'}</H1>
 
         <Box className="mb-8 rounded-xl border border-surface-200 bg-surface-50 p-6 dark:border-surface-700 dark:bg-surface-900">
-          <H2 className="mb-4">Budget</H2>
+          <H2 className="mb-4">{'Budget'}</H2>
           <Stack direction="row" align="end" gap={2} className="mb-3">
             <TextLg className="font-bold text-accent-900 dark:text-accent-100">
               {minutesToHoursLabel(totalUsedMinutes)}
             </TextLg>
             <TextBase className="text-accent-400">
-              of {minutesToHoursLabel(EDGE_BUDGET_MINUTES)} used
+              {'of '}
+              {minutesToHoursLabel(EDGE_BUDGET_MINUTES)}
+              {' used'}
             </TextBase>
           </Stack>
 
@@ -121,36 +125,46 @@ export default async function EdgeAdminPage() {
           </Box>
 
           <Stack direction="row" justify="between" className="mt-2">
-            <TextSm className="text-accent-500">{pctUsed}% used</TextSm>
             <TextSm className="text-accent-500">
-              {minutesToHoursLabel(remainingMinutes)} remaining
+              {pctUsed}
+              {'% used'}
+            </TextSm>
+            <TextSm className="text-accent-500">
+              {minutesToHoursLabel(remainingMinutes)}
+              {' remaining'}
             </TextSm>
           </Stack>
 
           <Stack direction="row" gap={6} className="mt-4">
             <Box>
-              <TextSm className="text-accent-400">Office hours</TextSm>
+              <TextSm className="text-accent-400">{'Office hours'}</TextSm>
               <TextBase className="font-semibold">{minutesToHoursLabel(ohMinutes)}</TextBase>
-              <TextSm className="text-accent-500">{officeHoursMembers.length} sessions</TextSm>
+              <TextSm className="text-accent-500">
+                {officeHoursMembers.length}
+                {' sessions'}
+              </TextSm>
             </Box>
             <Box>
-              <TextSm className="text-accent-400">Private</TextSm>
+              <TextSm className="text-accent-400">{'Private'}</TextSm>
               <TextBase className="font-semibold">{minutesToHoursLabel(pvMinutes)}</TextBase>
-              <TextSm className="text-accent-500">{privateMembers.length} sessions</TextSm>
+              <TextSm className="text-accent-500">
+                {privateMembers.length}
+                {' sessions'}
+              </TextSm>
             </Box>
           </Stack>
         </Box>
 
         <Box className="mb-8">
-          <H2 className="mb-3">Scheduled availability windows</H2>
+          <H2 className="mb-3">{'Scheduled availability windows'}</H2>
           {allContainers.length === 0 ? (
             <Box className="rounded-lg border border-surface-200 p-6 text-center dark:border-surface-700">
               <TextBase status="secondary">
-                No containers created yet. Use{' '}
+                {'No containers created yet. Use '}
                 <a href="/admin/create-container" className="text-primary-600 hover:underline">
-                  Create Container
+                  {'Create Container'}
                 </a>{' '}
-                to add office hours or private session windows.
+                {'to add office hours or private session windows.'}
               </TextBase>
             </Box>
           ) : (
@@ -164,7 +178,7 @@ export default async function EdgeAdminPage() {
 
         {(officeHoursMembers.length > 0 || privateMembers.length > 0) && (
           <Box>
-            <H2 className="mb-3">Booked sessions</H2>
+            <H2 className="mb-3">{'Booked sessions'}</H2>
             <Stack direction="col" gap={2}>
               {officeHoursMembers.map((e) => (
                 <SessionRow key={e.id} event={e} label="office hours" />
@@ -177,19 +191,19 @@ export default async function EdgeAdminPage() {
         )}
 
         <Box className="mt-8 rounded-lg border border-surface-200 bg-surface-50 p-4 text-sm text-accent-500 dark:border-surface-700 dark:bg-surface-900">
-          <H3 className="mb-1 text-accent-400">Links</H3>
+          <H3 className="mb-1 text-accent-400">{'Links'}</H3>
           <Stack direction="col" gap={1}>
             <a href="/edge" className="text-primary-600 hover:underline">
-              /edge — guest landing page
+              {'/edge — guest landing page'}
             </a>
             <a href="/edge-office-hours" className="text-primary-600 hover:underline">
-              /edge-office-hours — office hours booking
+              {'/edge-office-hours — office hours booking'}
             </a>
             <a href="/edge-private" className="text-primary-600 hover:underline">
-              /edge-private — private session booking
+              {'/edge-private — private session booking'}
             </a>
             <a href="/admin/create-container" className="text-primary-600 hover:underline">
-              /admin/create-container — add availability window
+              {'/admin/create-container — add availability window'}
             </a>
           </Stack>
         </Box>

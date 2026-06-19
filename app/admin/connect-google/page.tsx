@@ -21,7 +21,7 @@ export default async function ConnectGooglePage({ searchParams }: PageProps) {
 
   return (
     <Box className="max-w-lg">
-      <H1 className="mb-6">Connect Google Account</H1>
+      <H1 className="mb-6">{'Connect Google Account'}</H1>
       <ConnectGoogleClient
         connectedEmail={existingCreds?.email ?? null}
         successEmail={params.email ?? null}
