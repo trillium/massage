@@ -34,6 +34,8 @@ export const createBookingFormSchema = (config?: { cities?: string[]; zipCodes?:
     raffleOptIn: z.boolean().optional(),
     raffleZipCode: z.string().optional(),
     raffleInterestedIn: z.array(z.string()).optional(),
+    edgeMemberType: z.enum(['community', 'team']).optional(),
+    requestSooner: z.boolean().optional(),
   })
 }
 

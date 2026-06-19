@@ -47,6 +47,9 @@ export type CustomFieldsType = {
   showNotesField?: boolean
   showRaffleOptIn?: boolean
   showPromoField?: boolean
+  showRoleField?: boolean
+  showRequestSoonerField?: boolean
+  locationFromContainer?: boolean
 }
 
 export type SlugConfigurationType = {

@@ -17,6 +17,7 @@ import { generateContainerStrings } from './helpers/generateContainerStrings'
 import { buildDurationProps } from './helpers/buildDurationProps'
 import { getNullPageConfiguration } from './helpers/getNullPageConfiguration'
 import { fetchSingleEvent } from '@/lib/fetch/fetchSingleEvent'
+import { stringToLocationObject } from './helpers/parseLocationFromSlug'
 
 import type {
   createPageConfigurationProps,
@@ -111,6 +112,15 @@ export async function createPageConfiguration({
   if (debugInfo && fetchDebug) {
     debugInfo.executionPath += '.fetchPageData'
     debugInfo.intermediateResults.fetchPageData = fetchDebug
+  }
+
+  // 2b. Pull location from the first active container event when configured
+  if (configuration.customFields?.locationFromContainer && data.containers?.length) {
+    const containerLocation = data.containers[0]?.location
+    if (containerLocation) {
+      configuration.location = stringToLocationObject(containerLocation)
+      configuration.locationIsReadOnly = true
+    }
   }
 
   // 3. Validate search parameters

@@ -11,6 +11,8 @@ import ParkingField from './fields/ParkingField'
 import NotesField from './fields/NotesField'
 import PromoCodeField from './fields/PromoCodeField'
 import RaffleOptInField from './fields/RaffleOptInField'
+import RoleField from './fields/RoleField'
+import RequestSoonerField from './fields/RequestSoonerField'
 
 import { Box } from '@/components/ui/box'
 import { Stack } from '@/components/ui/stack'
@@ -41,6 +43,8 @@ type BookingFormFieldsProps = {
   showNotesField?: boolean
   showPromoField?: boolean
   showRaffleOptIn?: boolean
+  showRoleField?: boolean
+  showRequestSoonerField?: boolean
 }
 
 export default function BookingFormFields({
@@ -58,6 +62,8 @@ export default function BookingFormFields({
   showNotesField,
   showPromoField,
   showRaffleOptIn,
+  showRoleField,
+  showRequestSoonerField,
 }: BookingFormFieldsProps) {
   const dispatch = useAppDispatch()
 
@@ -235,6 +241,20 @@ export default function BookingFormFields({
           zipCode={values.raffleZipCode ?? ''}
           interestedIn={values.raffleInterestedIn ?? []}
           onChange={setFieldValue}
+        />
+      )}
+
+      {showRoleField && (
+        <RoleField
+          value={values.edgeMemberType}
+          onChange={(v) => setFieldValue('edgeMemberType', v)}
+        />
+      )}
+
+      {showRequestSoonerField && (
+        <RequestSoonerField
+          checked={values.requestSooner ?? false}
+          onChange={(v) => setFieldValue('requestSooner', v)}
         />
       )}
     </Stack>

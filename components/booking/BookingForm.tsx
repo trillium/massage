@@ -82,6 +82,8 @@ export default function BookingForm({
     additionalData?.showRaffleOptIn ??
     config?.customFields?.showRaffleOptIn
   )
+  const showRoleField = !!config?.customFields?.showRoleField
+  const showRequestSoonerField = !!config?.customFields?.showRequestSoonerField
   const locationReadOnly = !!eventContainers?.location || config.locationIsReadOnly
   const hideLocation = !!config.hideLocation
 
@@ -179,6 +181,8 @@ export default function BookingForm({
                   showNotesField={showNotesField}
                   showPromoField={showPromoField}
                   showRaffleOptIn={resolvedShowRaffleOptIn}
+                  showRoleField={showRoleField}
+                  showRequestSoonerField={showRequestSoonerField}
                 />
 
                 {modal === 'error' && (
