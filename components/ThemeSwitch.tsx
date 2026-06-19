@@ -6,6 +6,8 @@ import { Menu, MenuButton, MenuItem, MenuItems, Transition } from '@headlessui/r
 import ui from '@/data/ui.json'
 
 import { Stack } from '@/components/ui/stack'
+import { Box } from '@/components/ui/box'
+import { Button } from '@/components/ui/button'
 
 const Sun = () => (
   <svg
@@ -81,11 +83,11 @@ const ThemeSwitch = () => {
           leaveTo="transform opacity-0 scale-95"
         >
           <MenuItems className="ring-opacity-5 absolute right-0 z-50 mt-2 w-32 origin-top-right divide-y divide-accent-100 rounded-md bg-surface-50 shadow-lg ring-1 ring-black focus:outline-hidden dark:bg-surface-800">
-            <div className="p-1">
+            <Box className="p-1">
               {THEMES.map((t) => (
                 <MenuItem key={t}>
                   {({ focus }) => (
-                    <button
+                    <Button
                       type="button"
                       onClick={() => setTheme(t)}
                       className={`flex w-full items-center rounded-md px-2 py-2 text-sm ${
@@ -106,11 +108,11 @@ const ThemeSwitch = () => {
                         : t === 'dark'
                           ? ui.themeSwitch.dark
                           : ui.themeSwitch.system}
-                    </button>
+                    </Button>
                   )}
                 </MenuItem>
               ))}
-            </div>
+            </Box>
           </MenuItems>
         </Transition>
       </Menu>
