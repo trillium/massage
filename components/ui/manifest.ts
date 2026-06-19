@@ -45,6 +45,7 @@ export const DS_COMPONENTS_BY_CATEGORY = {
   heading: ['H1', 'H1Hero', 'H2', 'H3', 'H4', 'H5', 'H6'] as const,
   display: ['Code', 'Badge'] as const,
   layout: ['Box', 'Stack'] as const,
+  navigation: ['Link'] as const,
 } as const
 
 export const DS_COMPONENT_NAMES = Object.values(
@@ -145,9 +146,21 @@ export const DS_RULES: DsRule[] = [
     importPath: '@/components/ui/text',
     category: 'typography',
     selfExempt: true,
-    patterns: [{ jsx: /<span\b[^>]*className=[^>]*text-(?:xs|sm|base|lg|xl)/ }],
-    rawPattern: '<span className="text-…">',
-    description: 'Inline text with size class — use named text component instead',
+    patterns: [{ jsx: /<span\b[^>]*className=/ }],
+    rawPattern: '<span className={…}>',
+    description:
+      'Styled span — use a named text component (TextBase, TextSm, TextXs, Caption, etc.) instead. Raw styled spans bypass the DS type scale.',
+  },
+  {
+    name: 'raw-anchor',
+    component: '<Link>',
+    importPath: '@/components/Link',
+    category: 'navigation',
+    selfExempt: true,
+    patterns: [{ jsx: /<a\b[^>]*(?:href|className)=/ }],
+    rawPattern: '<a href={…}> or <a className={…}>',
+    description:
+      'Use <Link> from @/components/Link for all navigation links. Bare <a> bypasses Next.js routing, prefetching, and any DS link styling.',
   },
   {
     name: 'raw-label',

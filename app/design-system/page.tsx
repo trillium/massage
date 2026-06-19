@@ -32,6 +32,7 @@ import { PeerRadio } from '@/components/ui/peer-radio'
 import { LabelSm } from '@/components/ui/label'
 import { Code } from '@/components/ui/code'
 import { DS_RULES, type DsRuleCategory } from '@/components/ui/manifest'
+import Link from '@/components/Link'
 
 const PALETTE_SCALES = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950]
 
@@ -502,6 +503,24 @@ export default function DesignSystemPage() {
                   Option B
                 </label>
               </div>
+            </div>
+          </div>
+
+          {/* Link */}
+          <div className="mb-8">
+            <H3 className="mb-1 text-sm font-semibold text-accent-700 dark:text-accent-300">
+              Link
+            </H3>
+            <p className="mb-3 font-mono text-xs text-accent-400">
+              import Link from @/components/Link
+            </p>
+            <div className="space-y-2 rounded-lg border border-accent-200 p-4 dark:border-accent-700">
+              <Link
+                href="/book"
+                className="text-primary-600 underline hover:text-primary-700 dark:text-primary-400"
+              >
+                Book a session
+              </Link>
             </div>
           </div>
 
