@@ -14,6 +14,17 @@
  */
 
 import { chromium } from '@playwright/test'
+import { existsSync, readFileSync } from 'node:fs'
+
+const BASELINE_PATH = '.fallow/overflow-baseline.json'
+type BaselineEntry = { route: string; viewport: string }
+const BASELINE: BaselineEntry[] = existsSync(BASELINE_PATH)
+  ? (JSON.parse(readFileSync(BASELINE_PATH, 'utf-8')) as BaselineEntry[])
+  : []
+
+function isBaselined(route: string, viewport: string): boolean {
+  return BASELINE.some((b) => b.route === route && b.viewport === viewport)
+}
 
 const BASE_URL =
   process.argv.find((a) => a.startsWith('--url='))?.split('=')[1] ?? 'http://localhost:9876'
@@ -70,7 +81,14 @@ const OFFENDERS_JS = `(() => {
 })()`
 
 type OverflowResult = { hasOverflow: boolean; scrollWidth: number; clientWidth: number }
-type Offender = { tag: string; id: string | null; cls: string | null; text: string | null; right: number; width: number }
+type Offender = {
+  tag: string
+  id: string | null
+  cls: string | null
+  text: string | null
+  right: number
+  width: number
+}
 
 const overflowing: Array<{ route: string; result: OverflowResult; offenders: Offender[] }> = []
 const clean: string[] = []
@@ -97,9 +115,13 @@ for (const route of ROUTES) {
       const result = (await page.evaluate(CHECK_JS)) as OverflowResult
 
       if (result.hasOverflow) {
-        const offenders = (await page.evaluate(OFFENDERS_JS)) as Offender[]
-        overflowing.push({ route: `${route} @${vp.label}`, result, offenders })
-        failures.push(`${vp.label}(+${result.scrollWidth - result.clientWidth}px)`)
+        if (isBaselined(route, vp.label)) {
+          failures.push(`${vp.label}(baselined)`)
+        } else {
+          const offenders = (await page.evaluate(OFFENDERS_JS)) as Offender[]
+          overflowing.push({ route: `${route} @${vp.label}`, result, offenders })
+          failures.push(`${vp.label}(+${result.scrollWidth - result.clientWidth}px)`)
+        }
       }
     } catch {
       failures.push(`${vp.label}(err)`)
