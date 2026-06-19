@@ -9,17 +9,33 @@
  *   1  one or more components are missing
  */
 
-import { readFileSync } from 'node:fs'
-import { resolve } from 'node:path'
+import { readFileSync, readdirSync, statSync } from 'node:fs'
+import { resolve, join } from 'node:path'
 import { DS_COMPONENTS_BY_CATEGORY } from '../components/ui/manifest'
 
 const PAGE_PATH = resolve(import.meta.dir, '..', 'app/design-system/page.tsx')
+const SECTIONS_DIR = resolve(import.meta.dir, '..', 'app/design-system/sections')
 
 const COMPONENT_NAMES = Object.values(DS_COMPONENTS_BY_CATEGORY).flat()
 
+function readSectionSources(dir: string): string {
+  let combined = ''
+  try {
+    for (const entry of readdirSync(dir)) {
+      const full = join(dir, entry)
+      if (statSync(full).isFile() && (entry.endsWith('.tsx') || entry.endsWith('.ts'))) {
+        combined += `\n${readFileSync(full, 'utf8')}`
+      }
+    }
+  } catch {
+    return combined
+  }
+  return combined
+}
+
 let pageSource: string
 try {
-  pageSource = readFileSync(PAGE_PATH, 'utf8')
+  pageSource = readFileSync(PAGE_PATH, 'utf8') + readSectionSources(SECTIONS_DIR)
 } catch {
   process.stderr.write(`check-ds-page: cannot read ${PAGE_PATH}\n`)
   process.exit(2)
