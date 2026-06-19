@@ -1,5 +1,17 @@
 # massage — Changelog
 
+## 2026-06-19 — session ea3d2140
+
+Files: app/api/health/route.ts, scripts/seed-google-oauth-app.ts, .env.local.template, lib/google/credentials.ts, app/api/admin/db-health/route.ts, .env.local, supabase/migrations/templates/booking/009_contact_and_email_logs.sql, lib/emailTypes.ts, lib/db/auditLog.ts, lib/email/index.ts
+
+> AI summary pending — check ProjectDocs Handover in next session.
+
+## 2026-06-17 — session 27a90f24
+
+Files: components/ui/text.tsx, components/StyledBookButton.tsx, components/ui/manifest.ts, biome.json, scripts/check-design-system.ts, package.json, components/ui/heading.tsx, scripts/audit-ui.ts, components/BookedCard.tsx, components/ReviewCard/ReviewCard.tsx
+
+> AI summary pending — check ProjectDocs Handover in next session.
+
 ## 2026-06-16 — session 1cba9990
 
 Files: scripts/migrate-ds-elements.ts, scripts/CODEMODS.md
