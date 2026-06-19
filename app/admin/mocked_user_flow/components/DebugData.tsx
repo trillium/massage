@@ -21,13 +21,13 @@ export default function DebugData({ submittedData, onReset }: DebugDataProps) {
   return (
     <Box className="mt-12 rounded-lg bg-surface-200 p-6 dark:bg-surface-700">
       <Stack className="mb-4" direction="row" align="center" justify="between">
-        <H3>Debug: Submitted Data</H3>
+        <H3>{'Debug: Submitted Data'}</H3>
         {onReset && (
           <Button
             onClick={onReset}
             className="rounded bg-red-600 px-3 py-1 text-sm font-medium text-white hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-800"
           >
-            Reset Flow
+            {'Reset Flow'}
           </Button>
         )}
       </Stack>

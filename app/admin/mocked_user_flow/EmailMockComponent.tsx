@@ -37,7 +37,7 @@ export default function EmailMockComponent({
   return (
     <Box className="rounded border border-accent-300 bg-surface-100 p-4 dark:border-accent-700 dark:bg-surface-900">
       <Box className="mb-3 border-b border-accent-200 pb-2 dark:border-accent-700">
-        <Box className="text-sm text-accent-600 dark:text-accent-300">Subject:</Box>
+        <Box className="text-sm text-accent-600 dark:text-accent-300">{'Subject:'}</Box>
         <Box className="font-medium text-accent-800 dark:text-accent-100">{email.subject}</Box>
       </Box>
 
@@ -70,7 +70,7 @@ export default function EmailMockComponent({
             onClick={handleApprovalClick}
             className="rounded bg-blue-600 px-3 py-1 text-sm font-medium text-white hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800"
           >
-            Simulate Approval Click
+            {'Simulate Approval Click'}
           </Button>
         </Box>
       )}

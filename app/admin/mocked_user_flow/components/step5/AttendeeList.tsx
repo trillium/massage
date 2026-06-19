@@ -13,7 +13,7 @@ import { Box } from '@/components/ui/box'
 export default function AttendeeList({ attendees }: { attendees: Attendee[] }) {
   return (
     <Box>
-      <H3 className="mb-2 dark:text-white">Attendees</H3>
+      <H3 className="mb-2 dark:text-white">{'Attendees'}</H3>
       <Box className="space-y-2">
         {attendees.map((attendee, index) => (
           <Stack
@@ -31,7 +31,7 @@ export default function AttendeeList({ attendees }: { attendees: Attendee[] }) {
                     className="ml-2 rounded bg-blue-100 px-2 py-1 dark:bg-blue-900"
                     status="info"
                   >
-                    Organizer
+                    {'Organizer'}
                   </TextXs>
                 )}
               </TextBase>

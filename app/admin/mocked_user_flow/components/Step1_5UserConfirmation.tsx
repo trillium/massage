@@ -39,9 +39,9 @@ export default function Step1_5UserConfirmation({ submittedData }: Step1_5UserCo
 
   return (
     <Box className="mb-12 rounded-lg bg-surface-50 p-6 shadow dark:bg-surface-800">
-      <H2 className="mb-4">Step 1.5: User Confirmation Page</H2>
+      <H2 className="mb-4">{'Step 1.5: User Confirmation Page'}</H2>
       <TextBase status="secondary" className="mb-4">
-        This is what the user sees immediately after submitting their booking request:
+        {'This is what the user sees immediately after submitting their booking request:'}
       </TextBase>
 
       {/* Simulated confirmation page content */}

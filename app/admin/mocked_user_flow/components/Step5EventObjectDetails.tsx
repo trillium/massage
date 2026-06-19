@@ -38,7 +38,7 @@ export default function Step5EventObjectDetails({
   if (!submittedData || !isConfirmed) {
     return (
       <Box className="mb-8 rounded-lg bg-surface-50 p-6 shadow-lg dark:bg-surface-800">
-        <H2 className="mb-4 dark:text-white">Step 5: Calendar Event Details</H2>
+        <H2 className="mb-4 dark:text-white">{'Step 5: Calendar Event Details'}</H2>
         <TextBase status="secondary">
           {!submittedData
             ? 'Complete the booking form to see calendar event details.'
@@ -86,18 +86,20 @@ export default function Step5EventObjectDetails({
 
   return (
     <Box className="mb-8 rounded-lg bg-surface-50 p-6 shadow-lg dark:bg-surface-800">
-      <H2 className="mb-6 dark:text-white">Step 5: Calendar Event Details</H2>
+      <H2 className="mb-6 dark:text-white">{'Step 5: Calendar Event Details'}</H2>
 
       <Box className="mb-6 rounded-lg bg-green-50 p-4 dark:bg-green-900/20">
         <TextSm status="success">
-          <FaCheck className="mr-1 inline text-green-600" /> This shows the calendar event that
-          would be created in Google Calendar using the same backend functions and templates.
+          <FaCheck className="mr-1 inline text-green-600" />{' '}
+          {
+            'This shows the calendar event that would be created in Google Calendar using the same backend functions and templates.'
+          }
         </TextSm>
       </Box>
 
       <Box className="space-y-6">
         <Box>
-          <H3 className="mb-2 dark:text-white">Event Title</H3>
+          <H3 className="mb-2 dark:text-white">{'Event Title'}</H3>
           <Box className="rounded bg-surface-200 p-3 dark:bg-surface-700">
             <TextBase className="font-medium text-accent-900 dark:text-white">{summary}</TextBase>
           </Box>
@@ -105,13 +107,13 @@ export default function Step5EventObjectDetails({
 
         <Box className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <Box>
-            <H3 className="mb-2 dark:text-white">Start Time</H3>
+            <H3 className="mb-2 dark:text-white">{'Start Time'}</H3>
             <TextBase className="text-accent-700 dark:text-accent-300">
               {formatDateTime(submittedData.start)}
             </TextBase>
           </Box>
           <Box>
-            <H3 className="mb-2 dark:text-white">End Time</H3>
+            <H3 className="mb-2 dark:text-white">{'End Time'}</H3>
             <TextBase className="text-accent-700 dark:text-accent-300">
               {formatDateTime(submittedData.end)}
             </TextBase>
@@ -119,7 +121,7 @@ export default function Step5EventObjectDetails({
         </Box>
 
         <Box>
-          <H3 className="mb-2 dark:text-white">Location</H3>
+          <H3 className="mb-2 dark:text-white">{'Location'}</H3>
           <TextBase className="text-accent-700 dark:text-accent-300">
             {submittedData.location ? flattenLocation(submittedData.location) : 'Not specified'}
           </TextBase>
@@ -128,7 +130,7 @@ export default function Step5EventObjectDetails({
         <AttendeeList attendees={attendees} />
 
         <Box>
-          <H3 className="mb-2 dark:text-white">Event Description</H3>
+          <H3 className="mb-2 dark:text-white">{'Event Description'}</H3>
           <Box className="rounded bg-surface-200 p-4 dark:bg-surface-700">
             <Box
               className="text-sm whitespace-pre-wrap text-accent-700 dark:text-accent-300"
@@ -138,29 +140,29 @@ export default function Step5EventObjectDetails({
         </Box>
 
         <Box>
-          <H3 className="mb-2 dark:text-white">Event Metadata</H3>
+          <H3 className="mb-2 dark:text-white">{'Event Metadata'}</H3>
           <Box className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <Box>
-              <H4 className="dark:text-white">Event Base String</H4>
+              <H4 className="dark:text-white">{'Event Base String'}</H4>
               <TextSmMuted className="font-mono">
                 {submittedData.eventBaseString || 'N/A'}
               </TextSmMuted>
             </Box>
             {submittedData.eventMemberString && (
               <Box>
-                <H4 className="dark:text-white">Event Member String</H4>
+                <H4 className="dark:text-white">{'Event Member String'}</H4>
                 <TextSmMuted className="font-mono">{submittedData.eventMemberString}</TextSmMuted>
               </Box>
             )}
             {submittedData.bookingUrl && (
               <Box>
-                <H4 className="dark:text-white">Booking URL</H4>
+                <H4 className="dark:text-white">{'Booking URL'}</H4>
                 <TextSmMuted className="font-mono">{submittedData.bookingUrl}</TextSmMuted>
               </Box>
             )}
             {submittedData.promo && (
               <Box>
-                <H4 className="dark:text-white">Promo Applied</H4>
+                <H4 className="dark:text-white">{'Promo Applied'}</H4>
                 <TextSmMuted className="font-mono">{submittedData.promo}</TextSmMuted>
               </Box>
             )}

@@ -30,7 +30,7 @@ export default function MockedConfirmationPage({ data }: MockedConfirmationPageP
   const { duration } = useReduxAvailability()
 
   if (!data) {
-    return <Box className="text-center text-accent-500">No booking data available</Box>
+    return <Box className="text-center text-accent-500">{'No booking data available'}</Box>
   }
 
   const start = new Date(data.start)
@@ -62,10 +62,10 @@ export default function MockedConfirmationPage({ data }: MockedConfirmationPageP
     <Box className="rounded-lg bg-surface-100 p-6 dark:bg-surface-900">
       <Box className="w-full max-w-2xl px-4 py-4 sm:px-0 sm:py-8">
         <H1 className="sm:text-5xl" status="primary">
-          Thanks!
+          {'Thanks!'}
         </H1>
         <TextBase className="mt-6 text-xl font-medium text-accent-800 dark:text-accent-200">
-          Your appointment has been booked!
+          {'Your appointment has been booked!'}
         </TextBase>
       </Box>
 

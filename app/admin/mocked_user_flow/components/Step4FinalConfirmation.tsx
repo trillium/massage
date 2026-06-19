@@ -37,9 +37,9 @@ export default function Step4FinalConfirmation({
       id="confirmation-section"
       className="rounded-lg bg-surface-50 p-6 shadow dark:bg-surface-800"
     >
-      <H2 className="mb-4">Step 4: Booking Confirmed</H2>
+      <H2 className="mb-4">{'Step 4: Booking Confirmed'}</H2>
       <TextBase status="secondary" className="mb-4">
-        After approval, the user would see a confirmation page like this:
+        {'After approval, the user would see a confirmation page like this:'}
       </TextBase>
       <MockedConfirmationPage data={transformedData} />
     </Box>
