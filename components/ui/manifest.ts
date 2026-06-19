@@ -21,7 +21,7 @@ export interface DsRule {
 }
 
 export const DS_COMPONENTS_BY_CATEGORY = {
-  interactive: ['Button', 'Input', 'Textarea', 'Select', 'Radio'] as const,
+  interactive: ['Button', 'Input', 'Textarea', 'Select', 'Radio', 'PeerRadio'] as const,
   typography: [
     'TextBase',
     'TextBaseMuted',
@@ -197,13 +197,14 @@ export const DS_RULES: DsRule[] = [
   },
   {
     name: 'raw-radio',
-    component: '<Radio>',
+    component: '<Radio> or <PeerRadio>',
     importPath: '@/components/ui/radio',
     category: 'interactive',
     selfExempt: true,
     patterns: [{ jsx: /<input\b[^>]*\btype="radio"\b/ }],
     rawPattern: '<input type="radio" …>',
-    description: 'Radio button — use <Radio> with label prop instead',
+    description:
+      'Use <Radio label="…"> for visible labeled radio buttons. Use <PeerRadio className="peer sr-only"> when the input drives CSS peer-checked states on sibling labels (DurationPicker, DayButton, carousel dots). Never use bare <input type="radio"> — it bypasses the DS wrapper and can cause layout overflow.',
   },
   {
     name: 'ds-component-style-override',

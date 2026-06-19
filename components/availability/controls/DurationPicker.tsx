@@ -13,7 +13,7 @@ import {
 import { GeneratePrice } from '@/components/ui/atoms/GeneratePriceAtom'
 import type { durationPropsType } from '@/lib/types'
 
-import { Input } from '@/components/ui/input'
+import { PeerRadio } from '@/components/ui/peer-radio'
 import { Box } from '@/components/ui/box'
 
 export default function DurationPicker({
@@ -73,10 +73,9 @@ export default function DurationPicker({
       >
         {allowedDurations.map((theDuration, i) => (
           <Box key={theDuration}>
-            <Input
+            <PeerRadio
               id={`duration-${theDuration}`}
               name="duration"
-              type="radio"
               value={theDuration}
               checked={duration === theDuration}
               onChange={handleChange}

@@ -13,9 +13,9 @@ import { H2 } from '@/components/ui/heading'
 import { TextSm, TextSmSemibold } from '@/components/ui/text'
 
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
 import { Stack } from '@/components/ui/stack'
 import { Box } from '@/components/ui/box'
+import { PeerRadio } from '@/components/ui/peer-radio'
 
 const AIRBNB_REVIEWS_URL = 'https://www.airbnb.com/services/6527842?modal=reviews'
 const {
@@ -213,8 +213,7 @@ export function TestimonialsCarousel({ reviews }: { reviews: ReviewType[] }) {
       >
         {reviews.map((_, idx) => (
           <React.Fragment key={idx}>
-            <Input
-              type="radio"
+            <PeerRadio
               id={`review-dot-${idx}`}
               name="review-dot"
               checked={current === idx}

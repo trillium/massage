@@ -5,11 +5,11 @@ import { twMerge } from 'tailwind-merge'
 
 import Day from 'lib/day'
 
-import { Input } from '@/components/ui/input'
 
 import { TextBase } from '@/components/ui/text'
 import { Stack } from '@/components/ui/stack'
 import { Box } from '@/components/ui/box'
+import { PeerRadio } from '@/components/ui/peer-radio'
 
 type DayProps = {
   date: Day
@@ -56,11 +56,10 @@ export default function DayButton({
         } date ${date.toString()} in calendar`}
         {...props}
       >
-        <Input
+        <PeerRadio
           onChange={handleChange}
           id={`day-${date.getDay()}`}
           name="day"
-          type="radio"
           className="sr-only"
           disabled={isDisabled}
           checked={isSelected}

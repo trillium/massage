@@ -2,8 +2,8 @@
 
 import { fieldClasses } from './classes'
 import { TextSmSemibold, TextXsMuted } from '@/components/ui/text'
-import { Input } from '@/components/ui/input'
 import { Stack } from '@/components/ui/stack'
+import { PeerRadio } from '@/components/ui/peer-radio'
 
 const DEFAULT_HINTS = {
   community: '15 min standard — longer available',
@@ -27,8 +27,7 @@ export default function RoleField({ value, onChange, hints = DEFAULT_HINTS }: Ro
       <Stack direction="col" gap={2} className="mt-2">
         {ROLE_OPTIONS.map((option) => (
           <Stack key={option.value} direction="row" align="start" gap={3}>
-            <Input
-              type="radio"
+            <PeerRadio
               id={`role-${option.value}`}
               name="edgeMemberType"
               value={option.value}
