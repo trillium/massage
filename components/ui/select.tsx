@@ -22,7 +22,7 @@ export function Select({ label, error, className, id, children, ...props }: Sele
           'text-accent-900',
           'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-1',
           'disabled:cursor-not-allowed disabled:opacity-50',
-          'dark:border-accent-600 dark:bg-surface-800 dark:text-accent-100',
+          'dark:border-accent-600 dark:bg-surface-700 dark:text-accent-100',
           error && 'border-red-500 focus-visible:ring-red-500',
           className
         )}
