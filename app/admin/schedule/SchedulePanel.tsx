@@ -50,6 +50,7 @@ export function SchedulePanel({ queryGroups }: Props) {
 
   useEffect(() => {
     nowRef.current?.scrollIntoView({ block: 'center', behavior: 'smooth' })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedContainerId])
 
   const group = queryGroups.find((g) => g.query === selectedQuery)
