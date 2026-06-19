@@ -58,8 +58,10 @@ const OFFENDERS_JS = `(() => {
       r.push({
         tag: el.tagName,
         id: el.id || null,
-        cls: el.className?.toString().slice(0, 60) || null,
+        cls: el.className?.toString() || null,
+        text: el.textContent?.trim().slice(0, 80) || null,
         right: Math.round(rect.right),
+        width: Math.round(rect.width),
       })
       if (r.length >= 5) break
     }
@@ -68,7 +70,7 @@ const OFFENDERS_JS = `(() => {
 })()`
 
 type OverflowResult = { hasOverflow: boolean; scrollWidth: number; clientWidth: number }
-type Offender = { tag: string; id: string | null; cls: string | null; right: number }
+type Offender = { tag: string; id: string | null; cls: string | null; text: string | null; right: number; width: number }
 
 const overflowing: Array<{ route: string; result: OverflowResult; offenders: Offender[] }> = []
 const clean: string[] = []
@@ -124,9 +126,9 @@ if (overflowing.length > 0) {
       `❌ ${route}  (scrollWidth: ${result.scrollWidth}, clientWidth: ${result.clientWidth})`
     )
     for (const o of offenders) {
-      console.log(
-        `   ${o.tag}${o.id ? `#${o.id}` : ''}  right: ${o.right}px  cls: ${o.cls ?? '—'}`
-      )
+      console.log(`   ${o.tag}${o.id ? `#${o.id}` : ''}  right: ${o.right}px  width: ${o.width}px`)
+      if (o.cls) console.log(`      cls: ${o.cls}`)
+      if (o.text) console.log(`      txt: ${o.text}`)
     }
     console.log()
   }
