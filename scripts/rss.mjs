@@ -1,7 +1,7 @@
 import { writeFileSync, mkdirSync } from 'node:fs'
 import path from 'node:path'
 import { slug } from 'github-slugger'
-import { escape } from 'pliny/utils/htmlEscaper.js'
+import { escape as htmlEscape } from 'pliny/utils/htmlEscaper.js'
 import siteMetadata from '../data/siteMetadata.js'
 import tagData from '../app/tag-data.json' with { type: 'json' }
 import { allBlogs } from '../.contentlayer/generated/index.mjs'
@@ -12,9 +12,9 @@ const outputFolder = process.env.EXPORT ? 'out' : 'public'
 const generateRssItem = (config, post) => `
   <item>
     <guid>${config.siteUrl}/blog/${post.slug}</guid>
-    <title>${escape(post.title)}</title>
+    <title>${htmlEscape(post.title)}</title>
     <link>${config.siteUrl}/blog/${post.slug}</link>
-    ${post.summary && `<description>${escape(post.summary)}</description>`}
+    ${post.summary && `<description>${htmlEscape(post.summary)}</description>`}
     <pubDate>${new Date(post.date).toUTCString()}</pubDate>
     <author>${config.email} (${config.author})</author>
     ${post.tags?.map((t) => `<category>${t}</category>`).join('')}
@@ -24,9 +24,9 @@ const generateRssItem = (config, post) => `
 const generateRss = (config, posts, page = 'feed.xml') => `
   <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
-      <title>${escape(config.title)}</title>
+      <title>${htmlEscape(config.title)}</title>
       <link>${config.siteUrl}/blog</link>
-      <description>${escape(config.description)}</description>
+      <description>${htmlEscape(config.description)}</description>
       <language>${config.language}</language>
       <managingEditor>${config.email} (${config.author})</managingEditor>
       <webMaster>${config.email} (${config.author})</webMaster>

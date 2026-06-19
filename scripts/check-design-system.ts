@@ -122,7 +122,7 @@ function checkFile(file: string): Finding[] {
 function getStagedLineNumbers(file: string): Set<number> | null {
   try {
     // eslint-disable-next-line @typescript-eslint/no-require-imports
-    const { execSync } = require('child_process')
+    const { execSync } = require('node:child_process')
     const diff = execSync(`git diff --cached -- "${file}"`, { encoding: 'utf8' })
     if (!diff) return null
     const added = new Set<number>()

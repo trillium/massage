@@ -32,7 +32,9 @@ vi.mock('@/lib/supabase/cookie-options', () => ({
 
 function makeRequest(params: Record<string, string>, headers: Record<string, string> = {}) {
   const url = new URL('http://localhost/auth/callback/connect-google')
-  Object.entries(params).forEach(([k, v]) => url.searchParams.set(k, v))
+  Object.entries(params).forEach(([k, v]) => {
+    url.searchParams.set(k, v)
+  })
   return new Request(url, {
     headers: { host: 'localhost:9876', ...headers },
   }) as unknown as import('next/server').NextRequest

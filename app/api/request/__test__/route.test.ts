@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { handleAppointmentRequest } from 'lib/handleAppointmentRequest'
 import { AppointmentRequestSchema } from 'lib/schema'
 import type { NextRequest } from 'next/server'
-import type { IncomingMessage } from 'http'
+import type { IncomingMessage } from 'node:http'
 
 vi.mock('lib/messaging/push/admin/pushover', () => ({
   pushoverSendMessage: vi.fn(() => Promise.resolve()),

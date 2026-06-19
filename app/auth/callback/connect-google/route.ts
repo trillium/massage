@@ -30,9 +30,9 @@ async function exchangeCode(code: string) {
           return cookieStore.getAll()
         },
         setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value, options }) =>
+          cookiesToSet.forEach(({ name, value, options }) => {
             cookieStore.set(name, value, getCookieOptionsWithDomain(options))
-          )
+          })
         },
       },
     }

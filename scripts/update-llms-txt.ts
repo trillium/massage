@@ -1,6 +1,6 @@
 import { chromium } from 'playwright'
-import { writeFileSync } from 'fs'
-import { join } from 'path'
+import { writeFileSync } from 'node:fs'
+import { join } from 'node:path'
 
 const AIRBNB_URL = 'https://airbnb.com/sv/trilliummassage'
 const OUTPUT_PATH = join(import.meta.dir, '../public/llms.txt')
