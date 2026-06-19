@@ -314,7 +314,8 @@ export default async function Image() {
               display: 'flex',
             }}
           >
-            {DOMAIN.toUpperCase()}{/* AUTHORIZED CHANNEL */}
+            {DOMAIN.toUpperCase()}
+            {/* AUTHORIZED CHANNEL */}
           </div>
         </div>
       </div>

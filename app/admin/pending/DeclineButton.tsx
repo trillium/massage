@@ -6,6 +6,8 @@ import { TextSmMedium, TextXs } from '@/components/ui/text'
 import { Button } from '@/components/ui/button'
 import { Box } from '@/components/ui/box'
 
+const LABEL_DECLINED = 'Declined'
+
 export function DeclineButton({ declineUrl }: { declineUrl: string }) {
   const [state, setState] = useState<'idle' | 'loading' | 'declined' | 'error'>('idle')
 
@@ -25,7 +27,7 @@ export function DeclineButton({ declineUrl }: { declineUrl: string }) {
   }
 
   if (state === 'declined') {
-    return <TextSmMedium status="muted">Declined</TextSmMedium>
+    return <TextSmMedium status="muted">{LABEL_DECLINED}</TextSmMedium>
   }
 
   return (

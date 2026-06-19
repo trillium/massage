@@ -82,7 +82,6 @@ export default async function ActiveEventContainersPage() {
                 {p.howItWorks.containerEvents.label}
               </strong>{' '}
               {p.howItWorks.containerEvents.description}
-              {/* biome-ignore lint/style/noJsxLiterals: calendar event naming convention identifier */}
               <Code>QUERY__EVENT__CONTAINER__</Code>
             </TextBase>
             <TextBase>
@@ -90,7 +89,6 @@ export default async function ActiveEventContainersPage() {
                 {p.howItWorks.memberEvents.label}
               </strong>{' '}
               {p.howItWorks.memberEvents.description}
-              {/* biome-ignore lint/style/noJsxLiterals: calendar event naming convention identifier */}
               <Code>QUERY__EVENT__MEMBER__</Code>
             </TextBase>
             <TextBase>

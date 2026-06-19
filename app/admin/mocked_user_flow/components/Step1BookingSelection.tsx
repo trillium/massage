@@ -14,10 +14,14 @@ import { setModal } from '@/redux/slices/modalSlice'
 import { setEventContainers } from '@/redux/slices/eventContainersSlice'
 import { BookingFormValues } from '@/lib/bookingFormSchema'
 import { H2, H3 } from '@/components/ui/heading'
-
 import { TextBase } from '@/components/ui/text'
 import { Stack } from '@/components/ui/stack'
 import { Box } from '@/components/ui/box'
+
+const STEP1_HEADING = 'Step 1: Booking Form'
+const STEP1_INSTRUCTIONS = 'Fill out the form below to simulate a booking request:'
+const LABEL_CALENDAR = 'Calendar Selection'
+const LABEL_QUICK_TIME = 'Quick Time Selection'
 
 interface Step1BookingSelectionProps {
   selectedDuration: number
@@ -60,11 +64,9 @@ export default function Step1BookingSelection({
 
   return (
     <Box className="mb-12 rounded-lg bg-surface-50 p-6 shadow dark:bg-surface-800">
-      <H2 className="mb-4">Step 1: Booking Form</H2>
+      <H2 className="mb-4">{STEP1_HEADING}</H2>
       <Box className="space-y-4">
-        <TextBase status="secondary">
-          Fill out the form below to simulate a booking request:
-        </TextBase>
+        <TextBase status="secondary">{STEP1_INSTRUCTIONS}</TextBase>
 
         {/* Duration Picker */}
         <Box className="rounded bg-purple-50 p-4 dark:bg-purple-900/20">
@@ -74,7 +76,7 @@ export default function Step1BookingSelection({
         {/* Calendar Selection */}
         <Box className="mt-4 rounded bg-green-50 p-4 dark:bg-green-900/20">
           <H3 className="mb-2" status="success">
-            Calendar Selection
+            {LABEL_CALENDAR}
           </H3>
           <Box className="w-full">
             <Calendar
@@ -109,7 +111,7 @@ export default function Step1BookingSelection({
         {/* Mock Time Selection */}
         <Box className="rounded bg-blue-50 p-4 dark:bg-blue-900/20">
           <H3 className="mb-2" status="info">
-            Quick Time Selection
+            {LABEL_QUICK_TIME}
           </H3>
           <Stack direction="row" wrap gap={2}>
             <TimeButton

@@ -113,7 +113,9 @@
         "app/admin/og-preview/**",
         "app/og-preview/**",
         "app/og-variants/**",
-        "app/design-system/**"
+        "app/design-system/**",
+        "app/admin/**",
+        "app/auth/**"
       ],
       "linter": {
         "rules": {

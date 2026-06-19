@@ -17,6 +17,10 @@ import { Button } from '@/components/ui/button'
 import { Stack } from '@/components/ui/stack'
 import { Box } from '@/components/ui/box'
 
+const PAGE_HEADING = 'Mocked User Flow - Admin'
+const PAGE_DESCRIPTION = 'Simulates the entire booking flow (no emails or calendar events)'
+const BUTTON_RESET = 'Reset Flow'
+
 export default function MockedUserFlowPage() {
   const {
     selectedDuration,
@@ -41,17 +45,15 @@ export default function MockedUserFlowPage() {
                 as="span"
                 className="text-xl font-bold text-accent-900 dark:text-accent-100"
               >
-                Mocked User Flow - Admin
+                {PAGE_HEADING}
               </TextBase>
-              <TextSmMuted className="hidden md:inline">
-                Simulates the entire booking flow (no emails or calendar events)
-              </TextSmMuted>
+              <TextSmMuted className="hidden md:inline">{PAGE_DESCRIPTION}</TextSmMuted>
             </Stack>
             <Button
               onClick={handleReset}
               className="rounded bg-surface-600 px-4 py-2 text-sm font-medium whitespace-nowrap text-white hover:bg-surface-700 dark:bg-surface-700 dark:hover:bg-surface-600"
             >
-              Reset Flow
+              {BUTTON_RESET}
             </Button>
           </nav>
 
