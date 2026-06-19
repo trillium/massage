@@ -21,6 +21,7 @@ import DurationPicker from '@/components/availability/controls/DurationPicker'
 import { H2 } from '@/components/ui/heading'
 
 import { Input } from '@/components/ui/input'
+import { Radio } from '@/components/ui/radio'
 import { Stack } from '@/components/ui/stack'
 import { Box } from '@/components/ui/box'
 
@@ -193,18 +194,14 @@ function ClientPage({ duration, children }: { duration: number; children?: React
           <Stack className="space-y-2 pl-4" direction="col">
             {paymentOptionsList.map((option) => (
               <Stack direction="row" align="center" key={option}>
-                <Input
-                  id={`checked-checkbox-${option}`}
-                  type="radio"
+                <Radio
+                  id={`payment-${option}`}
                   name="paymentOptions"
                   value={option}
-                  className="focus:ring-primary-500 dark:focus:ring-primary-400 h-4 w-4 rounded border-accent-300 bg-surface-200 text-blue-600 focus:ring-2 dark:border-accent-600 dark:bg-surface-700 dark:ring-offset-accent-800"
+                  label={option}
                   onChange={formik.handleChange}
                   required
                 />
-                <label htmlFor={`checked-checkbox-${option}`} className="ms-2 font-medium">
-                  {option}
-                </label>
               </Stack>
             ))}
             <Box className="min-h-[1.25rem] text-sm text-red-600">

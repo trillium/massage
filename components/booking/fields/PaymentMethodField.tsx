@@ -3,10 +3,9 @@ import { PaymentMethodType } from 'lib/types'
 import { paymentMethod } from 'data/paymentMethods'
 import { fieldClasses } from './classes'
 
-import { Input } from '@/components/ui/input'
-
 import { TextBase } from '@/components/ui/text'
 import { Box } from '@/components/ui/box'
+import { Radio } from '@/components/ui/radio'
 
 type PaymentMethodFieldProps = {
   selected: PaymentMethodType | undefined
@@ -22,18 +21,14 @@ export default function PaymentMethodField({ selected, onChange }: PaymentMethod
         <Box className={fieldClasses.paymentOptions}>
           {paymentMethod.map((payType) => (
             <Box key={payType.value} className={fieldClasses.radioContainer}>
-              <Input
+              <Radio
                 id={payType.value}
-                aria-label={payType.name}
-                type="radio"
+                name="paymentMethod"
+                label={payType.name}
                 value={payType.value}
                 checked={selected === payType.value}
-                className={fieldClasses.radio}
                 onChange={onChange}
               />
-              <label htmlFor={payType.value} className={fieldClasses.radioLabel}>
-                {payType.name}
-              </label>
             </Box>
           ))}
         </Box>

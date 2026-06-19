@@ -5,6 +5,7 @@ import admin from '@/data/admin.json'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { Radio } from '@/components/ui/radio'
 import { H1 } from '@/components/ui/heading'
 import { Box } from '@/components/ui/box'
 
@@ -64,34 +65,22 @@ export default function IsTestUserPage() {
           {admin.isTestUser.actionLabel}
         </Box>
         <Box className="space-y-2">
-          {/* biome-ignore lint/a11y/noLabelWithoutControl: implicit label association via wrapped Input */}
-          <label className="flex items-center">
-            <Input
-              type="radio"
-              name="action"
-              value="identify"
-              checked={action === 'identify'}
-              onChange={(e) => setAction(e.target.value as 'identify' | 'testUser')}
-              className="mr-2"
-            />
-            <span className="text-accent-700 dark:text-accent-300">
-              {admin.isTestUser.identifyLabel}
-            </span>
-          </label>
-          {/* biome-ignore lint/a11y/noLabelWithoutControl: implicit label association via wrapped Input */}
-          <label className="flex items-center">
-            <Input
-              type="radio"
-              name="action"
-              value="testUser"
-              checked={action === 'testUser'}
-              onChange={(e) => setAction(e.target.value as 'identify' | 'testUser')}
-              className="mr-2"
-            />
-            <span className="text-accent-700 dark:text-accent-300">
-              {admin.isTestUser.testUserLabel}
-            </span>
-          </label>
+          <Radio
+            id="action-identify"
+            name="action"
+            value="identify"
+            label={admin.isTestUser.identifyLabel}
+            checked={action === 'identify'}
+            onChange={(e) => setAction(e.target.value as 'identify' | 'testUser')}
+          />
+          <Radio
+            id="action-testUser"
+            name="action"
+            value="testUser"
+            label={admin.isTestUser.testUserLabel}
+            checked={action === 'testUser'}
+            onChange={(e) => setAction(e.target.value as 'identify' | 'testUser')}
+          />
         </Box>
       </Box>
 

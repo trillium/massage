@@ -21,7 +21,7 @@ export interface DsRule {
 }
 
 export const DS_COMPONENTS_BY_CATEGORY = {
-  interactive: ['Button', 'Input', 'Textarea', 'Select'] as const,
+  interactive: ['Button', 'Input', 'Textarea', 'Select', 'Radio'] as const,
   typography: [
     'TextBase',
     'TextBaseMuted',
@@ -194,6 +194,16 @@ export const DS_RULES: DsRule[] = [
     patterns: [{ jsx: /<select\b/ }],
     rawPattern: '<select …>',
     description: 'Themed select with label, error state, and consistent focus ring',
+  },
+  {
+    name: 'raw-radio',
+    component: '<Radio>',
+    importPath: '@/components/ui/radio',
+    category: 'interactive',
+    selfExempt: true,
+    patterns: [{ jsx: /<input\b[^>]*\btype="radio"\b/ }],
+    rawPattern: '<input type="radio" …>',
+    description: 'Radio button — use <Radio> with label prop instead',
   },
   {
     name: 'ds-component-style-override',

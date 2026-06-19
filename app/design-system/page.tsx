@@ -11,6 +11,7 @@ import {
   TextBase,
   TextBaseMuted,
   TextBaseMedium,
+  TextBaseSemibold,
   TextSm,
   TextSmMuted,
   TextSmMedium,
@@ -24,7 +25,9 @@ import {
   TextPrimary,
   Caption,
 } from '@/components/ui/text'
-import { H1, H1Hero, H2, H3, H4 } from '@/components/ui/heading'
+import { H1, H1Hero, H2, H3, H4, H5, H6 } from '@/components/ui/heading'
+import { Select } from '@/components/ui/select'
+import { Radio } from '@/components/ui/radio'
 import { LabelSm } from '@/components/ui/label'
 import { Code } from '@/components/ui/code'
 import { DS_RULES, type DsRuleCategory } from '@/components/ui/manifest'
@@ -401,6 +404,68 @@ export default function DesignSystemPage() {
             </div>
           </div>
 
+          {/* Select */}
+          <div className="mb-8">
+            <H3 className="mb-1 text-sm font-semibold text-accent-700 dark:text-accent-300">
+              Select
+            </H3>
+            <p className="mb-3 font-mono text-xs text-accent-400">
+              import {'{ Select }'} from @/components/ui/select
+            </p>
+            <div className="grid grid-cols-1 gap-4 rounded-lg border border-accent-200 p-4 dark:border-accent-700 md:grid-cols-2">
+              <Select label="Duration">
+                <option>60 min</option>
+                <option>90 min</option>
+                <option>120 min</option>
+              </Select>
+              <Select label="With error" error="Please select an option">
+                <option value="">Choose...</option>
+                <option>Option A</option>
+                <option>Option B</option>
+              </Select>
+              <Select label="Disabled" disabled>
+                <option>Unavailable</option>
+              </Select>
+              <Select>
+                <option>No label</option>
+              </Select>
+            </div>
+          </div>
+
+          {/* Radio */}
+          <div className="mb-8">
+            <H3 className="mb-1 text-sm font-semibold text-accent-700 dark:text-accent-300">
+              Radio
+            </H3>
+            <p className="mb-3 font-mono text-xs text-accent-400">
+              import {'{ Radio }'} from @/components/ui/radio
+            </p>
+            <div className="space-y-3 rounded-lg border border-accent-200 p-4 dark:border-accent-700">
+              <Radio id="radio-default" name="demo-radio" label="Default radio" value="default" />
+              <Radio
+                id="radio-checked"
+                name="demo-radio"
+                label="Checked"
+                value="checked"
+                defaultChecked
+              />
+              <Radio
+                id="radio-error"
+                name="demo-error"
+                label="With error"
+                value="error"
+                error="Please select an option"
+              />
+              <Radio
+                id="radio-disabled"
+                name="demo-disabled"
+                label="Disabled"
+                value="disabled"
+                disabled
+              />
+            </div>
+          </div>
+
           {/* Box */}
           <div className="mb-8">
             <H3 className="mb-1 text-sm font-semibold text-accent-700 dark:text-accent-300">Box</H3>
@@ -476,6 +541,7 @@ export default function DesignSystemPage() {
               <TextLgMuted>TextLgMuted — large, muted</TextLgMuted>
               <TextBase>TextBase — base paragraph</TextBase>
               <TextBaseMedium>TextBaseMedium — base, medium weight</TextBaseMedium>
+              <TextBaseSemibold>TextBaseSemibold — base, semibold</TextBaseSemibold>
               <TextBaseMuted>TextBaseMuted — base, muted</TextBaseMuted>
               <TextSm>TextSm — small paragraph</TextSm>
               <TextSmMedium>TextSmMedium — small, medium weight</TextSmMedium>
@@ -497,10 +563,10 @@ export default function DesignSystemPage() {
           {/* Heading */}
           <div className="mb-8">
             <H3 className="mb-1 text-sm font-semibold text-accent-700 dark:text-accent-300">
-              Heading — Named H1 / H1Hero / H2 / H3 / H4
+              Heading — Named H1 / H1Hero / H2 / H3 / H4 / H5 / H6
             </H3>
             <p className="mb-3 font-mono text-xs text-accent-400">
-              import {'{ H1, H1Hero, H2, H3, H4 }'} from @/components/ui/heading
+              import {'{ H1, H1Hero, H2, H3, H4, H5, H6 }'} from @/components/ui/heading
             </p>
             <p className="mb-3 text-xs text-accent-500">
               Semantic headings — each name renders the matching tag with its canonical size and
@@ -515,6 +581,8 @@ export default function DesignSystemPage() {
               <H2>H2 — secondary heading</H2>
               <H3>H3 — tertiary heading</H3>
               <H4>H4 — quaternary heading</H4>
+              <H5>H5 — fifth-level heading</H5>
+              <H6>H6 — sixth-level heading</H6>
               <H2 status="primary">H2 with status=&quot;primary&quot;</H2>
               <H3 status="error">H3 with status=&quot;error&quot;</H3>
             </Stack>
