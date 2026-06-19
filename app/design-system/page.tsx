@@ -28,6 +28,7 @@ import {
 import { H1, H1Hero, H2, H3, H4, H5, H6 } from '@/components/ui/heading'
 import { Select } from '@/components/ui/select'
 import { Radio } from '@/components/ui/radio'
+import { PeerRadio } from '@/components/ui/peer-radio'
 import { LabelSm } from '@/components/ui/label'
 import { Code } from '@/components/ui/code'
 import { DS_RULES, type DsRuleCategory } from '@/components/ui/manifest'
@@ -463,6 +464,44 @@ export default function DesignSystemPage() {
                 value="disabled"
                 disabled
               />
+            </div>
+          </div>
+
+          {/* PeerRadio */}
+          <div className="mb-8">
+            <H3 className="mb-1 text-sm font-semibold text-accent-700 dark:text-accent-300">
+              PeerRadio
+            </H3>
+            <p className="mb-3 font-mono text-xs text-accent-400">
+              import {'{ PeerRadio }'} from @/components/ui/peer-radio
+            </p>
+            <div className="space-y-3 rounded-lg border border-accent-200 p-4 dark:border-accent-700">
+              <p className="text-xs text-accent-500">
+                Bare radio input for CSS peer patterns — no wrapper div. Pair with a sibling label
+                driven by <code className="font-mono">peer-checked:</code> utilities.
+              </p>
+              <div className="flex items-center gap-2">
+                <PeerRadio
+                  id="peer-radio-a"
+                  name="peer-demo"
+                  value="a"
+                  defaultChecked
+                  className="peer sr-only"
+                />
+                <label
+                  htmlFor="peer-radio-a"
+                  className="cursor-pointer rounded-full bg-accent-200 px-3 py-1 text-xs peer-checked:bg-primary-500 peer-checked:text-white dark:bg-accent-700"
+                >
+                  Option A
+                </label>
+                <PeerRadio id="peer-radio-b" name="peer-demo" value="b" className="peer sr-only" />
+                <label
+                  htmlFor="peer-radio-b"
+                  className="cursor-pointer rounded-full bg-accent-200 px-3 py-1 text-xs peer-checked:bg-primary-500 peer-checked:text-white dark:bg-accent-700"
+                >
+                  Option B
+                </label>
+              </div>
             </div>
           </div>
 

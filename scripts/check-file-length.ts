@@ -18,11 +18,11 @@ import { readFileSync } from 'node:fs'
 const LIMIT = 250
 
 const EXEMPT = [
-  /database\.types\.ts$/,       // generated
-  /\.test\.(ts|tsx)$/,          // tests
-  /\.next\.test\.(ts|tsx)$/,    // next-specific tests
-  /\/scripts\//,                 // one-shot migration scripts
-  /\/og-variants\//,             // OG image templates (SVG-heavy)
+  /database\.types\.ts$/, // generated
+  /\.test\.(ts|tsx)$/, // tests
+  /\.next\.test\.(ts|tsx)$/, // next-specific tests
+  /\/scripts\//, // one-shot migration scripts
+  /\/og-variants\//, // OG image templates (SVG-heavy)
 ]
 
 function isExempt(file: string): boolean {
@@ -38,9 +38,10 @@ function countLines(file: string): number {
 }
 
 function getChangedFiles(remoteSha: string, localSha: string): string[] {
-  const range = remoteSha === '0'.repeat(40)
-    ? `${localSha}`          // new branch — check all files in this commit
-    : `${remoteSha}..${localSha}`
+  const range =
+    remoteSha === '0'.repeat(40)
+      ? `${localSha}` // new branch — check all files in this commit
+      : `${remoteSha}..${localSha}`
   try {
     return execSync(`git diff --name-only ${range} -- '*.ts' '*.tsx'`, { encoding: 'utf-8' })
       .trim()
@@ -51,18 +52,32 @@ function getChangedFiles(remoteSha: string, localSha: string): string[] {
   }
 }
 
-const [remoteSha = '', localSha = ''] = process.argv.slice(2)
+const [remoteSha, localSha] = process.argv.slice(2)
 
-if (!remoteSha || !localSha) {
-  console.error('Usage: bun scripts/check-file-length.ts <remote_sha> <local_sha>')
-  process.exit(1)
+function getChangedFilesStandalone(): string[] {
+  // Standalone mode: diff against the remote tracking branch or origin/main
+  const base = execSync(
+    'git rev-parse --abbrev-ref --symbolic-full-name @{u} 2>/dev/null || echo origin/main',
+    {
+      encoding: 'utf-8',
+    }
+  ).trim()
+  try {
+    return execSync(`git diff --name-only ${base}..HEAD -- '*.ts' '*.tsx'`, { encoding: 'utf-8' })
+      .trim()
+      .split('\n')
+      .filter(Boolean)
+  } catch {
+    return []
+  }
 }
 
-const changed = getChangedFiles(remoteSha, localSha)
+const changed =
+  remoteSha && localSha ? getChangedFiles(remoteSha, localSha) : getChangedFilesStandalone()
 const violations: Array<{ file: string; lines: number }> = []
 
 for (const file of changed) {
-  if (!existsSync(file)) continue   // deleted files are fine
+  if (!existsSync(file)) continue // deleted files are fine
   if (isExempt(file)) continue
   const lines = countLines(file)
   if (lines > LIMIT) {

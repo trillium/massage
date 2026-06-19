@@ -24,6 +24,7 @@
     "migrate:text-variants:dry": "bun scripts/migrate-text-variants.ts --dry-run",
     "check-og": "bun scripts/check-og.ts",
     "check-overflow": "bun scripts/check-overflow.ts",
+    "check-file-length": "bun scripts/check-file-length.ts",
     "prepare": "husky",
     "test": "vitest run --changed --reporter=dot",
     "test:all": "vitest run --reporter=dot",

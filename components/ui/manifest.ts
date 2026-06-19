@@ -196,6 +196,17 @@ export const DS_RULES: DsRule[] = [
     description: 'Themed select with label, error state, and consistent focus ring',
   },
   {
+    name: 'peer-radio',
+    component: '<PeerRadio>',
+    importPath: '@/components/ui/peer-radio',
+    category: 'interactive',
+    selfExempt: true,
+    patterns: [],
+    rawPattern: '<PeerRadio …>',
+    description:
+      'Bare radio input for CSS peer patterns (sr-only hidden inputs that drive :peer-checked states on sibling labels). No wrapper div. Use <Radio> for visible labeled radios.',
+  },
+  {
     name: 'raw-radio',
     component: '<Radio> or <PeerRadio>',
     importPath: '@/components/ui/radio',
