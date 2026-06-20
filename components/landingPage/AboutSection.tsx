@@ -23,7 +23,7 @@ export function AboutLayout({
   imagePosition = 'object-[center_25%]',
 }: AboutSectionProps) {
   return (
-    <section>
+    <section className="overflow-hidden">
       <Box className="container grid grid-cols-1 items-center gap-12 md:grid-cols-2">
         <Box className="relative h-[400px] w-full md:h-[500px]">
           <Image

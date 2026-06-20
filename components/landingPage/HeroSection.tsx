@@ -18,7 +18,7 @@ const { bookButton, exploreButton, openDays, basedLabel } = landing.hero
 
 export default function HeroSection() {
   return (
-    <section className="flex w-full flex-col items-center gap-8">
+    <section className="flex w-full flex-col items-center gap-8 overflow-hidden">
       <Box className="container grid w-full grid-cols-1 items-stretch gap-8 md:grid-cols-[1fr_1fr] lg:grid-cols-[1fr_1fr]">
         <TextContent positionClasses="md:col-start-1 md:col-end-2 md:row-start-1 md:row-end-2" />
 

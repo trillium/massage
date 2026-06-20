@@ -1,12 +1,1 @@
-[
-  {
-    "route": "/",
-    "viewport": "tablet",
-    "note": "Gradient hero SPAN + tile map IMGs — tracked brain-9g0a"
-  },
-  {
-    "route": "/design-system",
-    "viewport": "mobile",
-    "note": "Component audit TABLE needs overflow-x-auto — tracked brain-9g0a"
-  }
-]
+[]

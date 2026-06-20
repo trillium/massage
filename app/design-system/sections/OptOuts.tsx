@@ -35,7 +35,7 @@ export function OptOuts() {
   return (
     <>
       <Section title="Opt-out Directives">
-        <div className="overflow-hidden rounded-lg border border-accent-200 dark:border-accent-700">
+        <div className="overflow-x-auto rounded-lg border border-accent-200 dark:border-accent-700">
           <table className="w-full text-sm">
             <thead className="bg-surface-100 dark:bg-surface-800">
               <tr>
