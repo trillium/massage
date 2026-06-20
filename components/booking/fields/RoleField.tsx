@@ -6,8 +6,8 @@ import { Stack } from '@/components/ui/stack'
 import { PeerRadio } from '@/components/ui/peer-radio'
 
 const DEFAULT_HINTS = {
-  community: '15 min standard — longer available',
-  team: '30 min standard — longer available',
+  community: 'Medium Spoiled',
+  team: 'Maximum Spoiled',
 }
 
 type RoleFieldProps = {

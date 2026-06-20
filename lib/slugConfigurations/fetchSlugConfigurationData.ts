@@ -544,7 +544,7 @@ const slugConfigurations: SlugConfigurationType[] = [
     leadTimeMinimum: 0,
     instantConfirm: true,
     acceptingPayment: false,
-    links: [{ label: 'Want a private table session? Book here →', href: '/edge-private' }],
+    links: [{ label: 'Back to the Edge page', href: '/edge' }],
     customFields: {
       showRoleField: true,
       roleHints: {
@@ -556,7 +556,7 @@ const slugConfigurations: SlugConfigurationType[] = [
         team: {
           15: 'complimentary',
           30: 'complimentary',
-          60: 'complimentary — please tip for time above 30 min',
+          60: 'complimentary',
         },
       },
       showNotesField: true,
@@ -576,16 +576,14 @@ const slugConfigurations: SlugConfigurationType[] = [
     locationIsReadOnly: true,
     eventContainer: 'edge_private',
     blockingScope: 'general',
-    defaultDuration: 30,
-    allowedDurations: [30, 60, 90, 120],
+    defaultDuration: 60,
+    allowedDurations: [60, 90, 120],
     pricing: { 30: 0, 60: 0, 90: 0 },
     pricingLabels: { 30: 'Complimentary', 60: 'Complimentary', 90: 'Complimentary' },
     leadTimeMinimum: 120,
     instantConfirm: true,
     acceptingPayment: false,
-    links: [
-      { label: 'Want a drop-in chair massage? Book office hours →', href: '/edge-office-hours' },
-    ],
+    links: [{ label: 'Back to the Edge page', href: '/edge' }],
     customFields: {
       showRoleField: true,
       roleHints: {
