@@ -16,15 +16,6 @@ while read local_ref local_sha remote_ref remote_sha; do
   pnpm --silent check-file-length "$remote_sha" "$local_sha" || exit 1
 done
 
-if curl -s http://localhost:9876/ > /dev/null 2>&1; then
-  pnpm check-overflow || {
-    echo "check-overflow: horizontal overflow detected — push blocked"
-    exit 1
-  }
-else
-  echo "check-overflow: dev server not running, skipping overflow check"
-fi
-
 if command -v gitleaks &>/dev/null; then
   gitleaks protect --staged --no-banner || {
     echo "gitleaks: secrets detected — push blocked"

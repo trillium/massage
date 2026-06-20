@@ -75,3 +75,22 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm health:audit
+
+  overflow:
+    name: Horizontal Overflow
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec playwright install chromium --with-deps
+      - run: pnpm build
+      - name: Start server
+        run: pnpm start --port 9876 &
+      - name: Wait for server
+        run: npx wait-on http://localhost:9876 --timeout 30000
+      - run: pnpm check-overflow --url http://localhost:9876
