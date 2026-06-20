@@ -117,7 +117,7 @@ export function SlotGenerationUtility(
   )
 ) {
   const { duration: durationRedux, selectedDate: selectedDateRedux } = useReduxAvailability()
-  const { leadTimeMinimum: leadTime, durationBonus } = useReduxConfig()
+  const { leadTimeMinimum: leadTime, durationBonus, availabilityWindowMinutes } = useReduxConfig()
   const dispatch = useAppDispatch()
 
   useEffect(() => {
@@ -141,6 +141,12 @@ export function SlotGenerationUtility(
         busy: props.busy,
         containers: props.containers,
       })
+    }
+
+    if (availabilityWindowMinutes) {
+      const cutoff = new Date(Date.now() + availabilityWindowMinutes * 60 * 1000)
+      const next = newSlots.find((slot) => new Date(slot.start) <= cutoff)
+      newSlots = next ? [next] : []
     }
 
     startTransition(() => {

@@ -180,6 +180,12 @@ export async function createPageConfiguration({
     }
   }
 
+  if (configuration?.availabilityWindowMinutes) {
+    const cutoff = new Date(Date.now() + configuration.availabilityWindowMinutes * 60 * 1000)
+    const next = slots.find((slot) => new Date(slot.start) <= cutoff)
+    slots = next ? [next] : []
+  }
+
   if (debugInfo) {
     debugInfo.intermediateResults.calculateLeadTime = {
       inputs: { configurationLeadTime: configuration?.leadTimeMinimum, defaultLeadTime: LEAD_TIME },
