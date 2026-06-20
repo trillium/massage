@@ -89,6 +89,7 @@ const ThemeSwitch = () => {
                   {({ focus }) => (
                     <Button
                       type="button"
+                      variant="ghost"
                       onClick={() => setTheme(t)}
                       className={`flex w-full items-center rounded-md px-2 py-2 text-sm ${
                         theme === t
