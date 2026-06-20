@@ -23,6 +23,7 @@ const EXEMPT = [
   /\.next\.test\.(ts|tsx)$/, // next-specific tests
   /\/scripts\//, // one-shot migration scripts
   /\/og-variants\//, // OG image templates (SVG-heavy)
+  /fetchSlugConfigurationData\.ts$/, // data registry — split pending API migration
 ]
 
 function isExempt(file: string): boolean {
