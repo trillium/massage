@@ -7,6 +7,7 @@ import { TextBase, TextSm, TextLg } from '@/components/ui/text'
 import { Stack } from '@/components/ui/stack'
 import { Box } from '@/components/ui/box'
 import { Button } from '@/components/ui/button'
+import EdgeRoleHydrator from '@/components/utilities/EdgeRoleHydrator'
 
 export const metadata: Metadata = {
   title: 'Trillium Massage at Edge — Trillium Smith',
@@ -16,9 +17,24 @@ export const metadata: Metadata = {
 
 const SITE_URL = 'https://trilliummassage.la'
 
-export default function EdgeLandingPage() {
+type EdgeRole = 'community' | 'team'
+
+function isEdgeRole(v: unknown): v is EdgeRole {
+  return v === 'community' || v === 'team'
+}
+
+type Props = { searchParams: Promise<{ role?: string }> }
+
+export default async function EdgeLandingPage({ searchParams }: Props) {
+  const { role: roleParam } = await searchParams
+  const role = isEdgeRole(roleParam) ? roleParam : undefined
+
+  const officeHoursHref = role ? `/edge-office-hours?role=${role}` : '/edge-office-hours'
+  const privateHref = role ? `/edge-private?role=${role}` : '/edge-private'
+
   return (
     <SectionContainer>
+      <EdgeRoleHydrator />
       <Box className="mx-auto max-w-2xl px-4 py-10">
         <Stack direction="col" gap={8}>
           <Box className="text-center">
@@ -62,12 +78,12 @@ export default function EdgeLandingPage() {
           </Box>
 
           <Stack direction="col" gap={3}>
-            <Link href="/edge-office-hours">
+            <Link href={officeHoursHref}>
               <Button className="w-full py-4 text-base" variant="default" size="lg">
                 Book Office Hours
               </Button>
             </Link>
-            <Link href="/edge-private">
+            <Link href={privateHref}>
               <Button className="w-full py-4 text-base" variant="outline" size="lg">
                 Book Private Session
               </Button>
