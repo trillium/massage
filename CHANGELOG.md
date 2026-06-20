@@ -1,5 +1,11 @@
 # massage — Changelog
 
+## 2026-06-20 — session 56c76866
+
+Files: lib/slugConfigurations/fetchSlugConfigurationData.ts, hooks/EdgeRoleContext.tsx, components/booking/features/GeneralBookingFeature.tsx, components/booking/BookingForm.tsx, components/booking/useBookingInitialValues.ts, components/booking/fields/ConnectedRoleField.tsx, redux/slices/edgeRoleSlice.ts, redux/store.ts, redux/hooks.ts, components/utilities/EdgeRoleHydrator.tsx
+
+> AI summary pending — check ProjectDocs Handover in next session.
+
 ## 2026-06-19 — session ea3d2140
 
 Files: app/api/health/route.ts, scripts/seed-google-oauth-app.ts, .env.local.template, lib/google/credentials.ts, app/api/admin/db-health/route.ts, .env.local, supabase/migrations/templates/booking/009_contact_and_email_logs.sql, lib/emailTypes.ts, lib/db/auditLog.ts, lib/email/index.ts

@@ -2,7 +2,6 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
 import SectionContainer from '@/components/SectionContainer'
-import QRCode from '@/components/QRCode'
 import { H1, H2, H3 } from '@/components/ui/heading'
 import { TextBase, TextSm, TextLg } from '@/components/ui/text'
 import { Stack } from '@/components/ui/stack'
@@ -10,7 +9,7 @@ import { Box } from '@/components/ui/box'
 import { Button } from '@/components/ui/button'
 
 export const metadata: Metadata = {
-  title: 'Free Massage at Edge — Trillium Smith',
+  title: 'Trillium Massage at Edge — Trillium Smith',
   description:
     'Complimentary chair and table massage for Edge community members and team. Book a session or drop in during office hours.',
 }
@@ -117,14 +116,6 @@ export default function EdgeLandingPage() {
                 </a>
               </TextSm>
             </Stack>
-          </Box>
-
-          <Box className="text-center">
-            <H3 className="mb-4 text-accent-500">Scan to share this page</H3>
-            <Stack direction="row" justify="center">
-              <QRCode data={`${SITE_URL}/edge`} preset="default" size={180} />
-            </Stack>
-            <TextSm className="mt-2 text-accent-400">{SITE_URL}/edge</TextSm>
           </Box>
         </Stack>
       </Box>
