@@ -8,6 +8,7 @@ import { Stack } from '@/components/ui/stack'
 import { Box } from '@/components/ui/box'
 import { Button } from '@/components/ui/button'
 import EdgeRoleHydrator from '@/components/utilities/EdgeRoleHydrator'
+import Image from 'next/image'
 
 export const metadata: Metadata = {
   title: 'Trillium Massage at Edge — Trillium Smith',
@@ -38,11 +39,11 @@ export default async function EdgeLandingPage({ searchParams }: Props) {
       <Box className="mx-auto max-w-2xl px-4 py-10">
         <Stack direction="col" gap={8}>
           <Box className="text-center">
-            <H1>Free Massage at Edge</H1>
+            <H1>Trillium Massage at Edge</H1>
             <TextLg className="mt-3 text-accent-600 dark:text-accent-300">
-              Hi, I&apos;m Trillium Smith — licensed massage therapist and software developer.
-              I&apos;m offering complimentary sessions to Edge community members and team as a gift
-              to this community.
+              Hi, I&apos;m Trillium Smith — licensed massage therapist, software developer, Voice
+              Accessabiltiy Enthusiast. I&apos;m offering complimentary sessions to Edge community
+              members and team as a gift to this community!
             </TextLg>
           </Box>
 
@@ -50,28 +51,36 @@ export default async function EdgeLandingPage({ searchParams }: Props) {
             <H2 className="mb-4">What I&apos;m offering</H2>
             <Stack direction="col" gap={4}>
               <Box>
-                <H3 status="primary">Office Hours — drop in, no wait</H3>
+                <Link href={officeHoursHref}>
+                  <H3 status="primary">Office Hours</H3>
+                </Link>
                 <TextBase className="mt-1 text-accent-600 dark:text-accent-400">
-                  Chair or table massage during scheduled office hour blocks. Zero lead time — just
-                  walk up and book the next available slot.
+                  Chair or table massage during scheduled office hour blocks. Walk-ins welcome, or
+                  prebook a time that works for you.
                 </TextBase>
                 <Stack direction="col" gap={1} className="mt-2">
-                  <TextSm className="text-accent-500">Community members: 15 min standard</TextSm>
-                  <TextSm className="text-accent-500">Volunteers and team: 30 min standard</TextSm>
-                  <TextSm className="text-accent-500">Longer sessions available for all</TextSm>
+                  <TextSm className="text-accent-500">
+                    Community members: 15m sessions, additional time paid/gratiuty
+                  </TextSm>
+                  <TextSm className="text-accent-500">Volunteers and team: 30m+ sessions</TextSm>
                 </Stack>
               </Box>
 
               <Box className="border-t border-surface-200 pt-4 dark:border-surface-700">
-                <H3 status="primary">Private Sessions — table massage</H3>
+                <Link href={privateHref}>
+                  <H3 status="primary">Private Sessions</H3>
+                </Link>
                 <TextBase className="mt-1 text-accent-600 dark:text-accent-400">
-                  A quieter, dedicated session on a massage table. Book at least 2 hours in advance.
-                  Use the &ldquo;request sooner&rdquo; option if you&apos;d like to be on a waitlist
-                  for an earlier slot.
+                  Dedicated session on a massage table. Book at least 2 hours in advance. Location
+                  can be of your choosing :)
                 </TextBase>
                 <Stack direction="col" gap={1} className="mt-2">
-                  <TextSm className="text-accent-500">Community members: 30 min standard</TextSm>
-                  <TextSm className="text-accent-500">Volunteers and team: 60 min standard</TextSm>
+                  <TextSm className="text-accent-500">
+                    Community members: All booked sessions get a 15m upgrade!
+                  </TextSm>
+                  <TextSm className="text-accent-500">
+                    Volunteers and team: 60m+ sessions available
+                  </TextSm>
                 </Stack>
               </Box>
             </Stack>
@@ -91,12 +100,22 @@ export default async function EdgeLandingPage({ searchParams }: Props) {
           </Stack>
 
           <Box className="rounded-xl border border-surface-200 bg-surface-50 p-6 dark:border-surface-700 dark:bg-surface-900">
-            <H2 className="mb-2">About me</H2>
-            <TextBase className="text-accent-600 dark:text-accent-400">
-              I&apos;m a massage therapist transitioning into software development. I learned to
-              code by voice using Talon Voice — I&apos;m an accessibility advocate, open source
-              contributor, and voice computing enthusiast.
-            </TextBase>
+            <H2 className="mb-4">About me</H2>
+            <Stack direction="row" gap={4} align="start" className="mb-4">
+              <Box className="relative h-32 w-32 shrink-0 overflow-hidden rounded-xl border-2 border-primary-500">
+                <Image
+                  src="/static/images/gallery/_retouched_photo_arms_hat.jpg"
+                  alt="Trillium Smith"
+                  fill
+                  className="object-cover object-[center_20%]"
+                />
+              </Box>
+              <TextBase className="text-accent-600 dark:text-accent-400">
+                I&apos;m a massage therapist transitioning into software development. I learned to
+                code by voice using Talon Voice — I&apos;m an accessibility advocate, open source
+                contributor, and voice computing enthusiast.
+              </TextBase>
+            </Stack>
             <Stack direction="col" gap={2} className="mt-4">
               <TextSm>
                 <span className="font-medium">Website: </span>
