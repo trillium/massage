@@ -1,5 +1,17 @@
 # massage — Changelog
 
+## 2026-06-20 — session d98ae96a
+
+Files: components/Gallery.tsx, components/**tests**/Gallery.test.tsx, scripts/compute-focal-points.ts, app/gallery/page.tsx
+
+> AI summary pending — check ProjectDocs Handover in next session.
+
+## 2026-06-20 — session 40a0a676
+
+Files: components/landingPage/HeroSection.tsx, app/design-system/sections/OptOuts.tsx, app/design-system/sections/EnforcementRules.tsx, .fallow/overflow-baseline.json, components/ui/code.tsx, components/landingPage/AboutSection.tsx, app/edge/page.tsx, components/ThemeSwitch.tsx, scripts/check-file-length.ts
+
+> AI summary pending — check ProjectDocs Handover in next session.
+
 ## 2026-06-20 — session 56c76866
 
 Files: lib/slugConfigurations/fetchSlugConfigurationData.ts, hooks/EdgeRoleContext.tsx, components/booking/features/GeneralBookingFeature.tsx, components/booking/BookingForm.tsx, components/booking/useBookingInitialValues.ts, components/booking/fields/ConnectedRoleField.tsx, redux/slices/edgeRoleSlice.ts, redux/store.ts, redux/hooks.ts, components/utilities/EdgeRoleHydrator.tsx
