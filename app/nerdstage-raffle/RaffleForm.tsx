@@ -1,11 +1,7 @@
 'use client'
 
-import posthog from 'posthog-js'
-import { useCallback, useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useReduxFormData } from '@/redux/hooks'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
-import { useAppDispatch, useReduxFormData } from '@/redux/hooks'
-import { setBookingForm } from '@/redux/slices/bookingFormSlice'
 import { RAFFLE_INTEREST_OPTIONS } from '@/lib/schema'
 import raffleData from '@/data/raffle.json'
 import { Button } from '@/components/ui/button'
@@ -21,96 +17,23 @@ import {
 } from './raffleFormUtils'
 import { Stack } from '@/components/ui/stack'
 import { Box } from '@/components/ui/box'
+import { useRaffleForm } from '@/components/raffle/useRaffleForm'
 
 const formText = raffleData.nerdstage
 
 export default function RaffleForm({ raffleId, raffleName }: RaffleFormProps) {
-  const router = useRouter()
-  const dispatch = useAppDispatch()
   const formData = useReduxFormData()
-  const [submitError, setSubmitError] = useState<string | null>(null)
-  const [lookupMessage, setLookupMessage] = useState<string | null>(null)
-
-  const lookupEntry = useCallback(
-    async (email: string, setFieldValue: (field: string, value: string | string[]) => void) => {
-      setLookupMessage(null)
-      if (!email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return
-
-      try {
-        const params = new URLSearchParams({ email, raffle_id: raffleId })
-        const res = await fetch(`/api/raffle/lookup?${params.toString()}`)
-        const { entry } = await res.json()
-
-        if (!entry) return
-
-        setFieldValue('name', entry.name)
-        setFieldValue('phone', entry.phone)
-        setFieldValue('zip_code', entry.zip_code ?? '')
-        setFieldValue('interested_in', entry.interested_in ?? [])
-        setLookupMessage(formText.welcomeBackMessage)
-      } catch (err) {
-        console.error('Raffle lookup failed:', err)
-        posthog.captureException(err, { context: 'nerdstage-raffle-lookup' })
-      }
+  const { submitError, lookupMessage, lookupEntry, handleSubmit } = useRaffleForm({
+    raffleId,
+    raffleName,
+    confirmedPath: '/nerdstage-raffle/entered',
+    messages: {
+      welcomeBackMessage: formText.welcomeBackMessage,
+      errorGeneric: formText.errorGeneric,
+      errorNetwork: formText.errorNetwork,
     },
-    [raffleId]
-  )
-
-  const handleSubmit = async (
-    values: FormValues,
-    { setErrors }: { setErrors: (errors: Partial<Record<keyof FormValues, string>>) => void }
-  ) => {
-    setSubmitError(null)
-
-    try {
-      const response = await fetch('/api/raffle/submit', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: values.name,
-          email: values.email,
-          phone: values.phone,
-          is_local: !!values.zip_code.trim(),
-          zip_code: values.zip_code.trim() || null,
-          interested_in: values.interested_in,
-          raffle_id: raffleId,
-        }),
-      })
-
-      const result = await response.json()
-
-      if (response.ok) {
-        dispatch(
-          setBookingForm({
-            raffleName,
-            firstName: values.name.split(' ')[0] || values.name,
-            lastName: values.name.split(' ').slice(1).join(' '),
-            email: values.email,
-            phone: values.phone,
-            raffleInterests: values.interested_in,
-          })
-        )
-        router.push('/nerdstage-raffle/entered')
-      } else if (result.details) {
-        const fieldErrors: Partial<Record<keyof FormValues, string>> = {}
-        for (const issue of result.details) {
-          const field = issue.path?.[0] as keyof FormValues | undefined
-          if (field && field in values) {
-            fieldErrors[field] = issue.message
-          }
-        }
-        if (Object.keys(fieldErrors).length > 0) {
-          setErrors(fieldErrors)
-        } else {
-          setSubmitError(result.error || formText.errorGeneric)
-        }
-      } else {
-        setSubmitError(result.error || formText.errorGeneric)
-      }
-    } catch {
-      setSubmitError(formText.errorNetwork)
-    }
-  }
+    lookupContext: 'nerdstage-raffle-lookup',
+  })
 
   return (
     <Stack
