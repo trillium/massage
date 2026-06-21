@@ -24,6 +24,7 @@ if (typeof window !== 'undefined') {
       person_profiles: 'always',
       custom_campaign_params: ['ref'],
       debug: false,
+      defaults: '2026-01-30',
     })
   }
 }

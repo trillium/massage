@@ -1,3 +1,4 @@
+import posthog from 'posthog-js'
 import { useRouter } from 'next/navigation'
 import { FormikHelpers } from 'formik'
 import { useAppDispatch, useReduxConfig } from '@/redux/hooks'
@@ -69,7 +70,9 @@ export function useBookingSubmit({ additionalData, endPoint, onSubmit }: UseBook
           rescheduleToken: values.rescheduleToken || undefined,
           sessionId,
           slugConfiguration: config,
-          ...additionalData,
+          ...(additionalData.eventContainerString !== undefined
+            ? { eventContainerString: additionalData.eventContainerString }
+            : {}),
         }
 
         try {
@@ -120,11 +123,13 @@ export function useBookingSubmit({ additionalData, endPoint, onSubmit }: UseBook
           }
         } catch (error) {
           console.error('❌ [BookingForm] API call failed:', error)
+          posthog.captureException(error, { context: 'booking-api-call', endpoint: endPoint })
           dispatch(setModal({ status: 'error' }))
         }
       }
     } catch (error) {
       console.error('❌ [BookingForm] Form submission error:', error)
+      posthog.captureException(error, { context: 'booking-form-submission' })
       formikHelpers.setSubmitting(false)
     }
   }

@@ -1,5 +1,6 @@
 'use client'
 
+import posthog from 'posthog-js'
 import { useCallback, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
@@ -49,6 +50,7 @@ export default function RaffleForm({ raffleId, raffleName }: RaffleFormProps) {
         setLookupMessage(formText.welcomeBackMessage)
       } catch (err) {
         console.error('Raffle lookup failed:', err)
+        posthog.captureException(err, { context: 'overtime-raffle-lookup' })
       }
     },
     [raffleId]

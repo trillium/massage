@@ -2,6 +2,7 @@
 
 import { DialogTitle } from '@headlessui/react'
 import { Formik, Form, FormikHelpers } from 'formik'
+import { PostHogErrorBoundary } from 'posthog-js/react'
 
 import Modal from 'components/Modal'
 import { formatLocalDate, formatLocalTime } from 'lib/availability/helpers'
@@ -103,103 +104,105 @@ export default function BookingForm({
       : ''
 
   return (
-    <Modal
-      open={modal !== 'closed'}
-      setOpen={(open) => {
-        if (!open) releaseHold()
-        dispatch(setModal({ status: open ? 'open' : 'closed' }))
-      }}
-    >
-      {!selectedTime || !timeZone ? (
-        <Stack className="min-h-[200px]" direction="row" align="center" justify="center">
-          {booking.flow.loading}
-        </Stack>
-      ) : (
-        <Formik
-          initialValues={initialValues}
-          validate={validateForm}
-          onSubmit={handleFormSubmit}
-          validateOnChange={false}
-          validateOnBlur={true}
-        >
-          {({ values, errors, touched, setFieldValue, setFieldTouched, handleSubmit }) => {
-            processPendingUpdates(setFieldValue)
+    <PostHogErrorBoundary>
+      <Modal
+        open={modal !== 'closed'}
+        setOpen={(open) => {
+          if (!open) releaseHold()
+          dispatch(setModal({ status: open ? 'open' : 'closed' }))
+        }}
+      >
+        {!selectedTime || !timeZone ? (
+          <Stack className="min-h-[200px]" direction="row" align="center" justify="center">
+            {booking.flow.loading}
+          </Stack>
+        ) : (
+          <Formik
+            initialValues={initialValues}
+            validate={validateForm}
+            onSubmit={handleFormSubmit}
+            validateOnChange={false}
+            validateOnBlur={true}
+          >
+            {({ values, errors, touched, setFieldValue, setFieldTouched, handleSubmit }) => {
+              processPendingUpdates(setFieldValue)
 
-            const locationWarning =
-              touched.location?.city || touched.location?.zip
-                ? getLocationWarning(values.location)
-                : undefined
+              const locationWarning =
+                touched.location?.city || touched.location?.zip
+                  ? getLocationWarning(values.location)
+                  : undefined
 
-            return (
-              <Form
-                className="mt-3 sm:mt-0 sm:ml-4"
-                onSubmit={(e) => {
-                  e.preventDefault()
-                  handleSubmit()
-                }}
-              >
-                <Stack direction="row" align="center" justify="between">
-                  <DialogTitle
-                    as="h3"
-                    className="text-base leading-6 font-semibold text-accent-900 dark:text-accent-100"
-                  >
-                    {booking.flow.requestAppointment}
-                  </DialogTitle>
-                  {holdExpired && (
-                    <Button
-                      type="button"
-                      disabled={claiming}
-                      onClick={() => {
-                        if (selectedTime) claimHold(selectedTime.start, selectedTime.end)
-                      }}
-                      className="rounded bg-amber-100 px-2 py-1 text-xs text-amber-700 hover:bg-amber-200 disabled:opacity-50"
+              return (
+                <Form
+                  className="mt-3 sm:mt-0 sm:ml-4"
+                  onSubmit={(e) => {
+                    e.preventDefault()
+                    handleSubmit()
+                  }}
+                >
+                  <Stack direction="row" align="center" justify="between">
+                    <DialogTitle
+                      as="h3"
+                      className="text-base leading-6 font-semibold text-accent-900 dark:text-accent-100"
                     >
-                      {claiming ? booking.flow.reserving : booking.flow.reserveAgain}
-                    </Button>
+                      {booking.flow.requestAppointment}
+                    </DialogTitle>
+                    {holdExpired && (
+                      <Button
+                        type="button"
+                        disabled={claiming}
+                        onClick={() => {
+                          if (selectedTime) claimHold(selectedTime.start, selectedTime.end)
+                        }}
+                        className="rounded bg-amber-100 px-2 py-1 text-xs text-amber-700 hover:bg-amber-200 disabled:opacity-50"
+                      >
+                        {claiming ? booking.flow.reserving : booking.flow.reserveAgain}
+                      </Button>
+                    )}
+                  </Stack>
+
+                  <BookingSummary
+                    dateString={dateString}
+                    startString={startString}
+                    endString={endString}
+                    price={price}
+                    acceptingPayment={acceptingPayment}
+                    discount={config.discount}
+                    formData={values}
+                  />
+
+                  <BookingFormFields
+                    values={values}
+                    errors={errors}
+                    touched={touched}
+                    setFieldValue={setFieldValue}
+                    setFieldTouched={setFieldTouched}
+                    locationReadOnly={locationReadOnly}
+                    locationWarning={locationWarning}
+                    hideLocation={hideLocation}
+                    acceptingPayment={acceptingPayment}
+                    showHotelField={showHotelField}
+                    showParkingField={showParkingField}
+                    showNotesField={showNotesField}
+                    showPromoField={showPromoField}
+                    showRaffleOptIn={resolvedShowRaffleOptIn}
+                    showRoleField={showRoleField}
+                    showRequestSoonerField={showRequestSoonerField}
+                  />
+
+                  {modal === 'error' && (
+                    <Box className="mt-4 rounded-md bg-red-50 p-3 text-red-600">
+                      {booking.flow.errorSubmitting}
+                    </Box>
                   )}
-                </Stack>
 
-                <BookingSummary
-                  dateString={dateString}
-                  startString={startString}
-                  endString={endString}
-                  price={price}
-                  acceptingPayment={acceptingPayment}
-                  discount={config.discount}
-                  formData={values}
-                />
-
-                <BookingFormFields
-                  values={values}
-                  errors={errors}
-                  touched={touched}
-                  setFieldValue={setFieldValue}
-                  setFieldTouched={setFieldTouched}
-                  locationReadOnly={locationReadOnly}
-                  locationWarning={locationWarning}
-                  hideLocation={hideLocation}
-                  acceptingPayment={acceptingPayment}
-                  showHotelField={showHotelField}
-                  showParkingField={showParkingField}
-                  showNotesField={showNotesField}
-                  showPromoField={showPromoField}
-                  showRaffleOptIn={resolvedShowRaffleOptIn}
-                  showRoleField={showRoleField}
-                  showRequestSoonerField={showRequestSoonerField}
-                />
-
-                {modal === 'error' && (
-                  <Box className="mt-4 rounded-md bg-red-50 p-3 text-red-600">
-                    {booking.flow.errorSubmitting}
-                  </Box>
-                )}
-
-                <BookingFormActions />
-              </Form>
-            )
-          }}
-        </Formik>
-      )}
-    </Modal>
+                  <BookingFormActions />
+                </Form>
+              )
+            }}
+          </Formik>
+        )}
+      </Modal>
+    </PostHogErrorBoundary>
   )
 }

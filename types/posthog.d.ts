@@ -10,6 +10,7 @@ declare module 'posthog-js' {
     ): void
     reset(resetDeviceId?: boolean): void
     capture(eventName: string, properties?: Record<string, unknown>): void
+    captureException(error: unknown, additionalProperties?: Record<string, unknown>): void
     init(
       apiKey: string,
       options?: {
@@ -20,6 +21,7 @@ declare module 'posthog-js' {
         debug?: boolean
         capture_pageview?: boolean
         capture_pageleave?: boolean
+        defaults?: string
       }
     ): void
   }
@@ -30,9 +32,14 @@ declare module 'posthog-js' {
 
 declare module 'posthog-js/react' {
   import { PostHog } from 'posthog-js'
-  import { ReactNode } from 'react'
+  import { Component, ReactNode } from 'react'
 
   export function PostHogProvider(props: { client: PostHog; children: ReactNode }): JSX.Element
 
   export function usePostHog(): PostHog
+
+  export class PostHogErrorBoundary extends Component<{
+    children: ReactNode
+    fallback?: ReactNode
+  }> {}
 }
