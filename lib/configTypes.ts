@@ -70,6 +70,7 @@ export type SlugConfigurationType = {
   discount: DiscountType | null
   leadTimeMinimum: number | null // in minutes
   availabilityWindowMinutes?: number
+  nextSlotOnly?: boolean
   hideCalendar?: boolean
   hideLocation?: boolean
   instantConfirm?: boolean
