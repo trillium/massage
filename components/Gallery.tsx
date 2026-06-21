@@ -14,6 +14,7 @@ export interface GalleryImage {
   src: string
   alt: string
   caption?: string
+  objectPosition?: string
 }
 
 interface GalleryProps {
@@ -55,15 +56,15 @@ export default function Gallery({ images, columns = 3 }: GalleryProps) {
           <Button
             key={index}
             onClick={() => setSelectedIndex(index)}
-            className="group hover:outline-primary-500 focus-visible:outline-primary-500 mb-4 block w-full cursor-pointer break-inside-avoid overflow-hidden rounded-lg border-0 bg-transparent p-0 outline-2 outline-offset-4 outline-transparent transition-[outline-color] duration-200"
+            className="group hover:outline-primary-500 focus-visible:outline-primary-500 mb-4 block h-auto w-full cursor-pointer break-inside-avoid overflow-hidden rounded-lg border-0 bg-transparent p-0 outline-2 outline-offset-4 outline-transparent transition-[outline-color] duration-200"
           >
-            <Box className="border-primary-500 relative overflow-hidden rounded-lg border-2">
+            <Box className="border-primary-500 relative aspect-[4/3] overflow-hidden rounded-lg border-2">
               <Image
                 src={image.src}
                 alt={image.alt}
-                width={600}
-                height={600}
-                className="h-auto w-full object-cover"
+                fill
+                className="object-cover"
+                style={image.objectPosition ? { objectPosition: image.objectPosition } : undefined}
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
               />
               {image.caption && (
