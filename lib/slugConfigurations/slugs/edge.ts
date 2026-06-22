@@ -26,6 +26,11 @@ function tipHints(freeMinutes: number, durations: number[]): Record<number, stri
   )
 }
 
+const ATTENDEE_OFFICE_FREE_MIN = 5
+const VOLUNTEER_OFFICE_FREE_MIN = 15
+const ATTENDEE_PRIVATE_BONUS_MIN = 15
+const VOLUNTEER_PRIVATE_BONUS_MIN = 30
+
 const edgeBase = {
   ...base,
   type: 'fixed-location' as const,
@@ -75,14 +80,14 @@ export const edgeSlugConfigurations: SlugConfigurationType[] = [
     title: 'Edge — Office Hours Chair Massage',
     text: [
       'Drop-in chair or table massage — no advance booking required.',
-      'Attendees: 5 min complimentary, tip for time above. Volunteers: 15 min complimentary, tip for time above.',
+      `Attendees: ${ATTENDEE_OFFICE_FREE_MIN} min complimentary, tip for time above. Volunteers: ${VOLUNTEER_OFFICE_FREE_MIN} min complimentary, tip for time above.`,
     ],
     links: publicLinks,
     customFields: {
       showRoleField: true,
       roleHints: {
-        attendee: tipHints(5, edgeOfficeBase.allowedDurations),
-        volunteer: tipHints(15, edgeOfficeBase.allowedDurations),
+        attendee: tipHints(ATTENDEE_OFFICE_FREE_MIN, edgeOfficeBase.allowedDurations),
+        volunteer: tipHints(VOLUNTEER_OFFICE_FREE_MIN, edgeOfficeBase.allowedDurations),
       },
       showNotesField: true,
       locationFromContainer: true,
@@ -94,16 +99,19 @@ export const edgeSlugConfigurations: SlugConfigurationType[] = [
     title: 'Edge — Private Session',
     text: [
       'Table massage in a private setting (ideally your hotel/Airbnb). Book at least 2 hours in advance.',
-      'Attendees: +15 min bonus on any booking. Volunteers: +30 min bonus on any booking.',
+      `Attendees: +${ATTENDEE_PRIVATE_BONUS_MIN} min bonus on any booking. Volunteers: +${VOLUNTEER_PRIVATE_BONUS_MIN} min bonus on any booking.`,
     ],
     links: publicLinks,
     customFields: {
       showRoleField: true,
       roleHints: {
-        attendee: 'complimentary + 15 min bonus',
-        volunteer: 'complimentary + 30 min bonus',
+        attendee: `complimentary + ${ATTENDEE_PRIVATE_BONUS_MIN} min bonus`,
+        volunteer: `complimentary + ${VOLUNTEER_PRIVATE_BONUS_MIN} min bonus`,
       },
-      roleBonus: { attendee: 15, volunteer: 30 },
+      roleBonus: {
+        attendee: ATTENDEE_PRIVATE_BONUS_MIN,
+        volunteer: VOLUNTEER_PRIVATE_BONUS_MIN,
+      },
       showNotesField: true,
       showRequestSoonerField: true,
       locationFromContainer: true,
