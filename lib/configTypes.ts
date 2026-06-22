@@ -69,7 +69,14 @@ export type SlugConfigurationType = {
   locationIsReadOnly?: boolean
   locationWarning?: LocationWarningType
   eventContainer: string | null
-  blockingScope?: 'event' | 'general' // 'event' blocks only this event type, 'general' blocks all availability
+  /**
+   * Controls which calendar events block this slug's availability.
+   * - 'event': only `<eventBaseString>__EVENT__MEMBER__` events block (the default narrow scope).
+   * - 'general': blocks ALL calendar events — `__EVENT__MEMBER__` for any container PLUS every non-`__EVENT__` event (including personal calendar items).
+   * - 'containers': blocks only `__EVENT__MEMBER__` events whose container name appears in `blockingContainers`. Non-`__EVENT__` events do NOT block. Lets a slug share a busy pool across a named set of containers without picking up unrelated personal events.
+   */
+  blockingScope?: 'event' | 'general' | 'containers'
+  blockingContainers?: string[]
   promoEndDate?: string | null // Format: YYYY-MM-DD
   pricing: PricingType | null
   pricingLabels?: { [key: number]: string }

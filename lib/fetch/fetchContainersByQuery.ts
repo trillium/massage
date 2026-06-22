@@ -141,6 +141,54 @@ export function filterEventsForGeneralBlocking(allEvents: GoogleCalendarV3Event[
 }
 
 /**
+ * Filters events to block ONLY against `__EVENT__MEMBER__` events whose container
+ * name appears in the passed `containers` list. Regular non-`__EVENT__` calendar
+ * events are intentionally NOT included — that's the entire point of the
+ * 'containers' scope (vs 'general', which sweeps in personal calendar items).
+ *
+ * A member event matches if its summary or description contains
+ * `<container>__EVENT__MEMBER__` for any `container` in the list.
+ *
+ * Shape mirrors `filterEventsForGeneralBlocking` for downstream interchangeability.
+ */
+export function filterEventsForContainerSet(
+  allEvents: GoogleCalendarV3Event[],
+  containers: string[]
+) {
+  if (!allEvents || !Array.isArray(allEvents)) {
+    return {
+      members: [],
+      regularEvents: [],
+      blockingEvents: [],
+      busyQuery: [],
+    }
+  }
+
+  const memberStrings = (containers ?? []).map((c) => `${c}__EVENT__MEMBER__`)
+
+  const members =
+    memberStrings.length === 0
+      ? []
+      : allEvents.filter((e: GoogleCalendarV3Event) => {
+          return memberStrings.some((m) => e.summary.includes(m) || e.description?.includes(m))
+        })
+
+  const blockingEvents = members
+  const regularEvents: GoogleCalendarV3Event[] = []
+
+  const busyQuery = blockingEvents.map((e: GoogleCalendarV3Event) => {
+    return { start: e.start, end: e.end }
+  })
+
+  return {
+    members,
+    regularEvents,
+    blockingEvents,
+    busyQuery,
+  }
+}
+
+/**
  * Fetches containers for a specific query by making a targeted API call.
  * Use this when you only need events for a single configuration.
  */
