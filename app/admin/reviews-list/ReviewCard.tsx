@@ -1,6 +1,6 @@
 import { FaStar, FaRegStar } from 'react-icons/fa'
 import { ReviewFormFields, type ReviewFormData } from './ReviewFormFields'
-import { TextSm, TextXsMuted } from '@/components/ui/text'
+import { TextSm, TextXsMuted, TextSmSemibold } from '@/components/ui/text'
 
 import { Button } from '@/components/ui/button'
 import { Stack } from '@/components/ui/stack'
@@ -63,9 +63,9 @@ export function ReviewCard({
       <Stack direction="row" align="start" justify="between">
         <Box>
           <Stack direction="row" align="center" gap={2}>
-            <span className="font-semibold text-accent-800 dark:text-accent-200">
+            <TextSmSemibold as="span" status="subtle">
               {review.name}
-            </span>
+            </TextSmSemibold>
             <TextXsMuted>{review.source}</TextXsMuted>
             <TextSm className="flex" status="warning">
               {Array.from({ length: review.rating }, (_, i) => (

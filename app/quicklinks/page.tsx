@@ -1,7 +1,7 @@
 import SectionContainer from '@/components/SectionContainer'
 import Link from '@/components/Link'
 import { quickLinks } from '@/data/paymentLinks'
-import { TextSmMuted } from '@/components/ui/text'
+import { TextSmMuted, TextSmSemibold } from '@/components/ui/text'
 import { Stack } from '@/components/ui/stack'
 import { Box } from '@/components/ui/box'
 
@@ -18,9 +18,7 @@ export default function QuicklinksPage() {
             >
               <link.icon className={`shrink-0 text-2xl ${link.iconColor}`} />
               <Box>
-                <span className="font-semibold text-accent-900 dark:text-accent-100">
-                  {link.label}
-                </span>
+                <TextSmSemibold as="span">{link.label}</TextSmSemibold>
                 <TextSmMuted>{link.description}</TextSmMuted>
               </Box>
             </Link>

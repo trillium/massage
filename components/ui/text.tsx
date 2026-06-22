@@ -57,6 +57,7 @@ export const TextLg = makeText('text-lg')
 export const TextLgMuted = makeText('text-lg', 'muted')
 export const TextMuted = makeText('text-base', 'muted')
 export const TextPrimary = makeText('text-sm', 'primary')
+export const TextSmMono = makeText('text-sm font-mono')
 
 type CaptionProps = React.HTMLAttributes<HTMLParagraphElement | HTMLSpanElement> & {
   as?: 'p' | 'span' | 'div'

@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import CustomLink from '@/components/Link'
 import { getSupabaseAdminClient } from '@/lib/supabase/server'
 import { listRaffles, getEntriesByRaffle, getRaffleFieldHistory } from '@/lib/raffle'
 import type { FieldHistoryEntry } from '@/lib/raffle'
@@ -47,9 +47,9 @@ export default async function RaffleWinnerPage({
         <H1 className="mb-6">{'Raffle Winner'}</H1>
         <TextSmMuted>
           {'No raffles exist yet. '}
-          <Link href="/admin/raffle" className="text-primary-500 hover:underline">
+          <CustomLink href="/admin/raffle" classes="text-primary-500 hover:underline">
             {'Create one →'}
-          </Link>
+          </CustomLink>
         </TextSmMuted>
       </Box>
     )
@@ -76,12 +76,12 @@ export default async function RaffleWinnerPage({
     <Box className="py-4">
       <Stack direction="row" align="center" justify="between" className="mb-6">
         <H1>{'Raffle Winner'}</H1>
-        <Link
+        <CustomLink
           href="/admin/raffle"
-          className="rounded border border-accent-300 px-3 py-1.5 text-sm text-accent-600 hover:bg-surface-100 dark:border-accent-600 dark:text-accent-400 dark:hover:bg-surface-700"
+          classes="rounded border border-accent-300 px-3 py-1.5 text-sm text-accent-600 hover:bg-surface-100 dark:border-accent-600 dark:text-accent-400 dark:hover:bg-surface-700"
         >
           {'Back to Raffle'}
-        </Link>
+        </CustomLink>
       </Stack>
 
       <Box className="mb-6">
@@ -100,9 +100,9 @@ export default async function RaffleWinnerPage({
       {!winner ? (
         <TextSmMuted>
           {`"${raffle.name}" has no winner yet. `}
-          <Link href="/admin/raffle" className="text-primary-500 hover:underline">
+          <CustomLink href="/admin/raffle" classes="text-primary-500 hover:underline">
             {'Draw one →'}
-          </Link>
+          </CustomLink>
         </TextSmMuted>
       ) : (
         <>

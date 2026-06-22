@@ -4,7 +4,7 @@ import type { DetailedHTMLProps, HTMLAttributes } from 'react'
 import { formatLocalTime } from 'lib/availability/helpers'
 import type { StringDateTimeInterval, LocationObject } from 'lib/types'
 import SlotCritter from './SlotCritter'
-import { TextXs } from '@/components/ui/text'
+import { TextXs, TextSm } from '@/components/ui/text'
 
 import { Button } from '@/components/ui/button'
 
@@ -64,11 +64,13 @@ export default function TimeButton({
       {...props}
     >
       {loading ? (
-        <span className="animate-pulse">Holding…</span>
+        <TextSm as="span" className="animate-pulse">
+          Holding…
+        </TextSm>
       ) : (
-        <span className={held ? 'text-accent-400 dark:text-accent-500' : ''}>
+        <TextSm as="span" status={held ? 'muted' : 'default'}>
           {formatLocalTime(start, { timeZone })} – {formatLocalTime(end, { timeZone })}
-        </span>
+        </TextSm>
       )}
       {held && holderSessionId && (
         <SlotCritter holderSessionId={holderSessionId} shooCount={shooCount} onShoo={onShoo} />

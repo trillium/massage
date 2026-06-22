@@ -3,7 +3,7 @@
 import { Fragment, useState } from 'react'
 import { Dialog, DialogPanel, DialogTitle, Transition, TransitionChild } from '@headlessui/react'
 import admin from '@/data/admin.json'
-import { TextSmMuted } from '@/components/ui/text'
+import { TextSmMuted, TextSmSemibold } from '@/components/ui/text'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -86,7 +86,7 @@ export default function ConfirmDialog({
                         className="text-sm text-accent-600 dark:text-accent-400"
                       >
                         {admin.confirmDialog.labels.typeToConfirm.replace('{typeToConfirm}', '')}
-                        <span className="font-semibold">{typeToConfirm}</span>
+                        <TextSmSemibold as="span">{typeToConfirm}</TextSmSemibold>
                         {/* biome-ignore lint/style/noJsxLiterals: confirmation instruction suffix */}
                         to confirm
                       </label>

@@ -1,7 +1,7 @@
 import React from 'react'
 import { DiscountType } from '@/lib/types'
 import { GeneratePrice } from '@/components/ui/atoms/GeneratePriceAtom'
-import { TextSmSemibold, TextXs } from '@/components/ui/text'
+import { TextSmSemibold, TextXs, TextSmMedium, TextSm } from '@/components/ui/text'
 import { BookingFormData } from '@/lib/types'
 import { flattenLocation } from '@/lib/helpers/locationHelpers'
 import { validatePromoCode } from '@/lib/promoCodes'
@@ -64,14 +64,16 @@ const BookingSummary: React.FC<BookingSummaryProps> = ({
         direction="row"
         align="start"
       >
-        <span className="w-18 shrink-0 font-medium">{bookingData.summary.clientLabel}</span>
-        <span className="break-words">
+        <TextSmMedium as="span" className="w-18 shrink-0">
+          {bookingData.summary.clientLabel}
+        </TextSmMedium>
+        <TextSm as="span" className="break-words">
           {clientName || (
-            <span className="text-accent-400 italic dark:text-accent-500">
+            <TextSm as="span" status="muted" className="italic">
               {bookingData.summary.clientPlaceholder}
-            </span>
+            </TextSm>
           )}
-        </span>
+        </TextSm>
       </Stack>
       {promoLine && (
         <Stack
@@ -79,9 +81,9 @@ const BookingSummary: React.FC<BookingSummaryProps> = ({
           direction="row"
           align="start"
         >
-          <span className="font-medium">
+          <TextSmMedium as="span">
             {bookingData.summary.promoCheckmark} {promoLine}
-          </span>
+          </TextSmMedium>
         </Stack>
       )}
       <Stack
@@ -89,12 +91,14 @@ const BookingSummary: React.FC<BookingSummaryProps> = ({
         direction="row"
         align="start"
       >
-        <span className="w-18 shrink-0 font-medium">{bookingData.summary.locationLabel}</span>
-        <span className="break-words">
+        <TextSmMedium as="span" className="w-18 shrink-0">
+          {bookingData.summary.locationLabel}
+        </TextSmMedium>
+        <TextSm as="span" className="break-words">
           {location || (
-            <span className="text-accent-400 italic dark:text-accent-500">
+            <TextSm as="span" status="muted" className="italic">
               {bookingData.summary.locationPlaceholder}
-            </span>
+            </TextSm>
           )}
           {formData?.hotelRoomNumber && (
             <span>
@@ -102,7 +106,7 @@ const BookingSummary: React.FC<BookingSummaryProps> = ({
               {formData.hotelRoomNumber}
             </span>
           )}
-        </span>
+        </TextSm>
       </Stack>
     </Box>
   )

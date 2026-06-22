@@ -9,6 +9,7 @@ import {
   TextXsMedium,
   TextXsMuted,
   TextBase,
+  TextSm,
 } from '@/components/ui/text'
 import { H1, H2, H3 } from '@/components/ui/heading'
 import { Box } from '@/components/ui/box'
@@ -70,7 +71,10 @@ export default function Page() {
               className="rounded-lg border border-amber-200 bg-amber-50/50 p-4 dark:border-amber-800 dark:bg-amber-950/20"
             >
               <H3 className="mb-1">
-                <Soon label="Soon" /> <span className="ml-1">{r.feature}</span>
+                <Soon label="Soon" />{' '}
+                <TextSm as="span" className="ml-1">
+                  {r.feature}
+                </TextSm>
               </H3>
               <TextSmMuted>{r.desc}</TextSmMuted>
             </Box>
@@ -86,8 +90,12 @@ export default function Page() {
                 <th className={headerCell}>{compareData.priceColumnHeader}</th>
                 {compareData.featureLabels.map((f) => (
                   <th key={f} className={`${headerCell} text-center`} title={f}>
-                    <span className="hidden xl:inline">{f}</span>
-                    <span className="xl:hidden">{f.split(' ')[0]}</span>
+                    <TextSm as="span" className="hidden xl:inline">
+                      {f}
+                    </TextSm>
+                    <TextSm as="span" className="xl:hidden">
+                      {f.split(' ')[0]}
+                    </TextSm>
                   </th>
                 ))}
               </tr>

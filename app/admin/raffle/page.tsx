@@ -6,7 +6,7 @@ import { RaffleSelector } from './RaffleSelector'
 import { H1 } from '@/components/ui/heading'
 import { Box } from '@/components/ui/box'
 import { TextSmMuted } from '@/components/ui/text'
-import Link from 'next/link'
+import CustomLink from '@/components/Link'
 
 export default async function RafflePage({
   searchParams,
@@ -67,9 +67,9 @@ export default async function RafflePage({
       </Box>
       <RaffleAdmin raffle={raffle} entries={entries} stats={stats} />
       <Box className="mt-6">
-        <Link href="/admin/raffle/winner" className="text-sm text-primary-500 hover:underline">
+        <CustomLink href="/admin/raffle/winner" classes="text-sm text-primary-500 hover:underline">
           {'View winner & SMS messages →'}
-        </Link>
+        </CustomLink>
       </Box>
     </Box>
   )

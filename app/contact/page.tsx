@@ -4,7 +4,7 @@ import ContactForm from '@/components/ContactForm'
 import { pages } from '@/data'
 import { H1 } from '@/components/ui/heading'
 
-import { TextBase } from '@/components/ui/text'
+import { TextBase, TextSmSemibold } from '@/components/ui/text'
 import { Stack } from '@/components/ui/stack'
 import { Box } from '@/components/ui/box'
 
@@ -38,7 +38,7 @@ export default async function ContactPage({
             />
           </Stack>
           <Box>
-            <span className="font-semibold">{pages.contact.serviceArea}</span>
+            <TextSmSemibold as="span">{pages.contact.serviceArea}</TextSmSemibold>
           </Box>
         </Stack>
       </Box>

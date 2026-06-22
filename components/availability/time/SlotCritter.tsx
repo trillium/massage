@@ -1,4 +1,5 @@
 import clsx from 'clsx'
+import { TextSm, TextXs } from '@/components/ui/text'
 import { useState } from 'react'
 import type { ComponentType } from 'react'
 import { FaShrimp } from 'react-icons/fa6'
@@ -97,7 +98,10 @@ export default function SlotCritter({ holderSessionId, shooCount, onShoo }: Slot
     >
       <CritterIcon className={clsx('h-4 w-4', critter.color)} />
       {displayShoo > 0 && (
-        <span className="pointer-events-none absolute -top-3 left-1/2 flex -translate-x-1/2 gap-px">
+        <TextSm
+          as="span"
+          className="pointer-events-none absolute -top-3 left-1/2 flex -translate-x-1/2 gap-px"
+        >
           {remaining > 0 &&
             Array.from({ length: remaining }, (_, i) => {
               const isLast = remaining === 1 && i === 0
@@ -113,15 +117,27 @@ export default function SlotCritter({ holderSessionId, shooCount, onShoo }: Slot
                 </span>
               )
             })}
-          <span key={`splat-${splatKey}`} className="absolute left-1/2 top-0 -translate-x-1/2">
-            <span className="absolute animate-heart-splat-left text-[8px] text-red-500 drop-shadow-sm">
+          <TextSm
+            as="span"
+            key={`splat-${splatKey}`}
+            className="absolute left-1/2 top-0 -translate-x-1/2"
+          >
+            <TextXs
+              as="span"
+              status="error"
+              className="absolute animate-heart-splat-left text-[8px] drop-shadow-sm"
+            >
               ♥
-            </span>
-            <span className="absolute animate-heart-splat-right text-[8px] text-red-500 drop-shadow-sm">
+            </TextXs>
+            <TextXs
+              as="span"
+              status="error"
+              className="absolute animate-heart-splat-right text-[8px] drop-shadow-sm"
+            >
               ♥
-            </span>
-          </span>
-        </span>
+            </TextXs>
+          </TextSm>
+        </TextSm>
       )}
     </span>
   )

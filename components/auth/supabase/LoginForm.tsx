@@ -110,6 +110,7 @@ export function LoginForm({ redirectTo: rawRedirectTo, onSuccess, onError }: Log
           <Box className="w-full border-t border-accent-300 dark:border-accent-600" />
         </Stack>
         <Stack className="relative text-sm" direction="row" justify="center">
+          {/* ds-ignore */}
           <span className="bg-surface-50 px-2 text-accent-500 dark:bg-surface-800 dark:text-accent-400">
             {auth.loginForm.or}
           </span>

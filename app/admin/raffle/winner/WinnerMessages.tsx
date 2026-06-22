@@ -18,7 +18,7 @@ import {
   TemplateVarsPanel,
 } from './WinnerMessageComponents'
 import { H2 } from '@/components/ui/heading'
-import { TextSmMuted, TextXsMuted, TextXsMedium } from '@/components/ui/text'
+import { TextSmMuted, TextXsMuted, TextXsMedium, TextSmMedium, TextSm } from '@/components/ui/text'
 import { Button } from '@/components/ui/button'
 import { Box } from '@/components/ui/box'
 import { Stack } from '@/components/ui/stack'
@@ -125,16 +125,14 @@ function NonWinnerCard({
             onChange={onToggleSmsSent}
             className="h-4 w-4 rounded border-accent-300 text-primary-600 focus:ring-primary-500"
           />
-          <span className="font-medium text-accent-900 dark:text-accent-100">
-            {capitalizeName(entry.name)}
-          </span>
+          <TextSmMedium as="span">{capitalizeName(entry.name)}</TextSmMedium>
         </label>
-        <span className="flex items-center gap-2">
+        <TextSm as="span" className="flex items-center gap-2">
           <TextXsMuted>{entry.phone}</TextXsMuted>
           <CopyButton text={entry.phone} label="Phone">
             {'Copy Phone'}
           </CopyButton>
-        </span>
+        </TextSm>
       </Stack>
       <EntryVarPanel
         template={template}

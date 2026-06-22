@@ -31,6 +31,7 @@ export const DS_COMPONENTS_BY_CATEGORY = {
     'TextSmMuted',
     'TextSmMedium',
     'TextSmSemibold',
+    'TextSmMono',
     'TextXs',
     'TextXsMuted',
     'TextXsMedium',

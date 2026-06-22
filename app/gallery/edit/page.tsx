@@ -6,6 +6,7 @@ import SectionContainer from '@/components/SectionContainer'
 import { IoClose } from 'react-icons/io5'
 
 import { Button } from '@/components/ui/button'
+import { TextSm } from '@/components/ui/text'
 import { Stack } from '@/components/ui/stack'
 import { Box } from '@/components/ui/box'
 
@@ -179,7 +180,11 @@ export default function Page() {
         <span>
           {saving ? 'Saving...' : `${visibleImages.length} visible, ${hidden.size} hidden`}
         </span>
-        {saveError && <span className="text-red-500">Save failed (read-only?)</span>}
+        {saveError && (
+          <TextSm as="span" status="error">
+            Save failed (read-only?)
+          </TextSm>
+        )}
         {hidden.size > 0 && (
           <Button
             onClick={() => {

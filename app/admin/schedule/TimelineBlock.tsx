@@ -1,7 +1,7 @@
 'use client'
 
 import type { TimelineBlockData } from './computeTimelineBlocks'
-import { TextSm, TextXs, TextXsMuted } from '@/components/ui/text'
+import { TextSm, TextXs, TextXsMuted, TextSmMedium } from '@/components/ui/text'
 import { Stack } from '@/components/ui/stack'
 import { Box } from '@/components/ui/box'
 
@@ -60,7 +60,7 @@ export function TimelineBlock({ block, isPast, isInProgress }: Props) {
       }`}
     >
       <Stack direction="row" align="center" justify="between">
-        <span className="font-medium text-accent-900 dark:text-accent-100">{name}</span>
+        <TextSmMedium as="span">{name}</TextSmMedium>
         <TextXsMuted>{duration}</TextXsMuted>
       </Stack>
       <Box className="mt-1 text-sm text-accent-600 dark:text-accent-300">{timeLabel}</Box>
