@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS appointments (
   calendar_event_id TEXT UNIQUE,
   client_email      TEXT NOT NULL,
   client_phone      TEXT,
+  client_telegram_handle TEXT,
   client_first_name TEXT NOT NULL,
   client_last_name  TEXT NOT NULL,
   start_time        TIMESTAMPTZ NOT NULL,
