@@ -4,6 +4,7 @@ import { useReduxAvailability } from '@/redux/hooks'
 import { useClaimAndOpenBookingModal } from 'hooks/useClaimAndOpenBookingModal'
 import { useHeldSlots } from 'hooks/useHeldSlots'
 import TimeButton from '@/components/availability/time/TimeButton'
+import { formatLocalDate } from 'lib/availability/helpers'
 import { Box } from '@/components/ui/box'
 import { Stack } from '@/components/ui/stack'
 import { TextBaseSemibold, TextXs } from '@/components/ui/text'
@@ -32,9 +33,18 @@ export default function NextSlotCard() {
   const isLoading = claiming && claimingSlot === slotKey
   const holderSession = getHolderSessionId(start, end)
 
+  const dateLabel = formatLocalDate(start, {
+    weekday: 'short',
+    month: 'short',
+    day: 'numeric',
+  })
+
   return (
     <Stack direction="col" gap={2} className="h-full justify-center">
-      <TextXs status="muted">Next available</TextXs>
+      <Stack direction="col" gap={1}>
+        <TextXs status="muted">Next available</TextXs>
+        <TextBaseSemibold>{dateLabel}</TextBaseSemibold>
+      </Stack>
       <TimeButton
         active={isActive}
         time={{ start, end }}
