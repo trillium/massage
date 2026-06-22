@@ -28,6 +28,7 @@ import { H1 } from '@/components/ui/heading'
 import { Stack } from '@/components/ui/stack'
 import { Box } from '@/components/ui/box'
 import { StatusBadge, DetailRow } from './EventStatusComponents'
+import Image from 'next/image'
 
 interface EventPageProps {
   params: Promise<{ event_id: string }>
@@ -118,7 +119,18 @@ export default async function EventPage({ params, searchParams }: EventPageProps
             {eventContent.page.heading}
           </H1>
 
-          <Box className="mt-6">
+          <Box className="mt-6 overflow-hidden rounded-2xl">
+            <Image
+              src="/static/images/gallery/event-confirmation-hero.jpg"
+              alt="Massage therapy"
+              width={672}
+              height={280}
+              className="w-full object-cover"
+              priority
+            />
+          </Box>
+
+          <Box className="mt-4">
             <StatusBadge status={status} />
           </Box>
 

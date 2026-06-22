@@ -2,15 +2,27 @@ import { LocationObject } from '@/lib/types'
 import { stringToLocationObject } from '@/lib/slugConfigurations/helpers/parseLocationFromSlug'
 import { flattenLocation } from '@/lib/helpers/locationHelpers'
 
+export type EditableFieldName = 'firstName' | 'lastName' | 'email' | 'phone' | 'location'
+
+export const DEFAULT_EDITABLE_FIELDS: EditableFieldName[] = [
+  'firstName',
+  'lastName',
+  'email',
+  'phone',
+  'location',
+]
+
 export interface EditableEventFields {
   firstName: string
   lastName: string
   email: string
   phone: string
   location: LocationObject
+  visibleFields: EditableFieldName[]
 }
 
 const FIELD_PATTERN = /<b>(\w[\w\s]*)<\/b>:\s*(.+)/g
+const META_PATTERN = /\{"editableFields":\[([^\]]*)\]\}/
 
 export function parseEditableFields(description: string): EditableEventFields {
   const fields: Record<string, string> = {}
@@ -22,12 +34,18 @@ export function parseEditableFields(description: string): EditableEventFields {
   const [firstName = '', ...lastParts] = (fields.Name || '').split(' ')
   const lastName = lastParts.join(' ')
 
+  const metaMatch = description.match(META_PATTERN)
+  const visibleFields: EditableFieldName[] = metaMatch
+    ? (JSON.parse(`[${metaMatch[1]}]`) as EditableFieldName[])
+    : DEFAULT_EDITABLE_FIELDS
+
   return {
     firstName,
     lastName,
     email: fields.Email || '',
     phone: fields.Phone || '',
     location: stringToLocationObject(fields.Location || ''),
+    visibleFields,
   }
 }
 

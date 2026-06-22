@@ -2,6 +2,16 @@
 import { AppointmentProps } from '@/lib/types'
 import { flattenLocation } from '@/lib/helpers/locationHelpers'
 import { siteConfig } from '@/lib/siteConfig'
+import type { EditableFieldName } from '@/lib/helpers/parseEventDescription'
+
+function getEditableFieldNames(
+  slugConfiguration: AppointmentProps['slugConfiguration']
+): EditableFieldName[] {
+  const fields: EditableFieldName[] = ['firstName', 'lastName', 'email']
+  if (!slugConfiguration?.hideLocation) fields.push('location')
+  fields.push('phone')
+  return fields
+}
 
 function eventDescription({
   start,
@@ -85,6 +95,9 @@ function eventDescription({
     output += '\n'
     output += eventContainerString
   }
+
+  const editableFields = getEditableFieldNames(slugConfiguration)
+  output += `\n${JSON.stringify({ editableFields })}`
 
   return output
 }
