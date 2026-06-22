@@ -100,11 +100,6 @@ export default async function EdgeLandingPage({ searchParams }: Props) {
                 Book Destination Session
               </Button>
             </Link>
-            <Link href="/edge-team">
-              <TextSm status="primary" className="text-center hover:underline">
-                On the Edge team? Go to your team booking page →
-              </TextSm>
-            </Link>
           </Stack>
 
           <Box className="rounded-xl border border-surface-200 bg-surface-50 p-6 dark:border-surface-700 dark:bg-surface-900">
