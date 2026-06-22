@@ -47,13 +47,14 @@ export default function TimeButton({
       type="button"
       disabled={isDisabled}
       className={clsx(
-        'relative rounded-md border border-accent-300 px-3 py-2 shadow-sm transition-all',
-        'text-sm text-accent-900',
+        'relative rounded-md border border-accent-300 dark:border-accent-700 px-3 py-2 shadow-sm transition-all',
+        'text-sm text-accent-900 dark:text-accent-100',
         'hocus:bg-primary-50/20 hocus:shadow-sm hocus:shadow-primary-100 hocus:border-primary-500 dark:hocus:text-accent-200 cursor-pointer',
         'outline-primary-600 active:mt-0.5 active:-mb-0.5',
         {
-          'bg-primary-500 font-bold text-white': active,
-          'bg-surface-50 font-semibold text-accent-900': !active && !held,
+          'bg-primary-500 font-bold text-white dark:text-white': active,
+          'bg-surface-50 dark:bg-surface-900 font-semibold text-accent-900 dark:text-accent-100':
+            !active && !held,
           'opacity-50 cursor-wait': disabled && !held,
           'cursor-not-allowed border-dashed border-accent-200 bg-surface-100 dark:border-accent-700 dark:bg-surface-800':
             held,
