@@ -65,6 +65,10 @@ const edgeOfficeBase = {
     30: 'Complimentary',
   },
   leadTimeMinimum: 0,
+  heroImage: {
+    src: '/static/images/edge/edge-office.png',
+    alt: 'Edge office hours chair massage',
+  },
 }
 
 const edgePrivateBase = {
@@ -75,6 +79,10 @@ const edgePrivateBase = {
   pricing: { 60: 0, 90: 0, 120: 0 },
   pricingLabels: { 60: 'Complimentary', 90: 'Complimentary', 120: 'Complimentary' },
   leadTimeMinimum: 120,
+  heroImage: {
+    src: '/static/images/edge/edge-private.png',
+    alt: 'Massage table on a winding road with a Shoulder Work Ahead sign',
+  },
 }
 
 const publicLinks = [{ label: 'Back to the Edge page', href: '/edge' }]

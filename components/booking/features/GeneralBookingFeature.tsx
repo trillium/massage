@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Template from '@/components/Template'
 import BookingForm from '@/components/booking/BookingForm'
 import SlotTakenAlert from '@/components/booking/SlotTakenAlert'
@@ -20,6 +21,7 @@ import {
   DayWithStartEnd,
 } from '@/lib/types'
 import { Stack } from '@/components/ui/stack'
+import { Box } from '@/components/ui/box'
 
 interface GeneralBookingFeatureProps {
   durationProps: ReturnType<typeof buildDurationProps>
@@ -60,6 +62,18 @@ export default function GeneralBookingFeature({
   return (
     <SectionContainer>
       <SlotTakenAlert />
+      {configuration.heroImage && (
+        <Box className="relative mb-4 aspect-[16/9] w-full overflow-hidden rounded-lg">
+          <Image
+            src={configuration.heroImage.src}
+            alt={configuration.heroImage.alt}
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, 768px"
+            priority
+          />
+        </Box>
+      )}
       <Template
         title={configuration.title || home.bookingTitle || 'Book a session'}
         text={configuration.text ?? undefined}

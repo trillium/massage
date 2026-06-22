@@ -79,6 +79,7 @@ export type SlugConfigurationType = {
   nextSlotOnly?: boolean
   hideCalendar?: boolean
   hideLocation?: boolean
+  heroImage?: { src: string; alt: string }
   instantConfirm?: boolean
   allowConcurrentBookings?: boolean
   acceptingPayment?: boolean
