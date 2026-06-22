@@ -1,6 +1,6 @@
 import { formatDatetimeToString } from '@/lib/helpers'
 import { GoogleCalendarFetchDataReturnType } from '@/lib/types'
-import getAccessToken from './getAccessToken' // Reuse existing function to get access token
+import getAccessToken, { clearTokenCache } from './getAccessToken'
 
 export async function getEventsBySearchQuery({
   start,
@@ -53,14 +53,22 @@ export async function getEventsBySearchQuery({
     url += `&timeMax=${encodeURIComponent(timeMax)}`
   }
 
-  const response = await fetch(url, {
+  const buildFetchOptions = (token: string): RequestInit => ({
     method: 'GET',
     headers: {
-      Authorization: `Bearer ${accessToken}`,
+      Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',
     },
     ...(noCache ? { cache: 'no-store' as const } : { next: { revalidate: 1 } }),
   })
+
+  let response = await fetch(url, buildFetchOptions(accessToken))
+
+  if (response.status === 401) {
+    clearTokenCache()
+    const freshToken = await getAccessToken()
+    response = await fetch(url, buildFetchOptions(freshToken))
+  }
 
   if (!response.ok) {
     throw new Error(`Error fetching events: ${response.statusText}`)
