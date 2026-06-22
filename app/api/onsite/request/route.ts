@@ -38,6 +38,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     firstName: escapeHtml(data.firstName),
     lastName: escapeHtml(data.lastName),
     phone: escapeHtml(data.phone),
+    telegramHandle: data.telegramHandle ? escapeHtml(data.telegramHandle) : data.telegramHandle,
     email: escapeHtml(data.email),
     timeZone: escapeHtml(data.timeZone),
   }

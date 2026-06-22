@@ -34,6 +34,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     lastName: data.lastName,
     email: data.email,
     phone: data.phone,
+    telegramHandle: data.telegramHandle,
     timeZone: data.timeZone,
     dateSummary,
     location,

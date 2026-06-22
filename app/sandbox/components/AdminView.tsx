@@ -15,6 +15,7 @@ import {
   TextSmMuted,
   TextXsMedium,
   TextBase,
+  TextBaseMedium,
 } from '@/components/ui/text'
 
 import { Button } from '@/components/ui/button'
@@ -83,9 +84,17 @@ function EventCard({
         <TextBase>
           <span className="font-medium">{sandbox.eventCard.labels.location}</span> {location}
         </TextBase>
-        <TextBase>
-          <span className="font-medium">{sandbox.eventCard.labels.phone}</span> {data.phone}
-        </TextBase>
+        {data.phone && data.phone.trim() !== '' && (
+          <TextBase>
+            <TextBaseMedium as="span">{sandbox.eventCard.labels.phone}</TextBaseMedium> {data.phone}
+          </TextBase>
+        )}
+        {data.telegramHandle && data.telegramHandle.trim() !== '' && (
+          <TextBase>
+            <TextBaseMedium as="span">{sandbox.eventCard.labels.telegram}</TextBaseMedium>{' '}
+            {data.telegramHandle}
+          </TextBase>
+        )}
         <TextBase>
           <span className="font-medium">{sandbox.eventCard.labels.email}</span> {data.email}
         </TextBase>
