@@ -12,12 +12,6 @@ function prorate(minutes: number): number {
   return Math.round((HOURLY_RATE * minutes) / 60 / 5) * 5
 }
 
-/**
- * 15 minute session, 5m complimentray, 10m $25
- * @param freeMinutes
- * @param durations
- * @returns
- */
 function tipHints(freeMinutes: number, durations: number[]): Record<number, string> {
   return Object.fromEntries(
     durations.map((d) => {
@@ -94,7 +88,7 @@ export const edgeSlugConfigurations: SlugConfigurationType[] = [
   {
     ...edgeOfficeBase,
     bookingSlug: ['edge-office', 'edge-office-hours'],
-    title: 'Edge — Office Hours Chair Massage',
+    title: 'Edge Esmeralda — Office Hours Chair Massage',
     text: [
       'Drop-in chair or table massage — no advance booking required.',
       `Attendees: ${edgeMin('office', 'attendee')} min complimentary, tip for time above. Volunteers: ${edgeMin('office', 'volunteer')} min complimentary, tip for time above.`,
@@ -113,7 +107,7 @@ export const edgeSlugConfigurations: SlugConfigurationType[] = [
   {
     ...edgePrivateBase,
     bookingSlug: ['edge-private'],
-    title: 'Edge — Private Session',
+    title: 'Edge Esmeralda — Private Session',
     text: [
       'Table massage in a private setting (ideally your hotel/Airbnb). Book at least 2 hours in advance.',
       `Attendees: +${edgeMin('private', 'attendee')} min bonus on any booking. Volunteers: +${edgeMin('private', 'volunteer')} min bonus on any booking.`,
@@ -151,10 +145,10 @@ export const edgeSlugConfigurations: SlugConfigurationType[] = [
     ...edgePrivateBase,
     bookingSlug: ['edge-team-private'],
     defaultDuration: 90,
-    title: 'Edge Team — Private Session',
+    title: 'Edge Team — In-Home Sessions',
     text: [
-      'Table massage in a private setting (ideally your hotel/Airbnb). Book at least 2 hours in advance.',
-      '60/90/120 minute sessions fully complimentary for Edge team.',
+      'Table massage ideally your hotel/Airbnb. Please book at least 2 hours in advance.',
+      '60/90/120 minute sessions, complimentary for Edge team.',
     ],
     links: teamLinks,
     customFields: {

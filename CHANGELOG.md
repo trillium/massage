@@ -1,5 +1,11 @@
 # massage — Changelog
 
+## 2026-06-22 — session 7e6834f7
+
+Files: context/AnalyticsContext.tsx, app/theme-providers.tsx, app/nerdstage-raffle/RaffleForm.tsx, app/overtime-raffle/RaffleForm.tsx, types/posthog.d.ts, components/booking/BookingForm.tsx, components/booking/useBookingSubmit.ts, components/raffle/useRaffleForm.ts
+
+> AI summary pending — check ProjectDocs Handover in next session.
+
 ## 2026-06-20 — session d98ae96a
 
 Files: components/Gallery.tsx, components/**tests**/Gallery.test.tsx, scripts/compute-focal-points.ts, app/gallery/page.tsx
