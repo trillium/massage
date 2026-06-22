@@ -89,10 +89,7 @@ export const edgeSlugConfigurations: SlugConfigurationType[] = [
     ...edgeOfficeBase,
     bookingSlug: ['edge-office', 'edge-office-hours'],
     title: 'Edge Esmeralda — Office Hours Chair Massage',
-    text: [
-      'Drop-in chair or table massage — no advance booking required.',
-      `Attendees: ${edgeMin('office', 'attendee')} min complimentary, tip for time above. Volunteers: ${edgeMin('office', 'volunteer')} min complimentary, tip for time above.`,
-    ],
+    text: ['Drop-in chair or table massage — no advance booking required.'],
     links: publicLinks,
     customFields: {
       showRoleField: true,
