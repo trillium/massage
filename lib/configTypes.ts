@@ -48,6 +48,7 @@ export type CustomFieldsType = {
   showRaffleOptIn?: boolean
   showPromoField?: boolean
   showRoleField?: boolean
+  forceRole?: 'attendee' | 'volunteer' | 'team'
   roleHints?: {
     attendee?: string | Record<number, string>
     volunteer?: string | Record<number, string>
@@ -93,6 +94,7 @@ export type SlugConfigurationType = {
   prefillLastName?: string
   prefillEmail?: string
   prefillPhone?: string
+  prefillTelegram?: string
   rescheduleEventId?: string
   rescheduleToken?: string
 }

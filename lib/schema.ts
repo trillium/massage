@@ -4,6 +4,11 @@ import { siteConfig } from '@/lib/siteConfig'
 
 const paymentMethodValues = paymentMethod.map((method) => method.value) as [string, ...string[]]
 
+const hasAtLeastOneContact = (data: { phoneNumber?: string; telegramHandle?: string }) =>
+  Boolean(data.phoneNumber?.trim()) || Boolean(data.telegramHandle?.trim())
+
+export const AT_LEAST_ONE_CONTACT_MESSAGE = 'Provide at least a phone number or Telegram handle'
+
 export const LocationSchema = z.object({
   street: z.string(),
   city: z.string(),
@@ -45,7 +50,8 @@ const BaseRequestSchema = z
         message: 'Price must be a valid integer.',
       })
       .optional(),
-    phone: z.string(),
+    phoneNumber: z.string().optional(),
+    telegramHandle: z.string().optional(),
     eventBaseString: z.string(),
     ...sharedBookingOptionalFields,
     instantConfirm: z.boolean().optional(),
@@ -57,6 +63,10 @@ const BaseRequestSchema = z
   .strict()
   .refine((data) => data.locationObject !== undefined || data.locationString !== undefined, {
     message: 'Either locationObject or locationString must be provided.',
+  })
+  .refine(hasAtLeastOneContact, {
+    message: AT_LEAST_ONE_CONTACT_MESSAGE,
+    path: ['phoneNumber'],
   })
 
 export const AppointmentRequestSchema = BaseRequestSchema.extend({
@@ -74,13 +84,19 @@ export const OnSiteRequestSchema = BaseRequestSchema.extend({
   leadTime: z.number(),
 })
 
-export const ContactFormSchema = z.object({
-  subject: z.string().min(1, 'Subject is required'),
-  name: z.string().min(1, 'Name is required'),
-  email: z.email('Invalid email format'),
-  phone: z.string().min(1, 'Phone number is required'),
-  message: z.string().min(1, 'Message is required'),
-})
+export const ContactFormSchema = z
+  .object({
+    subject: z.string().min(1, 'Subject is required'),
+    name: z.string().min(1, 'Name is required'),
+    email: z.email('Invalid email format'),
+    phoneNumber: z.string().optional(),
+    telegramHandle: z.string().optional(),
+    message: z.string().min(1, 'Message is required'),
+  })
+  .refine(hasAtLeastOneContact, {
+    message: AT_LEAST_ONE_CONTACT_MESSAGE,
+    path: ['phoneNumber'],
+  })
 
 export const AdminAccessRequestSchema = z.object({
   email: z.email('Invalid email address'),
@@ -102,7 +118,8 @@ export const BookedDataSchema = z
     locationObject: LocationSchema.optional(),
     locationString: z.string().optional(),
     duration: z.string(),
-    phone: z.string(),
+    phoneNumber: z.string().optional(),
+    telegramHandle: z.string().optional(),
     eventBaseString: z.string(),
     ...sharedBookingOptionalFields,
     price: z.string().optional(),
@@ -120,6 +137,10 @@ export const BookedDataSchema = z
   .refine((data) => data.locationObject !== undefined || data.locationString !== undefined, {
     message: 'Either locationObject or locationString must be provided.',
   })
+  .refine(hasAtLeastOneContact, {
+    message: AT_LEAST_ONE_CONTACT_MESSAGE,
+    path: ['phoneNumber'],
+  })
 
 export type OnSiteRequestType = z.infer<typeof OnSiteRequestSchema>
 
@@ -131,14 +152,20 @@ export const RAFFLE_INTEREST_LABELS: Record<string, string> = Object.fromEntries
   RAFFLE_INTEREST_OPTIONS.map(({ value, label }) => [value, label])
 )
 
-export const RaffleEntrySchema = z.object({
-  name: z.string().min(1, 'Name is required'),
-  email: z.email('Invalid email format'),
-  phone: z.string().min(7, 'Phone number is required'),
-  is_local: z.boolean().optional().default(false),
-  zip_code: z.string().nullable().optional(),
-  interested_in: z.array(RaffleInterestedInEnum),
-})
+export const RaffleEntrySchema = z
+  .object({
+    name: z.string().min(1, 'Name is required'),
+    email: z.email('Invalid email format'),
+    phoneNumber: z.string().optional(),
+    telegramHandle: z.string().optional(),
+    is_local: z.boolean().optional().default(false),
+    zip_code: z.string().nullable().optional(),
+    interested_in: z.array(RaffleInterestedInEnum),
+  })
+  .refine(hasAtLeastOneContact, {
+    message: AT_LEAST_ONE_CONTACT_MESSAGE,
+    path: ['phoneNumber'],
+  })
 
 export const CreateReviewSchema = z.object({
   firstName: z.string(),

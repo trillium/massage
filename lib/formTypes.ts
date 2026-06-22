@@ -19,7 +19,9 @@ export type BookingFormData = {
   /** Location as formatted string */
   locationString?: string
   /** Phone number of the requester */
-  phone?: string
+  phoneNumber?: string
+  /** Telegram handle of the requester */
+  telegramHandle?: string
   /** Payment method of the requester */
   paymentMethod?: PaymentMethodType
   /** Hotel room number */
@@ -71,7 +73,9 @@ export type ContactFormType = {
   /** Email address of the person contacting */
   email: string
   /** Phone number of the person contacting */
-  phone: string
+  phoneNumber?: string
+  /** Telegram handle of the person contacting */
+  telegramHandle?: string
   /** Message content */
   message: string
 }
