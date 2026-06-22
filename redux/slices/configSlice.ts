@@ -23,6 +23,7 @@ export const initialState: SlugConfigurationType = {
   blockingScope: undefined, // defaults to 'event' behavior if not specified
   discount: null,
   leadTimeMinimum: null, // in minutes,
+  showNextSlotCard: false,
   hideCalendar: false,
   instantConfirm: false,
   acceptingPayment: true,

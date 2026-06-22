@@ -10,6 +10,7 @@ import SectionContainer from '@/components/SectionContainer'
 import { SlotHoldProvider } from 'hooks/SlotHoldContext'
 import ConnectedRoleField from '@/components/booking/fields/ConnectedRoleField'
 import EdgeRoleHydrator from '@/components/utilities/EdgeRoleHydrator'
+import NextSlotCard from '@/components/booking/features/NextSlotCard'
 import { buildDurationProps } from '@/lib/slugConfigurations/helpers/buildDurationProps'
 import { home } from '@/app/content'
 import { differenceInDays, parseISO } from 'date-fns'
@@ -86,7 +87,16 @@ export default function GeneralBookingFeature({
         />
 
         <Stack className="space-y-8" direction="col">
-          <DurationPicker {...durationProps} />
+          <Stack direction="col" gap={4} className="md:flex-row md:items-stretch">
+            <Box className="md:flex-1">
+              <DurationPicker {...durationProps} />
+            </Box>
+            {configuration.showNextSlotCard && (
+              <Box className="md:flex-1">
+                <NextSlotCard />
+              </Box>
+            )}
+          </Stack>
           {showRoleField && <ConnectedRoleField />}
           {!configuration.hideCalendar && (
             <Calendar

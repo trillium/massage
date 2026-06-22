@@ -44,13 +44,13 @@ const edgeBase = {
   blockingScope: 'general' as const,
   instantConfirm: true,
   acceptingPayment: false,
+  maxDaysAhead: 7,
 }
 
 const edgeOfficeBase = {
   ...edgeBase,
-  hideCalendar: true,
   hideLocation: true,
-  nextSlotOnly: true,
+  showNextSlotCard: true,
   location: null,
   locationIsReadOnly: true,
   eventContainer: 'edge',

@@ -139,7 +139,7 @@ export async function createPageConfiguration({
 
   // 4. Calculate date boundaries
   const start = dayFromString(data.start)
-  const end = calculateEndDate(data.end, configuration)
+  const end = calculateEndDate(data.end, configuration, data.start)
 
   // 5. Calculate lead time and create slots
   const leadTime = configuration?.leadTimeMinimum ?? LEAD_TIME

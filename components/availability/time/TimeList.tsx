@@ -3,18 +3,12 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { useReduxAvailability, useAppDispatch } from '@/redux/hooks'
-import { setSelectedTime, setSelectedDate } from '@/redux/slices/availabilitySlice'
-import { setModal } from '@/redux/slices/modalSlice'
-import { setEventContainers } from '@/redux/slices/eventContainersSlice'
-import { useSlotHoldContext } from 'hooks/SlotHoldContext'
+import { setSelectedDate } from '@/redux/slices/availabilitySlice'
 import { useHeldSlots } from 'hooks/useHeldSlots'
+import { useClaimAndOpenBookingModal } from 'hooks/useClaimAndOpenBookingModal'
 import TimeButton from './TimeButton'
 import { DataFreshnessPill } from './DataFreshnessPill'
-import type {
-  StringDateTimeIntervalAndLocation,
-  StringDateTimeInterval,
-  LocationObject,
-} from '@/lib/types'
+import type { StringDateTimeIntervalAndLocation } from '@/lib/types'
 
 import { format } from 'date-fns-tz'
 import { formatLocalTime } from 'lib/availability/helpers'
@@ -32,7 +26,7 @@ export default function TimeList({}) {
     (isLocalhost || searchParams.get('debug') === 'true')
   const { slots: slotsRedux, selectedDate, selectedTime, timeZone } = useReduxAvailability()
   const dispatch = useAppDispatch()
-  const { claimHold, claiming } = useSlotHoldContext()
+  const { claimAndOpen, claiming, claimingSlot } = useClaimAndOpenBookingModal()
   const {
     heldSlots,
     debug: heldSlotsDebug,
@@ -41,7 +35,6 @@ export default function TimeList({}) {
     getShooCount,
     sessionId,
   } = useHeldSlots('TimeList')
-  const [claimingSlot, setClaimingSlot] = useState<string | null>(null)
 
   const slots = slotsRedux || []
 
@@ -75,22 +68,6 @@ export default function TimeList({}) {
     const t = setTimeout(() => dispatch(setSelectedDate(firstAvailableDate)), 2500)
     return () => clearTimeout(t)
   }, [hasNoAvailability, firstAvailableDate, dispatch])
-
-  const handleTimeButtonClick = async (time: StringDateTimeInterval, location?: LocationObject) => {
-    const slotKey = time.start + time.end
-    setClaimingSlot(slotKey)
-
-    dispatch(setSelectedTime({ start: time.start, end: time.end }))
-    dispatch(setEventContainers({ location: location ?? undefined }))
-    dispatch(setModal({ status: 'open' }))
-
-    const held = await claimHold(time.start, time.end)
-    setClaimingSlot(null)
-
-    if (!held) {
-      dispatch(setModal({ status: 'closed' }))
-    }
-  }
 
   const formattedSelectedDate = selectedDate
     ? format(new Date(selectedDate + 'T12:00:00'), 'MMMM d', { timeZone })
@@ -136,7 +113,7 @@ export default function TimeList({}) {
                     .then((d) => console.log('[shoo] response', d))
                     .catch((e) => console.error('[shoo] error', e))
                 }
-                onTimeSelect={handleTimeButtonClick}
+                onTimeSelect={claimAndOpen}
               />
             )
           })}
