@@ -1,12 +1,12 @@
-/* ds-ignore-file */
 import { Metadata } from 'next'
 import Link from 'next/link'
 import SectionContainer from '@/components/SectionContainer'
 import { H1, H2, H3 } from '@/components/ui/heading'
-import { TextBase, TextSm, TextLg } from '@/components/ui/text'
+import { TextBase, TextSm, TextLg, TextSmMedium } from '@/components/ui/text'
 import { Stack } from '@/components/ui/stack'
 import { Box } from '@/components/ui/box'
 import { Button } from '@/components/ui/button'
+import CustomLink from '@/components/Link'
 import EdgeRoleHydrator from '@/components/utilities/EdgeRoleHydrator'
 import Image from 'next/image'
 
@@ -40,7 +40,7 @@ export default async function EdgeLandingPage({ searchParams }: Props) {
         <Stack direction="col" gap={8}>
           <Box className="text-center">
             <H1>Trillium Massage at Edge</H1>
-            <TextLg className="mt-3 text-accent-600 dark:text-accent-300">
+            <TextLg status="secondary" className="mt-3">
               Hi, I&apos;m Trillium Smith — licensed massage therapist, software developer, Voice
               Accessabiltiy Enthusiast. I&apos;m offering complimentary sessions to Edge community
               members and team as a gift to this community!
@@ -54,15 +54,13 @@ export default async function EdgeLandingPage({ searchParams }: Props) {
                 <Link href={officeHoursHref}>
                   <H3 status="primary">Office Hours</H3>
                 </Link>
-                <TextBase className="mt-1 text-accent-600 dark:text-accent-400">
+                <TextBase status="secondary" className="mt-1">
                   Chair or table massage during scheduled office hour blocks. Walk-ins welcome, or
                   prebook a time that works for you.
                 </TextBase>
                 <Stack direction="col" gap={1} className="mt-2">
-                  <TextSm className="text-accent-500">
-                    Attendees: 5 min complimentary, tip for time above
-                  </TextSm>
-                  <TextSm className="text-accent-500">
+                  <TextSm status="muted">Attendees: 5 min complimentary, tip for time above</TextSm>
+                  <TextSm status="muted">
                     Volunteers: 15 min complimentary, tip for time above
                   </TextSm>
                 </Stack>
@@ -72,17 +70,13 @@ export default async function EdgeLandingPage({ searchParams }: Props) {
                 <Link href={privateHref}>
                   <H3 status="primary">Private Sessions</H3>
                 </Link>
-                <TextBase className="mt-1 text-accent-600 dark:text-accent-400">
+                <TextBase status="secondary" className="mt-1">
                   Dedicated session on a massage table. Book at least 2 hours in advance. Location
                   can be of your choosing :)
                 </TextBase>
                 <Stack direction="col" gap={1} className="mt-2">
-                  <TextSm className="text-accent-500">
-                    Attendees: +15 min bonus on any booking
-                  </TextSm>
-                  <TextSm className="text-accent-500">
-                    Volunteers: +30 min bonus on any booking
-                  </TextSm>
+                  <TextSm status="muted">Attendees: +15 min bonus on any booking</TextSm>
+                  <TextSm status="muted">Volunteers: +30 min bonus on any booking</TextSm>
                 </Stack>
               </Box>
             </Stack>
@@ -90,17 +84,17 @@ export default async function EdgeLandingPage({ searchParams }: Props) {
 
           <Stack direction="col" gap={3}>
             <Link href={officeHoursHref}>
-              <Button className="w-full py-4 text-base" variant="default" size="lg">
+              <Button className="w-full py-4" variant="default" size="lg">
                 Book Office Hours
               </Button>
             </Link>
             <Link href={privateHref}>
-              <Button className="w-full py-4 text-base" variant="outline" size="lg">
+              <Button className="w-full py-4" variant="outline" size="lg">
                 Book Private Session
               </Button>
             </Link>
             <Link href="/edge-team">
-              <TextSm className="text-center text-primary-600 hover:underline dark:text-primary-400">
+              <TextSm status="primary" className="text-center hover:underline">
                 On the Edge team? Go to your team booking page →
               </TextSm>
             </Link>
@@ -117,7 +111,7 @@ export default async function EdgeLandingPage({ searchParams }: Props) {
                   className="object-cover object-[center_20%]"
                 />
               </Box>
-              <TextBase className="text-accent-600 dark:text-accent-400">
+              <TextBase status="secondary">
                 I&apos;m a massage therapist transitioning into software development. I learned to
                 code by voice using Talon Voice — I&apos;m an accessibility advocate, open source
                 contributor, and voice computing enthusiast.
@@ -125,37 +119,31 @@ export default async function EdgeLandingPage({ searchParams }: Props) {
             </Stack>
             <Stack direction="col" gap={2} className="mt-4">
               <TextSm>
-                <span className="font-medium">Website: </span>
-                <a
+                <TextSmMedium as="span">Website: </TextSmMedium>
+                <CustomLink
                   href="https://trilliumsmith.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-primary-600 hover:underline dark:text-primary-400"
+                  classes="text-primary-600 hover:underline dark:text-primary-400"
                 >
                   trilliumsmith.com
-                </a>
+                </CustomLink>
               </TextSm>
               <TextSm>
-                <span className="font-medium">Massage booking: </span>
-                <a
+                <TextSmMedium as="span">Massage booking: </TextSmMedium>
+                <CustomLink
                   href={SITE_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-primary-600 hover:underline dark:text-primary-400"
+                  classes="text-primary-600 hover:underline dark:text-primary-400"
                 >
                   trilliummassage.la
-                </a>
+                </CustomLink>
               </TextSm>
               <TextSm>
-                <span className="font-medium">GitHub: </span>
-                <a
+                <TextSmMedium as="span">GitHub: </TextSmMedium>
+                <CustomLink
                   href="https://github.com/trillium"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-primary-600 hover:underline dark:text-primary-400"
+                  classes="text-primary-600 hover:underline dark:text-primary-400"
                 >
                   github.com/trillium
-                </a>
+                </CustomLink>
               </TextSm>
             </Stack>
           </Box>

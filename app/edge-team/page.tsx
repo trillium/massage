@@ -1,4 +1,3 @@
-/* ds-ignore-file */
 import { Metadata } from 'next'
 import Link from 'next/link'
 import SectionContainer from '@/components/SectionContainer'
@@ -20,7 +19,7 @@ export default function EdgeTeamLandingPage() {
         <Stack direction="col" gap={8}>
           <Box className="text-center">
             <H1>Edge Team — Massage Booking</H1>
-            <TextLg className="mt-3 text-accent-600 dark:text-accent-300">
+            <TextLg status="secondary" className="mt-3">
               Welcome, team member! All sessions on this page are fully complimentary.
             </TextLg>
           </Box>
@@ -32,13 +31,11 @@ export default function EdgeTeamLandingPage() {
                 <Link href="/edge-team-office">
                   <H3 status="primary">Office Hours</H3>
                 </Link>
-                <TextBase className="mt-1 text-accent-600 dark:text-accent-400">
+                <TextBase status="secondary" className="mt-1">
                   Chair or table massage during scheduled office hour blocks. Walk-ins welcome.
                 </TextBase>
                 <Stack direction="col" gap={1} className="mt-2">
-                  <TextSm className="text-accent-500">
-                    All durations (5/10/15/20/30) fully complimentary
-                  </TextSm>
+                  <TextSm status="muted">All durations (5/10/15/20/30) fully complimentary</TextSm>
                 </Stack>
               </Box>
 
@@ -46,14 +43,12 @@ export default function EdgeTeamLandingPage() {
                 <Link href="/edge-team-private">
                   <H3 status="primary">Private Sessions</H3>
                 </Link>
-                <TextBase className="mt-1 text-accent-600 dark:text-accent-400">
+                <TextBase status="secondary" className="mt-1">
                   Dedicated session on a massage table. Book at least 2 hours in advance. Location
                   can be of your choosing.
                 </TextBase>
                 <Stack direction="col" gap={1} className="mt-2">
-                  <TextSm className="text-accent-500">
-                    60/90/120 minute sessions fully complimentary
-                  </TextSm>
+                  <TextSm status="muted">60/90/120 minute sessions fully complimentary</TextSm>
                 </Stack>
               </Box>
             </Stack>
@@ -61,17 +56,17 @@ export default function EdgeTeamLandingPage() {
 
           <Stack direction="col" gap={3}>
             <Link href="/edge-team-office">
-              <Button className="w-full py-4 text-base" variant="default" size="lg">
+              <Button className="w-full py-4" variant="default" size="lg">
                 Book Office Hours
               </Button>
             </Link>
             <Link href="/edge-team-private">
-              <Button className="w-full py-4 text-base" variant="outline" size="lg">
+              <Button className="w-full py-4" variant="outline" size="lg">
                 Book Private Session
               </Button>
             </Link>
             <Link href="/edge">
-              <TextSm className="text-center text-primary-600 hover:underline dark:text-primary-400">
+              <TextSm status="primary" className="text-center hover:underline">
                 ← Back to the general Edge page
               </TextSm>
             </Link>
