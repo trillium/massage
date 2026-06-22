@@ -110,7 +110,6 @@ export const edgeSlugConfigurations: SlugConfigurationType[] = [
     title: 'Edge Esmeralda — Destination Session',
     text: [
       'Table massage at a destination of your choosing (ideally your hotel/Airbnb). Book at least 2 hours in advance.',
-      `Attendees: +${edgeMin('destination', 'attendee')} min bonus on any booking. Volunteers: +${edgeMin('destination', 'volunteer')} min bonus on any booking.`,
     ],
     links: publicLinks,
     customFields: {
