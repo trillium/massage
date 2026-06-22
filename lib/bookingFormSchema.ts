@@ -4,12 +4,20 @@ import { paymentMethod } from '@/data/paymentMethods'
 
 const paymentMethodValues = paymentMethod.map((method) => method.value) as [string, ...string[]]
 
+const looseLocationSchema = z.object({
+  street: z.string().optional(),
+  city: z.string().optional(),
+  zip: z.string().optional(),
+})
+
 export const createBookingFormSchema = (config?: {
   cities?: string[]
   zipCodes?: string[]
   allowTelegramContact?: boolean
+  hideLocation?: boolean
 }) => {
   const allowTelegram = config?.allowTelegramContact === true
+  const locationSchema = config?.hideLocation ? looseLocationSchema : createLocationSchema(config)
   const phoneSchema = allowTelegram
     ? z
         .string()
@@ -29,7 +37,7 @@ export const createBookingFormSchema = (config?: {
     phone: phoneSchema,
     telegramHandle: z.string().optional(),
     email: z.string().min(1, 'Email is required').email('Please enter a valid email address'),
-    location: createLocationSchema(config),
+    location: locationSchema,
     paymentMethod: z.enum(paymentMethodValues),
     hotelRoomNumber: z.string().optional(),
     parkingInstructions: z.string().optional(),

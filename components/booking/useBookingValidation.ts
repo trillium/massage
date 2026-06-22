@@ -8,6 +8,7 @@ export function useBookingValidation(config: SlugConfigurationType) {
     try {
       const schema = createBookingFormSchema({
         allowTelegramContact: config.customFields?.allowTelegramContact,
+        hideLocation: config.hideLocation,
       })
       schema.parse(values)
       return {}
