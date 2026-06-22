@@ -3,6 +3,7 @@ import { FormikErrors, FormikTouched } from 'formik'
 
 import NameFields from './fields/NameFields'
 import PhoneField from './fields/PhoneField'
+import TelegramField from './fields/TelegramField'
 import LocationField from './fields/LocationField'
 import EmailField from './fields/EmailField'
 import PaymentMethodField from './fields/PaymentMethodField'
@@ -94,7 +95,20 @@ export default function BookingFormFields({
             setFieldValue('phone', e.target.value)
           }}
         />
-        {touched.phone && errors.phone && (
+        <Box className="flex items-center gap-2 px-3 py-1 ring-1 ring-inset ring-accent-300">
+          <Box className="h-px flex-1 bg-accent-300" />
+          <TextSm as="span" status="secondary">
+            or
+          </TextSm>
+          <Box className="h-px flex-1 bg-accent-300" />
+        </Box>
+        <TelegramField
+          telegramHandle={values.telegramHandle}
+          onChange={(e) => {
+            setFieldValue('telegramHandle', e.target.value)
+          }}
+        />
+        {(touched.phone || touched.telegramHandle) && errors.phone && (
           <TextSm as="div" status="error" className="mt-1">
             {errors.phone}
           </TextSm>

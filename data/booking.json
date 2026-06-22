@@ -15,6 +15,11 @@
       "placeholder": "(555) 444 - 3333",
       "ariaLabel": "Phone Number"
     },
+    "telegram": {
+      "label": "Telegram handle (optional)",
+      "placeholder": "@yourhandle",
+      "ariaLabel": "Telegram handle"
+    },
     "email": {
       "label": "Email Address",
       "placeholder": "name@example.com",

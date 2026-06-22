@@ -42,6 +42,7 @@ export function useBookingInitialValues({
       firstName: formData.firstName || config.prefillFirstName || '',
       lastName: formData.lastName || config.prefillLastName || '',
       phone: formData.phone || config.prefillPhone || '',
+      telegramHandle: formData.telegramHandle || config.prefillTelegram || '',
       email: formData.email || config.prefillEmail || '',
       location: (() => {
         const locationSources = [eventContainers?.location, config?.location, formData?.location]
