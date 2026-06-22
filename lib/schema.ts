@@ -22,7 +22,7 @@ const sharedBookingOptionalFields = {
   requestSooner: z.boolean().optional(),
 }
 
-const BaseRequestSchema = z
+const BaseRequestObject = z
   .object({
     firstName: z.string(),
     lastName: z.string(),
@@ -56,31 +56,46 @@ const BaseRequestSchema = z
     sessionId: z.string().uuid().optional(),
   })
   .strict()
-  .refine((data) => data.locationObject !== undefined || data.locationString !== undefined, {
-    message: 'Either locationObject or locationString must be provided.',
+
+type RequestRefineShape = {
+  locationObject?: unknown
+  locationString?: unknown
+  phone?: string
+  telegramHandle?: string
+}
+
+function applyRequestRefines<S extends z.ZodType<RequestRefineShape>>(schema: S) {
+  return schema
+    .refine((data) => data.locationObject !== undefined || data.locationString !== undefined, {
+      message: 'Either locationObject or locationString must be provided.',
+    })
+    .refine(
+      (data) => (data.phone?.trim() ?? '') !== '' || (data.telegramHandle?.trim() ?? '') !== '',
+      {
+        message: 'Either phone or telegram handle must be provided.',
+        path: ['phone'],
+      }
+    )
+}
+
+export const AppointmentRequestSchema = applyRequestRefines(
+  BaseRequestObject.extend({
+    paymentMethod: z.enum(paymentMethodValues).optional(),
   })
-  .refine(
-    (data) => (data.phone?.trim() ?? '') !== '' || (data.telegramHandle?.trim() ?? '') !== '',
-    {
-      message: 'Either phone or telegram handle must be provided.',
-      path: ['phone'],
-    }
-  )
+)
 
-export const AppointmentRequestSchema = BaseRequestSchema.extend({
-  paymentMethod: z.enum(paymentMethodValues).optional(),
-})
-
-export const OnSiteRequestSchema = BaseRequestSchema.extend({
-  paymentMethod: z.enum(paymentMethodValues),
-  eventContainerString: z.string(), // Make this field required
-  allowedDurations: z.array(z.number()),
-  eventName: z.string(),
-  sessionDuration: z.string().optional(),
-  pricing: z.record(z.string(), z.number()).optional(),
-  paymentOptions: z.string(),
-  leadTime: z.number(),
-})
+export const OnSiteRequestSchema = applyRequestRefines(
+  BaseRequestObject.extend({
+    paymentMethod: z.enum(paymentMethodValues),
+    eventContainerString: z.string(),
+    allowedDurations: z.array(z.number()),
+    eventName: z.string(),
+    sessionDuration: z.string().optional(),
+    pricing: z.record(z.string(), z.number()).optional(),
+    paymentOptions: z.string(),
+    leadTime: z.number(),
+  })
+)
 
 export const ContactFormSchema = z.object({
   subject: z.string().min(1, 'Subject is required'),

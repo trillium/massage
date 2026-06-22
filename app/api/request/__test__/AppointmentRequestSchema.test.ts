@@ -49,4 +49,33 @@ describe('AppointmentRequestSchema', () => {
     const result = AppointmentRequestSchema.safeParse(bad)
     expect(result.success).toBe(false)
   })
+
+  it('accepts payload with only telegramHandle (no phone)', () => {
+    const { phone, ...rest } = validPayload
+    const result = AppointmentRequestSchema.safeParse({ ...rest, telegramHandle: '@alice' })
+    expect(result.success).toBe(true)
+  })
+
+  it('accepts payload with both phone and telegramHandle', () => {
+    const result = AppointmentRequestSchema.safeParse({
+      ...validPayload,
+      telegramHandle: '@alice',
+    })
+    expect(result.success).toBe(true)
+  })
+
+  it('rejects payload with neither phone nor telegramHandle', () => {
+    const { phone, ...rest } = validPayload
+    const result = AppointmentRequestSchema.safeParse(rest)
+    expect(result.success).toBe(false)
+  })
+
+  it('rejects payload with empty phone and empty telegramHandle', () => {
+    const result = AppointmentRequestSchema.safeParse({
+      ...validPayload,
+      phone: '',
+      telegramHandle: '',
+    })
+    expect(result.success).toBe(false)
+  })
 })

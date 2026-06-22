@@ -5,6 +5,7 @@ export function generateFakeOnSiteRequest(): OnSiteRequestType {
     firstName: 'John',
     lastName: 'Doe',
     phone: '555-123-4567',
+    telegramHandle: '',
     email: 'john.doe@example.com',
     locationObject: {
       street: '123 Main St',

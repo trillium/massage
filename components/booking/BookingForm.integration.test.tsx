@@ -371,6 +371,126 @@ describe('BookingForm Integration Tests', () => {
     })
   })
 
+  describe('Phone-or-Telegram Contact Requirement', () => {
+    beforeEach(() => {
+      global.fetch = vi.fn()
+    })
+
+    afterEach(() => {
+      vi.resetAllMocks()
+    })
+
+    function fillCommonFields() {
+      fireEvent.change(screen.getByLabelText('First Name'), { target: { value: 'Pat' } })
+      fireEvent.change(screen.getByLabelText('Last Name'), { target: { value: 'Doe' } })
+      fireEvent.change(screen.getByLabelText('Email'), {
+        target: { value: 'pat@example.com' },
+      })
+      fireEvent.change(screen.getByLabelText('street address'), {
+        target: { value: '123 Main St' },
+      })
+      fireEvent.change(screen.getByLabelText('city'), { target: { value: 'Playa Vista' } })
+      fireEvent.change(screen.getByLabelText('zip code'), { target: { value: '90094' } })
+    }
+
+    it('submits successfully when only phone is provided', async () => {
+      vi.mocked(global.fetch).mockResolvedValueOnce({
+        json: async () => ({ success: true }),
+        ok: true,
+      } as Response)
+
+      render(
+        <Provider store={store}>
+          <BookingForm />
+        </Provider>
+      )
+
+      fillCommonFields()
+      fireEvent.change(screen.getByLabelText('Phone Number'), {
+        target: { value: '555-123-4567' },
+      })
+      fireEvent.click(screen.getByText('Submit'))
+
+      await waitFor(() => {
+        expect(global.fetch).toHaveBeenCalled()
+      })
+      const body = JSON.parse(vi.mocked(global.fetch).mock.calls[0][1]!.body as string)
+      expect(body.phone).toBe('555-123-4567')
+    })
+
+    it('submits successfully when only telegramHandle is provided', async () => {
+      vi.mocked(global.fetch).mockResolvedValueOnce({
+        json: async () => ({ success: true }),
+        ok: true,
+      } as Response)
+
+      render(
+        <Provider store={store}>
+          <BookingForm />
+        </Provider>
+      )
+
+      fillCommonFields()
+      fireEvent.change(screen.getByLabelText('Telegram handle'), {
+        target: { value: '@pat' },
+      })
+      fireEvent.click(screen.getByText('Submit'))
+
+      await waitFor(() => {
+        expect(global.fetch).toHaveBeenCalled()
+      })
+      const body = JSON.parse(vi.mocked(global.fetch).mock.calls[0][1]!.body as string)
+      expect(body.telegramHandle).toBe('@pat')
+    })
+
+    it('submits successfully when both phone and telegramHandle are provided', async () => {
+      vi.mocked(global.fetch).mockResolvedValueOnce({
+        json: async () => ({ success: true }),
+        ok: true,
+      } as Response)
+
+      render(
+        <Provider store={store}>
+          <BookingForm />
+        </Provider>
+      )
+
+      fillCommonFields()
+      fireEvent.change(screen.getByLabelText('Phone Number'), {
+        target: { value: '555-123-4567' },
+      })
+      fireEvent.change(screen.getByLabelText('Telegram handle'), {
+        target: { value: '@pat' },
+      })
+      fireEvent.click(screen.getByText('Submit'))
+
+      await waitFor(() => {
+        expect(global.fetch).toHaveBeenCalled()
+      })
+      const body = JSON.parse(vi.mocked(global.fetch).mock.calls[0][1]!.body as string)
+      expect(body.phone).toBe('555-123-4567')
+      expect(body.telegramHandle).toBe('@pat')
+    })
+
+    it('blocks submission when neither phone nor telegramHandle is provided', async () => {
+      render(
+        <Provider store={store}>
+          <BookingForm />
+        </Provider>
+      )
+
+      fillCommonFields()
+      fireEvent.click(screen.getByText('Submit'))
+
+      await waitFor(() => {
+        expect(
+          screen.getByText('Either phone or telegram handle must be provided.')
+        ).toBeInTheDocument()
+      })
+      expect(global.fetch).not.toHaveBeenCalled()
+    })
+  })
+
   describe('Modal Integration', () => {
     it('should hide form when modal is closed', () => {
       // Start with open modal
