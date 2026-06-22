@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button'
 import CustomLink from '@/components/Link'
 import EdgeRoleHydrator from '@/components/utilities/EdgeRoleHydrator'
 import Image from 'next/image'
+import { edgeMin } from '@/lib/slugConfigurations/slugs/edge'
 
 export const metadata: Metadata = {
   title: 'Trillium Massage at Edge — Trillium Smith',
@@ -59,9 +60,11 @@ export default async function EdgeLandingPage({ searchParams }: Props) {
                   prebook a time that works for you.
                 </TextBase>
                 <Stack direction="col" gap={1} className="mt-2">
-                  <TextSm status="muted">Attendees: 5 min complimentary, tip for time above</TextSm>
                   <TextSm status="muted">
-                    Volunteers: 15 min complimentary, tip for time above
+                    {`Attendees: ${edgeMin('office', 'attendee')} min complimentary, tip for time above`}
+                  </TextSm>
+                  <TextSm status="muted">
+                    {`Volunteers: ${edgeMin('office', 'volunteer')} min complimentary, tip for time above`}
                   </TextSm>
                 </Stack>
               </Box>
@@ -75,8 +78,12 @@ export default async function EdgeLandingPage({ searchParams }: Props) {
                   least 2 hours in advance.
                 </TextBase>
                 <Stack direction="col" gap={1} className="mt-2">
-                  <TextSm status="muted">Attendees: +15 min bonus on any booking</TextSm>
-                  <TextSm status="muted">Volunteers: +30 min bonus on any booking</TextSm>
+                  <TextSm status="muted">
+                    {`Attendees: +${edgeMin('destination', 'attendee')} min bonus on any booking`}
+                  </TextSm>
+                  <TextSm status="muted">
+                    {`Volunteers: +${edgeMin('destination', 'volunteer')} min bonus on any booking`}
+                  </TextSm>
                 </Stack>
               </Box>
             </Stack>

@@ -22,15 +22,15 @@ function tipHints(freeMinutes: number, durations: number[]): Record<number, stri
   )
 }
 
-type EdgeScope = 'office' | 'destination'
-type PublicRole = 'attendee' | 'volunteer'
+export type EdgeScope = 'office' | 'destination'
+export type EdgePublicRole = 'attendee' | 'volunteer'
 
-const EDGE_MIN: Record<EdgeScope, Record<PublicRole, number>> = {
+export const EDGE_MIN: Record<EdgeScope, Record<EdgePublicRole, number>> = {
   office: { attendee: 10, volunteer: 15 },
   destination: { attendee: 15, volunteer: 30 },
 }
 
-function edgeMin(scope: EdgeScope, role: PublicRole): number {
+export function edgeMin(scope: EdgeScope, role: EdgePublicRole): number {
   return EDGE_MIN[scope][role]
 }
 
