@@ -1,3 +1,4 @@
+import { endOfWeek, startOfWeek } from 'date-fns'
 import { normalizeYYYYMMDD } from '@/lib/helpers'
 import { dayFromString, dayFromDate } from '@/lib/dayAsObject'
 import { SlugConfigurationType } from '@/lib/types'
@@ -14,11 +15,13 @@ export function calculateEndDate(
     if (normalizedPromoEnd < effectiveEnd) effectiveEnd = normalizedPromoEnd
   }
 
-  if (configuration?.maxDaysAhead && dataStart) {
-    const startMs = new Date(`${dataStart}T00:00:00Z`).getTime()
-    const cappedMs = startMs + (configuration.maxDaysAhead - 1) * 86400000
-    const cappedEnd = dayFromDate(new Date(cappedMs))
-    const cappedString = `${cappedEnd.year}-${String(cappedEnd.month).padStart(2, '0')}-${String(cappedEnd.day).padStart(2, '0')}`
+  if (configuration?.calendarWeeks && dataStart) {
+    const startDate = new Date(`${dataStart}T00:00:00`)
+    const weekStart = startOfWeek(startDate)
+    const lastWeekStartMs = weekStart.getTime() + (configuration.calendarWeeks - 1) * 7 * 86400000
+    const cappedEndDate = endOfWeek(new Date(lastWeekStartMs))
+    const cappedDay = dayFromDate(cappedEndDate)
+    const cappedString = `${cappedDay.year}-${String(cappedDay.month).padStart(2, '0')}-${String(cappedDay.day).padStart(2, '0')}`
     if (cappedString < effectiveEnd) effectiveEnd = cappedString
   }
 

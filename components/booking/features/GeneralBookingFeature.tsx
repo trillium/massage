@@ -106,6 +106,7 @@ export default function GeneralBookingFeature({
               }
               start={dayToString(start)}
               end={dayToString(end)}
+              weeksDisplayOverride={configuration.calendarWeeks}
             />
           )}
           <TimeList />

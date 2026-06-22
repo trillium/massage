@@ -75,7 +75,7 @@ export type SlugConfigurationType = {
   durationBonus?: number
   discount: DiscountType | null
   leadTimeMinimum: number | null // in minutes
-  maxDaysAhead?: number
+  calendarWeeks?: number
   availabilityWindowMinutes?: number
   nextSlotOnly?: boolean
   showNextSlotCard?: boolean

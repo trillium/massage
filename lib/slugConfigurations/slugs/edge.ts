@@ -4,7 +4,7 @@ import type { SlugConfigurationType } from '@/lib/types'
 
 const base = { ...initialState }
 
-const EDGE_CALENDAR_DAYS = 7
+const EDGE_CALENDAR_WEEKS = 1
 
 const HOURLY_RATE = siteConfig.pricing.baseHourlyRate
 
@@ -46,7 +46,7 @@ const edgeBase = {
   blockingScope: 'general' as const,
   instantConfirm: true,
   acceptingPayment: false,
-  maxDaysAhead: EDGE_CALENDAR_DAYS,
+  calendarWeeks: EDGE_CALENDAR_WEEKS,
 }
 
 const edgeOfficeBase = {
