@@ -88,10 +88,16 @@ export async function handleAppointmentRequest({
         sessionId: data.sessionId,
       })
       if (!availability.available) {
-        return NextResponse.json(
-          { error: 'slot_unavailable', bookingUrl: data.bookingUrl },
-          { status: 409 }
-        )
+        const body: Record<string, unknown> = {
+          error: 'slot_unavailable',
+          bookingUrl: data.bookingUrl,
+        }
+        if (process.env.NODE_ENV !== 'production') {
+          body.reason = availability.reason ?? 'unknown'
+          body.detail = availability.detail
+          body.source = 'checkSlotAvailability'
+        }
+        return NextResponse.json(body, { status: 409 })
       }
     } catch {
       return NextResponse.json({ error: 'Unable to verify availability' }, { status: 503 })
@@ -165,10 +171,15 @@ export async function handleAppointmentRequest({
     })
 
     if (!reservation.success) {
-      return NextResponse.json(
-        { error: 'slot_unavailable', bookingUrl: data.bookingUrl },
-        { status: 409 }
-      )
+      const body: Record<string, unknown> = {
+        error: 'slot_unavailable',
+        bookingUrl: data.bookingUrl,
+      }
+      if (process.env.NODE_ENV !== 'production') {
+        body.reason = reservation.reason
+        body.source = 'reserveAppointmentSlot'
+      }
+      return NextResponse.json(body, { status: 409 })
     }
 
     // Create the calendar appointment directly
@@ -204,12 +215,16 @@ export async function handleAppointmentRequest({
     if (data.sessionId) releaseSlotHold(data.sessionId).catch(() => {})
     const eventPageUrl = createEventPageUrl(origin, calendarData.id, data.email, data.end)
 
+    const isEdgeBooking = (data.slugConfiguration?.eventContainer ?? '').startsWith('edge')
+    const ownerTelegram = isEdgeBooking ? (process.env.OWNER_TELEGRAM ?? undefined) : undefined
+
     // Send confirmation email — fire-and-forget so email failure doesn't block the success response
     const confirmationEmail = clientConfirmEmailFn({
       ...data,
       ...safeData,
       location: safeLocation,
       eventPageUrl,
+      ownerTelegram,
       dateSummary: intervalToHumanString({
         start,
         end,
@@ -258,10 +273,12 @@ export async function handleAppointmentRequest({
   })
 
   if (!reservation.success) {
-    return NextResponse.json(
-      { error: 'slot_unavailable', bookingUrl: data.bookingUrl },
-      { status: 409 }
-    )
+    const body: Record<string, unknown> = { error: 'slot_unavailable', bookingUrl: data.bookingUrl }
+    if (process.env.NODE_ENV !== 'production') {
+      body.reason = reservation.reason
+      body.source = 'reserveAppointmentSlot'
+    }
+    return NextResponse.json(body, { status: 409 })
   }
 
   // Phase 1: Create REQUEST calendar event with placeholder description
@@ -356,11 +373,15 @@ export async function handleAppointmentRequest({
       },
     })
 
+    const isEdgeBooking = (data.slugConfiguration?.eventContainer ?? '').startsWith('edge')
+    const ownerTelegram = isEdgeBooking ? (process.env.OWNER_TELEGRAM ?? undefined) : undefined
+
     const confirmationEmail = await clientRequestEmailFn({
       ...data,
       ...safeData,
       location: safeLocation,
       eventPageUrl,
+      ownerTelegram,
       dateSummary: intervalToHumanString({
         start,
         end,

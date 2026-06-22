@@ -39,19 +39,28 @@ export type SlotCheckParams = {
   sessionId?: string
 }
 
-export type CheckSlotAvailabilityFn = (params: SlotCheckParams) => Promise<{ available: boolean }>
+export type CheckSlotAvailabilityResult = {
+  available: boolean
+  reason?: string
+  detail?: Record<string, unknown>
+}
+
+export type CheckSlotAvailabilityFn = (
+  params: SlotCheckParams
+) => Promise<CheckSlotAvailabilityResult>
 
 export async function checkSlotAvailability(
   params: CheckSlotAvailabilityParams
-): Promise<{ available: boolean }> {
+): Promise<CheckSlotAvailabilityResult> {
   try {
     const slotInterval = { start: new Date(params.start), end: new Date(params.end) }
 
-    const blocked = params.eventBaseString
+    const blockReason = params.eventBaseString
       ? await isBlockedByEventSearch(slotInterval, params)
       : await isBlockedByBusyTimes(slotInterval, params)
 
-    if (blocked) return { available: false }
+    if (blockReason)
+      return { available: false, reason: blockReason.reason, detail: blockReason.detail }
 
     if (params.getActiveHoldsFn) {
       const activeHolds = await params.getActiveHoldsFn(params.start, params.end, params.sessionId)
@@ -60,21 +69,31 @@ export async function checkSlotAvailability(
           activeHolds,
           sessionId: params.sessionId,
         })
-        return { available: false }
+        return {
+          available: false,
+          reason: 'active_hold',
+          detail: { activeHolds, sessionId: params.sessionId },
+        }
       }
     }
 
     return { available: true }
   } catch (error) {
     console.error('Availability check failed, rejecting booking (fail-closed):', error)
-    return { available: false }
+    return {
+      available: false,
+      reason: 'exception',
+      detail: { message: error instanceof Error ? error.message : String(error) },
+    }
   }
 }
+
+type BlockReason = { reason: string; detail: Record<string, unknown> }
 
 async function isBlockedByEventSearch(
   slotInterval: { start: Date; end: Date },
   params: CheckSlotAvailabilityParams
-): Promise<boolean> {
+): Promise<BlockReason | null> {
   const allEvents = await params.getEventsBySearchQueryFn({
     query: '',
     start: params.start,
@@ -87,7 +106,13 @@ async function isBlockedByEventSearch(
       eventBaseString: params.eventBaseString,
       memberEvents: memberEvents.map((e) => e.summary),
     })
-    return true
+    return {
+      reason: 'member_event_overlap',
+      detail: {
+        eventBaseString: params.eventBaseString,
+        summaries: memberEvents.map((e) => e.summary),
+      },
+    }
   }
 
   if (params.blockingScope === 'general') {
@@ -96,7 +121,10 @@ async function isBlockedByEventSearch(
       console.log('[checkSlotAvailability] blocked by general blocking event', {
         blockingEvents: (blockingEvents ?? []).map((e) => e.summary),
       })
-      return true
+      return {
+        reason: 'general_blocking_event',
+        detail: { summaries: (blockingEvents ?? []).map((e) => e.summary) },
+      }
     }
   }
 
@@ -110,23 +138,29 @@ async function isBlockedByEventSearch(
         blockingContainers: params.blockingContainers,
         blockingEvents: blockingEvents.map((e) => e.summary),
       })
-      return true
+      return {
+        reason: 'container_set_overlap',
+        detail: {
+          blockingContainers: params.blockingContainers,
+          summaries: blockingEvents.map((e) => e.summary),
+        },
+      }
     }
   }
 
-  return false
+  return null
 }
 
 async function isBlockedByBusyTimes(
   slotInterval: { start: Date; end: Date },
   params: CheckSlotAvailabilityParams
-): Promise<boolean> {
+): Promise<BlockReason | null> {
   const busyTimes = await params.getBusyTimesFn(slotInterval)
   if (hasOverlap(slotInterval, busyTimes, params.padding)) {
     console.log('[checkSlotAvailability] blocked by busy time (no eventBaseString)', { busyTimes })
-    return true
+    return { reason: 'busy_time_overlap', detail: { busyTimes } }
   }
-  return false
+  return null
 }
 
 export function createCheckSlotAvailability({
