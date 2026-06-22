@@ -62,27 +62,27 @@ function EventCard({
 
       <Box className="space-y-1 text-sm text-accent-700 dark:text-accent-300">
         <TextBase>
-          <span className="font-medium">{sandbox.eventCard.labels.date}</span>{' '}
+          <TextBaseMedium as="span">{sandbox.eventCard.labels.date}</TextBaseMedium>{' '}
           {formatLocalDate(data.start, { timeZone })}
         </TextBase>
         <TextBase>
-          <span className="font-medium">{sandbox.eventCard.labels.time}</span>{' '}
+          <TextBaseMedium as="span">{sandbox.eventCard.labels.time}</TextBaseMedium>{' '}
           {formatLocalTime(data.start, { timeZone })} {sandbox.eventCard.separators.timeSeparator}
           {formatLocalTime(data.end, { timeZone, timeZoneName: 'shortGeneric' })}
         </TextBase>
         <TextBase>
-          <span className="font-medium">{sandbox.eventCard.labels.duration}</span> {data.duration}{' '}
+          <TextBaseMedium as="span">{sandbox.eventCard.labels.duration}</TextBaseMedium> {data.duration}{' '}
           {sandbox.eventCard.durationUnit}
         </TextBase>
         {data.price && (
           <TextBase>
-            <span className="font-medium">{sandbox.eventCard.labels.price}</span>{' '}
+            <TextBaseMedium as="span">{sandbox.eventCard.labels.price}</TextBaseMedium>{' '}
             {sandbox.eventCard.separators.priceCurrency}
             {data.price}
           </TextBase>
         )}
         <TextBase>
-          <span className="font-medium">{sandbox.eventCard.labels.location}</span> {location}
+          <TextBaseMedium as="span">{sandbox.eventCard.labels.location}</TextBaseMedium> {location}
         </TextBase>
         {data.phone && data.phone.trim() !== '' && (
           <TextBase>
@@ -96,7 +96,7 @@ function EventCard({
           </TextBase>
         )}
         <TextBase>
-          <span className="font-medium">{sandbox.eventCard.labels.email}</span> {data.email}
+          <TextBaseMedium as="span">{sandbox.eventCard.labels.email}</TextBaseMedium> {data.email}
         </TextBase>
       </Box>
 
@@ -143,7 +143,7 @@ function EmailCard({ email }: { email: SandboxEmail }) {
           </TextSmMedium>
           <TextSmMuted>{email.subject}</TextSmMuted>
         </Box>
-        <span className="text-accent-400">{expanded ? '\u25B2' : '\u25BC'}</span>
+        <TextBase as="span" status="muted">{expanded ? '\u25B2' : '\u25BC'}</TextBase>
       </Button>
       {expanded && (
         <Box className="border-t border-accent-200 p-3 dark:border-accent-700">
