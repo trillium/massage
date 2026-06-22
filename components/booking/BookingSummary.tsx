@@ -1,7 +1,7 @@
 import React from 'react'
 import { DiscountType } from '@/lib/types'
 import { GeneratePrice } from '@/components/ui/atoms/GeneratePriceAtom'
-import { TextSmSemibold, TextXs } from '@/components/ui/text'
+import { TextBaseSemibold, TextSmSemibold, TextXs, TextXsMedium } from '@/components/ui/text'
 import { BookingFormData } from '@/lib/types'
 import { flattenLocation } from '@/lib/helpers/locationHelpers'
 import { validatePromoCode } from '@/lib/promoCodes'
@@ -45,7 +45,7 @@ const BookingSummary: React.FC<BookingSummaryProps> = ({
       : null
 
   return (
-    <Box className="border-l-primary-400 dark:bg-primary-50/10 mt-3 mb-4 rounded-md border-l-4 bg-surface-50 p-3">
+    <Box variant="accentCard" className="mt-3 mb-4">
       <Stack direction="row" align="start" justify="between">
         <Box>
           <TextSmSemibold className="md:text-base">{dateString}</TextSmSemibold>
@@ -56,59 +56,55 @@ const BookingSummary: React.FC<BookingSummaryProps> = ({
           </TextXs>
         </Box>
         {acceptingPayment ? (
-          <Box className="text-primary-800 dark:text-primary-400 ml-4 min-w-[60px] text-right text-base font-semibold">
-            <GeneratePrice price={Number(price)} discount={discount} />
+          <Box className="ml-4 min-w-[60px] text-right">
+            <TextBaseSemibold as="span" status="primary">
+              <GeneratePrice price={Number(price)} discount={discount} />
+            </TextBaseSemibold>
           </Box>
         ) : pricingLabel ? (
-          <Box className="text-primary-800 dark:text-primary-400 ml-4 text-right text-xs md:text-sm">
-            {pricingLabel}
+          <Box className="ml-4 text-right">
+            <TextXs status="primary" className="md:text-sm">
+              {pricingLabel}
+            </TextXs>
           </Box>
         ) : null}
       </Stack>
-      <Stack
-        className="mt-1 text-xs text-accent-700 md:text-sm dark:text-accent-300"
-        direction="row"
-        align="start"
-      >
-        <span className="w-18 shrink-0 font-medium">{bookingData.summary.clientLabel}</span>
-        <span className="break-words">
+      <Stack className="mt-1" direction="row" align="start">
+        <TextXsMedium as="span" status="subtle" className="w-18 shrink-0 md:text-sm">
+          {bookingData.summary.clientLabel}
+        </TextXsMedium>
+        <TextXs as="span" status="subtle" className="break-words md:text-sm">
           {clientName || (
-            <span className="text-accent-400 italic dark:text-accent-500">
+            <TextXs as="span" status="muted" className="italic">
               {bookingData.summary.clientPlaceholder}
-            </span>
+            </TextXs>
           )}
-        </span>
+        </TextXs>
       </Stack>
       {promoLine && (
-        <Stack
-          className="mt-1 text-xs text-primary-600 md:text-sm dark:text-primary-400"
-          direction="row"
-          align="start"
-        >
-          <span className="font-medium">
+        <Stack className="mt-1" direction="row" align="start">
+          <TextXsMedium as="span" status="primary" className="md:text-sm">
             {bookingData.summary.promoCheckmark} {promoLine}
-          </span>
+          </TextXsMedium>
         </Stack>
       )}
-      <Stack
-        className="text-xs text-accent-700 md:text-sm dark:text-accent-300"
-        direction="row"
-        align="start"
-      >
-        <span className="w-18 shrink-0 font-medium">{bookingData.summary.locationLabel}</span>
-        <span className="break-words">
+      <Stack direction="row" align="start">
+        <TextXsMedium as="span" status="subtle" className="w-18 shrink-0 md:text-sm">
+          {bookingData.summary.locationLabel}
+        </TextXsMedium>
+        <TextXs as="span" status="subtle" className="break-words md:text-sm">
           {location || (
-            <span className="text-accent-400 italic dark:text-accent-500">
+            <TextXs as="span" status="muted" className="italic">
               {bookingData.summary.locationPlaceholder}
-            </span>
+            </TextXs>
           )}
           {formData?.hotelRoomNumber && (
-            <span>
+            <TextXs as="span" status="subtle" className="md:text-sm">
               {bookingData.summary.roomPrefix}
               {formData.hotelRoomNumber}
-            </span>
+            </TextXs>
           )}
-        </span>
+        </TextXs>
       </Stack>
     </Box>
   )
