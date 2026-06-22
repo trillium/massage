@@ -1,5 +1,9 @@
 import { describe, it, expect } from 'vitest'
-import { filterEventsForQuery, filterEventsForGeneralBlocking } from '../fetchContainersByQuery'
+import {
+  filterEventsForQuery,
+  filterEventsForGeneralBlocking,
+  filterEventsForContainerSet,
+} from '../fetchContainersByQuery'
 import type { GoogleCalendarV3Event } from '@/lib/types'
 
 describe('fetchContainersByQuery - blockingScope filter functions', () => {
@@ -159,6 +163,100 @@ describe('fetchContainersByQuery - blockingScope filter functions', () => {
       ])
 
       expect(result.busyQuery).toHaveLength(2)
+    })
+  })
+
+  describe('filterEventsForContainerSet', () => {
+    it('blocks member events whose container is in the list', () => {
+      const allEvents = [
+        createMockEvent('edge_office__EVENT__MEMBER__'),
+        createMockEvent('edge_destination__EVENT__MEMBER__'),
+      ]
+
+      const result = filterEventsForContainerSet(allEvents, ['edge_office', 'edge_destination'])
+
+      expect(result.members).toHaveLength(2)
+      expect(result.blockingEvents).toHaveLength(2)
+      expect(result.busyQuery).toHaveLength(2)
+    })
+
+    it('does NOT block member events whose container is unlisted', () => {
+      const allEvents = [
+        createMockEvent('edge_office__EVENT__MEMBER__'),
+        createMockEvent('other-event__EVENT__MEMBER__'),
+        createMockEvent('mr_pasadena__EVENT__MEMBER__'),
+      ]
+
+      const result = filterEventsForContainerSet(allEvents, ['edge_office'])
+
+      expect(result.members).toHaveLength(1)
+      expect(result.members[0].summary).toBe('edge_office__EVENT__MEMBER__')
+      expect(result.blockingEvents).toHaveLength(1)
+    })
+
+    it('NEVER blocks regular non-__EVENT__ calendar events', () => {
+      const allEvents = [
+        createMockEvent('Doctor Appointment'),
+        createMockEvent('Lunch with friend'),
+        createMockEvent('Team standup'),
+        createMockEvent('edge_office__EVENT__MEMBER__'),
+      ]
+
+      const result = filterEventsForContainerSet(allEvents, ['edge_office', 'edge_destination'])
+
+      expect(result.regularEvents).toHaveLength(0)
+      expect(result.blockingEvents).toHaveLength(1)
+      expect(result.blockingEvents[0].summary).toBe('edge_office__EVENT__MEMBER__')
+    })
+
+    it('does NOT treat container events themselves as members', () => {
+      const allEvents = [
+        createMockEvent('edge_office__EVENT__CONTAINER__'),
+        createMockEvent('edge_destination__EVENT__CONTAINER__'),
+      ]
+
+      const result = filterEventsForContainerSet(allEvents, ['edge_office', 'edge_destination'])
+
+      expect(result.members).toHaveLength(0)
+      expect(result.blockingEvents).toHaveLength(0)
+      expect(result.busyQuery).toHaveLength(0)
+    })
+
+    it('blocks nothing when container list is empty', () => {
+      const allEvents = [
+        createMockEvent('edge_office__EVENT__MEMBER__'),
+        createMockEvent('edge_destination__EVENT__MEMBER__'),
+        createMockEvent('Doctor Appointment'),
+      ]
+
+      const result = filterEventsForContainerSet(allEvents, [])
+
+      expect(result.members).toHaveLength(0)
+      expect(result.blockingEvents).toHaveLength(0)
+      expect(result.busyQuery).toHaveLength(0)
+    })
+
+    it('matches container substrings in description as well as summary', () => {
+      const allEvents = [
+        createMockEvent('Massage booking', 'edge_office__EVENT__MEMBER__ token'),
+        createMockEvent('Just a plain event'),
+      ]
+
+      const result = filterEventsForContainerSet(allEvents, ['edge_office'])
+
+      expect(result.members).toHaveLength(1)
+      expect(result.members[0].summary).toBe('Massage booking')
+    })
+
+    it('handles undefined/null events array defensively', () => {
+      const result = filterEventsForContainerSet(undefined as unknown as GoogleCalendarV3Event[], [
+        'edge_office',
+      ])
+
+      expect(result.members).toEqual([])
+      expect(result.blockingEvents).toEqual([])
+      expect(result.regularEvents).toEqual([])
+      expect(result.busyQuery).toEqual([])
     })
   })
 

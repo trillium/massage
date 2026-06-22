@@ -182,6 +182,102 @@ describe('checkSlotAvailability', () => {
     })
   })
 
+  describe("with blockingScope: 'containers'", () => {
+    const containersParams = {
+      ...baseParams,
+      eventBaseString: 'edge_office',
+      blockingScope: 'containers' as const,
+      blockingContainers: ['edge_office', 'edge_destination'],
+    }
+
+    it('blocks when an edge_office__EVENT__MEMBER__ event overlaps the slot', async () => {
+      mockGetEventsBySearchQuery.mockResolvedValue([
+        calendarEvent(
+          'edge_office__EVENT__MEMBER__',
+          '2024-06-15T10:15:00Z',
+          '2024-06-15T10:45:00Z'
+        ),
+      ])
+
+      const result = await checkSlotAvailability(containersParams)
+
+      expect(result).toEqual({ available: false })
+    })
+
+    it('blocks when a listed-but-other-container member event overlaps (proves container-set branch)', async () => {
+      mockGetEventsBySearchQuery.mockResolvedValue([
+        calendarEvent(
+          'edge_destination__EVENT__MEMBER__',
+          '2024-06-15T10:15:00Z',
+          '2024-06-15T10:45:00Z'
+        ),
+      ])
+
+      const result = await checkSlotAvailability(containersParams)
+
+      expect(result).toEqual({ available: false })
+    })
+
+    it('does NOT block when a personal "Doctor Appointment" overlaps the slot (regression fix)', async () => {
+      mockGetEventsBySearchQuery.mockResolvedValue([
+        calendarEvent('Doctor Appointment', '2024-06-15T10:15:00Z', '2024-06-15T10:45:00Z'),
+      ])
+
+      const result = await checkSlotAvailability(containersParams)
+
+      expect(result).toEqual({ available: true })
+    })
+
+    it('does NOT block when an unlisted-container member event overlaps', async () => {
+      mockGetEventsBySearchQuery.mockResolvedValue([
+        calendarEvent(
+          'mr_pasadena__EVENT__MEMBER__',
+          '2024-06-15T10:15:00Z',
+          '2024-06-15T10:45:00Z'
+        ),
+      ])
+
+      const result = await checkSlotAvailability({
+        ...containersParams,
+        eventBaseString: 'edge_office',
+      })
+
+      expect(result).toEqual({ available: true })
+    })
+
+    it('applies padding to container-set blocking events', async () => {
+      mockGetEventsBySearchQuery.mockResolvedValue([
+        calendarEvent(
+          'edge_destination__EVENT__MEMBER__',
+          '2024-06-15T11:00:00Z',
+          '2024-06-15T11:30:00Z'
+        ),
+      ])
+
+      const result = await checkSlotAvailability(containersParams)
+
+      expect(result).toEqual({ available: false })
+    })
+
+    it('treats undefined blockingContainers as an empty set (no container blocking)', async () => {
+      mockGetEventsBySearchQuery.mockResolvedValue([
+        calendarEvent(
+          'edge_office__EVENT__MEMBER__',
+          '2024-06-15T10:15:00Z',
+          '2024-06-15T10:45:00Z'
+        ),
+      ])
+
+      const result = await checkSlotAvailability({
+        ...baseParams,
+        eventBaseString: 'something-else',
+        blockingScope: 'containers' as const,
+      })
+
+      expect(result).toEqual({ available: true })
+    })
+  })
+
   describe('SCaLE 23x double-booking scenario', () => {
     const scale23xParams = {
       ...baseParams,

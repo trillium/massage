@@ -209,6 +209,21 @@ describe('handleAppointmentRequest', () => {
     )
   })
 
+  it('passes blockingContainers from slugConfiguration through to slot availability check', async () => {
+    await callHandler({
+      slugConfiguration: {
+        blockingScope: 'containers',
+        blockingContainers: ['edge_office', 'edge_destination'],
+      },
+    })
+    expect(checkSlotAvailabilityMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        blockingScope: 'containers',
+        blockingContainers: ['edge_office', 'edge_destination'],
+      })
+    )
+  })
+
   // ── Standard Approval Workflow ──────────────────────────────
 
   describe('standard approval workflow', () => {
