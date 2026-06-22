@@ -84,6 +84,7 @@ export async function handleAppointmentRequest({
         end: data.end,
         eventBaseString: data.eventBaseString,
         blockingScope: data.slugConfiguration?.blockingScope,
+        blockingContainers: data.slugConfiguration?.blockingContainers,
         sessionId: data.sessionId,
       })
       if (!availability.available) {

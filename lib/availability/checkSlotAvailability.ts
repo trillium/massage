@@ -4,6 +4,7 @@ import type { GoogleCalendarV3Event } from '@/lib/calendarTypes'
 import {
   filterEventsForQuery,
   filterEventsForGeneralBlocking,
+  filterEventsForContainerSet,
 } from '@/lib/fetch/fetchContainersByQuery'
 
 type GetActiveHoldsFn = (
@@ -17,7 +18,8 @@ type CheckSlotAvailabilityParams = {
   end: string
   padding: number
   eventBaseString?: string
-  blockingScope?: 'event' | 'general'
+  blockingScope?: 'event' | 'general' | 'containers'
+  blockingContainers?: string[]
   sessionId?: string
   getBusyTimesFn: (args: DateTimeInterval) => Promise<DateTimeInterval[]>
   getEventsBySearchQueryFn: (args: {
@@ -32,7 +34,8 @@ export type SlotCheckParams = {
   start: string
   end: string
   eventBaseString?: string
-  blockingScope?: 'event' | 'general'
+  blockingScope?: 'event' | 'general' | 'containers'
+  blockingContainers?: string[]
   sessionId?: string
 }
 
@@ -92,6 +95,20 @@ async function isBlockedByEventSearch(
     if (hasOverlap(slotInterval, memberEventsToIntervals(blockingEvents ?? []), params.padding)) {
       console.log('[checkSlotAvailability] blocked by general blocking event', {
         blockingEvents: (blockingEvents ?? []).map((e) => e.summary),
+      })
+      return true
+    }
+  }
+
+  if (params.blockingScope === 'containers') {
+    const { blockingEvents } = filterEventsForContainerSet(
+      allEvents,
+      params.blockingContainers ?? []
+    )
+    if (hasOverlap(slotInterval, memberEventsToIntervals(blockingEvents), params.padding)) {
+      console.log('[checkSlotAvailability] blocked by container-set member event', {
+        blockingContainers: params.blockingContainers,
+        blockingEvents: blockingEvents.map((e) => e.summary),
       })
       return true
     }
