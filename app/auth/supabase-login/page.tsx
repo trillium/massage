@@ -1,14 +1,3 @@
-/**
- * Supabase Login Page
- *
- * Standalone login page using magic links.
- * Redirects to requested page after successful login.
- *
- * URL: /auth/supabase-login
- * Query params:
- * - redirectTo: Where to go after login (default: /)
- */
-
 import { LoginForm } from '@/components/auth/supabase/LoginForm'
 import { Suspense } from 'react'
 import { H1 } from '@/components/ui/heading'
@@ -26,7 +15,7 @@ function LoginContent({ redirectTo }: { redirectTo?: string }) {
       justify="center"
     >
       <Box className="w-full max-w-md">
-        <Box className="rounded-lg bg-surface-50 px-8 py-10 shadow-md">
+        <Box variant="card" className="px-8 py-10">
           <Box className="mb-8 text-center">
             <H1>Sign In</H1>
             <TextSmMuted className="mt-2">Enter your email to receive a magic link</TextSmMuted>
@@ -37,7 +26,7 @@ function LoginContent({ redirectTo }: { redirectTo?: string }) {
 
         <TextSmMuted className="mt-6 text-center">
           New here?{' '}
-          <CustomLink href="/" classes="font-medium text-blue-600 hover:text-blue-500">
+          <CustomLink href="/" classes="font-medium text-primary-600 hover:text-primary-500">
             Learn more
           </CustomLink>
         </TextSmMuted>
@@ -58,7 +47,7 @@ export default async function LoginPage({
       fallback={
         <Stack className="min-h-screen" direction="row" align="center" justify="center">
           <Box className="text-center">
-            <Box className="h-8 w-8 animate-spin rounded-full border-4 border-accent-200 border-t-blue-600"></Box>
+            <Box className="h-8 w-8 animate-spin rounded-full border-4 border-accent-200 border-t-primary-600"></Box>
           </Box>
         </Stack>
       }

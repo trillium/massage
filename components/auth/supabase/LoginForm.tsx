@@ -59,11 +59,12 @@ export function LoginForm({ redirectTo: rawRedirectTo, onSuccess, onError }: Log
           {auth.loginForm.magicLinkSent} <strong>{email}</strong>
         </TextSm>
         <Button
+          variant="ghost"
           onClick={() => {
             setSubmitted(false)
             setEmail('')
           }}
-          className="mt-3 text-sm text-green-600 underline hover:text-green-700"
+          className="mt-3 h-auto py-0 text-sm text-green-600 underline hover:bg-transparent hover:text-green-700 dark:text-green-400"
         >
           {auth.loginForm.useDifferentEmail}
         </Button>
@@ -74,9 +75,10 @@ export function LoginForm({ redirectTo: rawRedirectTo, onSuccess, onError }: Log
   return (
     <Box className="space-y-4">
       <Button
+        variant="outline"
         onClick={handleGoogle}
         disabled={loading}
-        className="flex w-full items-center justify-center gap-3 rounded-md border border-accent-300 bg-surface-50 px-4 py-2.5 text-sm font-medium text-accent-700 shadow-sm transition-colors hover:bg-surface-100 disabled:opacity-50 dark:border-accent-600 dark:bg-surface-700 dark:text-accent-200 dark:hover:bg-surface-600"
+        className="w-full gap-3 bg-surface-50 dark:bg-surface-700"
       >
         <svg className="h-5 w-5" viewBox="0 0 24 24">
           <path
@@ -125,21 +127,17 @@ export function LoginForm({ redirectTo: rawRedirectTo, onSuccess, onError }: Log
             onChange={(e) => setEmail(e.target.value)}
             required
             disabled={loading}
-            className="block w-full rounded-md border border-accent-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 disabled:opacity-50 dark:border-accent-600 dark:bg-surface-700 dark:text-white"
             placeholder={auth.loginForm.emailPlaceholder}
           />
-          <Button
-            type="submit"
-            disabled={loading}
-            className="w-full rounded-md bg-blue-600 px-4 py-2 text-sm text-white hover:bg-blue-700 disabled:opacity-50"
-          >
+          <Button type="submit" disabled={loading} className="w-full">
             {loading ? auth.loginForm.sending : auth.loginForm.sendMagicLink}
           </Button>
         </form>
       ) : (
         <Button
+          variant="ghost"
           onClick={() => setShowEmail(true)}
-          className="w-full text-center text-sm text-accent-500 hover:text-accent-700 dark:text-accent-400 dark:hover:text-accent-200"
+          className="w-full text-sm text-accent-500 dark:text-accent-400"
         >
           {auth.loginForm.signInWithEmail}
         </Button>
