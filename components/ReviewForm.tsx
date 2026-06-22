@@ -60,7 +60,7 @@ export default function ReviewForm({
             handleReviewSubmit(event, dispatch, router)
           }}
         >
-          <Box className="border-l-primary-400 bg-primary-100/30 dark:bg-primary-50/10 mt-3 mb-4 rounded-md border-l-4 p-3">
+          <Box variant="accentCard" className="mt-3 mb-4 bg-primary-100/30">
             <TextLg className="text-primary-800 dark:text-primary-400 text-base font-semibold md:text-lg">
               {' '}
               {/* ds-ignore */}

@@ -171,7 +171,7 @@ export default async function EventPage({ params, searchParams }: EventPageProps
 
           <Box className="mt-8 space-y-3 rounded-2xl border-2 border-accent-200 bg-surface-100 p-6 dark:border-accent-700 dark:bg-surface-800/50">
             {dateString && duration && (
-              <Box className="border-l-primary-400 bg-primary-50/30 dark:bg-primary-50/10 mb-4 rounded-md border-l-4 p-3">
+              <Box variant="accentCard" className="mb-4 bg-primary-50/30">
                 <TextLg className="text-primary-800 dark:text-primary-400 text-lg font-semibold">
                   {' '}
                   {/* ds-ignore */}
