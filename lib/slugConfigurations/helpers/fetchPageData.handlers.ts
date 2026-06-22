@@ -5,6 +5,7 @@ import {
   fetchAllCalendarEvents,
   filterEventsForQuery,
   filterEventsForGeneralBlocking,
+  filterEventsForContainerSet,
 } from '@/lib/fetch/fetchContainersByQuery'
 import { fetchData } from '@/lib/fetch/fetchData'
 import { fetchSingleEvent } from '@/lib/fetch/fetchSingleEvent'
@@ -65,6 +66,7 @@ export async function fetchContainerResult(
   const blockingScope = configuration?.blockingScope || 'event'
 
   let containerData
+  let pathTaken: string
 
   if (blockingScope === 'general') {
     const allEventsData = await fetchAllCalendarEvents({ searchParams: resolvedParams })
@@ -76,6 +78,21 @@ export async function fetchContainerResult(
       busy: generalBlocking.busyQuery,
       containers: querySpecific.containers,
     }
+    pathTaken = 'container-general'
+  } else if (blockingScope === 'containers') {
+    const allEventsData = await fetchAllCalendarEvents({ searchParams: resolvedParams })
+    const containerSet = filterEventsForContainerSet(
+      allEventsData.allEvents,
+      configuration?.blockingContainers ?? []
+    )
+    const querySpecific = filterEventsForQuery(allEventsData.allEvents, query)
+    containerData = {
+      start: allEventsData.start,
+      end: allEventsData.end,
+      busy: containerSet.busyQuery,
+      containers: querySpecific.containers,
+    }
+    pathTaken = 'container-set'
   } else {
     // Fetch ALL calendar events then filter locally for this query.
     // Google Calendar q= search has unreliable tokenization and indexing
@@ -88,6 +105,7 @@ export async function fetchContainerResult(
       busy: querySpecific.busyQuery,
       containers: querySpecific.containers,
     }
+    pathTaken = 'container-event'
   }
 
   const busyConverted = containerData.busy
@@ -108,7 +126,7 @@ export async function fetchContainerResult(
       containers: containerData.containers,
       nextEventFound: false,
     },
-    pathTaken: blockingScope === 'general' ? 'container-general' : 'container-event',
+    pathTaken,
   }
 }
 
