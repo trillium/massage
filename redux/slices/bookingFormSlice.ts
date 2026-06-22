@@ -8,6 +8,7 @@ export const initialBookingFormData: BookingFormData = {
   lastName: '',
   email: '',
   phone: '',
+  telegramHandle: '',
   paymentMethod: 'cash',
   hotelRoomNumber: '',
   parkingInstructions: '',

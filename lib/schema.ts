@@ -45,7 +45,8 @@ const BaseRequestSchema = z
         message: 'Price must be a valid integer.',
       })
       .optional(),
-    phone: z.string(),
+    phone: z.string().optional().default(''),
+    telegramHandle: z.string().optional().default(''),
     eventBaseString: z.string(),
     ...sharedBookingOptionalFields,
     instantConfirm: z.boolean().optional(),
@@ -58,6 +59,13 @@ const BaseRequestSchema = z
   .refine((data) => data.locationObject !== undefined || data.locationString !== undefined, {
     message: 'Either locationObject or locationString must be provided.',
   })
+  .refine(
+    (data) => (data.phone?.trim() ?? '') !== '' || (data.telegramHandle?.trim() ?? '') !== '',
+    {
+      message: 'Either phone or telegram handle must be provided.',
+      path: ['phone'],
+    }
+  )
 
 export const AppointmentRequestSchema = BaseRequestSchema.extend({
   paymentMethod: z.enum(paymentMethodValues).optional(),
@@ -102,7 +110,8 @@ export const BookedDataSchema = z
     locationObject: LocationSchema.optional(),
     locationString: z.string().optional(),
     duration: z.string(),
-    phone: z.string(),
+    phone: z.string().optional().default(''),
+    telegramHandle: z.string().optional().default(''),
     eventBaseString: z.string(),
     ...sharedBookingOptionalFields,
     price: z.string().optional(),
@@ -120,6 +129,13 @@ export const BookedDataSchema = z
   .refine((data) => data.locationObject !== undefined || data.locationString !== undefined, {
     message: 'Either locationObject or locationString must be provided.',
   })
+  .refine(
+    (data) => (data.phone?.trim() ?? '') !== '' || (data.telegramHandle?.trim() ?? '') !== '',
+    {
+      message: 'Either phone or telegram handle must be provided.',
+      path: ['phone'],
+    }
+  )
 
 export type OnSiteRequestType = z.infer<typeof OnSiteRequestSchema>
 

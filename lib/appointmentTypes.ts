@@ -15,6 +15,8 @@ export type AppointmentProps = {
   email: string
   /** Phone number of the requester. */
   phone: string
+  /** Telegram handle of the requester */
+  telegramHandle?: string
   /** Location object with street, city, and zip, or a location string */
   location: LocationObject | string
   /** Timezone of the requester. */
@@ -52,6 +54,8 @@ export type EmailProps = {
   timeZone: string
   price?: string
   phone: string
+  /** Telegram handle of the requester */
+  telegramHandle?: string
   duration: string
   bookingUrl?: string
   promo?: string
