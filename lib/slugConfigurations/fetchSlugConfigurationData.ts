@@ -533,7 +533,7 @@ const slugConfigurations: SlugConfigurationType[] = [
     title: 'Edge — Office Hours Chair Massage',
     text: [
       'Drop-in chair or table massage — no advance booking required.',
-      'Attendees: 5 min complimentary, tip for time above. Volunteers: 15 min complimentary, tip for time above. Team members: fully complimentary.',
+      'Attendees: 5 min complimentary, tip for time above. Volunteers and team members: 15 min complimentary, tip for time above.',
     ],
     location: null,
     locationIsReadOnly: true,
@@ -556,7 +556,11 @@ const slugConfigurations: SlugConfigurationType[] = [
           30: 'complimentary — please tip for time above 15 min',
           60: 'complimentary — please tip for time above 15 min',
         },
-        team: 'complimentary',
+        team: {
+          15: 'complimentary',
+          30: 'complimentary — please tip for time above 15 min',
+          60: 'complimentary — please tip for time above 15 min',
+        },
       },
       showNotesField: true,
       locationFromContainer: true,
