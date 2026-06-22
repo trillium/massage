@@ -1,10 +1,7 @@
 import { z } from 'zod'
 import { EmailProps } from '@/lib/types'
-import { parts as signatureParts } from '@/lib/messaging/utilities/signature'
 import { AppointmentRequestSchema } from '@/lib/schema'
-
-const LINE_PREFIX = `<div class="gmail_default" style="font-family:arial,sans-serif">`
-const LINE_SUFFIX = `</div>`
+import { buildEmailHtml } from '@/lib/messaging/email/htmlEmailBase'
 
 export function ApprovalEmail({
   email,
@@ -26,67 +23,62 @@ export function ApprovalEmail({
 }: EmailProps & { data?: z.output<typeof AppointmentRequestSchema> }) {
   const SUBJECT = `REQUEST: ${firstName} ${lastName}, ${duration} minutes${price ? `, $${price}` : ''}`
 
-  let body = `<div dir="ltr">`
-  body += [
-    `<b>${firstName} ${lastName}</b> has requested a meeting:`,
-    `<br>`,
-    `Their local timezone is ${timeZone}`,
-    `<br>`,
-    `<b>First Name:</b> ${firstName}`,
-    `<b>Last Name:</b> ${lastName}`,
-    `<b>Date:</b> ${dateSummary}`,
-    `<b>Location:</b> ${location}`,
-    `${price ? `<b>Price:</b> $${price}` : ''}`,
-    `${promo ? `<b>Promo Applied:</b> ${promo}` : ''}`,
-    `<b>Duration:</b> ${duration} minutes`,
-    `${phone && phone.trim() !== '' ? `<b>Phone Number:</b> ${phone}` : ''}`,
-    `${telegramHandle && telegramHandle.trim() !== '' ? `<b>Telegram:</b> ${telegramHandle}` : ''}`,
-    `${bookingUrl ? `<b>Booking Page:</b> <a href="${bookingUrl}">${bookingUrl}</a>` : ''}`,
-    ...(data
-      ? [
-          `${data.hotelRoomNumber ? `<b>Hotel Room:</b> ${data.hotelRoomNumber}` : ''}`,
-          `${data.parkingInstructions ? `<b>Parking Instructions:</b> ${data.parkingInstructions}` : ''}`,
-          `${data.additionalNotes ? `<b>Additional Notes:</b> ${data.additionalNotes}` : ''}`,
-        ]
-      : []),
-    `<br>`,
-    // Add slug configuration details
-    ...(slugConfiguration
-      ? [
-          `<b>--- Booking Configuration ---</b>`,
-          `<b>Type:</b> ${slugConfiguration.type || 'N/A'}`,
-          `<b>Title:</b> ${slugConfiguration.title || 'N/A'}`,
-          `${slugConfiguration.text ? `<b>Description:</b> ${Array.isArray(slugConfiguration.text) ? slugConfiguration.text.join(' ') : slugConfiguration.text}` : ''}`,
-          `${slugConfiguration.eventContainer ? `<b>Event Container:</b> ${slugConfiguration.eventContainer}` : ''}`,
-          `${slugConfiguration.blockingScope ? `<b>Blocking Scope:</b> ${slugConfiguration.blockingScope}` : ''}`,
-          `${slugConfiguration.leadTimeMinimum ? `<b>Lead Time:</b> ${slugConfiguration.leadTimeMinimum} minutes` : ''}`,
-          `${slugConfiguration.instantConfirm ? `<b>Instant Confirm:</b> Yes` : ''}`,
-          `${slugConfiguration.acceptingPayment ? `<b>Accepting Payment:</b> Yes` : ''}`,
-          `${slugConfiguration.promoEndDate ? `<b>Promo End Date:</b> ${slugConfiguration.promoEndDate}` : ''}`,
-          `${slugConfiguration.allowedDurations ? `<b>Allowed Durations:</b> ${slugConfiguration.allowedDurations.join(', ')} minutes` : ''}`,
-          `${
-            slugConfiguration.pricing
-              ? `<b>Pricing:</b> ${Object.entries(slugConfiguration.pricing)
-                  .map(([dur, price]) => `${dur}min: $${price}`)
-                  .join(', ')}`
-              : ''
-          }`,
-          `${slugConfiguration.discount ? `<b>Discount:</b> ${slugConfiguration.discount.type === 'percent' ? `${(slugConfiguration.discount.amountPercent || 0) * 100}% off` : `$${slugConfiguration.discount.amountDollars || 0} off`}` : ''}`,
-          `<br>`,
-        ]
-      : []),
-    `<br>`,
-    `<b><a href=${approveUrl}>Accept the appointment</a></b>`,
-    `<br>`,
-    `<b><a href=${declineUrl}>Decline the appointment</a></b>`,
-    `<br>`,
-    ...signatureParts,
-  ]
-    .filter((line) => line.length > 0)
-    .map((line) => `${LINE_PREFIX}${line}${LINE_SUFFIX}`)
-    .join('')
+  const locationStr = typeof location === 'string' ? location : ''
 
-  body += `</div>`
+  let configHtml = ''
+  if (slugConfiguration) {
+    const rows: string[] = []
+    if (slugConfiguration.type) rows.push(`<b>Type:</b> ${slugConfiguration.type}`)
+    if (slugConfiguration.title) rows.push(`<b>Booking:</b> ${slugConfiguration.title}`)
+    if (slugConfiguration.instantConfirm) rows.push(`<b>Instant Confirm:</b> Yes`)
+    if (slugConfiguration.acceptingPayment) rows.push(`<b>Accepting Payment:</b> Yes`)
+    if (slugConfiguration.promoEndDate)
+      rows.push(`<b>Promo End:</b> ${slugConfiguration.promoEndDate}`)
+    if (slugConfiguration.discount) {
+      const d = slugConfiguration.discount
+      const val =
+        d.type === 'percent'
+          ? `${(d.amountPercent || 0) * 100}% off`
+          : `$${d.amountDollars || 0} off`
+      rows.push(`<b>Discount:</b> ${val}`)
+    }
+    if (rows.length > 0) {
+      configHtml = `<div style="margin-top:8px;padding:12px 16px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:6px"><p style="margin:0 0 8px;font-family:Arial,sans-serif;font-size:12px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.05em">Booking Configuration</p>${rows.map((r) => `<p style="margin:0 0 4px;font-family:Arial,sans-serif;font-size:12px;color:#374151">${r}</p>`).join('')}</div>`
+    }
+  }
+
+  const body = buildEmailHtml({
+    headerTitle: `Request from ${firstName} ${lastName}`,
+    preheader: `${firstName} ${lastName} requested ${duration} min on ${dateSummary}`,
+    infoRows: [
+      { label: 'Timezone', value: timeZone },
+      { label: 'Date', value: dateSummary },
+      { label: 'Location', value: locationStr || undefined },
+      { label: 'Duration', value: `${duration} minutes` },
+      { label: 'Price', value: price ? `$${price}` : undefined },
+      { label: 'Promo', value: promo || undefined },
+      { label: 'Phone', value: phone && phone.trim() !== '' ? phone : undefined },
+      {
+        label: 'Telegram',
+        value: telegramHandle && telegramHandle.trim() !== '' ? telegramHandle : undefined,
+      },
+      { label: 'Email', value: email },
+      { label: 'Hotel Room', value: data?.hotelRoomNumber || undefined },
+      { label: 'Parking', value: data?.parkingInstructions || undefined },
+      { label: 'Notes', value: data?.additionalNotes || undefined },
+      {
+        label: 'Booking Page',
+        value: bookingUrl
+          ? `<a href="${bookingUrl}" style="color:#dc2626">${bookingUrl}</a>`
+          : undefined,
+      },
+    ],
+    ctaHref: approveUrl,
+    ctaLabel: '✓ Accept Appointment',
+    secondaryCtaHref: declineUrl,
+    secondaryCtaLabel: '✗ Decline',
+    footerExtra: configHtml || undefined,
+  })
 
   return { subject: SUBJECT, body }
 }

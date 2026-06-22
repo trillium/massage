@@ -22,74 +22,54 @@ function eventDescription({
   slugConfiguration,
   origin,
 }: Partial<AppointmentProps> & { origin?: string }) {
-  let output = 'Thanks for booking!'
-  output += '\n\n'
-  output += `<b>Name</b>: ${firstName} ${lastName}\n`
-  output += `<b>Date</b>: ${new Date(start || '').toLocaleDateString('en-US', { timeZone: siteConfig.scheduling.timezone })}\n`
-  output += `<b>Start</b>: ${new Date(start || '').toLocaleTimeString('en-US', { timeZone: siteConfig.scheduling.timezone })}\n`
-  output += `<b>End</b>: ${new Date(end || '').toLocaleTimeString('en-US', { timeZone: siteConfig.scheduling.timezone })}\n`
-  output += `<b>Duration</b>: ${duration}\n`
-  if (email) {
-    output += `<b>Email</b>: ${email}\n`
-  }
-  if (phone && phone.trim() !== '') {
-    output += `<b>Phone</b>: ${phone}\n`
-  }
-  if (telegramHandle && telegramHandle.trim() !== '') {
-    output += `<b>Telegram</b>: ${telegramHandle}\n`
-  }
+  const tz = siteConfig.scheduling.timezone
+  const date = new Date(start || '').toLocaleDateString('en-US', {
+    timeZone: tz,
+    weekday: 'short',
+    month: 'short',
+    day: 'numeric',
+  })
+  const startTime = new Date(start || '').toLocaleTimeString('en-US', {
+    timeZone: tz,
+    hour: 'numeric',
+    minute: '2-digit',
+  })
+  const endTime = new Date(end || '').toLocaleTimeString('en-US', {
+    timeZone: tz,
+    hour: 'numeric',
+    minute: '2-digit',
+  })
 
-  // Handle both string and LocationObject
   let locationString = ''
   if (typeof location === 'string') {
     locationString = location
   } else if (location && typeof location === 'object') {
     locationString = flattenLocation(location)
   }
-  output += `<b>Location</b>: ${locationString}\n`
 
-  if (additionalNotes) {
-    output += `<b>Notes</b>: ${additionalNotes}\n`
-  }
+  let output = `<b>${firstName} ${lastName}</b>\n`
+  output += `${date} · ${startTime}–${endTime} · ${duration} min\n`
+  output += '\n'
+  if (email) output += `<b>Email</b>: ${email}\n`
+  if (phone && phone.trim() !== '') output += `<b>Phone</b>: ${phone}\n`
+  if (telegramHandle && telegramHandle.trim() !== '')
+    output += `<b>Telegram</b>: ${telegramHandle}\n`
+  if (locationString) output += `<b>Location</b>: ${locationString}\n`
+  if (additionalNotes) output += `<b>Notes</b>: ${additionalNotes}\n`
 
-  if (promo) {
-    output += `<b>Promo</b>: ${promo}\n`
-  }
-
-  if (bookingUrl) {
-    output += `<b>Booking URL</b>: ${bookingUrl}\n`
-  }
-
-  if (source) {
-    output += `<b>Source</b>: ${source}\n`
-  }
-
-  // Add slug configuration details (customer-relevant only)
-  if (slugConfiguration) {
-    output += '\n'
-    output += `<b>--- Booking Details ---</b>\n`
-    if (slugConfiguration.title) output += `<b>Service</b>: ${slugConfiguration.title}\n`
-    if (slugConfiguration.eventContainer)
-      output += `<b>Service Type</b>: ${slugConfiguration.eventContainer}\n`
-    if (slugConfiguration.pricing) {
-      output += `<b>Pricing</b>: ${Object.entries(slugConfiguration.pricing)
-        .map(([dur, price]) => `${dur}min: $${price}`)
-        .join(', ')}\n`
-    }
-    if (slugConfiguration.discount) {
-      const discount = slugConfiguration.discount
-      output += `<b>Discount Applied</b>: ${discount.type === 'percent' ? `${(discount.amountPercent || 0) * 100}% off` : `$${discount.amountDollars || 0} off`}\n`
-    }
+  if (slugConfiguration?.title) output += `\n<b>Service</b>: ${slugConfiguration.title}\n`
+  if (promo) output += `<b>Promo</b>: ${promo}\n`
+  if (slugConfiguration?.discount) {
+    const d = slugConfiguration.discount
+    output += `<b>Discount</b>: ${d.type === 'percent' ? `${(d.amountPercent || 0) * 100}% off` : `$${d.amountDollars || 0} off`}\n`
   }
 
   const domain = siteConfig.domain.siteUrl.replace(/\/$/, '')
   const domainDisplay = domain.replace(/^https?:\/\//, '')
   const host = origin || process.env.NEXT_PUBLIC_SITE_URL || domain
-  output += `<b>My Events</b>: <a href="${host}/my_events">View My Events</a>\n`
-
-  output += '\n\n'
-  output += `${siteConfig.business.ownerName}, LMT`
+  output += `\n<a href="${host}/my_events"><b>View or manage your appointment →</b></a>\n`
   output += '\n'
+  output += `${siteConfig.business.ownerName}, LMT\n`
   output += `<a href="${domain}/">www.${domainDisplay}</a>\n`
 
   if (eventBaseString) {

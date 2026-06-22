@@ -19,6 +19,7 @@ import eventContent from '@/data/event.json'
 import {
   TextLg,
   TextSmMuted,
+  TextSmMedium,
   TextXsMuted,
   TextBase,
 } from '@/components/ui/text'

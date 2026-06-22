@@ -42,20 +42,19 @@ export default function requestEventDescription({
     timeZone: ownerTimeZone,
   })
 
-  let output = `PENDING REQUEST\n\n`
-  output += `<b>Name</b>: ${firstName} ${lastName}\n`
-  output += `<b>Date</b>: ${dateSummary}\n`
-  output += `<b>Duration</b>: ${duration} minutes\n`
+  let output = `<b>${firstName} ${lastName}</b> — pending request\n`
+  output += `${dateSummary} · ${duration} min\n`
+  output += '\n'
   output += `<b>Email</b>: ${email}\n`
   if (phone && phone.trim() !== '') output += `<b>Phone</b>: ${phone}\n`
   if (telegramHandle && telegramHandle.trim() !== '')
     output += `<b>Telegram</b>: ${telegramHandle}\n`
   output += `<b>Location</b>: ${location}\n`
-  output += `<b>Client Timezone</b>: ${timeZone}\n`
+  output += `<b>Timezone</b>: ${timeZone}\n`
   if (additionalNotes) output += `<b>Notes</b>: ${additionalNotes}\n`
   if (price) output += `<b>Price</b>: $${price}\n`
   if (promo) output += `<b>Promo</b>: ${promo}\n`
-  output += `\n`
+  output += '\n'
   output += `<b><a href="${acceptUrl}">✅ Accept</a></b>\n`
   output += `<b><a href="${declineUrl}">❌ Decline</a></b>\n`
 

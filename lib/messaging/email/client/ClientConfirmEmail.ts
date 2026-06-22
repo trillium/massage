@@ -1,9 +1,6 @@
-import { EmailProps } from '@/lib/types'
-import { parts as signatureParts } from '@/lib/messaging/utilities/signature'
+import { buildEmailHtml } from '@/lib/messaging/email/htmlEmailBase'
 import { siteConfig } from '@/lib/siteConfig'
-
-const LINE_PREFIX = `<div class="gmail_default" style="font-family:arial,sans-serif">`
-const LINE_SUFFIX = `</div>`
+import { EmailProps } from '@/lib/types'
 
 export default function ClientConfirmEmail({
   duration,
@@ -14,36 +11,37 @@ export default function ClientConfirmEmail({
   bookingUrl,
   promo,
   eventPageUrl,
-}: Omit<EmailProps, 'approveUrl'> & { eventPageUrl?: string }) {
+  ownerTelegram,
+}: Omit<EmailProps, 'approveUrl'> & { eventPageUrl?: string; ownerTelegram?: string }) {
   const serviceNoun = siteConfig.business.serviceNoun
-  const SUBJECT = `${serviceNoun.charAt(0).toUpperCase() + serviceNoun.slice(1)} Session Confirmed${price ? ` $${price},` : ','} ${duration} minutes`
+  const cap = serviceNoun.charAt(0).toUpperCase() + serviceNoun.slice(1)
+  const SUBJECT = `${cap} Session Confirmed${price ? ` $${price},` : ','} ${duration} minutes`
 
-  let body = `<div dir="ltr">`
-  body += [
-    `Hi ${firstName || 'there'}`,
-    `<br>`,
-    `Great news! Your ${serviceNoun} session has been confirmed.`,
-    `<br>`,
-    `<b>Date:</b> ${dateSummary}`,
-    `<b>Location:</b> ${location}`,
-    `${price ? `<b>Price:</b> $${price}` : ''}`,
-    `${promo ? `<b>Promo Applied:</b> ${promo}` : ''}`,
-    `<b>Duration:</b> ${duration} minutes`,
-    `${bookingUrl ? `<b>Booking Page:</b> <a href="${bookingUrl}">${bookingUrl}</a>` : ''}`,
-    `<br>`,
-    `See you then!`,
-    `<br>`,
-    eventPageUrl ? `<b><a href="${eventPageUrl}">View or manage your appointment</a></b>` : '',
-    `<br>`,
-    `Thanks!`,
-    `<br>`,
-    ...signatureParts,
-  ]
-    .filter((line) => line.length > 0)
-    .map((line) => `${LINE_PREFIX}${line}${LINE_SUFFIX}`)
-    .join('')
+  const locationStr = typeof location === 'string' ? location : ''
+  const telegramLine = ownerTelegram
+    ? `<p style="margin:8px 0 0">Questions? Message me on Telegram: <a href="https://t.me/${ownerTelegram.replace(/^@/, '')}" style="color:#dc2626">${ownerTelegram}</a></p>`
+    : ''
 
-  body += `</div>`
+  const body = buildEmailHtml({
+    headerTitle: '✓ Booking Confirmed',
+    preheader: `Your ${serviceNoun} session on ${dateSummary} is confirmed.`,
+    infoRows: [
+      { label: 'Date', value: dateSummary },
+      { label: 'Location', value: locationStr || undefined },
+      { label: 'Duration', value: `${duration} minutes` },
+      { label: 'Price', value: price ? `$${price}` : undefined },
+      { label: 'Promo', value: promo || undefined },
+      {
+        label: 'Booking Page',
+        value: bookingUrl
+          ? `<a href="${bookingUrl}" style="color:#dc2626">${bookingUrl}</a>`
+          : undefined,
+      },
+    ],
+    bodyContent: `<p style="margin:0 0 8px">Hi ${firstName || 'there'},</p><p style="margin:0">Your ${serviceNoun} session has been confirmed. See you then!</p>${telegramLine}`,
+    ctaHref: eventPageUrl || undefined,
+    ctaLabel: eventPageUrl ? 'View or Manage Your Appointment' : undefined,
+  })
 
   return { subject: SUBJECT, body }
 }

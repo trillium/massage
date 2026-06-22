@@ -1,8 +1,5 @@
+import { buildEmailHtml } from '@/lib/messaging/email/htmlEmailBase'
 import { EmailProps } from '@/lib/types'
-import { parts as signatureParts } from '@/lib/messaging/utilities/signature'
-
-const LINE_PREFIX = `<div class="gmail_default" style="font-family:arial,sans-serif">`
-const LINE_SUFFIX = `</div>`
 
 export default function ClientRequestEmail({
   duration,
@@ -13,35 +10,35 @@ export default function ClientRequestEmail({
   bookingUrl,
   promo,
   eventPageUrl,
-}: Omit<EmailProps, 'approveUrl'> & { eventPageUrl?: string }) {
+  ownerTelegram,
+}: Omit<EmailProps, 'approveUrl'> & { eventPageUrl?: string; ownerTelegram?: string }) {
   const SUBJECT = `Massage Session Request${price ? ` $${price},` : ','} ${duration} minutes`
 
-  let body = `<div dir="ltr">`
-  body += [
-    `Hi ${firstName || 'there'}`,
-    `<br>`,
-    `Just letting you know I received your appointment request!`,
-    `<br>`,
-    `<b>Date:</b> ${dateSummary}`,
-    `<b>Location:</b> ${location}`,
-    `${price ? `<b>Price:</b> $${price}` : ''}`,
-    `${promo ? `<b>Promo Applied:</b> ${promo}` : ''}`,
-    `<b>Duration:</b> ${duration} minutes`,
-    `${bookingUrl ? `<b>Booking Page:</b> <a href="${bookingUrl}">${bookingUrl}</a>` : ''}`,
-    `<br>`,
-    `I'll review it as soon as I can and get back to you with a confirmation.`,
-    `<br>`,
-    eventPageUrl ? `<b><a href="${eventPageUrl}">View or manage your appointment</a></b>` : '',
-    `<br>`,
-    `Thanks!`,
-    `<br>`,
-    ...signatureParts,
-  ]
-    .filter((line) => line.length > 0)
-    .map((line) => `${LINE_PREFIX}${line}${LINE_SUFFIX}`)
-    .join('')
+  const locationStr = typeof location === 'string' ? location : ''
+  const telegramLine = ownerTelegram
+    ? `<p style="margin:8px 0 0">Questions? Message me on Telegram: <a href="https://t.me/${ownerTelegram.replace(/^@/, '')}" style="color:#dc2626">${ownerTelegram}</a></p>`
+    : ''
 
-  body += `</div>`
+  const body = buildEmailHtml({
+    headerTitle: 'Appointment Request Received',
+    preheader: `Your massage request for ${dateSummary} is being reviewed.`,
+    infoRows: [
+      { label: 'Date', value: dateSummary },
+      { label: 'Location', value: locationStr || undefined },
+      { label: 'Duration', value: `${duration} minutes` },
+      { label: 'Price', value: price ? `$${price}` : undefined },
+      { label: 'Promo', value: promo || undefined },
+      {
+        label: 'Booking Page',
+        value: bookingUrl
+          ? `<a href="${bookingUrl}" style="color:#dc2626">${bookingUrl}</a>`
+          : undefined,
+      },
+    ],
+    bodyContent: `<p style="margin:0 0 8px">Hi ${firstName || 'there'},</p><p style="margin:0">I received your appointment request! I'll review it as soon as I can and get back to you with a confirmation.</p>${telegramLine}`,
+    ctaHref: eventPageUrl || undefined,
+    ctaLabel: eventPageUrl ? 'View or Manage Your Appointment' : undefined,
+  })
 
   return { subject: SUBJECT, body }
 }
