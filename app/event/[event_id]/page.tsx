@@ -20,6 +20,7 @@ import {
   TextLg,
   TextSmMuted,
   TextSmMedium,
+  TextSmSemibold,
   TextXsMuted,
   TextBase,
 } from '@/components/ui/text'
