@@ -26,10 +26,17 @@ function tipHints(freeMinutes: number, durations: number[]): Record<number, stri
   )
 }
 
-const ATTENDEE_OFFICE_FREE_MIN = 5
-const VOLUNTEER_OFFICE_FREE_MIN = 15
-const ATTENDEE_PRIVATE_BONUS_MIN = 15
-const VOLUNTEER_PRIVATE_BONUS_MIN = 30
+type EdgeScope = 'office' | 'private'
+type PublicRole = 'attendee' | 'volunteer'
+
+const EDGE_MIN: Record<EdgeScope, Record<PublicRole, number>> = {
+  office: { attendee: 10, volunteer: 15 },
+  private: { attendee: 15, volunteer: 30 },
+}
+
+function edgeMin(scope: EdgeScope, role: PublicRole): number {
+  return EDGE_MIN[scope][role]
+}
 
 const edgeBase = {
   ...base,
@@ -80,14 +87,14 @@ export const edgeSlugConfigurations: SlugConfigurationType[] = [
     title: 'Edge — Office Hours Chair Massage',
     text: [
       'Drop-in chair or table massage — no advance booking required.',
-      `Attendees: ${ATTENDEE_OFFICE_FREE_MIN} min complimentary, tip for time above. Volunteers: ${VOLUNTEER_OFFICE_FREE_MIN} min complimentary, tip for time above.`,
+      `Attendees: ${edgeMin('office', 'attendee')} min complimentary, tip for time above. Volunteers: ${edgeMin('office', 'volunteer')} min complimentary, tip for time above.`,
     ],
     links: publicLinks,
     customFields: {
       showRoleField: true,
       roleHints: {
-        attendee: tipHints(ATTENDEE_OFFICE_FREE_MIN, edgeOfficeBase.allowedDurations),
-        volunteer: tipHints(VOLUNTEER_OFFICE_FREE_MIN, edgeOfficeBase.allowedDurations),
+        attendee: tipHints(edgeMin('office', 'attendee'), edgeOfficeBase.allowedDurations),
+        volunteer: tipHints(edgeMin('office', 'volunteer'), edgeOfficeBase.allowedDurations),
       },
       showNotesField: true,
       locationFromContainer: true,
@@ -99,19 +106,16 @@ export const edgeSlugConfigurations: SlugConfigurationType[] = [
     title: 'Edge — Private Session',
     text: [
       'Table massage in a private setting (ideally your hotel/Airbnb). Book at least 2 hours in advance.',
-      `Attendees: +${ATTENDEE_PRIVATE_BONUS_MIN} min bonus on any booking. Volunteers: +${VOLUNTEER_PRIVATE_BONUS_MIN} min bonus on any booking.`,
+      `Attendees: +${edgeMin('private', 'attendee')} min bonus on any booking. Volunteers: +${edgeMin('private', 'volunteer')} min bonus on any booking.`,
     ],
     links: publicLinks,
     customFields: {
       showRoleField: true,
       roleHints: {
-        attendee: `complimentary + ${ATTENDEE_PRIVATE_BONUS_MIN} min bonus`,
-        volunteer: `complimentary + ${VOLUNTEER_PRIVATE_BONUS_MIN} min bonus`,
+        attendee: `complimentary + ${edgeMin('private', 'attendee')} min bonus`,
+        volunteer: `complimentary + ${edgeMin('private', 'volunteer')} min bonus`,
       },
-      roleBonus: {
-        attendee: ATTENDEE_PRIVATE_BONUS_MIN,
-        volunteer: VOLUNTEER_PRIVATE_BONUS_MIN,
-      },
+      roleBonus: EDGE_MIN.private,
       showNotesField: true,
       showRequestSoonerField: true,
       locationFromContainer: true,
