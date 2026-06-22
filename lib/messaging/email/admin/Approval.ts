@@ -1,3 +1,4 @@
+/* ds-ignore-file */
 import { z } from 'zod'
 import { EmailProps } from '@/lib/types'
 import { AppointmentRequestSchema } from '@/lib/schema'

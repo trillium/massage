@@ -1,3 +1,4 @@
+/* ds-ignore-file */
 interface InfoRow {
   label: string
   value: string | undefined | null

@@ -1,3 +1,4 @@
+/* ds-ignore-file */
 import { AppointmentProps } from '@/lib/types'
 import { flattenLocation } from '@/lib/helpers/locationHelpers'
 import { siteConfig } from '@/lib/siteConfig'

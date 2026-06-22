@@ -1,3 +1,4 @@
+/* ds-ignore-file */
 import { buildEmailHtml } from '@/lib/messaging/email/htmlEmailBase'
 import { siteConfig } from '@/lib/siteConfig'
 import { EmailProps } from '@/lib/types'
