@@ -21,6 +21,6 @@ export default defineConfig({
       reporter: ['text', 'html'],
     },
     include: ['**/?(*.)+(test|spec).{ts,tsx,js,jsx}'],
-    exclude: ['**/node_modules/**', '**/dist/**', '**/tests/e2e/**'],
+    exclude: ['**/node_modules/**', '**/dist/**', '**/tests/e2e/**', '**/.claude/worktrees/**'],
   },
 })
