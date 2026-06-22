@@ -22,19 +22,19 @@ function tipHints(freeMinutes: number, durations: number[]): Record<number, stri
   )
 }
 
-export type EdgeScope = 'office' | 'destination'
+export type EdgeScope = 'office' | 'comesToYou'
 export type EdgePublicRole = 'attendee' | 'volunteer'
 
 export const EDGE_MIN: Record<EdgeScope, Record<EdgePublicRole, number>> = {
   office: { attendee: 10, volunteer: 15 },
-  destination: { attendee: 15, volunteer: 30 },
+  comesToYou: { attendee: 15, volunteer: 30 },
 }
 
 export function edgeMin(scope: EdgeScope, role: EdgePublicRole): number {
   return EDGE_MIN[scope][role]
 }
 
-export const EDGE_BLOCKING_CONTAINERS = ['edge_office', 'edge_destination'] as const
+export const EDGE_BLOCKING_CONTAINERS = ['edge_office', 'edge_comes_to_you'] as const
 
 const edgeBase = {
   ...base,
@@ -72,16 +72,16 @@ const edgeOfficeBase = {
   },
 }
 
-const edgeDestinationBase = {
+const edgeComesToYouBase = {
   ...edgeBase,
-  eventContainer: 'edge_destination',
+  eventContainer: 'edge_comes_to_you',
   defaultDuration: 60,
   allowedDurations: [60, 90, 120],
   pricing: { 60: 0, 90: 0, 120: 0 },
   pricingLabels: { 60: 'Complimentary', 90: 'Complimentary', 120: 'Complimentary' },
   leadTimeMinimum: 120,
   heroImage: {
-    src: '/static/images/edge/edge-destination.png',
+    src: '/static/images/edge/edge-comes-to-you.png',
     alt: 'Massage table on a winding road with a Shoulder Work Ahead sign',
   },
 }
@@ -108,9 +108,9 @@ export const edgeSlugConfigurations: SlugConfigurationType[] = [
     },
   },
   {
-    ...edgeDestinationBase,
-    bookingSlug: ['edge-destination'],
-    title: 'Edge Esmeralda — Destination Session',
+    ...edgeComesToYouBase,
+    bookingSlug: ['edge-comes-to-you'],
+    title: 'Edge Esmeralda — Comes to You Session',
     text: [
       'Table massage at a destination of your choosing (ideally your hotel/Airbnb). Book at least 2 hours in advance.',
     ],
@@ -118,10 +118,10 @@ export const edgeSlugConfigurations: SlugConfigurationType[] = [
     customFields: {
       showRoleField: true,
       roleHints: {
-        attendee: `complimentary + ${edgeMin('destination', 'attendee')} min bonus`,
-        volunteer: `complimentary + ${edgeMin('destination', 'volunteer')} min bonus`,
+        attendee: `complimentary + ${edgeMin('comesToYou', 'attendee')} min bonus`,
+        volunteer: `complimentary + ${edgeMin('comesToYou', 'volunteer')} min bonus`,
       },
-      roleBonus: EDGE_MIN.destination,
+      roleBonus: EDGE_MIN.comesToYou,
       showNotesField: true,
       showRequestSoonerField: true,
       locationFromContainer: true,
@@ -146,10 +146,10 @@ export const edgeSlugConfigurations: SlugConfigurationType[] = [
     },
   },
   {
-    ...edgeDestinationBase,
-    bookingSlug: ['edge-team-destination'],
+    ...edgeComesToYouBase,
+    bookingSlug: ['edge-team-comes-to-you'],
     defaultDuration: 90,
-    title: 'Edge Team — Destination Session',
+    title: 'Edge Team — Comes to You Session',
     text: [
       'Table massage at a destination of your choosing (ideally your hotel/Airbnb). Please book at least 2 hours in advance.',
       '60/90/120 minute sessions, complimentary for Edge team.',
