@@ -12,7 +12,7 @@ import ParkingField from './fields/ParkingField'
 import NotesField from './fields/NotesField'
 import PromoCodeField from './fields/PromoCodeField'
 import RaffleOptInField from './fields/RaffleOptInField'
-import RoleField from './fields/RoleField'
+import ConnectedRoleField from './fields/ConnectedRoleField'
 import RequestSoonerField from './fields/RequestSoonerField'
 
 import { Box } from '@/components/ui/box'
@@ -257,16 +257,7 @@ export default function BookingFormFields({
         />
       )}
 
-      {showRoleField && (
-        <RoleField
-          value={
-            values.edgeMemberType === 'attendee' || values.edgeMemberType === 'volunteer'
-              ? values.edgeMemberType
-              : undefined
-          }
-          onChange={(v) => setFieldValue('edgeMemberType', v)}
-        />
-      )}
+      {showRoleField && <ConnectedRoleField />}
 
       {showRequestSoonerField && (
         <RequestSoonerField
