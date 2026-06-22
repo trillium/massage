@@ -187,7 +187,7 @@ describe('checkSlotAvailability', () => {
       ...baseParams,
       eventBaseString: 'edge_office',
       blockingScope: 'containers' as const,
-      blockingContainers: ['edge_office', 'edge_destination'],
+      blockingContainers: ['edge_office', 'edge_comes_to_you'],
     }
 
     it('blocks when an edge_office__EVENT__MEMBER__ event overlaps the slot', async () => {
@@ -207,7 +207,7 @@ describe('checkSlotAvailability', () => {
     it('blocks when a listed-but-other-container member event overlaps (proves container-set branch)', async () => {
       mockGetEventsBySearchQuery.mockResolvedValue([
         calendarEvent(
-          'edge_destination__EVENT__MEMBER__',
+          'edge_comes_to_you__EVENT__MEMBER__',
           '2024-06-15T10:15:00Z',
           '2024-06-15T10:45:00Z'
         ),
@@ -248,7 +248,7 @@ describe('checkSlotAvailability', () => {
     it('applies padding to container-set blocking events', async () => {
       mockGetEventsBySearchQuery.mockResolvedValue([
         calendarEvent(
-          'edge_destination__EVENT__MEMBER__',
+          'edge_comes_to_you__EVENT__MEMBER__',
           '2024-06-15T11:00:00Z',
           '2024-06-15T11:30:00Z'
         ),

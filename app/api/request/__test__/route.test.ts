@@ -213,13 +213,13 @@ describe('handleAppointmentRequest', () => {
     await callHandler({
       slugConfiguration: {
         blockingScope: 'containers',
-        blockingContainers: ['edge_office', 'edge_destination'],
+        blockingContainers: ['edge_office', 'edge_comes_to_you'],
       },
     })
     expect(checkSlotAvailabilityMock).toHaveBeenCalledWith(
       expect.objectContaining({
         blockingScope: 'containers',
-        blockingContainers: ['edge_office', 'edge_destination'],
+        blockingContainers: ['edge_office', 'edge_comes_to_you'],
       })
     )
   })

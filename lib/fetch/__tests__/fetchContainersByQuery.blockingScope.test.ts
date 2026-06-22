@@ -170,10 +170,10 @@ describe('fetchContainersByQuery - blockingScope filter functions', () => {
     it('blocks member events whose container is in the list', () => {
       const allEvents = [
         createMockEvent('edge_office__EVENT__MEMBER__'),
-        createMockEvent('edge_destination__EVENT__MEMBER__'),
+        createMockEvent('edge_comes_to_you__EVENT__MEMBER__'),
       ]
 
-      const result = filterEventsForContainerSet(allEvents, ['edge_office', 'edge_destination'])
+      const result = filterEventsForContainerSet(allEvents, ['edge_office', 'edge_comes_to_you'])
 
       expect(result.members).toHaveLength(2)
       expect(result.blockingEvents).toHaveLength(2)
@@ -202,7 +202,7 @@ describe('fetchContainersByQuery - blockingScope filter functions', () => {
         createMockEvent('edge_office__EVENT__MEMBER__'),
       ]
 
-      const result = filterEventsForContainerSet(allEvents, ['edge_office', 'edge_destination'])
+      const result = filterEventsForContainerSet(allEvents, ['edge_office', 'edge_comes_to_you'])
 
       expect(result.regularEvents).toHaveLength(0)
       expect(result.blockingEvents).toHaveLength(1)
@@ -212,10 +212,10 @@ describe('fetchContainersByQuery - blockingScope filter functions', () => {
     it('does NOT treat container events themselves as members', () => {
       const allEvents = [
         createMockEvent('edge_office__EVENT__CONTAINER__'),
-        createMockEvent('edge_destination__EVENT__CONTAINER__'),
+        createMockEvent('edge_comes_to_you__EVENT__CONTAINER__'),
       ]
 
-      const result = filterEventsForContainerSet(allEvents, ['edge_office', 'edge_destination'])
+      const result = filterEventsForContainerSet(allEvents, ['edge_office', 'edge_comes_to_you'])
 
       expect(result.members).toHaveLength(0)
       expect(result.blockingEvents).toHaveLength(0)
@@ -225,7 +225,7 @@ describe('fetchContainersByQuery - blockingScope filter functions', () => {
     it('blocks nothing when container list is empty', () => {
       const allEvents = [
         createMockEvent('edge_office__EVENT__MEMBER__'),
-        createMockEvent('edge_destination__EVENT__MEMBER__'),
+        createMockEvent('edge_comes_to_you__EVENT__MEMBER__'),
         createMockEvent('Doctor Appointment'),
       ]
 
