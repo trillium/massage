@@ -19,7 +19,7 @@ type UseBookingInitialValuesParams = {
   duration: number
   acceptingPayment: boolean
   price: number | string
-  edgeMemberType?: 'community' | 'team'
+  edgeMemberType?: 'attendee' | 'volunteer' | 'team'
 }
 
 export function useBookingInitialValues({

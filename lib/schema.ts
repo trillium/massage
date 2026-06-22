@@ -18,7 +18,7 @@ const sharedBookingOptionalFields = {
   additionalNotes: z.string().optional(),
   bookingUrl: z.string().optional(),
   promo: z.string().optional(),
-  edgeMemberType: z.enum(['community', 'team']).optional(),
+  edgeMemberType: z.enum(['attendee', 'volunteer', 'team']).optional(),
   requestSooner: z.boolean().optional(),
 }
 

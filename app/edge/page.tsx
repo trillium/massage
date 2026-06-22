@@ -18,10 +18,10 @@ export const metadata: Metadata = {
 
 const SITE_URL = 'https://trilliummassage.la'
 
-type EdgeRole = 'community' | 'team'
+type EdgeRole = 'attendee' | 'volunteer' | 'team'
 
 function isEdgeRole(v: unknown): v is EdgeRole {
-  return v === 'community' || v === 'team'
+  return v === 'attendee' || v === 'volunteer' || v === 'team'
 }
 
 type Props = { searchParams: Promise<{ role?: string }> }
@@ -60,9 +60,12 @@ export default async function EdgeLandingPage({ searchParams }: Props) {
                 </TextBase>
                 <Stack direction="col" gap={1} className="mt-2">
                   <TextSm className="text-accent-500">
-                    Community members: 15m sessions, additional time paid/gratiuty
+                    Attendees: 5 min complimentary, tip for time above
                   </TextSm>
-                  <TextSm className="text-accent-500">Volunteers and team: 30m+ sessions</TextSm>
+                  <TextSm className="text-accent-500">
+                    Volunteers: 15 min complimentary, tip for time above
+                  </TextSm>
+                  <TextSm className="text-accent-500">Team members: fully complimentary</TextSm>
                 </Stack>
               </Box>
 
@@ -76,10 +79,13 @@ export default async function EdgeLandingPage({ searchParams }: Props) {
                 </TextBase>
                 <Stack direction="col" gap={1} className="mt-2">
                   <TextSm className="text-accent-500">
-                    Community members: All booked sessions get a 15m upgrade!
+                    Attendees: +15 min bonus on any booking
                   </TextSm>
                   <TextSm className="text-accent-500">
-                    Volunteers and team: 60m+ sessions available
+                    Volunteers: +30 min bonus on any booking
+                  </TextSm>
+                  <TextSm className="text-accent-500">
+                    Team members: 60/90/120 fully complimentary
                   </TextSm>
                 </Stack>
               </Box>

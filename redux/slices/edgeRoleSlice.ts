@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction, Slice } from '@reduxjs/toolkit'
 import type { RootState } from '@/redux/store'
 
-type EdgeRole = 'community' | 'team' | undefined
+type EdgeRole = 'attendee' | 'volunteer' | 'team' | undefined
 
 type EdgeRoleState = { role: EdgeRole }
 

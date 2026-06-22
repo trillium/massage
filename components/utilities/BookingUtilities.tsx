@@ -1,7 +1,12 @@
 'use client'
 
 import { startTransition, useCallback, useEffect, useRef } from 'react'
-import { useAppDispatch, useReduxAvailability, useReduxConfig } from '@/redux/hooks'
+import {
+  useAppDispatch,
+  useReduxAvailability,
+  useReduxConfig,
+  useReduxEdgeRole,
+} from '@/redux/hooks'
 import { setSlots, setSelectedDate, setDuration } from '@/redux/slices/availabilitySlice'
 import {
   setBulkConfigSliceState,
@@ -110,7 +115,14 @@ export function SlotGenerationUtility(
   )
 ) {
   const { duration: durationRedux, selectedDate: selectedDateRedux } = useReduxAvailability()
-  const { leadTimeMinimum: leadTime, durationBonus, availabilityWindowMinutes } = useReduxConfig()
+  const {
+    leadTimeMinimum: leadTime,
+    durationBonus,
+    availabilityWindowMinutes,
+    nextSlotOnly,
+    customFields,
+  } = useReduxConfig()
+  const edgeRole = useReduxEdgeRole()
   const dispatch = useAppDispatch()
 
   useEffect(() => {
@@ -123,9 +135,10 @@ export function SlotGenerationUtility(
         newSlots = props.nextSlotMultiDurations[durationRedux]
       }
     } else if (props.start && props.end) {
+      const roleBonus = edgeRole ? (customFields?.roleBonus?.[edgeRole] ?? 0) : 0
       newSlots = createSlots({
         duration: effectiveDuration,
-        durationBonus: durationBonus ?? 0,
+        durationBonus: (durationBonus ?? 0) + roleBonus,
         leadTime: leadTime ?? LEAD_TIME,
         start: props.start,
         end: props.end,
@@ -138,6 +151,8 @@ export function SlotGenerationUtility(
       const cutoff = new Date(Date.now() + availabilityWindowMinutes * 60 * 1000)
       const next = newSlots.find((slot) => new Date(slot.start) <= cutoff)
       newSlots = next ? [next] : []
+    } else if (nextSlotOnly) {
+      newSlots = newSlots.length > 0 ? [newSlots[0]] : []
     }
 
     startTransition(() => {
@@ -153,7 +168,7 @@ export function SlotGenerationUtility(
         dispatch(setSelectedDate(firstAvail))
       }
     })
-  }, [durationRedux, leadTime, props, dispatch, selectedDateRedux])
+  }, [durationRedux, leadTime, edgeRole, customFields, props, dispatch, selectedDateRedux])
 
   return <></>
 }

@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useState } from 'react'
 
-type EdgeRole = 'community' | 'team' | undefined
+type EdgeRole = 'attendee' | 'volunteer' | 'team' | undefined
 
 interface EdgeRoleContextValue {
   role: EdgeRole

@@ -40,6 +40,8 @@ export default function DurationPicker({
   const allowedDurations = allowedDurationsRedux || allowedDurationsProps || ALLOWED_DURATIONS
   const price = priceRedux || priceProps || DEFAULT_PRICING
   const sessionCost = price[duration || DEFAULT_DURATION] ?? ''
+  const roleBonus = edgeRole ? (customFields?.roleBonus?.[edgeRole] ?? 0) : 0
+  const effectiveDuration = (duration || DEFAULT_DURATION) + roleBonus
   const rawRoleHint =
     edgeRole && customFields?.roleHints ? customFields.roleHints[edgeRole] : undefined
   const roleHint = rawRoleHint
@@ -57,7 +59,11 @@ export default function DurationPicker({
   return (
     <fieldset>
       <legend className="block pb-2 text-sm leading-5 font-medium text-accent-900 dark:text-accent-100">
-        <span>{`${duration || 90} minute session${pricingLabel ? ',' : ''}`} </span>
+        <span>
+          {`${effectiveDuration} minute session`}
+          {roleBonus > 0 ? ` (+${roleBonus} min bonus)` : ''}
+          {pricingLabel ? ',' : ''}
+        </span>{' '}
         {pricingLabel ? (
           <span className="text-primary-600 dark:text-primary-400">{pricingLabel}</span>
         ) : (

@@ -6,10 +6,12 @@ import { setEdgeRole } from '@/redux/slices/edgeRoleSlice'
 
 const STORAGE_KEY = 'edgeRole'
 
-type EdgeRole = 'community' | 'team'
+type EdgeRole = 'attendee' | 'volunteer' | 'team'
 
-function isEdgeRole(v: unknown): v is EdgeRole {
-  return v === 'community' || v === 'team'
+function normalizeRole(v: unknown): EdgeRole | null {
+  if (v === 'attendee' || v === 'volunteer' || v === 'team') return v
+  if (v === 'community') return 'volunteer'
+  return null
 }
 
 export default function EdgeRoleHydrator() {
@@ -18,14 +20,15 @@ export default function EdgeRoleHydrator() {
 
   useEffect(() => {
     const param = new URLSearchParams(window.location.search).get('role')
-    if (isEdgeRole(param)) {
-      dispatch(setEdgeRole(param))
+    const fromParam = normalizeRole(param)
+    if (fromParam) {
+      dispatch(setEdgeRole(fromParam))
       return
     }
     try {
-      const stored = localStorage.getItem(STORAGE_KEY)
-      if (isEdgeRole(stored)) {
-        dispatch(setEdgeRole(stored))
+      const fromStorage = normalizeRole(localStorage.getItem(STORAGE_KEY))
+      if (fromStorage) {
+        dispatch(setEdgeRole(fromStorage))
       }
     } catch {
       // localStorage unavailable

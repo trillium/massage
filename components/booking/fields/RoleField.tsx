@@ -5,21 +5,26 @@ import { TextSmSemibold, TextXsMuted } from '@/components/ui/text'
 import { Stack } from '@/components/ui/stack'
 import { PeerRadio } from '@/components/ui/peer-radio'
 
-const DEFAULT_HINTS = {
-  community: 'Medium Spoiled',
+type EdgeRole = 'attendee' | 'volunteer' | 'team'
+
+const DEFAULT_HINTS: Record<EdgeRole, string> = {
+  attendee: 'Spoiled',
+  volunteer: 'Medium Spoiled',
   team: 'Maximum Spoiled',
 }
 
 type RoleFieldProps = {
-  value: 'community' | 'team' | undefined
-  onChange: (value: 'community' | 'team') => void
-  hints?: { community: string; team: string }
+  value: EdgeRole | undefined
+  onChange: (value: EdgeRole) => void
+  hints?: Partial<Record<EdgeRole, string>>
 }
 
-export default function RoleField({ value, onChange, hints = DEFAULT_HINTS }: RoleFieldProps) {
+export default function RoleField({ value, onChange, hints }: RoleFieldProps) {
+  const mergedHints = { ...DEFAULT_HINTS, ...hints }
   const ROLE_OPTIONS = [
-    { value: 'community' as const, label: 'Community member', hint: hints.community },
-    { value: 'team' as const, label: 'Volunteer / team member', hint: hints.team },
+    { value: 'attendee' as const, label: 'Attendee', hint: mergedHints.attendee },
+    { value: 'volunteer' as const, label: 'Volunteer', hint: mergedHints.volunteer },
+    { value: 'team' as const, label: 'Team member', hint: mergedHints.team },
   ]
   return (
     <fieldset className="rounded-md border-2 border-primary-200 bg-primary-50 p-3 dark:border-primary-800 dark:bg-primary-950/30">

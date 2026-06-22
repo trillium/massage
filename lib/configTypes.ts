@@ -48,7 +48,12 @@ export type CustomFieldsType = {
   showRaffleOptIn?: boolean
   showPromoField?: boolean
   showRoleField?: boolean
-  roleHints?: { community: string | Record<number, string>; team: string | Record<number, string> }
+  roleHints?: {
+    attendee?: string | Record<number, string>
+    volunteer?: string | Record<number, string>
+    team?: string | Record<number, string>
+  }
+  roleBonus?: { attendee?: number; volunteer?: number; team?: number }
   showRequestSoonerField?: boolean
   locationFromContainer?: boolean
 }

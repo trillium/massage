@@ -528,10 +528,12 @@ const slugConfigurations: SlugConfigurationType[] = [
     ...initialStateWithoutType,
     bookingSlug: ['edge-office-hours'],
     type: 'fixed-location',
+    hideCalendar: true,
+    nextSlotOnly: true,
     title: 'Edge — Office Hours Chair Massage',
     text: [
       'Drop-in chair or table massage — no advance booking required.',
-      'Community members: 15 min standard. Volunteers and team members: 30 min standard. Longer sessions available for all.',
+      'Attendees: 5 min complimentary, tip for time above. Volunteers: 15 min complimentary, tip for time above. Team members: fully complimentary.',
     ],
     location: null,
     locationIsReadOnly: true,
@@ -548,16 +550,13 @@ const slugConfigurations: SlugConfigurationType[] = [
     customFields: {
       showRoleField: true,
       roleHints: {
-        community: {
+        attendee: 'complimentary first 5 min — please tip for time above',
+        volunteer: {
           15: 'complimentary',
           30: 'complimentary — please tip for time above 15 min',
           60: 'complimentary — please tip for time above 15 min',
         },
-        team: {
-          15: 'complimentary',
-          30: 'complimentary',
-          60: 'complimentary',
-        },
+        team: 'complimentary',
       },
       showNotesField: true,
       locationFromContainer: true,
@@ -589,7 +588,7 @@ const slugConfigurations: SlugConfigurationType[] = [
     title: 'Edge — Private Session',
     text: [
       'Table massage in a private setting. Book at least 2 hours in advance.',
-      'Community members: 30 min standard. Volunteers and team members: 60 min standard. Longer sessions available.',
+      'Attendees: +15 min bonus on any booking. Volunteers: +30 min bonus. Team members: 60/90/120 fully complimentary.',
     ],
     location: null,
     locationIsReadOnly: true,
@@ -597,8 +596,8 @@ const slugConfigurations: SlugConfigurationType[] = [
     blockingScope: 'general',
     defaultDuration: 60,
     allowedDurations: [60, 90, 120],
-    pricing: { 30: 0, 60: 0, 90: 0 },
-    pricingLabels: { 30: 'Complimentary', 60: 'Complimentary', 90: 'Complimentary' },
+    pricing: { 60: 0, 90: 0, 120: 0 },
+    pricingLabels: { 60: 'Complimentary', 90: 'Complimentary', 120: 'Complimentary' },
     leadTimeMinimum: 120,
     instantConfirm: true,
     acceptingPayment: false,
@@ -606,19 +605,11 @@ const slugConfigurations: SlugConfigurationType[] = [
     customFields: {
       showRoleField: true,
       roleHints: {
-        community: {
-          30: 'complimentary',
-          60: 'complimentary — please tip for time above 30 min',
-          90: 'complimentary — please tip for time above 30 min',
-          120: 'complimentary — please tip for time above 30 min',
-        },
-        team: {
-          30: 'complimentary',
-          60: 'complimentary',
-          90: 'complimentary — please tip for time above 60 min',
-          120: 'complimentary — please tip for time above 60 min',
-        },
+        attendee: 'complimentary + 15 min bonus',
+        volunteer: 'complimentary + 30 min bonus',
+        team: 'complimentary',
       },
+      roleBonus: { attendee: 15, volunteer: 30, team: 0 },
       showNotesField: true,
       showRequestSoonerField: true,
       locationFromContainer: true,
