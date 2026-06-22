@@ -4,6 +4,8 @@ import type { SlugConfigurationType } from '@/lib/types'
 
 const base = { ...initialState }
 
+const EDGE_CALENDAR_DAYS = 7
+
 const HOURLY_RATE = siteConfig.pricing.baseHourlyRate
 
 function prorate(minutes: number): number {
@@ -44,7 +46,7 @@ const edgeBase = {
   blockingScope: 'general' as const,
   instantConfirm: true,
   acceptingPayment: false,
-  maxDaysAhead: 7,
+  maxDaysAhead: EDGE_CALENDAR_DAYS,
 }
 
 const edgeOfficeBase = {
