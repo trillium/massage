@@ -41,10 +41,12 @@ export default function NextSlotCard() {
 
   return (
     <Stack direction="col" gap={2} className="h-full justify-center">
-      <Stack direction="col" gap={1}>
-        <TextXs status="muted">Next available</TextXs>
-        <TextBaseSemibold>{dateLabel}</TextBaseSemibold>
-      </Stack>
+      <TextBaseSemibold>
+        <TextXs as="span" status="muted">
+          {'Next available · '}
+        </TextXs>
+        {dateLabel}
+      </TextBaseSemibold>
       <TimeButton
         active={isActive}
         time={{ start, end }}
