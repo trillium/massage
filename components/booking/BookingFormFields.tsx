@@ -246,7 +246,11 @@ export default function BookingFormFields({
 
       {showRoleField && (
         <RoleField
-          value={values.edgeMemberType}
+          value={
+            values.edgeMemberType === 'attendee' || values.edgeMemberType === 'volunteer'
+              ? values.edgeMemberType
+              : undefined
+          }
           onChange={(v) => setFieldValue('edgeMemberType', v)}
         />
       )}

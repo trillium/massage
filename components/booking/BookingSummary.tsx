@@ -14,6 +14,7 @@ interface BookingSummaryProps {
   startString: string
   endString: string
   price?: string | number
+  pricingLabel?: string
   acceptingPayment: boolean
   discount?: DiscountType | null
   formData?: BookingFormData
@@ -24,6 +25,7 @@ const BookingSummary: React.FC<BookingSummaryProps> = ({
   startString,
   endString,
   price,
+  pricingLabel,
   acceptingPayment,
   discount,
   formData,
@@ -53,11 +55,15 @@ const BookingSummary: React.FC<BookingSummaryProps> = ({
             {endString}
           </TextXs>
         </Box>
-        {acceptingPayment && (
+        {acceptingPayment ? (
           <Box className="text-primary-800 dark:text-primary-400 ml-4 min-w-[60px] text-right text-base font-semibold">
             <GeneratePrice price={Number(price)} discount={discount} />
           </Box>
-        )}
+        ) : pricingLabel ? (
+          <Box className="text-primary-800 dark:text-primary-400 ml-4 text-right text-xs md:text-sm">
+            {pricingLabel}
+          </Box>
+        ) : null}
       </Stack>
       <Stack
         className="mt-1 text-xs text-accent-700 md:text-sm dark:text-accent-300"

@@ -94,7 +94,6 @@ export type SlugConfigurationType = {
   prefillLastName?: string
   prefillEmail?: string
   prefillPhone?: string
-  prefillTelegram?: string
   rescheduleEventId?: string
   rescheduleToken?: string
 }

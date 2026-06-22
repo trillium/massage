@@ -5,18 +5,17 @@ import { TextSmSemibold, TextXsMuted } from '@/components/ui/text'
 import { Stack } from '@/components/ui/stack'
 import { PeerRadio } from '@/components/ui/peer-radio'
 
-type EdgeRole = 'attendee' | 'volunteer' | 'team'
+type PublicEdgeRole = 'attendee' | 'volunteer'
 
-const DEFAULT_HINTS: Record<EdgeRole, string> = {
+const DEFAULT_HINTS: Record<PublicEdgeRole, string> = {
   attendee: 'Spoiled',
   volunteer: 'Medium Spoiled',
-  team: 'Maximum Spoiled',
 }
 
 type RoleFieldProps = {
-  value: EdgeRole | undefined
-  onChange: (value: EdgeRole) => void
-  hints?: Partial<Record<EdgeRole, string>>
+  value: PublicEdgeRole | undefined
+  onChange: (value: PublicEdgeRole) => void
+  hints?: Partial<Record<PublicEdgeRole, string>>
 }
 
 export default function RoleField({ value, onChange, hints }: RoleFieldProps) {
@@ -24,7 +23,6 @@ export default function RoleField({ value, onChange, hints }: RoleFieldProps) {
   const ROLE_OPTIONS = [
     { value: 'attendee' as const, label: 'Attendee', hint: mergedHints.attendee },
     { value: 'volunteer' as const, label: 'Volunteer', hint: mergedHints.volunteer },
-    { value: 'team' as const, label: 'Team member', hint: mergedHints.team },
   ]
   return (
     <fieldset className="rounded-md border-2 border-primary-200 bg-primary-50 p-3 dark:border-primary-800 dark:bg-primary-950/30">

@@ -14,11 +14,15 @@ function normalizeRole(v: unknown): EdgeRole | null {
   return null
 }
 
-export default function EdgeRoleHydrator() {
+export default function EdgeRoleHydrator({ forceRole }: { forceRole?: EdgeRole } = {}) {
   const dispatch = useAppDispatch()
   const currentRole = useReduxEdgeRole()
 
   useEffect(() => {
+    if (forceRole) {
+      dispatch(setEdgeRole(forceRole))
+      return
+    }
     const param = new URLSearchParams(window.location.search).get('role')
     const fromParam = normalizeRole(param)
     if (fromParam) {
@@ -34,16 +38,17 @@ export default function EdgeRoleHydrator() {
       // localStorage unavailable
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [forceRole])
 
   useEffect(() => {
+    if (forceRole) return
     if (currentRole === undefined) return
     try {
       localStorage.setItem(STORAGE_KEY, currentRole)
     } catch {
       // localStorage unavailable
     }
-  }, [currentRole])
+  }, [currentRole, forceRole])
 
   return null
 }

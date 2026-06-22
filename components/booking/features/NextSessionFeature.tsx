@@ -54,6 +54,8 @@ export default function NextSessionFeature({
   bookingEndPoint,
 }: NextSessionFeatureProps) {
   const showRoleField = !!configuration.customFields?.showRoleField
+  const forceRole = configuration.customFields?.forceRole
+  const showHydrator = showRoleField || !!forceRole
 
   return (
     <SectionContainer>
@@ -77,7 +79,7 @@ export default function NextSessionFeature({
         </Stack>
       </SlotHoldProvider>
 
-      {showRoleField && <EdgeRoleHydrator />}
+      {showHydrator && <EdgeRoleHydrator forceRole={forceRole} />}
       <InitialUrlUtility
         configObject={configuration}
         initialSlots={slots}

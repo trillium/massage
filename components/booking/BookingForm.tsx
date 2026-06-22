@@ -60,6 +60,19 @@ export default function BookingForm({
     duration && config.pricing ? config.pricing[duration] : DEFAULT_PRICING[duration] || 'null'
 
   const edgeRole = useReduxEdgeRole()
+
+  const rawRoleHint =
+    edgeRole && config.customFields?.roleHints
+      ? config.customFields.roleHints[edgeRole]
+      : undefined
+  const roleHint = rawRoleHint
+    ? typeof rawRoleHint === 'string'
+      ? rawRoleHint
+      : duration
+        ? rawRoleHint[duration]
+        : undefined
+    : undefined
+  const pricingLabel = roleHint ?? (duration ? config.pricingLabels?.[duration] : undefined)
   const { processPendingUpdates } = useLocationSync(config, eventContainers)
   const { validateForm, getLocationWarning } = useBookingValidation(config)
   const initialValues = useBookingInitialValues({
@@ -166,6 +179,7 @@ export default function BookingForm({
                     startString={startString}
                     endString={endString}
                     price={price}
+                    pricingLabel={pricingLabel}
                     acceptingPayment={acceptingPayment}
                     discount={config.discount}
                     formData={values}

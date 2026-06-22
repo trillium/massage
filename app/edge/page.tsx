@@ -30,7 +30,7 @@ export default async function EdgeLandingPage({ searchParams }: Props) {
   const { role: roleParam } = await searchParams
   const role = isEdgeRole(roleParam) ? roleParam : undefined
 
-  const officeHoursHref = role ? `/edge-office-hours?role=${role}` : '/edge-office-hours'
+  const officeHoursHref = role ? `/edge-office?role=${role}` : '/edge-office'
   const privateHref = role ? `/edge-private?role=${role}` : '/edge-private'
 
   return (
@@ -65,7 +65,6 @@ export default async function EdgeLandingPage({ searchParams }: Props) {
                   <TextSm className="text-accent-500">
                     Volunteers: 15 min complimentary, tip for time above
                   </TextSm>
-                  <TextSm className="text-accent-500">Team members: fully complimentary</TextSm>
                 </Stack>
               </Box>
 
@@ -84,9 +83,6 @@ export default async function EdgeLandingPage({ searchParams }: Props) {
                   <TextSm className="text-accent-500">
                     Volunteers: +30 min bonus on any booking
                   </TextSm>
-                  <TextSm className="text-accent-500">
-                    Team members: 60/90/120 fully complimentary
-                  </TextSm>
                 </Stack>
               </Box>
             </Stack>
@@ -102,6 +98,11 @@ export default async function EdgeLandingPage({ searchParams }: Props) {
               <Button className="w-full py-4 text-base" variant="outline" size="lg">
                 Book Private Session
               </Button>
+            </Link>
+            <Link href="/edge-team">
+              <TextSm className="text-center text-primary-600 hover:underline dark:text-primary-400">
+                On the Edge team? Go to your team booking page →
+              </TextSm>
             </Link>
           </Stack>
 

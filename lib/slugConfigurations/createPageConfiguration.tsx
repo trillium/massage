@@ -184,6 +184,8 @@ export async function createPageConfiguration({
     const cutoff = new Date(Date.now() + configuration.availabilityWindowMinutes * 60 * 1000)
     const next = slots.find((slot) => new Date(slot.start) <= cutoff)
     slots = next ? [next] : []
+  } else if (configuration?.nextSlotOnly) {
+    slots = slots.length > 0 ? [slots[0]] : []
   }
 
   if (debugInfo) {
