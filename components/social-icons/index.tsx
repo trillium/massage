@@ -14,6 +14,7 @@ import {
 } from './icons'
 import clsx from 'clsx'
 import Link from '@/components/Link'
+import { TextSm } from '@/components/ui/text'
 
 const components = {
   mail: Mail,
@@ -83,8 +84,10 @@ const SocialIcon = ({ kind, href, size = 8 }: SocialIconProps) => {
   const SocialSvg = components[kind]
 
   return (
-    <Link className="text-sm transition" target="_blank" rel="noopener noreferrer" href={href}>
-      <span className="sr-only">{kind}</span>
+    <Link className="transition" target="_blank" rel="noopener noreferrer" href={href}>
+      <TextSm as="span" className="sr-only">
+        {kind}
+      </TextSm>
       <SocialSvg
         className={clsx(
           'hover:text-primary-500 dark:hover:text-primary-400 fill-current text-accent-400 dark:text-accent-200',

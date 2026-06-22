@@ -8,6 +8,7 @@ import { Box } from '@/components/ui/box'
 import { Stack } from '@/components/ui/stack'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
+import { TextSm, TextSmMono } from '@/components/ui/text'
 
 const KNOWN_QUERIES = [
   'free-30',
@@ -137,8 +138,10 @@ export default function CreateContainerPage() {
         />
 
         <Box className="rounded-md border border-accent-200 bg-accent-50 px-3 py-2 text-sm dark:border-accent-700 dark:bg-surface-900">
-          <span className="text-accent-500 dark:text-accent-400">{'Event title: '}</span>
-          <span className="font-mono text-accent-900 dark:text-accent-100">{eventTitle}</span>
+          <TextSm as="span" status="muted">
+            {'Event title: '}
+          </TextSm>
+          <TextSmMono as="span">{eventTitle}</TextSmMono>
         </Box>
 
         <Button onClick={handleSubmit} disabled={!canSubmit} className="w-full">

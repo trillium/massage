@@ -228,9 +228,9 @@ export function TestimonialsCarousel({ reviews }: { reviews: ReviewType[] }) {
                 'bg-surface-300 dark:bg-surface-600': idx !== current,
               })}
             >
-              <span className="sr-only">
+              <TextSm as="span" className="sr-only">
                 {goToReviewLabel} {idx + 1}
-              </span>
+              </TextSm>
             </label>
           </React.Fragment>
         ))}

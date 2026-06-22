@@ -3,7 +3,7 @@
 import { Transition } from '@headlessui/react'
 import { RAFFLE_INTEREST_OPTIONS } from '@/lib/schema'
 import { fieldClasses } from './classes'
-import { TextSmSemibold, TextXsMuted, TextBase } from '@/components/ui/text'
+import { TextSmSemibold, TextXsMuted, TextBase, TextPrimary } from '@/components/ui/text'
 
 import { Input } from '@/components/ui/input'
 import { Stack } from '@/components/ui/stack'
@@ -52,7 +52,7 @@ export default function RaffleOptInField({
         <Box className="mt-4 space-y-4 border-t border-primary-200 pb-3 pt-4 dark:border-primary-700">
           <Box>
             <label htmlFor="raffleZipCode" className={fieldClasses.label}>
-              Home zip code <span className="text-primary-500">*</span>
+              Home zip code <TextPrimary as="span">*</TextPrimary>
             </label>
             <Input
               type="text"
@@ -67,7 +67,7 @@ export default function RaffleOptInField({
 
           <Box>
             <TextBase className={fieldClasses.label}>
-              Interested in <span className="text-primary-500">*</span>
+              Interested in <TextPrimary as="span">*</TextPrimary>
             </TextBase>
             <Box className="mt-1 space-y-2">
               {RAFFLE_INTEREST_OPTIONS.map(({ value, label }) => (

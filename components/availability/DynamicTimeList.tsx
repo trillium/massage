@@ -5,7 +5,7 @@ import { StringDateTimeIntervalAndLocation } from '@/lib/types'
 import { DEFAULT_DURATION } from 'config'
 import TimeList from '@/components/availability/time/TimeList'
 import booking from '@/data/booking.json'
-import { TextXs, TextBase } from '@/components/ui/text'
+import { TextXs, TextBase, TextSmMedium } from '@/components/ui/text'
 import { Box } from '@/components/ui/box'
 
 type DynamicTimeListProps = {
@@ -24,7 +24,7 @@ export function DynamicTimeList({ multiDurationSlots }: DynamicTimeListProps) {
   return (
     <Box className="space-y-3">
       <Box className="text-sm text-accent-600 dark:text-accent-400">
-        <span className="font-medium">{currentSlots.length}</span>{' '}
+        <TextSmMedium as="span">{currentSlots.length}</TextSmMedium>{' '}
         {booking.availability.availableSlotLabel}
         {currentSlots.length !== 1
           ? booking.availability.slotPlural

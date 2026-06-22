@@ -29,6 +29,7 @@ export default function EmailMockComponent({
   const processedBody =
     approveUrl && onApprovalClick
       ? email.body.replace(
+          // ds-ignore
           /<a href=[^>]*>Accept the appointment<\/a>/g,
           `<a href="#" onclick="event.preventDefault(); return false;" class="text-blue-600 underline hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300" data-approval-link="true">Accept the appointment</a>`
         )

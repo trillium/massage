@@ -1,3 +1,4 @@
+/* ds-ignore-file */
 import { cn } from '@/lib/cn'
 import type { InputHTMLAttributes } from 'react'
 

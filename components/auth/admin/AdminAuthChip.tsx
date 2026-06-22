@@ -5,6 +5,7 @@ import Link from '@/components/Link'
 import authHeaderNavLinks from '@/data/authHeaderNavLinks'
 import { FaCheck, FaChevronDown } from 'react-icons/fa'
 import auth from '@/data/auth.json'
+import { TextSm } from '@/components/ui/text'
 
 import { Button } from '@/components/ui/button'
 import { Stack } from '@/components/ui/stack'
@@ -25,12 +26,12 @@ export function AdminAuthChip({ adminEmail, onLogout }: AdminAuthChipProps) {
       <Menu as="div">
         <MenuButton className="rounded-br-3xl border-b border-l bg-blue-50 px-4 py-2 text-sm transition-colors hover:bg-blue-100 dark:bg-blue-900/20 dark:hover:bg-blue-900/30">
           <Stack direction="row" align="center" justify="between">
-            <span className="flex items-center text-blue-800 dark:text-blue-200">
+            <TextSm as="span" status="info" className="flex items-center">
               <FaCheck className="mr-1" /> {auth.authChip.admin} {adminEmail}
-            </span>
-            <span className="pl-2 text-blue-600 dark:text-blue-300">
+            </TextSm>
+            <TextSm as="span" status="info" className="pl-2">
               <FaChevronDown />
-            </span>
+            </TextSm>
           </Stack>
         </MenuButton>
         <MenuItems className="ring-opacity-5 absolute right-0 mt-2 w-56 origin-top-right divide-y divide-accent-100 rounded-md bg-surface-50 shadow-lg ring-1 ring-black focus:outline-none dark:divide-accent-700 dark:bg-surface-800">

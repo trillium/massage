@@ -6,7 +6,14 @@ import SectionContainer from '@/components/SectionContainer'
 import Link from 'next/link'
 import { useReduxContactForm } from '@/redux/hooks'
 import { H1 } from '@/components/ui/heading'
-import { Caption, TextLg, TextSmMuted, TextBase, TextBaseSemibold } from '@/components/ui/text'
+import {
+  Caption,
+  TextLg,
+  TextSmMuted,
+  TextBase,
+  TextBaseSemibold,
+  TextSmSemibold,
+} from '@/components/ui/text'
 import { Stack } from '@/components/ui/stack'
 import { Box } from '@/components/ui/box'
 
@@ -51,7 +58,7 @@ function ContactSubmittedContent() {
           <>
             <TextLg className="mb-2">
               Thank you, {contactForm.name}. We've received your message and sent a confirmation to{' '}
-              <span className="font-semibold">{contactForm.email}</span>.
+              <TextSmSemibold as="span">{contactForm.email}</TextSmSemibold>.
             </TextLg>
             <TextBase status="surface" className="mb-6">
               We'll get back to you as soon as possible.

@@ -11,6 +11,7 @@ import {
   useReduxEdgeRole,
 } from '@/redux/hooks'
 import { GeneratePrice } from '@/components/ui/atoms/GeneratePriceAtom'
+import { TextSm } from '@/components/ui/text'
 import type { durationPropsType } from '@/lib/types'
 
 import { PeerRadio } from '@/components/ui/peer-radio'
@@ -65,7 +66,9 @@ export default function DurationPicker({
           {pricingLabel ? ',' : ''}
         </span>{' '}
         {pricingLabel ? (
-          <span className="text-primary-600 dark:text-primary-400">{pricingLabel}</span>
+          <TextSm as="span" status="primary">
+            {pricingLabel}
+          </TextSm>
         ) : (
           !hidePricing &&
           showPrice && <GeneratePrice price={sessionCost} discount={configuration?.discount} />

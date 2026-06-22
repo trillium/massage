@@ -13,6 +13,7 @@ import { LoginForm } from '@/components/auth/supabase/LoginForm'
 import { Suspense } from 'react'
 import { H1 } from '@/components/ui/heading'
 import { TextSmMuted } from '@/components/ui/text'
+import CustomLink from '@/components/Link'
 import { Stack } from '@/components/ui/stack'
 import { Box } from '@/components/ui/box'
 
@@ -36,9 +37,9 @@ function LoginContent({ redirectTo }: { redirectTo?: string }) {
 
         <TextSmMuted className="mt-6 text-center">
           New here?{' '}
-          <a href="/" className="font-medium text-blue-600 hover:text-blue-500">
+          <CustomLink href="/" classes="font-medium text-blue-600 hover:text-blue-500">
             Learn more
-          </a>
+          </CustomLink>
         </TextSmMuted>
       </Box>
     </Stack>

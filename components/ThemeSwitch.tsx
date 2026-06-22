@@ -6,6 +6,7 @@ import { Menu, MenuButton, MenuItem, MenuItems, Transition } from '@headlessui/r
 import ui from '@/data/ui.json'
 
 import { Stack } from '@/components/ui/stack'
+import { TextSm } from '@/components/ui/text'
 import { Box } from '@/components/ui/box'
 import { Button } from '@/components/ui/button'
 
@@ -99,11 +100,11 @@ const ThemeSwitch = () => {
                             : 'text-accent-700 dark:text-accent-300'
                       }`}
                     >
-                      <span className="mr-2">
+                      <TextSm as="span" className="mr-2">
                         {t === 'light' && <Sun />}
                         {t === 'dark' && <Moon />}
                         {t === 'system' && <Monitor />}
-                      </span>
+                      </TextSm>
                       {t === 'light'
                         ? ui.themeSwitch.light
                         : t === 'dark'

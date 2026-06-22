@@ -79,7 +79,7 @@ export function UserMenu() {
             <Box className="p-2">
               <Box className="px-3 py-2 text-sm text-accent-700">
                 <Box>
-                  <span className="font-medium">{auth.userMenu.userIdLabel}</span>
+                  <TextSmMedium as="span">{auth.userMenu.userIdLabel}</TextSmMedium>
                   <Box className="mt-1 font-mono text-xs text-accent-500">
                     {user.id.slice(0, 8)}
                     {auth.userMenu.userIdEllipsis}
@@ -87,7 +87,7 @@ export function UserMenu() {
                 </Box>
                 {profile?.created_at && (
                   <Box className="mt-2">
-                    <span className="font-medium">{auth.userMenu.memberSinceLabel}</span>
+                    <TextSmMedium as="span">{auth.userMenu.memberSinceLabel}</TextSmMedium>
                     <Box className="text-xs text-accent-500">
                       {new Date(profile.created_at).toLocaleDateString()}
                     </Box>

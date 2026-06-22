@@ -6,7 +6,7 @@ import { RAFFLE_INTEREST_OPTIONS } from '@/lib/schema'
 import raffleData from '@/data/raffle.json'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { TextBase } from '@/components/ui/text'
+import { TextBase, TextPrimary } from '@/components/ui/text'
 import {
   type RaffleFormProps,
   type FormValues,
@@ -57,7 +57,7 @@ export default function RaffleForm({ raffleId, raffleName }: RaffleFormProps) {
             <Box>
               <label htmlFor="name" className={labelClasses}>
                 {formText.nameLabel}{' '}
-                <span className="text-primary-500">{formText.requiredAsterisk}</span>
+                <TextPrimary as="span">{formText.requiredAsterisk}</TextPrimary>
               </label>
               <Field
                 type="text"
@@ -75,7 +75,7 @@ export default function RaffleForm({ raffleId, raffleName }: RaffleFormProps) {
             <Box>
               <label htmlFor="email" className={labelClasses}>
                 {formText.emailLabel}{' '}
-                <span className="text-primary-500">{formText.requiredAsterisk}</span>
+                <TextPrimary as="span">{formText.requiredAsterisk}</TextPrimary>
               </label>
               <Field
                 type="email"
@@ -101,7 +101,7 @@ export default function RaffleForm({ raffleId, raffleName }: RaffleFormProps) {
             <Box>
               <label htmlFor="phone" className={labelClasses}>
                 {formText.phoneLabel}{' '}
-                <span className="text-primary-500">{formText.requiredAsterisk}</span>
+                <TextPrimary as="span">{formText.requiredAsterisk}</TextPrimary>
               </label>
               <Field
                 type="tel"
@@ -119,7 +119,7 @@ export default function RaffleForm({ raffleId, raffleName }: RaffleFormProps) {
             <Box>
               <label htmlFor="zip_code" className={labelClasses}>
                 {formText.zipCodeLabel}{' '}
-                <span className="text-primary-500">{formText.requiredAsterisk}</span>
+                <TextPrimary as="span">{formText.requiredAsterisk}</TextPrimary>
               </label>
               <Field
                 type="text"
@@ -138,7 +138,7 @@ export default function RaffleForm({ raffleId, raffleName }: RaffleFormProps) {
             <Box>
               <TextBase className={labelClasses}>
                 {formText.interestedLabel}{' '}
-                <span className="text-primary-500">{formText.requiredAsterisk}</span>
+                <TextPrimary as="span">{formText.requiredAsterisk}</TextPrimary>
               </TextBase>
               <Box className="space-y-2">
                 {RAFFLE_INTEREST_OPTIONS.map(({ value, label }) => (

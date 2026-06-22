@@ -6,7 +6,7 @@ import admin from '@/data/admin.json'
 import { adminFetch } from '@/lib/adminFetch'
 import clsx from 'clsx'
 import { H3 } from '@/components/ui/heading'
-import { TextSmMuted } from '@/components/ui/text'
+import { TextSmMuted, TextSmMedium } from '@/components/ui/text'
 
 import { Button } from '@/components/ui/button'
 import { Stack } from '@/components/ui/stack'
@@ -173,10 +173,10 @@ export default function TimeBlocker({ eventContainer }: TimeBlockerProps) {
               key={b.id}
               className="flex items-center justify-between rounded border border-accent-100 bg-white px-3 py-2 text-sm dark:border-accent-600 dark:bg-surface-700"
             >
-              <span className="font-medium text-accent-800 dark:text-accent-200">
+              <TextSmMedium as="span" status="subtle">
                 {/* biome-ignore lint/style/noJsxLiterals: time range separator */}
                 {formatTime(b.start.dateTime)} – {formatTime(b.end.dateTime)}
-              </span>
+              </TextSmMedium>
               <Button
                 type="button"
                 onClick={() => deleteBlock(b.id)}

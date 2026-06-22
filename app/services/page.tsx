@@ -7,7 +7,7 @@ import pages from '@/data/pages.json'
 import type { ServiceTypePriced } from '@/lib/types'
 import { H1, H2 } from '@/components/ui/heading'
 
-import { TextBase } from '@/components/ui/text'
+import { TextBase, TextSmMedium } from '@/components/ui/text'
 import { Stack } from '@/components/ui/stack'
 import { Box } from '@/components/ui/box'
 
@@ -50,26 +50,26 @@ function ServiceItem({
         {description}
       </TextBase>
       <Box className="mb-2 text-accent-600 dark:text-accent-400">
-        <span className="font-medium">{pages.services.serviceItem.labels.duration}</span>{' '}
+        <TextSmMedium as="span">{pages.services.serviceItem.labels.duration}</TextSmMedium>{' '}
         {duration.join(' / ')}
         {pages.services.serviceItem.durationSuffix}
       </Box>
       <Box className="mb-4 text-accent-600 dark:text-accent-400">
-        <span className="font-medium">{pages.services.serviceItem.labels.price}</span>{' '}
+        <TextSmMedium as="span">{pages.services.serviceItem.labels.price}</TextSmMedium>{' '}
         {pages.services.serviceItem.labels.pricePrefix}
         {price.join(' / ' + pages.services.serviceItem.labels.pricePrefix)}{' '}
         {type === 'split-chair' && (
-          <span className="font-medium">{pages.services.serviceItem.labels.perParticipant}</span>
+          <TextSmMedium as="span">{pages.services.serviceItem.labels.perParticipant}</TextSmMedium>
         )}
       </Box>
       {type === 'split-chair' && (
         <Box className="mb-4 text-accent-600 dark:text-accent-400">
-          <span className="font-medium">{pages.services.serviceItem.notes.splitChair}</span>
+          <TextSmMedium as="span">{pages.services.serviceItem.notes.splitChair}</TextSmMedium>
         </Box>
       )}
       {type === 'back-to-back' && (
         <Box className="mb-4 text-accent-600 dark:text-accent-400">
-          <span className="font-medium">{pages.services.serviceItem.notes.backToBack}</span>
+          <TextSmMedium as="span">{pages.services.serviceItem.notes.backToBack}</TextSmMedium>
         </Box>
       )}
       <Stack className="space-x-4" direction="row">

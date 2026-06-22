@@ -237,9 +237,7 @@ export default async function EventPage({ params, searchParams }: EventPageProps
                   >
                     <link.icon className={`shrink-0 text-2xl ${link.iconColor}`} />
                     <Box>
-                      <span className="font-semibold text-accent-900 dark:text-accent-100">
-                        {link.label}
-                      </span>
+                      <TextSmSemibold as="span">{link.label}</TextSmSemibold>
                       <TextSmMuted>{link.description}</TextSmMuted>
                     </Box>
                   </Link>

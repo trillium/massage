@@ -8,7 +8,13 @@ import { useReduxFormData } from '@/redux/hooks'
 
 import { RAFFLE_INTEREST_LABELS } from '@/lib/schema'
 import { H1 } from '@/components/ui/heading'
-import { TextLg, TextSmMuted, TextBase, TextBaseSemibold } from '@/components/ui/text'
+import {
+  TextLg,
+  TextSmMuted,
+  TextBase,
+  TextBaseSemibold,
+  TextSmSemibold,
+} from '@/components/ui/text'
 import { Stack } from '@/components/ui/stack'
 import { Box } from '@/components/ui/box'
 
@@ -33,7 +39,7 @@ export default function NerdstageRaffleEnteredPage() {
         <H1 className="mb-4">You're Entered!</H1>
         {raffleName && (
           <TextLg className="mb-2">
-            Raffle: <span className="font-semibold">{raffleName}</span>
+            Raffle: <TextSmSemibold as="span">{raffleName}</TextSmSemibold>
           </TextLg>
         )}
         <TextBase status="surface" className="mb-6">

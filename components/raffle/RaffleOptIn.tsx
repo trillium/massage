@@ -39,7 +39,7 @@ function InterestCheckboxes({
   return (
     <Box>
       <TextSmMedium className="block">
-        {raffle.interestedLabel} <span className="text-primary-500">{raffle.requiredAsterisk}</span>
+        {raffle.interestedLabel} <TextPrimary as="span">{raffle.requiredAsterisk}</TextPrimary>
       </TextSmMedium>
       <Box className="mt-1 space-y-2">
         {RAFFLE_INTEREST_OPTIONS.map(({ value, label }) => (
