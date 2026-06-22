@@ -6,6 +6,7 @@ export default function requestEventDescription({
   lastName,
   email,
   phone,
+  telegramHandle,
   start,
   end,
   duration,
@@ -21,7 +22,8 @@ export default function requestEventDescription({
   firstName: string
   lastName: string
   email: string
-  phone: string
+  phone?: string
+  telegramHandle?: string
   start: string
   end: string
   duration: string
@@ -45,7 +47,9 @@ export default function requestEventDescription({
   output += `<b>Date</b>: ${dateSummary}\n`
   output += `<b>Duration</b>: ${duration} minutes\n`
   output += `<b>Email</b>: ${email}\n`
-  output += `<b>Phone</b>: ${phone}\n`
+  if (phone && phone.trim() !== '') output += `<b>Phone</b>: ${phone}\n`
+  if (telegramHandle && telegramHandle.trim() !== '')
+    output += `<b>Telegram</b>: ${telegramHandle}\n`
   output += `<b>Location</b>: ${location}\n`
   output += `<b>Client Timezone</b>: ${timeZone}\n`
   if (additionalNotes) output += `<b>Notes</b>: ${additionalNotes}\n`

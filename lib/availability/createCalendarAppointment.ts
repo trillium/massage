@@ -27,6 +27,7 @@ async function buildEventBody({
   email,
   location,
   phone,
+  telegramHandle,
   requestId,
   firstName,
   lastName,
@@ -40,7 +41,6 @@ async function buildEventBody({
   slugConfiguration,
   customDescription,
 }: AppointmentProps & { customDescription?: string }) {
-  // Use custom description if provided, otherwise generate standard description
   const description =
     customDescription ||
     (await eventDescription({
@@ -49,6 +49,7 @@ async function buildEventBody({
       summary,
       email,
       phone,
+      telegramHandle,
       duration,
       location,
       firstName,

@@ -102,6 +102,7 @@ export async function handleAppointmentRequest({
     firstName: escapeHtml(data.firstName),
     lastName: escapeHtml(data.lastName),
     phone: escapeHtml(data.phone),
+    telegramHandle: data.telegramHandle ? escapeHtml(data.telegramHandle) : data.telegramHandle,
     email: escapeHtml(data.email),
     promo: data.promo ? escapeHtml(data.promo) : data.promo,
     timeZone: escapeHtml(data.timeZone),
@@ -147,6 +148,7 @@ export async function handleAppointmentRequest({
       end: data.end,
       clientEmail: data.email,
       clientPhone: data.phone,
+      clientTelegramHandle: data.telegramHandle, // TODO: persist to client_telegram_handle once RPC updated
       clientFirstName: data.firstName,
       clientLastName: data.lastName,
       durationMinutes: Number.parseInt(data.duration, 10),
@@ -240,6 +242,7 @@ export async function handleAppointmentRequest({
     end: data.end,
     clientEmail: data.email,
     clientPhone: data.phone,
+    clientTelegramHandle: data.telegramHandle, // TODO: persist to client_telegram_handle once RPC updated
     clientFirstName: data.firstName,
     clientLastName: data.lastName,
     durationMinutes: Number.parseInt(data.duration, 10),
@@ -283,6 +286,7 @@ export async function handleAppointmentRequest({
       lastName: data.lastName,
       email: data.email,
       phone: data.phone,
+      telegramHandle: data.telegramHandle,
       start: data.start,
       end: data.end,
       duration: data.duration,

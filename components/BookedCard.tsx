@@ -13,6 +13,7 @@ export function BookedCard({
   lastName,
   location,
   phone,
+  telegramHandle,
   email,
   state,
   price,
@@ -29,7 +30,8 @@ export function BookedCard({
   firstName: string
   lastName: string
   location: string
-  phone: string
+  phone?: string
+  telegramHandle?: string
   email: string
   state?: 'Pending' | 'Confirmed' | 'Declined'
   price?: number | string
@@ -43,7 +45,12 @@ export function BookedCard({
   const cards = [
     { title: ui.bookedCard.name, text: `${firstName} ${lastName}`, emphasize: true },
     { title: ui.bookedCard.location, text: location, emphasize: false },
-    { title: ui.bookedCard.phone, text: phone, emphasize: false },
+    ...(phone && phone.trim() !== ''
+      ? [{ title: ui.bookedCard.phone, text: phone, emphasize: false }]
+      : []),
+    ...(telegramHandle && telegramHandle.trim() !== ''
+      ? [{ title: ui.bookedCard.telegram, text: telegramHandle, emphasize: false }]
+      : []),
     { title: ui.bookedCard.email, text: email, emphasize: false },
     ...(promo ? [{ title: ui.bookedCard.promo, text: promo, emphasize: false }] : []),
     ...(hotelRoomNumber

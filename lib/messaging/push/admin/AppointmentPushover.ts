@@ -29,7 +29,9 @@ export function AppointmentPushover(
   if (data.price) message += `Price: $${data.price}\n`
   if (data.promo) message += `Promo: ${data.promo}\n`
   message += `Duration: ${data.duration} minutes\n`
-  message += `Phone: ${data.phone}\n`
+  if (data.phone && data.phone.trim() !== '') message += `Phone: ${data.phone}\n`
+  if (data.telegramHandle && data.telegramHandle.trim() !== '')
+    message += `Telegram: ${data.telegramHandle}\n`
   message += `Email: ${data.email}\n`
   if (data.hotelRoomNumber) message += `Hotel Room: ${data.hotelRoomNumber}\n`
   if (data.parkingInstructions) message += `Parking: ${data.parkingInstructions}\n`

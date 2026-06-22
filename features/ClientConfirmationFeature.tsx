@@ -31,13 +31,15 @@ export default function Confirmation() {
     })
   }
   // Get form data from Redux
-  const { firstName, lastName, locationString, phone, email, promo, bookingUrl } =
+  const { firstName, lastName, locationString, phone, telegramHandle, email, promo, bookingUrl } =
     useReduxFormData()
   const { pricing: pricingRedux } = useReduxConfig()
   const { duration } = useReduxAvailability()
 
   const pricing = pricingRedux || DEFAULT_PRICING
   const price = duration ? pricing[duration] : 'null'
+
+  const hasContact = (phone?.trim() ?? '') !== '' || (telegramHandle?.trim() ?? '') !== ''
 
   const BookedData = {
     dateString: dateString!,
@@ -47,7 +49,8 @@ export default function Confirmation() {
     firstName: firstName!,
     lastName: lastName!,
     location: locationString || '',
-    phone: phone!,
+    phone,
+    telegramHandle,
     email: email!,
     price: price,
     promo: promo || undefined,
@@ -55,14 +58,13 @@ export default function Confirmation() {
     duration,
   }
 
-  // If BookedData is missing required fields, redirect to home
   if (
     !BookedData.dateString ||
     !BookedData.startString ||
     !BookedData.endString ||
     !BookedData.firstName ||
     !BookedData.lastName ||
-    !BookedData.phone ||
+    !hasContact ||
     !BookedData.email
   ) {
     redirect('/')
@@ -84,7 +86,7 @@ export default function Confirmation() {
       <BookedCard {...BookedData} />
 
       {bookingUrl === 'openclaw' && (
-        <RaffleOptIn name={`${firstName} ${lastName}`} email={email!} phone={phone!} />
+        <RaffleOptIn name={`${firstName} ${lastName}`} email={email!} phone={phone ?? ''} />
       )}
 
       <div className="flex flex-grow items-center justify-center pt-12">

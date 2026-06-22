@@ -23,6 +23,7 @@
     "name": "Name",
     "location": "Location",
     "phone": "Phone",
+    "telegram": "Telegram",
     "email": "Email",
     "promo": "Promo",
     "room": "Room",

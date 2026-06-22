@@ -6,6 +6,7 @@ function eventDescription({
   start,
   end,
   phone,
+  telegramHandle,
   duration,
   email,
   location,
@@ -31,8 +32,11 @@ function eventDescription({
   if (email) {
     output += `<b>Email</b>: ${email}\n`
   }
-  if (phone) {
+  if (phone && phone.trim() !== '') {
     output += `<b>Phone</b>: ${phone}\n`
+  }
+  if (telegramHandle && telegramHandle.trim() !== '') {
+    output += `<b>Telegram</b>: ${telegramHandle}\n`
   }
 
   // Handle both string and LocationObject

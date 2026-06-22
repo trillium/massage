@@ -17,6 +17,7 @@ export function ApprovalEmail({
   timeZone,
   price,
   phone,
+  telegramHandle,
   duration,
   bookingUrl,
   promo,
@@ -38,7 +39,8 @@ export function ApprovalEmail({
     `${price ? `<b>Price:</b> $${price}` : ''}`,
     `${promo ? `<b>Promo Applied:</b> ${promo}` : ''}`,
     `<b>Duration:</b> ${duration} minutes`,
-    `<b>Phone Number:</b> ${phone}`,
+    `${phone && phone.trim() !== '' ? `<b>Phone Number:</b> ${phone}` : ''}`,
+    `${telegramHandle && telegramHandle.trim() !== '' ? `<b>Telegram:</b> ${telegramHandle}` : ''}`,
     `${bookingUrl ? `<b>Booking Page:</b> <a href="${bookingUrl}">${bookingUrl}</a>` : ''}`,
     ...(data
       ? [
