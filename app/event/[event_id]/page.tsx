@@ -22,12 +22,12 @@ import {
   TextSmMedium,
   TextSmSemibold,
   TextXsMuted,
-  TextBase,
 } from '@/components/ui/text'
 import { H1 } from '@/components/ui/heading'
 import { Stack } from '@/components/ui/stack'
 import { Box } from '@/components/ui/box'
 import { StatusBadge, DetailRow } from './EventStatusComponents'
+import EventErrorPage from './EventErrorPage'
 import Image from 'next/image'
 
 interface EventPageProps {
@@ -39,50 +39,37 @@ export default async function EventPage({ params, searchParams }: EventPageProps
   const { event_id } = await params
   const { token } = await searchParams
 
-  if (!token) {
+  if (!token)
     return (
-      <SectionContainer>
-        <Box className="py-16 text-center">
-          <H1 className="dark:text-white">{eventContent.page.accessDenied.heading}</H1>
-          <TextBase status="secondary" className="mt-2">
-            {eventContent.page.accessDenied.message}
-          </TextBase>
-        </Box>
-      </SectionContainer>
+      <EventErrorPage
+        heading={eventContent.page.accessDenied.heading}
+        message={eventContent.page.accessDenied.message}
+      />
     )
-  }
 
   const result = verifyEventToken(token, event_id)
 
-  if (!result.valid) {
+  if (!result.valid)
     return (
-      <SectionContainer>
-        <Box className="py-16 text-center">
-          <H1 className="dark:text-white">{eventContent.page.invalidLink.heading}</H1>
-          <TextBase status="secondary" className="mt-2">
-            {result.error === 'Token expired'
-              ? eventContent.page.invalidLink.expiredMessage
-              : eventContent.page.invalidLink.invalidMessage}
-          </TextBase>
-        </Box>
-      </SectionContainer>
+      <EventErrorPage
+        heading={eventContent.page.invalidLink.heading}
+        message={
+          result.error === 'Token expired'
+            ? eventContent.page.invalidLink.expiredMessage
+            : eventContent.page.invalidLink.invalidMessage
+        }
+      />
     )
-  }
 
   const event = await fetchSingleEvent(event_id)
 
-  if (!event) {
+  if (!event)
     return (
-      <SectionContainer>
-        <Box className="py-16 text-center">
-          <H1 className="dark:text-white">{eventContent.page.notFound.heading}</H1>
-          <TextBase status="secondary" className="mt-2">
-            {eventContent.page.notFound.message}
-          </TextBase>
-        </Box>
-      </SectionContainer>
+      <EventErrorPage
+        heading={eventContent.page.notFound.heading}
+        message={eventContent.page.notFound.message}
+      />
     )
-  }
 
   const { status, duration, clientName } = parseEventSummary(event.summary || '', event.status)
 
