@@ -31,7 +31,7 @@ export default async function EdgeLandingPage({ searchParams }: Props) {
   const role = isEdgeRole(roleParam) ? roleParam : undefined
 
   const officeHoursHref = role ? `/edge-office?role=${role}` : '/edge-office'
-  const privateHref = role ? `/edge-private?role=${role}` : '/edge-private'
+  const destinationHref = role ? `/edge-destination?role=${role}` : '/edge-destination'
 
   return (
     <SectionContainer>
@@ -67,12 +67,12 @@ export default async function EdgeLandingPage({ searchParams }: Props) {
               </Box>
 
               <Box className="border-t border-surface-200 pt-4 dark:border-surface-700">
-                <Link href={privateHref}>
-                  <H3 status="primary">Private Sessions</H3>
+                <Link href={destinationHref}>
+                  <H3 status="primary">Destination Sessions</H3>
                 </Link>
                 <TextBase status="secondary" className="mt-1">
-                  Dedicated session on a massage table. Book at least 2 hours in advance. Location
-                  can be of your choosing :)
+                  Dedicated session on a massage table at a destination of your choosing. Book at
+                  least 2 hours in advance.
                 </TextBase>
                 <Stack direction="col" gap={1} className="mt-2">
                   <TextSm status="muted">Attendees: +15 min bonus on any booking</TextSm>
@@ -88,9 +88,9 @@ export default async function EdgeLandingPage({ searchParams }: Props) {
                 Book Office Hours
               </Button>
             </Link>
-            <Link href={privateHref}>
+            <Link href={destinationHref}>
               <Button className="w-full py-4" variant="outline" size="lg">
-                Book Private Session
+                Book Destination Session
               </Button>
             </Link>
             <Link href="/edge-team">

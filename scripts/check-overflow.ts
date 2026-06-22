@@ -39,7 +39,7 @@ const ROUTES = [
   '/design-system',
   '/edge',
   '/edge-office-hours',
-  '/edge-private',
+  '/edge-destination',
   '/faq',
   '/gallery',
   '/pricing',

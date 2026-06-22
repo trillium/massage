@@ -40,12 +40,12 @@ export default function EdgeTeamLandingPage() {
               </Box>
 
               <Box className="border-t border-surface-200 pt-4 dark:border-surface-700">
-                <Link href="/edge-team-private">
-                  <H3 status="primary">Private Sessions</H3>
+                <Link href="/edge-team-destination">
+                  <H3 status="primary">Destination Sessions</H3>
                 </Link>
                 <TextBase status="secondary" className="mt-1">
-                  Dedicated session on a massage table. Book at least 2 hours in advance. Location
-                  can be of your choosing.
+                  Dedicated session on a massage table at a destination of your choosing. Book at
+                  least 2 hours in advance.
                 </TextBase>
                 <Stack direction="col" gap={1} className="mt-2">
                   <TextSm status="muted">60/90/120 minute sessions fully complimentary</TextSm>
@@ -60,9 +60,9 @@ export default function EdgeTeamLandingPage() {
                 Book Office Hours
               </Button>
             </Link>
-            <Link href="/edge-team-private">
+            <Link href="/edge-team-destination">
               <Button className="w-full py-4" variant="outline" size="lg">
-                Book Private Session
+                Book Destination Session
               </Button>
             </Link>
             <Link href="/edge">

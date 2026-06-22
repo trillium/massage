@@ -22,12 +22,12 @@ function tipHints(freeMinutes: number, durations: number[]): Record<number, stri
   )
 }
 
-type EdgeScope = 'office' | 'private'
+type EdgeScope = 'office' | 'destination'
 type PublicRole = 'attendee' | 'volunteer'
 
 const EDGE_MIN: Record<EdgeScope, Record<PublicRole, number>> = {
   office: { attendee: 10, volunteer: 15 },
-  private: { attendee: 15, volunteer: 30 },
+  destination: { attendee: 15, volunteer: 30 },
 }
 
 function edgeMin(scope: EdgeScope, role: PublicRole): number {
@@ -67,7 +67,7 @@ const edgeOfficeBase = {
   },
 }
 
-const edgePrivateBase = {
+const edgeDestinationBase = {
   ...edgeBase,
   eventContainer: 'edge_private',
   defaultDuration: 60,
@@ -76,7 +76,7 @@ const edgePrivateBase = {
   pricingLabels: { 60: 'Complimentary', 90: 'Complimentary', 120: 'Complimentary' },
   leadTimeMinimum: 120,
   heroImage: {
-    src: '/static/images/edge/edge-private.png',
+    src: '/static/images/edge/edge-destination.png',
     alt: 'Massage table on a winding road with a Shoulder Work Ahead sign',
   },
 }
@@ -105,21 +105,21 @@ export const edgeSlugConfigurations: SlugConfigurationType[] = [
     },
   },
   {
-    ...edgePrivateBase,
-    bookingSlug: ['edge-private'],
-    title: 'Edge Esmeralda — Private Session',
+    ...edgeDestinationBase,
+    bookingSlug: ['edge-destination'],
+    title: 'Edge Esmeralda — Destination Session',
     text: [
-      'Table massage in a private setting (ideally your hotel/Airbnb). Book at least 2 hours in advance.',
-      `Attendees: +${edgeMin('private', 'attendee')} min bonus on any booking. Volunteers: +${edgeMin('private', 'volunteer')} min bonus on any booking.`,
+      'Table massage at a destination of your choosing (ideally your hotel/Airbnb). Book at least 2 hours in advance.',
+      `Attendees: +${edgeMin('destination', 'attendee')} min bonus on any booking. Volunteers: +${edgeMin('destination', 'volunteer')} min bonus on any booking.`,
     ],
     links: publicLinks,
     customFields: {
       showRoleField: true,
       roleHints: {
-        attendee: `complimentary + ${edgeMin('private', 'attendee')} min bonus`,
-        volunteer: `complimentary + ${edgeMin('private', 'volunteer')} min bonus`,
+        attendee: `complimentary + ${edgeMin('destination', 'attendee')} min bonus`,
+        volunteer: `complimentary + ${edgeMin('destination', 'volunteer')} min bonus`,
       },
-      roleBonus: EDGE_MIN.private,
+      roleBonus: EDGE_MIN.destination,
       showNotesField: true,
       showRequestSoonerField: true,
       locationFromContainer: true,
@@ -142,12 +142,12 @@ export const edgeSlugConfigurations: SlugConfigurationType[] = [
     },
   },
   {
-    ...edgePrivateBase,
-    bookingSlug: ['edge-team-private'],
+    ...edgeDestinationBase,
+    bookingSlug: ['edge-team-destination'],
     defaultDuration: 90,
-    title: 'Edge Team — In-Home Sessions',
+    title: 'Edge Team — Destination Session',
     text: [
-      'Table massage ideally your hotel/Airbnb. Please book at least 2 hours in advance.',
+      'Table massage at a destination of your choosing (ideally your hotel/Airbnb). Please book at least 2 hours in advance.',
       '60/90/120 minute sessions, complimentary for Edge team.',
     ],
     links: teamLinks,

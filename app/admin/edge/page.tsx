@@ -68,30 +68,30 @@ function SessionRow({ event, label }: { event: GoogleCalendarV3Event; label: str
 export default async function EdgeAdminPage() {
   let officeHoursMembers: GoogleCalendarV3Event[] = []
   let officeHoursContainers: GoogleCalendarV3Event[] = []
-  let privateMembers: GoogleCalendarV3Event[] = []
-  let privateContainers: GoogleCalendarV3Event[] = []
+  let destinationMembers: GoogleCalendarV3Event[] = []
+  let destinationContainers: GoogleCalendarV3Event[] = []
 
   try {
     const { allEvents } = await fetchAllCalendarEvents({ searchParams: {} })
     const ohFiltered = filterEventsForQuery(allEvents, 'edge')
-    const pvFiltered = filterEventsForQuery(allEvents, 'edge_private')
+    const dstFiltered = filterEventsForQuery(allEvents, 'edge_private')
     officeHoursMembers = ohFiltered.members
     officeHoursContainers = ohFiltered.containers
-    privateMembers = pvFiltered.members
-    privateContainers = pvFiltered.containers
+    destinationMembers = dstFiltered.members
+    destinationContainers = dstFiltered.containers
   } catch {
     // calendar unavailable — show empty state
   }
 
   const ohMinutes = officeHoursMembers.reduce((sum, e) => sum + getDurationMinutes(e), 0)
-  const pvMinutes = privateMembers.reduce((sum, e) => sum + getDurationMinutes(e), 0)
-  const totalUsedMinutes = ohMinutes + pvMinutes
+  const dstMinutes = destinationMembers.reduce((sum, e) => sum + getDurationMinutes(e), 0)
+  const totalUsedMinutes = ohMinutes + dstMinutes
   const remainingMinutes = Math.max(0, EDGE_BUDGET_MINUTES - totalUsedMinutes)
   const pctUsed = Math.min(100, Math.round((totalUsedMinutes / EDGE_BUDGET_MINUTES) * 100))
 
   const allContainers = [
     ...officeHoursContainers.map((e) => ({ event: e, label: 'office hours' })),
-    ...privateContainers.map((e) => ({ event: e, label: 'private' })),
+    ...destinationContainers.map((e) => ({ event: e, label: 'destination' })),
   ].sort((a, b) => {
     const aStart = a.event.start?.dateTime ?? ''
     const bStart = b.event.start?.dateTime ?? ''
@@ -142,10 +142,10 @@ export default async function EdgeAdminPage() {
               </TextSm>
             </Box>
             <Box>
-              <TextSm status="muted">{'Private'}</TextSm>
-              <TextBaseSemibold>{minutesToHoursLabel(pvMinutes)}</TextBaseSemibold>
+              <TextSm status="muted">{'Destination'}</TextSm>
+              <TextBaseSemibold>{minutesToHoursLabel(dstMinutes)}</TextBaseSemibold>
               <TextSm status="muted">
-                {privateMembers.length}
+                {destinationMembers.length}
                 {' sessions'}
               </TextSm>
             </Box>
@@ -164,7 +164,7 @@ export default async function EdgeAdminPage() {
                 >
                   {'Create Container'}
                 </CustomLink>{' '}
-                {'to add office hours or private session windows.'}
+                {'to add office hours or destination session windows.'}
               </TextBase>
             </Box>
           ) : (
@@ -176,15 +176,15 @@ export default async function EdgeAdminPage() {
           )}
         </Box>
 
-        {(officeHoursMembers.length > 0 || privateMembers.length > 0) && (
+        {(officeHoursMembers.length > 0 || destinationMembers.length > 0) && (
           <Box>
             <H2 className="mb-3">{'Booked sessions'}</H2>
             <Stack direction="col" gap={2}>
               {officeHoursMembers.map((e) => (
                 <SessionRow key={e.id} event={e} label="office hours" />
               ))}
-              {privateMembers.map((e) => (
-                <SessionRow key={e.id} event={e} label="private" />
+              {destinationMembers.map((e) => (
+                <SessionRow key={e.id} event={e} label="destination" />
               ))}
             </Stack>
           </Box>
@@ -201,8 +201,8 @@ export default async function EdgeAdminPage() {
             <CustomLink href="/edge-office-hours" classes="text-primary-600 hover:underline">
               {'/edge-office-hours — office hours booking'}
             </CustomLink>
-            <CustomLink href="/edge-private" classes="text-primary-600 hover:underline">
-              {'/edge-private — private session booking'}
+            <CustomLink href="/edge-destination" classes="text-primary-600 hover:underline">
+              {'/edge-destination — destination session booking'}
             </CustomLink>
             <CustomLink href="/admin/create-container" classes="text-primary-600 hover:underline">
               {'/admin/create-container — add availability window'}
