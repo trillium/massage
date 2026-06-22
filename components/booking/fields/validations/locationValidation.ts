@@ -23,7 +23,7 @@ export const createLocationSchema = (config?: LocationValidationConfig) => {
       ? z.string().refine((val) => config.zipCodes!.some((zip) => zip.trim() === val.trim()), {
           message: `Zip code must be one of: ${config.zipCodes.join(', ')}`,
         })
-      : z.string().regex(/^\d{5}(-\d{4})?$/, 'Invalid zip code format'),
+      : z.string().regex(/^(?:[A-Za-z]{2}\s+)?\d{5}(-\d{4})?$/, 'Invalid zip code format'),
   })
 }
 

@@ -7,7 +7,9 @@ const paymentMethodValues = paymentMethod.map((method) => method.value) as [stri
 export const LocationSchema = z.object({
   street: z.string(),
   city: z.string(),
-  zip: z.string().regex(/^(\d{5}(-\d{4})?)?$/, { message: 'Invalid US zip code.' }),
+  zip: z
+    .string()
+    .regex(/^((?:[A-Za-z]{2}\s+)?\d{5}(-\d{4})?)?$/, { message: 'Invalid US zip code.' }),
 })
 
 const sharedBookingOptionalFields = {
