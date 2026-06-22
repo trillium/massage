@@ -34,10 +34,13 @@ export function edgeMin(scope: EdgeScope, role: EdgePublicRole): number {
   return EDGE_MIN[scope][role]
 }
 
+export const EDGE_BLOCKING_CONTAINERS = ['edge_office', 'edge_destination'] as const
+
 const edgeBase = {
   ...base,
   type: 'fixed-location' as const,
-  blockingScope: 'general' as const,
+  blockingScope: 'containers' as const,
+  blockingContainers: [...EDGE_BLOCKING_CONTAINERS],
   instantConfirm: true,
   acceptingPayment: false,
   calendarWeeks: EDGE_CALENDAR_WEEKS,
@@ -51,7 +54,7 @@ const edgeOfficeBase = {
   showNextSlotCard: true,
   location: null,
   locationIsReadOnly: true,
-  eventContainer: 'edge',
+  eventContainer: 'edge_office',
   defaultDuration: 15,
   allowedDurations: [5, 10, 15, 20, 30],
   pricing: { 5: 0, 10: 0, 15: 0, 20: 0, 30: 0 },
@@ -71,7 +74,7 @@ const edgeOfficeBase = {
 
 const edgeDestinationBase = {
   ...edgeBase,
-  eventContainer: 'edge_private',
+  eventContainer: 'edge_destination',
   defaultDuration: 60,
   allowedDurations: [60, 90, 120],
   pricing: { 60: 0, 90: 0, 120: 0 },

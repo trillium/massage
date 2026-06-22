@@ -1,6 +1,7 @@
 import { Metadata } from 'next'
 import SectionContainer from '@/components/SectionContainer'
 import { fetchAllCalendarEvents, filterEventsForQuery } from '@/lib/fetch/fetchContainersByQuery'
+import { EDGE_BLOCKING_CONTAINERS } from '@/lib/slugConfigurations/slugs/edge'
 import { H1, H2, H3 } from '@/components/ui/heading'
 import { TextBase, TextSm, TextBaseMedium, TextBaseSemibold } from '@/components/ui/text'
 import { Stack } from '@/components/ui/stack'
@@ -73,8 +74,8 @@ export default async function EdgeAdminPage() {
 
   try {
     const { allEvents } = await fetchAllCalendarEvents({ searchParams: {} })
-    const ohFiltered = filterEventsForQuery(allEvents, 'edge')
-    const dstFiltered = filterEventsForQuery(allEvents, 'edge_private')
+    const ohFiltered = filterEventsForQuery(allEvents, EDGE_BLOCKING_CONTAINERS[0])
+    const dstFiltered = filterEventsForQuery(allEvents, EDGE_BLOCKING_CONTAINERS[1])
     officeHoursMembers = ohFiltered.members
     officeHoursContainers = ohFiltered.containers
     destinationMembers = dstFiltered.members
