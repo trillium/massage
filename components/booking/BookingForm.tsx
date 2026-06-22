@@ -62,9 +62,7 @@ export default function BookingForm({
   const edgeRole = useReduxEdgeRole()
 
   const rawRoleHint =
-    edgeRole && config.customFields?.roleHints
-      ? config.customFields.roleHints[edgeRole]
-      : undefined
+    edgeRole && config.customFields?.roleHints ? config.customFields.roleHints[edgeRole] : undefined
   const roleHint = rawRoleHint
     ? typeof rawRoleHint === 'string'
       ? rawRoleHint
@@ -101,6 +99,7 @@ export default function BookingForm({
   )
   const showRoleField = !!config?.customFields?.showRoleField
   const showRequestSoonerField = !!config?.customFields?.showRequestSoonerField
+  const allowTelegramContact = !!config?.customFields?.allowTelegramContact
   const locationReadOnly = !!eventContainers?.location || config.locationIsReadOnly
   const hideLocation = !!config.hideLocation
 
@@ -202,6 +201,7 @@ export default function BookingForm({
                     showRaffleOptIn={resolvedShowRaffleOptIn}
                     showRoleField={showRoleField}
                     showRequestSoonerField={showRequestSoonerField}
+                    allowTelegramContact={allowTelegramContact}
                   />
 
                   {modal === 'error' && (

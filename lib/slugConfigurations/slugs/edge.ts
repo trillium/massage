@@ -43,6 +43,8 @@ const edgeBase = {
   calendarWeeks: EDGE_CALENDAR_WEEKS,
 }
 
+const edgeContactFields = { allowTelegramContact: true } as const
+
 const edgeOfficeBase = {
   ...edgeBase,
   hideLocation: true,
@@ -99,6 +101,7 @@ export const edgeSlugConfigurations: SlugConfigurationType[] = [
       },
       showNotesField: true,
       locationFromContainer: true,
+      ...edgeContactFields,
     },
   },
   {
@@ -119,6 +122,7 @@ export const edgeSlugConfigurations: SlugConfigurationType[] = [
       showNotesField: true,
       showRequestSoonerField: true,
       locationFromContainer: true,
+      ...edgeContactFields,
     },
   },
   {
@@ -135,6 +139,7 @@ export const edgeSlugConfigurations: SlugConfigurationType[] = [
       forceRole: 'team',
       showNotesField: true,
       locationFromContainer: true,
+      ...edgeContactFields,
     },
   },
   {
@@ -152,6 +157,7 @@ export const edgeSlugConfigurations: SlugConfigurationType[] = [
       showNotesField: true,
       showRequestSoonerField: true,
       locationFromContainer: true,
+      ...edgeContactFields,
     },
   },
 ]

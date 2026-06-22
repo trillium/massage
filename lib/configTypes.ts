@@ -57,6 +57,7 @@ export type CustomFieldsType = {
   roleBonus?: { attendee?: number; volunteer?: number; team?: number }
   showRequestSoonerField?: boolean
   locationFromContainer?: boolean
+  allowTelegramContact?: boolean
 }
 
 export type SlugConfigurationType = {

@@ -6,6 +6,7 @@ import { Provider } from 'react-redux'
 import { makeStore } from '@/redux/store'
 import { setSelectedTime } from '@/redux/slices/availabilitySlice'
 import { setModal } from '@/redux/slices/modalSlice'
+import { setBulkConfigSliceState } from '@/redux/slices/configSlice'
 import BookingForm from './BookingForm'
 
 // Mock next/navigation useRouter before importing BookingForm
@@ -67,6 +68,11 @@ describe('BookingForm Integration Tests', () => {
       type: 'availability/setDuration',
       payload: 60,
     })
+    store.dispatch(
+      setBulkConfigSliceState({
+        customFields: { allowTelegramContact: true },
+      })
+    )
   })
 
   afterEach(() => {

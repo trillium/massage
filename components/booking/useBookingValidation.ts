@@ -6,7 +6,9 @@ import { createBookingFormSchema, BookingFormValues } from '@/lib/bookingFormSch
 export function useBookingValidation(config: SlugConfigurationType) {
   const validateForm = (values: BookingFormValues) => {
     try {
-      const schema = createBookingFormSchema({})
+      const schema = createBookingFormSchema({
+        allowTelegramContact: config.customFields?.allowTelegramContact,
+      })
       schema.parse(values)
       return {}
     } catch (error) {

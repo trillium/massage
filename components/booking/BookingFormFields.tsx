@@ -3,6 +3,7 @@ import { FormikErrors, FormikTouched } from 'formik'
 
 import NameFields from './fields/NameFields'
 import ContactFields from './fields/ContactFields'
+import PhoneField from './fields/PhoneField'
 import LocationField from './fields/LocationField'
 import EmailField from './fields/EmailField'
 import PaymentMethodField from './fields/PaymentMethodField'
@@ -45,6 +46,7 @@ type BookingFormFieldsProps = {
   showRaffleOptIn?: boolean
   showRoleField?: boolean
   showRequestSoonerField?: boolean
+  allowTelegramContact?: boolean
 }
 
 export default function BookingFormFields({
@@ -64,6 +66,7 @@ export default function BookingFormFields({
   showRaffleOptIn,
   showRoleField,
   showRequestSoonerField,
+  allowTelegramContact,
 }: BookingFormFieldsProps) {
   const dispatch = useAppDispatch()
 
@@ -88,13 +91,22 @@ export default function BookingFormFields({
           </TextSm>
         )}
 
-        <ContactFields
-          phone={values.phone}
-          telegramHandle={values.telegramHandle}
-          onChange={(e) => {
-            setFieldValue(e.target.name, e.target.value)
-          }}
-        />
+        {allowTelegramContact ? (
+          <ContactFields
+            phone={values.phone}
+            telegramHandle={values.telegramHandle}
+            onChange={(e) => {
+              setFieldValue(e.target.name, e.target.value)
+            }}
+          />
+        ) : (
+          <PhoneField
+            phone={values.phone}
+            onChange={(e) => {
+              setFieldValue('phone', e.target.value)
+            }}
+          />
+        )}
         {(touched.phone || touched.telegramHandle) && errors.phone && (
           <TextSm as="div" status="error" className="mt-1">
             {errors.phone}
