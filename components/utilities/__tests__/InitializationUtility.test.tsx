@@ -75,6 +75,41 @@ describe('InitializationUtility — selectedDate initialization', () => {
       expect(store.getState().availability.selectedDate).toBe('2026-05-12')
     })
   })
+
+  it('selects date of initialSlots[0] when no URL param (e.g. Tuesday edge-office-hours container)', async () => {
+    const tuesdayStart = '2026-06-30T10:00:00-07:00'
+    const tuesdaySlot = {
+      start: tuesdayStart,
+      end: '2026-06-30T10:10:00-07:00',
+    }
+    const wednesdaySlot = {
+      start: '2026-07-01T10:00:00-07:00',
+      end: '2026-07-01T10:10:00-07:00',
+    }
+
+    const { store } = renderWithStore(
+      <InitializationUtility initialSlots={[tuesdaySlot, wednesdaySlot]} />
+    )
+
+    await waitFor(() => {
+      expect(store.getState().availability.selectedDate).toBe('2026-06-30')
+    })
+  })
+
+  it('URL param wins over initialSlots[0] when both provided', async () => {
+    const tuesdaySlot = {
+      start: '2026-06-30T10:00:00-07:00',
+      end: '2026-06-30T10:10:00-07:00',
+    }
+
+    const { store } = renderWithStore(
+      <InitializationUtility initialSlots={[tuesdaySlot]} initialSelectedDate="2026-07-02" />
+    )
+
+    await waitFor(() => {
+      expect(store.getState().availability.selectedDate).toBe('2026-07-02')
+    })
+  })
 })
 
 describe('SlotGenerationUtility — auto-select does not clobber URL-provided date', () => {
