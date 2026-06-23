@@ -24,14 +24,16 @@ const DESIGNS: Record<string, (data: OgImageData) => React.JSX.Element> = {
 const DEFAULT_DESIGN = 'vintage-postcard'
 
 const TABLE_IMAGE_URL = 'https://trilliummassage.la/static/images/table/table_square_02.jpg'
+const EDGE_IMAGE_URL = 'https://trilliummassage.la/static/images/edge/edge-office.png'
 
-async function tableImageDataUrl(): Promise<string> {
-  const res = await fetch(TABLE_IMAGE_URL, {
+async function fetchImageDataUrl(url: string): Promise<string> {
+  const res = await fetch(url, {
     headers: { 'User-Agent': 'Mozilla/5.0 (compatible; OGImageBot/1.0)', Accept: 'image/*' },
   })
-  if (!res.ok) throw new Error(`table image fetch ${res.status}: ${TABLE_IMAGE_URL}`)
+  if (!res.ok) throw new Error(`image fetch ${res.status}: ${url}`)
   const buf = Buffer.from(await res.arrayBuffer())
-  return `data:image/jpeg;base64,${buf.toString('base64')}`
+  const ct = res.headers.get('content-type') ?? 'image/jpeg'
+  return `data:${ct};base64,${buf.toString('base64')}`
 }
 
 function firstLineOfText(text: string | string[] | null): string {
@@ -76,6 +78,7 @@ function deriveEyebrow(slug: string, title: string): string {
   const t = title.toLowerCase()
   if (s.includes('birthday') || t.includes('birthday')) return 'BIRTHDAY GIFT'
   if (s.includes('gift') || t.includes('gift')) return 'GIFT'
+  if (s.startsWith('edge')) return 'COMPLIMENTARY · EDGE'
   if (
     s.includes('event') ||
     s.includes('nerdstage') ||
@@ -114,11 +117,13 @@ export default async function Image({ params }: { params: Promise<{ bookingSlug:
   const giftMode = isGiftSlug(bookingSlug, title)
   const accentColor = giftMode ? GOLD : ACCENT
 
+  const isEdge = bookingSlug.startsWith('edge')
+  const heroImageUrl = isEdge ? EDGE_IMAGE_URL : TABLE_IMAGE_URL
   let tableImageSrc = ''
   try {
-    tableImageSrc = await tableImageDataUrl()
+    tableImageSrc = await fetchImageDataUrl(heroImageUrl)
   } catch (e) {
-    console.error('[og-image] tableImageDataUrl failed:', e)
+    console.error('[og-image] hero image fetch failed:', e)
   }
 
   const data: OgImageData = {

@@ -27,16 +27,9 @@ export async function generateMetadata({
   const config = configMap[bookingSlug]
   const title = config?.title ?? 'Book a massage'
   const description = firstLineOfText(config?.text ?? null) || siteMetadata.description
-  const isEdge = bookingSlug.startsWith('edge')
-  return {
-    ...genPageMetadata({ title, description }),
-    ...(isEdge && {
-      icons: {
-        icon: '/static/images/edge/edge-office-favicon.png',
-        apple: '/static/images/edge/edge-office-favicon.png',
-      },
-    }),
-  }
+  const siteUrl = (siteMetadata.siteUrl as string).replace(/\/$/, '')
+  const ogImage = `${siteUrl}/${bookingSlug}/opengraph-image`
+  return genPageMetadata({ title, description, image: ogImage })
 }
 
 export default async function Page({
