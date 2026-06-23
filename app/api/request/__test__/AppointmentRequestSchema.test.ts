@@ -78,4 +78,38 @@ describe('AppointmentRequestSchema', () => {
     })
     expect(result.success).toBe(false)
   })
+
+  it('accepts edgeMemberType attendee', () => {
+    const result = AppointmentRequestSchema.safeParse({
+      ...validPayload,
+      edgeMemberType: 'attendee',
+    })
+    expect(result.success).toBe(true)
+  })
+
+  it('accepts edgeMemberType volunteer', () => {
+    const result = AppointmentRequestSchema.safeParse({
+      ...validPayload,
+      edgeMemberType: 'volunteer',
+    })
+    expect(result.success).toBe(true)
+  })
+
+  it('accepts edgeMemberType team', () => {
+    const result = AppointmentRequestSchema.safeParse({ ...validPayload, edgeMemberType: 'team' })
+    expect(result.success).toBe(true)
+  })
+
+  it('accepts payload without edgeMemberType', () => {
+    const result = AppointmentRequestSchema.safeParse(validPayload)
+    expect(result.success).toBe(true)
+  })
+
+  it('rejects invalid edgeMemberType value', () => {
+    const result = AppointmentRequestSchema.safeParse({
+      ...validPayload,
+      edgeMemberType: 'speaker',
+    })
+    expect(result.success).toBe(false)
+  })
 })

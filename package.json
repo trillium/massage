@@ -133,7 +133,6 @@
     "zod-formik-adapter": "^1.3.0"
   },
   "devDependencies": {
-    "@anthropic-ai/sdk": "^0.105.0",
     "@axe-core/playwright": "^4.10.1",
     "@biomejs/biome": "^2.4.2",
     "@faker-js/faker": "^9.3.0",

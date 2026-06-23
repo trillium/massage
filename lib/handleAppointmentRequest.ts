@@ -312,6 +312,7 @@ export async function handleAppointmentRequest({
       price: data.price,
       promo: data.promo,
       additionalNotes: data.additionalNotes,
+      edgeMemberType: data.edgeMemberType,
       timeZone: data.timeZone,
       ownerTimeZone,
       acceptUrl,

@@ -5,20 +5,6 @@ import siteMetadata from '@/data/siteMetadata'
 
 import eventDescription from 'lib/messaging/templates/events/eventDescription'
 
-// Helper function to build the description
-function buildDescription(location: string) {
-  if (!process.env.OWNER_PHONE_NUMBER) {
-    throw new Error(`OWNER_PHONE_NUMBER is not set.`)
-  }
-
-  const baseDescription = `Hello, thanks for setting up time!\n\n`
-  const phoneDetails = `My phone number is ${process.env.OWNER_PHONE_NUMBER} but please let me know if you’d rather I call you.`
-  const meetDetails = `Details for Google Meet are attached; please let me know if that works or if you’d like to meet using a different provider.`
-  const closing = `\n\nSee you then!`
-
-  return baseDescription + (location === `phone` ? phoneDetails : meetDetails) + closing
-}
-
 // Helper function to build the event body
 async function buildEventBody({
   start,
@@ -36,6 +22,7 @@ async function buildEventBody({
   eventMemberString,
   eventContainerString,
   additionalNotes,
+  edgeMemberType,
   promo,
   bookingUrl,
   slugConfiguration,
@@ -58,6 +45,7 @@ async function buildEventBody({
       eventMemberString,
       eventContainerString,
       additionalNotes,
+      edgeMemberType,
       promo,
       bookingUrl,
       slugConfiguration,

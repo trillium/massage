@@ -54,6 +54,7 @@ export function ApprovalEmail({
     infoRows: [
       { label: 'Timezone', value: timeZone },
       { label: 'Date', value: dateSummary },
+      { label: 'Role', value: data?.edgeMemberType || undefined },
       { label: 'Location', value: locationStr || undefined },
       { label: 'Duration', value: `${duration} minutes` },
       { label: 'Price', value: price ? `$${price}` : undefined },

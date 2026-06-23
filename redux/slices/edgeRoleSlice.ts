@@ -6,7 +6,7 @@ type EdgeRole = 'attendee' | 'volunteer' | 'team' | undefined
 
 type EdgeRoleState = { role: EdgeRole }
 
-const initialState: EdgeRoleState = { role: undefined }
+const initialState: EdgeRoleState = { role: 'attendee' }
 
 export const edgeRoleSlice: Slice<EdgeRoleState> = createSlice({
   name: 'edgeRole',
@@ -21,5 +21,3 @@ export const edgeRoleSlice: Slice<EdgeRoleState> = createSlice({
 export const { setEdgeRole } = edgeRoleSlice.actions
 
 export const selectEdgeRole = (state: RootState) => state.edgeRole.role
-
-export default edgeRoleSlice.reducer

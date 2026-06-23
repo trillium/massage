@@ -30,6 +30,7 @@ function eventDescription({
   promo,
   source,
   additionalNotes,
+  edgeMemberType,
   slugConfiguration,
   origin,
 }: Partial<AppointmentProps> & { origin?: string }) {
@@ -61,6 +62,7 @@ function eventDescription({
   let output = `<b>${firstName} ${lastName}</b>\n`
   output += `${date} · ${startTime}–${endTime} · ${duration} min\n`
   output += '\n'
+  if (edgeMemberType) output += `<b>Role</b>: ${edgeMemberType}\n`
   if (email) output += `<b>Email</b>: ${email}\n`
   if (phone && phone.trim() !== '') output += `<b>Phone</b>: ${phone}\n`
   if (telegramHandle && telegramHandle.trim() !== '')

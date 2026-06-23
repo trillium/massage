@@ -16,6 +16,7 @@ export default function requestEventDescription({
   timeZone,
   ownerTimeZone,
   additionalNotes,
+  edgeMemberType,
   acceptUrl,
   declineUrl,
 }: {
@@ -33,6 +34,7 @@ export default function requestEventDescription({
   timeZone: string
   ownerTimeZone: string
   additionalNotes?: string
+  edgeMemberType?: string
   acceptUrl: string
   declineUrl: string
 }) {
@@ -45,6 +47,7 @@ export default function requestEventDescription({
   let output = `<b>${firstName} ${lastName}</b> — pending request\n`
   output += `${dateSummary} · ${duration} min\n`
   output += '\n'
+  if (edgeMemberType) output += `<b>Role</b>: ${edgeMemberType}\n`
   output += `<b>Email</b>: ${email}\n`
   if (phone && phone.trim() !== '') output += `<b>Phone</b>: ${phone}\n`
   if (telegramHandle && telegramHandle.trim() !== '')
