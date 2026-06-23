@@ -55,7 +55,7 @@ const edgeOfficeBase = {
   location: null,
   locationIsReadOnly: true,
   eventContainer: 'edge_office',
-  defaultDuration: 15,
+  defaultDuration: 10,
   allowedDurations: [5, 10, 15, 20, 30],
   pricing: { 5: 0, 10: 0, 15: 0, 20: 0, 30: 0 },
   pricingLabels: {
