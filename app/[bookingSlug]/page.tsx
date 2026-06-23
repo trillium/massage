@@ -28,8 +28,19 @@ export async function generateMetadata({
   const title = config?.title ?? 'Book a massage'
   const description = firstLineOfText(config?.text ?? null) || siteMetadata.description
   const siteUrl = (siteMetadata.siteUrl as string).replace(/\/$/, '')
-  const ogImage = `${siteUrl}/${bookingSlug}/opengraph-image`
-  return genPageMetadata({ title, description, image: ogImage })
+  const isEdge = bookingSlug === 'edge'
+  const ogImage = isEdge
+    ? `${siteUrl}/snap/edge-og.png`
+    : `${siteUrl}/${bookingSlug}/opengraph-image`
+  return {
+    ...genPageMetadata({ title, description, image: ogImage }),
+    ...(isEdge && {
+      icons: {
+        icon: '/snap/edge-favicon.png',
+        apple: '/snap/edge-favicon.png',
+      },
+    }),
+  }
 }
 
 export default async function Page({
