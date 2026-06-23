@@ -1,5 +1,35 @@
 # massage — Changelog
 
+## 2026-06-23 — session 9b3780cd
+
+Files: playground/slack-invite-research/HACKFORLA_FLOW.md, playground/slack-invite-research/onboarding-stub.ts, playground/slack-invite-research/RISKS.md
+
+> AI summary pending — check ProjectDocs Handover in next session.
+
+## 2026-06-23 — session c9a27b84
+
+Files: scripts/snap-page.ts, app/[bookingSlug]/page.tsx
+
+> AI summary pending — check ProjectDocs Handover in next session.
+
+## 2026-06-23 — session 499bf4a5
+
+Files: redux/persistence.ts, lib/qr/scope-defaults.ts, components/utilities/EdgeRoleHydrator.tsx, lib/slugConfigurations/slugs/edge.ts, redux/slices/edgeRoleSlice.ts, components/booking/BookingForm.tsx
+
+> AI summary pending — check ProjectDocs Handover in next session.
+
+## 2026-06-23 — session 6ad19712
+
+Files: lib/messaging/email/htmlEmailBase.ts, lib/messaging/email/client/ClientConfirmEmail.ts, lib/messaging/email/client/ClientRequestEmail.ts, lib/messaging/email/admin/Approval.ts, lib/messaging/push/admin/AppointmentPushoverInstantConfirm.ts, lib/messaging/push/admin/AppointmentPushover.ts, playground/preview-emails.ts, lib/handleAppointmentRequest.ts, app/event/[event_id]/page.tsx, lib/messaging/templates/events/eventDescription.ts
+
+> AI summary pending — check ProjectDocs Handover in next session.
+
+## 2026-06-23 — session 064050bf
+
+Files: lib/configTypes.ts, lib/slugConfigurations/createPageConfiguration.tsx, components/utilities/BookingUtilities.tsx, lib/slugConfigurations/fetchSlugConfigurationData.ts, app/[bookingSlug]/next/page.tsx, components/booking/features/NextSessionFeature.tsx, vitest.config.ts, redux/slices/edgeRoleSlice.ts, hooks/EdgeRoleContext.tsx, components/utilities/EdgeRoleHydrator.tsx
+
+> AI summary pending — check ProjectDocs Handover in next session.
+
 ## 2026-06-22 — session 110daffa
 
 Files: app/edge/page.tsx, app/admin/edge/page.tsx, app/edge-team/page.tsx
