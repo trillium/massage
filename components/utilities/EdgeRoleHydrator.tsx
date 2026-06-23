@@ -33,10 +33,12 @@ export default function EdgeRoleHydrator({ forceRole }: { forceRole?: EdgeRole }
       const fromStorage = normalizeRole(localStorage.getItem(STORAGE_KEY))
       if (fromStorage) {
         dispatch(setEdgeRole(fromStorage))
+        return
       }
     } catch {
       // localStorage unavailable
     }
+    dispatch(setEdgeRole('attendee'))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [forceRole])
 
