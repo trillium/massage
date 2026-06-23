@@ -8,8 +8,8 @@ import { PeerRadio } from '@/components/ui/peer-radio'
 type PublicEdgeRole = 'attendee' | 'volunteer'
 
 const DEFAULT_HINTS: Record<PublicEdgeRole, string> = {
-  attendee: 'Spoiled',
-  volunteer: 'Medium Spoiled',
+  attendee: 'Medium Spoiled, 10m free',
+  volunteer: 'Extra Spoiled, 15m free',
 }
 
 type RoleFieldProps = {
