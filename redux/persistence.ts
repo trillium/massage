@@ -8,6 +8,7 @@ const PERSISTED_FORM_FIELDS = [
   'lastName',
   'email',
   'phone',
+  'telegramHandle',
   'location',
   'paymentMethod',
 ] as const
