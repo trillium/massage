@@ -59,7 +59,10 @@ export default function BookingForm({
   const price =
     duration && config.pricing ? config.pricing[duration] : DEFAULT_PRICING[duration] || 'null'
 
-  const edgeRole = useReduxEdgeRole()
+  const edgeRoleRaw = useReduxEdgeRole()
+  const isEdgeContext =
+    !!config?.customFields?.showRoleField || !!config?.customFields?.forceRole
+  const edgeRole = isEdgeContext ? edgeRoleRaw : undefined
 
   const rawRoleHint =
     edgeRole && config.customFields?.roleHints ? config.customFields.roleHints[edgeRole] : undefined
