@@ -43,7 +43,7 @@ export default async function EdgeComesToYouPrintPage() {
             </TextXs>
             <H1 className="text-2xl">Trillium Massage</H1>
           </Box>
-          <TextSm status="muted">Licensed Massage Therapist · Los Angeles, CA</TextSm>
+          <TextSm>Licensed Massage Therapist</TextSm>
         </Stack>
 
         {/* Hero image */}
