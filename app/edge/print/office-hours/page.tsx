@@ -39,7 +39,7 @@ export default async function EdgeOfficeHoursPrintPage() {
         >
           <Box>
             <TextXs className="font-bold uppercase tracking-widest text-red-600">
-              Edge Esmeralda — Exclusive
+              Edge Esmeralda
             </TextXs>
             <H1 className="text-2xl">Trillium Massage</H1>
           </Box>
