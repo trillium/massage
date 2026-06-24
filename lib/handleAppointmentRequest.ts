@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { intervalToHumanString } from './intervalToHumanString'
 import sendMail from './email'
 import { ApprovalEmail } from './messaging/email/admin/Approval'
 import ClientRequestEmail from './messaging/email/client/ClientRequestEmail'
@@ -7,26 +6,16 @@ import ClientConfirmEmail from './messaging/email/client/ClientConfirmEmail'
 import { getHash } from './hash'
 import { AppointmentRequestSchema } from './schema'
 import { z } from 'zod'
-// Manual type for the result of schema.safeParse(jsonData) (for Zod v4)
-import { pushoverSendMessage } from './messaging/push/admin/pushover'
-import { AppointmentPushover } from './messaging/push/admin/AppointmentPushover'
-import { AppointmentPushoverInstantConfirm } from './messaging/push/admin/AppointmentPushoverInstantConfirm'
-import { createConfirmUrl, createDeclineUrl } from './messaging/utilities/createApprovalUrl'
-import createCalendarAppointment from './availability/createCalendarAppointment'
 import type createRequestCalendarEventFn from './availability/createRequestCalendarEvent'
 import type updateCalendarEventFn from './availability/updateCalendarEvent'
 import type { CheckSlotAvailabilityFn } from './availability/checkSlotAvailability'
-import eventSummary from './messaging/templates/events/eventSummary'
-import requestEventSummary from './messaging/templates/events/requestEventSummary'
-import requestEventDescription from './messaging/templates/events/requestEventDescription'
-import { flattenLocation } from './helpers/locationHelpers'
-import { escapeHtml } from './messaging/escapeHtml'
-import { createEventPageUrl, verifyEventToken } from './eventToken'
 import { getOriginFromHeaders } from './helpers/getOriginFromHeaders'
-import { formatLocalDate, formatLocalTime } from './availability/helpers'
-import { releaseSlotHold } from './holds/releaseSlotHold'
 import type { reserveAppointmentSlot as reserveAppointmentSlotFn } from './appointments/reserveAppointmentSlot'
 import type { linkAppointmentToCalendarEvent as linkAppointmentToCalendarEventFn } from './appointments/linkAppointmentToCalendarEvent'
+import { sanitizeAppointmentData } from './appointments/sanitizeRequestData'
+import { handleRescheduleBranch } from './appointments/handleRescheduleBranch'
+import { handleInstantConfirmBranch } from './appointments/handleInstantConfirmBranch'
+import { handleStandardRequestBranch } from './appointments/handleStandardRequestBranch'
 
 export type AppointmentRequestValidationResult =
   | { success: true; data: z.output<typeof AppointmentRequestSchema> }
@@ -104,315 +93,52 @@ export async function handleAppointmentRequest({
     }
   }
 
-  const safeLocation = escapeHtml(flattenLocation(data.locationObject || data.locationString || ''))
-  const safeData = {
-    firstName: escapeHtml(data.firstName),
-    lastName: escapeHtml(data.lastName),
-    phone: escapeHtml(data.phone),
-    telegramHandle: data.telegramHandle ? escapeHtml(data.telegramHandle) : data.telegramHandle,
-    email: escapeHtml(data.email),
-    promo: data.promo ? escapeHtml(data.promo) : data.promo,
-    timeZone: escapeHtml(data.timeZone),
-  }
-
+  const { safeData, safeLocation, safeExtraFields } = sanitizeAppointmentData(data)
   const origin = getOriginFromHeaders(headers)
 
   if (data.rescheduleEventId && data.rescheduleToken) {
-    const tokenResult = verifyEventToken(data.rescheduleToken, data.rescheduleEventId)
-    if (!tokenResult.valid) {
-      return NextResponse.json({ error: tokenResult.error }, { status: 403 })
-    }
-
-    try {
-      await updateCalendarEvent(data.rescheduleEventId, {
-        start: { dateTime: data.start, timeZone: data.timeZone },
-        end: { dateTime: data.end, timeZone: data.timeZone },
-      })
-    } catch (error) {
-      console.error('Failed to reschedule event:', error)
-      return NextResponse.json({ error: 'Failed to reschedule appointment' }, { status: 500 })
-    }
-
-    const eventPageUrl = createEventPageUrl(origin, data.rescheduleEventId, data.email, data.end)
-
-    pushoverSendMessage({
-      title: 'Client Rescheduled',
-      message: `${safeData.firstName} ${safeData.lastName} rescheduled to ${formatLocalDate(data.start)} ${formatLocalTime(data.start)}`,
-      priority: 0,
-    }).catch(() => {})
-
-    return NextResponse.json({ success: true, eventPageUrl }, { status: 200 })
+    return handleRescheduleBranch({
+      data: {
+        ...data,
+        rescheduleEventId: data.rescheduleEventId,
+        rescheduleToken: data.rescheduleToken,
+      },
+      safeData,
+      origin,
+      updateCalendarEvent,
+    })
   }
 
-  // Check if instantConfirm is true
   if (data.instantConfirm) {
-    const start = new Date(data.start)
-    const end = new Date(data.end)
-
-    const locationString = flattenLocation(data.locationObject || data.locationString || '')
-    const reservation = await reserveAppointmentSlot({
-      start: data.start,
-      end: data.end,
-      clientEmail: data.email,
-      clientPhone: data.phone,
-      clientTelegramHandle: data.telegramHandle, // TODO: persist to client_telegram_handle once RPC updated
-      clientFirstName: data.firstName,
-      clientLastName: data.lastName,
-      durationMinutes: Number.parseInt(data.duration, 10),
-      timezone: data.timeZone,
-      location: locationString,
-      price: data.price ? Number.parseInt(data.price, 10) : null,
-      status: 'confirmed',
-      promo: data.promo || null,
-      bookingUrl: data.bookingUrl || null,
-      slugConfig: data.slugConfiguration || null,
-      instantConfirm: true,
-      confirmedAt: new Date().toISOString(),
-    })
-
-    if (!reservation.success) {
-      const body: Record<string, unknown> = {
-        error: 'slot_unavailable',
-        bookingUrl: data.bookingUrl,
-      }
-      if (process.env.NODE_ENV !== 'production') {
-        body.reason = reservation.reason
-        body.source = 'reserveAppointmentSlot'
-      }
-      return NextResponse.json(body, { status: 409 })
-    }
-
-    // Create the calendar appointment directly
-    const location = data.locationObject || { street: '', city: data.locationString || '', zip: '' }
-    const requestId = getHashFn(JSON.stringify(data))
-
-    const calendarResponse = await createCalendarAppointment({
-      ...data,
-      location,
-      requestId,
-      summary:
-        eventSummary({
-          duration: data.duration,
-          clientName: `${data.firstName} ${data.lastName}`,
-        }) || 'Instant Confirm Appointment',
-    })
-
-    if (!calendarResponse.ok) {
-      return NextResponse.json({ error: 'Failed to create calendar appointment' }, { status: 502 })
-    }
-
-    // Send pushover notification for instant confirm
-    const pushover = AppointmentPushoverInstantConfirm(data, ownerTimeZone)
-
-    pushoverSendMessage({
-      message: pushover.message,
-      title: pushover.title,
-      priority: 0,
-    })
-
-    const calendarData = await calendarResponse.json()
-    linkAppointmentToCalendarEvent(reservation.appointmentId, calendarData.id).catch(() => {})
-    if (data.sessionId) releaseSlotHold(data.sessionId).catch(() => {})
-    const eventPageUrl = createEventPageUrl(origin, calendarData.id, data.email, data.end)
-
-    const isEdgeBooking = (data.slugConfiguration?.eventContainer ?? '').startsWith('edge')
-    const ownerTelegram = isEdgeBooking ? (process.env.OWNER_TELEGRAM ?? undefined) : undefined
-
-    // Send confirmation email — fire-and-forget so email failure doesn't block the success response
-    const confirmationEmail = clientConfirmEmailFn({
-      ...data,
-      ...safeData,
-      location: safeLocation,
-      eventPageUrl,
-      ownerTelegram,
-      dateSummary: intervalToHumanString({
-        start,
-        end,
-        timeZone: data.timeZone,
-      }),
-    })
-    sendMailFn({
-      to: data.email,
-      subject: confirmationEmail.subject,
-      body: confirmationEmail.body,
-      template: 'ClientConfirmEmail',
-      variables: {
-        email: data.email,
-        firstName: data.firstName,
-        lastName: data.lastName,
-        start: data.start,
-        end: data.end,
-      },
-    }).catch((err: unknown) => console.error('Failed to send instant confirm email:', err))
-
-    return NextResponse.json({ success: true, instantConfirm: true, eventPageUrl }, { status: 200 })
-  }
-
-  const start = new Date(data.start)
-  const end = new Date(data.end)
-  const clientName = `${data.firstName} ${data.lastName}`
-
-  const locationForReservation = flattenLocation(data.locationObject || data.locationString || '')
-  const reservation = await reserveAppointmentSlot({
-    start: data.start,
-    end: data.end,
-    clientEmail: data.email,
-    clientPhone: data.phone,
-    clientTelegramHandle: data.telegramHandle, // TODO: persist to client_telegram_handle once RPC updated
-    clientFirstName: data.firstName,
-    clientLastName: data.lastName,
-    durationMinutes: Number.parseInt(data.duration, 10),
-    timezone: data.timeZone,
-    location: locationForReservation,
-    price: data.price ? Number.parseInt(data.price, 10) : null,
-    status: 'pending',
-    promo: data.promo || null,
-    bookingUrl: data.bookingUrl || null,
-    slugConfig: data.slugConfiguration || null,
-    instantConfirm: false,
-  })
-
-  if (!reservation.success) {
-    const body: Record<string, unknown> = { error: 'slot_unavailable', bookingUrl: data.bookingUrl }
-    if (process.env.NODE_ENV !== 'production') {
-      body.reason = reservation.reason
-      body.source = 'reserveAppointmentSlot'
-    }
-    return NextResponse.json(body, { status: 409 })
-  }
-
-  // Phase 1: Create REQUEST calendar event with placeholder description
-  const calendarResponse = await createRequestCalendarEvent({
-    start: data.start,
-    end: data.end,
-    summary: requestEventSummary({ clientName, duration: data.duration }),
-    description: 'Pending — links loading...',
-    location: flattenLocation(data.locationObject || data.locationString || ''),
-  })
-  const calendarEventId = calendarResponse.id
-  linkAppointmentToCalendarEvent(reservation.appointmentId, calendarEventId).catch(() => {})
-  if (data.sessionId) releaseSlotHold(data.sessionId).catch(() => {})
-
-  // Phase 2: Build accept/decline URLs using the calendarEventId
-  const acceptUrl = createConfirmUrl(origin, calendarEventId, data, getHashFn)
-  const declineUrl = createDeclineUrl(origin, calendarEventId, getHashFn)
-
-  // Phase 3: Patch the calendar event with real description containing links
-  await updateCalendarEvent(calendarEventId, {
-    description: requestEventDescription({
-      firstName: data.firstName,
-      lastName: data.lastName,
-      email: data.email,
-      phone: data.phone,
-      telegramHandle: data.telegramHandle,
-      start: data.start,
-      end: data.end,
-      duration: data.duration,
-      location: flattenLocation(data.locationObject || data.locationString || ''),
-      price: data.price,
-      promo: data.promo,
-      additionalNotes: data.additionalNotes,
-      edgeMemberType: data.edgeMemberType,
-      timeZone: data.timeZone,
+    return handleInstantConfirmBranch({
+      data,
+      safeData,
+      safeLocation,
+      origin,
       ownerTimeZone,
-      acceptUrl,
-      declineUrl,
-    }),
-  })
-
-  const safeExtraFields = {
-    hotelRoomNumber: data.hotelRoomNumber ? escapeHtml(data.hotelRoomNumber) : data.hotelRoomNumber,
-    parkingInstructions: data.parkingInstructions
-      ? escapeHtml(data.parkingInstructions)
-      : data.parkingInstructions,
-    additionalNotes: data.additionalNotes ? escapeHtml(data.additionalNotes) : data.additionalNotes,
+      sendMailFn,
+      clientConfirmEmailFn,
+      getHashFn,
+      reserveAppointmentSlot,
+      linkAppointmentToCalendarEvent,
+    })
   }
 
-  // Send admin approval email with accept + decline links
-  const approveEmail = approvalEmailFn({
-    ...data,
-    ...safeData,
-    ...safeExtraFields,
-    location: safeLocation,
-    approveUrl: acceptUrl,
-    declineUrl,
-    dateSummary: intervalToHumanString({
-      start,
-      end,
-      timeZone: ownerTimeZone,
-    }),
-    data: {
-      ...data,
-      ...safeData,
-      ...safeExtraFields,
-    },
+  return handleStandardRequestBranch({
+    data,
+    safeData,
+    safeLocation,
+    safeExtraFields,
+    origin,
+    ownerTimeZone,
+    siteMetadata,
+    sendMailFn,
+    approvalEmailFn,
+    clientRequestEmailFn,
+    getHashFn,
+    createRequestCalendarEvent,
+    updateCalendarEvent,
+    reserveAppointmentSlot,
+    linkAppointmentToCalendarEvent,
   })
-
-  // Send pushover with accept + decline links
-  const pushover = AppointmentPushover(data, ownerTimeZone, acceptUrl, declineUrl)
-
-  pushoverSendMessage({
-    message: pushover.message,
-    title: pushover.title,
-    priority: 0,
-  })
-
-  const eventPageUrl = createEventPageUrl(origin, calendarEventId, data.email, data.end)
-
-  try {
-    await sendMailFn({
-      to: siteMetadata.email ?? '',
-      subject: approveEmail.subject,
-      body: approveEmail.body,
-      template: 'ApprovalEmail',
-      variables: {
-        email: data.email,
-        firstName: data.firstName,
-        lastName: data.lastName,
-        start: data.start,
-        end: data.end,
-      },
-    })
-
-    const isEdgeBooking = (data.slugConfiguration?.eventContainer ?? '').startsWith('edge')
-    const ownerTelegram = isEdgeBooking ? (process.env.OWNER_TELEGRAM ?? undefined) : undefined
-
-    const confirmationEmail = await clientRequestEmailFn({
-      ...data,
-      ...safeData,
-      location: safeLocation,
-      eventPageUrl,
-      ownerTelegram,
-      dateSummary: intervalToHumanString({
-        start,
-        end,
-        timeZone: data.timeZone,
-      }),
-    })
-    await sendMailFn({
-      to: data.email,
-      subject: confirmationEmail.subject,
-      body: confirmationEmail.body,
-      template: 'ClientRequestEmail',
-      variables: {
-        email: data.email,
-        firstName: data.firstName,
-        lastName: data.lastName,
-        start: data.start,
-        end: data.end,
-      },
-    })
-  } catch (emailError) {
-    console.error('Email send failed after calendar event created:', emailError)
-    return NextResponse.json(
-      {
-        success: false,
-        error: 'Calendar event created but email notification failed',
-        calendarEventId,
-      },
-      { status: 502 }
-    )
-  }
-
-  return NextResponse.json({ success: true, eventPageUrl }, { status: 200 })
 }
