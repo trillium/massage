@@ -48,13 +48,12 @@ export default async function EdgeTipPrintPage() {
       `}</style>
 
       <Box className="mx-auto w-full max-w-[7.5in] bg-white px-2 py-4 text-gray-900 print:px-0 print:py-0">
-
         {/* Header */}
         <Box className="mb-5 border-b-2 border-red-600 pb-4">
           <TextXs className="mb-1 font-bold uppercase tracking-widest text-red-600">
             Trillium Smith, LMT
           </TextXs>
-          <Stack direction="row" align="baseline" gap={6}>
+          <Stack direction="row" align="end" gap={6}>
             <H1 className="text-6xl font-bold">Thank You!</H1>
             <H1 className="text-6xl font-bold">Tips Appreciated</H1>
           </Stack>
@@ -80,7 +79,12 @@ export default async function EdgeTipPrintPage() {
                       dangerouslySetInnerHTML={{ __html: svg }}
                     />
                   ) : (
-                    <Stack direction="row" align="center" justify="center" className="h-full w-full">
+                    <Stack
+                      direction="row"
+                      align="center"
+                      justify="center"
+                      className="h-full w-full"
+                    >
                       <TextXs status="muted">QR unavailable</TextXs>
                     </Stack>
                   )}
