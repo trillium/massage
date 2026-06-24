@@ -130,7 +130,7 @@ export default async function EdgeOfficeHoursPrintPage() {
             </Box>
 
             <Box className="rounded-xl border-2 border-gray-900 bg-white p-4">
-              <TextXs className="mb-2 font-bold uppercase tracking-widest" status="muted">
+              <TextXs className="mb-2 font-bold uppercase tracking-widest text-red-600">
                 Session details
               </TextXs>
               <Stack direction="col" gap={1}>
