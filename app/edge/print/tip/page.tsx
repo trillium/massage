@@ -62,7 +62,7 @@ export default async function EdgeTipPrintPage() {
             Trillium Smith, LMT
           </TextXs>
           <H1 className="mt-1 text-5xl">Thank You!</H1>
-          <TextLg status="secondary" className="mt-2">
+          <TextLg className="mt-2">
             Your session was complimentary — tips are appreciated and never expected
           </TextLg>
         </Box>
