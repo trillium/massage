@@ -70,7 +70,11 @@ async function AdminFeedtack() {
   const isDevHost = /^(dev|test)\./.test(host) || host.startsWith('localhost')
   if (!isDevHost) return null
   const user = await getUser()
-  return <FeedtackOverlay user={user} />
+  return (
+    <div className="print:hidden">
+      <FeedtackOverlay user={user} />
+    </div>
+  )
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
