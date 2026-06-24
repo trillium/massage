@@ -53,10 +53,8 @@ export default async function EdgeTipPrintPage() {
           <TextXs className="mb-1 font-bold uppercase tracking-widest text-red-600">
             Trillium Smith, LMT
           </TextXs>
-          <Stack direction="row" align="end" gap={6}>
-            <H1 className="text-6xl font-bold">Thank You!</H1>
-            <H1 className="text-6xl font-bold">Tips Appreciated</H1>
-          </Stack>
+          <H1 className="text-6xl font-bold leading-tight">Thank You!</H1>
+          <H1 className="text-6xl font-bold leading-tight">Tips Appreciated</H1>
         </Box>
 
         {/* 3-row stack */}
