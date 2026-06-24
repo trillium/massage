@@ -148,11 +148,14 @@ export const edgeSlugConfigurations: SlugConfigurationType[] = [
   {
     ...edgeComesToYouBase,
     bookingSlug: ['edge-team-comes-to-you'],
-    defaultDuration: 90,
+    defaultDuration: 60,
+    allowedDurations: [60],
+    pricing: { 60: 0 },
+    pricingLabels: { 60: 'Complimentary' },
     title: 'Edge Team — Comes to You Session',
     text: [
       'Table massage at a destination of your choosing (ideally your hotel/Airbnb). Please book at least 2 hours in advance.',
-      '60/90/120 minute sessions, complimentary for Edge team.',
+      '60 minute session, complimentary for Edge team.',
     ],
     links: teamLinks,
     customFields: {
