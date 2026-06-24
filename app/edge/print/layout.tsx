@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { TextSm } from '@/components/ui/text'
 
 const PRINT_PAGES = [
+  { href: '/edge/print/office-hours', label: 'Office Hours Ad' },
   { href: '/edge/print/comes-to-you', label: 'Comes to You Ad' },
   { href: '/edge/print/tip', label: 'Tip Page' },
 ]
