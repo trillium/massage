@@ -111,7 +111,7 @@ export default async function EdgeTipPrintPage() {
         </Stack>
 
         {/* Footer */}
-        <Box className="mt-6 border-t border-gray-200 pt-3 text-center">
+        <Box className="mt-6 border-t border-gray-900 pt-3 text-center">
           <TextBase className="font-semibold">
             Trillium Smith, LMT &nbsp;·&nbsp; trilliummassage.la
           </TextBase>
