@@ -70,7 +70,7 @@ export default async function EdgeOfficeHoursPrintPage() {
         <Stack direction="row" gap={6}>
           {/* QR code */}
           <Stack direction="col" align="center" className="shrink-0">
-            <Box className="h-52 w-52 overflow-hidden rounded-xl border-2 border-gray-200">
+            <Box className="h-52 w-52 overflow-hidden rounded-xl border-[5px] border-gray-900">
               {qrSvg ? (
                 <Box
                   className="h-full w-full [&>svg]:h-full [&>svg]:w-full"
@@ -95,7 +95,7 @@ export default async function EdgeOfficeHoursPrintPage() {
 
           {/* Details */}
           <Stack direction="col" gap={3} className="flex-1 justify-center">
-            <Box className="rounded-xl border border-gray-100 bg-gray-50 p-4">
+            <Box className="rounded-xl border-2 border-gray-900 bg-white p-4">
               <TextXs className="mb-2 font-bold uppercase tracking-widest text-red-600">
                 Your complimentary benefit
               </TextXs>
@@ -129,7 +129,7 @@ export default async function EdgeOfficeHoursPrintPage() {
               </Stack>
             </Box>
 
-            <Box className="rounded-xl border border-gray-100 bg-gray-50 p-4">
+            <Box className="rounded-xl border-2 border-gray-900 bg-white p-4">
               <TextXs className="mb-2 font-bold uppercase tracking-widest" status="muted">
                 Session details
               </TextXs>
@@ -144,7 +144,7 @@ export default async function EdgeOfficeHoursPrintPage() {
         </Stack>
 
         {/* Footer */}
-        <Box className="mt-6 border-t border-gray-200 pt-3 text-center">
+        <Box className="mt-6 border-t border-gray-900 pt-3 text-center">
           <TextBase className="font-semibold">
             Trillium Smith, LMT &nbsp;·&nbsp; trilliummassage.la &nbsp;·&nbsp; 818-738-5344
           </TextBase>
