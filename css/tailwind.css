@@ -2,7 +2,13 @@
 @plugin "@tailwindcss/forms";
 @plugin "@tailwindcss/typography";
 @source "../node_modules/pliny";
-@custom-variant dark (&:where(.dark, .dark *));
+@custom-variant dark {
+  @media not print {
+    &:where(.dark, .dark *) {
+      @slot;
+    }
+  }
+}
 
 @layer base {
   input,
