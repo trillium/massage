@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { TextSm } from '@/components/ui/text'
 
 const PRINT_PAGES = [
   { href: '/edge/print/comes-to-you', label: 'Comes to You Ad' },
@@ -9,7 +10,9 @@ export default function EdgePrintLayout({ children }: { children: React.ReactNod
   return (
     <>
       <nav className="print:hidden flex items-center gap-4 border-b border-surface-200 bg-surface-50 px-4 py-2 text-sm dark:border-surface-700 dark:bg-surface-900">
-        <span className="font-semibold text-surface-500 dark:text-surface-400">Print pages:</span>
+        <TextSm as="span" status="muted">
+          Print pages:
+        </TextSm>
         {PRINT_PAGES.map(({ href, label }) => (
           <Link
             key={href}
