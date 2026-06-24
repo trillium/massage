@@ -47,7 +47,7 @@ export default async function EdgeTipPrintPage() {
         }
       `}</style>
 
-      <Box className="mx-auto w-full max-w-[7.5in] bg-white px-2 py-4 text-gray-900 print:px-0 print:py-0">
+      <Box className="mx-auto flex min-h-[10in] w-full max-w-[7.5in] flex-col justify-between bg-white px-2 py-4 text-gray-900 print:px-0 print:py-0">
         {/* Header */}
         <Box className="mb-5 border-b-2 border-red-600 pb-4">
           <TextXs className="mb-1 font-bold uppercase tracking-widest text-red-600">
@@ -58,7 +58,7 @@ export default async function EdgeTipPrintPage() {
         </Box>
 
         {/* 3-row stack */}
-        <Stack direction="col" gap={4}>
+        <Stack direction="col" className="flex-1 justify-between py-4">
           {PAYMENT_METHODS.map((method, i) => {
             const svg = qrSvgs[i]
             return (
