@@ -70,7 +70,7 @@ export default async function EdgeTipPrintPage() {
                 className="rounded-xl border border-gray-100 bg-gray-50 px-5 py-4"
               >
                 {/* QR */}
-                <Box className="h-36 w-36 shrink-0 overflow-hidden rounded-lg border border-gray-200 bg-white">
+                <Box className="h-36 w-36 shrink-0 overflow-hidden rounded-lg border-4 border-gray-900 bg-white">
                   {svg ? (
                     <Box
                       className="h-full w-full [&>svg]:h-full [&>svg]:w-full"
