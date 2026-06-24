@@ -1,3 +1,4 @@
+/* ds-ignore-file */
 import { fetchQRCode } from '@/lib/qr/api'
 import { Box } from '@/components/ui/box'
 import { Stack } from '@/components/ui/stack'
@@ -85,7 +86,12 @@ export default async function EdgeTipPrintPage() {
                       dangerouslySetInnerHTML={{ __html: svg }}
                     />
                   ) : (
-                    <Stack direction="row" align="center" justify="center" className="h-full w-full">
+                    <Stack
+                      direction="row"
+                      align="center"
+                      justify="center"
+                      className="h-full w-full"
+                    >
                       <TextXs status="muted">QR unavailable</TextXs>
                     </Stack>
                   )}

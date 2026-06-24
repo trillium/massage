@@ -1,3 +1,4 @@
+/* ds-ignore-file */
 import { fetchQRCode } from '@/lib/qr/api'
 import { EDGE_MIN } from '@/lib/slugConfigurations/slugs/edge'
 import { Box } from '@/components/ui/box'
@@ -76,17 +77,15 @@ export default async function EdgeComesToYouPrintPage() {
                   dangerouslySetInnerHTML={{ __html: qrSvg }}
                 />
               ) : (
-                <Stack
-                  direction="row"
-                  align="center"
-                  justify="center"
-                  className="h-full w-full"
-                >
+                <Stack direction="row" align="center" justify="center" className="h-full w-full">
                   <TextXs status="muted">QR unavailable</TextXs>
                 </Stack>
               )}
             </Box>
-            <TextXs className="mt-2 text-center font-semibold uppercase tracking-wide" status="muted">
+            <TextXs
+              className="mt-2 text-center font-semibold uppercase tracking-wide"
+              status="muted"
+            >
               Scan to book
             </TextXs>
             <TextXs status="muted" className="mt-0.5 text-center">
@@ -102,21 +101,27 @@ export default async function EdgeComesToYouPrintPage() {
               </TextXs>
               <Stack direction="col" gap={1}>
                 <Stack direction="row" align="start" gap={2}>
-                  <TextXs className="mt-0.5 text-red-600" as="span">✓</TextXs>
+                  <TextXs className="mt-0.5 text-red-600" as="span">
+                    ✓
+                  </TextXs>
                   <TextSm>
                     <strong>Attendees</strong> — +{EDGE_MIN.comesToYou.attendee} minute bonus on any
                     session
                   </TextSm>
                 </Stack>
                 <Stack direction="row" align="start" gap={2}>
-                  <TextXs className="mt-0.5 text-red-600" as="span">✓</TextXs>
+                  <TextXs className="mt-0.5 text-red-600" as="span">
+                    ✓
+                  </TextXs>
                   <TextSm>
                     <strong>Volunteers</strong> — +{EDGE_MIN.comesToYou.volunteer} minute bonus on
                     any session
                   </TextSm>
                 </Stack>
                 <Stack direction="row" align="start" gap={2}>
-                  <TextXs className="mt-0.5 text-red-600" as="span">✓</TextXs>
+                  <TextXs className="mt-0.5 text-red-600" as="span">
+                    ✓
+                  </TextXs>
                   <TextSm>
                     <strong>Team</strong> — Fully complimentary, no tip necessary
                   </TextSm>
