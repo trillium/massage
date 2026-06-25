@@ -16,7 +16,7 @@ import {
 import { mergeParamsWithLocation } from '@/lib/slugConfigurations/helpers/parseLocationFromSlug'
 import { createSlots } from '@/lib/availability/createSlots'
 import { DEFAULT_DURATION, LEAD_TIME } from 'config'
-import { format } from 'date-fns'
+import { assertDateString, toDateString } from '@/lib/temporal/brands'
 import {
   DayWithStartEnd,
   GoogleCalendarV3Event,
@@ -63,6 +63,7 @@ export function InitializationUtility({
   initialDuration?: number
 }) {
   const dispatch = useAppDispatch()
+  const { timeZone } = useReduxAvailability()
   const initializedRef = useRef(false)
 
   useEffect(() => {
@@ -72,8 +73,7 @@ export function InitializationUtility({
       dispatch(setSlots(initialSlots))
 
       if (!initialSelectedDate) {
-        const firstAvail = format(new Date(initialSlots[0].start), 'yyyy-MM-dd')
-        dispatch(setSelectedDate(firstAvail))
+        dispatch(setSelectedDate(toDateString(initialSlots[0].start, timeZone)))
       }
     }
 
@@ -82,11 +82,11 @@ export function InitializationUtility({
     }
 
     initializedRef.current = true
-  }, [initialSlots, initialDuration, initialSelectedDate, dispatch])
+  }, [initialSlots, initialDuration, initialSelectedDate, timeZone, dispatch])
 
   useEffect(() => {
     if (initialSelectedDate) {
-      dispatch(setSelectedDate(initialSelectedDate))
+      dispatch(setSelectedDate(assertDateString(initialSelectedDate)))
     }
   }, [initialSelectedDate, dispatch])
 
@@ -114,7 +114,11 @@ export function SlotGenerationUtility(
       }
   )
 ) {
-  const { duration: durationRedux, selectedDate: selectedDateRedux } = useReduxAvailability()
+  const {
+    duration: durationRedux,
+    selectedDate: selectedDateRedux,
+    timeZone,
+  } = useReduxAvailability()
   const {
     leadTimeMinimum: leadTime,
     durationBonus,
@@ -164,11 +168,19 @@ export function SlotGenerationUtility(
         !props.initialSelectedDate &&
         newSlots.length > 0
       ) {
-        const firstAvail = format(new Date(newSlots[0].start), 'yyyy-MM-dd')
-        dispatch(setSelectedDate(firstAvail))
+        dispatch(setSelectedDate(toDateString(newSlots[0].start, timeZone)))
       }
     })
-  }, [durationRedux, leadTime, edgeRole, customFields, props, dispatch, selectedDateRedux])
+  }, [
+    durationRedux,
+    leadTime,
+    edgeRole,
+    customFields,
+    props,
+    timeZone,
+    dispatch,
+    selectedDateRedux,
+  ])
 
   return <></>
 }

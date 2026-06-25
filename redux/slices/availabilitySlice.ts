@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction, Slice } from '@reduxjs/toolkit'
 import type { RootState } from '@/redux/store'
 import type { IntervalType, StringDateTimeIntervalAndLocation } from 'lib/types'
+import type { DateString } from '@/lib/temporal/brands'
 import Day from 'lib/day'
 import { ALLOWED_DURATIONS } from 'config'
 
@@ -10,8 +11,8 @@ type AvailabilityState = {
   start: string
   /** The latest day we'll offer appointments */
   end: string
-  /** The day the user selected (if made) */
-  selectedDate?: string
+  /** The day the user selected (if made) — YYYY-MM-DD in the configured timeZone */
+  selectedDate?: DateString
   /** The time slot the user selected (if made). */
   selectedTime?: IntervalType
   /** The end user's timezone string */
@@ -44,7 +45,7 @@ export const availabilitySlice: Slice<AvailabilityState> = createSlice({
     setDuration: (state, action: PayloadAction<number>) => {
       state.duration = action.payload
     },
-    setSelectedDate: (state, action: PayloadAction<string>) => {
+    setSelectedDate: (state, action: PayloadAction<DateString>) => {
       state.selectedDate = action.payload
     },
     setSelectedTime: (state, action: PayloadAction<IntervalType>) => {

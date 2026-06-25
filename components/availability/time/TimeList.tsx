@@ -11,6 +11,7 @@ import { DataFreshnessPill } from './DataFreshnessPill'
 import type { StringDateTimeIntervalAndLocation } from '@/lib/types'
 
 import { format } from 'date-fns-tz'
+import { assertDateString, type DateString } from '@/lib/temporal/brands'
 import { formatLocalTime } from 'lib/availability/helpers'
 import { Box } from '@/components/ui/box'
 import { Stack } from '@/components/ui/stack'
@@ -55,9 +56,9 @@ export default function TimeList({}) {
 
   const availability = selectedDate ? availabilityByDate[selectedDate.toString()] : []
 
-  const firstAvailableDate = useMemo(() => {
+  const firstAvailableDate = useMemo<DateString | null>(() => {
     const dates = Object.keys(availabilityByDate).sort()
-    return dates[0] ?? null
+    return dates[0] ? assertDateString(dates[0]) : null
   }, [availabilityByDate])
 
   const hasNoAvailability =

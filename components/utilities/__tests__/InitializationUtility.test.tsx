@@ -3,6 +3,7 @@ import { render, waitFor } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { makeStore } from '@/redux/store'
 import { setSelectedDate } from '@/redux/slices/availabilitySlice'
+import { assertDateString } from '@/lib/temporal/brands'
 import {
   InitializationUtility,
   SlotGenerationUtility,
@@ -37,7 +38,7 @@ describe('InitializationUtility — selectedDate initialization', () => {
 
   it('URL param overrides stale Redux selectedDate (regression: was silently ignored)', async () => {
     const store = makeStore()
-    store.dispatch(setSelectedDate('2026-05-10'))
+    store.dispatch(setSelectedDate(assertDateString('2026-05-10')))
 
     renderWithStore(<InitializationUtility initialSelectedDate="2026-05-12" />, store)
 
@@ -48,7 +49,7 @@ describe('InitializationUtility — selectedDate initialization', () => {
 
   it('does not set selectedDate when no initialSelectedDate provided', async () => {
     const store = makeStore()
-    store.dispatch(setSelectedDate('2026-05-10'))
+    store.dispatch(setSelectedDate(assertDateString('2026-05-10')))
 
     renderWithStore(<InitializationUtility />, store)
 

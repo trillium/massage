@@ -13,6 +13,7 @@ import { format } from 'date-fns-tz'
 import type { StringDateTimeIntervalAndLocation } from 'lib/types'
 import { useReduxAvailability, useAppDispatch } from '@/redux/hooks'
 import { setSelectedDate } from '@/redux/slices/availabilitySlice'
+import { assertDateString } from '@/lib/temporal/brands'
 import { Stack } from '@/components/ui/stack'
 import { Box } from '@/components/ui/box'
 
@@ -59,7 +60,7 @@ export default function Calendar({
     if (onDaySelect) {
       onDaySelect(date)
     } else {
-      dispatch(setSelectedDate(date.toString()))
+      dispatch(setSelectedDate(assertDateString(date.toString())))
     }
   }
 

@@ -3,6 +3,7 @@
 import { useEffect } from 'react'
 import { useAppDispatch } from '@/redux/hooks'
 import { setSlots, setDuration, setSelectedDate } from '@/redux/slices/availabilitySlice'
+import { assertDateString } from '@/lib/temporal/brands'
 import { StringDateTimeIntervalAndLocation } from '@/lib/types'
 
 interface InitializeBookingStateProps {
@@ -27,7 +28,7 @@ export default function InitializeBookingState({
     dispatch(setSlots(slots))
     dispatch(setDuration(duration))
     if (selectedDate) {
-      dispatch(setSelectedDate(selectedDate))
+      dispatch(setSelectedDate(assertDateString(selectedDate)))
     }
   }, [dispatch, slots, duration, selectedDate])
 
