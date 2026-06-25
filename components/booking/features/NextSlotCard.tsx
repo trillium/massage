@@ -11,7 +11,7 @@ import type { StringDateTimeInterval, LocationObject } from '@/lib/types'
 import { Badge } from '@/components/ui/badge'
 import { Box } from '@/components/ui/box'
 import { Stack } from '@/components/ui/stack'
-import { TextBaseSemibold, TextXs } from '@/components/ui/text'
+import { TextBaseSemibold, TextLgSemibold, TextXs } from '@/components/ui/text'
 
 function formatTimeUntil(startIso: string, now: number): string | null {
   const ms = new Date(startIso).getTime() - now
@@ -85,14 +85,10 @@ export default function NextSlotCard() {
         >
           ASAP
         </Badge>
-        {countdownLabel && (
-          <TextBaseSemibold className="text-primary-700 dark:text-primary-300">
-            {countdownLabel}
-          </TextBaseSemibold>
-        )}
+        {countdownLabel && <TextBaseSemibold status="primary">{countdownLabel}</TextBaseSemibold>}
       </Stack>
       <Stack direction="row" gap={2} className="items-baseline">
-        <TextBaseSemibold className="text-lg">{dateLabel}</TextBaseSemibold>
+        <TextLgSemibold>{dateLabel}</TextLgSemibold>
         <TextXs status="muted">earliest available</TextXs>
       </Stack>
       <TimeButton
