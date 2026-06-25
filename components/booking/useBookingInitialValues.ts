@@ -80,6 +80,7 @@ export function useBookingInitialValues({
       rescheduleEventId: config?.rescheduleEventId,
       rescheduleToken: config?.rescheduleToken,
       edgeMemberType,
+      requestSooner: formData.requestSooner ?? false,
     }
   }, [
     formData,

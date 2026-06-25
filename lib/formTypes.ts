@@ -38,6 +38,8 @@ export type BookingFormData = {
   raffleName?: string
   /** Raffle interests selected by user */
   raffleInterests?: string[]
+  /** Client opted into being moved earlier if a sooner slot opens */
+  requestSooner?: boolean
 }
 
 export type ReviewFormData = {
