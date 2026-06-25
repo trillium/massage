@@ -37,6 +37,7 @@ export const DS_COMPONENTS_BY_CATEGORY = {
     'TextXsMedium',
     'TextLg',
     'TextLgMuted',
+    'TextLgSemibold',
     'TextMuted',
     'TextPrimary',
     'Caption',
