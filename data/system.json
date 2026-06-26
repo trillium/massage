@@ -10,10 +10,11 @@
   },
   "notFound": {
     "code": "404",
-    "title": "Sorry we couldn't find this page.",
-    "description": "But don't worry, you can find plenty of other things on our homepage.",
+    "title": "This page took a day off.",
+    "description": "We couldn't find what you were looking for — but the rest of the site is open. Head back to the homepage or book a session.",
     "buttons": {
-      "home": "Back to homepage"
+      "home": "Back to homepage",
+      "book": "Book a session"
     }
   },
   "bookingError": {
