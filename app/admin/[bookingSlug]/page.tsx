@@ -1,7 +1,7 @@
 export const dynamic = 'force-dynamic'
 
+import { notFound } from 'next/navigation'
 import { SearchParamsType } from '@/lib/types'
-import NotFound from 'app/not-found'
 import { createPageConfiguration } from '@/lib/slugConfigurations/createPageConfiguration'
 import SlugDashboard from '@/components/admin/SlugDashboard'
 import { getSupabaseAdminClient } from '@/lib/supabase/server'
@@ -19,11 +19,11 @@ export default async function Page({
   const result = await createPageConfiguration({ bookingSlug, resolvedParams })
 
   if (result.configuration === null || result.configuration === undefined) {
-    return <NotFound />
+    notFound()
   }
 
   const supabase = getSupabaseAdminClient()
-  if (!supabase) return <NotFound />
+  if (!supabase) notFound()
   const { data: appointmentsData } = await supabase
     .from('appointments')
     .select(

@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
+import { notFound } from 'next/navigation'
 import { SearchParamsType } from '@/lib/types'
-import NotFound from 'app/not-found'
 import { createPageConfiguration } from '@/lib/slugConfigurations/createPageConfiguration'
 import ExpiredPromoPage from '@/components/ExpiredPromoPage'
 import GeneralBookingFeature from '@/components/booking/features/GeneralBookingFeature'
@@ -25,8 +25,14 @@ export async function generateMetadata({
   const { bookingSlug } = await params
   const configMap = await fetchSlugConfigurationData()
   const config = configMap[bookingSlug]
-  const title = config?.title ?? 'Book a massage'
-  const description = firstLineOfText(config?.text ?? null) || siteMetadata.description
+  if (!config) {
+    return genPageMetadata({
+      title: 'Page not found',
+      description: "Sorry we couldn't find this page.",
+    })
+  }
+  const title = config.title ?? 'Book a massage'
+  const description = firstLineOfText(config.text ?? null) || siteMetadata.description
   const siteUrl = (siteMetadata.siteUrl as string).replace(/\/$/, '')
   const isEdge = bookingSlug === 'edge'
   const ogImage = isEdge
@@ -56,7 +62,7 @@ export default async function Page({
   const result = await createPageConfiguration({ bookingSlug, resolvedParams })
 
   if (result.configuration === null || result.configuration === undefined) {
-    return <NotFound></NotFound>
+    notFound()
   }
 
   // Check if this is an expired promotion
