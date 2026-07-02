@@ -5,7 +5,6 @@ interface StyledBookButtonProps {
 }
 import { Stack } from '@/components/ui/stack'
 import { Box } from '@/components/ui/box'
-import { TextBase } from '@/components/ui/text'
 
 export default function StyledBookButton({
   href,
@@ -19,7 +18,7 @@ export default function StyledBookButton({
       gradientFrom: 'group-hover:from-[#FF385C]',
       gradientVia: 'group-hover:via-[#FF5A5F]',
       gradientTo: 'group-hover:to-[#FF5A5F]',
-      text: 'text-[#FF5A5F] dark:text-white',
+      text: 'text-black dark:text-white group-hover:text-white transition-colors',
       decoration: 'decoration-[#FF5A5F] hover:decoration-[#FF385C]',
     },
     primary: {
@@ -60,11 +59,11 @@ export default function StyledBookButton({
           </svg>
         </Stack>
       </Box>
-      <TextBase as="span" className={`z-0 pr-2 text-xl font-bold ${style.text}`}>
-        {' '}
-        {/* ds-ignore */}
+      <span // ds-ignore — plain span so hover color transitions aren't fought by TextBase's default color
+        className={`z-0 pr-2 text-xl font-bold ${style.text}`}
+      >
         {text}
-      </TextBase>
+      </span>
     </>
   )
 
