@@ -7,6 +7,7 @@ import siteMetadata from '@/data/siteMetadata'
 import StoreProvider from 'app/StoreProvider'
 import { AuthStateListener } from './components/AuthStateListener'
 import LocationParamSync from '@/components/utilities/LocationParamSync'
+import RefTracker from '@/components/utilities/RefTracker'
 import FormPersistenceManager from '@/components/utilities/FormPersistenceManager'
 
 export function ThemeProviders({ children }: { children: React.ReactNode }) {
@@ -16,6 +17,7 @@ export function ThemeProviders({ children }: { children: React.ReactNode }) {
         <AuthStateListener />
         <StoreProvider>
           <LocationParamSync />
+          <RefTracker />
           <FormPersistenceManager />
           <ThemeProvider attribute="class" defaultTheme={siteMetadata.theme} enableSystem>
             {children}
