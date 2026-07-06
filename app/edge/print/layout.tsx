@@ -5,6 +5,7 @@ const PRINT_PAGES = [
   { href: '/edge/print/office-hours', label: 'Office Hours Ad' },
   { href: '/edge/print/comes-to-you', label: 'Comes to You Ad' },
   { href: '/edge/print/tip', label: 'Tip Page' },
+  { href: '/edge/print/fifafan50', label: 'FIFA Fan 50% Off' },
 ]
 
 export default function EdgePrintLayout({ children }: { children: React.ReactNode }) {
