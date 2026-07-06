@@ -1,7 +1,10 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render } from '@testing-library/react'
 import RefTracker from '@/components/utilities/RefTracker'
-import { encodeRef, decodeRef } from '@/lib/ref/refCodec'
+import { encodeRef, decodeRef, tryDecodeRef } from '@/lib/ref/refCodec'
+
+const secret = 'test-secret-key'
+vi.stubEnv('NEXT_PUBLIC_REF_CODE_SECRET', secret)
 
 const captureMock = vi.fn()
 
@@ -18,14 +21,28 @@ describe('RefTracker — ref param capture', () => {
     captureMock.mockClear()
   })
 
-  it('captures the opaque ref code verbatim as event and person properties', () => {
-    setSearch('?ref=Dg8CAxdR')
+  it('decodes a secret-keyed ref code and stamps decoded value on person properties', () => {
+    const code = encodeRef('jane-2', secret)
+    setSearch(`?ref=${code}`)
     render(<RefTracker />)
 
     expect(captureMock).toHaveBeenCalledWith('ref_link_visit', {
-      ref: 'Dg8CAxdR',
-      $set: { latest_ref: 'Dg8CAxdR' },
-      $set_once: { initial_ref: 'Dg8CAxdR' },
+      ref: code,
+      ref_decoded: 'jane-2',
+      $set: { latest_ref: 'jane-2' },
+      $set_once: { initial_ref: 'jane-2' },
+    })
+  })
+
+  it('falls back to the raw ref when the code is not decodable', () => {
+    setSearch('?ref=qr-lobby')
+    render(<RefTracker />)
+
+    expect(captureMock).toHaveBeenCalledWith('ref_link_visit', {
+      ref: 'qr-lobby',
+      ref_decoded: undefined,
+      $set: { latest_ref: 'qr-lobby' },
+      $set_once: { initial_ref: 'qr-lobby' },
     })
   })
 
@@ -37,7 +54,7 @@ describe('RefTracker — ref param capture', () => {
   })
 
   it('captures only once across re-renders', () => {
-    setSearch('?ref=Dg8CAxdR')
+    setSearch(`?ref=${encodeRef('jane-2', secret)}`)
     const { rerender } = render(<RefTracker />)
     rerender(<RefTracker />)
 
@@ -46,8 +63,6 @@ describe('RefTracker — ref param capture', () => {
 })
 
 describe('refCodec — secret-keyed encode/decode', () => {
-  const secret = 'test-secret-key'
-
   it('round-trips a client tag through encode and decode', () => {
     const code = encodeRef('jane-2', secret)
     expect(decodeRef(code, secret)).toBe('jane-2')
@@ -71,5 +86,11 @@ describe('refCodec — secret-keyed encode/decode', () => {
   it('throws when the secret is empty', () => {
     expect(() => encodeRef('jane-2', '')).toThrow()
     expect(() => decodeRef('abc', '')).toThrow()
+  })
+
+  it('tryDecodeRef returns null for garbage instead of throwing', () => {
+    expect(tryDecodeRef('!!not-base64!!', secret)).toBeNull()
+    expect(tryDecodeRef('a', secret)).toBeNull()
+    expect(tryDecodeRef(encodeRef('jane-2', secret), secret)).toBe('jane-2')
   })
 })
