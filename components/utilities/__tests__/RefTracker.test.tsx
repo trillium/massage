@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render } from '@testing-library/react'
-import RefTracker from '@/components/utilities/RefTracker'
+import RefTracker, { decodeRef } from '@/components/utilities/RefTracker'
 
 const captureMock = vi.fn()
 
@@ -12,19 +12,44 @@ function setSearch(search: string) {
   window.history.replaceState({}, '', `/${search}`)
 }
 
+describe('decodeRef', () => {
+  it('round-trips a base64url-encoded client tag', () => {
+    expect(decodeRef(btoa('jane-2'))).toBe('jane-2')
+  })
+
+  it('handles base64url alphabet (- and _) and rejects garbage', () => {
+    expect(decodeRef('amFuZS0y')).toBe('jane-2')
+    expect(decodeRef('!!not-base64!!')).toBeNull()
+    expect(decodeRef('a')).toBeNull()
+  })
+})
+
 describe('RefTracker — ref param capture', () => {
   beforeEach(() => {
     captureMock.mockClear()
   })
 
-  it('captures ref_link_visit with event and person properties when ?ref= is present', () => {
-    setSearch('?ref=jane-d')
+  it('decodes a base64url ref and stamps decoded value on person properties', () => {
+    setSearch('?ref=amFuZS0y')
     render(<RefTracker />)
 
     expect(captureMock).toHaveBeenCalledWith('ref_link_visit', {
-      ref: 'jane-d',
-      $set: { latest_ref: 'jane-d' },
-      $set_once: { initial_ref: 'jane-d' },
+      ref: 'amFuZS0y',
+      ref_decoded: 'jane-2',
+      $set: { latest_ref: 'jane-2' },
+      $set_once: { initial_ref: 'jane-2' },
+    })
+  })
+
+  it('falls back to the raw ref when it is not decodable base64url', () => {
+    setSearch('?ref=qr-lobby')
+    render(<RefTracker />)
+
+    expect(captureMock).toHaveBeenCalledWith('ref_link_visit', {
+      ref: 'qr-lobby',
+      ref_decoded: undefined,
+      $set: { latest_ref: 'qr-lobby' },
+      $set_once: { initial_ref: 'qr-lobby' },
     })
   })
 
