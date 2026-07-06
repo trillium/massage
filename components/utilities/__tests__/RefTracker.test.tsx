@@ -68,9 +68,16 @@ describe('refCodec — secret-keyed encode/decode', () => {
     expect(decodeRef(code, secret)).toBe('jane-2')
   })
 
-  it('produces URL-safe codes with no padding or +/ characters', () => {
-    const code = encodeRef('client with spaces & symbols!', secret)
-    expect(code).toMatch(/^[A-Za-z0-9_-]+$/)
+  it('produces pure alphanumeric codes — no underscores, hyphens, or padding', () => {
+    for (const tag of ['jane-2', 'client with spaces & symbols!', 'a1', 'francesca-w4']) {
+      expect(encodeRef(tag, secret)).toMatch(/^[A-Za-z0-9]+$/)
+    }
+  })
+
+  it('round-trips tags whose XORed bytes start with zero', () => {
+    const zeroLeading = String.fromCharCode(secret.charCodeAt(0)) + 'ane-2'
+    const code = encodeRef(zeroLeading, secret)
+    expect(decodeRef(code, secret)).toBe(zeroLeading)
   })
 
   it('does not decode to the tag without the right secret', () => {
