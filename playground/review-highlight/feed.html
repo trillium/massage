@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Review Feed Frame</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #333; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+  #frame {
+    width: 1080px; height: 1350px; position: relative; overflow: hidden;
+    background:
+      radial-gradient(1200px 900px at 85% -10%, rgba(255,255,255,0.14), transparent 60%),
+      radial-gradient(1400px 1100px at 10% 110%, rgba(0,0,0,0.28), transparent 60%),
+      linear-gradient(165deg, #ef3b3b 0%, #dc2626 45%, #b91c1c 100%);
+  }
+  .chip {
+    position: absolute; top: 160px; left: 50%; transform: translateX(-50%);
+    display: flex; align-items: center; gap: 18px;
+    background: rgba(255,255,255,0.14); border: 2px solid rgba(255,255,255,0.35);
+    border-radius: 999px; padding: 16px 40px;
+    color: #fff; font-size: 32px; font-weight: 600; letter-spacing: 0.02em;
+    backdrop-filter: blur(4px); white-space: nowrap;
+  }
+  .chip .stars { font-size: 32px; letter-spacing: 6px; }
+  .headline {
+    position: absolute; top: 258px; left: 84px; right: 84px;
+    color: #fff; font-size: 96px; line-height: 1.0; font-weight: 900;
+    letter-spacing: -0.02em; text-transform: uppercase;
+    text-shadow: 0 4px 24px rgba(0,0,0,0.18);
+  }
+  .headline em { font-style: normal; color: #ffe4e6; }
+  .card {
+    position: absolute; left: 50%; transform: translateX(-50%); width: 880px;
+    background: #fff; border-radius: 28px; padding: 44px 48px;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.35); color: #222;
+  }
+  .card .who { display: flex; align-items: center; gap: 22px; margin-bottom: 24px; }
+  .card .avatar {
+    width: 72px; height: 72px; border-radius: 50%; object-fit: cover; flex: none;
+    background: #717171; color: #fff; display: flex; align-items: center; justify-content: center;
+    font-size: 34px; font-weight: 600;
+  }
+  .card .name { font-size: 30px; font-weight: 700; }
+  .card .sub { font-size: 24px; color: #6a6a6a; margin-top: 4px; }
+  .card .meta { font-size: 24px; margin-bottom: 18px; display: flex; align-items: center; gap: 14px; }
+  .card .meta .mini-stars { font-size: 22px; letter-spacing: 3px; }
+  .card .meta .dot, .card .meta .when { color: #6a6a6a; }
+  .card .text { font-size: 30px; line-height: 1.45; }
+  .card .text mark {
+    background: linear-gradient(100deg, rgba(220,38,38,0) 0%, rgba(220,38,38,0.22) 4%, rgba(220,38,38,0.26) 96%, rgba(220,38,38,0) 100%);
+    color: #b91c1c; font-weight: 800; padding: 2px 6px; border-radius: 6px;
+    -webkit-box-decoration-break: clone; box-decoration-break: clone;
+  }
+  .cta { position: absolute; bottom: 132px; left: 84px; right: 84px; text-align: center; }
+  .cta .offer {
+    display: inline-block; background: #fff; color: #b91c1c;
+    font-size: 40px; font-weight: 900; letter-spacing: 0.01em;
+    border-radius: 999px; padding: 24px 52px;
+    box-shadow: 0 18px 40px rgba(0,0,0,0.28);
+  }
+  .cta .offer .code { letter-spacing: 0.08em; }
+  .cta .sub { margin-top: 18px; color: #ffe4e6; font-size: 27px; font-weight: 600; letter-spacing: 0.02em; }
+</style>
+</head>
+<body>
+<div id="frame">
+  <div class="chip"><span class="stars">★★★★★</span><span>5.0 · 62 reviews</span></div>
+  <div class="headline" id="headline"></div>
+  <div class="card" id="card"></div>
+  <div class="cta">
+    <div class="offer">50% off · code <span class="code">FIFAFAN50</span></div>
+    <div class="sub">Up to $100 off at Airbnb checkout · Book by July 21</div>
+  </div>
+</div>
+<script>
+  function esc(s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;') }
+
+  function sentences(text) {
+    return text.match(/[^.!?…]+[.!?…]+["']?|[^.!?…]+$/g)?.map((s) => s.trim()).filter(Boolean) ?? [text]
+  }
+
+  function scoreSentence(s) {
+    let score = 0
+    if (/book/i.test(s)) score += 2
+    if (/!$/.test(s)) score += 1
+    if (/best|amazing|incredible|highly recommend|unbelievable|fantastic|five star|5 star/i.test(s)) score += 1
+    if (s.length < 15 || s.length > 200) score -= 1
+    return score
+  }
+
+  const QUOTE_OVERRIDES = {
+    8: 'Showed up early, total pro. Excellent results.',
+    23: 'spent extra time on my back, neck, and the base of the skull',
+    36: 'BOOK THIS IMMEDIATELY.',
+    38: 'one of the best seat massages I’ve ever had!',
+    42: 'I could tell he was very experienced within a few seconds',
+    45: 'Gave him a 3 hour notice and he manage to make it work',
+    55: 'one of the best he has ever had!',
+  }
+
+  function scoreFragment(s) {
+    let score = scoreSentence(s)
+    if (s.length >= 12 && s.length <= 44) score += 2
+    else if (s.length <= 60) score += 1
+    if (/^(and|but|so|which|that|he|it)\b/i.test(s)) score -= 1
+    return score
+  }
+
+  function headlineQuote(text) {
+    const sents = sentences(text.replace(/\s+/g, ' ').trim())
+    const best = [...sents].sort((a, b) => scoreSentence(b) - scoreSentence(a))[0]
+    const parts = best.split(/,|—|–| - /).map((c) => c.trim()).filter((c) => c.length >= 8)
+    const clauses = [best, ...(parts.length > 1 ? parts.filter((p, idx) => idx === parts.length - 1 || /!|book/i.test(p)) : [])]
+      .map((c) => c.replace(/^[,\s]+|[,\s]+$/g, ''))
+    const frag = clauses.sort((a, b) => scoreFragment(b) - scoreFragment(a))[0] ?? best
+    const words = frag.replace(/[.]$/, '').split(' ')
+    const last = words.pop()
+    return `“${esc(words.join(' '))} <em>${esc(last)}</em>”`
+  }
+
+  function prepare(text) {
+    const sents = sentences(text.replace(/\s+/g, ' ').trim())
+    const best = [...sents].sort((a, b) => scoreSentence(b) - scoreSentence(a))[0]
+    const kept = []
+    let len = 0
+    for (const s of sents) {
+      if (len + s.length > 430 && kept.length > 0) break
+      kept.push(s)
+      len += s.length
+    }
+    const trimmed = kept.length < sents.length
+    if (trimmed && !kept.includes(best) && scoreSentence(best) > 0) kept.push('…', best)
+    else if (trimmed) kept.push('…')
+    return kept.map((s) => (s === best && scoreSentence(best) > 0 ? `<mark>${esc(s)}</mark>` : esc(s))).join(' ')
+  }
+
+  async function main() {
+    const params = new URLSearchParams(location.search)
+    const i = parseInt(params.get('i') ?? '0', 10)
+    if (params.get('promo') === '0') {
+      document.querySelector('.cta').innerHTML = `
+        <div class="offer">Book on Airbnb · link in bio</div>
+        <div class="sub">In-home massage, anywhere in LA · Table or chair</div>`
+    }
+    const reviews = await (await fetch('content/reviews.json')).json()
+    const r = reviews[i]
+    const headline = document.getElementById('headline')
+    const custom = params.get('q') ?? QUOTE_OVERRIDES[i]
+    headline.innerHTML = custom ? `“${esc(custom)}”` : headlineQuote(r.text)
+
+    const avatar = r.avatarFile
+      ? `<img class="avatar" src="content/${r.avatarFile}" alt="" />`
+      : `<div class="avatar">${esc(r.name[0])}</div>`
+    document.getElementById('card').innerHTML = `
+      <div class="who">${avatar}<div><div class="name">${esc(r.name)}</div><div class="sub">${esc(r.loc ?? '')}</div></div></div>
+      <div class="meta"><span class="mini-stars">★★★★★</span></div>
+      <div class="text">${prepare(r.text)}</div>`
+
+    let hs = 96
+    while (headline.offsetHeight > 210 && hs > 60) { hs -= 4; headline.style.fontSize = `${hs}px` }
+    const card = document.getElementById('card')
+    const zoneTop = 258 + headline.offsetHeight + 56
+    let ts = 30
+    while (ts > 21 && zoneTop + card.offsetHeight > 1090) {
+      ts -= 1
+      card.querySelector('.text').style.fontSize = `${ts}px`
+    }
+    card.style.top = `${Math.max(zoneTop, zoneTop + (1090 - zoneTop - card.offsetHeight) / 2)}px`
+    document.title = `ready-${i}`
+  }
+  main()
+</script>
+</body>
+</html>

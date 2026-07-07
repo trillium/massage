@@ -85,8 +85,11 @@ app/tag-data.json
 # Database backups (contain production data)
 data/backups/
 
-# Playground
-playground/
+# Playground (review-highlight pipeline machinery is tracked; its content + output are not)
+/playground/*
+!/playground/review-highlight
+/playground/review-highlight/output/
+/playground/review-highlight/content/
 
 # Gas Town (added by gt)
 .runtime/
@@ -100,9 +103,6 @@ playground/
 
 # TypeScript build cache
 *.tsbuildinfo
-
-# Exploratory/playground code
-/playground
 
 # Dolt database files (added by bd init)
 .dolt/

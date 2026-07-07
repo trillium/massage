@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Offer Frame — FIFAFAN50</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #333; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+  #frame {
+    width: 1080px; height: 1350px; position: relative; overflow: hidden;
+    background:
+      radial-gradient(1200px 900px at 85% -10%, rgba(255,255,255,0.14), transparent 60%),
+      radial-gradient(1400px 1100px at 10% 110%, rgba(0,0,0,0.28), transparent 60%),
+      linear-gradient(165deg, #ef3b3b 0%, #dc2626 45%, #b91c1c 100%);
+  }
+  .chip {
+    position: absolute; top: 160px; left: 50%; transform: translateX(-50%);
+    display: flex; align-items: center; gap: 18px;
+    background: rgba(255,255,255,0.14); border: 2px solid rgba(255,255,255,0.35);
+    border-radius: 999px; padding: 16px 40px;
+    color: #fff; font-size: 32px; font-weight: 600; letter-spacing: 0.02em;
+    backdrop-filter: blur(4px); white-space: nowrap;
+  }
+  .headline {
+    position: absolute; top: 258px; left: 84px; right: 84px;
+    color: #fff; font-size: 104px; line-height: 1.0; font-weight: 900;
+    letter-spacing: -0.02em; text-transform: uppercase;
+    text-shadow: 0 4px 24px rgba(0,0,0,0.18);
+  }
+  .headline em { font-style: normal; color: #ffe4e6; }
+  .card {
+    position: absolute; left: 50%; transform: translateX(-50%); width: 880px;
+    background: #fff; border-radius: 28px; padding: 56px 60px;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.35); color: #222; text-align: center;
+  }
+  .card .big { font-size: 150px; font-weight: 900; color: #dc2626; letter-spacing: -0.02em; line-height: 1; }
+  .card .mid { font-size: 40px; font-weight: 700; color: #222; margin-top: 18px; }
+  .card .body { font-size: 33px; line-height: 1.5; color: #222; text-align: left; }
+  .card .body strong { color: #b91c1c; }
+  .card .codepill {
+    display: inline-block; margin-top: 36px; background: #dc2626; color: #fff;
+    font-size: 44px; font-weight: 900; letter-spacing: 0.08em;
+    border-radius: 16px; padding: 22px 48px;
+  }
+  .card .steps { text-align: left; }
+  .card .step { display: flex; gap: 28px; align-items: flex-start; margin-bottom: 34px; }
+  .card .step:last-child { margin-bottom: 0; }
+  .card .n {
+    flex: none; width: 64px; height: 64px; border-radius: 50%;
+    background: #dc2626; color: #fff; font-size: 34px; font-weight: 900;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .card .step .t { font-size: 33px; line-height: 1.4; padding-top: 8px; }
+  .card .step .t strong { color: #b91c1c; letter-spacing: 0.04em; }
+  .cta { position: absolute; bottom: 132px; left: 84px; right: 84px; text-align: center; }
+  .cta .offer {
+    display: inline-block; background: #fff; color: #b91c1c;
+    font-size: 40px; font-weight: 900; letter-spacing: 0.01em;
+    border-radius: 999px; padding: 24px 52px;
+    box-shadow: 0 18px 40px rgba(0,0,0,0.28);
+  }
+  .cta .offer .code { letter-spacing: 0.08em; }
+  .cta .sub { margin-top: 18px; color: #ffe4e6; font-size: 27px; font-weight: 600; letter-spacing: 0.02em; }
+</style>
+</head>
+<body>
+<div id="frame">
+  <div class="chip" id="chip">⚽ Summer of soccer · Los Angeles</div>
+  <div class="headline" id="headline"></div>
+  <div class="card" id="card"></div>
+  <div class="cta">
+    <div class="offer" id="ctaOffer">50% off · code <span class="code">FIFAFAN50</span></div>
+    <div class="sub" id="ctaSub">Up to $100 off at Airbnb checkout · Book by July 21</div>
+  </div>
+</div>
+<script>
+  const VARIANTS = {
+    1: {
+      headline: 'After the match, <em>recover.</em>',
+      card: `<div class="big">50% OFF</div><div class="mid">your in-home massage</div><div class="codepill">FIFAFAN50</div>`,
+    },
+    2: {
+      headline: 'How to <em>claim it.</em>',
+      card: `<div class="steps">
+        <div class="step"><div class="n">1</div><div class="t">Book on <strong>Airbnb</strong> — link in bio, or comment <strong>SOCCER</strong> and I'll DM it</div></div>
+        <div class="step"><div class="n">2</div><div class="t">Enter code <strong>FIFAFAN50</strong> at checkout — it can't be added after booking</div></div>
+        <div class="step"><div class="n">3</div><div class="t">See the discount applied <strong>before</strong> you finalize</div></div>
+      </div>`,
+    },
+    3: {
+      headline: "Clock's <em>running.</em>",
+      card: `<div class="big">JULY 21</div><div class="mid">last day to book with the code</div><div class="codepill">FIFAFAN50</div>`,
+    },
+    4: {
+      headline: 'Cheered <em>too hard?</em>',
+      card: `<div class="body">Your neck agrees. Ninety minutes of shouting at a screen is a workout — recover with a massage that comes to <strong>your</strong> place, on your schedule.</div><div style="text-align:center"><div class="codepill">FIFAFAN50</div></div>`,
+    },
+    5: {
+      headline: 'Treat the <em>squad.</em>',
+      card: `<div class="body"><strong>For the Fans:</strong> a dedicated 75-minute session for you and/or your crew — chair or table, split the time among as many people as you'd like. Sore legs, stiff backs, long hours in the stands: handled.</div><div style="text-align:center"><div class="codepill">FIFAFAN50</div></div>`,
+    },
+    e1: {
+      chip: '⭐ Airbnb · Los Angeles',
+      headline: 'The reviews are <em>in.</em>',
+      card: `<div class="big">5.0 ★</div><div class="mid">62 five-star reviews on Airbnb</div><div class="body" style="margin-top:36px">Every single one. Ten years of experience, a table or chair that comes to your door, and a review page that does the talking.</div>`,
+    },
+    e2: {
+      headline: 'How it <em>works.</em>',
+      card: `<div class="steps">
+        <div class="step"><div class="n">1</div><div class="t">Book on <strong>Airbnb</strong> — link in bio, or DM me and I'll send it</div></div>
+        <div class="step"><div class="n">2</div><div class="t">I arrive with the <strong>table, linens, and music</strong> — you supply the living room</div></div>
+        <div class="step"><div class="n">3</div><div class="t">When it ends, you're <strong>already home</strong> — no drive, no lobby, no rush</div></div>
+      </div>`,
+    },
+    e3: {
+      headline: 'Tonight? <em>Handled.</em>',
+      card: `<div class="body">Real review: <strong>“gave him a 3-hour notice and he made it work.”</strong> Same-day and short-notice sessions happen more often than you'd think — message me before you write tonight off.</div>`,
+    },
+    e4: {
+      chip: '🎉 Events & groups · Los Angeles',
+      headline: 'Bring the <em>chairs.</em>',
+      card: `<div class="body"><strong>Watch parties, birthdays, office days:</strong> the massage chairs travel. One client's guests called them the talk of the event. Your crew gets the same treatment — I set up, everyone rotates through, the room lights up.</div>`,
+    },
+    e5: {
+      headline: 'The gift that <em>lands.</em>',
+      card: `<div class="body">A client booked a session for her husband — he called it <strong>one of the best massages he's ever had.</strong> Sessions gift beautifully: book for your person, your parents, your whole crew. Couples doubles welcome.</div>`,
+    },
+  }
+
+  const params = new URLSearchParams(location.search)
+  const key = params.get('v') ?? '1'
+  const v = VARIANTS[key]
+  if (key.startsWith('e')) {
+    document.getElementById('chip').textContent = v.chip ?? '🏠 In-home massage · Los Angeles'
+    document.getElementById('ctaOffer').innerHTML = 'Book on Airbnb · link in bio'
+    document.getElementById('ctaSub').textContent = 'Table or chair · I bring everything · Anywhere in LA'
+  }
+  const headline = document.getElementById('headline')
+  headline.innerHTML = v.headline
+  const card = document.getElementById('card')
+  card.innerHTML = v.card
+
+  let hs = 104
+  while (headline.offsetHeight > 220 && hs > 64) { hs -= 4; headline.style.fontSize = `${hs}px` }
+  const zoneTop = 258 + headline.offsetHeight + 56
+  card.style.top = `${Math.max(zoneTop, zoneTop + (1090 - zoneTop - card.offsetHeight) / 2)}px`
+  document.title = `ready-${key}`
+</script>
+</body>
+</html>
