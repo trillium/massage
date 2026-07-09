@@ -7,6 +7,8 @@ const secret = 'test-secret-key'
 vi.stubEnv('NEXT_PUBLIC_REF_CODE_SECRET', secret)
 
 const captureMock = vi.fn()
+const fetchMock = vi.fn(() => Promise.resolve({ ok: true }))
+vi.stubGlobal('fetch', fetchMock)
 
 vi.mock('posthog-js/react', () => ({
   usePostHog: () => ({ capture: captureMock }),
@@ -19,6 +21,18 @@ function setSearch(search: string) {
 describe('RefTracker — ref param capture', () => {
   beforeEach(() => {
     captureMock.mockClear()
+    fetchMock.mockClear()
+  })
+
+  it('pings the server /api/ref endpoint so it can tag the person server-side', () => {
+    const code = encodeRef('jane-2', secret)
+    setSearch(`?ref=${code}`)
+    render(<RefTracker />)
+
+    expect(fetchMock).toHaveBeenCalledWith(
+      `/api/ref?ref=${encodeURIComponent(code)}`,
+      expect.objectContaining({ credentials: 'same-origin' })
+    )
   })
 
   it('decodes a secret-keyed ref code and stamps decoded value on person properties', () => {
