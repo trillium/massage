@@ -24,6 +24,10 @@ you                     client                  PostHog
 
 ## Minting codes
 
+**Admin UI:** `/admin/ref-links` (auth-gated) — type a label, mint, copy the link. No terminal needed.
+
+**CLI:**
+
 ```sh
 bun --env-file=.env.local scripts/ref-code.ts encode jane-2
 # E7nIWXGt
@@ -33,7 +37,7 @@ bun --env-file=.env.local scripts/ref-code.ts decode E7nIWXGt
 # jane-2
 ```
 
-Keep tags short (4–7 chars, e.g. `jane2`, `mike-r`) so URLs stay SMS-friendly.
+Keep tags short (4–7 chars, e.g. `jane2`, `mike-r`) so URLs stay SMS-friendly. The label is a **human tag, never PII** — e.g. `kris` or a last-4 like `kris-3333`, never a full phone number (the secret ships in the bundle, so any code is trivially decodable).
 
 ## Reading results in PostHog
 
