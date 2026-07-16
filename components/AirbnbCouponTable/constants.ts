@@ -15,52 +15,52 @@ export const airbnbPrices = {
 }
 
 export const servicesWebsite = [
-  { duration: 60, name: '60-Minute Massage' },
-  { duration: 90, name: '90-Minute Massage' },
-  { duration: 120, name: '120-Minute Massage' },
-  { duration: 150, name: 'Massage Therapy Instructional (2hr)' },
+  { duration: 60, name: ‘60-Minute Reading’ },
+  { duration: 90, name: ‘90-Minute Reading’ },
+  { duration: 120, name: ‘120-Minute Reading’ },
+  { duration: 150, name: ‘Tarot Reading & Flower Essence Consultation (2hr)’ },
 ]
 
 export const servicesAirbnb = [
   {
-    name: '60m Massage',
+    name: ‘60m Reading’,
     price: 150,
-    priceDisplay: '$150, per guest',
+    priceDisplay: ‘$150, per guest’,
     duration: 60,
     description:
-      'Enjoy a full hour of massage wherever you are without the hassle of traffic, bringing the benefits of Swedish, Deep Tissue, or Sports massage directly to your home, office, or event. Multiple sessions to be done back-to-back.',
+      ‘Enjoy a full hour tarot reading wherever you are without the hassle of traffic, bringing insightful and transformative guidance directly to your home, office, or event. Multiple sessions to be done back-to-back.’,
   },
   {
-    name: '90m Massage',
+    name: ‘90m Reading’,
     price: 225,
-    priceDisplay: '$225, per guest',
+    priceDisplay: ‘$225, per guest’,
     duration: 90,
     description:
-      'Enjoy a full 90 minutes of massage wherever you are without the hassle of traffic, bringing the benefits of Swedish, Deep Tissue, or Sports massage directly to your home, office, or event. With a longer session, you get more time in pure massage bliss. Multiple sessions to be done back-to-back.',
+      ‘Enjoy a full 90 minutes of tarot reading wherever you are without the hassle of traffic, bringing insightful guidance directly to your home, office, or event. With a longer session, there is more time to explore the cards in depth.’,
   },
   {
-    name: '120m Massage',
+    name: ‘120m Reading’,
     price: 300,
-    priceDisplay: '$300, per guest',
+    priceDisplay: ‘$300, per guest’,
     duration: 120,
     description:
-      'Enjoy a full 120 minutes of massage wherever you are without the hassle of traffic, bringing the benefits of Swedish, Deep Tissue, or Sports massage directly to your home, office, or event. With a longer session, there’s more time to focus on your specific needs, helping you feel lighter, looser, and more relaxed. Multiple sessions to be done back-to-back.',
+      ‘Enjoy a full 120 minutes of tarot reading wherever you are without the hassle of traffic. With a longer session, there is more time to focus on your specific questions and explore multiple spreads for deeper insight.’,
   },
   {
-    name: 'Massage Therapy Instructional',
+    name: ‘Tarot & Flower Essence Consultation’,
     price: 300,
-    priceDisplay: '$300, per group',
+    priceDisplay: ‘$300, per group’,
     duration: 120,
     description:
-      'Want to learn to give a professional-level massage? Structured for two, you’ll receive hands-on guidance on how to give a great massage while keeping your body comfortable and avoiding strain.',
+      ‘A deep dive combining tarot reading with flower essence consultation. Structured for one or two participants, you will receive personalized guidance on the cards and flower essences to support your journey.’,
   },
   {
-    name: 'Thank you Offering',
+    name: ‘Thank you Offering’,
     price: 400,
-    priceDisplay: '$400, per group',
+    priceDisplay: ‘$400, per group’,
     duration: 150,
     description:
-      "Book 2.5 hours of massage therapy, either chair or table, at your leisure! Session can be split up between as many people as you'd like!",
+      "Book 2.5 hours of tarot reading and energy work at your leisure! Session can be split up between as many people as you’d like!",
   },
 ]
 

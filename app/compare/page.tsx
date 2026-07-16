@@ -110,7 +110,7 @@ const roadmap = [
   { feature: 'Online Payments', desc: 'Pay at booking — no more Venmo after the session' },
   { feature: 'Auto Reminders', desc: 'SMS and email confirmations so clients never forget' },
   { feature: 'Intake Forms', desc: 'Health history, conditions, and preferences before arrival' },
-  { feature: 'Gift Cards', desc: 'Buy a massage for someone — biggest holiday revenue driver' },
+  { feature: 'Gift Cards', desc: 'Buy a reading for someone — biggest holiday revenue driver' },
   { feature: 'Self-Service Changes', desc: 'Clients cancel or reschedule without texting you' },
   { feature: 'Email Marketing', desc: 'Re-engage past clients with automated campaigns' },
 ]
@@ -231,9 +231,9 @@ export default function Page() {
               cards, and marketing. We don&apos;t do that yet.
             </p>
             <p>
-              What we do is build software specifically for massage therapists, not repurpose salon
-              tools. Our scheduling understands lead time, travel, multi-duration sessions, and
-              timezone-aware availability in ways no competitor matches.
+              What we do is build software specifically for tarot readers and wellness practitioners,
+              not repurpose salon tools. Our scheduling understands lead time, travel,
+              multi-duration sessions, and timezone-aware availability in ways no competitor matches.
             </p>
             <p>
               The features above marked <Soon /> are actively in development. We&apos;d rather ship

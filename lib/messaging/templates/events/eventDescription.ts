@@ -84,7 +84,7 @@ function eventDescription({
   output += `<b>My Events</b>: <a href="${host}/my_events">View My Events</a>\n`
 
   output += '\n\n'
-  output += `${siteConfig.business.ownerName}, LMT`
+  output += `${siteConfig.business.ownerName}, ${siteConfig.business.occupation}`
   output += '\n'
   output += `<a href="${domain}/">www.${domainDisplay}</a>\n`
 

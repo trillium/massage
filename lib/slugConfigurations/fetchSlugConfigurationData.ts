@@ -42,10 +42,10 @@ const instructionalSlug: SlugConfigurationType = {
   bookingSlug: ['instructional'],
   allowedDurations: [90],
   pricing: { 90: 210 },
-  title: 'Ready to learn to give a great massage?!',
+  title: ‘Ready for a deep-dive tarot and flower essence session?!’,
   text: [
-    'In this hands-on workshop you’ll learn techniques to give a professional-level, relaxing massage while keeping your body comfortable and avoiding strain.',
-    'Designed for two participants with approximately 60 minutes of hands-on instruction. Larger groups can be accommodated with advance notice.',
+    ‘In this extended session you will explore tarot and flower essence consultation in depth, with personalized guidance for your current path.’,
+    ‘Designed for one or two participants with approximately 60 minutes of focused instruction. Larger groups can be accommodated with advance notice.’,
   ],
 }
 
@@ -133,7 +133,7 @@ const slugConfigurations: SlugConfigurationType[] = [
     ...initialStateWithoutType,
     bookingSlug: ['hotel-june'],
     type: 'fixed-location',
-    title: 'Book an in-room massage at Hotel June!',
+    title: 'Book an in-room reading at Hotel June!',
     text: 'Please provide your room number.',
     location: createLocationObject('Hotel June West LA, 8639 Lincoln Blvd', 'Los Angeles', '90045'),
     locationIsReadOnly: true,
@@ -193,7 +193,7 @@ const slugConfigurations: SlugConfigurationType[] = [
     bookingSlug: ['airbnb-host-promo-2026-03'],
     type: 'area-wide',
     title: 'Airbnb Hosts: Get a Free 30-Minute Upgrade',
-    text: `Book a massage and get 30 minutes added to your session, on the house. Thanks for hosting! Questions? Call or text ${contactPhone}`,
+    text: `Book a reading and get 30 minutes added to your session, on the house. Thanks for hosting! Questions? Call or text ${contactPhone}`,
     durationBonus: 30,
     pricingLabels: {
       60: '+30 min free! (90 min session)',
@@ -208,7 +208,7 @@ const slugConfigurations: SlugConfigurationType[] = [
     bookingSlug: ['scale-attendees-home'],
     type: 'area-wide',
     title: 'SCaLE 23x Attendees: Free 30-Minute Upgrade',
-    text: `Book an in-home massage and get 30 minutes added to your session, on the house. Thanks for stopping by at SCaLE! Questions? Call or text ${contactPhone}`,
+    text: `Book an in-home reading and get 30 minutes added to your session, on the house. Thanks for stopping by at SCaLE! Questions? Call or text ${contactPhone}`,
     durationBonus: 30,
     pricingLabels: {
       60: '+30 min free! (90 min session)',
@@ -225,9 +225,9 @@ const slugConfigurations: SlugConfigurationType[] = [
     ...initialStateWithoutType,
     bookingSlug: ['scale-attendees-office'],
     type: 'area-wide',
-    title: 'SCaLE 23x: Chair Massage at Your Office',
+    title: 'SCaLE 23x: Readings at Your Office',
     text: [
-      'Bring chair massage to your office! I can see 1–3 people per 30-minute segment, making it easy to share with your team.',
+      'Bring tarot readings to your office! I can see 1–3 people per 30-minute segment, making it easy to share with your team.',
       `Book a session and get 30 minutes added free. Thanks for stopping by at SCaLE! Questions? Call or text ${contactPhone}`,
     ],
     durationBonus: 30,
@@ -247,7 +247,7 @@ const slugConfigurations: SlugConfigurationType[] = [
     bookingSlug: ['recharge'],
     type: 'fixed-location',
     title: 'Recharge while you charge!',
-    text: 'Quick massage pick-me-up while charging ;)',
+    text: 'Quick reading pick-me-up while charging ;)',
     location: stringToLocationObject('3JR8+FR West Hollywood, California, 90069'),
     eventContainer: 'recharge_chair',
     blockingScope: 'general',
@@ -292,7 +292,7 @@ const slugConfigurations: SlugConfigurationType[] = [
     bookingSlug: ['scale23x'],
     type: 'fixed-location',
     title: 'SCaLE 23x — Book a Session!',
-    text: "Quick chair massage at SCaLE 23x. Pick a time and we'll get you in!",
+    text: "Quick reading at SCaLE 23x. Pick a time and we'll get you in!",
     location: createLocationObject(
       'Pasadena Convention Center, 300 E Green St',
       'Pasadena',
@@ -322,7 +322,7 @@ const slugConfigurations: SlugConfigurationType[] = [
     bookingSlug: ['scale23x-after-hours'],
     type: 'fixed-location',
     title: 'SCaLE 23x After Hours — Book a Session!',
-    text: "Quick chair massage at SCaLE 23x. Pick a time and we'll get you in!",
+    text: "Quick reading at SCaLE 23x. Pick a time and we'll get you in!",
     location: createLocationObject(
       'Pasadena Convention Center, 300 E Green St',
       'Pasadena',
@@ -366,9 +366,9 @@ const slugConfigurations: SlugConfigurationType[] = [
     ...initialStateWithoutType,
     bookingSlug: ['chat-with-me'],
     type: 'fixed-location',
-    title: 'Psyche! Not a Massage, Just a Phone Call',
+    title: 'Psyche! Not a Reading, Just a Phone Call',
     text: [
-      'This is actually just for scheduling a casual phone chat. No massage involved!',
+      'This is actually just for scheduling a casual phone chat. No reading involved!',
       "If you'd rather not send your phone number, (no worries), just enter a bunch of 0's and put a note saying let's chat over Google.",
     ],
     eventContainer: 'chat',

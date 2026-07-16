@@ -37,7 +37,7 @@ export default function ExpiredPromoPage({
 
         <div className="space-y-4">
           <p className="text-lg text-accent-600 dark:text-accent-300">
-            Don't worry, you can still book a massage!
+            Don't worry, you can still book a reading!
           </p>
 
           <div className="flex flex-col items-center space-y-3 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4">

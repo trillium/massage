@@ -82,7 +82,7 @@ export function ReviewFormFields({
           <SourceOptions />
         </select>
         <input
-          placeholder="Type (e.g. massage, couples)"
+          placeholder="Type (e.g. tarot, flower essence)"
           value={form.type}
           onChange={(e) => onChange({ ...form, type: e.target.value })}
           className={cls}

@@ -92,7 +92,7 @@ export default async function EventPage({ params }: { params: Promise<{ event_id
     bookingUrl = createBookingUrl(bookingSlug, matchingEvent.location)
   }
 
-  // Also search for events containing 'massage'
+  // Also search for events containing 'reading' (or legacy 'massage')
   let massageEvents: GoogleCalendarV3Event[] = []
   try {
     // Create date range: 6 months ago to 6 months in the future
@@ -102,12 +102,12 @@ export default async function EventPage({ params }: { params: Promise<{ event_id
     const sixMonthsFromNow = new Date()
     sixMonthsFromNow.setMonth(sixMonthsFromNow.getMonth() + 6)
     massageEvents = await getEventsBySearchQuery({
-      query: 'massage',
+      query: 'reading',
       start: eighteenMonthsAgo,
       end: sixMonthsFromNow,
     })
   } catch (error) {
-    console.error('Error fetching massage events:', error)
+    console.error('Error fetching reading events:', error)
   }
 
   return (
@@ -287,10 +287,10 @@ export default async function EventPage({ params }: { params: Promise<{ event_id
           </div>
         )}
 
-        {/* Search Results for 'massage' */}
+        {/* Search Results for 'reading' */}
         <div className="mt-8 rounded-lg bg-blue-50 p-6 dark:bg-blue-900/20">
           <h2 className="mb-6 text-2xl font-bold text-accent-900 dark:text-white">
-            Events containing "massage"
+            Events containing "reading"
           </h2>
           {massageEvents.length > 0 ? (
             <div className="space-y-4">
@@ -349,7 +349,7 @@ export default async function EventPage({ params }: { params: Promise<{ event_id
             </div>
           ) : (
             <p className="text-accent-600 dark:text-accent-400">
-              No events found containing "massage"
+              No events found containing "reading"
             </p>
           )}
         </div>

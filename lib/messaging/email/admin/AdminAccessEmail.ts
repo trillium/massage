@@ -32,7 +32,7 @@ export default function AdminAccessEmail({
   adminLink,
   requestTime,
 }: AdminAccessEmailProps) {
-  const SUBJECT = 'Admin Access Link - Massage Booking System'
+  const SUBJECT = 'Admin Access Link - Flower Flyther Booking System'
 
   const body = `
     <div dir="ltr">
@@ -53,7 +53,7 @@ export default function AdminAccessEmail({
         <div style="margin: 20px 0; padding: 15px; background-color: #fff3cd; border-left: 4px solid #ffc107;">
           <h4>⚠️ Security Notice</h4>
           <ul>
-            <li>This link provides full admin access to your massage booking system</li>
+            <li>This link provides full admin access to your booking system</li>
             <li>Do not share this link with anyone</li>
             <li>The session will expire automatically after 30 days</li>
             <li>You can logout manually at any time</li>

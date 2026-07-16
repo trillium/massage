@@ -13,7 +13,7 @@ export function parseEventSummary(summary: string, calendarStatus: string) {
     ? clean.slice(0, -SUMMARY_SUFFIX.length)
     : clean
 
-  const match = withoutSuffix.match(/^(\d+)\s+minute\s+massage\s+with\s+(.+)$/i)
+  const match = withoutSuffix.match(/^(\d+)\s+minute\s+(?:massage|reading)\s+with\s+(.+)$/i)
 
   return {
     status,

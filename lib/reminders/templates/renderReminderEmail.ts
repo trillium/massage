@@ -20,20 +20,20 @@ export function renderReminderEmail(
 
   if (reminder.reminder_type === '24h_before') {
     return {
-      subject: `Reminder: Your massage is tomorrow`,
-      body: `<p>Hi ${clientName},</p><p>This is a friendly reminder that your ${appointment.duration_minutes}-minute massage is scheduled for <strong>${formattedDate} at ${formattedTime}</strong>.</p><p>Looking forward to seeing you!</p>`,
+      subject: `Reminder: Your reading is tomorrow`,
+      body: `<p>Hi ${clientName},</p><p>This is a friendly reminder that your ${appointment.duration_minutes}-minute reading is scheduled for <strong>${formattedDate} at ${formattedTime}</strong>.</p><p>Looking forward to seeing you!</p>`,
     }
   }
 
   if (reminder.reminder_type === '2h_before') {
     return {
-      subject: `Your massage is in 2 hours`,
-      body: `<p>Hi ${clientName},</p><p>Just a quick reminder — your ${appointment.duration_minutes}-minute massage starts at <strong>${formattedTime}</strong> today.</p><p>See you soon!</p>`,
+      subject: `Your reading is in 2 hours`,
+      body: `<p>Hi ${clientName},</p><p>Just a quick reminder — your ${appointment.duration_minutes}-minute reading starts at <strong>${formattedTime}</strong> today.</p><p>See you soon!</p>`,
     }
   }
 
   return {
-    subject: `Massage appointment reminder`,
-    body: `<p>Hi ${clientName},</p><p>You have a massage scheduled for ${formattedDate} at ${formattedTime}.</p>`,
+    subject: `Reading appointment reminder`,
+    body: `<p>Hi ${clientName},</p><p>You have a reading scheduled for ${formattedDate} at ${formattedTime}.</p>`,
   }
 }

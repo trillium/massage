@@ -40,7 +40,7 @@ export default function Step5EventObjectDetails({
         <p className="text-accent-600 dark:text-accent-400">
           {!submittedData
             ? 'Complete the booking form to see calendar event details.'
-            : 'Waiting for therapist approval to generate calendar event...'}
+            : 'Waiting for reader approval to generate calendar event...'}
         </p>
       </div>
     )
@@ -75,8 +75,8 @@ export default function Step5EventObjectDetails({
       responseStatus: 'accepted',
     },
     {
-      email: 'trillium@trilliummassage.la',
-      displayName: 'Trillium Smith, LMT',
+      email: 'kendra@flowerflyther.com',
+      displayName: 'Kendra Anderson, Tarot Reader',
       responseStatus: 'accepted',
       organizer: true,
     },

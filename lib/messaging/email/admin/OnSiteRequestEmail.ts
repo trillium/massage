@@ -28,7 +28,7 @@ export default function OnSiteRequestEmail({
   const SUBJECT = `REQUEST: ${firstName} ${lastName}, ${duration} minutes${price ? `, $${price}` : ''}`
 
   const declineUrl = `mailto:${encodeURI(email)}?subject=${encodeURIComponent(
-    `Re: Massage appointment request`
+    `Re: Reading appointment request`
   )}&body=${encodeURIComponent(
     `Hi ${`${firstName}` || 'there'},
 
@@ -39,7 +39,7 @@ Would you be able to meet at a different time?`
 
   let body = `<div dir="ltr">`
   body += [
-    `<b>${firstName} ${lastName}</b> has requested a Chair Massage Appointment Block:`,
+    `<b>${firstName} ${lastName}</b> has requested an On-Site Reading Appointment Block:`,
     `<br>`,
     `Their local timezone is ${timeZone}`,
     `<br>`,

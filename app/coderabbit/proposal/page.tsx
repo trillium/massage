@@ -84,7 +84,7 @@ export default async function ProposalPage({
         </div>
         <Image
           src="/static/images/logo.svg"
-          alt="Trillium Massage"
+          alt="Flower Flyther"
           width={80}
           height={80}
           className="print:h-16 print:w-16"
@@ -100,7 +100,7 @@ export default async function ProposalPage({
         </div>
         <div>
           <span className="font-semibold text-gray-500">Prepared by</span>
-          <p className="text-gray-900">Trillium Smith, LMT</p>
+          <p className="text-gray-900">Kendra Anderson, Tarot Reader</p>
           <p className="text-gray-500">March 2026</p>
         </div>
       </div>
@@ -304,15 +304,15 @@ export default async function ProposalPage({
         <div className="flex items-center gap-4">
           <Image
             src="/static/images/gallery/headshot_branded_hat.jpg"
-            alt="Trillium Smith"
+            alt="Kendra Anderson"
             width={64}
             height={64}
             className="rounded-full object-cover"
           />
           <div>
-            <p className="text-lg font-bold text-gray-900">Trillium Smith, LMT</p>
-            <p className="text-sm text-gray-500">trilliummassagela@gmail.com</p>
-            <p className="text-sm text-teal-600">www.trilliummassage.la</p>
+            <p className="text-lg font-bold text-gray-900">Kendra Anderson, Tarot Reader</p>
+            <p className="text-sm text-gray-500">kendra@flowerflyther.com</p>
+            <p className="text-sm text-teal-600">www.flowerflyther.com</p>
           </div>
         </div>
       </footer>

@@ -28,7 +28,7 @@ export default async function Page({
   }
 
   const events: GoogleCalendarV3Event[] = await getEventsBySearchQuery({
-    query: 'massage',
+    query: 'reading',
     start: startDate,
     end: endDate,
   })

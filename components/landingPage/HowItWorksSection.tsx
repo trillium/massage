@@ -13,18 +13,18 @@ export default function HowItWorksSection() {
     },
     {
       icon: FaCarAlt,
-      title: 'Therapist Arrives',
-      description: 'Your therapist arrives, ready to help you relax and unwind.',
+      title: 'Kendra Arrives',
+      description: 'Your reader arrives, ready to help you find clarity and insight.',
     },
     {
-      icon: FaStopwatch, // Updated icon to better represent setup
-      title: 'Prepare Equipment', // Improved title
-      description: 'Brief pause for table/chair to be set up (usually under 5 minutes).', // Updated description
+      icon: FaStopwatch,
+      title: 'Get Settled',
+      description: 'Brief moment to get comfortable and set intentions for the reading.',
     },
     {
       icon: HiSparkles,
       title: 'Enjoy!',
-      description: 'Relax and enjoy a rejuvenating massage experience.',
+      description: 'Relax and enjoy a transformative tarot reading experience.',
     },
   ]
 

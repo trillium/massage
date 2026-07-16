@@ -10,7 +10,7 @@ const MEMBER_MARKER = 'scale23x__EVENT__MEMBER__'
 function makeMemberEvent(name: string, start: string, end: string): GoogleCalendarV3Event {
   return {
     id: `test-evt-${Date.now()}`,
-    summary: `30 minute massage with ${name} - TrilliumMassage`,
+    summary: `30 minute reading with ${name} - FlowerFlyther`,
     description: MEMBER_MARKER,
     start: { dateTime: start },
     end: { dateTime: end },

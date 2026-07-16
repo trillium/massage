@@ -3,7 +3,7 @@ import { siteConfig } from '@/lib/siteConfig'
 
 export const REQUEST_PREFIX = 'REQUEST: '
 export const SUMMARY_SUFFIX = ` - ${siteConfig.business.name.replace(/\s+/g, '')}`
-const SUMMARY_PATTERN = /^(\d+\s+minute\s+massage\s+with\s+).+$/i
+const SUMMARY_PATTERN = /^(\d+\s+minute\s+(?:massage|reading)\s+with\s+).+$/i
 
 export const isRequestEvent = (event: GoogleCalendarV3Event): boolean =>
   event.summary?.startsWith(REQUEST_PREFIX) ?? false

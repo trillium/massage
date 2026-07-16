@@ -29,7 +29,7 @@ export default function Step2GeneratedEmails({
       <div className="grid gap-6 md:grid-cols-2">
         <div>
           <h3 className="mb-2 text-lg font-medium text-accent-700 dark:text-accent-300">
-            Therapist Approval Email
+            Reader Approval Email
           </h3>
           <EmailMockComponent
             email={therapistEmail}
