@@ -13,7 +13,7 @@ function contactFormConfirmation({ name, message }: ContactFormType) {
     <p>${message}</p>
     <br>
     <p>Best regards,</p>
-    <p>${siteConfig.business.ownerName}, LMT<br>
+    <p>${siteConfig.business.ownerName}, ${siteConfig.business.occupation}<br>
     <a href="${domain}/">www.${domainDisplay}</a></p>
   `
 

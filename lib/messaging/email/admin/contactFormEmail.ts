@@ -16,7 +16,7 @@ function contactFormEmail({ subject, name, email, phone, message }: ContactFormT
   output += '<br><br>'
   output += `Submitted on: ${new Date().toLocaleString()}`
   output += '<br><br>'
-  output += `${siteConfig.business.ownerName}, LMT`
+  output += `${siteConfig.business.ownerName}, ${siteConfig.business.occupation}`
   output += '<br>'
   output += `<a href="${domain}/">www.${domainDisplay}</a><br>`
 

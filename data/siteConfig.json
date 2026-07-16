@@ -1,19 +1,20 @@
 {
   "business": {
-    "name": "Trillium Massage",
-    "ownerName": "Trillium Smith",
-    "occupation": "Massage Therapist",
+    "name": "Flower Flyther",
+    "ownerName": "Kendra Anderson",
+    "occupation": "Tarot Reader",
     "tagline": "Vibrational Healing Arts",
-    "description": "Let the spa come to you. Providing in-home massage therapy and wellness to the LA Metro Area"
+    "description": "Witchy shit, tarot, flower essences. Insightful readings for the LA Metro Area and beyond.",
+    "serviceNoun": "reading"
   },
   "contact": {
-    "email": "trilliummassagela@gmail.com",
-    "phone": "1-818-738-5344",
-    "instagram": "https://www.instagram.com/trilliummassage"
+    "email": "kendra@flowerflyther.com",
+    "phone": "",
+    "instagram": "https://www.instagram.com/flowerflyther"
   },
   "domain": {
-    "siteUrl": "https://trilliummassage.la/",
-    "siteRepo": "https://github.com/Spiteless/www-massage/"
+    "siteUrl": "https://flowerflyther.com/",
+    "siteRepo": "https://github.com/trillium/massage/"
   },
   "location": {
     "city": "Los Angeles",
@@ -45,7 +46,7 @@
   "pricing": {
     "baseHourlyRate": 140
   },
-  "calendars": ["primary", "trillium@hatsfabulous.com", "trillium@trilliumsmith.com"],
+  "calendars": ["primary"],
   "payments": [
     {
       "name": "Cash",
@@ -55,12 +56,12 @@
     {
       "name": "Venmo",
       "value": "venmo",
-      "hint": "Venmo name is @TrilliumSmith, last 4 phone number -5344"
+      "hint": "Venmo @KendraAnderson"
     },
     {
       "name": "CashApp",
       "value": "cashapp",
-      "hint": "CashApp name is $trilliummassage"
+      "hint": "CashApp $flowerflyther"
     },
     {
       "name": "Credit Card",
@@ -74,25 +75,25 @@
     }
   ],
   "content": {
-    "bookingTitle": "Book a massage with Trillium :)",
-    "serviceAreaBlurb": "Trillium is based out of Westchester, but happy to travel to the LA area in general. Very close locations include Playa Vista, Mar Vista, Santa Monica, Venice, El Segundo, Torrance, and Culver City.",
+    "bookingTitle": "Book a reading with Kendra :)",
+    "serviceAreaBlurb": "Kendra is based in Los Angeles and offers in-person readings as well as remote sessions anywhere.",
     "hero": {
-      "headline": "Relax, Restore, Rejuvenate",
-      "gradientWord": "Rejuvenate",
-      "subheading": "Let the spa come to you",
-      "description": "Spa level massage therapy in your home, at your convenience."
+      "headline": "Free Thinking Tarot",
+      "gradientWord": "Tarot",
+      "subheading": "Witchy Shit, Tarot, Flower Essences",
+      "description": "Readings that really read!"
     },
     "about": {
-      "bio": "Trillium is a massage therapist with 10 years of experience. Working in the LA Metro Area, Trillium found success in specializing in In-Home mobile massage therapy, working solo and through platforms like Soothe and Zeel since 2016.",
-      "focus": "Combining relaxation and pain relief techniques, Trillium provides you with effective massage therapy from the comfort of your own home.",
-      "stats": "With more than 3,000 in-home massage therapy sessions, Trillium has maintained a",
-      "rating": "4.9-star rating",
-      "statsClose": ", reflecting the quality and care he puts into his work."
+      "bio": "Kendra is a tarot reader, flower essence practitioner, and astrologer based in Los Angeles. With years of practice weaving together intuitive tarot with the healing energies of flower essences, she offers readings that are grounded, honest, and transformative.",
+      "focus": "Whether you're navigating a crossroads, seeking clarity, or simply curious about what the cards have to say, Kendra meets you where you are.",
+      "stats": "With a deeply personal and client-centered approach, Kendra has earned a",
+      "rating": "5-star reputation",
+      "statsClose": " for readings that are both insightful and deeply affirming."
     },
     "footer": {
-      "blurb": "Providing professional massage therapy services to help you relax, rejuvenate, and restore your body and mind.",
-      "locationLine1": "Westchester Area by LAX,",
-      "locationLine2": "Los Angeles"
+      "blurb": "Tarot readings, flower essences, and astrology for the LA Metro Area and beyond.",
+      "locationLine1": "Los Angeles, CA",
+      "locationLine2": ""
     }
   },
   "branding": {
