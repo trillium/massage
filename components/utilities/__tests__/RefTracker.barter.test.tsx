@@ -21,7 +21,9 @@ describe('RefTracker — minted barter link', () => {
   })
 
   it('captures ref_link_visit with the b-<show>-<client> tag when visiting a minted barter URL', () => {
-    const minted = new URL(buildBarterUrl('SCaLE 23x', 'DJ Beard', 'https://trilliummassage.la', secret))
+    const minted = new URL(
+      buildBarterUrl('SCaLE 23x', 'DJ Beard', 'https://trilliummassage.la', secret)
+    )
     const code = minted.searchParams.get('ref') as string
     window.history.replaceState({}, '', `${minted.pathname}${minted.search}`)
 
