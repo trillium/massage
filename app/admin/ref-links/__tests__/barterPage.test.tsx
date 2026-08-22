@@ -62,6 +62,32 @@ describe('BarterLinksPage', () => {
     expect(window.localStorage.getItem('barter-show')).toBe('overtime')
   })
 
+  it('renders the text-it action as a single interactive element', () => {
+    render(<BarterLinksPage />)
+    mint('overtime', 'anna')
+
+    const textIt = screen.getByRole('link', { name: /text it/i })
+    expect(textIt.querySelector('a, button')).toBeNull()
+    expect(screen.queryByRole('button', { name: /text it/i })).toBeNull()
+  })
+
+  it('rejects a client label longer than 24 characters with a visible error', () => {
+    render(<BarterLinksPage />)
+    mint('overtime', 'c'.repeat(25))
+    expect(screen.getByText('Client is too long (24 characters max).')).toBeTruthy()
+    expect(screen.queryByText(/\/barter\?ref=/)).toBeNull()
+  })
+
+  it('mints when show and client are exactly 24 characters', () => {
+    render(<BarterLinksPage />)
+    mint('s'.repeat(24), 'c'.repeat(24))
+    const shown = screen.getByText(/\/barter\?ref=/).textContent as string
+    const url = new URL(shown)
+    expect(decodeRef(url.searchParams.get('ref') as string, SECRET)).toBe(
+      `b-${'s'.repeat(24)}-${'c'.repeat(24)}`
+    )
+  })
+
   it('shows an error instead of a link when the client label is missing', () => {
     render(<BarterLinksPage />)
     mint('overtime', '  ')
