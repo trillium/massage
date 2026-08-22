@@ -156,7 +156,11 @@
     "worktree",
     "agentic",
     "Sentry",
-    "sentry"
+    "sentry",
+    "shortlinks",
+    "parseable",
+    "reiki",
+    "readback"
   ],
   "dictionaries": ["typescript", "node", "npm", "html", "css", "bash"],
   "languageSettings": [

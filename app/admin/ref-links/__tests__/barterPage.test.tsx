@@ -73,7 +73,9 @@ describe('BarterLinksPage', () => {
     vi.stubEnv('NEXT_PUBLIC_REF_CODE_SECRET', '')
     render(<BarterLinksPage />)
     mint('overtime', 'anna')
-    expect(screen.getByText(/NEXT_PUBLIC_REF_CODE_SECRET is not set — cannot mint codes/i)).toBeTruthy()
+    expect(
+      screen.getByText(/NEXT_PUBLIC_REF_CODE_SECRET is not set — cannot mint codes/i)
+    ).toBeTruthy()
     expect(screen.queryByText(/\/barter\?ref=/)).toBeNull()
   })
 })

@@ -43,7 +43,8 @@ Keep tags short (4–7 chars, e.g. `jane2`, `mike-r`) so URLs stay SMS-friendly.
 
 `/admin/ref-links/barter` mints per-client links for barter arrangements: tag convention
 `b-<show>-<client>` (helpers in `barter.ts`), landing on the `/barter` booking slug, with a
-one-tap `sms:` composer button. Full design + PostHog readout: `docs/BARTER.md`.
+one-tap `sms:` composer button. In PostHog, barter traffic is `ref_decoded` starts with
+`b-`. Full design + readout details: `docs/BARTER.md`.
 
 ## Reading results in PostHog
 
