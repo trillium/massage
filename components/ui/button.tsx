@@ -1,5 +1,5 @@
 import { cn } from '@/lib/cn'
-import type { ButtonHTMLAttributes } from 'react'
+import type { ButtonHTMLAttributes, Ref } from 'react'
 
 type Variant = 'default' | 'secondary' | 'outline' | 'ghost' | 'destructive'
 type Size = 'sm' | 'md' | 'lg'
@@ -7,6 +7,7 @@ type Size = 'sm' | 'md' | 'lg'
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: Variant
   size?: Size
+  ref?: Ref<HTMLButtonElement>
 }
 
 const variantClasses: Record<Variant, string> = {

@@ -20,6 +20,7 @@ jobs:
           node-version: '22'
           cache: pnpm
       - run: pnpm install --frozen-lockfile
+      - run: pnpm exec contentlayer2 build
       - run: pnpm tsc --noEmit
 
   lint:
@@ -51,6 +52,15 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
+    env:
+      NEXT_PUBLIC_SUPABASE_URL: https://cifake.supabase.co
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: sb_publishable_ci_fake_key
+      NEXT_PUBLIC_TENANT_SLUG: trillium_massage
+      NEXT_PUBLIC_SITE_URL: https://ci-build.invalid
+      NEXT_PUBLIC_OWNER_NAME: CI Build
+      NEXT_PUBLIC_POSTHOG_KEY_PROD: phc_ci_fake
+      NEXT_PUBLIC_POSTHOG_KEY_DEV: phc_ci_fake
+      NEXT_PUBLIC_DISABLE_POSTHOG: 'true'
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -58,6 +68,7 @@ jobs:
         with:
           node-version: '22'
           cache: pnpm
+      - uses: oven-sh/setup-bun@v2
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
 
@@ -79,6 +90,18 @@ jobs:
   overflow:
     name: Horizontal Overflow
     runs-on: ubuntu-latest
+    env:
+      NEXT_PUBLIC_SUPABASE_URL: https://cifake.supabase.co
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: sb_publishable_ci_fake_key
+      NEXT_PUBLIC_TENANT_SLUG: trillium_massage
+      NEXT_PUBLIC_SITE_URL: https://ci-build.invalid
+      NEXT_PUBLIC_OWNER_NAME: CI Build
+      NEXT_PUBLIC_POSTHOG_KEY_PROD: phc_ci_fake
+      NEXT_PUBLIC_POSTHOG_KEY_DEV: phc_ci_fake
+      NEXT_PUBLIC_DISABLE_POSTHOG: 'true'
+      SUPABASE_SERVICE_ROLE_KEY: ci_fake_service_role_key
+      TENANT_SLUG: trillium_massage
+      USE_MOCK_CALENDAR_DATA: 'true'
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -86,11 +109,12 @@ jobs:
         with:
           node-version: '22'
           cache: pnpm
+      - uses: oven-sh/setup-bun@v2
       - run: pnpm install --frozen-lockfile
       - run: pnpm exec playwright install chromium --with-deps
       - run: pnpm build
       - name: Start server
-        run: pnpm start --port 9876 &
+        run: pnpm serve --port 9876 &
       - name: Wait for server
         run: npx wait-on http://localhost:9876 --timeout 30000
       - run: pnpm check-overflow --url http://localhost:9876

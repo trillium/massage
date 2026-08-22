@@ -1,5 +1,5 @@
 import { cn } from '@/lib/cn'
-import type { InputHTMLAttributes } from 'react'
+import type { InputHTMLAttributes, Ref } from 'react'
 
 import { TextXs } from '@/components/ui/text'
 import { Stack } from '@/components/ui/stack'
@@ -7,6 +7,7 @@ import { Stack } from '@/components/ui/stack'
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string
   error?: string
+  ref?: Ref<HTMLInputElement>
 }
 
 export function Input({ label, error, className, id, ...props }: InputProps) {

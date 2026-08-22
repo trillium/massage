@@ -11,7 +11,8 @@ export async function fetchReviews(): Promise<ReviewType[]> {
     .order('date', { ascending: false })
 
   if (error) {
-    throw new Error(`Failed to fetch reviews: ${error.message}`)
+    console.error(`Failed to fetch reviews: ${error.message}`)
+    return []
   }
 
   return (data ?? []).map((row) => ({

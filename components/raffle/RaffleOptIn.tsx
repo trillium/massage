@@ -2,13 +2,15 @@
 
 import { useState } from 'react'
 import { RAFFLE_INTEREST_OPTIONS } from '@/lib/schema'
-import raffle from '@/data/raffle.json'
+import raffleData from '@/data/raffle.json'
 import { TextPrimary, TextSm, TextSmMedium, TextSmMuted, TextLg } from '@/components/ui/text'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Stack } from '@/components/ui/stack'
 import { Box } from '@/components/ui/box'
+
+const raffle = raffleData.openclaw
 
 interface RaffleOptInProps {
   name: string

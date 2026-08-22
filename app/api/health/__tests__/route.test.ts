@@ -15,6 +15,7 @@ const TENANT_ENV_KEYS = [
   'TENANT_SLUG',
   'NEXT_PUBLIC_TENANT_SLUG',
   'SUPABASE_MANAGEMENT_API_TOKEN',
+  'OWNER_EMAIL',
 ]
 
 function setTenantEnv(overrides: Record<string, string> = {}) {
@@ -40,15 +41,21 @@ function mockAdminEmailsFetch(rows: object[]) {
   })
 }
 
-function mockGoogleFetch(rows: object[]) {
-  vi.mocked(global.fetch).mockImplementation(async (url) => {
-    if (String(url).includes('admin_emails')) {
-      return { ok: true, json: async () => [{ email: 'owner@example.com' }] } as Response
+function mockGoogleDb(creds: { refresh_token: string } | null) {
+  mockFrom.mockImplementation((table: string) => {
+    if (table === 'google_credentials') {
+      return {
+        select: () => ({ eq: () => ({ maybeSingle: async () => ({ data: creds }) }) }),
+      }
     }
-    if (String(url).includes('google_credentials')) {
-      return { ok: true, json: async () => rows } as Response
+    if (table === 'google_oauth_apps') {
+      return {
+        select: () => ({
+          limit: () => ({ maybeSingle: async () => ({ data: { client_id: 'test-client-id' } }) }),
+        }),
+      }
     }
-    return { ok: false, status: 404 } as Response
+    return { select: () => ({ limit: () => Promise.resolve({ error: null }) }) }
   })
 }
 
@@ -236,12 +243,12 @@ describe('/api/health — provisioning', () => {
 
 describe('/api/health — google credentials', () => {
   beforeEach(() => {
-    mockSupabaseOk()
-    setTenantEnv()
+    setTenantEnv({ OWNER_EMAIL: 'owner@gmail.com' })
+    mockAdminEmailsFetch([{ email: 'owner@gmail.com' }])
   })
 
   it('reports google ok when credentials exist', async () => {
-    mockGoogleFetch([{ email: 'owner@gmail.com' }])
+    mockGoogleDb({ refresh_token: 'test-refresh-token' })
 
     const res = await GET()
     const json = await res.json()
@@ -250,7 +257,7 @@ describe('/api/health — google credentials', () => {
   })
 
   it('reports google not ok with detail when no credentials', async () => {
-    mockGoogleFetch([])
+    mockGoogleDb(null)
 
     const res = await GET()
     const json = await res.json()
@@ -260,8 +267,7 @@ describe('/api/health — google credentials', () => {
   })
 
   it('does not degrade overall status when google is not connected', async () => {
-    mockGoogleFetch([])
-    mockAdminEmailsFetch([{ email: 'owner@example.com' }])
+    mockGoogleDb(null)
 
     const res = await GET()
     const json = await res.json()
@@ -277,7 +283,6 @@ describe('/api/health — management API', () => {
     mockSupabaseOk()
     setTenantEnv()
     mockAdminEmailsFetch([{ email: 'owner@example.com' }])
-    mockGoogleFetch([{ email: 'owner@gmail.com' }])
   })
 
   it('reports management_api ok when token is set', async () => {
