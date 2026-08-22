@@ -16,6 +16,20 @@ import { Code } from '@/components/ui/code'
 const BASE_URL = siteConfig.domain.siteUrl.replace(/\/$/, '')
 const SHOW_STORAGE_KEY = 'barter-show'
 
+function readStoredShow(): string {
+  try {
+    return window.localStorage?.getItem(SHOW_STORAGE_KEY) ?? ''
+  } catch {
+    return ''
+  }
+}
+
+function storeShow(value: string) {
+  try {
+    window.localStorage?.setItem(SHOW_STORAGE_KEY, value)
+  } catch {}
+}
+
 interface MintedLink {
   tag: string
   url: string
@@ -31,7 +45,7 @@ export default function BarterLinksPage() {
   const [canShare, setCanShare] = useState(false)
 
   useEffect(() => {
-    setShow(localStorage.getItem(SHOW_STORAGE_KEY) ?? '')
+    setShow(readStoredShow())
     setCanShare(typeof navigator.share === 'function')
   }, [])
 
@@ -39,7 +53,7 @@ export default function BarterLinksPage() {
     setCopied(false)
     try {
       const url = buildBarterUrl(show, client, BASE_URL)
-      localStorage.setItem(SHOW_STORAGE_KEY, show)
+      storeShow(show)
       setMinted({ tag: barterTag(show, client), url, smsHref: barterSmsHref(url) })
       setError(null)
     } catch (e) {
