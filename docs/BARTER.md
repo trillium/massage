@@ -29,7 +29,7 @@ tracker, server tagging, PostHog props) works unchanged. Codes are ≈ tag-lengt
 a typical tag like `b-scale-dj` yields a ~14-char code and a link comfortably inside one
 SMS segment.
 
-Per-show *slugs* were considered and rejected: they require a code change per show, and
+Per-show _slugs_ were considered and rejected: they require a code change per show, and
 the show is already encoded in the tag.
 
 ### 2. Tag convention — `b-<show>-<client>`
