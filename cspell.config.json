@@ -160,7 +160,8 @@
     "shortlinks",
     "parseable",
     "reiki",
-    "readback"
+    "readback",
+    "creds"
   ],
   "dictionaries": ["typescript", "node", "npm", "html", "css", "bash"],
   "languageSettings": [
