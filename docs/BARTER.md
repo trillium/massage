@@ -19,7 +19,7 @@ one-tap path into the SMS composer.
 
 ### 1. Link shape
 
-```
+```text
 https://trilliummassage.la/barter?ref=<code>
 ```
 
@@ -41,6 +41,9 @@ the show is already encoded in the tag.
   `b-` is always the show.
 - `<client>` is a short human label for the provider/client, normalized to lowercase
   `a-z0-9-` (dashes allowed, e.g. `dj-beard`).
+- Each normalized segment is capped at 24 characters: oversized values are rejected with
+  a validation error rather than silently truncated, so two long labels can never
+  collapse into the same tag.
 - **Never PII.** Same rule as all ref tags: the secret ships in the JS bundle, so any code
   decodes. First name or handle, never a phone number or email.
 

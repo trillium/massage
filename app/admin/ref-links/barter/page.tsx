@@ -60,7 +60,9 @@ export default function BarterLinksPage() {
       setMinted(null)
       setError(
         e instanceof Error && e.message.startsWith('barterTag: ')
-          ? e.message.replace('barterTag: ', 'Enter a ') + '.'
+          ? `${e.message
+              .slice('barterTag: '.length)
+              .replace(/^./, (first) => first.toUpperCase())}.`
           : 'NEXT_PUBLIC_REF_CODE_SECRET is not set — cannot mint codes.'
       )
     }
@@ -119,10 +121,11 @@ export default function BarterLinksPage() {
                 <Box className="break-all font-mono text-sm text-accent-900 dark:text-accent-100">
                   {minted.url}
                 </Box>
-                <CustomLink href={minted.smsHref} classes="block">
-                  <Button size="lg" className="w-full">
-                    Text it
-                  </Button>
+                <CustomLink
+                  href={minted.smsHref}
+                  classes="inline-flex h-12 w-full items-center justify-center rounded-md bg-primary-600 px-6 text-base font-medium text-white transition-colors hover:bg-primary-700"
+                >
+                  Text it
                 </CustomLink>
                 <Stack direction="row" gap={2}>
                   <Button variant="outline" onClick={copy} className="flex-1">

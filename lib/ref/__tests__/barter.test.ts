@@ -18,8 +18,8 @@ describe('normalizeShow', () => {
     expect(normalizeShow('open-claw!')).toBe('openclaw')
   })
 
-  it('caps length at 24', () => {
-    expect(normalizeShow('a'.repeat(40))).toHaveLength(24)
+  it('keeps the full normalized value without truncating', () => {
+    expect(normalizeShow('a'.repeat(40))).toHaveLength(40)
   })
 })
 
@@ -31,7 +31,7 @@ describe('normalizeClient', () => {
 
   it('never starts or ends with a dash', () => {
     expect(normalizeClient('-anna-')).toBe('anna')
-    expect(normalizeClient('a'.repeat(23) + ' b')).toBe('a'.repeat(23))
+    expect(normalizeClient(' dj beard ')).toBe('dj-beard')
   })
 })
 
@@ -47,6 +47,14 @@ describe('barterTag', () => {
   it('throws when show or client normalizes to nothing', () => {
     expect(() => barterTag('  ', 'anna')).toThrow('show is required')
     expect(() => barterTag('overtime', '--')).toThrow('client is required')
+  })
+
+  it('rejects show or client longer than 24 characters instead of truncating', () => {
+    expect(() => barterTag('a'.repeat(25), 'anna')).toThrow('show is too long (24 characters max)')
+    expect(() => barterTag('overtime', 'b'.repeat(25))).toThrow(
+      'client is too long (24 characters max)'
+    )
+    expect(barterTag('a'.repeat(24), 'b'.repeat(24))).toBe(`b-${'a'.repeat(24)}-${'b'.repeat(24)}`)
   })
 })
 

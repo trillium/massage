@@ -1,15 +1,8 @@
-/**
- * Barter shortlink helpers — trade-show links unique to one client.
- *
- * Tag convention: `b-<show>-<client>` where <show> is dash-free (so the tag
- * splits unambiguously) and <client> may contain dashes. Tags are human labels,
- * never PII — the codec is obfuscation, not encryption. See docs/BARTER.md.
- */
-
 import { buildRefUrl } from './refUrl'
 
 export const BARTER_TAG_PREFIX = 'b-'
 export const BARTER_PATH = '/barter'
+export const MAX_PART_LENGTH = 24
 
 export interface BarterTagParts {
   show: string
@@ -17,10 +10,7 @@ export interface BarterTagParts {
 }
 
 export function normalizeShow(input: string): string {
-  return input
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '')
-    .slice(0, 24)
+  return input.toLowerCase().replace(/[^a-z0-9]+/g, '')
 }
 
 export function normalizeClient(input: string): string {
@@ -28,15 +18,19 @@ export function normalizeClient(input: string): string {
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '')
-    .slice(0, 24)
-    .replace(/-+$/g, '')
+}
+
+function requireTagPart(name: 'show' | 'client', value: string): string {
+  if (!value) throw new Error(`barterTag: ${name} is required`)
+  if (value.length > MAX_PART_LENGTH) {
+    throw new Error(`barterTag: ${name} is too long (${MAX_PART_LENGTH} characters max)`)
+  }
+  return value
 }
 
 export function barterTag(show: string, client: string): string {
-  const normalizedShow = normalizeShow(show)
-  const normalizedClient = normalizeClient(client)
-  if (!normalizedShow) throw new Error('barterTag: show is required')
-  if (!normalizedClient) throw new Error('barterTag: client is required')
+  const normalizedShow = requireTagPart('show', normalizeShow(show))
+  const normalizedClient = requireTagPart('client', normalizeClient(client))
   return `${BARTER_TAG_PREFIX}${normalizedShow}-${normalizedClient}`
 }
 
