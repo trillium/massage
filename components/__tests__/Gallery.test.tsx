@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import Gallery from '../Gallery'
 
 vi.mock('@/components/Image', () => ({
@@ -31,10 +31,14 @@ describe('Gallery', () => {
     expect(screen.getByAltText('Image B')).toBeInTheDocument()
   })
 
-  it('image container has aspect-[4/3] class to prevent thin-strip rendering', () => {
-    const { container } = render(<Gallery images={images} />)
-    const imageWrappers = container.querySelectorAll('.aspect-\\[4\\/3\\]')
-    expect(imageWrappers.length).toBe(images.length)
+  it('renders grid images full-width at natural aspect ratio', () => {
+    render(<Gallery images={images} />)
+    const imgs = screen.getAllByRole('img')
+    expect(imgs.length).toBe(images.length)
+    imgs.forEach((img) => {
+      expect(img.className).toContain('h-auto')
+      expect(img.className).toContain('w-full')
+    })
   })
 
   it('button wrapper has h-auto to prevent default h-10 from clipping the card', () => {
@@ -46,12 +50,9 @@ describe('Gallery', () => {
     })
   })
 
-  it('images use fill mode with object-cover', () => {
+  it('opens the lightbox dialog when an image is clicked', () => {
     render(<Gallery images={images} />)
-    const imgs = screen.getAllByRole('img')
-    imgs.forEach((img) => {
-      expect(img).toHaveAttribute('data-fill', 'true')
-      expect(img.className).toContain('object-cover')
-    })
+    fireEvent.click(screen.getByAltText('Image A'))
+    expect(screen.getByRole('dialog')).toBeInTheDocument()
   })
 })
