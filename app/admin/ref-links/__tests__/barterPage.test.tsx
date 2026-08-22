@@ -68,4 +68,12 @@ describe('BarterLinksPage', () => {
     expect(screen.getByText(/client is required/i)).toBeTruthy()
     expect(screen.queryByText(/\/barter\?ref=/)).toBeNull()
   })
+
+  it('shows the missing-secret message when the secret is not configured', () => {
+    vi.stubEnv('NEXT_PUBLIC_REF_CODE_SECRET', '')
+    render(<BarterLinksPage />)
+    mint('overtime', 'anna')
+    expect(screen.getByText(/NEXT_PUBLIC_REF_CODE_SECRET is not set — cannot mint codes/i)).toBeTruthy()
+    expect(screen.queryByText(/\/barter\?ref=/)).toBeNull()
+  })
 })

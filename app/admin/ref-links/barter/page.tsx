@@ -59,7 +59,7 @@ export default function BarterLinksPage() {
     } catch (e) {
       setMinted(null)
       setError(
-        e instanceof Error && e.message.includes('required')
+        e instanceof Error && e.message.startsWith('barterTag: ')
           ? e.message.replace('barterTag: ', 'Enter a ') + '.'
           : 'NEXT_PUBLIC_REF_CODE_SECRET is not set — cannot mint codes.'
       )
