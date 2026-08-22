@@ -3,6 +3,12 @@ import bundleAnalyzer from '@next/bundle-analyzer'
 import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
 
+for (const key of Object.keys(process.env)) {
+  if (key.startsWith('NEXT_PUBLIC_') && process.env[key] !== process.env[key].trimEnd()) {
+    process.env[key] = process.env[key].trimEnd()
+  }
+}
+
 const withBundleAnalyzer = bundleAnalyzer({
   enabled: process.env.ANALYZE === 'true',
 })

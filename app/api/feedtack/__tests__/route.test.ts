@@ -156,10 +156,10 @@ describe('POST — DB unavailable', () => {
 // ─── successful submit ────────────────────────────────────────────────────────
 
 describe('POST — successful submit', () => {
+  const submitPayload = { id: 'x', comment: 'great page', pins: [] }
+
   it('returns { ok: true } when submit succeeds', async () => {
-    const res = await POST(
-      makePost('localhost', { type: 'submit', payload: { id: 'x', data: {} } })
-    )
+    const res = await POST(makePost('localhost', submitPayload))
     const body = await res.json()
     expect(res.status).toBe(200)
     expect(body.ok).toBe(true)
@@ -169,9 +169,7 @@ describe('POST — successful submit', () => {
     mockGetSupabaseAdminClient.mockReturnValue(
       makeDB({ error: { message: 'constraint violation' } })
     )
-    const res = await POST(
-      makePost('localhost', { type: 'submit', payload: { id: 'x', data: {} } })
-    )
+    const res = await POST(makePost('localhost', submitPayload))
     expect(res.status).toBe(500)
   })
 })

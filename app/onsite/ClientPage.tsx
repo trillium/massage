@@ -125,7 +125,7 @@ function ClientPage({ duration, children }: { duration: number; children?: React
     <>
       <SlotTakenAlert />
       <Stack className="w-full align-middle" direction="row" align="center" justify="center">
-        <H2 className="py-2" status="primary">
+        <H2 className="break-all py-2" status="primary">
           {admin.onsite.yourLink} {pathString}
         </H2>
       </Stack>

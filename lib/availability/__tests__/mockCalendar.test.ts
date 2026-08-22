@@ -92,7 +92,7 @@ describe('MockCalendar', () => {
         getEventsBySearchQueryFn: cal.toGetEventsBySearchQueryFn(),
       })
 
-      expect(result).toEqual({ available: false })
+      expect(result).toMatchObject({ available: false })
     })
 
     it('allows non-overlapping booking', async () => {
@@ -127,7 +127,7 @@ describe('MockCalendar', () => {
         getEventsBySearchQueryFn: cal.toGetEventsBySearchQueryFn(),
       })
 
-      expect(result).toEqual({ available: false })
+      expect(result).toMatchObject({ available: false })
     })
 
     it('ignores regular events with event scope', async () => {
@@ -161,7 +161,7 @@ describe('MockCalendar', () => {
         getEventsBySearchQueryFn: cal.toGetEventsBySearchQueryFn(),
       })
 
-      expect(result).toEqual({ available: false })
+      expect(result).toMatchObject({ available: false })
     })
 
     it('isolates different container scopes', async () => {

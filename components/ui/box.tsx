@@ -1,6 +1,6 @@
 /* ds-ignore-file */
 import { cn } from '@/lib/cn'
-import type { HTMLAttributes } from 'react'
+import type { HTMLAttributes, Ref } from 'react'
 
 type Variant = 'card' | 'card-warning' | 'card-sm' | 'accentCard'
 
@@ -16,6 +16,7 @@ const variantClasses: Record<Variant, string> = {
 type BoxProps = HTMLAttributes<HTMLDivElement> & {
   as?: 'div' | 'section' | 'article' | 'main' | 'aside' | 'nav' | 'header' | 'footer'
   variant?: Variant
+  ref?: Ref<HTMLDivElement>
 }
 
 export function Box({ as: Tag = 'div', variant, className, children, ...props }: BoxProps) {

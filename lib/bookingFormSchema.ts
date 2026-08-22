@@ -5,9 +5,9 @@ import { paymentMethod } from '@/data/paymentMethods'
 const paymentMethodValues = paymentMethod.map((method) => method.value) as [string, ...string[]]
 
 const looseLocationSchema = z.object({
-  street: z.string().optional(),
-  city: z.string().optional(),
-  zip: z.string().optional(),
+  street: z.string().default(''),
+  city: z.string().default(''),
+  zip: z.string().default(''),
 })
 
 export const createBookingFormSchema = (config?: {
@@ -21,9 +21,9 @@ export const createBookingFormSchema = (config?: {
   const phoneSchema = allowTelegram
     ? z
         .string()
-        .optional()
+        .default('')
         .refine(
-          (value) => value === undefined || value === '' || /^[+]?[(]?[\d\s\-()]{10,}$/.test(value),
+          (value) => value === '' || /^[+]?[(]?[\d\s\-()]{10,}$/.test(value),
           'Please enter a valid phone number'
         )
     : z

@@ -68,7 +68,8 @@ const checks: Check[] = [
 
 const errors: string[] = []
 
-for (const { name, value, validate, hint } of checks) {
+for (const { name, value: rawValue, validate, hint } of checks) {
+  const value = rawValue?.trimEnd()
   if (!value) {
     errors.push(`  Missing  ${name}\n           ${hint}`)
   } else if (/[\r\n]/.test(value)) {

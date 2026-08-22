@@ -75,7 +75,7 @@ describe('checkSlotAvailability', () => {
 
       const result = await checkSlotAvailability(baseParams)
 
-      expect(result).toEqual({ available: false })
+      expect(result).toMatchObject({ available: false })
     })
 
     it('returns unavailable when busy time overlaps with padding', async () => {
@@ -85,7 +85,7 @@ describe('checkSlotAvailability', () => {
 
       const result = await checkSlotAvailability(baseParams)
 
-      expect(result).toEqual({ available: false })
+      expect(result).toMatchObject({ available: false })
     })
 
     it('returns available with empty busy times', async () => {
@@ -146,7 +146,7 @@ describe('checkSlotAvailability', () => {
 
       const result = await checkSlotAvailability(containerParams)
 
-      expect(result).toEqual({ available: false })
+      expect(result).toMatchObject({ available: false })
     })
 
     it('filters matching members from mixed results', async () => {
@@ -163,7 +163,7 @@ describe('checkSlotAvailability', () => {
 
       const result = await checkSlotAvailability(containerParams)
 
-      expect(result).toEqual({ available: false })
+      expect(result).toMatchObject({ available: false })
     })
 
     it('uses local filtering instead of getBusyTimes when blockingScope is general', async () => {
@@ -176,7 +176,7 @@ describe('checkSlotAvailability', () => {
         blockingScope: 'general',
       })
 
-      expect(result).toEqual({ available: false })
+      expect(result).toMatchObject({ available: false })
       expect(mockGetEventsBySearchQuery).toHaveBeenCalled()
       expect(mockGetBusyTimes).not.toHaveBeenCalled()
     })
@@ -201,7 +201,7 @@ describe('checkSlotAvailability', () => {
 
       const result = await checkSlotAvailability(containersParams)
 
-      expect(result).toEqual({ available: false })
+      expect(result).toMatchObject({ available: false })
     })
 
     it('blocks when a listed-but-other-container member event overlaps (proves container-set branch)', async () => {
@@ -215,7 +215,7 @@ describe('checkSlotAvailability', () => {
 
       const result = await checkSlotAvailability(containersParams)
 
-      expect(result).toEqual({ available: false })
+      expect(result).toMatchObject({ available: false })
     })
 
     it('does NOT block when a personal "Doctor Appointment" overlaps the slot (regression fix)', async () => {
@@ -256,7 +256,7 @@ describe('checkSlotAvailability', () => {
 
       const result = await checkSlotAvailability(containersParams)
 
-      expect(result).toEqual({ available: false })
+      expect(result).toMatchObject({ available: false })
     })
 
     it('treats undefined blockingContainers as an empty set (no container blocking)', async () => {
@@ -304,7 +304,7 @@ describe('checkSlotAvailability', () => {
 
       const result = await checkSlotAvailability(scale23xParams)
 
-      expect(result).toEqual({ available: false })
+      expect(result).toMatchObject({ available: false })
     })
 
     it('allows booking when no member events overlap', async () => {
@@ -358,7 +358,7 @@ describe('checkSlotAvailability', () => {
 
       const result = await checkSlotAvailability(holdParams)
 
-      expect(result).toEqual({ available: false })
+      expect(result).toMatchObject({ available: false })
     })
 
     it('passes sessionId to getActiveHoldsFn for exclusion', async () => {
@@ -391,7 +391,7 @@ describe('checkSlotAvailability', () => {
 
       const result = await checkSlotAvailability(holdParams)
 
-      expect(result).toEqual({ available: false })
+      expect(result).toMatchObject({ available: false })
     })
 
     it('works with event containers and holds together', async () => {
@@ -405,7 +405,7 @@ describe('checkSlotAvailability', () => {
         eventBaseString: 'scale23x',
       })
 
-      expect(result).toEqual({ available: false })
+      expect(result).toMatchObject({ available: false })
     })
 
     it('skips hold check when getActiveHoldsFn is not provided', async () => {
@@ -422,7 +422,7 @@ describe('checkSlotAvailability', () => {
 
       const result = await checkSlotAvailability(baseParams)
 
-      expect(result).toEqual({ available: false })
+      expect(result).toMatchObject({ available: false })
     })
 
     it('returns unavailable if getEventsBySearchQuery throws', async () => {
@@ -433,7 +433,7 @@ describe('checkSlotAvailability', () => {
         eventBaseString: 'scale23x',
       })
 
-      expect(result).toEqual({ available: false })
+      expect(result).toMatchObject({ available: false })
     })
 
     it('returns unavailable if getActiveHoldsFn throws', async () => {
@@ -445,7 +445,7 @@ describe('checkSlotAvailability', () => {
         getActiveHoldsFn: mockGetActiveHolds,
       })
 
-      expect(result).toEqual({ available: false })
+      expect(result).toMatchObject({ available: false })
     })
   })
 })

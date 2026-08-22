@@ -58,7 +58,9 @@
     "rehype-prism-plus",
     "rehype-slug",
     "remark-gfm",
-    "remark-math"
+    "remark-math",
+    "handlebars",
+    "dotenv"
   ],
   "rules": {
     "unused-files": "warn",

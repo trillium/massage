@@ -49,6 +49,7 @@ vi.mock('@/redux/hooks', () => ({
     eventMemberString: undefined,
     eventContainerString: undefined,
   })),
+  useReduxEdgeRole: vi.fn(() => undefined),
   useReduxModal: vi.fn(() => ({ status: 'open' })),
   useReduxAvailability: vi.fn(() => ({
     selectedTime: { start: '2025-07-27T10:00:00-07:00', end: '2025-07-27T11:00:00-07:00' },

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
 import { siteConfig } from '@/lib/siteConfig'
 import { buildRefUrl, refTokenFor } from '@/lib/ref/refUrl'
 import { Box } from '@/components/ui/box'
@@ -48,7 +49,10 @@ export default function RefLinksPage() {
         <TextSmMuted>
           Turn a short label into an opaque <Code>?ref=</Code> link. Share it; PostHog then tags
           everyone who clicks with <Code>referred_by: &lt;label&gt;</Code> and follows them through
-          bookings.
+          bookings. At a trade show?{' '}
+          <Link href="/admin/ref-links/barter" className="underline">
+            Mint a barter link →
+          </Link>
         </TextSmMuted>
       </Box>
 

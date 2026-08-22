@@ -39,6 +39,13 @@ bun --env-file=.env.local scripts/ref-code.ts decode E7nIWXGt
 
 Keep tags short (4–7 chars, e.g. `jane2`, `mike-r`) so URLs stay SMS-friendly. The label is a **human tag, never PII** — e.g. `kris` or a last-4 like `kris-3333`, never a full phone number (the secret ships in the bundle, so any code is trivially decodable).
 
+## Barter links (trade shows)
+
+`/admin/ref-links/barter` mints per-client links for barter arrangements: tag convention
+`b-<show>-<client>` (helpers in `barter.ts`), landing on the `/barter` booking slug, with a
+one-tap `sms:` composer button. In PostHog, barter traffic is `ref_decoded` starts with
+`b-`. Full design + readout details: `docs/BARTER.md`.
+
 ## Reading results in PostHog
 
 - Who clicked: break down the `ref_link_visit` event by `ref_decoded`.
