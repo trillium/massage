@@ -48,7 +48,7 @@ const Header = () => {
           )}
         </Stack>
       </Link>
-      <Stack className="space-x-4 leading-5 sm:space-x-6" direction="row" align="center">
+      <Stack className="leading-5 sm:gap-6" direction="row" align="center">
         {/* <div className="no-scrollbar hidden max-w-40 items-center space-x-4 overflow-x-auto pr-2 sm:flex sm:space-x-6 md:max-w-72 lg:max-w-96"> // ds-ignore - commented out
           {headerNavLinks
             .filter((link) => link.href !== '/')
