@@ -72,6 +72,7 @@
   },
   "duplicates": {
     "threshold": 20,
+    "ignore": ["lib/supabase/database.types.ts"],
     "mode": "semantic"
   },
   "health": {
