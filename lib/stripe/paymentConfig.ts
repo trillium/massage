@@ -2,7 +2,7 @@ export const PAYMENT_CURRENCY = 'usd'
 
 export const PAYMENT_OFFERED_WHEN_STATUS = 'confirmed'
 
-export const MINIMUM_CHARGEABLE_CENTS = 1
+const MINIMUM_CHARGEABLE_CENTS = 1
 
 export const CHECKOUT_PATHS = {
   success: '/payment/success',

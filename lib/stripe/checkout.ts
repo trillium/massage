@@ -2,7 +2,7 @@ import type Stripe from 'stripe'
 import { getStripeClient } from './client'
 import { CHECKOUT_PATHS, PAYMENT_CURRENCY, chargeAmountCents } from './paymentConfig'
 
-export interface CheckoutAppointment {
+interface CheckoutAppointment {
   id: string
   client_email: string
   price: number | null
@@ -10,7 +10,7 @@ export interface CheckoutAppointment {
   slug_config: unknown
 }
 
-export function buildServiceName(durationMinutes: number, slugConfig: unknown): string {
+function buildServiceName(durationMinutes: number, slugConfig: unknown): string {
   if (slugConfig && typeof slugConfig === 'object' && 'name' in slugConfig) {
     return String((slugConfig as { name: string }).name)
   }
