@@ -9,13 +9,13 @@ const CheckoutRequestSchema = z.object({
 })
 
 export async function POST(req: NextRequest) {
+  const supabase = getSupabaseAdminClient()
+  if (!supabase) return NextResponse.json({ error: 'SERVER_MISCONFIGURED' }, { status: 500 })
+
   const parsed = CheckoutRequestSchema.safeParse(await req.json().catch(() => null))
   if (!parsed.success) {
     return NextResponse.json({ error: 'VALIDATION_ERROR' }, { status: 400 })
   }
-
-  const supabase = getSupabaseAdminClient()
-  if (!supabase) return NextResponse.json({ error: 'SERVER_MISCONFIGURED' }, { status: 500 })
 
   const { data: booking } = await supabase
     .from('appointments')
