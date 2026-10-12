@@ -9,24 +9,31 @@ const CheckoutRequestSchema = z.object({
   bookingId: z.string().uuid(),
 })
 
+async function findBooking(bookingId: string) {
+  const supabase = getSupabaseAdminClient()
+  if (!supabase) return 'DB_UNAVAILABLE'
+
+  const { data } = await supabase
+    .from('appointments')
+    .select('id, client_email, price, duration_minutes, slug_config, status, paid_at')
+    .eq('id', bookingId)
+    .single()
+  return data
+}
+
 export async function POST(req: NextRequest) {
   const auth = await requireAdminWithFlag(req)
   if (auth instanceof NextResponse) return auth
-
-  const supabase = getSupabaseAdminClient()
-  if (!supabase) return NextResponse.json({ error: 'SERVER_MISCONFIGURED' }, { status: 500 })
 
   const parsed = CheckoutRequestSchema.safeParse(await req.json().catch(() => null))
   if (!parsed.success) {
     return NextResponse.json({ error: 'VALIDATION_ERROR' }, { status: 400 })
   }
 
-  const { data: booking } = await supabase
-    .from('appointments')
-    .select('id, client_email, price, duration_minutes, slug_config, status, paid_at')
-    .eq('id', parsed.data.bookingId)
-    .single()
-
+  const booking = await findBooking(parsed.data.bookingId)
+  if (booking === 'DB_UNAVAILABLE') {
+    return NextResponse.json({ error: 'SERVER_MISCONFIGURED' }, { status: 500 })
+  }
   if (!booking) return NextResponse.json({ error: 'BOOKING_NOT_FOUND' }, { status: 404 })
   if (booking.status !== PAYMENT_OFFERED_WHEN_STATUS) {
     return NextResponse.json({ error: 'BOOKING_NOT_CONFIRMED' }, { status: 409 })
