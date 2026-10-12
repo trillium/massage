@@ -61,7 +61,11 @@ export function WinnerCard({
           />
           {lastUpdated && <TextXsMuted className="mt-1">{`Last saved ${lastUpdated}`}</TextXsMuted>}
         </Box>
-        <EditableMessage message={resolvedMessage} onChange={onMessageOverride} label="Winner SMS" />
+        <EditableMessage
+          message={resolvedMessage}
+          onChange={onMessageOverride}
+          label="Winner SMS"
+        />
       </Stack>
     </Box>
   )
@@ -102,7 +106,9 @@ export function NonWinnerCard({
         </label>
         <TextSm as="span" className="flex items-center gap-2">
           <TextXsMuted>{entry.phone}</TextXsMuted>
-          <CopyButton text={entry.phone} label="Phone">{'Copy Phone'}</CopyButton>
+          <CopyButton text={entry.phone} label="Phone">
+            {'Copy Phone'}
+          </CopyButton>
         </TextSm>
       </Stack>
       <EntryVarPanel

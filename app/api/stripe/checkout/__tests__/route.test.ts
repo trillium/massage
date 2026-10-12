@@ -1,6 +1,11 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { NextRequest } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { POST } from '../route'
+
+const requireAdminWithFlag = vi.fn()
+vi.mock('@/lib/adminAuthBridge', () => ({
+  requireAdminWithFlag: (...args: unknown[]) => requireAdminWithFlag(...args),
+}))
 
 const single = vi.fn()
 vi.mock('@/lib/supabase/server', () => ({
@@ -25,7 +30,7 @@ const request = (body: unknown) =>
 const booking = (overrides = {}) => ({
   id: bookingId,
   client_email: 'a@b.com',
-  price: 12000,
+  price: 120,
   duration_minutes: 60,
   slug_config: null,
   status: 'confirmed',
@@ -36,7 +41,18 @@ const booking = (overrides = {}) => ({
 describe('POST /api/stripe/checkout', () => {
   beforeEach(() => {
     single.mockReset()
+    requireAdminWithFlag.mockReset()
+    requireAdminWithFlag.mockResolvedValue({ email: 'admin@example.com' })
     createCheckoutSession.mockReset()
+  })
+
+  it('rejects non-admin callers', async () => {
+    requireAdminWithFlag.mockResolvedValue(
+      NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    )
+    const res = await POST(request({ bookingId }))
+    expect(res.status).toBe(401)
+    expect(single).not.toHaveBeenCalled()
   })
 
   it('rejects an invalid body', async () => {

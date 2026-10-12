@@ -9,10 +9,12 @@ export const CHECKOUT_PATHS = {
   cancel: '/payment/cancelled',
 }
 
-export function chargeAmountCents(appointmentPriceCents: number | null): number {
-  return appointmentPriceCents ?? 0
+const CENTS_PER_DOLLAR = 100
+
+export function chargeAmountCents(appointmentPriceDollars: number | null): number {
+  return Math.round((appointmentPriceDollars ?? 0) * CENTS_PER_DOLLAR)
 }
 
-export function requiresPayment(appointmentPriceCents: number | null): boolean {
-  return chargeAmountCents(appointmentPriceCents) >= MINIMUM_CHARGEABLE_CENTS
+export function requiresPayment(appointmentPriceDollars: number | null): boolean {
+  return chargeAmountCents(appointmentPriceDollars) >= MINIMUM_CHARGEABLE_CENTS
 }

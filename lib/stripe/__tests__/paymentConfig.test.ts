@@ -2,8 +2,8 @@ import { describe, it, expect } from 'vitest'
 import { chargeAmountCents, requiresPayment } from '../paymentConfig'
 
 describe('paymentConfig', () => {
-  it('charges the full appointment price', () => {
-    expect(chargeAmountCents(12000)).toBe(12000)
+  it('converts the dollar appointment price to cents', () => {
+    expect(chargeAmountCents(120)).toBe(12000)
   })
 
   it.each([null, 0, -5])('skips payment for price %s', (price) => {

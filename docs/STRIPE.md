@@ -7,7 +7,7 @@ Stripe Checkout runs alongside the existing Square invoice flow (`/api/invoice`)
 All three live in `lib/stripe/paymentConfig.ts`.
 
 1. Payment is offered after a booking is `confirmed` (`PAYMENT_OFFERED_WHEN_STATUS`).
-2. The full `appointments.price` (cents) is charged (`chargeAmountCents`).
+2. The full `appointments.price` (whole dollars) is charged, converted to cents (`chargeAmountCents`).
 3. Bookings with a null or $0 price, including barter, skip payment (`requiresPayment`).
 
 ## Flow

@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from 'next/server'
 import { z } from 'zod'
+import { requireAdminWithFlag } from '@/lib/adminAuthBridge'
 import { getSupabaseAdminClient } from '@/lib/supabase/server'
 import { createCheckoutSession } from '@/lib/stripe/checkout'
 import { PAYMENT_OFFERED_WHEN_STATUS, requiresPayment } from '@/lib/stripe/paymentConfig'
@@ -9,6 +10,9 @@ const CheckoutRequestSchema = z.object({
 })
 
 export async function POST(req: NextRequest) {
+  const auth = await requireAdminWithFlag(req)
+  if (auth instanceof NextResponse) return auth
+
   const supabase = getSupabaseAdminClient()
   if (!supabase) return NextResponse.json({ error: 'SERVER_MISCONFIGURED' }, { status: 500 })
 
