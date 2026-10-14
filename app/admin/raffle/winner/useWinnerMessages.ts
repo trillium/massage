@@ -28,7 +28,12 @@ interface UseWinnerMessagesOptions {
 
 function formatRelative(iso: string) {
   const d = new Date(iso)
-  return d.toLocaleString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' })
+  return d.toLocaleString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+  })
 }
 
 export function useWinnerMessages({
@@ -43,10 +48,16 @@ export function useWinnerMessages({
   expirationDate,
   fieldHistory,
 }: UseWinnerMessagesOptions) {
-  const [winnerTemplate, setWinnerTemplate] = useState(savedWinnerTemplate ?? DEFAULT_WINNER_TEMPLATE)
-  const [nonWinnerTemplate, setNonWinnerTemplate] = useState(savedNonWinnerTemplate ?? DEFAULT_NON_WINNER_TEMPLATE)
+  const [winnerTemplate, setWinnerTemplate] = useState(
+    savedWinnerTemplate ?? DEFAULT_WINNER_TEMPLATE
+  )
+  const [nonWinnerTemplate, setNonWinnerTemplate] = useState(
+    savedNonWinnerTemplate ?? DEFAULT_NON_WINNER_TEMPLATE
+  )
   const [upgradeMinutes, setUpgradeMinutes] = useState(savedUpgradeMinutes ?? 30)
-  const [bookingLink, setBookingLink] = useState(savedBookingLink ?? 'https://trilliummassage.la/book')
+  const [bookingLink, setBookingLink] = useState(
+    savedBookingLink ?? 'https://trilliummassage.la/book'
+  )
   const [overrides, setOverrides] = useState<Record<string, string>>({})
   const [entryVarOverrides, setEntryVarOverrides] = useState<Record<string, VarOverrides>>({})
   const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved'>('idle')
@@ -65,8 +76,12 @@ export function useWinnerMessages({
       if (!byField[h.field]) byField[h.field] = h.changed_at
     }
     return {
-      winnerTemplate: byField.sms_template_winner ? formatRelative(byField.sms_template_winner) : null,
-      nonWinnerTemplate: byField.sms_template_non_winner ? formatRelative(byField.sms_template_non_winner) : null,
+      winnerTemplate: byField.sms_template_winner
+        ? formatRelative(byField.sms_template_winner)
+        : null,
+      nonWinnerTemplate: byField.sms_template_non_winner
+        ? formatRelative(byField.sms_template_non_winner)
+        : null,
     }
   }, [fieldHistory])
 
@@ -79,15 +94,24 @@ export function useWinnerMessages({
   }
 
   function handleVarOverride(entryId: string, varName: string, value: string) {
-    setEntryVarOverrides((prev) => ({ ...prev, [entryId]: { ...(prev[entryId] ?? {}), [varName]: value } }))
-    setOverrides((prev) => { const next = { ...prev }; delete next[entryId]; return next })
+    setEntryVarOverrides((prev) => ({
+      ...prev,
+      [entryId]: { ...(prev[entryId] ?? {}), [varName]: value },
+    }))
+    setOverrides((prev) => {
+      const next = { ...prev }
+      delete next[entryId]
+      return next
+    })
   }
 
   function setOverride(entryId: string, value: string) {
     setOverrides((prev) => ({ ...prev, [entryId]: value }))
   }
 
-  function clearOverrides() { setOverrides({}) }
+  function clearOverrides() {
+    setOverrides({})
+  }
 
   const debouncedSaveRaffleField = useCallback(
     (field: string, value: unknown) => {
@@ -133,19 +157,27 @@ export function useWinnerMessages({
   }
 
   function handleWinnerTemplateChange(value: string) {
-    setWinnerTemplate(value); clearOverrides(); debouncedSaveRaffleField('sms_template_winner', value)
+    setWinnerTemplate(value)
+    clearOverrides()
+    debouncedSaveRaffleField('sms_template_winner', value)
   }
 
   function handleNonWinnerTemplateChange(value: string) {
-    setNonWinnerTemplate(value); clearOverrides(); debouncedSaveRaffleField('sms_template_non_winner', value)
+    setNonWinnerTemplate(value)
+    clearOverrides()
+    debouncedSaveRaffleField('sms_template_non_winner', value)
   }
 
   async function handleUpgradeMinutesChange(v: number) {
-    setUpgradeMinutes(v); clearOverrides(); await saveRaffleFieldNow('upgrade_minutes', v)
+    setUpgradeMinutes(v)
+    clearOverrides()
+    await saveRaffleFieldNow('upgrade_minutes', v)
   }
 
   async function handleBookingLinkChange(v: string) {
-    setBookingLink(v); clearOverrides(); debouncedSaveRaffleField('booking_link', v)
+    setBookingLink(v)
+    clearOverrides()
+    debouncedSaveRaffleField('booking_link', v)
   }
 
   function exportJson() {
@@ -156,12 +188,22 @@ export function useWinnerMessages({
       phone: entry.phone,
       email: entry.email,
       type: entry.is_winner ? 'winner' : 'non-winner',
-      message: getResolvedMessage(entry.id, entry.is_winner ? winnerTemplate : nonWinnerTemplate, entry),
+      message: getResolvedMessage(
+        entry.id,
+        entry.is_winner ? winnerTemplate : nonWinnerTemplate,
+        entry
+      ),
       status: smsSent[entry.id] ? 'sent' : 'draft',
       sent_at: smsSent[entry.id] ? (entry.sms_sent_at ?? new Date().toISOString()) : null,
     }))
     const blob = new Blob(
-      [JSON.stringify({ raffle: raffleName, exported_at: new Date().toISOString(), messages }, null, 2)],
+      [
+        JSON.stringify(
+          { raffle: raffleName, exported_at: new Date().toISOString(), messages },
+          null,
+          2
+        ),
+      ],
       { type: 'application/json' }
     )
     const url = URL.createObjectURL(blob)

@@ -32,7 +32,10 @@ interface RaffleFormFieldsProps {
   setFieldValue: (field: string, value: string | string[]) => void
   submitError: string | null
   lookupMessage: string | null
-  lookupEntry: (email: string, setFieldValue: (field: string, value: string | string[]) => void) => void
+  lookupEntry: (
+    email: string,
+    setFieldValue: (field: string, value: string | string[]) => void
+  ) => void
 }
 
 export function RaffleFormFields({
@@ -50,7 +53,14 @@ export function RaffleFormFields({
           {openclawData.nameLabel}{' '}
           <TextPrimary as="span">{openclawData.requiredAsterisk}</TextPrimary>
         </label>
-        <Field type="text" id="name" name="name" className={inputClasses} placeholder={openclawData.namePlaceholder} disabled={isSubmitting} />
+        <Field
+          type="text"
+          id="name"
+          name="name"
+          className={inputClasses}
+          placeholder={openclawData.namePlaceholder}
+          disabled={isSubmitting}
+        />
         <Box className="mt-1 min-h-5 text-sm text-amber-500 dark:text-amber-400">
           <ErrorMessage name="name" />
         </Box>
@@ -85,7 +95,14 @@ export function RaffleFormFields({
           {openclawData.phoneLabel}{' '}
           <TextPrimary as="span">{openclawData.requiredAsterisk}</TextPrimary>
         </label>
-        <Field type="tel" id="phone" name="phone" className={inputClasses} placeholder={openclawData.phonePlaceholder} disabled={isSubmitting} />
+        <Field
+          type="tel"
+          id="phone"
+          name="phone"
+          className={inputClasses}
+          placeholder={openclawData.phonePlaceholder}
+          disabled={isSubmitting}
+        />
         <Box className="mt-1 min-h-5 text-sm text-amber-500 dark:text-amber-400">
           <ErrorMessage name="phone" />
         </Box>
@@ -96,7 +113,15 @@ export function RaffleFormFields({
           {openclawData.zipCodeLabel}{' '}
           <TextPrimary as="span">{openclawData.requiredAsterisk}</TextPrimary>
         </label>
-        <Field type="text" id="zip_code" name="zip_code" className={inputClasses} placeholder={openclawData.zipCodePlaceholder} disabled={isSubmitting} maxLength={10} />
+        <Field
+          type="text"
+          id="zip_code"
+          name="zip_code"
+          className={inputClasses}
+          placeholder={openclawData.zipCodePlaceholder}
+          disabled={isSubmitting}
+          maxLength={10}
+        />
         <Box className="mt-1 min-h-5 text-sm text-amber-500 dark:text-amber-400">
           <ErrorMessage name="zip_code" />
         </Box>
@@ -123,7 +148,10 @@ export function RaffleFormFields({
                   setFieldValue('interested_in', next)
                 }}
               />
-              <label htmlFor={`interested-${value}`} className="ms-2 font-medium text-accent-800 dark:text-accent-100">
+              <label
+                htmlFor={`interested-${value}`}
+                className="ms-2 font-medium text-accent-800 dark:text-accent-100"
+              >
                 {label}
               </label>
             </Stack>
