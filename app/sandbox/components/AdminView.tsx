@@ -71,8 +71,8 @@ function EventCard({
           {formatLocalTime(data.end, { timeZone, timeZoneName: 'shortGeneric' })}
         </TextBase>
         <TextBase>
-          <TextBaseMedium as="span">{sandbox.eventCard.labels.duration}</TextBaseMedium>{' '}
-          {data.duration} {sandbox.eventCard.durationUnit}
+          <TextBaseMedium as="span">{sandbox.eventCard.labels.duration}</TextBaseMedium> {data.duration}{' '}
+          {sandbox.eventCard.durationUnit}
         </TextBase>
         {data.price && (
           <TextBase>
@@ -143,9 +143,7 @@ function EmailCard({ email }: { email: SandboxEmail }) {
           </TextSmMedium>
           <TextSmMuted>{email.subject}</TextSmMuted>
         </Box>
-        <TextBase as="span" status="muted">
-          {expanded ? '\u25B2' : '\u25BC'}
-        </TextBase>
+        <TextBase as="span" status="muted">{expanded ? '\u25B2' : '\u25BC'}</TextBase>
       </Button>
       {expanded && (
         <Box className="border-t border-accent-200 p-3 dark:border-accent-700">
