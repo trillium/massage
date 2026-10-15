@@ -22,12 +22,12 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '24'
       - uses: pnpm/action-setup@v4
       - name: Setup Node.js with cache
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '24'
           cache: 'pnpm'
       - id: configurepages
         uses: actions/configure-pages@v5
