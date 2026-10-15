@@ -1,6 +1,9 @@
 /**
  * generate-handbills.ts
  *
+ * @deprecated Legacy /redirect scheme. Use scripts/generate-pdf-print.ts (/rd/<SCOPE>-<HEX8>).
+ * redirects.jsonl is frozen; see print/README.md.
+ *
  * Generates unique QR codes for print using the native renderer (eyelet shapes).
  *
  * - Slugs are recorded in redirects.jsonl (source of truth for used hashes)
@@ -67,6 +70,9 @@ function generateSlugs(n: number, used: Set<string>): string[] {
 }
 
 async function main() {
+  console.warn(
+    '⚠ DEPRECATED: generate-handbills.ts writes legacy /redirect rules. Use scripts/generate-pdf-print.ts (or generate-pdf-card/-handbill) with a scope from lib/qr/scope-defaults.ts.'
+  )
   fs.mkdirSync(QR_DIR, { recursive: true })
 
   const redirects = readRedirects()

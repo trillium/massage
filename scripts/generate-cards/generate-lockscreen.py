@@ -7,7 +7,7 @@ QR is rendered at maximum width with minimal margins, centered vertically
 below where the clock/timer displays.
 
 Expects a pre-generated SVG in print/qr/<slug>.svg (use generate-handbills.ts
-or generate-screen-qr.ts to create the SVG first).
+(legacy, deprecated) or generate-pdf-print.ts to create the SVG first).
 
 Usage:
   python3 scripts/generate-lockscreen.py lockscreen01

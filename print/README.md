@@ -10,41 +10,44 @@ Two-step pipeline: generate unique QR SVGs, then stamp them onto a template PDF.
 
 ## Step 1: Generate QR SVGs
 
+The `/rd/<SCOPE>-<HEX8>` scheme is the only supported QR scheme. Every code in a scope resolves
+to one destination registered in `lib/qr/scope-defaults.ts`; no rebuild is needed for new codes.
+
 ```bash
-pnpm tsx scripts/generate-handbills.ts --prefix=HB- --count=6
+pnpm tsx scripts/generate-pdf-card.ts --prefix=BC07- --count=50
+pnpm tsx scripts/generate-pdf-handbill.ts --prefix=HB01- --count=6
+pnpm tsx scripts/generate-pdf-print.ts --prefix=<SCOPE>- --count=<n> --dest=<url>
 ```
 
 This:
 
-1. Creates random slugs (e.g. `HB-A6D8DB95`)
-2. Records redirect entries in `redirects.jsonl` (slug -> destination URL)
-3. Renders each QR as an SVG in `print/qr/` using the native eyelet renderer
+1. Creates random slugs (e.g. `HB01-A6D8DB95`)
+2. Renders each QR as an SVG in `print/qr/` (encodes `https://trilliummassage.la/rd/<slug>`)
+3. Verifies the batch and writes `print/qr/_qr_verification_<SCOPE>.json`
 
-### Options
+Options: `--prefix=` (required, `{LETTERS}{DIGITS}-`), `--count=`, `--dest=` (only checked
+against the registry; the registered default wins), `--regen`.
 
-| Flag        | Default                | Description                                               |
-| ----------- | ---------------------- | --------------------------------------------------------- |
-| `--prefix=` | `HB-`                  | Filename/slug prefix                                      |
-| `--count=`  | `6`                    | Number of QR codes to generate                            |
-| `--dest=`   | airbnb promo blog post | Destination URL the QR points to                          |
-| `--regen`   | off                    | Regenerate SVGs for existing redirects with missing files |
+### Registered scopes
 
-### Examples
+| Scope         | Destination                                 |
+| ------------- | ------------------------------------------- |
+| `BC01`-`BC06` | home                                        |
+| `BCR01`       | `/overtime`                                 |
+| `AFSR01`      | `/edge-office-hours`                        |
+| `HB01`        | `/blog/airbnb-host-promo-2026-03`           |
+| `HB2`         | `/nerdstage` (matches legacy `HB2-*` cards) |
 
-```bash
-# 6 codes with default prefix, pointing to airbnb promo
-pnpm tsx scripts/generate-handbills.ts
+New campaign: add the scope to `SCOPE_DEFAULTS` and deploy _before_ printing; unregistered scopes 404.
 
-# 10 codes with custom prefix and destination
-pnpm tsx scripts/generate-handbills.ts --prefix=HB2- --count=10 --dest=/quicklinks
+### Legacy `/redirect` scheme (frozen)
 
-# Regenerate missing SVGs only (no new slugs)
-pnpm tsx scripts/generate-handbills.ts --prefix=HB- --count=0 --regen
-```
-
-Output: `print/qr/{PREFIX}*.svg`
-
-Safe to re-run — skips slugs/files that already exist.
+`scripts/generate-handbills.ts` and `redirects.jsonl` are deprecated. Already-printed cards
+(`businessCard_*`, `handbill_*`, `handbiz_*`, `screen_*`, `BC-*`, `HB2-*`, `OT-*`, `lockscreen01`)
+still resolve through `redirects.jsonl`, so **never delete those rules**. Do not append new ones:
+`lib/qr/__tests__/legacy-redirects-frozen.test.ts` fails on any new `/redirect` source. Legacy
+prefixes without digits (`BC-`, `OT-`) cannot be scopes and stay legacy-only.
+`generate-screen-qr.ts` was removed (it called a missing script).
 
 ## Step 2: Stamp QRs onto template PDF
 
@@ -118,13 +121,15 @@ print/
   qc/              QR validation crops (debug output)
   sheet.pdf        Final print-ready output
 scripts/
-  generate-handbills.ts          Step 1: QR generation
+  generate-pdf-print.ts          Step 1: QR generation (/rd scheme; card/handbill wrappers)
+  generate-handbills.ts          DEPRECATED legacy /redirect generator
   generate-cards/
     generate-print-sheet.py      Step 2: PDF composition
     build-promo-back.py          Builds BACK_GATHER50.pdf
   validate-print-qr.py          Step 3: QR validation
   extract-qr-template.ts        Utility: extract eyelet template from QR Monkey SVG
-redirects.jsonl                  Source of truth for all slug -> URL mappings
+redirects.jsonl                  FROZEN legacy /redirect rules (printed cards only)
+lib/qr/scope-defaults.ts         Source of truth for /rd scope -> URL
 ```
 
 ## Template PDFs
