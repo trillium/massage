@@ -60,7 +60,9 @@
     "remark-gfm",
     "remark-math",
     "handlebars",
-    "dotenv"
+    "dotenv",
+    "ts-morph",
+    "@faker-js/faker"
   ],
   "rules": {
     "unused-files": "warn",
@@ -72,11 +74,22 @@
   },
   "duplicates": {
     "threshold": 20,
+    "ignore": [
+      "lib/supabase/database.types.ts"
+    ],
     "mode": "semantic"
   },
   "health": {
     "maxCyclomatic": 20,
     "maxCognitive": 15,
     "maxCrap": 100
-  }
+  },
+  "ignoreExports": [
+    {
+      "file": "lib/supabase/database.types.ts",
+      "exports": [
+        "*"
+      ]
+    }
+  ]
 }
