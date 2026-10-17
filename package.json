@@ -68,6 +68,7 @@
     "blog:watch": "contentlayer2 dev",
     "render:proposal": "tsx scripts/render-proposal.ts",
     "render:proposal:pdf": "tsx scripts/render-proposal-pdf.ts",
+    "render:dental-proposal:pdf": "tsx scripts/render-dental-proposal-pdf.ts",
     "llms:update": "bun scripts/update-llms-txt.ts",
     "test:email": "tsx scripts/send-test-email.ts",
     "test:booking": "tsx scripts/test-booking-request.ts"
