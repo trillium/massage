@@ -15,19 +15,18 @@ pnpm tsx scripts/generate-handbills.ts --prefix=HB- --count=6
 ```
 
 This:
-
 1. Creates random slugs (e.g. `HB-A6D8DB95`)
 2. Records redirect entries in `redirects.jsonl` (slug -> destination URL)
 3. Renders each QR as an SVG in `print/qr/` using the native eyelet renderer
 
 ### Options
 
-| Flag        | Default                | Description                                               |
-| ----------- | ---------------------- | --------------------------------------------------------- |
-| `--prefix=` | `HB-`                  | Filename/slug prefix                                      |
-| `--count=`  | `6`                    | Number of QR codes to generate                            |
-| `--dest=`   | airbnb promo blog post | Destination URL the QR points to                          |
-| `--regen`   | off                    | Regenerate SVGs for existing redirects with missing files |
+| Flag | Default | Description |
+|------|---------|-------------|
+| `--prefix=` | `HB-` | Filename/slug prefix |
+| `--count=` | `6` | Number of QR codes to generate |
+| `--dest=` | airbnb promo blog post | Destination URL the QR points to |
+| `--regen` | off | Regenerate SVGs for existing redirects with missing files |
 
 ### Examples
 
@@ -84,13 +83,13 @@ Page 1 = front, page 2 = back.
 
 ### Options
 
-| Flag       | Default                          | Description                                               |
-| ---------- | -------------------------------- | --------------------------------------------------------- |
-| `--front`  | —                                | Single-page front template PDF (must pair with `--back`)  |
-| `--back`   | —                                | Single-page back template PDF (must pair with `--front`)  |
-| `--pdf`    | `print/templates/CC BEV (2).pdf` | 2-page template PDF (ignored if `--front`/`--back` given) |
-| `--prefix` | `handbill_`                      | SVG filename prefix to match in `print/qr/`               |
-| `--out`    | `print/sheet.pdf`                | Output path                                               |
+| Flag | Default | Description |
+|------|---------|-------------|
+| `--front` | — | Single-page front template PDF (must pair with `--back`) |
+| `--back` | — | Single-page back template PDF (must pair with `--front`) |
+| `--pdf` | `print/templates/CC BEV (2).pdf` | 2-page template PDF (ignored if `--front`/`--back` given) |
+| `--prefix` | `handbill_` | SVG filename prefix to match in `print/qr/` |
+| `--out` | `print/sheet.pdf` | Output path |
 
 Output: `print/sheet.pdf` (front/back pages, ready for duplex printing)
 
@@ -103,7 +102,6 @@ python3 scripts/validate-print-qr.py --save-crops
 ```
 
 Checks:
-
 - Each QR region is not solid (SVG modules actually rendered)
 - Every QR crop is unique (no duplicate renders)
 
@@ -154,9 +152,8 @@ Templates live in `print/templates/`. Naming convention:
 python3 scripts/generate-cards/build-promo-back.py
 ```
 
-Pass `--headline` / repeated `--line` (prefix a line with `**` for the bold accent) to
-build a back for another promo. Full GATHER50 run — promo values come from
-`~/code/massage-marketing/discounts/gather50.yml`, QRs redirect to the Airbnb listing:
+Promo values come from `~/code/massage-marketing/discounts/gather50.yml`; QRs redirect to
+the Airbnb listing. Full GATHER50 run:
 
 ```bash
 pnpm tsx scripts/generate-handbills.ts --prefix=HBG50- --count=6 --dest=https://www.airbnb.com/sv/trillium

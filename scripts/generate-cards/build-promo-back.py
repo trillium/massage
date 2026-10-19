@@ -2,15 +2,11 @@
 """
 build-promo-back.py
 
-Builds a handbill BACK template by swapping the promo copy on BACK_CC_BEV_2.pdf.
-Defaults produce the GATHER50 back (print/templates/BACK_GATHER50.pdf).
+Builds print/templates/BACK_GATHER50.pdf by swapping the promo copy on BACK_CC_BEV_2.pdf.
 
 Usage:
   python3 scripts/generate-cards/build-promo-back.py
-  python3 scripts/generate-cards/build-promo-back.py --out print/templates/BACK_X.pdf \
-    --headline "..." --line "..." --line "**BOLD ACCENT LINE" --line "..."
 """
-import argparse
 import sys
 import urllib.request
 from pathlib import Path
@@ -35,18 +31,16 @@ ACCENT = (255 / 255, 189 / 255, 74 / 255)
 COPY_AREA = fitz.Rect(60, 250, 560, 580)
 TEXT_X = 76
 FONT_SIZE = 29.7
+HEADLINE = "50% Off on AirBNB!"
 HEADLINE_BASELINE = 304
 BODY_FIRST_BASELINE = 387
 LEADING = 41
-BOLD_MARKER = "**"
-
-DEFAULT_HEADLINE = "50% Off on AirBNB!"
-DEFAULT_LINES = [
-    "Book a session through my",
-    "AirBNB listing with code",
-    "**GATHER50",
-    "for 50% off, up to $300.",
-    "Offer ends October 28th!",
+BODY_LINES = [
+    ("Book a session through my", False),
+    ("AirBNB listing with code", False),
+    ("GATHER50", True),
+    ("for 50% off, up to $300.", False),
+    ("Offer ends October 28th!", False),
 ]
 
 
@@ -81,37 +75,30 @@ def write_line(page: fitz.Page, baseline: float, text: str, bold: bool, color) -
     )
 
 
-def build(headline: str, lines: list[str], out_path: Path) -> None:
+def build() -> None:
     doc = fitz.open(str(SOURCE_BACK))
     page = doc[0]
     clear_copy_area(page)
 
-    write_line(page, HEADLINE_BASELINE, headline, bold=True, color=WHITE)
-    for i, line in enumerate(lines):
+    write_line(page, HEADLINE_BASELINE, HEADLINE, bold=True, color=WHITE)
+    for i, (text, accent) in enumerate(BODY_LINES):
         baseline = BODY_FIRST_BASELINE + i * LEADING
-        if line.startswith(BOLD_MARKER):
-            write_line(page, baseline, line[len(BOLD_MARKER):], bold=True, color=ACCENT)
+        if accent:
+            write_line(page, baseline, text, bold=True, color=ACCENT)
         else:
-            write_line(page, baseline, line, bold=False, color=WHITE)
+            write_line(page, baseline, text, bold=False, color=WHITE)
 
     doc.subset_fonts()
-    out_path.parent.mkdir(parents=True, exist_ok=True)
-    doc.save(str(out_path), deflate=True, garbage=4)
-    print(f"✓ {out_path}")
+    DEFAULT_OUT.parent.mkdir(parents=True, exist_ok=True)
+    doc.save(str(DEFAULT_OUT), deflate=True, garbage=4)
+    print(f"✓ {DEFAULT_OUT}")
 
 
-def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--out", default=str(DEFAULT_OUT))
-    parser.add_argument("--headline", default=DEFAULT_HEADLINE)
-    parser.add_argument("--line", action="append", dest="lines",
-                        help=f"Body line; repeatable. Prefix with {BOLD_MARKER} for bold accent.")
-    args = parser.parse_args()
-
+def main() -> None:
     if not SOURCE_BACK.exists():
         sys.exit(f"Source back template not found: {SOURCE_BACK}")
 
-    build(args.headline, args.lines or DEFAULT_LINES, Path(args.out))
+    build()
 
 
 if __name__ == "__main__":
