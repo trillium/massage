@@ -128,5 +128,6 @@ Scopes map QR slugs to redirect destinations. Defined in `lib/qr/scope-defaults.
 | BC02–BC06 | trilliummassage.la              | red scheme variants (50 each)     |
 | BCR01     | trilliummassage.la              | red scheme, arms crossed portrait |
 | HB01      | /blog/airbnb-host-promo-2026-03 | handbills                         |
+| HBG50     | airbnb.com/sv/trillium          | GATHER50 promo handbills          |
 
 Redirects resolve at `/rd/{slug}` via `app/rd/[code]/route.ts`.

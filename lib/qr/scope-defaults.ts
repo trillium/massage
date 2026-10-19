@@ -19,6 +19,7 @@ export const SCOPE_DEFAULTS: Record<string, string> = {
   BCR01: 'https://trilliummassage.la/overtime',
   AFSR01: 'https://trilliummassage.la/edge-office-hours',
   HB01: 'https://trilliummassage.la/blog/airbnb-host-promo-2026-03',
+  HBG50: 'https://www.airbnb.com/sv/trillium',
 }
 
 /**
