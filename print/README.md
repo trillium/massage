@@ -119,6 +119,7 @@ scripts/
   generate-handbills.ts          Step 1: QR generation
   generate-cards/
     generate-print-sheet.py      Step 2: PDF composition
+    build-promo-back.py          Builds BACK_GATHER50.pdf
   validate-print-qr.py          Step 3: QR validation
   extract-qr-template.ts        Utility: extract eyelet template from QR Monkey SVG
 redirects.jsonl                  Source of truth for all slug -> URL mappings
@@ -129,7 +130,7 @@ redirects.jsonl                  Source of truth for all slug -> URL mappings
 Templates live in `print/templates/`. Naming convention:
 
 - `FRONT_*.pdf` — front templates (must contain a green square placeholder)
-- `BACK_*.pdf` — back templates (used as-is, no modifications)
+- `BACK_*.pdf` — back templates (used as-is, except generated ones; see [Promo backs](#promo-backs-gather50))
 - Combined 2-page PDFs are also supported (legacy)
 
 ### Front template requirements
