@@ -55,7 +55,9 @@ def font_path(weight: str) -> Path:
     if not path.exists():
         FONT_CACHE.mkdir(parents=True, exist_ok=True)
         print(f"  fetching {FONTS[weight]} → {FONT_CACHE}")
-        urllib.request.urlretrieve(f"{FONT_BASE_URL}/{FONTS[weight]}", path)
+        partial = path.with_suffix(".part")
+        urllib.request.urlretrieve(f"{FONT_BASE_URL}/{FONTS[weight]}", partial)
+        partial.replace(path)
     return path
 
 
