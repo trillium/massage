@@ -3,75 +3,21 @@ import { Metadata } from 'next'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
 
-import { H1, H2 } from '@/components/ui/heading'
+import { H1 } from '@/components/ui/heading'
 
 import { TextBase, TextSm, TextLg } from '@/components/ui/text'
 import { Stack } from '@/components/ui/stack'
 import { Box } from '@/components/ui/box'
 
+import { ExchangeSection } from './ExchangeSection'
+import { Section, SectionTitle, Table } from './ProposalParts'
+
 export const metadata: Metadata = {
-  title: 'Proposal — Staff Appreciation Massage Exchange',
+  title: 'Proposal — In-Home Staff Wellness Massage Exchange',
   robots: { index: false, follow: false },
 }
 
 const PROPOSAL_TOKEN = 'dental-exchange-2026'
-
-function Section({ children, className = '' }: { children: React.ReactNode; className?: string }) {
-  return <section className={`mb-10 ${className}`}>{children}</section>
-}
-
-function SectionTitle({ children }: { children: React.ReactNode }) {
-  return (
-    <H2 className="mb-4 border-b-2 border-primary-600 pb-2 text-2xl font-bold text-primary-700 print:text-xl">
-      {children}
-    </H2>
-  )
-}
-
-function Table({ headers, rows }: { headers: string[]; rows: (string | React.ReactNode)[][] }) {
-  return (
-    <table className="w-full border-collapse text-sm">
-      <thead>
-        <tr>
-          {headers.map((h, i) => (
-            <th
-              key={`${i}-${h || 'detail'}`}
-              scope="col"
-              className="border border-gray-200 bg-primary-50 px-4 py-2 text-left font-semibold text-primary-800"
-            >
-              {h || (
-                <TextBase as="span" className="sr-only">
-                  Detail
-                </TextBase>
-              )}
-            </th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {rows.map((row, i) => (
-          <tr key={i} className={i % 2 === 1 ? 'bg-gray-50' : ''}>
-            {row.map((cell, j) =>
-              j === 0 ? (
-                <th
-                  key={j}
-                  scope="row"
-                  className="border border-gray-200 px-4 py-2 text-left font-semibold"
-                >
-                  {cell}
-                </th>
-              ) : (
-                <td key={j} className="border border-gray-200 px-4 py-2">
-                  {cell}
-                </td>
-              )
-            )}
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  )
-}
 
 export default async function ProposalPage({
   searchParams,
@@ -86,14 +32,14 @@ export default async function ProposalPage({
       <header className="mb-12 flex items-start justify-between border-b-4 border-primary-600 pb-8">
         <Box>
           <H1 className="text-3xl font-bold text-gray-900 print:text-2xl">
-            Staff Appreciation Massage
+            Staff Wellness Massage
             <br />
             <TextBase as="span" className="text-primary-600">
               for Natalia Homyak, DDS
             </TextBase>
           </H1>
           <TextLg className="mt-2 text-lg text-gray-500">
-            A chair massage visit, offered in exchange for dental services
+            In-home massage for your team, credited against dental work
           </TextLg>
         </Box>
         <Image
@@ -127,75 +73,76 @@ export default async function ProposalPage({
 
       <Section>
         <TextBase className="text-base leading-relaxed">
-          Hi Dr. Homyak — I&apos;d love to bring a staff appreciation massage visit to your office,
-          and I&apos;d like to propose doing it as an exchange: my massage for your dental services,
-          with no cash changing hands.
+          Hi Dr. Homyak — I&apos;d love to offer your team in-home massage therapy as a wellness
+          benefit from your office, and I&apos;d like to propose funding it as a service-for-service
+          exchange: for every hour of massage I deliver to your employees, your office credits me an
+          equal dollar value in dental work.
         </TextBase>
         <TextBase className="mt-3 text-base leading-relaxed">
-          Here&apos;s how I picture it working for a small clinic team.
+          Your employees get a massage at home, outside the workplace, and know it came from you.
         </TextBase>
       </Section>
 
       <Section>
-        <SectionTitle>The Visit</SectionTitle>
+        <SectionTitle>The Offer</SectionTitle>
         <Table
           headers={['', 'Proposed']}
           rows={[
-            [<strong key="f">Format</strong>, 'Seated chair massage, fully clothed, no oils'],
-            [<strong key="s">Session length</strong>, '15 minutes per person'],
-            [<strong key="l">Location</strong>, 'Your office, 13160 Mindanao Way, Suite 170'],
-            [<strong key="d">Date and time</strong>, '[DATE AND TIME — TO BE AGREED]'],
-            [<strong key="t">Team size</strong>, '[NUMBER OF STAFF — TO BE CONFIRMED]'],
+            [<strong key="f">Format</strong>, 'Table massage therapy at the employee’s home'],
+            [<strong key="s">Recommended session</strong>, '90 minutes per employee'],
+            [<strong key="r">Rate</strong>, '$150 per hour of client service'],
+            [<strong key="c">Credit per 90-minute session</strong>, '$225 toward my dental bill'],
+            [<strong key="l">Location</strong>, 'Employee’s home — I travel to them'],
+            [<strong key="d">Scheduling</strong>, 'Each employee books a time that suits them'],
           ]}
         />
         <TextSm className="mt-3 text-sm text-gray-500">
-          Short sessions fit around a working day: staff step away one at a time, so the schedule
-          keeps running and patients are never left waiting.
+          Nothing happens at the office: no disruption to patients, no space to set aside, and
+          employees choose the day and time that works for their life.
         </TextSm>
       </Section>
 
       <Section>
         <SectionTitle>What I Provide</SectionTitle>
         <TextBase className="mb-4 leading-relaxed">
-          I bring the chair, set up in a quiet corner or break room, and give each team member a
-          focused 15-minute session on the neck, shoulders, back, and arms — the places a day of
-          leaning over patients tends to tighten up. I handle setup and teardown.
+          I come to each employee with a professional massage table and give a full 90-minute
+          session tailored to them — the neck, shoulders, back, and arms that a day of leaning over
+          patients tends to tighten up, or wherever they need it most. I handle setup and teardown.
         </TextBase>
         <TextBase className="mb-4 leading-relaxed">
           I&apos;ve been a licensed massage therapist for 14 years with a{' '}
           <strong className="text-primary-700">4.9-star rating</strong> across every platform
           I&apos;ve worked on. I&apos;ve staffed corporate events for Airbnb, Cedars-Sinai, and TJ
-          Maxx, so I&apos;m comfortable working in a professional setting and around a busy
-          schedule. I provide all massage myself.
+          Maxx. I provide all massage myself.
         </TextBase>
         <Box className="rounded-lg border-l-4 border-primary-600 bg-primary-50 p-5">
           <TextBase className="font-semibold text-primary-800">Why a clinic team</TextBase>
           <TextBase className="mt-2 leading-relaxed text-primary-900">
             Dental work is physically demanding — long stretches of static posture, neck and
-            shoulder strain, close precision work. A small team can all be seen in a single visit,
-            and it&apos;s a tangible way to say thank you.
+            shoulder strain, close precision work. A massage at home is a tangible way to say thank
+            you, and it&apos;s recovery time the team can actually relax into.
           </TextBase>
         </Box>
       </Section>
 
       <Box className="my-8 grid grid-cols-1 gap-3 print:hidden sm:grid-cols-3">
         <Image
-          src="/static/images/gallery/massage_chair_smiling.jpg"
-          alt="Chair massage"
+          src="/static/images/gallery/table_upper_back_smiling.jpg"
+          alt="Table massage upper back"
           width={300}
           height={300}
           className="rounded-lg object-cover"
         />
         <Image
-          src="/static/images/gallery/massage_chair_shoulders_wide.jpg"
-          alt="Chair massage shoulders"
+          src="/static/images/gallery/table_neck_massage_client_smiling.jpg"
+          alt="Table massage neck"
           width={300}
           height={300}
           className="rounded-lg object-cover"
         />
         <Image
-          src="/static/images/gallery/massage_chair_upper_back.jpg"
-          alt="Chair massage upper back"
+          src="/static/images/gallery/table_shoulder_forearm.jpg"
+          alt="Table massage shoulder and forearm"
           width={300}
           height={300}
           className="rounded-lg object-cover"
@@ -207,20 +154,20 @@ export default async function ProposalPage({
         <Box className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           {[
             {
-              title: 'Staff Appreciation',
-              text: 'A real, in-person thank-you that the whole team gets to enjoy on the same day.',
+              title: 'A Benefit From Your Office',
+              text: 'Employees are told plainly that the practice created this wellness benefit for them.',
             },
             {
-              title: 'Short Sessions',
-              text: 'Fifteen minutes each means everyone is seen without closing the office or disrupting patients.',
+              title: 'Zero or Shared Cost',
+              text: 'Free to the employee, or shared if you prefer — for example the employee pays about 25%. Tips are welcome either way.',
             },
             {
               title: 'Easy Scheduling',
-              text: 'We pick the quietest window — a lunch break or a slow afternoon — and I work around your appointment book.',
+              text: 'Employees book directly, at home, on their own time. Nothing to arrange at the office.',
             },
             {
               title: 'No Cash Needed',
-              text: 'A straight exchange of services: each side provides what it does best.',
+              text: 'A straight exchange of services: my massage hours for your dental work.',
             },
           ].map((item) => (
             <Box
@@ -234,63 +181,13 @@ export default async function ProposalPage({
         </Box>
       </Section>
 
-      <Section className="print:break-before-page print:pt-8">
-        <SectionTitle>The Exchange</SectionTitle>
-        <Box className="overflow-hidden rounded-lg border-2 border-primary-600">
-          <Box className="bg-primary-600 px-6 py-4 text-white">
-            <TextLg className="text-lg font-bold">Massage for Dental Services — No Cash</TextLg>
-          </Box>
-          <Box className="p-6">
-            <Table
-              headers={['', 'Trillium provides', 'Dr. Homyak provides']}
-              rows={[
-                [
-                  <strong key="w">What</strong>,
-                  'Chair massage visit for your staff',
-                  '[DENTAL SERVICES — TO BE FILLED IN]',
-                ],
-                [
-                  <strong key="q">Quantity</strong>,
-                  '[NUMBER OF SESSIONS] x 15 minutes',
-                  '[QUANTITY OF SERVICES]',
-                ],
-                [
-                  <strong key="v">Value</strong>,
-                  '[VALUE — TO BE FILLED IN]',
-                  '[VALUE — TO BE FILLED IN]',
-                ],
-              ]}
-            />
-            <Stack className="mt-4 items-baseline" direction="row" justify="between">
-              <TextLg as="span" className="text-lg font-bold text-primary-700">
-                Balance
-              </TextLg>
-              <TextBase as="span" className="text-xl font-bold text-primary-700">
-                [EVEN EXCHANGE — TO BE CONFIRMED]
-              </TextBase>
-            </Stack>
-          </Box>
-        </Box>
-
-        <Box className="mt-6 rounded-lg bg-gray-50 p-5 print:bg-white print:border print:border-gray-200">
-          <TextBase className="mb-2 font-semibold text-gray-700">Each side provides:</TextBase>
-          <ul className="space-y-1 text-sm text-gray-600">
-            <li>• Trillium: the chair, setup and teardown, and all massage</li>
-            <li>• Dr. Homyak: a quiet space for the chair and the agreed dental services</li>
-            <li>• Together: a date, a time window, and a sign-up order for the team</li>
-          </ul>
-        </Box>
-
-        <TextSm className="mt-4 text-sm text-gray-500">
-          I carry full liability insurance and can provide documentation as needed.
-        </TextSm>
-      </Section>
+      <ExchangeSection />
 
       <Section>
         <SectionTitle>Next Steps</SectionTitle>
         <TextBase className="leading-relaxed">
-          If this sounds good, let me know which dental services you&apos;d be comfortable
-          exchanging and a few windows that work for your team, and we&apos;ll lock in the details.
+          If this sounds good, let me know whether you&apos;d like the benefit free to employees or
+          shared, and I&apos;ll send a simple booking link for your team.
         </TextBase>
         <TextBase className="mt-4 leading-relaxed">Thank you for considering it.</TextBase>
       </Section>
