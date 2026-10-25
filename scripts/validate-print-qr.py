@@ -41,9 +41,6 @@ GREEN = fitz.Rect(343, 402, 579, 637.5)
 QR_INSET = 6  # border frame: 2+2+2 pts
 COL_ROTATE = {0: 270, 1: 90}
 
-TEAL = np.array([45, 212, 191])
-COLOR_TOLERANCE = 60
-
 DPI = 300
 PX_PER_PT = DPI / 72
 
@@ -87,11 +84,12 @@ def is_solid(crop: np.ndarray) -> bool:
 
 
 def fingerprint(crop: np.ndarray) -> str:
-    """Binarize (teal vs not) → downsample → hash for uniqueness."""
-    dist = np.abs(crop.astype(np.int16) - TEAL).sum(axis=2)
-    binary = (dist < COLOR_TOLERANCE).astype(np.uint8)
+    """Binarize each channel at its own midpoint (color-scheme agnostic) → downsample → hash."""
+    lo = crop.min(axis=(0, 1)).astype(np.int16)
+    hi = crop.max(axis=(0, 1)).astype(np.int16)
+    binary = (crop.astype(np.int16) > (lo + hi) // 2).astype(np.uint8)
     from PIL import Image
-    img = Image.fromarray(binary * 255).resize((64, 64), Image.NEAREST)
+    img = Image.fromarray(binary * 255, "RGB").resize((64, 64), Image.NEAREST)
     return hashlib.sha256(np.array(img).tobytes()).hexdigest()[:16]
 
 

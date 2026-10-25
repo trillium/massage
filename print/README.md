@@ -119,6 +119,7 @@ scripts/
   generate-handbills.ts          Step 1: QR generation
   generate-cards/
     generate-print-sheet.py      Step 2: PDF composition
+    build-promo-back.py          Builds BACK_GATHER50.pdf
   validate-print-qr.py          Step 3: QR validation
   extract-qr-template.ts        Utility: extract eyelet template from QR Monkey SVG
 redirects.jsonl                  Source of truth for all slug -> URL mappings
@@ -129,7 +130,7 @@ redirects.jsonl                  Source of truth for all slug -> URL mappings
 Templates live in `print/templates/`. Naming convention:
 
 - `FRONT_*.pdf` — front templates (must contain a green square placeholder)
-- `BACK_*.pdf` — back templates (used as-is, no modifications)
+- `BACK_*.pdf` — back templates (used as-is, except generated ones; see [Promo backs](#promo-backs-gather50))
 - Combined 2-page PDFs are also supported (legacy)
 
 ### Front template requirements
@@ -142,3 +143,22 @@ Templates live in `print/templates/`. Naming convention:
 
 - Single page, US Letter (612 x 792 pts)
 - Used as-is — no placeholders needed
+
+### Promo backs (GATHER50)
+
+`BACK_GATHER50.pdf` is built from `BACK_CC_BEV_2.pdf` by swapping the promo copy
+(fonts are fetched to `~/.cache/trillium-print/fonts/` on first run):
+
+```bash
+python3 scripts/generate-cards/build-promo-back.py
+```
+
+Promo values come from `~/code/massage-marketing/discounts/gather50.yml`; QRs redirect to
+the Airbnb listing. Full GATHER50 run:
+
+```bash
+pnpm tsx scripts/generate-handbills.ts --prefix=HBG50- --count=6 --dest=https://www.airbnb.com/sv/trillium
+python3 scripts/generate-cards/generate-print-sheet.py --prefix=HBG50- \
+  --front print/templates/FRONT_CC_BEV_2.pdf \
+  --back print/templates/BACK_GATHER50.pdf
+```
