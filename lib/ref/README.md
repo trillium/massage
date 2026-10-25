@@ -111,3 +111,11 @@ Server-only unless prefixed `NEXT_PUBLIC_`:
 3. Set env: `NEXT_PUBLIC_REF_PARAM`, `POSTHOG_HOST`, your `NEXT_PUBLIC_POSTHOG_KEY_*`, and `NEXT_PUBLIC_REF_CODE_SECRET`. Point them at any PostHog instance — nothing is hardcoded.
 4. Fire the server hook on visits: either ping `/api/ref?ref=<token>` from your analytics provider (as `RefTracker` does), or call `tagReferral()` directly from middleware / a server component.
 5. (Optional) fill `POSTHOG_PERSONAL_API_KEY` + `POSTHOG_PROJECT_ID_DEV` to run the live round-trip test against your dev instance.
+
+## Printed QR links (`/go/<code>`)
+
+A QR can't carry a landing page's `?ref=` and still end up at an external site, so printed pieces use `https://trilliummassage.la/go/<code>`, where `<code>` is the same opaque ref token. `app/go/[code]/route.ts` captures `ref_link_visit` server-side (posthog-node, before the 302) with `ref`, `ref_decoded` (null if undecodable), `source=flyer`, `destination`, `user_agent`, `referrer`, then redirects to the Airbnb listing. Unknown codes still redirect.
+
+Flyer tags are `af-<n>` (one per printed flyer); see `print/concept-pack/README.md` for how to mint and print the next one. Read results in PostHog: event `ref_link_visit`, filter `source = flyer`, break down by `ref_decoded`.
+
+Server config: `NEXT_PUBLIC_POSTHOG_KEY_PROD` (dev host: `_DEV`) and `NEXT_PUBLIC_REF_CODE_SECRET` (or `REF_CODE_SECRET`); `POSTHOG_HOST` optional (defaults to `https://us.i.posthog.com`).

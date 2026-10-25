@@ -89,7 +89,7 @@ jobs:
 
   overflow:
     name: Horizontal Overflow
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       NEXT_PUBLIC_SUPABASE_URL: https://cifake.supabase.co
       NEXT_PUBLIC_SUPABASE_ANON_KEY: sb_publishable_ci_fake_key
