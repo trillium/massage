@@ -365,3 +365,4 @@
 {"source":"/redirect/HBG50-D23F59DE","destination":"https://www.airbnb.com/sv/trillium","permanent":false}
 {"source":"/redirect/HBG50-DBDF9258","destination":"https://www.airbnb.com/sv/trillium","permanent":false}
 {"source":"/redirect/HBG50-748D810F","destination":"https://www.airbnb.com/sv/trillium","permanent":false}
+{"source":"/redirect/airbnb-flyer","destination":"https://airbnb.com/sv/trillium","permanent":false,"track":{"source":"flyer","campaign":"office-flyer","concept":"airbnb-flyer"}}
