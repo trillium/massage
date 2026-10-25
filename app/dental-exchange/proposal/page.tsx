@@ -28,7 +28,10 @@ export default async function ProposalPage({
   if (token !== PROPOSAL_TOKEN) notFound()
 
   return (
-    <Box className="mx-auto max-w-3xl px-6 py-12 font-sans text-gray-800 print:max-w-none print:px-0 print:py-0">
+    <Box
+      data-proposal
+      className="mx-auto max-w-3xl px-6 py-12 font-sans text-gray-800 print:max-w-none print:px-0 print:py-0"
+    >
       <header className="mb-12 flex items-start justify-between border-b-4 border-primary-600 pb-8">
         <Box>
           <H1 className="text-3xl font-bold text-gray-900 print:text-2xl">

@@ -23,6 +23,9 @@ async function main() {
   })
   const page = await browser.newPage()
   await page.goto(PROPOSAL_URL, { waitUntil: 'networkidle0' })
+  await page.addStyleTag({
+    content: ':is(header, footer, nav):not([data-proposal] *) { display: none !important }',
+  })
   await page.pdf({
     path: PDF_PATH,
     format: 'Letter',
