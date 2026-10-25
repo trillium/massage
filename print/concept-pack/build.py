@@ -1,11 +1,15 @@
-import sys
+import argparse
 from pathlib import Path
 import fitz
 from PIL import Image
 
 HERE = Path(__file__).parent
 ASSETS = HERE / "assets"
-OUT = Path(sys.argv[1]) if len(sys.argv) > 1 else HERE / "out"
+parser = argparse.ArgumentParser()
+parser.add_argument("--ref-tag", required=True, help="flyer tag, e.g. af-1 (needs assets/qr-<tag>.svg from make-qr.mts)")
+ARGS = parser.parse_args()
+QR_SVG = ASSETS / f"qr-{ARGS.ref_tag}.svg"
+OUT = HERE / "out" / ARGS.ref_tag
 
 RED = (0.863, 0.149, 0.149)
 INK = (0.12, 0.12, 0.12)
@@ -94,7 +98,7 @@ def collage(p, x, y, total):
 
 
 def qr(p, x, y, size):
-    svg = fitz.open(str(ASSETS / "qr-airbnb.svg"))
+    svg = fitz.open(str(QR_SVG))
     pdf = fitz.open("pdf", svg.convert_to_pdf())
     p.show_pdf_page(fitz.Rect(x, y, x + size, y + size), pdf, 0)
 

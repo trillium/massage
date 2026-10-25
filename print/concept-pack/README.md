@@ -1,6 +1,6 @@
 # Concept pack: group / office-visit print pieces
 
-Three home-printable concepts (US Letter, 100% scale, no bleed) in the flyer v4 style: same hero, portrait/collage photos (native aspect), and Airbnb QR (decodes to `https://airbnb.com/sv/trillium`). Single practitioner voice: Trillium Smith, LMT, 14 years experience.
+Three home-printable concepts (US Letter, 100% scale, no bleed) in the flyer v4 style: same hero, portrait/collage photos (native aspect), and per-flyer tracked QR (scan -> `trilliummassage.la/go/<code>` -> PostHog `ref_link_visit` -> Airbnb). Single practitioner voice: Trillium Smith, LMT, 14 years experience.
 
 ## Fill in before printing (placeholders)
 
@@ -10,9 +10,19 @@ The multi-guest reduced rate is NOT decided. Each concept shows a yellow dashed 
 - `Guests per visit: [ ___ to ___ ]`
 - `Session length: [ ___ min ]`
 
-Then rebuild: `python3 print/concept-pack/build.py` (needs `pip3 install pymupdf pillow`). Output goes to `print/concept-pack/out/`. Pass a path to build elsewhere.
+## Printing a tracked flyer (af-1, af-2, ...)
 
-## A. Tri-fold brochure (`out/A-trifold-brochure.pdf`, 2 pages, landscape)
+Every printed flyer gets its own QR so each one's scans are counted separately. Tag convention: `af-<n>`. The tag is encoded with the existing ref codec (`lib/ref/refCodec.ts`, decodable in `/admin/ref-links`).
+
+1. Pick the next number (af-2 after af-1).
+2. Make its QR: `NEXT_PUBLIC_REF_CODE_SECRET=<prod secret> pnpm tsx print/concept-pack/make-qr.mts af-2` - prints the URL and writes `assets/qr-af-2.svg`.
+3. Build the PDFs: `python3 print/concept-pack/build.py --ref-tag af-2` (needs `pip3 install pymupdf pillow`) -> `out/af-2/`.
+4. Check: `pdftoppm -r 300 -png out/af-2/C-coupon-sheet.pdf /tmp/c && zbarimg /tmp/c-1.png` shows the URL from step 2.
+5. In PostHog, event `ref_link_visit`, break down by `ref_decoded` (`af-2`).
+
+Printed so far: `af-1` = `https://trilliummassage.la/go/hOpqX`.
+
+## A. Tri-fold brochure (`out/af-1/A-trifold-brochure.pdf`, 2 pages, landscape)
 
 Print: duplex, landscape, **flip on SHORT edge**.
 
@@ -21,7 +31,7 @@ Print: duplex, landscape, **flip on SHORT edge**.
 
 Fold (C-fold): crease at the tick marks (thirds). Fold the RIGHT inside panel (rate box) over the middle first, then fold the LEFT inside panel (portrait) over it. Portrait panel becomes the front cover.
 
-## B. 4-page half-fold booklet (`out/B-booklet.pdf`, 2 pages, landscape)
+## B. 4-page half-fold booklet (`out/af-1/B-booklet.pdf`, 2 pages, landscape)
 
 Print: duplex, landscape, **flip on SHORT edge**.
 
@@ -30,9 +40,9 @@ Print: duplex, landscape, **flip on SHORT edge**.
 
 Fold: crease down the vertical center, front cover on the outside.
 
-## C. Letter sheet with tear-off coupons (`out/C-coupon-sheet.pdf`, 1 page, portrait)
+## C. Letter sheet with tear-off coupons (`out/af-1/C-coupon-sheet.pdf`, 1 page, portrait)
 
-Print: single-sided, portrait. Hand it out whole, or cut along the dashed lines into 6 coupon strips (each has its own working Airbnb QR + GATHER50, 50% off 90m+, expires 10/28).
+Print: single-sided, portrait. Hand it out whole, or cut along the dashed lines into 6 coupon strips (each carries the same tracked QR + GATHER50, 50% off 90m+, expires 10/28).
 
 ## Recommendation
 
@@ -42,4 +52,4 @@ Print C first. It is one page, single-sided, works at a table or a front desk, a
 
 Reused from flyer v4: headline, "In-Home Massage Therapy", "Mobile Relaxation Service", LA-area line, GATHER50 line, 14-years line, footer. New (review it): "Group & Office Visits", the pitch sentence, the 3 steps, "Book with the Airbnb listing", "Coupon on the table".
 
-Assets in `assets/` are copied from the v4 build (`hero.png`, `portrait.jpg`, `panel-*.png`, `qr-airbnb.svg`).
+Assets in `assets/` are copied from the v4 build (`hero.png`, `portrait.jpg`, `panel-*.png`, `qr-af-<n>.svg` is generated).
