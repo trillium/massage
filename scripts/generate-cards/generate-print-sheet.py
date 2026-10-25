@@ -22,6 +22,7 @@ Usage:
 Output: print/sheet.pdf
 """
 import argparse
+import re
 import sys
 from pathlib import Path
 
@@ -136,6 +137,12 @@ def draw_url(page: fitz.Page, col: int, row: int, url: str) -> None:
                          fontsize=fontsize, color=text_color, rotate=270)
 
 
+def printed_url(qr_path: Path) -> str:
+    """Tracked QRs carry their real URL in data-url; legacy handbills use /redirect/<stem>."""
+    match = re.search(r'data-url="https?://([^"]*/go/[^"]+)"', qr_path.read_text())
+    return match.group(1) if match else f"trilliummassage.la/redirect/{qr_path.stem}"
+
+
 def draw_cut_lines(page: fitz.Page) -> None:
     shape = page.new_shape()
     # Gutter edges (two lines around the center gap)
@@ -206,7 +213,7 @@ def main():
             col, row = i % COLS, i // COLS
             front.show_pdf_page(cell_rect(col, row), fdoc, 0,
                                 rotate=COL_ROTATE[col])
-            url = f"trilliummassage.la/redirect/{qr_path.stem}"
+            url = printed_url(qr_path)
             draw_url(front, col, row, url)
 
         draw_cut_lines(front)

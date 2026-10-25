@@ -20,7 +20,9 @@ Every printed flyer gets its own QR so each one's scans are counted separately. 
 4. Check: `pdftoppm -r 300 -png out/af-2/C-coupon-sheet.pdf /tmp/c && zbarimg /tmp/c-1.png` shows the URL from step 2.
 5. In PostHog, event `ref_link_visit`, break down by `ref_decoded` (`af-2`).
 
-Printed so far: `af-1` = `https://trilliummassage.la/go/hOpqX`.
+Printed so far: `af-1` .. `af-18` are minted for the handbill sheet (`print/sheet-af.pdf`, 3 sheets of 6 cards, one unique QR per card; codes in `print/qr/af-manifest.csv`). `af-1` = `https://trilliummassage.la/go/hOpqX`. The next batch starts at `af-19`.
+
+Handbill sheet: `pnpm tsx print/concept-pack/make-qr.mts af-1 af-18` (writes `print/qr/AF-NN.svg` + manifest), then `python3 scripts/generate-cards/generate-print-sheet.py --prefix=AF- --front print/templates/FRONT_CC_BEV_2.pdf --back print/templates/BACK_GATHER50.pdf --out print/sheet-af.pdf`.
 
 ## A. Tri-fold brochure (`out/af-1/A-trifold-brochure.pdf`, 2 pages, landscape)
 
