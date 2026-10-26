@@ -60,7 +60,7 @@ export function ExchangeSection() {
         </TextSm>
         <TextSm className="mt-2 text-sm text-gray-600 dark:text-accent-200">
           Your office has estimated I need roughly $4,000 to $10,000 of dental work, so the
-          arrangement runs until that balance is covered — about 18 to 44 ninety-minute sessions.
+          arrangement runs until that balance is covered — about 18 to 45 ninety-minute sessions.
         </TextSm>
       </Box>
 
