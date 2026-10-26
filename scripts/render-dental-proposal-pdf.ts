@@ -22,6 +22,7 @@ async function main() {
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
   })
   const page = await browser.newPage()
+  await page.emulateMediaFeatures([{ name: 'prefers-color-scheme', value: 'light' }])
   await page.goto(PROPOSAL_URL, { waitUntil: 'networkidle0' })
   await page.addStyleTag({
     content: ':is(header, footer, nav):not([data-proposal] *) { display: none !important }',

@@ -14,7 +14,7 @@ export function Section({
 
 export function SectionTitle({ children }: { children: React.ReactNode }) {
   return (
-    <H2 className="mb-4 border-b-2 border-primary-600 pb-2 text-2xl font-bold text-primary-700 print:text-xl">
+    <H2 className="mb-4 border-b-2 border-primary-600 pb-2 text-2xl font-bold text-primary-700 dark:text-primary-300 print:text-xl">
       {children}
     </H2>
   )
@@ -35,7 +35,7 @@ export function Table({
             <th
               key={`${i}-${h || 'detail'}`}
               scope="col"
-              className="border border-gray-200 bg-primary-50 px-4 py-2 text-left font-semibold text-primary-800"
+              className="border border-gray-200 dark:border-accent-700 bg-primary-50 dark:bg-primary-950 px-4 py-2 text-left font-semibold text-primary-800 dark:text-primary-100"
             >
               {h || (
                 <TextBase as="span" className="sr-only">
@@ -48,18 +48,18 @@ export function Table({
       </thead>
       <tbody>
         {rows.map((row, i) => (
-          <tr key={i} className={i % 2 === 1 ? 'bg-gray-50' : ''}>
+          <tr key={i} className={i % 2 === 1 ? 'bg-gray-50 dark:bg-surface-800' : ''}>
             {row.map((cell, j) =>
               j === 0 ? (
                 <th
                   key={j}
                   scope="row"
-                  className="border border-gray-200 px-4 py-2 text-left font-semibold"
+                  className="border border-gray-200 dark:border-accent-700 px-4 py-2 text-left font-semibold"
                 >
                   {cell}
                 </th>
               ) : (
-                <td key={j} className="border border-gray-200 px-4 py-2">
+                <td key={j} className="border border-gray-200 dark:border-accent-700 px-4 py-2">
                   {cell}
                 </td>
               )

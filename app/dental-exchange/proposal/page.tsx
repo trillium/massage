@@ -30,18 +30,18 @@ export default async function ProposalPage({
   return (
     <Box
       data-proposal
-      className="mx-auto max-w-3xl px-6 py-12 font-sans text-gray-800 print:max-w-none print:px-0 print:py-0"
+      className="mx-auto max-w-3xl px-6 py-12 font-sans text-gray-800 dark:text-accent-100 print:max-w-none print:px-0 print:py-0"
     >
       <header className="mb-12 flex items-start justify-between border-b-4 border-primary-600 pb-8">
         <Box>
-          <H1 className="text-3xl font-bold text-gray-900 print:text-2xl">
+          <H1 className="text-3xl font-bold text-gray-900 dark:text-white print:text-2xl">
             Staff Wellness Massage
             <br />
-            <TextBase as="span" className="text-primary-600">
+            <TextBase as="span" className="text-primary-600 dark:text-primary-300">
               for Natalia Homyak, DDS
             </TextBase>
           </H1>
-          <TextLg className="mt-2 text-lg text-gray-500">
+          <TextLg className="mt-2 text-lg text-gray-500 dark:text-accent-200">
             In-home massage for your team, credited against dental work
           </TextLg>
         </Box>
@@ -54,23 +54,27 @@ export default async function ProposalPage({
         />
       </header>
 
-      <Box className="mb-10 grid grid-cols-1 gap-4 rounded-lg bg-gray-50 p-6 text-sm print:border print:border-gray-200 print:bg-white sm:grid-cols-2">
+      <Box className="mb-10 grid grid-cols-1 gap-4 rounded-lg bg-gray-50 dark:bg-surface-800 p-6 text-sm print:border print:border-gray-200 print:bg-white sm:grid-cols-2">
         <Box>
-          <TextBase as="span" className="font-semibold text-gray-500">
+          <TextBase as="span" className="font-semibold text-gray-500 dark:text-accent-200">
             Prepared for
           </TextBase>
-          <TextBase className="text-gray-900">Dr. Natalia Homyak, DDS & Team</TextBase>
-          <TextBase className="text-gray-500">Natalia Homyak, DDS, Inc</TextBase>
-          <TextBase className="text-gray-500">
+          <TextBase className="text-gray-900 dark:text-white">
+            Dr. Natalia Homyak, DDS & Team
+          </TextBase>
+          <TextBase className="text-gray-500 dark:text-accent-200">
+            Natalia Homyak, DDS, Inc
+          </TextBase>
+          <TextBase className="text-gray-500 dark:text-accent-200">
             13160 Mindanao Way, Suite 170, Marina del Rey, CA 90292
           </TextBase>
         </Box>
         <Box>
-          <TextBase as="span" className="font-semibold text-gray-500">
+          <TextBase as="span" className="font-semibold text-gray-500 dark:text-accent-200">
             Prepared by
           </TextBase>
-          <TextBase className="text-gray-900">Trillium Smith, LMT</TextBase>
-          <TextBase className="text-gray-500">October 2026</TextBase>
+          <TextBase className="text-gray-900 dark:text-white">Trillium Smith, LMT</TextBase>
+          <TextBase className="text-gray-500 dark:text-accent-200">October 2026</TextBase>
         </Box>
       </Box>
 
@@ -99,7 +103,7 @@ export default async function ProposalPage({
             [<strong key="d">Scheduling</strong>, 'Each employee books a time that suits them'],
           ]}
         />
-        <TextSm className="mt-3 text-sm text-gray-500">
+        <TextSm className="mt-3 text-sm text-gray-500 dark:text-accent-200">
           Nothing happens at the office: no disruption to patients, no space to set aside, and
           employees choose the day and time that works for their life.
         </TextSm>
@@ -114,13 +118,15 @@ export default async function ProposalPage({
         </TextBase>
         <TextBase className="mb-4 leading-relaxed">
           I&apos;ve been a licensed massage therapist for 14 years with a{' '}
-          <strong className="text-primary-700">4.9-star rating</strong> across every platform
-          I&apos;ve worked on. I&apos;ve staffed corporate events for Airbnb, Cedars-Sinai, and TJ
-          Maxx. I provide all massage myself.
+          <strong className="text-primary-700 dark:text-primary-300">4.9-star rating</strong> across
+          every platform I&apos;ve worked on. I&apos;ve staffed corporate events for Airbnb,
+          Cedars-Sinai, and TJ Maxx. I provide all massage myself.
         </TextBase>
-        <Box className="rounded-lg border-l-4 border-primary-600 bg-primary-50 p-5">
-          <TextBase className="font-semibold text-primary-800">Why a clinic team</TextBase>
-          <TextBase className="mt-2 leading-relaxed text-primary-900">
+        <Box className="rounded-lg border-l-4 border-primary-600 bg-primary-50 dark:bg-primary-950 p-5">
+          <TextBase className="font-semibold text-primary-800 dark:text-primary-100">
+            Why a clinic team
+          </TextBase>
+          <TextBase className="mt-2 leading-relaxed text-primary-900 dark:text-primary-100">
             Dental work is physically demanding — long stretches of static posture, neck and
             shoulder strain, close precision work. A massage at home is a tangible way to say thank
             you, and it&apos;s recovery time the team can actually relax into.
@@ -175,10 +181,14 @@ export default async function ProposalPage({
           ].map((item) => (
             <Box
               key={item.title}
-              className="rounded-lg border border-gray-200 p-4 print:border-gray-300"
+              className="rounded-lg border border-gray-200 dark:border-accent-700 p-4 print:border-gray-300"
             >
-              <TextBase className="mb-1 font-bold text-primary-700">{item.title}</TextBase>
-              <TextSm className="text-sm leading-relaxed text-gray-600">{item.text}</TextSm>
+              <TextBase className="mb-1 font-bold text-primary-700 dark:text-primary-300">
+                {item.title}
+              </TextBase>
+              <TextSm className="text-sm leading-relaxed text-gray-600 dark:text-accent-200">
+                {item.text}
+              </TextSm>
             </Box>
           ))}
         </Box>
@@ -205,9 +215,15 @@ export default async function ProposalPage({
             className="rounded-full object-cover"
           />
           <Box>
-            <TextLg className="text-lg font-bold text-gray-900">Trillium Smith, LMT</TextLg>
-            <TextSm className="text-sm text-gray-500">trilliummassagela@gmail.com</TextSm>
-            <TextSm className="text-sm text-primary-600">www.trilliummassage.la</TextSm>
+            <TextLg className="text-lg font-bold text-gray-900 dark:text-white">
+              Trillium Smith, LMT
+            </TextLg>
+            <TextSm className="text-sm text-gray-500 dark:text-accent-200">
+              trilliummassagela@gmail.com
+            </TextSm>
+            <TextSm className="text-sm text-primary-600 dark:text-primary-300">
+              www.trilliummassage.la
+            </TextSm>
           </Box>
         </Stack>
       </footer>
