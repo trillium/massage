@@ -118,8 +118,8 @@ export default async function ProposalPage({
         </TextBase>
         <TextBase className="mb-4 leading-relaxed">
           I&apos;ve been a licensed massage therapist for 14 years with a{' '}
-          <strong className="text-primary-700 dark:text-primary-300">4.9-star rating</strong>{' '}
-          across every platform I&apos;ve worked on. I&apos;ve staffed corporate events for Airbnb,
+          <strong className="text-primary-700 dark:text-primary-300">4.9-star rating</strong> across
+          every platform I&apos;ve worked on. I&apos;ve staffed corporate events for Airbnb,
           Cedars-Sinai, and TJ Maxx. I provide all massage myself.
         </TextBase>
         <Box className="rounded-lg border-l-4 border-primary-600 bg-primary-50 dark:bg-primary-950 p-5">
