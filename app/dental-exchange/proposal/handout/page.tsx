@@ -82,7 +82,7 @@ export default async function ProposalHandoutPage({
           </TextBase>
         </Section>
 
-        <ExchangeSection />
+        <ExchangeSection showEachSide={false} />
 
         <Box className="mt-6 flex items-center gap-6 rounded-lg border-2 border-primary-600 p-4 print:break-inside-avoid">
           <Image
