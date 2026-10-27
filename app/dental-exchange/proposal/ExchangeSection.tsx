@@ -64,17 +64,6 @@ export function ExchangeSection() {
         </TextSm>
       </Box>
 
-      <Box className="mt-6 rounded-lg bg-gray-50 dark:bg-surface-800 p-5 print:bg-white print:border print:border-gray-200">
-        <TextBase className="mb-2 font-semibold text-gray-700 dark:text-accent-200">
-          Each side provides:
-        </TextBase>
-        <ul className="space-y-1 text-sm text-gray-600 dark:text-accent-200">
-          <li>• Trillium: the table, travel, setup and teardown, and all massage</li>
-          <li>• Dr. Homyak: the dental work, and letting employees know the benefit is from you</li>
-          <li>• Together: a running tally of hours delivered and credit applied to my bill</li>
-        </ul>
-      </Box>
-
       <TextSm className="mt-4 text-sm text-gray-500 dark:text-accent-200">
         I carry full liability insurance and can provide documentation as needed.
       </TextSm>
