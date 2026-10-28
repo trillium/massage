@@ -5,6 +5,7 @@ import { writeAuditLog } from './invoiceRecords'
 export interface SquareWebhookEvent {
   type: string
   event_id: string
+  created_at?: string
   data: {
     type: string
     id: string
@@ -20,6 +21,13 @@ export interface SquareWebhookEvent {
       }
     }
   }
+}
+
+const UNKNOWN_INVOICE_RETRY_WINDOW_MS = 10 * 60 * 1000
+
+function isWithinRetryWindow(event: SquareWebhookEvent): boolean {
+  const createdAt = Date.parse(event.created_at ?? '')
+  return Number.isNaN(createdAt) || Date.now() - createdAt < UNKNOWN_INVOICE_RETRY_WINDOW_MS
 }
 
 export async function processWebhookEvent(event: SquareWebhookEvent): Promise<string> {
@@ -76,9 +84,6 @@ async function findLocalInvoice(supabase: AdminClient, squareInvoiceId: string) 
     .eq('square_invoice_id', squareInvoiceId)
     .maybeSingle()
   if (error) throw new Error(`Invoice lookup failed: ${error.message}`)
-  // May simply be ahead of the local insert (create path is not atomic):
-  // fail so Square redelivers; the event stays unprocessed in the inbox.
-  if (!data) throw new Error(`Webhook for unknown invoice: ${squareInvoiceId}`)
   return data
 }
 
@@ -106,6 +111,13 @@ async function applyInvoiceEvent(
   if (!invoice) return 'Ignored'
 
   const local = await findLocalInvoice(supabase, invoice.id)
+  if (!local) {
+    if (isWithinRetryWindow(event)) {
+      throw new Error(`Webhook for unknown invoice: ${invoice.id}`)
+    }
+    console.warn(`Ignoring webhook ${event.event_id} for unknown invoice ${invoice.id}`)
+    return 'Ignored'
+  }
   const applied = await updateIfNewer(supabase, local.id, invoice)
 
   await writeAuditLog({

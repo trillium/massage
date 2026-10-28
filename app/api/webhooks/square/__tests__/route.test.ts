@@ -21,8 +21,9 @@ function req(body: string, signature: string | null = 'sig') {
   return new NextRequest('http://localhost/api/webhooks/square', { method: 'POST', body, headers })
 }
 
-function evt(eventId: string, status: string, version: number) {
+function evt(eventId: string, status: string, version: number, createdAt?: string) {
   return JSON.stringify({
+    created_at: createdAt,
     type: 'invoice.updated',
     event_id: eventId,
     data: {
@@ -122,8 +123,19 @@ describe('square webhook', () => {
     expect(fake.tables.invoices[0].status).toBe('PAID')
   })
 
-  it('returns 500 for an unknown invoice so Square redelivers', async () => {
+  it('returns 500 for a young event on an unknown invoice so Square redelivers', async () => {
     fake = createFakeSupabase({ invoices: [] })
-    expect((await POST(req(evt('e1', 'PAID', 2)))).status).toBe(500)
+    const createdAt = new Date(Date.now() - 60_000).toISOString()
+    expect((await POST(req(evt('e1', 'PAID', 2, createdAt)))).status).toBe(500)
+    expect(fake.tables.square_webhook_events[0].processed_at).toBeUndefined()
+  })
+
+  it('acks and marks processed an old event on an unknown invoice', async () => {
+    fake = createFakeSupabase({ invoices: [] })
+    const createdAt = new Date(Date.now() - 11 * 60_000).toISOString()
+    const res = await POST(req(evt('e1', 'PAID', 2, createdAt)))
+    expect(res.status).toBe(200)
+    expect(await res.text()).toBe('Ignored')
+    expect(fake.tables.square_webhook_events[0].processed_at).toBeTruthy()
   })
 })
