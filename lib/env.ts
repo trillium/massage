@@ -112,6 +112,33 @@ const ENV_VARS: EnvVar[] = [
     description: 'NextAuth URL for authentication',
   },
 
+  // Square (invoicing) — optional as a group; see validateSquareConfig
+  {
+    name: 'SQUARE_ACCESS_TOKEN',
+    required: false,
+    description: 'Square API access token',
+  },
+  {
+    name: 'SQUARE_LOCATION_ID',
+    required: false,
+    description: 'Square location ID used for orders and invoices',
+  },
+  {
+    name: 'SQUARE_WEBHOOK_SIGNATURE_KEY',
+    required: false,
+    description: 'Square webhook signature key',
+  },
+  {
+    name: 'SQUARE_WEBHOOK_URL',
+    required: false,
+    description: 'Exact public Square webhook notification URL',
+  },
+  {
+    name: 'SQUARE_ENVIRONMENT',
+    required: false,
+    description: 'Square environment: "sandbox" (default) or "production"',
+  },
+
   // Multi-tenant
   {
     name: 'TENANT_SLUG',
@@ -205,8 +232,54 @@ function validateTenantConfig(): string[] {
   return warnings
 }
 
+const SQUARE_REQUIRED_WHEN_ENABLED = [
+  'SQUARE_ACCESS_TOKEN',
+  'SQUARE_LOCATION_ID',
+  'SQUARE_WEBHOOK_SIGNATURE_KEY',
+  'SQUARE_WEBHOOK_URL',
+] as const
+
+/**
+ * Square is optional, but if any SQUARE_* var is set the whole group must be
+ * valid, so a half-configured payment setup fails at startup, not at checkout.
+ * Returns a list of problems (empty when valid or entirely unconfigured).
+ */
+export function validateSquareConfig(env: NodeJS.ProcessEnv = process.env): string[] {
+  const names = [...SQUARE_REQUIRED_WHEN_ENABLED, 'SQUARE_ENVIRONMENT']
+  const isSet = (n: string) => !!env[n] && env[n]!.trim() !== ''
+  if (!names.some(isSet)) return []
+
+  const problems: string[] = []
+  for (const name of SQUARE_REQUIRED_WHEN_ENABLED) {
+    if (!isSet(name)) problems.push(`${name} is required when Square is configured`)
+  }
+  const environment = env.SQUARE_ENVIRONMENT?.trim()
+  if (environment && environment !== 'sandbox' && environment !== 'production') {
+    problems.push(`SQUARE_ENVIRONMENT="${environment}" must be "sandbox" or "production"`)
+  }
+  if (isSet('SQUARE_WEBHOOK_URL')) {
+    try {
+      const url = new URL(env.SQUARE_WEBHOOK_URL!)
+      if (url.protocol !== 'https:' && environment === 'production') {
+        problems.push('SQUARE_WEBHOOK_URL must be https in production')
+      }
+    } catch {
+      problems.push('SQUARE_WEBHOOK_URL is not a valid URL')
+    }
+  }
+  return problems
+}
+
 export function validateEnv(): void {
   const { missing, warnings } = classifyEnvVars()
+  const squareProblems = validateSquareConfig()
+  if (squareProblems.length > 0) {
+    throw new EnvValidationError(
+      ['\n❌ Invalid Square configuration:', '', ...squareProblems.map((p) => `   ${p}`), ''].join(
+        '\n'
+      )
+    )
+  }
   const tenantWarnings = validateTenantConfig()
   warnOptionalEnvVars([...warnings, ...tenantWarnings])
   throwIfMissingRequired(missing)

@@ -2,7 +2,12 @@ import { NextResponse, type NextRequest } from 'next/server'
 import { z } from 'zod'
 import { getSupabaseAdminClient } from '@/lib/supabase/server'
 import { requireAdminWithFlag } from '@/lib/adminAuthBridge'
-import { createAndPublishInvoice, writeInvoiceRecord, writeAuditLog } from '@/lib/square/invoice'
+import {
+  createAndPublishInvoice,
+  resolveCreateIdempotencyKey,
+  writeInvoiceRecord,
+  writeAuditLog,
+} from '@/lib/square/invoice'
 
 const CreateInvoiceSchema = z.object({
   bookingId: z.string().uuid(),
@@ -13,7 +18,12 @@ export async function POST(req: NextRequest) {
   const auth = await requireAdminWithFlag(req)
   if (auth instanceof NextResponse) return auth
 
-  const body = await req.json()
+  let body: unknown
+  try {
+    body = await req.json()
+  } catch {
+    return NextResponse.json({ error: 'INVALID_JSON' }, { status: 400 })
+  }
   const parsed = CreateInvoiceSchema.safeParse(body)
 
   if (!parsed.success) {
@@ -37,11 +47,16 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'BOOKING_NOT_FOUND' }, { status: 400 })
   }
 
-  const { data: existingInvoice } = await supabase
+  const { data: existingInvoice, error: existingError } = await supabase
     .from('invoices')
     .select('id, square_invoice_id, public_url, invoice_number, status')
     .eq('booking_id', bookingId)
-    .single()
+    .maybeSingle()
+
+  if (existingError) {
+    console.error('Failed to check existing invoice:', existingError.message)
+    return NextResponse.json({ error: 'DATABASE_ERROR' }, { status: 500 })
+  }
 
   if (existingInvoice && existingInvoice.status !== 'DRAFT') {
     return NextResponse.json(
@@ -74,6 +89,10 @@ export async function POST(req: NextRequest) {
   const serviceName = buildServiceName(booking.duration_minutes, booking.slug_config)
 
   try {
+    // Reuse the first key stored for this booking so a retry reconciles with
+    // the Square objects already created rather than publishing a second invoice.
+    const squareKey = await resolveCreateIdempotencyKey(bookingId, idempotencyKey)
+
     const result = await createAndPublishInvoice(
       {
         bookingId,
@@ -85,7 +104,7 @@ export async function POST(req: NextRequest) {
         currency: 'USD',
         dueDate,
       },
-      idempotencyKey
+      squareKey
     )
 
     await writeInvoiceRecord(bookingId, result, booking.client_email, amountCents, 'USD')
@@ -97,7 +116,7 @@ export async function POST(req: NextRequest) {
       eventType: 'invoice.published',
       eventSource: 'api',
       statusAfter: result.status,
-      idempotencyKey,
+      idempotencyKey: squareKey,
     })
 
     return NextResponse.json({
