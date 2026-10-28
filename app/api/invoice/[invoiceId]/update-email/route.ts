@@ -3,7 +3,7 @@ import { z } from 'zod'
 import { requireAdminWithFlag } from '@/lib/adminAuthBridge'
 import { getSupabaseAdminClient } from '@/lib/supabase/server'
 import { getSquareClient } from '@/lib/square/client'
-import { writeAuditLog } from '@/lib/square/invoice'
+import { writeAuditLog } from '@/lib/square/invoiceRecords'
 
 const UpdateEmailSchema = z.object({
   newEmail: z.string().email(),
