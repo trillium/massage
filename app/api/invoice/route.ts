@@ -47,31 +47,8 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'BOOKING_NOT_FOUND' }, { status: 400 })
   }
 
-  const { data: existingInvoice, error: existingError } = await supabase
-    .from('invoices')
-    .select('id, square_invoice_id, public_url, invoice_number, status')
-    .eq('booking_id', bookingId)
-    .maybeSingle()
-
-  if (existingError) {
-    console.error('Failed to check existing invoice:', existingError.message)
-    return NextResponse.json({ error: 'DATABASE_ERROR' }, { status: 500 })
-  }
-
-  if (existingInvoice && existingInvoice.status !== 'DRAFT') {
-    return NextResponse.json(
-      {
-        error: 'BOOKING_ALREADY_INVOICED',
-        invoice: {
-          invoiceId: existingInvoice.square_invoice_id,
-          invoiceUrl: existingInvoice.public_url,
-          invoiceNumber: existingInvoice.invoice_number,
-          status: existingInvoice.status,
-        },
-      },
-      { status: 400 }
-    )
-  }
+  const existing = await existingInvoiceResponse(supabase, bookingId)
+  if (existing) return existing
 
   if (!booking.client_email) {
     return NextResponse.json({ error: 'CUSTOMER_MISSING_EMAIL' }, { status: 400 })
@@ -82,11 +59,52 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'INVALID_AMOUNT' }, { status: 400 })
   }
 
-  const dueDate = booking.start_time
-    ? new Date(booking.start_time).toISOString().split('T')[0]
-    : new Date().toISOString().split('T')[0]
+  return publishInvoice(booking, amountCents, idempotencyKey)
+}
 
-  const serviceName = buildServiceName(booking.duration_minutes, booking.slug_config)
+type AdminClient = NonNullable<ReturnType<typeof getSupabaseAdminClient>>
+type Booking = {
+  id: string
+  client_email: string | null
+  client_first_name: string
+  client_last_name: string
+  duration_minutes: number
+  slug_config: unknown
+  start_time: string | null
+}
+
+async function existingInvoiceResponse(supabase: AdminClient, bookingId: string) {
+  const { data: existingInvoice, error } = await supabase
+    .from('invoices')
+    .select('id, square_invoice_id, public_url, invoice_number, status')
+    .eq('booking_id', bookingId)
+    .maybeSingle()
+
+  if (error) {
+    console.error('Failed to check existing invoice:', error.message)
+    return NextResponse.json({ error: 'DATABASE_ERROR' }, { status: 500 })
+  }
+  if (!existingInvoice || existingInvoice.status === 'DRAFT') return null
+
+  return NextResponse.json(
+    {
+      error: 'BOOKING_ALREADY_INVOICED',
+      invoice: {
+        invoiceId: existingInvoice.square_invoice_id,
+        invoiceUrl: existingInvoice.public_url,
+        invoiceNumber: existingInvoice.invoice_number,
+        status: existingInvoice.status,
+      },
+    },
+    { status: 400 }
+  )
+}
+
+async function publishInvoice(booking: Booking, amountCents: number, idempotencyKey: string) {
+  const bookingId = booking.id
+  const dueDate = (booking.start_time ? new Date(booking.start_time) : new Date())
+    .toISOString()
+    .split('T')[0]
 
   try {
     // Reuse the first key stored for this booking so a retry reconciles with
@@ -96,10 +114,10 @@ export async function POST(req: NextRequest) {
     const result = await createAndPublishInvoice(
       {
         bookingId,
-        clientEmail: booking.client_email,
+        clientEmail: booking.client_email!,
         clientFirstName: booking.client_first_name,
         clientLastName: booking.client_last_name,
-        serviceName,
+        serviceName: buildServiceName(booking.duration_minutes, booking.slug_config),
         amountCents,
         currency: 'USD',
         dueDate,
@@ -107,7 +125,7 @@ export async function POST(req: NextRequest) {
       squareKey
     )
 
-    await writeInvoiceRecord(bookingId, result, booking.client_email, amountCents, 'USD')
+    await writeInvoiceRecord(bookingId, result, booking.client_email!, amountCents, 'USD')
 
     await writeAuditLog({
       bookingId,
@@ -127,23 +145,27 @@ export async function POST(req: NextRequest) {
       orderId: result.orderId,
     })
   } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : 'Unknown error'
-
-    await writeAuditLog({
-      bookingId,
-      eventType: 'invoice.error',
-      eventSource: 'api',
-      errorDetail: { message: errorMessage },
-      idempotencyKey,
-    }).catch(() => {})
-
-    if (errorMessage.includes('INVALID_EMAIL_ADDRESS')) {
-      return NextResponse.json({ error: 'INVALID_EMAIL_ADDRESS' }, { status: 400 })
-    }
-
-    console.error('Square invoice creation failed:', error)
-    return NextResponse.json({ error: 'SQUARE_API_ERROR', message: errorMessage }, { status: 500 })
+    return invoiceErrorResponse(error, bookingId, idempotencyKey)
   }
+}
+
+async function invoiceErrorResponse(error: unknown, bookingId: string, idempotencyKey: string) {
+  const errorMessage = error instanceof Error ? error.message : 'Unknown error'
+
+  await writeAuditLog({
+    bookingId,
+    eventType: 'invoice.error',
+    eventSource: 'api',
+    errorDetail: { message: errorMessage },
+    idempotencyKey,
+  }).catch(() => {})
+
+  if (errorMessage.includes('INVALID_EMAIL_ADDRESS')) {
+    return NextResponse.json({ error: 'INVALID_EMAIL_ADDRESS' }, { status: 400 })
+  }
+
+  console.error('Square invoice creation failed:', error)
+  return NextResponse.json({ error: 'SQUARE_API_ERROR', message: errorMessage }, { status: 500 })
 }
 
 function buildServiceName(durationMinutes: number, slugConfig: unknown): string {

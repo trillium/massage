@@ -69,6 +69,35 @@ function buildUpdate(invoice: { status: string; version: number }) {
   return update
 }
 
+async function findLocalInvoice(supabase: AdminClient, squareInvoiceId: string) {
+  const { data, error } = await supabase
+    .from('invoices')
+    .select('id, booking_id, status, square_version')
+    .eq('square_invoice_id', squareInvoiceId)
+    .maybeSingle()
+  if (error) throw new Error(`Invoice lookup failed: ${error.message}`)
+  // May simply be ahead of the local insert (create path is not atomic):
+  // fail so Square redelivers; the event stays unprocessed in the inbox.
+  if (!data) throw new Error(`Webhook for unknown invoice: ${squareInvoiceId}`)
+  return data
+}
+
+/** Applies the update only if strictly newer than stored (Square delivers out of order). */
+async function updateIfNewer(
+  supabase: AdminClient,
+  id: string,
+  invoice: { status: string; version: number }
+): Promise<boolean> {
+  const { data, error } = await supabase
+    .from('invoices')
+    .update(buildUpdate(invoice))
+    .eq('id', id)
+    .or(`square_version.is.null,square_version.lt.${invoice.version}`)
+    .select('id')
+  if (error) throw new Error(`Invoice update failed: ${error.message}`)
+  return (data?.length ?? 0) > 0
+}
+
 async function applyInvoiceEvent(
   supabase: AdminClient,
   event: SquareWebhookEvent
@@ -76,36 +105,17 @@ async function applyInvoiceEvent(
   const invoice = event.data?.object?.invoice
   if (!invoice) return 'Ignored'
 
-  const { data: localInvoice, error: lookupError } = await supabase
-    .from('invoices')
-    .select('id, booking_id, status, square_version')
-    .eq('square_invoice_id', invoice.id)
-    .maybeSingle()
-  if (lookupError) throw new Error(`Invoice lookup failed: ${lookupError.message}`)
-
-  // May simply be ahead of the local insert (create path is not atomic):
-  // fail so Square redelivers; the event stays unprocessed in the inbox.
-  if (!localInvoice) throw new Error(`Webhook for unknown invoice: ${invoice.id}`)
-
-  // Apply only if strictly newer than what is stored (Square delivers out of order).
-  const { data: updated, error: updateError } = await supabase
-    .from('invoices')
-    .update(buildUpdate(invoice))
-    .eq('id', localInvoice.id)
-    .or(`square_version.is.null,square_version.lt.${invoice.version}`)
-    .select('id')
-  if (updateError) throw new Error(`Invoice update failed: ${updateError.message}`)
-
-  const applied = (updated?.length ?? 0) > 0
+  const local = await findLocalInvoice(supabase, invoice.id)
+  const applied = await updateIfNewer(supabase, local.id, invoice)
 
   await writeAuditLog({
-    bookingId: localInvoice.booking_id,
+    bookingId: local.booking_id,
     squareInvoiceId: invoice.id,
     squareOrderId: invoice.order_id,
     eventType: event.type,
     eventSource: 'webhook',
-    statusBefore: localInvoice.status,
-    statusAfter: applied ? invoice.status : localInvoice.status,
+    statusBefore: local.status,
+    statusAfter: applied ? invoice.status : local.status,
     payload: {
       squareEventId: event.event_id,
       rawType: event.type,

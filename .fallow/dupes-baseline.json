@@ -140,7 +140,7 @@
     "lib/slugConfigurations/fetchSlugConfigurationData.ts:178-197|lib/slugConfigurations/fetchSlugConfigurationData.ts:208-227|lib/slugConfigurations/fetchSlugConfigurationData.ts:240-259|lib/slugConfigurations/fetchSlugConfigurationData.ts:317-336",
     "lib/supabase/auth-helpers.ts:17-26|lib/supabase/auth-helpers.ts:39-48",
     "lib/supabase/database.types.ts:140-163|lib/supabase/database.types.ts:164-187|lib/supabase/database.types.ts:188-211",
-    "lib/supabase/database.types.ts:288-305|lib/supabase/database.types.ts:306-323|lib/supabase/database.types.ts:324-341",
-    "lib/supabase/database.types.ts:352-365|lib/supabase/database.types.ts:366-379|lib/supabase/database.types.ts:380-393"
+    "lib/supabase/database.types.ts:288-306|lib/supabase/database.types.ts:307-325|lib/supabase/database.types.ts:326-344",
+    "lib/supabase/database.types.ts:379-392|lib/supabase/database.types.ts:393-406|lib/supabase/database.types.ts:407-420"
   ]
 }
