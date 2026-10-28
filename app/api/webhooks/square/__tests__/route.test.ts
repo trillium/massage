@@ -11,7 +11,7 @@ let fake = createFakeSupabase()
 vi.mock('@/lib/supabase/server', () => ({ getSupabaseAdminClient: () => fake.client }))
 
 const writeAuditLog = vi.fn()
-vi.mock('@/lib/square/invoice', () => ({ writeAuditLog: (e: unknown) => writeAuditLog(e) }))
+vi.mock('@/lib/square/invoiceRecords', () => ({ writeAuditLog: (e: unknown) => writeAuditLog(e) }))
 
 import { POST } from '../route'
 

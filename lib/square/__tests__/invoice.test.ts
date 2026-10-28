@@ -5,7 +5,7 @@ let fake = createFakeSupabase()
 vi.mock('@/lib/supabase/server', () => ({ getSupabaseAdminClient: () => fake.client }))
 vi.mock('../client', () => ({ getSquareClient: vi.fn(), getSquareLocationId: vi.fn() }))
 
-import { resolveCreateIdempotencyKey, writeInvoiceRecord, writeAuditLog } from '../invoice'
+import { resolveCreateIdempotencyKey, writeInvoiceRecord, writeAuditLog } from '../invoiceRecords'
 
 const result = {
   invoiceId: 'inv_sq',

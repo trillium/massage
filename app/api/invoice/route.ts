@@ -2,12 +2,17 @@ import { NextResponse, type NextRequest } from 'next/server'
 import { z } from 'zod'
 import { getSupabaseAdminClient } from '@/lib/supabase/server'
 import { requireAdminWithFlag } from '@/lib/adminAuthBridge'
+import { createAndPublishInvoice } from '@/lib/square/invoice'
 import {
-  createAndPublishInvoice,
   resolveCreateIdempotencyKey,
   writeInvoiceRecord,
   writeAuditLog,
-} from '@/lib/square/invoice'
+} from '@/lib/square/invoiceRecords'
+import {
+  resolveCreateIdempotencyKey,
+  writeInvoiceRecord,
+  writeAuditLog,
+} from '@/lib/square/invoiceRecords'
 
 const CreateInvoiceSchema = z.object({
   bookingId: z.string().uuid(),
