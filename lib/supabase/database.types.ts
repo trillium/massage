@@ -160,6 +160,8 @@ export interface Database {
           updated_at: string
           confirmed_at: string | null
           cancelled_at: string | null
+          stripe_checkout_session_id: string | null
+          paid_at: string | null
         }
         Insert: {
           id?: string
@@ -184,6 +186,8 @@ export interface Database {
           updated_at?: string
           confirmed_at?: string | null
           cancelled_at?: string | null
+          stripe_checkout_session_id?: string | null
+          paid_at?: string | null
         }
         Update: {
           id?: string
@@ -208,6 +212,8 @@ export interface Database {
           updated_at?: string
           confirmed_at?: string | null
           cancelled_at?: string | null
+          stripe_checkout_session_id?: string | null
+          paid_at?: string | null
         }
         Relationships: []
       }
