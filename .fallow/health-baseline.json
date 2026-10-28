@@ -1,5 +1,10 @@
 {
   "finding_counts": {
+    "app/[bookingSlug]/next/page.tsx": {
+      "crap_critical": {
+        "count": 1
+      }
+    },
     "app/[bookingSlug]/opengraph-image.tsx": {
       "crap_critical": {
         "count": 2
@@ -44,11 +49,6 @@
       },
       "crap_critical": {
         "count": 2
-      }
-    },
-    "app/admin/raffle/winner/WinnerMessages.tsx": {
-      "crap_critical": {
-        "count": 1
       }
     },
     "app/admin/schedule/SchedulePanel.tsx": {
@@ -131,12 +131,22 @@
         "count": 1
       }
     },
+    "app/api/feedtack/route.ts": {
+      "crap_critical": {
+        "count": 1
+      }
+    },
     "app/api/health/[slug]/inspect/route.ts": {
       "crap_critical": {
         "count": 1
       }
     },
     "app/api/health/[slug]/route.ts": {
+      "crap_critical": {
+        "count": 1
+      }
+    },
+    "app/api/health/google-calendar/route.ts": {
       "crap_critical": {
         "count": 1
       }
@@ -152,6 +162,9 @@
       }
     },
     "app/api/invoice/route.ts": {
+      "complexity_critical": {
+        "count": 1
+      },
       "crap_critical": {
         "count": 1
       }
@@ -173,7 +186,7 @@
     },
     "app/event/[event_id]/EditForm.tsx": {
       "crap_critical": {
-        "count": 1
+        "count": 2
       }
     },
     "app/event/[event_id]/adjacent/page.tsx": {
@@ -210,14 +223,6 @@
         "count": 1
       }
     },
-    "app/nerdstage-raffle/RaffleForm.tsx": {
-      "complexity_critical": {
-        "count": 1
-      },
-      "crap_critical": {
-        "count": 1
-      }
-    },
     "app/openclaw-raffle/RaffleForm.tsx": {
       "complexity_critical": {
         "count": 1
@@ -226,10 +231,12 @@
         "count": 1
       }
     },
-    "app/overtime-raffle/RaffleForm.tsx": {
-      "complexity_critical": {
+    "app/sandbox/components/AdminView.tsx": {
+      "crap_critical": {
         "count": 1
-      },
+      }
+    },
+    "components/BookedCard.tsx": {
       "crap_critical": {
         "count": 1
       }
@@ -258,6 +265,9 @@
       }
     },
     "components/availability/controls/DurationPicker.tsx": {
+      "complexity_critical": {
+        "count": 1
+      },
       "crap_critical": {
         "count": 1
       }
@@ -303,7 +313,17 @@
         "count": 2
       }
     },
+    "components/booking/features/GeneralBookingFeature.tsx": {
+      "crap_critical": {
+        "count": 1
+      }
+    },
     "components/booking/features/NextBookingFeature.tsx": {
+      "crap_critical": {
+        "count": 1
+      }
+    },
+    "components/booking/features/NextSessionFeature.tsx": {
       "crap_critical": {
         "count": 1
       }
@@ -334,7 +354,18 @@
         "count": 1
       }
     },
-    "components/utilities/UpdateSlotsUtility.tsx": {
+    "components/raffle/useRaffleForm.ts": {
+      "complexity_critical": {
+        "count": 1
+      },
+      "crap_critical": {
+        "count": 1
+      }
+    },
+    "components/utilities/BookingUtilities.tsx": {
+      "complexity_critical": {
+        "count": 1
+      },
       "crap_critical": {
         "count": 1
       }
@@ -349,7 +380,25 @@
         "count": 1
       }
     },
+    "lib/appointments/handleInstantConfirmBranch.ts": {
+      "crap_critical": {
+        "count": 1
+      }
+    },
+    "lib/appointments/handleStandardRequestBranch.ts": {
+      "complexity_critical": {
+        "count": 1
+      },
+      "crap_critical": {
+        "count": 1
+      }
+    },
     "lib/appointments/reserveAppointmentSlot.ts": {
+      "crap_critical": {
+        "count": 1
+      }
+    },
+    "lib/availability/checkSlotAvailability.ts": {
       "crap_critical": {
         "count": 1
       }
@@ -381,9 +430,6 @@
       }
     },
     "lib/handleAppointmentRequest.ts": {
-      "complexity_critical": {
-        "count": 1
-      },
       "crap_critical": {
         "count": 1
       }
@@ -409,6 +455,21 @@
         "count": 1
       }
     },
+    "lib/messaging/email/client/ClientConfirmEmail.ts": {
+      "crap_critical": {
+        "count": 1
+      }
+    },
+    "lib/messaging/email/client/ClientRequestEmail.ts": {
+      "crap_critical": {
+        "count": 1
+      }
+    },
+    "lib/messaging/email/htmlEmailBase.ts": {
+      "crap_critical": {
+        "count": 1
+      }
+    },
     "lib/messaging/push/admin/AppointmentPushover.ts": {
       "complexity_critical": {
         "count": 1
@@ -418,9 +479,6 @@
       }
     },
     "lib/messaging/push/admin/AppointmentPushoverInstantConfirm.ts": {
-      "complexity_critical": {
-        "count": 1
-      },
       "crap_critical": {
         "count": 1
       }
@@ -471,6 +529,11 @@
         "count": 1
       }
     },
+    "lib/ref/serverRefTag.ts": {
+      "crap_critical": {
+        "count": 1
+      }
+    },
     "lib/reminders/processReminders.ts": {
       "complexity_critical": {
         "count": 1
@@ -502,37 +565,39 @@
   "target_keys": [
     "lib/posthog-server.ts:dead code",
     "components/booking/useBookingInitialValues.ts:untested risk",
+    "components/ui/manifest.ts:dead code",
     "redux/slices/readySlice.ts:dead code",
-    "components/utilities/UpdateSlotsUtility.tsx:dead code",
+    "app/[bookingSlug]/opengraph-image.tsx:untested risk",
     "redux/slices/configSlice.ts:dead code",
     "lib/messaging/push/admin/AppointmentPushover.ts:complexity",
-    "lib/messaging/push/admin/AppointmentPushoverInstantConfirm.ts:complexity",
-    "app/[bookingSlug]/opengraph-image.tsx:untested risk",
     "lib/reviews/filterTestimonialReviews.ts:high impact",
-    "lib/dayAsObject.ts:dead code",
+    "components/utilities/UpdateSlotsUtility.tsx:dead code",
+    "lib/ref/distinctId.ts:dead code",
     "lib/env.ts:dead code",
     "lib/availability/getPreviousSlotAvailability.ts:dead code",
+    "lib/dayAsObject.ts:dead code",
     "lib/dataLoading.ts:dead code",
     "components/ui/GradientText.tsx:dead code",
+    "lib/messaging/email/admin/Approval.ts:complexity",
+    "redux/slices/eventContainersSlice.ts:dead code",
     "components/CachedTileMap.tsx:dead code",
     "lib/supabase/auth-helpers.ts:dead code",
-    "redux/slices/eventContainersSlice.ts:dead code",
-    "lib/helpers/eventHelpers.ts:high impact",
-    "lib/utilities/promoValidation.ts:dead code",
     "lib/slugConfigurations/createPageConfiguration.tsx:complexity",
-    "lib/availability/getNextSlotAvailability.ts:dead code",
-    "app/content.tsx:dead code",
+    "components/availability/controls/DurationPicker.tsx:high impact",
     "components/booking/BookingFormFields.tsx:complexity",
+    "lib/utilities/promoValidation.ts:dead code",
+    "lib/availability/getNextSlotAvailability.ts:dead code",
+    "lib/ref/barter.ts:dead code",
+    "lib/temporal/brands.ts:dead code",
+    "lib/helpers/eventHelpers.ts:high impact",
+    "app/content.tsx:dead code",
+    "lib/helpers/parseZip.ts:dead code",
     "data/authHeaderNavLinks.ts:dead code",
     "redux/slices/reviewFormSlice.ts:dead code",
-    "lib/handleAppointmentRequest.ts:complexity",
     "lib/availability/availabilityHelpers.ts:high impact",
-    "lib/messaging/email/admin/Approval.ts:complexity",
     "lib/messaging/utilities/createApprovalUrl.ts:dead code",
     "app/api/event/[event_id]/edit/route.ts:complexity",
-    "lib/messaging/templates/events/eventDescription.ts:complexity",
     "components/booking/useBookingSubmit.ts:complexity",
-    "components/ui/manifest.ts:dead code",
     "app/api/feedtack/route.ts:untested risk",
     "lib/gmail/searchSootheEmails.ts:complexity"
   ]

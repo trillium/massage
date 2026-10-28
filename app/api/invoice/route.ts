@@ -1,6 +1,7 @@
 import { NextResponse, type NextRequest } from 'next/server'
 import { z } from 'zod'
 import { getSupabaseAdminClient } from '@/lib/supabase/server'
+import { requireAdminWithFlag } from '@/lib/adminAuthBridge'
 import { createAndPublishInvoice, writeInvoiceRecord, writeAuditLog } from '@/lib/square/invoice'
 
 const CreateInvoiceSchema = z.object({
@@ -9,6 +10,9 @@ const CreateInvoiceSchema = z.object({
 })
 
 export async function POST(req: NextRequest) {
+  const auth = await requireAdminWithFlag(req)
+  if (auth instanceof NextResponse) return auth
+
   const body = await req.json()
   const parsed = CreateInvoiceSchema.safeParse(body)
 
@@ -58,7 +62,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'CUSTOMER_MISSING_EMAIL' }, { status: 400 })
   }
 
-  const amountCents = booking.price ?? 0
+  const amountCents = Math.round((booking.price ?? 0) * 100)
   if (amountCents <= 0) {
     return NextResponse.json({ error: 'INVALID_AMOUNT' }, { status: 400 })
   }
