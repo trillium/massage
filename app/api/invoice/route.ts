@@ -62,7 +62,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'CUSTOMER_MISSING_EMAIL' }, { status: 400 })
   }
 
-  // appointments.price is whole dollars (rendered as `$${price}`); Square needs cents
   const amountCents = Math.round((booking.price ?? 0) * 100)
   if (amountCents <= 0) {
     return NextResponse.json({ error: 'INVALID_AMOUNT' }, { status: 400 })
