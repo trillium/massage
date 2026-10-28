@@ -4,15 +4,17 @@ import { NextRequest, NextResponse } from 'next/server'
 vi.mock('@/lib/adminAuthBridge', () => ({ requireAdminWithFlag: vi.fn() }))
 vi.mock('@/lib/supabase/server', () => ({ getSupabaseAdminClient: vi.fn() }))
 vi.mock('@/lib/square/client', () => ({ getSquareClient: vi.fn() }))
-vi.mock('@/lib/square/invoice', () => ({
-  createAndPublishInvoice: vi.fn(),
+vi.mock('@/lib/square/invoice', () => ({ createAndPublishInvoice: vi.fn() }))
+vi.mock('@/lib/square/invoiceRecords', () => ({
+  resolveCreateIdempotencyKey: vi.fn(async (_b: string, key: string) => key),
   writeInvoiceRecord: vi.fn(),
   writeAuditLog: vi.fn(),
 }))
 
 import { requireAdminWithFlag } from '@/lib/adminAuthBridge'
 import { getSupabaseAdminClient } from '@/lib/supabase/server'
-import { createAndPublishInvoice, writeInvoiceRecord } from '@/lib/square/invoice'
+import { createAndPublishInvoice } from '@/lib/square/invoice'
+import { writeInvoiceRecord } from '@/lib/square/invoiceRecords'
 import { POST } from '../route'
 import { PATCH } from '../[invoiceId]/update-email/route'
 

@@ -8,11 +8,6 @@ import {
   writeInvoiceRecord,
   writeAuditLog,
 } from '@/lib/square/invoiceRecords'
-import {
-  resolveCreateIdempotencyKey,
-  writeInvoiceRecord,
-  writeAuditLog,
-} from '@/lib/square/invoiceRecords'
 
 const CreateInvoiceSchema = z.object({
   bookingId: z.string().uuid(),
