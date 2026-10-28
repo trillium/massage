@@ -42,6 +42,7 @@ function makeSupabase(price: number | null) {
                   error: null,
                 }
               : { data: null, error: null },
+          maybeSingle: async () => ({ data: null, error: null }),
         }),
       }),
     }),
