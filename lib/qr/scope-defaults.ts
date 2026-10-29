@@ -1,3 +1,5 @@
+import { PROPOSAL_TOKEN } from '../../app/dental-exchange/proposal/proposalToken'
+
 /**
  * Canonical destination URL for each QR scope prefix.
  *
@@ -19,6 +21,7 @@ export const SCOPE_DEFAULTS: Record<string, string> = {
   BCR01: 'https://trilliummassage.la/overtime',
   AFSR01: 'https://trilliummassage.la/edge-office-hours',
   HB01: 'https://trilliummassage.la/blog/airbnb-host-promo-2026-03',
+  DX01: `https://trilliummassage.la/dental-exchange/proposal?token=${PROPOSAL_TOKEN}`,
 }
 
 /**
