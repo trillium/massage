@@ -76,8 +76,8 @@ export default async function ProposalHandoutPage({
           </TextBase>
           <TextBase className="leading-relaxed">
             I&apos;ve been a licensed massage therapist for 14 years with a{' '}
-            <strong className="text-primary-700">4.9-star rating</strong>
-            {" across every platform I've"} worked on, and I&apos;ve staffed corporate events for
+            <strong className="text-primary-700">4.9-star rating</strong>{' '}
+            across every platform I&apos;ve worked on, and I&apos;ve staffed corporate events for
             Airbnb, Cedars-Sinai, and TJ Maxx.
           </TextBase>
         </Section>
