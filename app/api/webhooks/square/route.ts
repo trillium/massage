@@ -1,7 +1,6 @@
 import { NextResponse, type NextRequest } from 'next/server'
 import { WebhooksHelper } from 'square'
-import { getSupabaseAdminClient } from '@/lib/supabase/server'
-import { writeAuditLog } from '@/lib/square/invoice'
+import { processWebhookEvent, type SquareWebhookEvent } from '@/lib/square/webhookEvents'
 
 export async function POST(req: NextRequest) {
   const body = await req.text()
@@ -30,88 +29,24 @@ export async function POST(req: NextRequest) {
     return new NextResponse('Invalid signature', { status: 401 })
   }
 
-  const event = JSON.parse(body)
-  await processWebhookEvent(event)
+  const event = parseEvent(body)
+  if (!event) return new NextResponse('Malformed event', { status: 400 })
 
-  return new NextResponse('OK', { status: 200 })
-}
-
-interface SquareWebhookEvent {
-  type: string
-  event_id: string
-  data: {
-    type: string
-    id: string
-    object: {
-      invoice?: {
-        id: string
-        order_id: string
-        status: string
-        version: number
-        payment_requests?: Array<{
-          computed_amount_money?: { amount: number }
-        }>
-      }
-    }
+  try {
+    const outcome = await processWebhookEvent(event)
+    return new NextResponse(outcome, { status: 200 })
+  } catch (error) {
+    // Non-2xx makes Square redeliver; the inbox + version guard keep that safe.
+    console.error('Square webhook processing failed:', error)
+    return new NextResponse('Processing failed', { status: 500 })
   }
 }
 
-async function processWebhookEvent(event: SquareWebhookEvent) {
-  const eventType = event.type
-  const invoice = event.data?.object?.invoice
-
-  if (!invoice) return
-
-  const supabase = getSupabaseAdminClient()
-  if (!supabase) return
-
-  const { data: localInvoice } = await supabase
-    .from('invoices')
-    .select('id, booking_id, status')
-    .eq('square_invoice_id', invoice.id)
-    .single()
-
-  if (!localInvoice) {
-    console.warn(`Webhook for unknown invoice: ${invoice.id}`)
-    return
+function parseEvent(body: string): SquareWebhookEvent | null {
+  try {
+    const event = JSON.parse(body)
+    return typeof event?.event_id === 'string' && event.event_id ? event : null
+  } catch {
+    return null
   }
-
-  const statusBefore = localInvoice.status
-  const statusAfter = invoice.status
-
-  const updateData: Record<string, string | null> = {
-    status: statusAfter,
-  }
-
-  if (statusAfter === 'PAID') {
-    updateData.paid_at = new Date().toISOString()
-  } else if (statusAfter === 'CANCELED') {
-    updateData.canceled_at = new Date().toISOString()
-  }
-
-  await supabase.from('invoices').update(updateData).eq('id', localInvoice.id)
-
-  await writeAuditLog({
-    bookingId: localInvoice.booking_id,
-    squareInvoiceId: invoice.id,
-    squareOrderId: invoice.order_id,
-    eventType: mapWebhookEventType(eventType),
-    eventSource: 'webhook',
-    statusBefore,
-    statusAfter,
-    payload: { squareEventId: event.event_id, rawType: eventType },
-    idempotencyKey: event.event_id,
-  })
-}
-
-function mapWebhookEventType(squareEventType: string): string {
-  const mapping: Record<string, string> = {
-    'invoice.payment_made': 'invoice.payment_made',
-    'invoice.updated': 'invoice.updated',
-    'invoice.published': 'invoice.published',
-    'invoice.scheduled_charge_failed': 'invoice.scheduled_charge_failed',
-    'invoice.canceled': 'invoice.canceled',
-    'invoice.refunded': 'invoice.refunded',
-  }
-  return mapping[squareEventType] ?? squareEventType
 }

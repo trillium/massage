@@ -4,6 +4,7 @@
  * This module validates all required environment variables at startup.
  * Fails fast with clear error messages if any required variables are missing.
  */
+import { squareConfigError } from './squareEnv'
 
 type EnvVar = {
   name: string
@@ -207,6 +208,8 @@ function validateTenantConfig(): string[] {
 
 export function validateEnv(): void {
   const { missing, warnings } = classifyEnvVars()
+  const squareError = squareConfigError()
+  if (squareError) throw new EnvValidationError(squareError)
   const tenantWarnings = validateTenantConfig()
   warnOptionalEnvVars([...warnings, ...tenantWarnings])
   throwIfMissingRequired(missing)

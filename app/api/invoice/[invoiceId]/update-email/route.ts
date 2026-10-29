@@ -1,8 +1,9 @@
 import { NextResponse, type NextRequest } from 'next/server'
 import { z } from 'zod'
+import { requireAdminWithFlag } from '@/lib/adminAuthBridge'
 import { getSupabaseAdminClient } from '@/lib/supabase/server'
 import { getSquareClient } from '@/lib/square/client'
-import { writeAuditLog } from '@/lib/square/invoice'
+import { writeAuditLog } from '@/lib/square/invoiceRecords'
 
 const UpdateEmailSchema = z.object({
   newEmail: z.string().email(),
@@ -13,6 +14,9 @@ export async function PATCH(
   req: NextRequest,
   { params }: { params: Promise<{ invoiceId: string }> }
 ) {
+  const auth = await requireAdminWithFlag(req)
+  if (auth instanceof NextResponse) return auth
+
   const { invoiceId } = await params
   const body = await req.json()
   const parsed = UpdateEmailSchema.safeParse(body)

@@ -1,7 +1,5 @@
 import type { Currency } from 'square'
 import { getSquareClient, getSquareLocationId } from './client'
-import { getSupabaseAdminClient } from '@/lib/supabase/server'
-import type { Json } from '@/lib/supabase/database.types'
 
 interface BookingData {
   bookingId: string
@@ -14,11 +12,12 @@ interface BookingData {
   dueDate: string
 }
 
-interface InvoiceResult {
+export interface InvoiceResult {
   invoiceId: string
   invoiceUrl: string
   invoiceNumber: string
   status: string
+  version: number
   orderId: string
   customerId: string
 }
@@ -55,6 +54,7 @@ export async function createAndPublishInvoice(
     invoiceUrl: published.publicUrl,
     invoiceNumber: published.invoiceNumber,
     status: published.status,
+    version: published.version,
     orderId,
     customerId,
   }
@@ -155,6 +155,7 @@ async function publishSquareInvoice(
   publicUrl: string
   invoiceNumber: string
   status: string
+  version: number
 }> {
   const result = await client.invoices.publish({
     invoiceId,
@@ -168,60 +169,6 @@ async function publishSquareInvoice(
     publicUrl: invoice.publicUrl!,
     invoiceNumber: invoice.invoiceNumber!,
     status: invoice.status!,
+    version: invoice.version ?? 0,
   }
-}
-
-export async function writeInvoiceRecord(
-  bookingId: string,
-  result: InvoiceResult,
-  emailSentTo: string,
-  amountCents: number,
-  currency: string
-) {
-  const supabase = getSupabaseAdminClient()
-  if (!supabase) throw new Error('Supabase admin client unavailable')
-
-  const { error } = await supabase.from('invoices').insert({
-    booking_id: bookingId,
-    square_invoice_id: result.invoiceId,
-    square_order_id: result.orderId,
-    square_customer_id: result.customerId,
-    status: result.status as 'UNPAID',
-    public_url: result.invoiceUrl,
-    invoice_number: result.invoiceNumber,
-    amount_cents: amountCents,
-    currency,
-    email_sent_to: emailSentTo,
-  })
-
-  if (error) throw new Error(`Failed to write invoice record: ${error.message}`)
-}
-
-export async function writeAuditLog(entry: {
-  bookingId: string
-  squareInvoiceId?: string
-  squareOrderId?: string
-  eventType: string
-  eventSource: string
-  statusBefore?: string
-  statusAfter?: string
-  payload?: Record<string, unknown>
-  errorDetail?: Record<string, unknown>
-  idempotencyKey?: string
-}) {
-  const supabase = getSupabaseAdminClient()
-  if (!supabase) return
-
-  await supabase.from('invoice_audit_log').insert({
-    booking_id: entry.bookingId,
-    square_invoice_id: entry.squareInvoiceId,
-    square_order_id: entry.squareOrderId,
-    event_type: entry.eventType,
-    event_source: entry.eventSource,
-    status_before: entry.statusBefore,
-    status_after: entry.statusAfter,
-    payload: entry.payload as unknown as Json,
-    error_detail: entry.errorDetail as unknown as Json,
-    idempotency_key: entry.idempotencyKey,
-  })
 }
